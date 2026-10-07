@@ -1,0 +1,128 @@
+import ASGinzburg.ZAlgebra
+import Mathlib.CategoryTheory.Linear.Yoneda
+import Mathlib.CategoryTheory.Linear.FunctorCategory
+import Mathlib.CategoryTheory.Linear.LinearFunctor
+import Mathlib.CategoryTheory.Preadditive.Opposite
+
+/-!
+# Right representations and representable modules
+
+We construct the actual k-linear category of an unrolled algebra and the
+full subcategory of k-linear module-valued presheaves. The representable
+Hom formula (1.5) is proved by linear Yoneda. This file does not equip the
+subcategory with an abelian structure or assert AS regularity.
+-/
+
+namespace ASGinzburg.ZAlgebra
+
+open CategoryTheory Opposite
+
+universe u v
+
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+structure Obj (A : ZAlgebra.{u,v} k) where
+  index : ℤ
+
+instance objCategory : Category A.Obj where
+  Hom X Y := A.Hom X.index Y.index
+  id X := A.id X.index
+  comp f g := A.comp g f
+  id_comp f := A.id_comp f
+  comp_id f := A.comp_id f
+  assoc f g h := A.comp_assoc f g h
+
+instance objHomAdd (X Y : A.Obj) : AddCommGroup (X ⟶ Y) := A.homAdd X.index Y.index
+instance objHomModule (X Y : A.Obj) : Module k (X ⟶ Y) := A.homModule X.index Y.index
+
+instance objPreadditive : Preadditive A.Obj where
+  homGroup X Y := A.homAdd X.index Y.index
+  add_comp X Y Z f f' g := (A.comp g).map_add f f'
+  comp_add X Y Z f g g' := by
+    change A.comp (g + g') f = A.comp g f + A.comp g' f
+    rw [(A.comp (u := X.index)).map_add]
+    rfl
+
+instance objLinear : Linear k A.Obj where
+  homModule X Y := A.homModule X.index Y.index
+  smul_comp X Y Z r f g := (A.comp g).map_smul r f
+  comp_smul X Y Z f r g := by
+    change A.comp (r • g) f = r • A.comp g f
+    rw [(A.comp (u := X.index)).map_smul]
+    rfl
+
+instance objOppositeHomModule (X Y : A.Objᵒᵖ) : Module k (X ⟶ Y) where
+  smul r f := (r • f.unop).op
+  smul_add r f g := Quiver.Hom.unop_inj (smul_add r f.unop g.unop)
+  add_smul r s f := Quiver.Hom.unop_inj (add_smul r s f.unop)
+  one_smul f := Quiver.Hom.unop_inj (one_smul k f.unop)
+  mul_smul r s f := Quiver.Hom.unop_inj (mul_smul r s f.unop)
+  zero_smul f := Quiver.Hom.unop_inj (zero_smul k f.unop)
+  smul_zero r := Quiver.Hom.unop_inj (smul_zero r)
+
+instance objOppositeLinear : Linear k A.Objᵒᵖ where
+  homModule X Y := A.objOppositeHomModule X Y
+  smul_comp X Y Z r f g := by
+    apply Quiver.Hom.unop_inj
+    change A.comp (r • f.unop) g.unop = r • A.comp f.unop g.unop
+    rw [A.comp.map_smul]
+    rfl
+  comp_smul X Y Z f r g := Quiver.Hom.unop_inj ((A.comp f.unop).map_smul r g.unop)
+
+instance representableLinear (X : A.Obj) : ((linearYoneda k A.Obj).obj X).Linear k where
+  map_smul := by
+    intro Y Z f r
+    ext g
+    change (r • f.unop) ≫ g = r • (f.unop ≫ g)
+    simp
+
+instance linearYonedaAdditive : (linearYoneda k A.Obj).Additive where
+  map_add := by
+    intro X Y f g
+    ext Z h
+    change h ≫ (f + g) = h ≫ f + h ≫ g
+    simp
+
+instance linearYonedaLinear : (linearYoneda k A.Obj).Linear k where
+  map_smul := by
+    intro X Y f r
+    ext Z h
+    change h ≫ (r • f) = r • (h ≫ f)
+    simp
+
+def rightModuleProperty : ObjectProperty (A.Objᵒᵖ ⥤ ModuleCat.{v} k) :=
+  fun F => F.Additive ∧ F.Linear k
+
+abbrev RightModule := A.rightModuleProperty.FullSubcategory
+
+def representable (v : ℤ) : A.RightModule :=
+  ⟨(linearYoneda k A.Obj).obj ⟨v⟩, ⟨inferInstance, inferInstance⟩⟩
+
+noncomputable def representableHomEquiv (u v : ℤ) :
+    A.Hom u v ≃ₗ[k] (A.representable u ⟶ A.representable v) :=
+  LinearEquiv.ofBijective
+    ((linearYoneda k A.Obj).mapLinearMap k (X := ⟨u⟩) (Y := ⟨v⟩))
+    ⟨(linearYoneda k A.Obj).map_injective, (linearYoneda k A.Obj).map_surjective⟩
+
+theorem representableHom_vanishes {u v : ℤ} (hvu : v < u)
+    (f : A.representable u ⟶ A.representable v) : f = 0 := by
+  apply (A.representableHomEquiv u v).symm.injective
+  rw [A.positive hvu ((A.representableHomEquiv u v).symm f), map_zero]
+
+noncomputable def scalarEndEquiv (v : ℤ) : k ≃ₗ[k] A.Hom v v :=
+  LinearEquiv.ofBijective (LinearMap.toSpanSingleton k (A.Hom v v) (A.id v)) (by
+    constructor
+    · intro a b h
+      change a • A.id v = b • A.id v at h
+      have hz : (a - b) • A.id v = 0 := by rw [sub_smul, h, sub_self]
+      exact sub_eq_zero.mp ((smul_eq_zero.mp hz).resolve_right (A.id_nonzero v))
+    · intro f
+      obtain ⟨c, hc⟩ := A.connected v f
+      exact ⟨c, hc.symm⟩)
+
+theorem representableEnd_finrank (v : ℤ) :
+    Module.finrank k (A.representable v ⟶ A.representable v) = 1 := by
+  rw [← (A.representableHomEquiv v v).finrank_eq, ← (A.scalarEndEquiv v).finrank_eq]
+  exact Module.finrank_self k
+
+end ASGinzburg.ZAlgebra

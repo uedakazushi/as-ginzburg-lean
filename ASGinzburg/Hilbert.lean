@@ -1,0 +1,108 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Choose.Basic
+
+/-!
+# Uniqueness of Hilbert recurrences and the quadratic Hilbert function
+
+The uniqueness theorem is the strong-induction argument for (4.2).
+It assumes the Euler recurrence; deriving it from an exact projective
+resolution of an actual Z-algebra is not asserted here.
+-/
+
+namespace ASGinzburg
+
+universe u v w
+
+/-- A general finite recurrence whose terms all have strictly smaller degree. -/
+theorem positive_recurrence_unique {V : Type u} {T : Type v} [Fintype T]
+    {R : Type w} [Ring R]
+    (target : V → T → V) (lag : V → T → ℕ) (coeff : V → T → R)
+    (rhs : V → ℤ → R) (hlag : ∀ i t, 0 < lag i t)
+    (f g : V → ℤ → R)
+    (hfneg : ∀ i d, d < 0 → f i d = 0)
+    (hgneg : ∀ i d, d < 0 → g i d = 0)
+    (hf : ∀ i d, 0 ≤ d →
+      f i d = rhs i d + ∑ t, coeff i t * f (target i t) (d - lag i t))
+    (hg : ∀ i d, 0 ≤ d →
+      g i d = rhs i d + ∑ t, coeff i t * g (target i t) (d - lag i t)) :
+    f = g := by
+  classical
+  have hnonneg : ∀ n : ℕ, ∀ i, f i n = g i n := by
+    intro n
+    induction n using Nat.strong_induction_on with
+    | h n ih =>
+      intro i
+      rw [hf i n (by omega), hg i n (by omega)]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro t _
+      congr 1
+      by_cases h : (n : ℤ) - lag i t < 0
+      · rw [hfneg _ _ h, hgneg _ _ h]
+      · have hn : 0 ≤ (n : ℤ) - lag i t := by omega
+        have ht : ((n : ℤ) - lag i t).toNat < n := by
+          have := hlag i t
+          omega
+        have hh := ih (((n : ℤ) - lag i t).toNat) ht (target i t)
+        have heq : ((((n : ℤ) - lag i t).toNat : ℕ) : ℤ) = (n : ℤ) - lag i t :=
+          Int.toNat_of_nonneg hn
+        rw [heq] at hh
+        exact hh
+  funext i d
+  by_cases hd : d < 0
+  · rw [hfneg _ _ hd, hgneg _ _ hd]
+  · have hh := hnonneg d.toNat i
+    have heq : (d.toNat : ℤ) = d := Int.toNat_of_nonneg (by omega)
+    rw [heq] at hh
+    exact hh
+
+def quadraticHilbert (m : ℕ) : ℕ := (m + 2).choose 2
+
+theorem quadraticHilbert_closed (m : ℕ) :
+    quadraticHilbert m = (m + 1) * (m + 2) / 2 := by
+  rw [quadraticHilbert, Nat.choose_two_right]
+  congr 1
+  have : m + 2 - 1 = m + 1 := by omega
+  rw [this, Nat.mul_comm]
+
+theorem quadraticHilbert_double (m : ℕ) :
+    2 * quadraticHilbert m = (m + 1) * (m + 2) := by
+  have h := Nat.succ_mul_choose_eq (m + 1) 1
+  simpa [quadraticHilbert, Nat.choose_one_right, Nat.mul_comm, Nat.succ_eq_add_one] using h.symm
+
+theorem quadraticHilbert_third_difference (m : ℕ) :
+    (quadraticHilbert (m + 3) : ℤ) - 3 * quadraticHilbert (m + 2) +
+      3 * quadraticHilbert (m + 1) - quadraticHilbert m = 0 := by
+  have h0 := quadraticHilbert_double m
+  have h1 := quadraticHilbert_double (m + 1)
+  have h2 := quadraticHilbert_double (m + 2)
+  have h3 := quadraticHilbert_double (m + 3)
+  zify at h0 h1 h2 h3
+  nlinarith
+
+/-- Exact solution of the three-arrow quadratic Euler recurrence. -/
+theorem quadraticHilbert_unique (h : ℕ → ℤ)
+    (h0 : h 0 = 1) (h1 : h 1 = 3) (h2 : h 2 = 6)
+    (hrec : ∀ m, h (m + 3) - 3 * h (m + 2) + 3 * h (m + 1) - h m = 0) :
+    ∀ m, h m = quadraticHilbert m := by
+  intro m
+  induction m using Nat.strong_induction_on with
+  | h m ih =>
+    rcases m with _ | _ | _ | m
+    · simpa [quadraticHilbert] using h0
+    · simpa [quadraticHilbert] using h1
+    · simpa [quadraticHilbert] using h2
+    · have hm0 := ih m (by omega)
+      have hm1 := ih (m + 1) (by omega)
+      have hm2 := ih (m + 2) (by omega)
+      have hm3 := quadraticHilbert_third_difference m
+      have hh := hrec m
+      change h (m + 3) = (quadraticHilbert (m + 3) : ℤ)
+      omega
+
+theorem quadraticHilbert_polynomial_bound (m : ℕ) :
+    quadraticHilbert m ≤ (m + 2) ^ 2 := by
+  have := quadraticHilbert_double m
+  nlinarith
+
+end ASGinzburg
