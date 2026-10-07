@@ -33,6 +33,9 @@ def main():
     if output := os.environ.get('GITHUB_OUTPUT'):
         with open(output, 'a') as stream:
             stream.write(f'run_dir={run_dir.relative_to(ROOT)}\n')
+    child_environment = os.environ.copy()
+    # Nested regression fixtures must not replace this job step's artifact path.
+    child_environment.pop('GITHUB_OUTPUT', None)
     run = {'run_id': run_id, 'started_at_utc': start, 'status': 'running', 'steps': [],
            'git_head_before_run': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()}
     wrapper = ['bash', str(ROOT / 'scripts/with_lean.sh')]
@@ -59,7 +62,8 @@ def main():
             print(f"[{step['started_at_utc']}] {stage}: {' '.join(command)}", flush=True)
             with (run_dir / log).open('w') as stream:
                 try:
-                    process = subprocess.Popen(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                    process = subprocess.Popen(command, cwd=ROOT, env=child_environment,
+                                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
                     for line in process.stdout:
                         stream.write(line)
                         stream.flush()

@@ -1,5 +1,6 @@
 """Regression checks for missing names, duplicates, unsafe axioms and stale success."""
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -84,7 +85,7 @@ class AuditTests(unittest.TestCase):
         root = self.project('def x := 0\n')
         shutil.copytree(ROOT / 'scripts', root / 'scripts', ignore=shutil.ignore_patterns('__pycache__'))
         # Isolate the runner's exit plumbing from actual Lean and dependency setup.
-        (root / 'scripts/check_environment.py').write_text('print("test environment stub")\n')
+        (root / 'scripts/check_environment.py').write_text('import os\nassert "GITHUB_OUTPUT" not in os.environ\nprint("test environment stub")\n')
         (root / 'scripts/with_lean.sh').write_text('echo "Build completed successfully (old text)"\nexit 7\n')
         (root / 'tests').mkdir()
         (root / 'tests/test_fixture.py').write_text('import unittest\nclass Fixture(unittest.TestCase):\n    def test_fixture(self):\n        pass\n')
@@ -94,13 +95,17 @@ class AuditTests(unittest.TestCase):
                         'commit', '-qm', 'fixture'], check=True)
         (root / 'verification').mkdir()
         (root / 'verification/results.json').write_text('{"build_success": true}\n')
-        process = subprocess.run(['bash', 'scripts/check.sh'], cwd=root, capture_output=True, text=True)
+        output = root / 'github-output'
+        process = subprocess.run(['bash', 'scripts/check.sh'], cwd=root, capture_output=True, text=True,
+                                 env={**os.environ, 'GITHUB_OUTPUT': str(output)})
         self.assertEqual(process.returncode, 7, process.stdout + process.stderr)
         result = json.loads((root / 'verification/results.json').read_text())
         self.assertFalse(result['verification_success'])
         self.assertEqual(result['stage_exit_codes']['build'], 7)
         self.assertNotIn('axioms', result['stage_exit_codes'])
         self.assertIn('Not executed', (root / 'verification/axioms.log').read_text())
+        latest = json.loads((root / 'verification/latest.json').read_text())
+        self.assertEqual(output.read_text(), f"run_dir={latest['path']}\n")
 
 
 if __name__ == '__main__':
