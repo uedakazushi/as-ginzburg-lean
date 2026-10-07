@@ -74,3 +74,5 @@ CIはpush/pull_requestで同じ固定版と検証コマンドを使い、終了�
 原論文の仮定を弱めず、周期性をAS条件に追加しません。
 数学的形式化を再開するには別の明示的な指示が必要です。`AGENTS.md`、`STATUS.md`、`GAPS.md`を参照。
 過去の作業全体の稼働時間は不明であり、今回の実測時間と混同しません。
+
+CI確認：実装コミットd7503e0でpush・pull_requestの双方が成功し、各12ファイルの最新ログartifactを確認済み。詳細はRECENT_RUN.mdとverification/github_ci_evidence.json。

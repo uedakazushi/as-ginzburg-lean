@@ -66,3 +66,5 @@ UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
 - GitHubへの保存とActionsの実行状況は`RECENT_RUN.md`参照。
 
 数学的形式化の再開は別の明示的指示が必要です。未証明の主結果を隠す公理・追加クラスはありません。
+
+CI確認：実装コミットd7503e0でpush・pull_requestの双方が成功し、各12ファイルの最新ログartifactを確認済み。詳細はRECENT_RUN.mdとverification/github_ci_evidence.json。

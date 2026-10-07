@@ -86,3 +86,5 @@ GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検�
 - `AGENTS.md`：継続作業の規約。数学的形式化の再開には別の明示的な指示が必要です。
 
 **ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
+
+CI確認：実装コミットd7503e0でpush・pull_requestの双方が成功し、各12ファイルの最新ログartifactを確認済み。詳細はRECENT_RUN.mdとverification/github_ci_evidence.json。

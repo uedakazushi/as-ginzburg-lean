@@ -3,7 +3,9 @@
 目的：既存AS–Ginzburg LeanプロジェクトをCodexクラウドで再現・継続可能にする。
 範囲：ビルド再現、公理監査修正、CI、引継ぎのみ。数学的形式化は行わない。
 タスク開始の観測時刻：2026-10-07T23:33:40+00:00（JST 2026-10-08 08:33:40、秒精度）。
-実装・ローカル検証・最初のpush・PR作成は完了。Actions結果と最終記録確定時刻は追記で記録します。
+記録確定の終了時刻（UTC）：2026-10-07T23:53:46.606056+00:00。
+開始から記録確定までの実測経過：1206.606056秒（UTC時計の差、開始観測は秒精度）。
+最終の記録コミット・push・保存確認はこの時刻の後に行い、その終了時刻と全区間の所要時間は出力のtask_completion.jsonに記録します。
 
 ## 差分
 
@@ -61,3 +63,25 @@ GITHUB_OUTPUTを子プロセスに渡さないことと、artifactパスが一�
 
 生ログの末尾空白を改変しないため、.gitattributesでログだけを空白検査から外しました。
 ソース・文書のgit diff --checkは終了0。古いログのバイト列・ハッシュは保持しています。
+
+## CIの最終確認
+
+実装・artifact出力修正コミット：`d7503e0dd92b32e178ac83c78e6d54f0a9d67fc0`（push済み）。
+このコミットのpush/pull_requestはどちらもsuccess、全検証段階が終了0。
+各artifactに今回の検証ログとセットアップログを含む12ファイルを確認。
+最初のCIはビルド・監査に成功したもののartifactは1ファイルだけだったため、完成扱いにせず修正後を確認しました。
+
+- push: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37704404334
+  UTC 2026-10-07T23:49:41.457561+00:00 → 2026-10-07T23:52:20.550728+00:00、159.093166秒、終了0。
+  artifact: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37704404334/artifacts/11519315673 （15724 bytes、12ファイル）。
+
+- pull_request: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37704408186
+  UTC 2026-10-07T23:49:55.301838+00:00 → 2026-10-07T23:52:21.748537+00:00、146.446694秒、終了0。
+  artifact: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37704408186/artifacts/11519550090 （15684 bytes、12ファイル）。
+
+各段階のコマンド・正確な開始／終了・実測時間はActions artifactのrun.jsonにもあります。
+取得したActionsログからの照合証拠はverification/github_ci_evidence.jsonです。
+最終の追加コミットはこれらの記録のみで、検証済みの実装は変更しません。
+
+二度目のpushの初回はHTTP 503で終了128、同じpushの再試行は終了0。リモート保存は解消済み。
+未完了の実装エラーはなく、主定理の未証明・形式的定理文の未実装と既存lint警告が残ります。
