@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 project_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+export MATHLIB_CACHE_DIR="${MATHLIB_CACHE_DIR:-$project_dir/.lake/cache/mathlib}"
 if [ -n "${AS_GINZBURG_LEAN_ROOT:-}" ]; then
   export PATH="$AS_GINZBURG_LEAN_ROOT/bin:$PATH"
 fi

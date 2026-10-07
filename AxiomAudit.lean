@@ -28,6 +28,7 @@ import ASGinzburg
 #print axioms ASGinzburg.CutQuiver.cutDegree
 #print axioms ASGinzburg.CutQuiver.winding
 #print axioms ASGinzburg.CutQuiver.height
+#print axioms ASGinzburg.CutQuiver.periodNeZero
 #print axioms ASGinzburg.CutQuiver.heightEquiv
 #print axioms ASGinzburg.CutQuiver.heightEquiv_apply
 #print axioms ASGinzburg.CutQuiver.height_bijective
@@ -110,6 +111,16 @@ import ASGinzburg
 #print axioms ASGinzburg.CutQuiver.id_pathComp
 #print axioms ASGinzburg.CutQuiver.pathComp_assoc
 #print axioms ASGinzburg.ZAlgebra.Obj
+#print axioms ASGinzburg.ZAlgebra.objCategory
+#print axioms ASGinzburg.ZAlgebra.objHomAdd
+#print axioms ASGinzburg.ZAlgebra.objHomModule
+#print axioms ASGinzburg.ZAlgebra.objPreadditive
+#print axioms ASGinzburg.ZAlgebra.objLinear
+#print axioms ASGinzburg.ZAlgebra.objOppositeHomModule
+#print axioms ASGinzburg.ZAlgebra.objOppositeLinear
+#print axioms ASGinzburg.ZAlgebra.representableLinear
+#print axioms ASGinzburg.ZAlgebra.linearYonedaAdditive
+#print axioms ASGinzburg.ZAlgebra.linearYonedaLinear
 #print axioms ASGinzburg.ZAlgebra.rightModuleProperty
 #print axioms ASGinzburg.ZAlgebra.RightModule
 #print axioms ASGinzburg.ZAlgebra.representable
@@ -149,7 +160,7 @@ import ASGinzburg
 #print axioms ASGinzburg.trianglePotential
 #print axioms ASGinzburg.trianglePotential_cut_derivative_identity
 #print axioms ASGinzburg.ZAlgebra.InWindow
-#print axioms ASGinzburg.ZAlgebra.InWindow
+#print axioms ASGinzburg.ZAlgebra.InWindow.mono
 #print axioms ASGinzburg.ZAlgebra.WindowSystem
 #print axioms ASGinzburg.ZAlgebra.WindowSystem.globalMap
 #print axioms ASGinzburg.ZAlgebra.WindowSystem.globalMap_eq_window

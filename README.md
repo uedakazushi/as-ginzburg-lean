@@ -1,9 +1,10 @@
-# AS–Ginzburg対応のLean形式化：検証済みチェックポイント
+# AS–Ginzburg対応のLean形式化：Codexクラウドでの継続
 
 **主定理全体は未完成です。定理3.2と系5.2の形式的な文も、まだ実装していません。**
 
 添付論文を読み、具体的な代数・道・巡回微分・テンソル積の定義と補助定理を実装しました。
-14モジュール、84補助定理、161宣言についてビルドと公理依存の監査が成功しています。
+数学的ソースは14モジュール、84補助定理です。初期成果の161宣言を161個の異なる完全名として列挙し、
+既存の名前付きinstance 11件も加えた172宣言を監査します。現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
 数学的な証明に使う定義・仮定は各宣言の型に明記してあります。
 独自公理、`sorry`、`admit`を使って主定理を完成扱いにすることはしていません。
 
@@ -32,35 +33,56 @@ AS正則性からこれらの入力を導く部分は未証明です。
 
 ## 再現
 
-Lean 4.24.0とmathlib v4.24.0を使います。依存コミットは`lake-manifest.json`に固定しています。
+Lean `leanprover/lean4:v4.24.0`、mathlib `f897ebcf72cd16f89ab4577d0c826cd14afaafc7`を使います。
+`lakefile.lean`はタグでなくコミットを指定し、`lake-manifest.json`は全依存コミットを固定します。
+Python 3、Git、bash、およびelanか固定Leanの配布物が必要です。
 
 ```bash
-lake exe cache get
-./scripts/check.sh
+elan toolchain install leanprover/lean4:v4.24.0
+bash scripts/check.sh --prepare-cache
 ```
 
-`lake exe cache get`は依存ライブラリのコンパイル済みファイルの取得であり、
-本プロジェクトの証明を検証するコマンドは`lake build`と公理依存監査です。
+キャッシュが揃った後は`bash scripts/check.sh`で検証できます。
+`--prepare-cache`は実際にimportするmathlibモジュールとその依存のキャッシュを取得します。
+キャッシュ取得自体は本プロジェクトの証明の検証ではありません。
+再現のために`lake update`を実行する必要はありません。
 
-初めて展開した環境で依存が解決されない場合は、次を実行して下さい。
+今回のCodexクラウド環境では、用意済みの固定配布物を次のように使えます。
 
 ```bash
-lake update
-lake exe cache get
-./scripts/check.sh
+USE_FRO_CACHE=1 AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux \
+  bash scripts/check.sh --prepare-cache
 ```
 
-`ASGinzburg.lean`は全モジュールをimportします。
-`AxiomAudit.lean`は全161宣言に対して`#print axioms`を実行します。
-許される依存はLeanの標準的な`propext`、`Classical.choice`、`Quot.sound`だけです。
-数値計算は証明タクティクで行い、`native_decide`を使っていません。
+`USE_FRO_CACHE=1`はmathlib公式キャッシュクライアントのCloudflare取得先を選びます。
+今回のクラウドではAzure取得先にCONNECT 403があり、許可済みのCloudflare取得先を使用しました。
+コマンド実行環境のネットワーク権限と既存プロキシが必要です。
+キャッシュは既定で`.lake/cache/mathlib/`に保存し、`MATHLIB_CACHE_DIR`で変更できます。
+古い特殊環境向けの`AS_GINZBURG_PROC_SELF_FIX=1`は通常不要で、今回の検証でも使いません。
 
-## 含まれる検証記録
+`check.sh`と`with_lean.sh`にはGitで実行権限を記録し、内部のラッパー呼出しも`bash`経由にしました。
+`ASGinzburg.lean`は全数学モジュールをimportします。
+`AxiomAudit.lean`は生成された全明示的宣言と名前付きinstanceに`#print axioms`を実行します。
+自動生成の構成子・射影等はこの明示的宣言件数に含みません。
+許容する依存公理は`propext`、`Classical.choice`、`Quot.sound`のみです。
+`sorry`、`admit`、独自`axiom`、`sorryAx`、`Lean.ofReduceBool`、`Lean.trustCompiler`を拒否します。
+監査一覧・コマンド・ログを重複検査し、現在のソースと一対一で照合します。
+161は初期成果の件数であり、将来の宣言追加を制限する固定条件ではありません。
 
-- `verification/build.log`：全ターゲットの成功記録。
-- `verification/axioms.log`：全宣言の公理依存。
-- `verification/declarations.json`：宣言名とソース位置。
-- `verification/results.json`：バージョン、ソースハッシュ、検証結果。
-- `docs/source.pdf`：今回の入力論文の同一バイト列。
+## CIと検証記録
 
-**ビルド成功は、ここに実装した補題の検証を意味します。主定理の完成を意味しません。**
+GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検証コマンドを実行します。
+プロセスの終了コードをそのまま失敗に反映し、成功・失敗のどちらでも今回のログをartifactに保存します。
+履歴の成功ログをCIの成功判定に使いません。
+
+- `verification/runs/<run-id>/`：毎回新規作成するログ、宣言一覧、環境と検証結果。
+- `run.json`：各コマンド・終了コード・UTC開始／終了時刻・単調時計の実測秒・ログSHA-256。
+- `verification/latest.json`：最新試行への参照。失敗時も更新。
+- `verification/{build.log,axioms.log,declarations.json,results.json}`：最新試行の写し。
+- `checkpoints/20261007/verification/`：旧検証記録の無変更保存。旧監査は161コマンド／160異なる名前で、`InWindow.mono`が欠落していました。
+- `checkpoints/20261007/{AxiomAudit.lean,preservation.json,recovered_docs/}`：旧監査ソース・保存確認・改訂前の文書。
+- `recovery/`と`docs/source.pdf`：過去の回収記録と入力論文。無変更。
+- `RECENT_RUN.md`と`runs/`：タスクの目的・差分・実測時間・検査・残ったエラー。
+- `AGENTS.md`：継続作業の規約。数学的形式化の再開には別の明示的な指示が必要です。
+
+**ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
