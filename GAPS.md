@@ -39,7 +39,7 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
    `rightModule_epi_iff_surjective`を用いてdistinguished generatorを持ち上げる。
    representableの直和によるEnoughProjectivesも完成。有限・最小の分解は未証明。
 3. **完成**：正次数の右積のspanと同定したradical、商s_v、対角1次元・他の成分零、単純性、短完全列。
-4. **一般radicalの閉性・自然性は完成**。微分の像がradicalに入るminimalityを定義する。
+4. **一般radicalの閉性・自然性と、微分の像がradicalに入るminimality・因子化判定は完成**。
    原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
 5. 四項分解の完全性・最小性を定式化し、全高次Extのk作用と線形性、Hom複体のコホモロジーによる計算を接続する。
    (1.7)をExt(s_u,P_v)の実際の次元条件として定式化する。

@@ -169,6 +169,15 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff
 #print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff_range_eq_ker
 #print axioms ASGinzburg.ZAlgebra.rightModule_shortExact_iff
+#print axioms ASGinzburg.ZAlgebra.IsMinimalMorphism
+#print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_iff_range_le
+#print axioms ASGinzburg.ZAlgebra.minimalMorphismLift
+#print axioms ASGinzburg.ZAlgebra.minimalMorphismLift_inclusion
+#print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_of_factor
+#print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_iff_factors
+#print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_zero
+#print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_comp_left
+#print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_comp_right
 #print axioms ASGinzburg.ZAlgebra.representableToElement
 #print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv
 #print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_apply

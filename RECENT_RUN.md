@@ -20,3 +20,16 @@ representableでは前回のradicalの成分と等しいことを証明。
 開始UTC 2026-10-08T02:19:11.659768+00:00、終了UTC 2026-10-08T02:20:15.960160+00:00。
 254異なる宣言・112 theorem・39 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit1.patch。
+
+## 単位2：実際の像包含としてのminimality
+
+IsMinimalMorphismは各成分の像がpositiveActionSpanに入るという具体的な条件。
+線形写像のrangeの包含との同値、radicalへの実際の自然変換による因子化との同値を証明。
+零射と左右の合成で最小性が保たれることを証明。
+任意Propでの置換ではなく、原論文の微分に対する明示的な像の条件をそのまま実装。
+次：単純加群へのHomに適用した微分の消滅、有限四項分解の微分・完全性を束ねる。
+
+検証：`20261008T022127Z-7488f1f7`、65.271972秒、全段階終了0。
+開始UTC 2026-10-08T02:21:27.495705+00:00、終了UTC 2026-10-08T02:22:32.767686+00:00。
+263異なる宣言・119 theorem・39 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit2.patch。

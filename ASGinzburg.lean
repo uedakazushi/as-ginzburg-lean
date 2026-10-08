@@ -11,6 +11,7 @@ import ASGinzburg.RightModuleEnoughProjectives
 import ASGinzburg.RightSubmodules
 import ASGinzburg.SimpleRightModules
 import ASGinzburg.RightModuleRadical
+import ASGinzburg.RightModuleMinimality
 import ASGinzburg.RightModuleExt
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology
