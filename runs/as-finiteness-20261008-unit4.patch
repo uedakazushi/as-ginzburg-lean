@@ -1,0 +1,269 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index c16b0ff..6301bad 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -1,3 +1,5 @@
++import ASGinzburg.LeftModules
++import ASGinzburg.RightModuleExtLeftAction
+ import ASGinzburg.ASDualityEquivalence
+ import ASGinzburg.RightModuleHomFinite
+ import ASGinzburg.ASResolutionExtFinite
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index a63f085..fe86d68 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -191,6 +191,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.quadraticHilbert_third_difference
+ #print axioms ASGinzburg.quadraticHilbert_unique
+ #print axioms ASGinzburg.quadraticHilbert_polynomial_bound
++#print axioms ASGinzburg.ZAlgebra.leftModuleProperty
++#print axioms ASGinzburg.ZAlgebra.LeftModule
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableLinear
++#print axioms ASGinzburg.ZAlgebra.leftRepresentable
++#print axioms ASGinzburg.ZAlgebra.representableFunctor
++#print axioms ASGinzburg.ZAlgebra.representableFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.representableFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoyonedaLinear
++#print axioms ASGinzburg.ZAlgebra.rightModuleADual
++#print axioms ASGinzburg.ZAlgebra.rightModuleADual_obj
++#print axioms ASGinzburg.ZAlgebra.rightModuleADualMap
++#print axioms ASGinzburg.ZAlgebra.rightModuleADualFunctor
++#print axioms ASGinzburg.ZAlgebra.representableADualComponentEquiv
++#print axioms ASGinzburg.ZAlgebra.representableADualIso
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+@@ -244,6 +258,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHasExt
+ #print axioms ASGinzburg.ZAlgebra.representableExtZeroEquiv
+ #print axioms ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtPostcomp
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtCovariant
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtCovariantAdditive
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtCovariantLinear
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtLeft
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtLeft_obj
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtLeftZeroIso
+ #print axioms ASGinzburg.ZAlgebra.shiftedHomModule
+ #print axioms ASGinzburg.ZAlgebra.rightModuleDerivedLinear
+ #print axioms ASGinzburg.ZAlgebra.rightModuleDerivedQhLinear
+diff --git a/ASGinzburg/LeftModules.lean b/ASGinzburg/LeftModules.lean
+new file mode 100644
+index 0000000..5bd5a76
+--- /dev/null
++++ b/ASGinzburg/LeftModules.lean
+@@ -0,0 +1,117 @@
++import ASGinzburg.RightModuleProjectives
++
++/-!
++# Concrete left modules and the A-dual of a right module
++
++Left modules are covariant additive linear functors on the same algebra.
++The A-dual has component Hom_A(M,P_i), with left action by postcomposition.
++This does not yet prove the positive-degree AS duality or direct-sum exchange.
++-/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++def leftModuleProperty : ObjectProperty (A.Obj ⥤ ModuleCat.{v} k) :=
++  fun F => F.Additive ∧ F.Linear k
++
++abbrev LeftModule := A.leftModuleProperty.FullSubcategory
++
++instance leftRepresentableLinear (X : A.Objᵒᵖ) :
++    ((linearCoyoneda k A.Obj).obj X).Linear k where
++  map_smul := by
++    intro Y Z f r
++    ext h
++    change h ≫ (r • f) = r • (h ≫ f)
++    simp
++
++/-- A e_i has component e_j A e_i at j. -/
++def leftRepresentable (i : ℤ) : A.LeftModule :=
++  ⟨(linearCoyoneda k A.Obj).obj (op ⟨i⟩), ⟨inferInstance, inferInstance⟩⟩
++
++/-- The actual covariant family of right representables. -/
++def representableFunctor : A.Obj ⥤ A.RightModule where
++  obj X := A.representable X.index
++  map f := (linearYoneda k A.Obj).map f
++  map_id X := (linearYoneda k A.Obj).map_id X
++  map_comp f g := (linearYoneda k A.Obj).map_comp f g
++
++instance representableFunctorAdditive : A.representableFunctor.Additive where
++  map_add := (linearYoneda k A.Obj).map_add
++
++instance representableFunctorLinear : A.representableFunctor.Linear k where
++  map_smul := by intro X Y f r; exact (linearYoneda k A.Obj).map_smul r f
++
++instance rightModuleCoyonedaLinear (M : A.RightModule) :
++    ((linearCoyoneda k A.RightModule).obj (op M)).Linear k where
++  map_smul := by
++    intro X Y f r
++    ext h
++    change h ≫ (r • f) = r • (h ≫ f)
++    simp
++
++/-- The A-dual, with a proved concrete left action, without replacing Hom by a Prop. -/
++def rightModuleADual (M : A.RightModule) : A.LeftModule :=
++  ⟨A.representableFunctor ⋙ (linearCoyoneda k A.RightModule).obj (op M),
++    ⟨inferInstance, inferInstance⟩⟩
++
++@[simp] theorem rightModuleADual_obj (M : A.RightModule) (i : ℤ) :
++    (A.rightModuleADual M).obj.obj ⟨i⟩ = ModuleCat.of k (M ⟶ A.representable i) := rfl
++
++/-- Contravariant action on right-module morphisms is actual precomposition. -/
++def rightModuleADualMap {M N : A.RightModule} (f : M ⟶ N) :
++    A.rightModuleADual N ⟶ A.rightModuleADual M where
++  app X := ModuleCat.ofHom
++    { toFun := fun g => f ≫ g
++      map_add' := fun g h => Preadditive.comp_add _ _ _ f g h
++      map_smul' := fun r g => Linear.comp_smul _ _ _ f r g }
++  naturality := by intro X Y g; ext h; exact (Category.assoc f h _).symm
++
++/-- The A-dual is a functor into the concrete left-module category. -/
++def rightModuleADualFunctor : A.RightModuleᵒᵖ ⥤ A.LeftModule where
++  obj M := A.rightModuleADual M.unop
++  map f := A.rightModuleADualMap f.unop
++  map_id M := by
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    ext h
++    exact Category.id_comp h
++  map_comp f g := by
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    ext h
++    exact Category.assoc g.unop f.unop h
++
++/-- Each component of the A-dual of P_i is the correct component of A e_i. -/
++noncomputable def representableADualComponentEquiv (i j : ℤ) :
++    ((A.rightModuleADual (A.representable i)).obj.obj ⟨j⟩) ≃ₗ[k] A.Hom i j :=
++  (A.representableHomEquiv i j).symm
++
++/-- The component identifications respect the left action, hence give an
++actual left-module isomorphism Hom_A(P_i,A) = A e_i in the component model. -/
++noncomputable def representableADualIso (i : ℤ) :
++    A.rightModuleADual (A.representable i) ≅ A.leftRepresentable i := by
++  let e : (A.rightModuleADual (A.representable i)).obj ≅ (A.leftRepresentable i).obj :=
++    NatIso.ofComponents (fun X => (A.representableHomEquiv i X.index).symm.toModuleIso)
++      (by
++        intro X Y g
++        rcases X with ⟨j⟩
++        rcases Y with ⟨l⟩
++        apply ModuleCat.hom_ext
++        ext h
++        apply (A.representableHomEquiv i l).injective
++        change A.representableHomEquiv i l
++            ((A.representableHomEquiv i l).symm
++              (h ≫ (linearYoneda k A.Obj).map g)) =
++          (linearYoneda k A.Obj).map ((A.representableHomEquiv i j).symm h ≫ g)
++        rw [LinearEquiv.apply_symm_apply, Functor.map_comp]
++        have hh : (linearYoneda k A.Obj).map
++            ((A.representableHomEquiv i j).symm h) = h :=
++          (A.representableHomEquiv i j).apply_symm_apply h
++        rw [hh]
++        rfl)
++  exact ⟨e.hom, e.inv, e.hom_inv_id, e.inv_hom_id⟩
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/RightModuleExtLeftAction.lean b/ASGinzburg/RightModuleExtLeftAction.lean
+new file mode 100644
+index 0000000..48de485
+--- /dev/null
++++ b/ASGinzburg/RightModuleExtLeftAction.lean
+@@ -0,0 +1,91 @@
++import ASGinzburg.LeftModules
++import ASGinzburg.RightModuleExtSequence
++
++/-!
++# The concrete left action on actual Ext
++
++At vertex i the object has value Ext_A^n(M,P_i). Algebra elements act by
++actual postcomposition in Ext. This is the component model of Ext_A(M,A);
++its comparison with Ext into a direct sum still needs to be proved.
++-/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightModuleExtPostcomp {M N P : A.RightModule} (f : N ⟶ P) (n : ℕ) :
++    Abelian.Ext.{v} M N n →ₗ[k] Abelian.Ext.{v} M P n where
++  toFun x := x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
++  map_add' x y := Abelian.Ext.add_comp x y _ _
++  map_smul' r x := A.rightModuleExt_smul_comp x _ _ r
++
++/-- Actual Ext is a k-linear functor in the second argument. -/
++noncomputable def rightModuleExtCovariant (M : A.RightModule) (n : ℕ) :
++    A.RightModule ⥤ ModuleCat.{v} k where
++  obj N := ModuleCat.of k (Abelian.Ext.{v} M N n)
++  map f := ModuleCat.ofHom (A.rightModuleExtPostcomp f n)
++  map_id N := by ext x; exact Abelian.Ext.comp_mk₀_id x
++  map_comp f g := by
++    ext x
++    change x.comp (Abelian.Ext.mk₀ (f ≫ g)) (Nat.add_zero n) =
++      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp
++        (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    rw [← Abelian.Ext.mk₀_comp_mk₀]
++    symm
++    apply Abelian.Ext.comp_assoc
++    omega
++
++instance rightModuleExtCovariantAdditive (M : A.RightModule) (n : ℕ) :
++    (A.rightModuleExtCovariant M n).Additive where
++  map_add := by
++    intro X Y f g
++    ext x
++    change x.comp (Abelian.Ext.mk₀ (f + g)) (Nat.add_zero n) =
++      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n) + x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    rw [Abelian.Ext.mk₀_add, Abelian.Ext.comp_add]
++
++instance rightModuleExtCovariantLinear (M : A.RightModule) (n : ℕ) :
++    (A.rightModuleExtCovariant M n).Linear k where
++  map_smul := by
++    intro X Y f r
++    ext x
++    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n) =
++      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
++    rw [A.rightModuleExt_mk₀_smul]
++    exact A.rightModuleExt_comp_smul x _ _ r
++
++/-- A genuine left module of actual Ext components, with no added duality assumption. -/
++noncomputable def rightModuleExtLeft (M : A.RightModule) (n : ℕ) : A.LeftModule :=
++  ⟨A.representableFunctor ⋙ A.rightModuleExtCovariant M n, ⟨inferInstance, inferInstance⟩⟩
++
++@[simp] theorem rightModuleExtLeft_obj (M : A.RightModule) (n : ℕ) (i : ℤ) :
++    (A.rightModuleExtLeft M n).obj.obj ⟨i⟩ =
++      ModuleCat.of k (Abelian.Ext.{v} M (A.representable i) n) := rfl
++
++/-- Degree zero is naturally the previously constructed A-dual, including its left action. -/
++noncomputable def rightModuleExtLeftZeroIso (M : A.RightModule) :
++    A.rightModuleExtLeft M 0 ≅ A.rightModuleADual M := by
++  let e : (A.rightModuleExtLeft M 0).obj ≅ (A.rightModuleADual M).obj :=
++    NatIso.ofComponents (fun X =>
++      (A.rightModuleExtZeroLinearEquiv M (A.representable X.index)).toModuleIso) (by
++        intro X Y f
++        apply ModuleCat.hom_ext
++        ext x
++        apply (A.rightModuleExtZeroLinearEquiv M (A.representable Y.index)).symm.injective
++        change (A.rightModuleExtZeroLinearEquiv M (A.representable Y.index)).symm
++          ((A.rightModuleExtZeroLinearEquiv M (A.representable Y.index))
++            (x.comp (Abelian.Ext.mk₀ (A.representableFunctor.map f)) (by rfl))) =
++          (A.rightModuleExtZeroLinearEquiv M (A.representable Y.index)).symm
++            (A.rightModuleExtZeroLinearEquiv M (A.representable X.index) x ≫
++              A.representableFunctor.map f)
++        simp only [LinearEquiv.symm_apply_apply]
++        change x.comp (Abelian.Ext.mk₀ (A.representableFunctor.map f)) (by rfl) =
++          Abelian.Ext.mk₀
++            (A.rightModuleExtZeroLinearEquiv M (A.representable X.index) x ≫
++              A.representableFunctor.map f)
++        rw [← Abelian.Ext.mk₀_comp_mk₀]
++        congr 1
++        exact (Abelian.Ext.mk₀_addEquiv₀_apply x).symm)
++  exact ⟨e.hom, e.inv, e.hom_inv_id, e.inv_hom_id⟩
++
++end ASGinzburg.ZAlgebra

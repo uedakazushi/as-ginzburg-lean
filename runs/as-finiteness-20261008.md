@@ -59,3 +59,20 @@ ASRegularの定義にdelta条件を追加していない。元の定義(ii)と�
 UTC 2026-10-08T03:48:36.666276+00:00 → 2026-10-08T03:51:24.362182+00:00。
 387異なる宣言・192 theorem・53 named instance。
 差分：runs/as-finiteness-20261008-unit3.patch。
+
+単位3のmain保存：e1c6a0210efd18c4ee24674e340338af6bc53046。
+
+## 単位4：具体的な左加群・A-dual・実際Extの左作用
+
+LeftModuleを同じA.Obj上の共変・加法的・k線形なModuleCat値functorとして定義した。
+A-dualの成分は実際のHom(M,P_i)、左作用はrepresentableの射への後合成。
+P_iのA-dualと左表現可能加群A e_iの左作用を保つ同型を構成した。
+実際のAbelian.Extの第2引数におけるk線形functorとExt(s_u,P_i,p)の左作用を構成した。
+次数0でこのExt左加群とA-dualが自然に同型であることも証明した。
+任意Propによる置換なし。直和へのExtとの比較は未証明で、Ext(M,A)と既に同定したとは扱わない。
+次：左加群の核・商と左単純加群、AS条件からのExt左加群の同型。
+
+検証：`20261008T035241Z-63feafce`、181.934901秒、全段階終了0。
+UTC 2026-10-08T03:52:41.184345+00:00 → 2026-10-08T03:55:43.119256+00:00。
+408異なる宣言・194 theorem・59 named instance。
+差分：runs/as-finiteness-20261008-unit4.patch。

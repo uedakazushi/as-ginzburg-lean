@@ -1,0 +1,91 @@
+import ASGinzburg.LeftModules
+import ASGinzburg.RightModuleExtSequence
+
+/-!
+# The concrete left action on actual Ext
+
+At vertex i the object has value Ext_A^n(M,P_i). Algebra elements act by
+actual postcomposition in Ext. This is the component model of Ext_A(M,A);
+its comparison with Ext into a direct sum still needs to be proved.
+-/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable def rightModuleExtPostcomp {M N P : A.RightModule} (f : N ⟶ P) (n : ℕ) :
+    Abelian.Ext.{v} M N n →ₗ[k] Abelian.Ext.{v} M P n where
+  toFun x := x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+  map_add' x y := Abelian.Ext.add_comp x y _ _
+  map_smul' r x := A.rightModuleExt_smul_comp x _ _ r
+
+/-- Actual Ext is a k-linear functor in the second argument. -/
+noncomputable def rightModuleExtCovariant (M : A.RightModule) (n : ℕ) :
+    A.RightModule ⥤ ModuleCat.{v} k where
+  obj N := ModuleCat.of k (Abelian.Ext.{v} M N n)
+  map f := ModuleCat.ofHom (A.rightModuleExtPostcomp f n)
+  map_id N := by ext x; exact Abelian.Ext.comp_mk₀_id x
+  map_comp f g := by
+    ext x
+    change x.comp (Abelian.Ext.mk₀ (f ≫ g)) (Nat.add_zero n) =
+      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp
+        (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [← Abelian.Ext.mk₀_comp_mk₀]
+    symm
+    apply Abelian.Ext.comp_assoc
+    omega
+
+instance rightModuleExtCovariantAdditive (M : A.RightModule) (n : ℕ) :
+    (A.rightModuleExtCovariant M n).Additive where
+  map_add := by
+    intro X Y f g
+    ext x
+    change x.comp (Abelian.Ext.mk₀ (f + g)) (Nat.add_zero n) =
+      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n) + x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [Abelian.Ext.mk₀_add, Abelian.Ext.comp_add]
+
+instance rightModuleExtCovariantLinear (M : A.RightModule) (n : ℕ) :
+    (A.rightModuleExtCovariant M n).Linear k where
+  map_smul := by
+    intro X Y f r
+    ext x
+    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n) =
+      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+    rw [A.rightModuleExt_mk₀_smul]
+    exact A.rightModuleExt_comp_smul x _ _ r
+
+/-- A genuine left module of actual Ext components, with no added duality assumption. -/
+noncomputable def rightModuleExtLeft (M : A.RightModule) (n : ℕ) : A.LeftModule :=
+  ⟨A.representableFunctor ⋙ A.rightModuleExtCovariant M n, ⟨inferInstance, inferInstance⟩⟩
+
+@[simp] theorem rightModuleExtLeft_obj (M : A.RightModule) (n : ℕ) (i : ℤ) :
+    (A.rightModuleExtLeft M n).obj.obj ⟨i⟩ =
+      ModuleCat.of k (Abelian.Ext.{v} M (A.representable i) n) := rfl
+
+/-- Degree zero is naturally the previously constructed A-dual, including its left action. -/
+noncomputable def rightModuleExtLeftZeroIso (M : A.RightModule) :
+    A.rightModuleExtLeft M 0 ≅ A.rightModuleADual M := by
+  let e : (A.rightModuleExtLeft M 0).obj ≅ (A.rightModuleADual M).obj :=
+    NatIso.ofComponents (fun X =>
+      (A.rightModuleExtZeroLinearEquiv M (A.representable X.index)).toModuleIso) (by
+        intro X Y f
+        apply ModuleCat.hom_ext
+        ext x
+        apply (A.rightModuleExtZeroLinearEquiv M (A.representable Y.index)).symm.injective
+        change (A.rightModuleExtZeroLinearEquiv M (A.representable Y.index)).symm
+          ((A.rightModuleExtZeroLinearEquiv M (A.representable Y.index))
+            (x.comp (Abelian.Ext.mk₀ (A.representableFunctor.map f)) (by rfl))) =
+          (A.rightModuleExtZeroLinearEquiv M (A.representable Y.index)).symm
+            (A.rightModuleExtZeroLinearEquiv M (A.representable X.index) x ≫
+              A.representableFunctor.map f)
+        simp only [LinearEquiv.symm_apply_apply]
+        change x.comp (Abelian.Ext.mk₀ (A.representableFunctor.map f)) (by rfl) =
+          Abelian.Ext.mk₀
+            (A.rightModuleExtZeroLinearEquiv M (A.representable X.index) x ≫
+              A.representableFunctor.map f)
+        rw [← Abelian.Ext.mk₀_comp_mk₀]
+        congr 1
+        exact (Abelian.Ext.mk₀_addEquiv₀_apply x).symm)
+  exact ⟨e.hom, e.inv, e.hom_inv_id, e.inv_hom_id⟩
+
+end ASGinzburg.ZAlgebra
