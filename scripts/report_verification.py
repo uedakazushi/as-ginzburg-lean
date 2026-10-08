@@ -12,7 +12,7 @@ from audit_sources import ROOT, inventory, project_sources, require_unique
 ALLOWED = {'propext', 'Classical.choice', 'Quot.sound'}
 TOOLCHAIN = 'leanprover/lean4:v4.24.0'
 MATHLIB = 'f897ebcf72cd16f89ab4577d0c826cd14afaafc7'
-RECORD = re.compile(r"^'(.+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)$")
+RECORD = re.compile(r"^'(.+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)$", re.M)
 
 
 def digest(path):
@@ -23,14 +23,17 @@ def check_coverage(entries, text):
     expected = [e['name'] for e in entries]
     require_unique(expected, 'inventory names')
     names, axioms = [], set()
-    for line in text.splitlines():
-        if not line.strip():
-            continue
-        match = RECORD.fullmatch(line.strip())
-        if not match:
-            raise ValueError(f'Unexpected axiom audit output: {line}')
+    # Lean pretty-printing wraps long declarations' axiom lists across lines.
+    # Parse complete records, but reject all intervening non-whitespace output.
+    cursor = 0
+    for match in RECORD.finditer(text):
+        if text[cursor:match.start()].strip():
+            raise ValueError(f'Unexpected axiom audit output: {text[cursor:match.start()]}')
         names.append(match[1])
         axioms.update(n.strip() for n in (match[2] or '').split(',') if n.strip())
+        cursor = match.end()
+    if text[cursor:].strip():
+        raise ValueError(f'Unexpected axiom audit output: {text[cursor:]}')
     require_unique(names, 'axiom log names')
     if Counter(names) != Counter(expected):
         raise ValueError(f'Audit coverage mismatch; missing={sorted(set(expected)-set(names))}; '

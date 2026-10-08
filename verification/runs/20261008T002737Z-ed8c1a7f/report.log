@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/workspace/as-ginzburg-lean/scripts/report_verification.py", line 90, in <module>
+    main()
+  File "/workspace/as-ginzburg-lean/scripts/report_verification.py", line 83, in main
+    result = certify(args.run_dir.resolve())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/as-ginzburg-lean/scripts/report_verification.py", line 66, in certify
+    names, axioms = check_coverage(entries, (run_dir / 'axioms.log').read_text())
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/as-ginzburg-lean/scripts/report_verification.py", line 31, in check_coverage
+    raise ValueError(f'Unexpected axiom audit output: {line}')
+ValueError: Unexpected axiom audit output: 'ASGinzburg.ZAlgebra.rightModuleInclusionCreatesLimitsOfShape' depends on axioms: [propext,

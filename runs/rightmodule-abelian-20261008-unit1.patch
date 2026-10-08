@@ -1,0 +1,123 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 34073fb..8eaeeaa 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -29,8 +29,9 @@
+ 命題1.4は区間同型を仮定した貼り合わせのみ、命題5.1も未証明。
+ 既存の84補助定理やビルド成功を主定理の完成と扱わない。
+ 
+-今回の権限はビルド再現、公理監査、CI、記録の整備に限る。
+-**数学的形式化を再開するには、ユーザーの別の明示的な指示が必要**。
++2026-10-08のユーザーの明示的な指示により、既存`ZAlgebra.RightModule`の
++Abelian圏構造とmathlibのホモロジー代数への接続を実装する数学的形式化を再開した。
++この目標を超える数学的形式化の再開・拡張には、ユーザーの別の明示的な指示が必要。
+ 再開の指示を受けても、原論文の仮定を弱めたり、結論と同等の仮定を追加したりしない。
+ 周期性や`WindowSystem`をAS正則性の条件に追加しない。周期性はAS条件から導くべき証明義務。
+ 外部結果を独自公理に置き換えて完成と宣言しない。
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 4574487..c1db4a3 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -4,6 +4,7 @@ import ASGinzburg.CyclicDerivative
+ import ASGinzburg.PathAlgebra
+ import ASGinzburg.ZAlgebra
+ import ASGinzburg.Representables
++import ASGinzburg.RightModuleAbelian
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+ import ASGinzburg.WindowPeriodicity
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 476d009..c87f235 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -128,6 +128,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.representableHom_vanishes
+ #print axioms ASGinzburg.ZAlgebra.scalarEndEquiv
+ #print axioms ASGinzburg.ZAlgebra.representableEnd_finrank
++#print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits
++#print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits
+ #print axioms ASGinzburg.ArrowSpace333
+ #print axioms ASGinzburg.CubicTensor333
+ #print axioms ASGinzburg.Triple333
+diff --git a/ASGinzburg/RightModuleAbelian.lean b/ASGinzburg/RightModuleAbelian.lean
+new file mode 100644
+index 0000000..8dbcd2f
+--- /dev/null
++++ b/ASGinzburg/RightModuleAbelian.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.Representables
++import Mathlib.Algebra.Category.ModuleCat.Abelian
++import Mathlib.CategoryTheory.Abelian.FunctorCategory
++import Mathlib.CategoryTheory.Limits.FullSubcategory
++import Mathlib.CategoryTheory.Limits.Preserves.Shapes.AbelianImages
++
++/-!
++# Limits and homological algebra for linear right modules
++
++We retain the existing definition of `ZAlgebra.RightModule`: additive,
++`k`-linear presheaves on `A.Obj` with values in `ModuleCat k`.
++The right action in the paper's §1.2 sends `M_v` to `M_u` along
++`A.Hom u v = e_v A e_u`, hence has exactly this contravariant orientation.
++-/
++
++namespace ASGinzburg.ZAlgebra
++
++open CategoryTheory CategoryTheory.Limits
++
++universe u v w w'
++
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Any pointwise limit of linear right modules is again additive and linear. -/
++theorem rightModuleProperty_closedUnderLimits
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    ClosedUnderLimitsOfShape J A.rightModuleProperty := by
++  intro F c hc hF
++  constructor
++  · constructor
++    intro X Y f g
++    apply (isLimitOfPreserves ((evaluation A.Objᵒᵖ (ModuleCat.{v} k)).obj Y) hc).hom_ext
++    intro j
++    letI := (hF j).1
++    change c.pt.map (f + g) ≫ (c.π.app j).app Y =
++      (c.pt.map f + c.pt.map g) ≫ (c.π.app j).app Y
++    simp only [Preadditive.add_comp, NatTrans.naturality, Functor.map_add,
++      Preadditive.comp_add]
++  · constructor
++    intro X Y f r
++    apply (isLimitOfPreserves ((evaluation A.Objᵒᵖ (ModuleCat.{v} k)).obj Y) hc).hom_ext
++    intro j
++    letI := (hF j).2
++    change c.pt.map (r • f) ≫ (c.π.app j).app Y =
++      (r • c.pt.map f) ≫ (c.π.app j).app Y
++    simp only [Linear.smul_comp, NatTrans.naturality, Functor.map_smul,
++      Linear.comp_smul]
++
++/-- Any pointwise colimit of linear right modules is again additive and linear. -/
++theorem rightModuleProperty_closedUnderColimits
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    ClosedUnderColimitsOfShape J A.rightModuleProperty := by
++  intro F c hc hF
++  constructor
++  · constructor
++    intro X Y f g
++    apply (isColimitOfPreserves ((evaluation A.Objᵒᵖ (ModuleCat.{v} k)).obj X) hc).hom_ext
++    intro j
++    letI := (hF j).1
++    change (c.ι.app j).app X ≫ c.pt.map (f + g) =
++      (c.ι.app j).app X ≫ (c.pt.map f + c.pt.map g)
++    erw [← (c.ι.app j).naturality (f + g), Functor.map_add, Preadditive.add_comp,
++      (c.ι.app j).naturality f, (c.ι.app j).naturality g, Preadditive.comp_add]
++    rfl
++  · constructor
++    intro X Y f r
++    apply (isColimitOfPreserves ((evaluation A.Objᵒᵖ (ModuleCat.{v} k)).obj X) hc).hom_ext
++    intro j
++    letI := (hF j).2
++    change (c.ι.app j).app X ≫ c.pt.map (r • f) =
++      (c.ι.app j).app X ≫ (r • c.pt.map f)
++    erw [← (c.ι.app j).naturality (r • f), Functor.map_smul, Linear.smul_comp,
++      (c.ι.app j).naturality f, Linear.comp_smul]
++    rfl
++
++end ASGinzburg.ZAlgebra

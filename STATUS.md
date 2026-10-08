@@ -1,12 +1,13 @@
 # 現在の状況
 
-数学的ソースは無変更。14モジュールと`ASGinzburg.lean`が旧SHA-256に一致しています。
+既存14数学モジュールは無変更・旧SHA-256一致。新規2モジュールで既存RightModuleの
+Abelian構造と成分ホモロジー・exactnessへの接続を完成しました。ルートimportと生成監査を更新。
 
 | 項目 | 今回の結論 |
 |---|---|
-| lake build | 成功、終了0、3123 jobs |
-| 個別公理監査 | 172異なる名前、終了0。初期161宣言＋既存instance 11件 |
-| 完成済み補助定理 | 84件。全件が監査対象 |
+| lake build | 成功、終了0、3199 jobs |
+| 個別公理監査 | 202異なる名前、終了0。全明示的宣言・25 named instanceを含む |
+| 完成済み補助定理 | 96件。全件が監査対象 |
 | sorry / admit / 独自axiom | ソース内0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundだけ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerはなし |
@@ -14,13 +15,13 @@
 | CI | push/pull_requestで固定版のビルド・監査、今回のログをartifactへ保存 |
 | 旧版・入力・回収 | checkpoints/とrecovery/、入力PDFを保存 |
 
-最新検証 `20261007T234808Z-7dcf2867`：終了0、13.040697秒。
-UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
-初回の成功検証（キャッシュ準備を含む）は61.159680秒、全段階終了0。
+最新ローカル検証 `20261008T003239Z-336ff83a`：終了0、39.289198秒。
+UTC 2026-10-08T00:32:39.439384+00:00 → 2026-10-08T00:33:18.728587+00:00。
+全段階（11回帰テスト、ソース監査、固定環境、lake build、#print axioms、照合）は終了0。
 
 # 形式化状況
 
-2026年10月8日（JST）。数学的範囲は旧版と同じで、主結果の完全形式化は未完成です。
+2026年10月8日（JST）。ユーザーの明示的な指示によりRightModuleの形式化を再開。主結果の完全形式化は未完成です。
 
 ## 検証済みの範囲
 
@@ -32,7 +33,8 @@ UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
 | 道代数 | `PathAlgebra.lean` | 成分の自由ベクトル空間、双線形積、単位元、結合則 | 関係イデアルとその商、unrolling |
 | (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 原論文のAS正則性の定義 |
 | 命題1.2の帰納法 | `ZAlgebra.lean` | 成分が生成元と短い積に分解されれば全成分を生成する | 分解条件を最小射影分解から導くこと、核が矢イデアルの二乗に入ること |
-| (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 加群圏のAbelian・射影性、単純加群 |
+| (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 射影性、単純加群、直和・局所単位元付き加群との明示的同値 |
+| §1.2の加群圏・(1.6)の基盤 | `RightModuleAbelian.lean`、`RightModuleHomology.lean` | (余)極限の閉性、Abelian構造、核・余核・homologyの成分同型、exactness・短完全列・mono/epiの成分判定 | 実際の射影分解・minimality・Extとの比較 |
 | 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 表と実際のExtの同定、有限台、非零項の導出 |
 | 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 実際のHom複体とExtへの同定 |
 | 命題1.4の貼り合わせ | `WindowPeriodicity.lean` | coherentな区間同型から積と単位元を保つ周期同型を構成 | D Ext³から区間同型を作る部分全体 |
@@ -51,7 +53,9 @@ UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
 | 命題5.1：quadratic AS正則Z-代数の三周期性 | **未証明。** |
 | 系5.2：(3,3,3)型の全単射 | **未証明。Leanの形式的な文も未実装。** |
 
-完成した補題は84件です。`verification/declarations.json`に初期161宣言と既存instance 11件の全172監査対象を列挙しています。
+完成した補題は96件です。`verification/declarations.json`に初期161宣言を含む全202監査対象を列挙しています。
+新規単位は12 theorem・4 def・14 named instance。既存RightModuleの定義を保ち、
+周期性・Ext同型・AS結論を仮定に追加していません。
 補題の本来の仮定はソースの型を参照して下さい。
 特に`WindowSystem.isPeriodic`は`WindowSystem`を入力に持ち、AS条件からの周期性ではありません。
 
@@ -59,12 +63,21 @@ UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
 
 - 初期161宣言の一覧は`recovery/corrected_declarations.json`とも一致。161異なる名前を確認。
 - `InWindow.mono`の完全名を監査。ソース・コマンド・ログの各重複を拒否。
-- 回帰テスト10件が成功。監査漏れ、重複、禁止公理、旧成功文字列による誤判定を検査。
-- 14数学モジュール＋ルートimportの同一性、旧verification/保存のSHA-256照合が成功。
+- 回帰テスト11件が成功。監査漏れ、重複、禁止公理、旧成功文字列による誤判定を検査。
+- 既存14数学モジュールとPDFの同一性を再確認。新規2モジュールとroot import追加は意図した差分。
+  旧verification/保存、recovery/は無変更。
 - 固定Leanの実行版とmanifestの全依存checkoutを検査。最新runの環境・ログ・終了コードで判定。
 - 既存の未使用変数・simp引数のlint警告は残存。コンパイルエラーはなし。
 - GitHubへの保存とActionsの実行状況は`RECENT_RUN.md`参照。
 
-数学的形式化の再開は別の明示的指示が必要です。未証明の主結果を隠す公理・追加クラスはありません。
+今回のRightModuleの目標を超える数学的形式化には別の明示的指示が必要です。未証明の主結果を隠す公理・追加クラスはありません。
 
-CI確認：実装コミットd7503e0でpush・pull_requestの双方が成功し、各12ファイルの最新ログartifactを確認済み。詳細はRECENT_RUN.mdとverification/github_ci_evidence.json。
+原論文の`Gr(A)`との明示的な直和加群モデルの同値、representableの射影性、radical・s_v、
+(1.6)の完全・最小分解、(1.7)の実際のExt条件は未実装です。
+今回の形状の(余)極限存在の仮定は有限図式についてmathlibで満たされます。
+ASから導出すべき新たな仮定を置いた条件付き補題は追加していません。
+
+最新CIとリモート保存状況はRECENT_RUN.mdを参照してください。
+
+数学的実装コミットf8e7ce0のpush・pull_request CIは双方success、各12ファイルのartifact保存を確認。
+詳細はRECENT_RUN.mdとverification/rightmodule_github_ci_evidence.json。

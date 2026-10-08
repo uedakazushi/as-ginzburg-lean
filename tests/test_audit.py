@@ -81,6 +81,23 @@ class AuditTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'active run'):
             certify(run_dir, root)
 
+    def test_wrapped_axiom_lists_preserve_strict_coverage(self):
+        entries = [{'name': 'N.longDeclaration'}]
+        wrapped = "'N.longDeclaration' depends on axioms: [propext,\n Classical.choice, Quot.sound]\n"
+        names, axioms = check_coverage(entries, wrapped)
+        self.assertEqual(names, ['N.longDeclaration'])
+        self.assertEqual(axioms, {'propext', 'Classical.choice', 'Quot.sound'})
+        with self.assertRaisesRegex(ValueError, 'Duplicate'):
+            check_coverage(entries, wrapped + wrapped)
+        for bad in (wrapped.replace('Quot.sound', 'sorryAx'),
+                    wrapped.replace('Quot.sound', 'Lean.trustCompiler')):
+            with self.subTest(log=bad), self.assertRaisesRegex(ValueError, 'Unaccepted'):
+                check_coverage(entries, bad)
+        for bad in (wrapped.replace(']', ''), wrapped + 'unexpected output\n',
+                    'unexpected output\n' + wrapped):
+            with self.subTest(log=bad), self.assertRaisesRegex(ValueError, 'Unexpected'):
+                check_coverage(entries, bad)
+
     def test_failed_build_exit_propagates_despite_success_text(self):
         root = self.project('def x := 0\n')
         shutil.copytree(ROOT / 'scripts', root / 'scripts', ignore=shutil.ignore_patterns('__pycache__'))
