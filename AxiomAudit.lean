@@ -145,6 +145,11 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.freeRightModuleProjective
 #print axioms ASGinzburg.ZAlgebra.freeRightModuleπEpi
 #print axioms ASGinzburg.ZAlgebra.rightModuleEnoughProjectives
+#print axioms ASGinzburg.ZAlgebra.rightModuleProjectiveResolution
+#print axioms ASGinzburg.ZAlgebra.rightModuleProjectiveResolution_exactAt_succ
+#print axioms ASGinzburg.ZAlgebra.rightModuleHasExt
+#print axioms ASGinzburg.ZAlgebra.representableExtZeroEquiv
+#print axioms ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits

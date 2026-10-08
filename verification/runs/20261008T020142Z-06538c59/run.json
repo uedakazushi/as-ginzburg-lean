@@ -1,0 +1,131 @@
+{
+  "run_id": "20261008T020142Z-06538c59",
+  "started_at_utc": "2026-10-08T02:01:42.423333+00:00",
+  "status": "success",
+  "steps": [
+    {
+      "stage": "regression_tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "regression_tests.log",
+      "started_at_utc": "2026-10-08T02:01:42.425635+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:01:42.708486+00:00",
+      "elapsed_seconds": 0.28289745899928675,
+      "log_sha256": "5154560a83fa82355247fe7620bd42cbc6096e55a2c239d78c7554bafec133ce"
+    },
+    {
+      "stage": "source_audit",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/audit_sources.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T020142Z-06538c59"
+      ],
+      "log": "source_audit.log",
+      "started_at_utc": "2026-10-08T02:01:42.708890+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:01:42.775750+00:00",
+      "elapsed_seconds": 0.06688139800098725,
+      "log_sha256": "d79c04463a7c883832e10553be46d4953d1e793ed610ff9443b5998bf4495a16"
+    },
+    {
+      "stage": "environment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check_environment.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T020142Z-06538c59"
+      ],
+      "log": "environment.log",
+      "started_at_utc": "2026-10-08T02:01:42.777712+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:01:42.942000+00:00",
+      "elapsed_seconds": 0.164309649999268,
+      "log_sha256": "d5e678cb314b7e8e314263cd7f435216c0155fcad8f097bb5e8865e6f3c01b2c"
+    },
+    {
+      "stage": "build",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "build"
+      ],
+      "log": "build.log",
+      "started_at_utc": "2026-10-08T02:01:42.942382+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:02:16.528172+00:00",
+      "elapsed_seconds": 33.58581689499988,
+      "log_sha256": "e9f638728ce6ca700dfbd607336fd2cfc4374b5862a2801b3aa6501699dee191"
+    },
+    {
+      "stage": "axioms",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "AxiomAudit.lean"
+      ],
+      "log": "axioms.log",
+      "started_at_utc": "2026-10-08T02:02:16.528651+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:02:43.602753+00:00",
+      "elapsed_seconds": 27.074128330999883,
+      "log_sha256": "4881a132e2a65eb171495ca974da33f5e66b5e40160b79b2eb6e5543159fa730"
+    },
+    {
+      "stage": "report",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/report_verification.py",
+        "--run-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T020142Z-06538c59"
+      ],
+      "log": "report.log",
+      "started_at_utc": "2026-10-08T02:02:43.603182+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:02:43.662243+00:00",
+      "elapsed_seconds": 0.059084113001517835,
+      "log_sha256": "dfb56152a8680e50f395090d2a1a4fd1cf134f8ce9ebe225f3fd407bf5ac6c0b"
+    }
+  ],
+  "git_head_before_run": "86853a57baf594680ee42f547ea7bcbaabf5af27",
+  "lean_source_sha256": {
+    "ASGinzburg.lean": "fe8ff65bd424e98cbef96b548fd43945bc1ddc91bf7fcd16b2e366a837bfdfee",
+    "ASGinzburg/Conjugation.lean": "2cfa2d44166de9d005139d24319c7806e3b1677fe6de77c91f111409a608b4d8",
+    "ASGinzburg/CutPotential.lean": "21fae59909e7fe38e66d2f9bc27c9c27571fa1913cccb3774f39c424cad1d210",
+    "ASGinzburg/CutQuiver.lean": "ad45587f428a7b55348d9f741caae70363e765b71527b0a79130f28be0c20fdf",
+    "ASGinzburg/CyclicDerivative.lean": "70537ca04cc82fce284975bcec5160c60987130865f767b277d1c46eaca17ec7",
+    "ASGinzburg/ExtDimension.lean": "1df19458ab48a0fc664ecbe04bc788335f44e01a385d90189ee0c9a5fb8c055c",
+    "ASGinzburg/GinzburgGrading.lean": "2b39c8c5d25c57ab29311078538728bc5fd0db99595493e0f85b65d22e5960ad",
+    "ASGinzburg/Hilbert.lean": "951c6821fa5ec275e10658e9f51982e21983855da0e9cf1fc0b3849c0ad7cc3e",
+    "ASGinzburg/PathAlgebra.lean": "19cdabd6939e952b5e45d519fe5dc4a9a5801684cf20877c5cea8fa0c39b08ae",
+    "ASGinzburg/Representables.lean": "8770d9095bf8759bdd45d9167659baade106b450ab763cbb0da0d58a10f7483a",
+    "ASGinzburg/RightModuleAbelian.lean": "14758408f72e7ead396492ee16610d736b2eb349b25c448871a482a02f67f16b",
+    "ASGinzburg/RightModuleEnoughProjectives.lean": "d3dccf01abfcd62d3dbe45b2d67faba6d78fffdd1277f063a06f75450d515bd1",
+    "ASGinzburg/RightModuleExt.lean": "d90f2e03c4fef4770da88546140a9c420aaf5b7fd92e9fce5c9cc5c751a1180e",
+    "ASGinzburg/RightModuleHomology.lean": "a0cd325af678eaac86867dab31757e95542845036829518cda5ba7c2693fd634",
+    "ASGinzburg/RightModuleProjectives.lean": "783598edbfeeb8f105e2bd4cf2642447a496aac873239d00676a48a3708833b6",
+    "ASGinzburg/RightSubmodules.lean": "f64a3d4eac1a85590bdd087df238e4a07cc40aa92868dd2f98f825a0e577583c",
+    "ASGinzburg/SimpleRightModules.lean": "37b26615628628b3bde270a6bd296dec80835066e5880eb83872af0789a95b33",
+    "ASGinzburg/Tensor333.lean": "e154200878a4de683cf8f630d42cf90243deaeed8c5130f3186e1faedea9dbfc",
+    "ASGinzburg/TopCohomology.lean": "e0c6ba341fb427b00eb099a7b83a5bf307591096b08ce84152613428c7ce7f13",
+    "ASGinzburg/Triangle333.lean": "5b817ccbb9c4133d3129eda64b8af56ce1c79261bb35c4a9bc2f10e8dc803663",
+    "ASGinzburg/WindowPeriodicity.lean": "23af0e6da9a194a20f10bc3a8301415933deba6fcddf2167428dadc086c3f37a",
+    "ASGinzburg/ZAlgebra.lean": "00a370e8b60ca324c780b26e89642ce000292def9ba435ca445a23484d4ba9f1",
+    "AxiomAudit.lean": "88b94a35ce6a043e77df6ecffd471b51b1ae09164fad35f54865776f5696a598"
+  },
+  "ended_at_utc": "2026-10-08T02:02:43.662622+00:00",
+  "elapsed_seconds": 61.23927827300031,
+  "exit_code": 0
+}

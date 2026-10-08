@@ -1,0 +1,42 @@
+import ASGinzburg.RightModuleEnoughProjectives
+import Mathlib.CategoryTheory.Abelian.Projective.Resolution
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
+
+/-!
+# Projective resolutions and actual derived-category Ext
+
+Enough projectives gives standard, possibly infinite resolutions and Ext in
+the Hom universe. Degree-zero Ext of a representable is vertex evaluation;
+its higher Ext in the first argument vanishes. No AS Ext condition, finite
+resolution, or Hom-complex comparison is assumed here.
+-/
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- Standard, possibly infinite projective resolutions of the actual right modules. -/
+noncomputable def rightModuleProjectiveResolution (M : A.RightModule) : ProjectiveResolution M :=
+  ProjectiveResolution.of M
+
+/-- Positive degrees of the constructed resolution are exact. -/
+theorem rightModuleProjectiveResolution_exactAt_succ (M : A.RightModule) (n : ℕ) :
+    (A.rightModuleProjectiveResolution M).complex.ExactAt (n + 1) :=
+  (A.rightModuleProjectiveResolution M).complex_exactAt_succ n
+
+/-- Hom-universe Ext exists by the proved supply of projectives, not by an Ext hypothesis. -/
+instance rightModuleHasExt : HasExt.{v} A.RightModule :=
+  hasExt_of_enoughProjectives A.RightModule
+
+/-- Actual degree-zero derived-category Ext agrees additively with vertex evaluation. -/
+noncomputable def representableExtZeroEquiv (i : ℤ) (M : A.RightModule) :
+    Abelian.Ext.{v} (A.representable i) M 0 ≃+ (A.rightModuleEvaluation i).obj M :=
+  Abelian.Ext.addEquiv₀.trans (A.representableYonedaEquiv i M).toAddEquiv
+
+/-- The paper's projectives have zero higher Ext in the first argument. -/
+theorem representable_higher_ext_eq_zero (i : ℤ) (M : A.RightModule) (n : ℕ)
+    (e : Abelian.Ext.{v} (A.representable i) M (n + 1)) : e = 0 :=
+  Abelian.Ext.eq_zero_of_projective e
+
+end ASGinzburg.ZAlgebra

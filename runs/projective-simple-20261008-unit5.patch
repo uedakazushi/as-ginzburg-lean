@@ -1,0 +1,76 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 2acdbdb..d581e9c 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -10,6 +10,7 @@ import ASGinzburg.RightModuleProjectives
+ import ASGinzburg.RightModuleEnoughProjectives
+ import ASGinzburg.RightSubmodules
+ import ASGinzburg.SimpleRightModules
++import ASGinzburg.RightModuleExt
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+ import ASGinzburg.WindowPeriodicity
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index f928e2c..ca41fd0 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -145,6 +145,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.freeRightModuleProjective
+ #print axioms ASGinzburg.ZAlgebra.freeRightModuleπEpi
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEnoughProjectives
++#print axioms ASGinzburg.ZAlgebra.rightModuleProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.rightModuleProjectiveResolution_exactAt_succ
++#print axioms ASGinzburg.ZAlgebra.rightModuleHasExt
++#print axioms ASGinzburg.ZAlgebra.representableExtZeroEquiv
++#print axioms ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits
+diff --git a/ASGinzburg/RightModuleExt.lean b/ASGinzburg/RightModuleExt.lean
+new file mode 100644
+index 0000000..e33db45
+--- /dev/null
++++ b/ASGinzburg/RightModuleExt.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.RightModuleEnoughProjectives
++import Mathlib.CategoryTheory.Abelian.Projective.Resolution
++import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
++
++/-!
++# Projective resolutions and actual derived-category Ext
++
++Enough projectives gives standard, possibly infinite resolutions and Ext in
++the Hom universe. Degree-zero Ext of a representable is vertex evaluation;
++its higher Ext in the first argument vanishes. No AS Ext condition, finite
++resolution, or Hom-complex comparison is assumed here.
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Standard, possibly infinite projective resolutions of the actual right modules. -/
++noncomputable def rightModuleProjectiveResolution (M : A.RightModule) : ProjectiveResolution M :=
++  ProjectiveResolution.of M
++
++/-- Positive degrees of the constructed resolution are exact. -/
++theorem rightModuleProjectiveResolution_exactAt_succ (M : A.RightModule) (n : ℕ) :
++    (A.rightModuleProjectiveResolution M).complex.ExactAt (n + 1) :=
++  (A.rightModuleProjectiveResolution M).complex_exactAt_succ n
++
++/-- Hom-universe Ext exists by the proved supply of projectives, not by an Ext hypothesis. -/
++instance rightModuleHasExt : HasExt.{v} A.RightModule :=
++  hasExt_of_enoughProjectives A.RightModule
++
++/-- Actual degree-zero derived-category Ext agrees additively with vertex evaluation. -/
++noncomputable def representableExtZeroEquiv (i : ℤ) (M : A.RightModule) :
++    Abelian.Ext.{v} (A.representable i) M 0 ≃+ (A.rightModuleEvaluation i).obj M :=
++  Abelian.Ext.addEquiv₀.trans (A.representableYonedaEquiv i M).toAddEquiv
++
++/-- The paper's projectives have zero higher Ext in the first argument. -/
++theorem representable_higher_ext_eq_zero (i : ℤ) (M : A.RightModule) (n : ℕ)
++    (e : Abelian.Ext.{v} (A.representable i) M (n + 1)) : e = 0 :=
++  Abelian.Ext.eq_zero_of_projective e
++
++end ASGinzburg.ZAlgebra

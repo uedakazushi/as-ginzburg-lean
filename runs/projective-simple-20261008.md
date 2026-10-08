@@ -61,3 +61,17 @@ mathlibの`Simple`を証明し、radical→P_v→s_vの短完全列を得た。
 240異なる宣言・106 theoremを監査。
 差分：runs/projective-simple-20261008-unit4.patch。
 次：標準projective resolutionと実際のExtを供給し、有限最小分解の実装へ接続する。
+
+## 単位5：標準射影分解と実際のExt
+
+`ProjectiveResolution.of`から任意の右加群の標準分解と正次数の完全性を得た。
+証明済みEnoughProjectivesから`HasExt`をHomのuniverse vで導出。
+実際のderived-category Ext⁰(P_i,M)とM_iの加法的同型、
+Extⁿ⁺¹(P_i,M)=0（第1引数が射影対象）を証明。
+これはExtⁿ(s_u,P_v)の計算・AS条件ではない。全高次Extのk作用とHom複体比較は残る。
+検証：`20261008T020142Z-06538c59`、61.239278秒、全段階終了0。
+開始UTC 2026-10-08T02:01:42.423333+00:00、終了UTC 2026-10-08T02:02:43.662622+00:00。
+245異なる宣言・108 theorem・37 named instanceを監査。
+差分：runs/projective-simple-20261008-unit5.patch。
+次：一般の正次数radical、微分の像がradicalに入るminimality、(1.6)の有限四項分解、
+全Extのk線形性・実際のHom複体比較・(1.7)の次元条件。
