@@ -1,0 +1,156 @@
+{
+  "head_sha": "d9ef67297851c1dacc30dc3ba56038d3df6e73f6",
+  "workflow_run_id": 37742548753,
+  "job": {
+    "id": 113196390402,
+    "run_id": 37742548753,
+    "workflow_name": "Lean build and axiom audit",
+    "head_branch": "main",
+    "run_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/runs/37742548753",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOVALKU88AAAAaWwfYAg",
+    "head_sha": "d9ef67297851c1dacc30dc3ba56038d3df6e73f6",
+    "url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/jobs/113196390402",
+    "html_url": "https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37742548753/job/113196390402",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-10-08T07:17:45Z",
+    "started_at": "2026-10-08T07:17:47Z",
+    "completed_at": "2026-10-08T07:28:51Z",
+    "name": "verify",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-10-08T07:17:48Z",
+        "completed_at": "2026-10-08T07:17:49Z"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-10-08T07:17:49Z",
+        "completed_at": "2026-10-08T07:17:50Z"
+      },
+      {
+        "name": "Install elan and pinned Lean",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-10-08T07:17:50Z",
+        "completed_at": "2026-10-08T07:18:03Z"
+      },
+      {
+        "name": "Fresh build and exhaustive axiom audit",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-10-08T07:18:03Z",
+        "completed_at": "2026-10-08T07:28:49Z"
+      },
+      {
+        "name": "Save this run's logs, even on failure",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-10-08T07:28:49Z",
+        "completed_at": "2026-10-08T07:28:50Z"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-10-08T07:28:50Z",
+        "completed_at": "2026-10-08T07:28:50Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-10-08T07:28:50Z",
+        "completed_at": "2026-10-08T07:28:50Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/check-runs/113196390402",
+    "labels": [
+      "ubuntu-24.04"
+    ],
+    "runner_id": 1000000073,
+    "runner_name": "GitHub Actions 1000000073",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "artifacts": [
+    {
+      "id": 11535012308,
+      "name": "lean-verification-37742548753-1",
+      "size_in_bytes": 34529,
+      "url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11535012308",
+      "archive_download_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11535012308/zip",
+      "expired": false,
+      "created_at": "2026-10-08T07:28:50Z",
+      "expires_at": "2026-11-07T07:28:49Z",
+      "updated_at": "2026-10-08T07:28:50Z",
+      "digest": "sha256:560b233862198594230607ef37e2edf0ab6fc8f97f76bbe16895e4196a1c9fad",
+      "workflow_run": {
+        "id": 37742548753,
+        "repository_id": 1409469011,
+        "head_repository_id": 1409469011,
+        "head_branch": "main",
+        "head_sha": "d9ef67297851c1dacc30dc3ba56038d3df6e73f6"
+      }
+    }
+  ],
+  "log_file": "verification/total_algebra_unit1_github_ci.log",
+  "verification": {
+    "run_id": "20261008T071803Z-485e561b",
+    "exit_code": 0,
+    "started_at_utc": "2026-10-08T07:18:03.611040+00:00",
+    "ended_at_utc": "2026-10-08T07:28:49.294266+00:00",
+    "elapsed_seconds": 645.683223858,
+    "stage_results": [
+      {
+        "stage": "regression_tests",
+        "exit_code": 0,
+        "elapsed_seconds": 1.444415
+      },
+      {
+        "stage": "source_audit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.422233
+      },
+      {
+        "stage": "cache",
+        "exit_code": 0,
+        "elapsed_seconds": 88.332937
+      },
+      {
+        "stage": "environment",
+        "exit_code": 0,
+        "elapsed_seconds": 0.542967
+      },
+      {
+        "stage": "build",
+        "exit_code": 0,
+        "elapsed_seconds": 384.939893
+      },
+      {
+        "stage": "axioms",
+        "exit_code": 0,
+        "elapsed_seconds": 169.635651
+      },
+      {
+        "stage": "report",
+        "exit_code": 0,
+        "elapsed_seconds": 0.187102
+      }
+    ],
+    "declaration_count": 646,
+    "theorem_count": 279
+  }
+}

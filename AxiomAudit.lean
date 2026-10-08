@@ -591,6 +591,17 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraEntry
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraEntry_representation
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation_injective
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_id_mul
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul_id
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit_mul_component
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul_localUnit
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit_idempotent
+#print axioms ASGinzburg.ZAlgebra.totalAlgebra_eq_sum_components
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraSupport
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit_mul_eq_self
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit_right_eq_self
+#print axioms ASGinzburg.ZAlgebra.totalAlgebra_common_local_unit
 #print axioms ASGinzburg.finiteTotalProjection
 #print axioms ASGinzburg.finiteTotalProjection_apply
 #print axioms ASGinzburg.finiteTotalProjection_apply_component
