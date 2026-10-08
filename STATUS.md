@@ -1,12 +1,12 @@
 # 現在の状況
 
-有限AS分解から全次数Extと小さい直和の交換を証明し、全representableの直和へのExtを成分Extの総空間と比較しました。
-左右の総空間関手の忠実性・exactnessの保存と反映、直和上の行列作用、Ext交換同型の全A.Hom成分の左作用への適合性も証明済みです。
+有限AS分解から全次数Extと小さい直和の交換、総空間比較、Ext交換同型の全成分左作用への適合性を証明しました。
+左右の総空間関手の忠実性とexactnessに加え、任意の有限個の元が恒等成分作用の有限和で固定されることを証明済みです。
 ASRegularから次数3集中と正次数作用の消滅を導きました。新しいAS仮定はありません。
-次は有限台非単位的総代数・局所単位付き加群とGr(A)の圏同値・Ext保存です。
+次は有限台非単位的総代数・総加群構造、成分逆関手とGr(A)圏同値・Ext保存です。
 有限長双対性・周期性・定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T060332Z-63c52a4c：59数学モジュール・620異なる宣言・260 theorem、全段階終了0。
-単位1〜7の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+最新ローカル検証 20261008T062041Z-c4ef97ab：60数学モジュール・636異なる宣言・274 theorem、全段階終了0。
+単位1〜8の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -18,23 +18,23 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。原論文のGr(A)比較、周期性と主定理は未証明です。
 
-開始時の51数学モジュールに今回8モジュールを追加。7証明単位を個別Leanと全体ビルド・公理監査で検査してmainへ保存。
+開始時の51数学モジュールに今回9モジュールを追加。8証明単位を個別Leanと全体ビルド・公理監査で検査してmainへ保存。
 初期14モジュール・入力PDF・checkpoints/・recovery/は無変更。
 
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 620異なる名前、全明示的宣言・112 named instanceを含む、終了0 |
-| theorem | 260、全件が監査対象 |
+| 個別公理監査 | 636異なる名前、全明示的宣言・112 named instanceを含む、終了0 |
+| theorem | 274、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T060332Z-63c52a4c`：全段階終了0、326.651246818秒。
-JST 2026-10-08T15:03:32.220166+09:00 → 2026-10-08T15:08:58.871422+09:00。
-UTC 2026-10-08T06:03:32.220166+00:00 → 2026-10-08T06:08:58.871422+00:00。
+最新ローカル検証 `20261008T062041Z-c4ef97ab`：全段階終了0、320.816787115秒。
+JST 2026-10-08T15:20:41.062310+09:00 → 2026-10-08T15:26:01.879105+09:00。
+UTC 2026-10-08T06:20:41.062310+00:00 → 2026-10-08T06:26:01.879105+00:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -72,6 +72,7 @@ UTC 2026-10-08T06:03:32.220166+00:00 → 2026-10-08T06:08:58.871422+00:00。
 | exactな余極限と核・余核の交換 | HomologicalColimitClosure、RightModuleHomKernel | 核・余核の交換の閉性、小さい直和のexactness、Homの自然な核表示 | 特定の代数で有限AS分解の存在 |
 | 全次数Extと直和の交換 | ASResolutionExtColimits | 有限AS分解だけからExt(s_w,-,n)のexactな余極限・小さい直和保存、包含射への適合性 | Gr(A)との圏同値による移送 |
 | 総空間・直和上の実際の左作用 | ASDualityRegularCoproduct、TotalModuleSpaces、RegularCoproductActions | Ext(s_w,⊕P_i,n)の成分総空間比較、ASから次数3集中、左右総空間関手の忠実性とexactness、実際の行列作用・積・局所単位・Ext交換の成分左作用適合性 | 有限台非単位的総代数と局所単位付き加群、逆関手・圏同値・Ext保存 |
+| 総空間の有限局所単位 | TotalModuleLocalUnits | 具体的有限射影の冪等性、左右の恒等成分作用との一致、任意の有限個の元の同時固定、右成分作用の包含への適合性 | 総代数・加群構造を束ね、成分逆関手・Gr(A)圏同値・Ext保存 |
 
 ## 主結果の状態
 
@@ -117,8 +118,8 @@ CLI git pushの認証エラー(終了128)後、接続済みGitHub APIへ切り�
 以前のradical-resolutionタスクの最終数学コミットc314180のmain CI 37722129359はsuccess、12ファイルの当該実行artifact保存済み。
 CI実行の時刻と終了0はverification/radical_resolution_github_ci_evidence.json・CI logに保存。
 
-現在の優先課題は総非単位的代数・局所単位付き加群の構成、Gr(A)との圏同値とExt保存。
-今回7単位の対応・仮定・利用先はdocs/ext_coproduct_exchange.md。
+現在の優先課題は総非単位的代数・総加群構造の構成、Gr(A)との圏同値とExt保存。
+今回8単位の対応・仮定・利用先はdocs/ext_coproduct_exchange.md。
 差分・検査・実測時刻・main保存先はRECENT_RUN.mdとruns/ext-sums-20261008.md。
 初期14モジュール、開始時51モジュール、PDFと歴史的な487ファイルの保存確認はverification/ext_sums_preservation.json。
 前回の数値的同値・左双対の証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI logに保持。

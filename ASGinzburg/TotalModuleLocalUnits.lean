@@ -1,0 +1,177 @@
+import ASGinzburg.RegularCoproductActions
+
+/-! Finite sums of actual component identities fix every finite family of total-space
+elements. This does not yet bundle the non-unital total algebra or prove a Gr(A) equivalence. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k]
+
+noncomputable def finiteTotalProjection {I : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (s : Finset I) : (⨁ i, V i) →ₗ[k] (⨁ i, V i) :=
+  ∑ i ∈ s, (DirectSum.lof k I V i).comp (DirectSum.component k I V i)
+
+theorem finiteTotalProjection_apply {I : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (s : Finset I) (x : ⨁ i, V i) :
+    finiteTotalProjection (k := k) V s x = ∑ i ∈ s, DFinsupp.single i (x i) := by
+  simp only [finiteTotalProjection, LinearMap.sum_apply, LinearMap.comp_apply]
+  rfl
+
+
+theorem finiteTotalProjection_apply_component {I : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (s : Finset I) (x : ⨁ i, V i) (j : I) :
+    (finiteTotalProjection (k := k) V s x) j = if j ∈ s then x j else 0 := by
+  rw [finiteTotalProjection_apply, DFinsupp.finset_sum_apply]
+  by_cases hj : j ∈ s
+  · rw [if_pos hj, Finset.sum_eq_single j]
+    · exact DFinsupp.single_eq_same
+    · intro i _ hij
+      exact DFinsupp.single_eq_of_ne hij.symm
+    · exact fun h => (h hj).elim
+  · rw [if_neg hj]
+    apply Finset.sum_eq_zero
+    intro i hi
+    apply DFinsupp.single_eq_of_ne
+    intro h
+    exact hj (h ▸ hi)
+
+theorem finiteTotalProjection_idempotent {I : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (s : Finset I) :
+    (finiteTotalProjection (k := k) V s).comp (finiteTotalProjection (k := k) V s) =
+      finiteTotalProjection (k := k) V s := by
+  apply LinearMap.ext
+  intro x
+  apply DFinsupp.ext
+  intro j
+  simp only [LinearMap.comp_apply, finiteTotalProjection_apply_component]
+  split_ifs <;> rfl
+
+theorem finiteTotalProjection_support {I : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (x : ⨁ i, V i) :
+    finiteTotalProjection (k := k) V (by classical exact x.support) x = x := by
+  classical
+  rw [finiteTotalProjection_apply]
+  exact DFinsupp.sum_single
+
+
+theorem finiteTotalProjection_eq_self_of_support_subset {I : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (s : Finset I) (x : ⨁ i, V i)
+    (h : by classical exact x.support ⊆ s) :
+    finiteTotalProjection (k := k) V s x = x := by
+  classical
+  rw [finiteTotalProjection_apply]
+  calc
+    ∑ i ∈ s, DFinsupp.single i (x i) =
+        ∑ i ∈ x.support, DFinsupp.single i (x i) := by
+      symm
+      apply Finset.sum_subset h
+      intro i _ hi
+      simp [DFinsupp.notMem_support_iff.mp hi]
+    _ = x := DFinsupp.sum_single
+
+theorem finiteTotalProjection_common_local_unit {I J : Type*} [DecidableEq I]
+    (V : I → Type v) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
+    (t : Finset J) (x : J → ⨁ i, V i) :
+    ∃ s : Finset I, ∀ j ∈ t, finiteTotalProjection (k := k) V s (x j) = x j := by
+  classical
+  refine ⟨t.biUnion (fun j => (x j).support), ?_⟩
+  intro j hj
+  apply finiteTotalProjection_eq_self_of_support_subset
+  intro i hi
+  exact Finset.mem_biUnion.mpr ⟨j, hj, hi⟩
+
+namespace ZAlgebra
+variable (A : ZAlgebra.{u,v} k)
+
+theorem leftModuleTotalAction_id (M : A.LeftModule) (i : ℤ) :
+    A.leftModuleTotalAction M (A.id i) =
+      (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i).comp
+        (DirectSum.component k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i) := by
+  have h := M.obj.map_id (⟨i⟩ : A.Obj)
+  change M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨i⟩ from A.id i) = 𝟙 _ at h
+  dsimp [leftModuleTotalAction]
+  rw [h]
+  rfl
+
+theorem leftModuleTotalSpace_local_units (M : A.LeftModule) (x : A.leftModuleTotalSpace M) :
+    ∃ s : Finset ℤ, (∑ i ∈ s, A.leftModuleTotalAction M (A.id i)) x = x := by
+  classical
+  refine ⟨x.support, ?_⟩
+  simp_rw [leftModuleTotalAction_id]
+  exact finiteTotalProjection_support (k := k) _ x
+
+noncomputable def rightModuleTotalAction (M : A.RightModule) {i j : ℤ} (a : A.Hom i j) :
+    A.rightModuleTotalSpace M →ₗ[k] A.rightModuleTotalSpace M :=
+  (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i).comp
+    (((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op).hom).comp
+      (DirectSum.component k ℤ (fun l => (A.rightModuleEvaluation l).obj M) j))
+
+theorem rightModuleTotalAction_id (M : A.RightModule) (i : ℤ) :
+    A.rightModuleTotalAction M (A.id i) =
+      (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i).comp
+        (DirectSum.component k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i) := by
+  have h := M.obj.map_id (op (⟨i⟩ : A.Obj))
+  change M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨i⟩ from A.id i).op = 𝟙 _ at h
+  dsimp [rightModuleTotalAction]
+  rw [h]
+  rfl
+
+theorem rightModuleTotalSpace_local_units (M : A.RightModule) (x : A.rightModuleTotalSpace M) :
+    ∃ s : Finset ℤ, (∑ i ∈ s, A.rightModuleTotalAction M (A.id i)) x = x := by
+  classical
+  refine ⟨x.support, ?_⟩
+  simp_rw [rightModuleTotalAction_id]
+  exact finiteTotalProjection_support (k := k) _ x
+
+
+theorem leftModuleTotalSpace_common_local_unit {J : Type*} (M : A.LeftModule)
+    (t : Finset J) (x : J → A.leftModuleTotalSpace M) :
+    ∃ s : Finset ℤ, ∀ j ∈ t,
+      (∑ i ∈ s, A.leftModuleTotalAction M (A.id i)) (x j) = x j := by
+  obtain ⟨s, hs⟩ := finiteTotalProjection_common_local_unit (k := k)
+    (fun l => (A.leftModuleEvaluation l).obj M) t x
+  refine ⟨s, ?_⟩
+  intro j hj
+  simp_rw [leftModuleTotalAction_id]
+  exact hs j hj
+
+theorem rightModuleTotalSpace_common_local_unit {J : Type*} (M : A.RightModule)
+    (t : Finset J) (x : J → A.rightModuleTotalSpace M) :
+    ∃ s : Finset ℤ, ∀ j ∈ t,
+      (∑ i ∈ s, A.rightModuleTotalAction M (A.id i)) (x j) = x j := by
+  obtain ⟨s, hs⟩ := finiteTotalProjection_common_local_unit (k := k)
+    (fun l => (A.rightModuleEvaluation l).obj M) t x
+  refine ⟨s, ?_⟩
+  intro j hj
+  simp_rw [rightModuleTotalAction_id]
+  exact hs j hj
+
+@[simp] theorem rightModuleTotalAction_lof (M : A.RightModule) {i j : ℤ} (a : A.Hom i j)
+    (x : (A.rightModuleEvaluation j).obj M) :
+    A.rightModuleTotalAction M a
+        (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) j x) =
+      DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i
+        ((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op).hom x) := by
+  change DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i
+    ((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op).hom
+      ((DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) j x) j)) = _
+  rw [DirectSum.lof_apply]
+
+@[simp] theorem rightModuleTotalAction_lof_off (M : A.RightModule) {i j : ℤ} (a : A.Hom i j)
+    (l : ℤ) (hlj : l ≠ j) (x : (A.rightModuleEvaluation l).obj M) :
+    A.rightModuleTotalAction M a
+      (DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj M) l x) = 0 := by
+  change DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj M) i
+    ((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op).hom
+      ((DFinsupp.single l x : A.rightModuleTotalSpace M) j)) = 0
+  rw [DFinsupp.single_eq_of_ne hlj.symm, map_zero, map_zero]
+
+end ZAlgebra
+end ASGinzburg

@@ -1,3 +1,4 @@
+import ASGinzburg.TotalModuleLocalUnits
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct
