@@ -1,3 +1,4 @@
+import ASGinzburg.SimpleLeftModules
 import ASGinzburg.LeftModules
 import ASGinzburg.RightModuleExtLeftAction
 import ASGinzburg.ASDualityEquivalence

@@ -1,0 +1,159 @@
+import ASGinzburg.LeftModuleAbelian
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Algebra.Homology.ShortComplex.ShortExact
+import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
+
+/-!
+# Componentwise homology and exactness of concrete left modules
+
+Evaluation preserves kernels, cokernels and homology. Exactness and
+mono/epi are detected on the actual vector-space components.
+-/
+
+namespace ASGinzburg.ZAlgebra
+
+open CategoryTheory CategoryTheory.Limits Opposite
+
+universe u v
+
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- Take the vertex component `M_i` of a linear left module. -/
+def leftModuleEvaluation (i : ℤ) : A.LeftModule ⥤ ModuleCat.{v} k :=
+  A.leftModuleProperty.ι ⋙ (evaluation A.Obj (ModuleCat.{v} k)).obj (⟨i⟩)
+
+instance leftModuleEvaluationAdditive (i : ℤ) : (A.leftModuleEvaluation i).Additive := by
+  dsimp [leftModuleEvaluation]
+  infer_instance
+
+noncomputable instance leftModuleEvaluationPreservesFiniteLimits (i : ℤ) :
+    PreservesFiniteLimits (A.leftModuleEvaluation i) := by
+  constructor
+  intro J _ _
+  dsimp [leftModuleEvaluation]
+  infer_instance
+
+noncomputable instance leftModuleEvaluationPreservesFiniteColimits (i : ℤ) :
+    PreservesFiniteColimits (A.leftModuleEvaluation i) := by
+  constructor
+  intro J _ _
+  dsimp [leftModuleEvaluation]
+  infer_instance
+
+/-- The ambient inclusion preserves the actual mathlib homology construction. -/
+noncomputable instance leftModuleInclusionPreservesHomology :
+    A.leftModuleProperty.ι.PreservesHomology := by infer_instance
+
+/-- Vertex components preserve the actual mathlib homology construction. -/
+noncomputable instance leftModuleEvaluationPreservesHomology (i : ℤ) :
+    (A.leftModuleEvaluation i).PreservesHomology := by infer_instance
+
+noncomputable def leftModuleKernelObjIso {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
+    (A.leftModuleEvaluation i).obj (kernel f) ≅
+      kernel ((A.leftModuleEvaluation i).map f) :=
+  PreservesKernel.iso (A.leftModuleEvaluation i) f
+
+noncomputable def leftModuleCokernelObjIso {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
+    (A.leftModuleEvaluation i).obj (cokernel f) ≅
+      cokernel ((A.leftModuleEvaluation i).map f) :=
+  PreservesCokernel.iso (A.leftModuleEvaluation i) f
+
+noncomputable def leftModuleHomologyObjIso (S : ShortComplex A.LeftModule) (i : ℤ) :
+    (S.map (A.leftModuleEvaluation i)).homology ≅
+      (A.leftModuleEvaluation i).obj S.homology :=
+  S.mapHomologyIso (A.leftModuleEvaluation i)
+
+/-- Exactness agrees with exactness after inclusion into the ambient presheaf category. -/
+theorem leftModule_exact_iff_inclusion (S : ShortComplex A.LeftModule) :
+    S.Exact ↔ (S.map A.leftModuleProperty.ι).Exact :=
+  (S.exact_map_iff_of_faithful A.leftModuleProperty.ι).symm
+
+@[simp]
+theorem leftModuleKernelObjIso_inv_ι {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
+    (A.leftModuleKernelObjIso f i).inv ≫ (A.leftModuleEvaluation i).map (kernel.ι f) =
+      kernel.ι ((A.leftModuleEvaluation i).map f) :=
+  PreservesKernel.iso_inv_ι (A.leftModuleEvaluation i) f
+
+@[simp]
+theorem leftModuleCokernelObjIso_π_hom {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
+    (A.leftModuleEvaluation i).map (cokernel.π f) ≫ (A.leftModuleCokernelObjIso f i).hom =
+      cokernel.π ((A.leftModuleEvaluation i).map f) :=
+  PreservesCokernel.π_iso_hom (A.leftModuleEvaluation i) f
+
+/-- Monomorphisms are exactly the componentwise monomorphisms. -/
+theorem leftModule_mono_iff {M N : A.LeftModule} (f : M ⟶ N) :
+    Mono f ↔ ∀ i : ℤ, Mono ((A.leftModuleEvaluation i).map f) := by
+  constructor
+  · intro h i
+    letI := h
+    infer_instance
+  · intro h
+    apply A.leftModuleProperty.ι.mono_of_mono_map
+    haveI : ∀ X, Mono ((A.leftModuleProperty.ι.map f).app X) := fun X => by
+      simpa [leftModuleEvaluation] using h X.index
+    exact NatTrans.mono_of_mono_app _
+
+/-- Epimorphisms are exactly the componentwise epimorphisms. -/
+theorem leftModule_epi_iff {M N : A.LeftModule} (f : M ⟶ N) :
+    Epi f ↔ ∀ i : ℤ, Epi ((A.leftModuleEvaluation i).map f) := by
+  constructor
+  · intro h i
+    letI := h
+    infer_instance
+  · intro h
+    apply A.leftModuleProperty.ι.epi_of_epi_map
+    haveI : ∀ X, Epi ((A.leftModuleProperty.ι.map f).app X) := fun X => by
+      simpa [leftModuleEvaluation] using h X.index
+    exact NatTrans.epi_of_epi_app _
+
+/-- This is the injectivity test needed when constructing submodules. -/
+theorem leftModule_mono_iff_injective {M N : A.LeftModule} (f : M ⟶ N) :
+    Mono f ↔ ∀ i : ℤ, Function.Injective ((A.leftModuleEvaluation i).map f) := by
+  rw [A.leftModule_mono_iff]
+  exact forall_congr' fun i => ModuleCat.mono_iff_injective _
+
+/-- This is the surjectivity test needed for projective lifting arguments. -/
+theorem leftModule_epi_iff_surjective {M N : A.LeftModule} (f : M ⟶ N) :
+    Epi f ↔ ∀ i : ℤ, Function.Surjective ((A.leftModuleEvaluation i).map f) := by
+  rw [A.leftModule_epi_iff]
+  exact forall_congr' fun i => ModuleCat.epi_iff_surjective _
+
+/-- Exactness of left modules is detected componentwise, using mathlib homology. -/
+theorem leftModule_exact_iff (S : ShortComplex A.LeftModule) :
+    S.Exact ↔ ∀ i : ℤ, (S.map (A.leftModuleEvaluation i)).Exact := by
+  constructor
+  · intro h i
+    exact h.map (A.leftModuleEvaluation i)
+  · intro h
+    rw [ShortComplex.exact_iff_isZero_homology, IsZero.iff_id_eq_zero]
+    apply A.leftModuleProperty.ι.map_injective
+    apply NatTrans.ext
+    funext X
+    let i := X.index
+    have hz : IsZero ((A.leftModuleEvaluation i).obj S.homology) :=
+      IsZero.of_iso ((ShortComplex.exact_iff_isZero_homology _).mp (h i))
+        (A.leftModuleHomologyObjIso S i).symm
+    have hid := hz.eq_of_src (𝟙 ((A.leftModuleEvaluation i).obj S.homology)) 0
+    simpa [leftModuleEvaluation, i] using hid
+
+/-- The componentwise criterion is equality of the actual linear-map image and kernel. -/
+theorem leftModule_exact_iff_range_eq_ker (S : ShortComplex A.LeftModule) :
+    S.Exact ↔ ∀ i : ℤ,
+      LinearMap.range ((A.leftModuleEvaluation i).map S.f).hom =
+        LinearMap.ker ((A.leftModuleEvaluation i).map S.g).hom := by
+  rw [A.leftModule_exact_iff]
+  exact forall_congr' fun i => (S.map (A.leftModuleEvaluation i)).moduleCat_exact_iff_range_eq_ker
+
+/-- Short exact sequences of left modules are precisely the vertexwise short exact sequences. -/
+theorem leftModule_shortExact_iff (S : ShortComplex A.LeftModule) :
+    S.ShortExact ↔ ∀ i : ℤ, (S.map (A.leftModuleEvaluation i)).ShortExact := by
+  constructor
+  · intro h i
+    exact h.map_of_exact (A.leftModuleEvaluation i)
+  · intro h
+    exact
+      { exact := (A.leftModule_exact_iff S).mpr (fun i => (h i).exact)
+        mono_f := (A.leftModule_mono_iff S.f).mpr (fun i => (h i).mono_f)
+        epi_g := (A.leftModule_epi_iff S.g).mpr (fun i => (h i).epi_g) }
+
+end ASGinzburg.ZAlgebra

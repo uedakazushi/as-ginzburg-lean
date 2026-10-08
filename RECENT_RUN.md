@@ -76,3 +76,20 @@ P_iのA-dualと左表現可能加群A e_iの左作用を保つ同型を構成し
 UTC 2026-10-08T03:52:41.184345+00:00 → 2026-10-08T03:55:43.119256+00:00。
 408異なる宣言・194 theorem・59 named instance。
 差分：runs/as-finiteness-20261008-unit4.patch。
+
+単位4のmain保存：e533764c887cfe32366fae3e1b3f7e47f904ccc7。中断後、リモートHEADを再照合して保存。
+
+## 単位5：左加群のAbelian構造と原論文の左単純商
+
+共変な線形左加群の極限・余極限の閉性、Abelian構造、成分ごとのkernel/cokernel/homologyを証明した。
+mono/epi、exactness、短完全列を成分で判定できる。
+左作用で閉じた具体的LeftSubmoduleと実際の余核商を構成した。
+A e_iの正次数部分をpositiveLeftActionSpanと同定し、商simpleLeftModuleをA e_i/A_{>0}e_iとして構成した。
+対角成分の次元1、他の成分零、Simple、商の短完全列を証明した。
+利用先：(1.12)の左加群双対性と左射影分解、二重双対性。
+次：実際Extの左加群をこの商に同定する。直和へのExtの交換はまだ別の義務。
+
+検証：`20261008T035908Z-6c5b631c`、214.299365秒、全段階終了0。
+UTC 2026-10-08T03:59:08.990186+00:00 → 2026-10-08T04:02:43.289558+00:00。
+464異なる宣言・213 theorem・80 named instance。
+差分：runs/as-finiteness-20261008-unit5.patch。

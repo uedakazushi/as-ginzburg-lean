@@ -1,0 +1,634 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 6301bad..d75ee13 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -1,3 +1,4 @@
++import ASGinzburg.SimpleLeftModules
+ import ASGinzburg.LeftModules
+ import ASGinzburg.RightModuleExtLeftAction
+ import ASGinzburg.ASDualityEquivalence
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index fe86d68..ab0451d 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -191,6 +191,36 @@ import ASGinzburg
+ #print axioms ASGinzburg.quadraticHilbert_third_difference
+ #print axioms ASGinzburg.quadraticHilbert_unique
+ #print axioms ASGinzburg.quadraticHilbert_polynomial_bound
++#print axioms ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderLimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderColimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleHasLimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.leftModuleHasColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.leftModuleInclusionCreatesLimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.leftModuleInclusionCreatesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.leftModuleHasFiniteProducts
++#print axioms ASGinzburg.ZAlgebra.leftModuleCoimageImageComparisonIsIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleAbelian
++#print axioms ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteLimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteColimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleEvaluation
++#print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationAdditive
++#print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteLimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteColimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleInclusionPreservesHomology
++#print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesHomology
++#print axioms ASGinzburg.ZAlgebra.leftModuleKernelObjIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleCokernelObjIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleHomologyObjIso
++#print axioms ASGinzburg.ZAlgebra.leftModule_exact_iff_inclusion
++#print axioms ASGinzburg.ZAlgebra.leftModuleKernelObjIso_inv_ι
++#print axioms ASGinzburg.ZAlgebra.leftModuleCokernelObjIso_π_hom
++#print axioms ASGinzburg.ZAlgebra.leftModule_mono_iff
++#print axioms ASGinzburg.ZAlgebra.leftModule_epi_iff
++#print axioms ASGinzburg.ZAlgebra.leftModule_mono_iff_injective
++#print axioms ASGinzburg.ZAlgebra.leftModule_epi_iff_surjective
++#print axioms ASGinzburg.ZAlgebra.leftModule_exact_iff
++#print axioms ASGinzburg.ZAlgebra.leftModule_exact_iff_range_eq_ker
++#print axioms ASGinzburg.ZAlgebra.leftModule_shortExact_iff
+ #print axioms ASGinzburg.ZAlgebra.leftModuleProperty
+ #print axioms ASGinzburg.ZAlgebra.LeftModule
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableLinear
+@@ -205,6 +235,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleADualFunctor
+ #print axioms ASGinzburg.ZAlgebra.representableADualComponentEquiv
+ #print axioms ASGinzburg.ZAlgebra.representableADualIso
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.presheaf
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.presheafAdditive
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.presheafLinear
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.object
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.inclusion
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.inclusionMono
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotient
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientπ
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientπEpi
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortComplex
++#print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortExact
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+@@ -350,6 +392,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.quotientπEpi
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.quotientShortComplex
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.quotientShortExact
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableRadical
++#print axioms ASGinzburg.ZAlgebra.positiveLeftActionSpan
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableRadical_eq_positiveLeftActionSpan
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModule
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModuleπ
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModuleπEpi
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableRadical_diagonal_zero
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModuleDiagonalIso
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModule_off_diagonal
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModule_diagonal_finrank
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModuleDiagonalSimple
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModule_hom_eq_zero_iff
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModuleSimple
++#print axioms ASGinzburg.ZAlgebra.simpleLeftModule_shortExact
+ #print axioms ASGinzburg.ZAlgebra.representableRadical
+ #print axioms ASGinzburg.ZAlgebra.positiveActionSpan
+ #print axioms ASGinzburg.ZAlgebra.representableRadical_eq_positiveActionSpan
+diff --git a/ASGinzburg/LeftModuleAbelian.lean b/ASGinzburg/LeftModuleAbelian.lean
+new file mode 100644
+index 0000000..8b80d80
+--- /dev/null
++++ b/ASGinzburg/LeftModuleAbelian.lean
+@@ -0,0 +1,126 @@
++import ASGinzburg.LeftModules
++import Mathlib.Algebra.Category.ModuleCat.Abelian
++import Mathlib.CategoryTheory.Abelian.FunctorCategory
++import Mathlib.CategoryTheory.Limits.FullSubcategory
++import Mathlib.CategoryTheory.Limits.Preserves.Shapes.AbelianImages
++
++/-!
++# Abelian structure of concrete linear left modules
++
++Pointwise limits and colimits preserve additive k-linear covariance.
++The full-subcategory inclusion creates them, so the existing left modules
++are Abelian and support actual kernels, quotients, and homology.
++-/
++
++namespace ASGinzburg.ZAlgebra
++
++open CategoryTheory CategoryTheory.Limits
++
++universe u v w w'
++
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Any pointwise limit of linear left modules is again additive and linear. -/
++theorem leftModuleProperty_closedUnderLimits
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    ClosedUnderLimitsOfShape J A.leftModuleProperty := by
++  intro F c hc hF
++  constructor
++  · constructor
++    intro X Y f g
++    apply (isLimitOfPreserves ((evaluation A.Obj (ModuleCat.{v} k)).obj Y) hc).hom_ext
++    intro j
++    letI := (hF j).1
++    change c.pt.map (f + g) ≫ (c.π.app j).app Y =
++      (c.pt.map f + c.pt.map g) ≫ (c.π.app j).app Y
++    simp only [Preadditive.add_comp, NatTrans.naturality, Functor.map_add,
++      Preadditive.comp_add]
++  · constructor
++    intro X Y f r
++    apply (isLimitOfPreserves ((evaluation A.Obj (ModuleCat.{v} k)).obj Y) hc).hom_ext
++    intro j
++    letI := (hF j).2
++    change c.pt.map (r • f) ≫ (c.π.app j).app Y =
++      (r • c.pt.map f) ≫ (c.π.app j).app Y
++    simp only [Linear.smul_comp, NatTrans.naturality, Functor.map_smul,
++      Linear.comp_smul]
++
++/-- Any pointwise colimit of linear left modules is again additive and linear. -/
++theorem leftModuleProperty_closedUnderColimits
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    ClosedUnderColimitsOfShape J A.leftModuleProperty := by
++  intro F c hc hF
++  constructor
++  · constructor
++    intro X Y f g
++    apply (isColimitOfPreserves ((evaluation A.Obj (ModuleCat.{v} k)).obj X) hc).hom_ext
++    intro j
++    letI := (hF j).1
++    change (c.ι.app j).app X ≫ c.pt.map (f + g) =
++      (c.ι.app j).app X ≫ (c.pt.map f + c.pt.map g)
++    erw [← (c.ι.app j).naturality (f + g), Functor.map_add, Preadditive.add_comp,
++      (c.ι.app j).naturality f, (c.ι.app j).naturality g, Preadditive.comp_add]
++    rfl
++  · constructor
++    intro X Y f r
++    apply (isColimitOfPreserves ((evaluation A.Obj (ModuleCat.{v} k)).obj X) hc).hom_ext
++    intro j
++    letI := (hF j).2
++    change (c.ι.app j).app X ≫ c.pt.map (r • f) =
++      (c.ι.app j).app X ≫ (r • c.pt.map f)
++    erw [← (c.ι.app j).naturality (r • f), Functor.map_smul, Linear.smul_comp,
++      (c.ι.app j).naturality f, Linear.comp_smul]
++    rfl
++
++/-- Limits are inherited without leaving the category of linear left modules. -/
++noncomputable instance leftModuleHasLimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    HasLimitsOfShape J A.LeftModule :=
++  hasLimitsOfShape_of_closedUnderLimits (A.leftModuleProperty_closedUnderLimits J)
++
++/-- Colimits are inherited without leaving the category of linear left modules. -/
++noncomputable instance leftModuleHasColimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    HasColimitsOfShape J A.LeftModule :=
++  hasColimitsOfShape_of_closedUnderColimits (A.leftModuleProperty_closedUnderColimits J)
++
++/-- The full-subcategory inclusion creates limits in the ambient presheaf category. -/
++noncomputable instance leftModuleInclusionCreatesLimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    CreatesLimitsOfShape J A.leftModuleProperty.ι :=
++  createsLimitsOfShapeFullSubcategoryInclusion (A.leftModuleProperty_closedUnderLimits J)
++
++/-- The full-subcategory inclusion creates colimits in the ambient presheaf category. -/
++noncomputable instance leftModuleInclusionCreatesColimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    CreatesColimitsOfShape J A.leftModuleProperty.ι :=
++  createsColimitsOfShapeFullSubcategoryInclusion (A.leftModuleProperty_closedUnderColimits J)
++
++/-- In particular, left modules have the finite products needed for the Abelian criterion. -/
++noncomputable instance leftModuleHasFiniteProducts : HasFiniteProducts A.LeftModule where
++  out _ := inferInstance
++
++/-- Coimages and images agree: the inclusion preserves both constructions and reflects isos. -/
++noncomputable instance leftModuleCoimageImageComparisonIsIso
++    {M N : A.LeftModule} (f : M ⟶ N) : IsIso (Abelian.coimageImageComparison f) := by
++  haveI : IsIso (A.leftModuleProperty.ι.map (Abelian.coimageImageComparison f)) := by
++    rw [Arrow.isIso_iff_isIso_of_isIso
++      (Abelian.PreservesCoimageImageComparison.iso A.leftModuleProperty.ι f).hom]
++    infer_instance
++  exact isIso_of_reflects_iso _ A.leftModuleProperty.ι
++
++/-- The existing category of additive, linear left presheaves is Abelian. -/
++noncomputable instance leftModuleAbelian : Abelian A.LeftModule :=
++  Abelian.ofCoimageImageComparisonIsIso
++
++/-- The inclusion preserves finite limits, in particular kernels. -/
++noncomputable instance leftModuleInclusionPreservesFiniteLimits :
++    PreservesFiniteLimits A.leftModuleProperty.ι where
++  preservesFiniteLimits _ := inferInstance
++
++/-- The inclusion preserves finite colimits, in particular cokernels. -/
++noncomputable instance leftModuleInclusionPreservesFiniteColimits :
++    PreservesFiniteColimits A.leftModuleProperty.ι where
++  preservesFiniteColimits _ := inferInstance
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LeftModuleHomology.lean b/ASGinzburg/LeftModuleHomology.lean
+new file mode 100644
+index 0000000..1d04096
+--- /dev/null
++++ b/ASGinzburg/LeftModuleHomology.lean
+@@ -0,0 +1,159 @@
++import ASGinzburg.LeftModuleAbelian
++import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
++import Mathlib.Algebra.Homology.ShortComplex.ShortExact
++import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
++
++/-!
++# Componentwise homology and exactness of concrete left modules
++
++Evaluation preserves kernels, cokernels and homology. Exactness and
++mono/epi are detected on the actual vector-space components.
++-/
++
++namespace ASGinzburg.ZAlgebra
++
++open CategoryTheory CategoryTheory.Limits Opposite
++
++universe u v
++
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Take the vertex component `M_i` of a linear left module. -/
++def leftModuleEvaluation (i : ℤ) : A.LeftModule ⥤ ModuleCat.{v} k :=
++  A.leftModuleProperty.ι ⋙ (evaluation A.Obj (ModuleCat.{v} k)).obj (⟨i⟩)
++
++instance leftModuleEvaluationAdditive (i : ℤ) : (A.leftModuleEvaluation i).Additive := by
++  dsimp [leftModuleEvaluation]
++  infer_instance
++
++noncomputable instance leftModuleEvaluationPreservesFiniteLimits (i : ℤ) :
++    PreservesFiniteLimits (A.leftModuleEvaluation i) := by
++  constructor
++  intro J _ _
++  dsimp [leftModuleEvaluation]
++  infer_instance
++
++noncomputable instance leftModuleEvaluationPreservesFiniteColimits (i : ℤ) :
++    PreservesFiniteColimits (A.leftModuleEvaluation i) := by
++  constructor
++  intro J _ _
++  dsimp [leftModuleEvaluation]
++  infer_instance
++
++/-- The ambient inclusion preserves the actual mathlib homology construction. -/
++noncomputable instance leftModuleInclusionPreservesHomology :
++    A.leftModuleProperty.ι.PreservesHomology := by infer_instance
++
++/-- Vertex components preserve the actual mathlib homology construction. -/
++noncomputable instance leftModuleEvaluationPreservesHomology (i : ℤ) :
++    (A.leftModuleEvaluation i).PreservesHomology := by infer_instance
++
++noncomputable def leftModuleKernelObjIso {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
++    (A.leftModuleEvaluation i).obj (kernel f) ≅
++      kernel ((A.leftModuleEvaluation i).map f) :=
++  PreservesKernel.iso (A.leftModuleEvaluation i) f
++
++noncomputable def leftModuleCokernelObjIso {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
++    (A.leftModuleEvaluation i).obj (cokernel f) ≅
++      cokernel ((A.leftModuleEvaluation i).map f) :=
++  PreservesCokernel.iso (A.leftModuleEvaluation i) f
++
++noncomputable def leftModuleHomologyObjIso (S : ShortComplex A.LeftModule) (i : ℤ) :
++    (S.map (A.leftModuleEvaluation i)).homology ≅
++      (A.leftModuleEvaluation i).obj S.homology :=
++  S.mapHomologyIso (A.leftModuleEvaluation i)
++
++/-- Exactness agrees with exactness after inclusion into the ambient presheaf category. -/
++theorem leftModule_exact_iff_inclusion (S : ShortComplex A.LeftModule) :
++    S.Exact ↔ (S.map A.leftModuleProperty.ι).Exact :=
++  (S.exact_map_iff_of_faithful A.leftModuleProperty.ι).symm
++
++@[simp]
++theorem leftModuleKernelObjIso_inv_ι {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
++    (A.leftModuleKernelObjIso f i).inv ≫ (A.leftModuleEvaluation i).map (kernel.ι f) =
++      kernel.ι ((A.leftModuleEvaluation i).map f) :=
++  PreservesKernel.iso_inv_ι (A.leftModuleEvaluation i) f
++
++@[simp]
++theorem leftModuleCokernelObjIso_π_hom {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ) :
++    (A.leftModuleEvaluation i).map (cokernel.π f) ≫ (A.leftModuleCokernelObjIso f i).hom =
++      cokernel.π ((A.leftModuleEvaluation i).map f) :=
++  PreservesCokernel.π_iso_hom (A.leftModuleEvaluation i) f
++
++/-- Monomorphisms are exactly the componentwise monomorphisms. -/
++theorem leftModule_mono_iff {M N : A.LeftModule} (f : M ⟶ N) :
++    Mono f ↔ ∀ i : ℤ, Mono ((A.leftModuleEvaluation i).map f) := by
++  constructor
++  · intro h i
++    letI := h
++    infer_instance
++  · intro h
++    apply A.leftModuleProperty.ι.mono_of_mono_map
++    haveI : ∀ X, Mono ((A.leftModuleProperty.ι.map f).app X) := fun X => by
++      simpa [leftModuleEvaluation] using h X.index
++    exact NatTrans.mono_of_mono_app _
++
++/-- Epimorphisms are exactly the componentwise epimorphisms. -/
++theorem leftModule_epi_iff {M N : A.LeftModule} (f : M ⟶ N) :
++    Epi f ↔ ∀ i : ℤ, Epi ((A.leftModuleEvaluation i).map f) := by
++  constructor
++  · intro h i
++    letI := h
++    infer_instance
++  · intro h
++    apply A.leftModuleProperty.ι.epi_of_epi_map
++    haveI : ∀ X, Epi ((A.leftModuleProperty.ι.map f).app X) := fun X => by
++      simpa [leftModuleEvaluation] using h X.index
++    exact NatTrans.epi_of_epi_app _
++
++/-- This is the injectivity test needed when constructing submodules. -/
++theorem leftModule_mono_iff_injective {M N : A.LeftModule} (f : M ⟶ N) :
++    Mono f ↔ ∀ i : ℤ, Function.Injective ((A.leftModuleEvaluation i).map f) := by
++  rw [A.leftModule_mono_iff]
++  exact forall_congr' fun i => ModuleCat.mono_iff_injective _
++
++/-- This is the surjectivity test needed for projective lifting arguments. -/
++theorem leftModule_epi_iff_surjective {M N : A.LeftModule} (f : M ⟶ N) :
++    Epi f ↔ ∀ i : ℤ, Function.Surjective ((A.leftModuleEvaluation i).map f) := by
++  rw [A.leftModule_epi_iff]
++  exact forall_congr' fun i => ModuleCat.epi_iff_surjective _
++
++/-- Exactness of left modules is detected componentwise, using mathlib homology. -/
++theorem leftModule_exact_iff (S : ShortComplex A.LeftModule) :
++    S.Exact ↔ ∀ i : ℤ, (S.map (A.leftModuleEvaluation i)).Exact := by
++  constructor
++  · intro h i
++    exact h.map (A.leftModuleEvaluation i)
++  · intro h
++    rw [ShortComplex.exact_iff_isZero_homology, IsZero.iff_id_eq_zero]
++    apply A.leftModuleProperty.ι.map_injective
++    apply NatTrans.ext
++    funext X
++    let i := X.index
++    have hz : IsZero ((A.leftModuleEvaluation i).obj S.homology) :=
++      IsZero.of_iso ((ShortComplex.exact_iff_isZero_homology _).mp (h i))
++        (A.leftModuleHomologyObjIso S i).symm
++    have hid := hz.eq_of_src (𝟙 ((A.leftModuleEvaluation i).obj S.homology)) 0
++    simpa [leftModuleEvaluation, i] using hid
++
++/-- The componentwise criterion is equality of the actual linear-map image and kernel. -/
++theorem leftModule_exact_iff_range_eq_ker (S : ShortComplex A.LeftModule) :
++    S.Exact ↔ ∀ i : ℤ,
++      LinearMap.range ((A.leftModuleEvaluation i).map S.f).hom =
++        LinearMap.ker ((A.leftModuleEvaluation i).map S.g).hom := by
++  rw [A.leftModule_exact_iff]
++  exact forall_congr' fun i => (S.map (A.leftModuleEvaluation i)).moduleCat_exact_iff_range_eq_ker
++
++/-- Short exact sequences of left modules are precisely the vertexwise short exact sequences. -/
++theorem leftModule_shortExact_iff (S : ShortComplex A.LeftModule) :
++    S.ShortExact ↔ ∀ i : ℤ, (S.map (A.leftModuleEvaluation i)).ShortExact := by
++  constructor
++  · intro h i
++    exact h.map_of_exact (A.leftModuleEvaluation i)
++  · intro h
++    exact
++      { exact := (A.leftModule_exact_iff S).mpr (fun i => (h i).exact)
++        mono_f := (A.leftModule_mono_iff S.f).mpr (fun i => (h i).mono_f)
++        epi_g := (A.leftModule_epi_iff S.g).mpr (fun i => (h i).epi_g) }
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LeftSubmodules.lean b/ASGinzburg/LeftSubmodules.lean
+new file mode 100644
+index 0000000..1defad8
+--- /dev/null
++++ b/ASGinzburg/LeftSubmodules.lean
+@@ -0,0 +1,92 @@
++import ASGinzburg.LeftModuleHomology
++import Mathlib.CategoryTheory.Abelian.Exact
++
++/-!
++# Left submodules and actual cokernel quotients
++
++A submodule is a family of vector subspaces closed under the existing left
++action. Its inclusion is monic and its categorical quotient forms a short
++exact sequence. No abstract replacement for the underlying module is used.
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
++
++/-- Component subspaces closed under the existing contravariant left action. -/
++structure LeftSubmodule (M : A.LeftModule) where
++  component : ∀ X : A.Obj, Submodule k (M.obj.obj X)
++  map_mem : ∀ {X Y : A.Obj} (f : X ⟶ Y) {x : M.obj.obj X},
++    x ∈ component X → M.obj.map f x ∈ component Y
++
++namespace LeftSubmodule
++variable {M : A.LeftModule} (S : LeftSubmodule M)
++
++def presheaf : A.Obj ⥤ ModuleCat.{v} k where
++  obj X := ModuleCat.of k (S.component X)
++  map f := ModuleCat.ofHom {
++    toFun x := ⟨M.obj.map f x, S.map_mem f x.property⟩
++    map_add' x y := Subtype.ext (map_add (M.obj.map f).hom x.val y.val)
++    map_smul' r x := Subtype.ext (map_smul (M.obj.map f).hom r x.val) }
++  map_id X := by
++    ext x
++    change M.obj.map (𝟙 X) x.val = x.val
++    rw [CategoryTheory.Functor.map_id]
++    rfl
++  map_comp f g := by
++    ext x
++    change M.obj.map (f ≫ g) x.val = M.obj.map g (M.obj.map f x.val)
++    rw [CategoryTheory.Functor.map_comp]
++    rfl
++
++instance presheafAdditive : S.presheaf.Additive where
++  map_add := by
++    letI := M.property.1
++    intro X Y f g
++    ext x
++    apply Subtype.ext
++    change M.obj.map (f + g) x.val = M.obj.map f x.val + M.obj.map g x.val
++    rw [Functor.map_add]
++    rfl
++
++instance presheafLinear : S.presheaf.Linear k where
++  map_smul := by
++    letI := M.property.2
++    intro X Y f r
++    ext x
++    apply Subtype.ext
++    change M.obj.map (r • f) x.val = r • M.obj.map f x.val
++    rw [Functor.map_smul]
++    rfl
++
++def object : A.LeftModule := ⟨S.presheaf, ⟨inferInstance, inferInstance⟩⟩
++
++def inclusion : S.object ⟶ M where
++  app X := ModuleCat.ofHom (S.component X).subtype
++  naturality := by
++    intro X Y f
++    rfl
++
++instance inclusionMono : Mono S.inclusion := by
++  apply (A.leftModule_mono_iff_injective _).mpr
++  intro i
++  exact Subtype.val_injective
++
++noncomputable def quotient : A.LeftModule := cokernel S.inclusion
++noncomputable def quotientπ : M ⟶ S.quotient := cokernel.π S.inclusion
++
++noncomputable instance quotientπEpi : Epi S.quotientπ := by
++  dsimp [quotientπ]
++  infer_instance
++
++noncomputable def quotientShortComplex : ShortComplex A.LeftModule :=
++  ShortComplex.mk S.inclusion S.quotientπ (cokernel.condition _)
++
++theorem quotientShortExact : S.quotientShortComplex.ShortExact where
++  exact := ShortComplex.exact_cokernel S.inclusion
++  mono_f := S.inclusionMono
++  epi_g := S.quotientπEpi
++
++end LeftSubmodule
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/SimpleLeftModules.lean b/ASGinzburg/SimpleLeftModules.lean
+new file mode 100644
+index 0000000..37fdf4f
+--- /dev/null
++++ b/ASGinzburg/SimpleLeftModules.lean
+@@ -0,0 +1,143 @@
++import ASGinzburg.LeftSubmodules
++import Mathlib.Algebra.Category.ModuleCat.Simple
++
++/-! The concrete left quotient A e_i / A_{>0} e_i. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Positive-degree part of A e_i, with the covariant left action. -/
++def leftRepresentableRadical (i : ℤ) : LeftSubmodule (A.leftRepresentable i) where
++  component X := if i < X.index then ⊤ else ⊥
++  map_mem := by
++    intro X Y f x hx
++    by_cases hy : i < Y.index
++    · simp [hy]
++    · by_cases hx' : i < X.index
++      · have hf : f = 0 := A.positive (lt_of_le_of_lt (le_of_not_gt hy) hx') f
++        change A.comp f x ∈ (if i < Y.index then ⊤ else ⊥)
++        rw [hf]
++        simp
++      · have hx0 : x = 0 := by simpa [hx'] using hx
++        rw [hx0]
++        simp
++
++/-- Actual positive-degree left products, with source height lower than the component. -/
++def positiveLeftActionSpan (M : A.LeftModule) (j : ℤ) :
++    Submodule k ((A.leftModuleEvaluation j).obj M) :=
++  Submodule.span k { y | ∃ l : ℤ, l < j ∧ ∃ x : (A.leftModuleEvaluation l).obj M,
++    ∃ a : A.Hom l j, M.obj.map (show (⟨l⟩ : A.Obj) ⟶ ⟨j⟩ from a) x = y }
++
++theorem leftRepresentableRadical_eq_positiveLeftActionSpan (i j : ℤ) :
++    (A.leftRepresentableRadical i).component ⟨j⟩ =
++      A.positiveLeftActionSpan (A.leftRepresentable i) j := by
++  by_cases hj : i < j
++  · apply le_antisymm
++    · intro x hx
++      apply Submodule.subset_span
++      refine ⟨i, hj, A.id i, x, ?_⟩
++      change A.comp x (A.id i) = x
++      exact A.id_comp x
++    · simp [leftRepresentableRadical, hj]
++  · have hz : A.positiveLeftActionSpan (A.leftRepresentable i) j ≤ ⊥ := by
++      apply Submodule.span_le.mpr
++      rintro y ⟨l, hl, x, a, rfl⟩
++      have hx : x = 0 := A.positive (lt_of_lt_of_le hl (le_of_not_gt hj)) x
++      change A.comp a x ∈ (⊥ : Submodule k (A.Hom i j))
++      rw [hx]
++      simp
++    simpa [leftRepresentableRadical, hj] using (le_antisymm hz bot_le).symm
++
++noncomputable def simpleLeftModule (i : ℤ) : A.LeftModule :=
++  (A.leftRepresentableRadical i).quotient
++noncomputable def simpleLeftModuleπ (i : ℤ) : A.leftRepresentable i ⟶ A.simpleLeftModule i :=
++  (A.leftRepresentableRadical i).quotientπ
++noncomputable instance simpleLeftModuleπEpi (i : ℤ) : Epi (A.simpleLeftModuleπ i) :=
++  (A.leftRepresentableRadical i).quotientπEpi
++
++theorem leftRepresentableRadical_diagonal_zero (i : ℤ) :
++    (A.leftModuleEvaluation i).map (A.leftRepresentableRadical i).inclusion = 0 := by
++  apply ModuleCat.hom_ext
++  ext x
++  change x.val = 0
++  have h := x.property
++  simpa [leftRepresentableRadical] using h
++
++noncomputable def simpleLeftModuleDiagonalIso (i : ℤ) :
++    (A.leftModuleEvaluation i).obj (A.simpleLeftModule i) ≅
++      (A.leftModuleEvaluation i).obj (A.leftRepresentable i) := by
++  let e := A.leftModuleCokernelObjIso (A.leftRepresentableRadical i).inclusion i
++  have e' : (A.leftModuleEvaluation i).obj (A.simpleLeftModule i) ≅
++      cokernel (0 : (A.leftModuleEvaluation i).obj (A.leftRepresentableRadical i).object ⟶
++        (A.leftModuleEvaluation i).obj (A.leftRepresentable i)) := by
++    simpa only [A.leftRepresentableRadical_diagonal_zero] using e
++  exact e' ≪≫ cokernelZeroIsoTarget
++
++theorem simpleLeftModule_off_diagonal (i j : ℤ) (hji : j ≠ i) :
++    IsZero ((A.leftModuleEvaluation j).obj (A.simpleLeftModule i)) := by
++  rcases lt_or_gt_of_ne hji with h | h
++  · apply IsZero.of_epi ((A.leftModuleEvaluation j).map (A.simpleLeftModuleπ i))
++    apply ModuleCat.isZero_iff_subsingleton.mpr
++    refine ⟨fun x y => ?_⟩
++    change A.Hom i j at x y
++    rw [A.positive h x, A.positive h y]
++  · have he : Epi ((A.leftModuleEvaluation j).map (A.leftRepresentableRadical i).inclusion) := by
++      apply (ModuleCat.epi_iff_surjective _).mpr
++      intro x
++      refine ⟨⟨x, ?_⟩, rfl⟩
++      simp [leftRepresentableRadical, h]
++    exact (isZero_cokernel_of_epi _).of_iso
++      (A.leftModuleCokernelObjIso (A.leftRepresentableRadical i).inclusion j)
++
++theorem simpleLeftModule_diagonal_finrank (i : ℤ) :
++    Module.finrank k ((A.leftModuleEvaluation i).obj (A.simpleLeftModule i)) = 1 := by
++  rw [(A.simpleLeftModuleDiagonalIso i).toLinearEquiv.finrank_eq]
++  change Module.finrank k (A.Hom i i) = 1
++  rw [← (A.scalarEndEquiv i).finrank_eq]
++  exact Module.finrank_self k
++
++instance simpleLeftModuleDiagonalSimple (i : ℤ) :
++    Simple ((A.leftModuleEvaluation i).obj (A.simpleLeftModule i)) :=
++  simple_of_finrank_eq_one (A.simpleLeftModule_diagonal_finrank i)
++
++theorem simpleLeftModule_hom_eq_zero_iff (i : ℤ) {M : A.LeftModule}
++    (f : M ⟶ A.simpleLeftModule i) :
++    f = 0 ↔ (A.leftModuleEvaluation i).map f = 0 := by
++  constructor
++  · intro h
++    rw [h, Functor.map_zero]
++  · intro h
++    apply NatTrans.ext
++    funext X
++    by_cases hi : X.index = i
++    · have hX : X = (⟨i⟩ : A.Obj) := by cases X; congr
++      subst X
++      exact h
++    · exact (A.simpleLeftModule_off_diagonal i X.index hi).eq_zero_of_tgt (f.app X)
++
++instance simpleLeftModuleSimple (i : ℤ) : Simple (A.simpleLeftModule i) where
++  mono_isIso_iff_nonzero := by
++    intro M f hf
++    constructor
++    · intro hi hz
++      letI := hi
++      have hzi : (A.leftModuleEvaluation i).map f = 0 := by rw [hz, Functor.map_zero]
++      exact Simple.not_isZero _ (IsZero.of_epi_eq_zero _ hzi)
++    · intro hn
++      have hni : (A.leftModuleEvaluation i).map f ≠ 0 := by
++        intro h
++        exact hn ((A.simpleLeftModule_hom_eq_zero_iff i f).mpr h)
++      haveI : IsIso ((A.leftModuleEvaluation i).map f) := isIso_of_mono_of_nonzero hni
++      haveI : Epi f := (A.leftModule_epi_iff f).mpr fun j => by
++        by_cases hj : j = i
++        · subst j
++          infer_instance
++        · exact epi_of_target_iso_zero _ (A.simpleLeftModule_off_diagonal i j hj).isoZero
++      exact isIso_of_mono_of_epi f
++
++theorem simpleLeftModule_shortExact (i : ℤ) :
++    (A.leftRepresentableRadical i).quotientShortComplex.ShortExact :=
++  (A.leftRepresentableRadical i).quotientShortExact
++
++end ASGinzburg.ZAlgebra
