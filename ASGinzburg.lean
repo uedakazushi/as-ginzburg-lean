@@ -137,6 +137,13 @@ import ASGinzburg.DualResolutionComparisonMaps
 import ASGinzburg.ResolutionExtBidualNaturality
 import ASGinzburg.FiniteDimensionalExtEquivalence
 
+import ASGinzburg.FiniteDiagramClosureMaps
+import ASGinzburg.FiniteDimensionalAbelian
+import ASGinzburg.SmallVectorDuality
+import ASGinzburg.ModuleVectorDuality
+import ASGinzburg.FiniteDimensionalVectorDuality
+import ASGinzburg.FiniteDimensionalNakayama
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

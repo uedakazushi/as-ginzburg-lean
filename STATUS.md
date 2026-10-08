@@ -1,10 +1,10 @@
 # 現在の状況
 
-実際Ext class・接続写像・射影分解比較射の自然性から二重Ext³の自然同型を左右とも証明し、AS条件から左右有限次元full部分圏の実際Ext³反変同値を構成しました。
-次は有限次元Abelian部分圏とベクトル空間双対との合成、頂点単純の移送と有限区間からの周期性です。
-左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
-最新ローカル検証 20261008T134435Z-bbc82103：139数学モジュール・1421異なる宣言・651 theorem、全段階終了0。
-単位1〜32の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+左右有限次元full部分圏のAbelian構造・有限極限/余極限の閉性と、既存値域を保つ線形双対の自然な反変同値を構成。AS条件から実際Ext³との合成による線形自己同値と短完全列の保存を証明しました。
+次は頂点単純の移送と有限区間への制限、射影被覆の正規化・coherenceからの周期性です。
+左側総正則Ext比較、標準RHom符号・shift/derived/perfect、命題5.1・外部一般定理と両主定理は未完成。定理3.2と系5.2の正式Lean定理文も未実装です。
+最新ローカル検証 20261008T140553Z-3242959b：145数学モジュール・1497異なる宣言・672 theorem、全段階終了0。
+単位1〜33の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -22,17 +22,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1421異なる名前、全明示的宣言・211 named instanceを含む、終了0 |
-| theorem | 651、全件が監査対象 |
+| 個別公理監査 | 1497異なる名前、全明示的宣言・244 named instanceを含む、終了0 |
+| theorem | 672、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T134435Z-bbc82103`、全段階終了0、1044.642004808秒。
-UTC 2026-10-08T13:44:35.554806+00:00 → 2026-10-08T14:02:00.196818+00:00。
-JST 2026-10-08T22:44:35.554806+09:00 → 2026-10-08T23:02:00.196818+09:00。
+最新ローカル検証 `20261008T140553Z-3242959b`、全段階終了0、1102.744503407秒。
+UTC 2026-10-08T14:05:53.265297+00:00 → 2026-10-08T14:24:16.009807+00:00。
+JST 2026-10-08T23:05:53.265297+09:00 → 2026-10-08T23:24:16.009807+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -91,7 +91,9 @@ JST 2026-10-08T22:44:35.554806+09:00 → 2026-10-08T23:02:00.196818+09:00。
 
 | 総正則Extと二重Ext対象同型 | RightResolutionDuality、LeftResolutionDuality、RightResolutionExtBidual、LeftResolutionExtBidual、FiniteDimensionalExtBidual、FiniteDimensionalRegularExtComparison | 一般四項分解の双対分解・canonical二重Ext対象同型、右有限次元加群の総正則Ext比較と全左作用適合性 | 二重Ext自然同型と有限次元Ext³反変同値は後続単位で完成。左側総正則Ext比較と周期性 |
 
-| 二重Ext自然同型と有限次元Ext³反変同値 | ExtClassNaturality、ProjectiveResolutionSyzygyNaturality、ResolutionExtBoundaryNaturality、DualResolutionComparisonMaps、ResolutionExtBidualNaturality、FiniteDimensionalExtEquivalence | mapping coneから実際Ext接続の自然性・双対分解比較射とcanonical評価の自然性・左右二重Ext自然同型・実際Ext³反変同値 | 有限次元Abelian部分圏とベクトル空間双対の公開検証・有限区間の周期性 |
+| 二重Ext自然同型と有限次元Ext³反変同値 | ExtClassNaturality、ProjectiveResolutionSyzygyNaturality、ResolutionExtBoundaryNaturality、DualResolutionComparisonMaps、ResolutionExtBidualNaturality、FiniteDimensionalExtEquivalence | mapping coneから実際Ext接続の自然性・双対分解比較射とcanonical評価の自然性・左右二重Ext自然同型・実際Ext³反変同値 | 有限次元Abelian部分圏と成分線形双対は後続単位で完成。有限区間の周期性 |
+
+| 有限次元Abelian部分圏と線形双対 | FiniteDiagramClosureMaps、FiniteDimensionalAbelian、SmallVectorDuality、ModuleVectorDuality、FiniteDimensionalVectorDuality、FiniteDimensionalNakayama | 左右有限次元Abelian圏・有限極限/余極限の閉性・成分線形双対の自然な反変同値・Ext³との合成による線形exactな自己同値 | 総空間のベクトル双対との自然比較と作用適合性・頂点と有限区間の移送・射影被覆・周期性 |
 
 ## 主結果の状態
 

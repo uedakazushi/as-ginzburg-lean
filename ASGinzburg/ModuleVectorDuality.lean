@@ -1,0 +1,227 @@
+import ASGinzburg.SmallVectorDuality
+import ASGinzburg.ExtComponentContravariance
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+def rightModuleVectorDual (M : A.RightModule) : A.LeftModule := by
+  letI : M.obj.Additive := M.property.1
+  let F := M.obj.rightOp ⋙ ASGinzburg.moduleCatDualIntoFunctor (ModuleCat.of k (A.Hom 0 0))
+  letI : M.obj.Linear k := M.property.2
+  haveI : F.Linear k := by
+    refine { map_smul := ?_ }
+    intro X Y f r
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change g.hom ((M.obj.map (r • f).op).hom x) = r • g.hom ((M.obj.map f.op).hom x)
+    rw [show (r • f).op = r • f.op from rfl, Functor.map_smul]
+    simp
+  haveI : F.Additive := by dsimp [F, ASGinzburg.moduleCatDualIntoFunctor]; infer_instance
+  exact ⟨F,⟨inferInstance,inferInstance⟩⟩
+
+def leftModuleVectorDual (M : A.LeftModule) : A.RightModule := by
+  letI : M.obj.Additive := M.property.1
+  let F := M.obj.op ⋙ ASGinzburg.moduleCatDualIntoFunctor (ModuleCat.of k (A.Hom 0 0))
+  letI : M.obj.Linear k := M.property.2
+  haveI : F.Linear k := by
+    refine { map_smul := ?_ }
+    intro X Y f r
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change g.hom ((M.obj.map (r • f).unop).hom x) = r • g.hom ((M.obj.map f.unop).hom x)
+    rw [show (r • f).unop = r • f.unop from rfl, Functor.map_smul]
+    simp
+  haveI : F.Additive := by dsimp [F, ASGinzburg.moduleCatDualIntoFunctor]; infer_instance
+  exact ⟨F,⟨inferInstance,inferInstance⟩⟩
+
+/-- Morphisms act by pointwise precomposition. -/
+def rightModuleVectorDualMap {M N : A.RightModule} (f : M ⟶ N) :
+    A.rightModuleVectorDual N ⟶ A.rightModuleVectorDual M where
+  app X := (ASGinzburg.moduleCatDualIntoFunctor (ModuleCat.of k (A.Hom 0 0))).map
+    (f.app (op X)).op
+  naturality := by
+    intro X Y g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro t
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    exact congrArg (fun a => t.hom (a.hom x)) (f.naturality g.op).symm
+
+def leftModuleVectorDualMap {M N : A.LeftModule} (f : M ⟶ N) :
+    A.leftModuleVectorDual N ⟶ A.leftModuleVectorDual M where
+  app X := (ASGinzburg.moduleCatDualIntoFunctor (ModuleCat.of k (A.Hom 0 0))).map
+    (f.app X.unop).op
+  naturality := by
+    intro X Y g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro t
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    exact congrArg (fun a => t.hom (a.hom x)) (f.naturality g.unop).symm
+
+def rightModuleVectorBidualEvaluation (M : A.RightModule) :
+    M ⟶ A.leftModuleVectorDual (A.rightModuleVectorDual M) where
+  app X := ModuleCat.ofHom {
+    toFun x := ModuleCat.ofHom {
+      toFun t := t.hom x
+      map_add' := by intros; rfl
+      map_smul' := by intros; rfl }
+    map_add' := by intros; ext; simp
+    map_smul' := by intros; ext; simp }
+  naturality := by
+    intro X Y g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro t
+    rfl
+
+def leftModuleVectorBidualEvaluation (M : A.LeftModule) :
+    M ⟶ A.rightModuleVectorDual (A.leftModuleVectorDual M) where
+  app X := ModuleCat.ofHom {
+    toFun x := ModuleCat.ofHom {
+      toFun t := t.hom x
+      map_add' := by intros; rfl
+      map_smul' := by intros; rfl }
+    map_add' := by intros; ext; simp
+    map_smul' := by intros; ext; simp }
+  naturality := by
+    intro X Y g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro t
+    rfl
+
+theorem rightModuleVectorDual_finite {M : A.RightModule}
+    (hM : A.rightFiniteDimensionalProperty M) :
+    A.leftFiniteDimensionalProperty (A.rightModuleVectorDual M) := by
+  obtain ⟨S,hS⟩ := A.rightFiniteDimensional_finite_support hM
+  apply ASGinzburg.directSum_finite_of_finite_support
+    (fun i => (A.leftModuleEvaluation i).obj (A.rightModuleVectorDual M)) S
+  · intro i hi t
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    have hx : x=0 := (ModuleCat.isZero_iff_subsingleton.mp (hS i hi)).elim x 0
+    change t.hom x = 0
+    rw [hx,map_zero]
+  · intro i
+    let V : ModuleCat.{v} k := (A.rightModuleEvaluation i).obj M
+    let U : ModuleCat.{v} k := ModuleCat.of k (A.Hom 0 0)
+    letI : Module.Finite k V := A.rightFiniteDimensional_component_finite hM i
+    letI : Module.Finite k (V →ₗ[k] U) := ASGinzburg.dualInto_finite (A.scalarEndEquiv 0)
+    change Module.Finite k (V ⟶ U)
+    exact Module.Finite.equiv (ModuleCat.homLinearEquiv (M := V) (N := U) (S := k)).symm
+
+theorem leftModuleVectorDual_finite {M : A.LeftModule}
+    (hM : A.leftFiniteDimensionalProperty M) :
+    A.rightFiniteDimensionalProperty (A.leftModuleVectorDual M) := by
+  obtain ⟨S,hS⟩ := A.leftFiniteDimensional_finite_support hM
+  apply ASGinzburg.directSum_finite_of_finite_support
+    (fun i => (A.rightModuleEvaluation i).obj (A.leftModuleVectorDual M)) S
+  · intro i hi t
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    have hx : x=0 := (ModuleCat.isZero_iff_subsingleton.mp (hS i hi)).elim x 0
+    change t.hom x = 0
+    rw [hx,map_zero]
+  · intro i
+    let V : ModuleCat.{v} k := (A.leftModuleEvaluation i).obj M
+    let U : ModuleCat.{v} k := ModuleCat.of k (A.Hom 0 0)
+    letI : Module.Finite k V := A.leftFiniteDimensional_component_finite hM i
+    letI : Module.Finite k (V →ₗ[k] U) := ASGinzburg.dualInto_finite (A.scalarEndEquiv 0)
+    change Module.Finite k (V ⟶ U)
+    exact Module.Finite.equiv (ModuleCat.homLinearEquiv (M := V) (N := U) (S := k)).symm
+
+theorem rightModuleVectorBidualEvaluation_isIso {M : A.RightModule}
+    (hM : A.rightFiniteDimensionalProperty M) : IsIso (A.rightModuleVectorBidualEvaluation M) := by
+  haveI : ∀ X, IsIso ((A.rightModuleProperty.ι.map (A.rightModuleVectorBidualEvaluation M)).app X) := fun X => by
+    change IsIso ((A.rightModuleVectorBidualEvaluation M).app X)
+    letI := A.rightFiniteDimensional_component_finite hM X.unop.index
+    exact (ConcreteCategory.isIso_iff_bijective _).mpr
+      (ASGinzburg.moduleCatDualIntoEvaluation_bijective (ModuleCat.of k (A.Hom 0 0))
+        ((A.rightModuleEvaluation X.unop.index).obj M) (A.scalarEndEquiv 0))
+  haveI : IsIso (A.rightModuleProperty.ι.map (A.rightModuleVectorBidualEvaluation M)) :=
+    NatIso.isIso_of_isIso_app _
+  exact isIso_of_reflects_iso _ A.rightModuleProperty.ι
+
+theorem leftModuleVectorBidualEvaluation_isIso {M : A.LeftModule}
+    (hM : A.leftFiniteDimensionalProperty M) : IsIso (A.leftModuleVectorBidualEvaluation M) := by
+  haveI : ∀ X, IsIso ((A.leftModuleProperty.ι.map (A.leftModuleVectorBidualEvaluation M)).app X) := fun X => by
+    change IsIso ((A.leftModuleVectorBidualEvaluation M).app X)
+    letI := A.leftFiniteDimensional_component_finite hM X.index
+    exact (ConcreteCategory.isIso_iff_bijective _).mpr
+      (ASGinzburg.moduleCatDualIntoEvaluation_bijective (ModuleCat.of k (A.Hom 0 0))
+        ((A.leftModuleEvaluation X.index).obj M) (A.scalarEndEquiv 0))
+  haveI : IsIso (A.leftModuleProperty.ι.map (A.leftModuleVectorBidualEvaluation M)) :=
+    NatIso.isIso_of_isIso_app _
+  exact isIso_of_reflects_iso _ A.leftModuleProperty.ι
+
+@[reassoc] theorem rightModuleVectorBidualEvaluation_natural {M N : A.RightModule} (f : M ⟶ N) :
+    f ≫ A.rightModuleVectorBidualEvaluation N =
+      A.rightModuleVectorBidualEvaluation M ≫ A.leftModuleVectorDualMap (A.rightModuleVectorDualMap f) := by
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro t
+  rfl
+
+@[reassoc] theorem leftModuleVectorBidualEvaluation_natural {M N : A.LeftModule} (f : M ⟶ N) :
+    f ≫ A.leftModuleVectorBidualEvaluation N =
+      A.leftModuleVectorBidualEvaluation M ≫ A.rightModuleVectorDualMap (A.leftModuleVectorDualMap f) := by
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro t
+  rfl
+
+def rightModuleVectorDualFunctor : A.RightModuleᵒᵖ ⥤ A.LeftModule where
+  obj M := A.rightModuleVectorDual M.unop
+  map f := A.rightModuleVectorDualMap f.unop
+  map_id M := by apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; rfl
+  map_comp f g := by apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; rfl
+
+def leftModuleVectorDualFunctor : A.LeftModuleᵒᵖ ⥤ A.RightModule where
+  obj M := A.leftModuleVectorDual M.unop
+  map f := A.leftModuleVectorDualMap f.unop
+  map_id M := by apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; rfl
+  map_comp f g := by apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; rfl
+
+instance rightModuleVectorDualFunctorAdditive : A.rightModuleVectorDualFunctor.Additive where
+  map_add := by intro M N f g; apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; change t.hom (((f.unop.app (op X)).hom x) + ((g.unop.app (op X)).hom x)) = _; exact t.hom.map_add _ _
+instance leftModuleVectorDualFunctorAdditive : A.leftModuleVectorDualFunctor.Additive where
+  map_add := by intro M N f g; apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; change t.hom (((f.unop.app X.unop).hom x) + ((g.unop.app X.unop).hom x)) = _; exact t.hom.map_add _ _
+instance rightModuleVectorDualFunctorLinear : A.rightModuleVectorDualFunctor.Linear k where
+  map_smul := by intro M N f r; apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; change t.hom (r • ((f.unop.app (op X)).hom x)) = r • t.hom ((f.unop.app (op X)).hom x); exact t.hom.map_smul r _
+instance leftModuleVectorDualFunctorLinear : A.leftModuleVectorDualFunctor.Linear k where
+  map_smul := by intro M N f r; apply NatTrans.ext; funext X; apply ModuleCat.hom_ext; apply LinearMap.ext; intro t; apply ModuleCat.hom_ext; apply LinearMap.ext; intro x; change t.hom (r • ((f.unop.app X.unop).hom x)) = r • t.hom ((f.unop.app X.unop).hom x); exact t.hom.map_smul r _
+
+end ASGinzburg.ZAlgebra
