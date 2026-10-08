@@ -33,3 +33,22 @@ IsMinimalMorphismは各成分の像がpositiveActionSpanに入るという具体
 開始UTC 2026-10-08T02:21:27.495705+00:00、終了UTC 2026-10-08T02:22:32.767686+00:00。
 263異なる宣言・119 theorem・39 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit2.patch。
+
+## 単位3：単純加群へのHomと最小微分の消滅
+
+s_iの正次数radicalは零。任意のM→s_iはMのradicalを消すことを証明。
+したがって最小微分fにHom(-,s_i)を適用した微分は実際に零。
+Extとの比較を仮定した結果ではなく、具体的な自然変換の合成の消滅。
+次：四項の実際の有限直和と微分・完全性・最小性を束ね、Hom複体を接続する。
+
+保存経路の変更：単位2のCLI git pushは認証エラーで終了128（2試行）。
+接続済みGitHub APIで同一tree 6cc6630be5539026fd2d848566b19dc8c7acab92を作成し、
+6068d7e8e87d21464111973a74cf27d7209312cfをmainへ通常のfast-forwardで保存。
+expected_shaを照合、force=false、新規PRなし。元のローカルb935aacはcheckpoint/cli-minimality-20261008へ保持。
+APIで作られたcommit objectのSHAを再構成して確認し、ローカルmainも6068d7eへ同期。
+ファイル内容を変えず、履歴・ログを保持した。以後も認証済みAPIで保存できる。
+
+検証：`20261008T022802Z-48535cdc`、66.187648秒、全段階終了0。
+開始UTC 2026-10-08T02:28:02.786776+00:00、終了UTC 2026-10-08T02:29:08.974429+00:00。
+266異なる宣言・122 theorem・39 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit3.patch。

@@ -12,6 +12,7 @@ import ASGinzburg.RightSubmodules
 import ASGinzburg.SimpleRightModules
 import ASGinzburg.RightModuleRadical
 import ASGinzburg.RightModuleMinimality
+import ASGinzburg.RightModuleSimpleHom
 import ASGinzburg.RightModuleExt
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology

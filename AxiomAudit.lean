@@ -193,6 +193,9 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctorAdditive
 #print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctorLinear
 #print axioms ASGinzburg.ZAlgebra.rightModuleRadical_representable_component
+#print axioms ASGinzburg.ZAlgebra.positiveActionSpan_simple_eq_bot
+#print axioms ASGinzburg.ZAlgebra.radical_inclusion_comp_simple_eq_zero
+#print axioms ASGinzburg.ZAlgebra.minimalMorphism_comp_simple_eq_zero
 #print axioms ASGinzburg.ZAlgebra.RightSubmodule
 #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheaf
 #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheafAdditive
