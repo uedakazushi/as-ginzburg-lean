@@ -570,6 +570,17 @@ import ASGinzburg
 #print axioms ASGinzburg.topCohomologyEquiv
 #print axioms ASGinzburg.topCohomology_finrank
 #print axioms ASGinzburg.topCohomology_field_finrank
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation_mul_mem
+#print axioms ASGinzburg.ZAlgebra.totalAlgebra
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraNonUnitalRing
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraAddCommGroup
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraAddCommMonoid
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraModule
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraEquiv
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_coe
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul_off
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraSpace
 #print axioms ASGinzburg.ZAlgebra.regularComponentActionLinear
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation

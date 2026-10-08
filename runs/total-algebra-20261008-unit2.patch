@@ -1,0 +1,131 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index eb0b3aa..d0dd3aa 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -1,5 +1,6 @@
+ import ASGinzburg.TotalModuleLocalUnits
+ import ASGinzburg.TotalAlgebraEmbedding
++import ASGinzburg.TotalAlgebra
+ import ASGinzburg.RegularCoproductActions
+ import ASGinzburg.TotalModuleSpaces
+ import ASGinzburg.ASDualityRegularCoproduct
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index d9b571a..f8476fd 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -570,6 +570,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.topCohomologyEquiv
+ #print axioms ASGinzburg.topCohomology_finrank
+ #print axioms ASGinzburg.topCohomology_field_finrank
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation_mul_mem
++#print axioms ASGinzburg.ZAlgebra.totalAlgebra
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraNonUnitalRing
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraAddCommGroup
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraAddCommMonoid
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraModule
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraEquiv
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_coe
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul_off
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraSpace
+ #print axioms ASGinzburg.ZAlgebra.regularComponentActionLinear
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation
+diff --git a/ASGinzburg/TotalAlgebra.lean b/ASGinzburg/TotalAlgebra.lean
+new file mode 100644
+index 0000000..13d25ee
+--- /dev/null
++++ b/ASGinzburg/TotalAlgebra.lean
+@@ -0,0 +1,92 @@
++import ASGinzburg.TotalAlgebraEmbedding
++import Mathlib.Algebra.Algebra.NonUnitalSubalgebra
++
++/-!
++The range of the faithful regular representation is closed under multiplication.
++It is the concrete non-unital total algebra, linearly identified with the full
++finite-support component space. Endomorphism multiplication has the original
++orientation, and disconnected components multiply to zero.
++-/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem totalAlgebraRepresentation_mul_mem (x y : A.totalAlgebraSpace) :
++    A.totalAlgebraRepresentation x * A.totalAlgebraRepresentation y ∈
++      LinearMap.range A.totalAlgebraRepresentation := by
++  classical
++  induction x using DFinsupp.induction with
++  | h0 => simp
++  | ha p a x _ _ ih =>
++    rw [map_add, add_mul]
++    apply Submodule.add_mem _ _ ih
++    clear ih
++    induction y using DFinsupp.induction with
++    | h0 => simp
++    | ha q b y _ _ ih =>
++      rw [map_add, mul_add]
++      apply Submodule.add_mem _ _ ih
++      rcases p with ⟨i,j⟩
++      rcases q with ⟨l,m⟩
++      rw [A.totalAlgebraRepresentation_single, A.totalAlgebraRepresentation_single]
++      by_cases h : m = i
++      · subst m
++        change A.rightRegularCoproductAction b ≫ A.rightRegularCoproductAction a ∈ _
++        rw [A.rightRegularCoproductAction_comp]
++        exact ⟨DFinsupp.single (l,j) (A.comp a b), A.totalAlgebraRepresentation_single _ _ _⟩
++      · change A.rightRegularCoproductAction b ≫ A.rightRegularCoproductAction a ∈ _
++        rw [A.rightRegularCoproductAction_comp_off b a h]
++        exact Submodule.zero_mem _
++
++/-- The finite-support non-unital algebra, represented faithfully on the regular module. -/
++noncomputable abbrev totalAlgebra : NonUnitalSubalgebra k (End A.rightRegularCoproduct) where
++  __ := LinearMap.range A.totalAlgebraRepresentation
++  mul_mem' := by
++    rintro _ _ ⟨x,rfl⟩ ⟨y,rfl⟩
++    exact A.totalAlgebraRepresentation_mul_mem x y
++
++noncomputable instance totalAlgebraNonUnitalRing : NonUnitalRing A.totalAlgebra :=
++  NonUnitalSubalgebra.toNonUnitalRing A.totalAlgebra
++
++noncomputable instance totalAlgebraAddCommGroup : AddCommGroup A.totalAlgebra :=
++  A.totalAlgebraNonUnitalRing.toAddCommGroup
++
++noncomputable instance totalAlgebraAddCommMonoid : AddCommMonoid A.totalAlgebra :=
++  A.totalAlgebraAddCommGroup.toAddCommMonoid
++
++noncomputable instance totalAlgebraModule : Module k A.totalAlgebra :=
++  NonUnitalSubalgebra.instModule
++
++noncomputable def totalAlgebraEquiv : A.totalAlgebraSpace ≃ₗ[k] A.totalAlgebra :=
++  LinearEquiv.ofInjective A.totalAlgebraRepresentation A.totalAlgebraRepresentation_injective
++
++noncomputable def totalAlgebraComponent {i j : ℤ} (a : A.Hom i j) : A.totalAlgebra :=
++  A.totalAlgebraEquiv (DFinsupp.single (i,j) a)
++
++@[simp] theorem totalAlgebraComponent_coe {i j : ℤ} (a : A.Hom i j) :
++    (A.totalAlgebraComponent a : End A.rightRegularCoproduct) =
++      A.rightRegularCoproductAction a :=
++  A.totalAlgebraRepresentation_single i j a
++
++theorem totalAlgebraComponent_mul {i j l : ℤ} (a : A.Hom i j) (b : A.Hom j l) :
++    A.totalAlgebraComponent b * A.totalAlgebraComponent a =
++      A.totalAlgebraComponent (A.comp b a) := by
++  apply Subtype.ext
++  change (A.totalAlgebraComponent b : End A.rightRegularCoproduct) *
++    (A.totalAlgebraComponent a : End A.rightRegularCoproduct) =
++      (A.totalAlgebraComponent (A.comp b a) : End A.rightRegularCoproduct)
++  simp only [A.totalAlgebraComponent_coe, End.mul_def]
++  exact A.rightRegularCoproductAction_comp a b
++
++theorem totalAlgebraComponent_mul_off {i j p q : ℤ} (a : A.Hom i j) (b : A.Hom p q)
++    (h : j ≠ p) :
++    A.totalAlgebraComponent b * A.totalAlgebraComponent a = 0 := by
++  apply Subtype.ext
++  change (A.totalAlgebraComponent b : End A.rightRegularCoproduct) *
++    (A.totalAlgebraComponent a : End A.rightRegularCoproduct) = 0
++  simp only [A.totalAlgebraComponent_coe, End.mul_def]
++  exact A.rightRegularCoproductAction_comp_off a b h
++
++end ASGinzburg.ZAlgebra
