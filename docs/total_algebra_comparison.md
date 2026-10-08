@@ -52,3 +52,5 @@ RegularExtLeftModule.leanで実際のExt(Fs_w,A)の単位化左作用を構成�
 ModuleBidualEvaluation.leanで、既存の左右加群についてcanonicalな二重A-dual評価とその自然性を証明し、representableでの評価が既存の同型の逆に一致することから同型性を証明した。有限直和・直和因子・有界複体への延長は次の検証単位。
 
 FiniteProjectiveBidual.leanで、canonical評価の同型性を有限直和・分裂写像を持つ直和因子に延長した。原論文どおりの有限生成射影の実際の定義から証明している。双対の閉性・左右の反変同値・有界複体への延長は次の検証単位。
+
+FiniteProjectiveDuality.leanで、有限直和のA-dualの同型、分裂写像の双対化による有限生成射影の閉性と射影性、左右の部分圏の実際の反変同値を完成した。canonical評価の自然同型から構成し、双対性を追加仮定にしていない。

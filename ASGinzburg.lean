@@ -79,6 +79,7 @@ import ASGinzburg.Triangle333
 import ASGinzburg.GinzburgGrading
 import ASGinzburg.ModuleBidualEvaluation
 import ASGinzburg.FiniteProjectiveBidual
+import ASGinzburg.FiniteProjectiveDuality
 
 /-!
 # AS--Ginzburg formalization checkpoint

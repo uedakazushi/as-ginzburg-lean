@@ -1,11 +1,11 @@
 # Codexクラウドへの引継ぎ
 
-有限生成射影加群を原論文の「representableの有限直和の直和因子」として定義し、左右ともcanonical二重A-dual評価が同型であることを証明しました。
-任意の加群の評価・自然性とrepresentableでの同型、具体的Gr(A)の式(1.12)も完成済みです。
-次は有限生成射影の双対の閉性・反変同値、有界ホモトピー圏の双対とderived/perfectへの接続です。
-有限長双対性・周期性・主定理3.2と系5.2は未完成。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T103608Z-8abe8066：86数学モジュール・951異なる宣言・406 theorem、全段階終了0。
-単位1〜20の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の有限生成射影右・左加群のA-dualの閉性・射影性と、その部分圏の間の反変同値を証明しました。
+canonical二重双対評価の自然同型を用い、原論文の有限直和の直和因子という定義を保持しています。
+次は複体・有界ホモトピー圏への双対の延長とAS双対複体のexactness、左単純加群の射影分解・有限長双対性です。
+RHom/derivedとの接続・周期性・主定理3.2と系5.2は未完成。両主結果の形式的な文も未実装です。
+最新ローカル検証 20261008T104802Z-b08d8543：87数学モジュール・971異なる宣言・412 theorem、全段階終了0。
+単位1〜21の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -25,14 +25,14 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 具体的Ext成分左加群の次数集中と左単純商との同型、左右A-dualとrepresentableの二重双対も完成。
 前回のExt直和交換と成分作用への適合性はdocs/ext_coproduct_exchange.mdとruns/ext-sums-20261008.md。
 今回の総代数・両側局所単位・左右総作用はdocs/total_algebra_comparison.md。
-開始時の60数学モジュールは無変更。具体的Gr(A)の圏同値・全次数Ext比較と式(1.12)、canonical評価の自然性・representableと有限生成射影での同型性は完成。有限長双対性・周期性は未完成。
+開始時の60数学モジュールは無変更。具体的Gr(A)の(1.12)、canonical評価の自然性と有限生成射影での同型、左右有限生成射影の双対の閉性・反変同値は完成。有界複体・有限長双対性・周期性を継続する。
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T103608Z-8abe8066`、全段階終了0、503.386588549秒。
-UTC 2026-10-08T10:36:08.076438+00:00 → 2026-10-08T10:44:31.463039+00:00。
-JST 2026-10-08T19:36:08.076438+09:00 → 2026-10-08T19:44:31.463039+09:00。
-86数学モジュール・951異なる明示的宣言・全406 theorem・166 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T104802Z-b08d8543`、全段階終了0、512.817879564秒。
+UTC 2026-10-08T10:48:02.678000+00:00 → 2026-10-08T10:56:35.495888+00:00。
+JST 2026-10-08T19:48:02.678000+09:00 → 2026-10-08T19:56:35.495888+09:00。
+87数学モジュール・971異なる明示的宣言・全412 theorem・170 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -60,7 +60,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 
 1. 具体的な成分復元関手と単位・余単位による左右圏同値は完成。
 2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。前合成・後合成の自然性も完成。正則総加群と総代数の同定と(1.12)への移送も完成。
-3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。次は有限生成射影・perfect complex・有限長双対性。
+3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。有限生成射影の反変同値まで完成。次は有界複体・perfect complex・有限長双対性。
 4. D Ext³から区間制限・projective cover・区間同型のcoherenceを構成し、AS条件から周期性を導く。
 5. Jacobian商・Ginzburg dg代数・d²=0・外部一般定理・主定理の同型類対応。
 

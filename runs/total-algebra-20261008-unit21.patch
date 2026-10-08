@@ -1,0 +1,209 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 66ba7ad..24092b8 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -79,6 +79,7 @@ import ASGinzburg.Triangle333
+ import ASGinzburg.GinzburgGrading
+ import ASGinzburg.ModuleBidualEvaluation
+ import ASGinzburg.FiniteProjectiveBidual
++import ASGinzburg.FiniteProjectiveDuality
+ 
+ /-!
+ # AS--Ginzburg formalization checkpoint
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index dc71049..e62e64c 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -247,6 +247,26 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_bidual
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_bidual
++#print axioms ASGinzburg.projective_of_retract
++#print axioms ASGinzburg.coproduct_projective
++#print axioms ASGinzburg.ZAlgebra.rightFiniteSumADualIso
++#print axioms ASGinzburg.ZAlgebra.leftFiniteSumADualIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_dual
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_dual
++#print axioms ASGinzburg.ZAlgebra.RightFiniteProjective
++#print axioms ASGinzburg.ZAlgebra.LeftFiniteProjective
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_projective
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_projective
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProjective
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProjective
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveADualFunctor
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveADualFunctor
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveADualFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveADualFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveBidualIso
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveBidualIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveBidualUnit
++#print axioms ASGinzburg.ZAlgebra.finiteProjectiveADualEquivalence
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
+diff --git a/ASGinzburg/FiniteProjectiveDuality.lean b/ASGinzburg/FiniteProjectiveDuality.lean
+new file mode 100644
+index 0000000..d388e96
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveDuality.lean
+@@ -0,0 +1,160 @@
++import ASGinzburg.FiniteProjectiveBidual
++import Mathlib.CategoryTheory.Limits.Opposites
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {C : Type u} [Category.{v} C]
++
++theorem projective_of_retract {P Q : C} (r : Retract P Q) [Projective Q] : Projective P where
++  factors f e _ := by
++    obtain ⟨g,hg⟩ := Projective.factors (r.r ≫ f) e
++    refine ⟨r.i ≫ g,?_⟩
++    rw [Category.assoc, hg, ← Category.assoc, r.retract, Category.id_comp]
++theorem coproduct_projective {I : Type*} (f : I → C)
++    [HasCoproduct f] [∀ i, Projective (f i)] : Projective (∐ f) where
++  factors g e _ := by
++    refine ⟨Sigma.desc (fun i => Projective.factorThru (Sigma.ι f i ≫ g) e),?_⟩
++    apply Sigma.hom_ext
++    intro i
++    simp only [Sigma.ι_desc_assoc, Projective.factorThru_comp]
++end ASGinzburg
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightFiniteSumADualIso (n : ℕ) (i : Fin n → ℤ) :
++    A.rightModuleADual (∐ fun j : Fin n => A.representable (i j)) ≅
++      ∐ fun j : Fin n => A.leftRepresentable (i j) := by
++  letI : HasFiniteBiproducts A.RightModuleᵒᵖ := HasFiniteBiproducts.of_hasFiniteProducts
++  exact A.rightModuleADualFunctor.mapIso
++    (opCoproductIsoProduct (fun j : Fin n => A.representable (i j)) ≪≫
++      (biproduct.isoProduct (fun j : Fin n => op (A.representable (i j)))).symm ≪≫
++        biproduct.isoCoproduct _) ≪≫
++    PreservesCoproduct.iso A.rightModuleADualFunctor (fun j : Fin n => op (A.representable (i j))) ≪≫
++      HasColimit.isoOfNatIso (Discrete.natIso (fun j : Discrete (Fin n) => A.representableADualIso (i j.as)))
++
++noncomputable def leftFiniteSumADualIso (n : ℕ) (i : Fin n → ℤ) :
++    A.leftModuleADual (∐ fun j : Fin n => A.leftRepresentable (i j)) ≅
++      ∐ fun j : Fin n => A.representable (i j) := by
++  letI : HasFiniteBiproducts A.LeftModuleᵒᵖ := HasFiniteBiproducts.of_hasFiniteProducts
++  exact A.leftModuleADualFunctor.mapIso
++    (opCoproductIsoProduct (fun j : Fin n => A.leftRepresentable (i j)) ≪≫
++      (biproduct.isoProduct (fun j : Fin n => op (A.leftRepresentable (i j)))).symm ≪≫
++        biproduct.isoCoproduct _) ≪≫
++    PreservesCoproduct.iso A.leftModuleADualFunctor (fun j : Fin n => op (A.leftRepresentable (i j))) ≪≫
++      HasColimit.isoOfNatIso (Discrete.natIso (fun j : Discrete (Fin n) => A.leftRepresentableADualIso (i j.as)))
++
++theorem rightFiniteProjectiveProperty_dual {P : A.RightModule}
++    (h : A.rightFiniteProjectiveProperty P) : A.leftFiniteProjectiveProperty (A.rightModuleADual P) := by
++  obtain ⟨n,i,⟨r⟩⟩ := h
++  refine ⟨n,i,⟨?_⟩⟩
++  exact (r.op.map A.rightModuleADualFunctor).trans (Retract.ofIso (A.rightFiniteSumADualIso n i))
++
++theorem leftFiniteProjectiveProperty_dual {P : A.LeftModule}
++    (h : A.leftFiniteProjectiveProperty P) : A.rightFiniteProjectiveProperty (A.leftModuleADual P) := by
++  obtain ⟨n,i,⟨r⟩⟩ := h
++  refine ⟨n,i,⟨?_⟩⟩
++  exact (r.op.map A.leftModuleADualFunctor).trans (Retract.ofIso (A.leftFiniteSumADualIso n i))
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++abbrev RightFiniteProjective := A.rightFiniteProjectiveProperty.FullSubcategory
++abbrev LeftFiniteProjective := A.leftFiniteProjectiveProperty.FullSubcategory
++
++theorem rightFiniteProjectiveProperty_projective {P : A.RightModule}
++    (h : A.rightFiniteProjectiveProperty P) : Projective P := by
++  obtain ⟨n,i,⟨r⟩⟩ := h
++  letI : Projective (∐ fun j => A.representable (i j)) := ASGinzburg.coproduct_projective _
++  exact ASGinzburg.projective_of_retract r
++
++theorem leftFiniteProjectiveProperty_projective {P : A.LeftModule}
++    (h : A.leftFiniteProjectiveProperty P) : Projective P := by
++  obtain ⟨n,i,⟨r⟩⟩ := h
++  letI : Projective (∐ fun j => A.leftRepresentable (i j)) := ASGinzburg.coproduct_projective _
++  exact ASGinzburg.projective_of_retract r
++
++noncomputable instance rightFiniteProjectiveProjective (P : A.RightFiniteProjective) : Projective P.obj :=
++  A.rightFiniteProjectiveProperty_projective P.property
++
++noncomputable instance leftFiniteProjectiveProjective (P : A.LeftFiniteProjective) : Projective P.obj :=
++  A.leftFiniteProjectiveProperty_projective P.property
++
++def rightFiniteProjectiveADualFunctor : A.RightFiniteProjectiveᵒᵖ ⥤ A.LeftFiniteProjective where
++  obj P := ⟨A.rightModuleADual P.unop.obj, A.rightFiniteProjectiveProperty_dual P.unop.property⟩
++  map f := A.rightModuleADualMap f.unop
++  map_id P := A.rightModuleADualFunctor.map_id (op P.unop.obj)
++  map_comp f g := by
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro h
++    exact Category.assoc (obj := A.RightModule) g.unop f.unop h
++
++def leftFiniteProjectiveADualFunctor : A.LeftFiniteProjectiveᵒᵖ ⥤ A.RightFiniteProjective where
++  obj P := ⟨A.leftModuleADual P.unop.obj, A.leftFiniteProjectiveProperty_dual P.unop.property⟩
++  map f := A.leftModuleADualMap f.unop
++  map_id P := A.leftModuleADualFunctor.map_id (op P.unop.obj)
++  map_comp f g := by
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro h
++    exact Category.assoc (obj := A.LeftModule) g.unop f.unop h
++instance rightFiniteProjectiveADualFunctorAdditive : A.rightFiniteProjectiveADualFunctor.Additive where
++  map_add := by
++    intro P Q f g
++    let fb : op P.unop.obj ⟶ op Q.unop.obj := f.unop.op
++    let gb : op P.unop.obj ⟶ op Q.unop.obj := g.unop.op
++    exact A.rightModuleADualFunctor.map_add (f := fb) (g := gb)
++
++instance leftFiniteProjectiveADualFunctorAdditive : A.leftFiniteProjectiveADualFunctor.Additive where
++  map_add := by
++    intro P Q f g
++    let fb : op P.unop.obj ⟶ op Q.unop.obj := f.unop.op
++    let gb : op P.unop.obj ⟶ op Q.unop.obj := g.unop.op
++    exact A.leftModuleADualFunctor.map_add (f := fb) (g := gb)
++
++noncomputable def rightFiniteProjectiveBidualIso :
++    𝟭 A.RightFiniteProjective ≅
++      A.rightFiniteProjectiveADualFunctor.rightOp ⋙ A.leftFiniteProjectiveADualFunctor :=
++  NatIso.ofComponents (fun P => by
++    letI := A.rightFiniteProjectiveProperty_bidual P.property
++    let e : P.obj ≅ A.leftModuleADual (A.rightModuleADual P.obj) :=
++      asIso (A.rightModuleBidualEvaluation P.obj)
++    exact A.rightFiniteProjectiveProperty.isoMk (X := P)
++      (Y := (A.rightFiniteProjectiveADualFunctor.rightOp ⋙ A.leftFiniteProjectiveADualFunctor).obj P) e)
++    (by
++      intro P Q f
++      exact A.rightModuleBidualEvaluation_natural (show P.obj ⟶ Q.obj from f))
++
++noncomputable def leftFiniteProjectiveBidualIso :
++    𝟭 A.LeftFiniteProjective ≅
++      A.leftFiniteProjectiveADualFunctor.rightOp ⋙ A.rightFiniteProjectiveADualFunctor :=
++  NatIso.ofComponents (fun P => by
++    letI := A.leftFiniteProjectiveProperty_bidual P.property
++    let e : P.obj ≅ A.rightModuleADual (A.leftModuleADual P.obj) :=
++      asIso (A.leftModuleBidualEvaluation P.obj)
++    exact A.leftFiniteProjectiveProperty.isoMk (X := P)
++      (Y := (A.leftFiniteProjectiveADualFunctor.rightOp ⋙ A.rightFiniteProjectiveADualFunctor).obj P) e)
++    (by
++      intro P Q f
++      exact A.leftModuleBidualEvaluation_natural (show P.obj ⟶ Q.obj from f))
++
++noncomputable def rightFiniteProjectiveBidualUnit :
++    𝟭 A.RightFiniteProjectiveᵒᵖ ≅
++      A.rightFiniteProjectiveADualFunctor ⋙ A.leftFiniteProjectiveADualFunctor.rightOp :=
++  (NatIso.op A.rightFiniteProjectiveBidualIso).symm
++
++noncomputable def finiteProjectiveADualEquivalence : A.RightFiniteProjectiveᵒᵖ ≌ A.LeftFiniteProjective :=
++  CategoryTheory.Equivalence.mk A.rightFiniteProjectiveADualFunctor
++    A.leftFiniteProjectiveADualFunctor.rightOp A.rightFiniteProjectiveBidualUnit
++      A.leftFiniteProjectiveBidualIso.symm
++
++end ASGinzburg.ZAlgebra
