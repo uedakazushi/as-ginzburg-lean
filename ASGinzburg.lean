@@ -175,6 +175,16 @@ import ASGinzburg.NakayamaWindowCoherence
 import ASGinzburg.PeriodInverse
 import ASGinzburg.ASPeriodicity
 
+import ASGinzburg.LeftHomColimits
+import ASGinzburg.LeftFiniteExtColimits
+import ASGinzburg.LeftRegularCoproduct
+import ASGinzburg.LeftFiniteRegularExtComparison
+import ASGinzburg.LeftRegularTotalAlgebra
+import ASGinzburg.RegularLeftModule
+import ASGinzburg.LeftRegularExtComparison
+import ASGinzburg.RegularRightMultiplication
+import ASGinzburg.LeftFiniteTotalExt
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

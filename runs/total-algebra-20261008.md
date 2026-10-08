@@ -995,3 +995,39 @@ UTC 2026-10-08T16:22:22.303709+00:00 → 2026-10-08T16:45:46.688467+00:00。
 差分：runs/total-algebra-20261008-unit38.patch。全theoremを監査し、許容公理3種類のみ。
 
 単位38公開検証20261008T162222Z-fddbde44は全6段階終了0、実際の検査シェルも終了0。UTC16:22:22.303709→16:45:46.688467、1404.384748221秒。171数学モジュール・1686異なる宣言・767 theorem・268 named instance。初期14・開始時60数学モジュールと歴史的577ファイルの無変更確認は終了0。単位37の正確なhead 24d0fa3224de2434851fa04124fddf20f547ea17のGitHub CI37807936230はsuccessと確認した。これは単位38のCIとは別の証拠。
+
+
+作業中チェックポイント UTC 2026-10-08T16:54:24.405668+00:00、開始から実測35626.405668秒。継続中、タスク終了時刻ではない。
+単位38はmain 8f3cc84ed81c11b8e95c2f5642992bac3d59644fへ保存済み。公開検証20261008T162222Z-fddbde44は全6段階と実際のシェルが終了0。UTC16:22:22.303709→16:45:46.688467、1404.384748221秒。171数学モジュール・1686異なる宣言・767 theorem・268 named instance。ASPeriodicityにより元のASRegular条件から正負周期Q.verticesを証明し、WindowSystemや周期性は条件に加えていない。初期14・開始時60数学モジュールと歴史的577ファイルの無変更確認は0。単位37の正確なheadのCI37807936230はsuccess、単位38のCI37811536193はin_progressと確認した。
+左側の9数学モジュールを追加した単位39の最初の公開検証20261008T164738Z-9459ddd0は、rootのmodule doc後にimportを置いた配置ミスでビルド終了1・全体終了1、5.026268414秒。失敗ログを保持し、importを冒頭へ移した新規検証20261008T164858Z-3dea7a05を開始した。180数学モジュール・1777異なる宣言・810 theorem・275 named instanceを対象とし、追加9モジュールとrootのビルドは通過、全体完了ではない。旧成功記録で補わない。
+AS分解d₁から各incoming矢に対応する実際の代数要素、成分全射と次数帰納法による全体生成がas-generators6で個別Lean終了0。実際のunrolled quiverの可合成道と全成分への評価全射がas-path-presentation4で0。自由道成分の双線形積・単位元・結合則とAS評価の積保存がunrolled-path-algebra1で0。第一微分の核のradical包含とradical像が正次数積のspanに一致することがas-minimal-generators1で0。実際の生成元側radical商と代数の積のspanによる商との線形同型がas-indecomposables2で0。これらは単位39の公開監査対象には含めない。失敗草稿の診断は保存している。
+有限coproductの実際の射影・成分Pi同型・radical閉性をcoproduct-radicalsで検査中。最初のimport失敗は固定mathlibのQuotient.Pi.olean不足で終了1。固定ソースのMathlib.LinearAlgebra.Quotient.Piのみlake buildし、1026 jobs・終了0。バージョンや依存コミットは変更していない。次は原論文(1.8)の最小生成元の次元公式、道代数全射の核の二乗条件・最小関係、標準RHom/derived/perfect、Jacobian/Ginzburg dgと外部一般定理、主定理の同型類対応。定理3.2と系5.2は未証明で正式Lean定理文も未実装。チェックポイント後も自律的に継続する。
+
+## 単位39：左有限次元加群の総正則Ext比較
+
+LeftHomColimits.lean、LeftFiniteExtColimits.lean、LeftRegularCoproduct.lean、LeftFiniteRegularExtComparison.lean、LeftRegularTotalAlgebra.lean、RegularLeftModule.lean、LeftRegularExtComparison.lean、RegularRightMultiplication.lean、LeftFiniteTotalExt.leanを追加。既存の実際の線形左加群を保ち、Homの自然な核表示とexactな余極限の交換、有限生成射影の有限直和因子表示と関手のretractにより、有限生成射影Homの余極限交換を証明した。既にAS条件から証明済みの有限次元左加群の長さ3の有限生成射影分解を用い、全次数Extのexactな余極限・直和交換へ延長した。
+
+左representableの実際の直和と、反対End代数を通じる成分および全総代数の右乗法を構成した。左正則総空間と実際の非単位的総代数の線形同型を構成し、全左作用が左乗法に一致することを証明した。単位化上の局所単位付き正則左加群を構成し、成分と全総代数の右乗法をその実際の加群射として実装した。
+
+既存の局所単位付きGr(A)圏との実際のExt同型・自然性を用い、任意の有限次元左加群M、全次数nについて、Ext(M,A,n)と既存右Ext成分加群の総空間のk線形同型を構成した。全成分および全総代数右作用に対する適合性を証明した。これで左右有限次元加群の総正則Ext比較は両側とも完成し、原論文の有限長Ext双対性で使う実際の総代数へのExtと、既存presheafモデルのExt反変同値との比較を埋めた。周期性や必要なExt同型を新しいAS仮定にはしていない。
+
+個別草稿left-hom-colimits1、left-finite-ext-colimits1、left-regular-coproduct4、left-finite-regular-ext-comparison2、left-regular-total-algebra1、regular-left-module2、left-regular-ext-comparison1、regular-right-multiplication2、left-finite-total-ext3は実際のLean終了0・診断なし。草稿での圏の向き、添字、LinearMapの型推論、作用のmap_add、maxRecDepthの不足などの終了1ログは削除しない。最後の全右作用の定理だけ、定義の入れ子に対応するmaxRecDepth 4096を局所指定した。カーネル検査は省略していない。
+
+単位38でAS条件から正負の周期性を証明済み。AS分解のd₁から成分全射・生成元を取り出すas-generators6、実際の被覆道の自由ベクトル空間から全成分への全射as-path-presentation4、第一微分の核がradicalに入ることとradicalの像が正次数積のspanに一致するas-minimal-generators1も個別Lean終了0で完成した。これらの命題1.2用草稿は今回の公開監査には含めず、次の単位で公開検証を行う。
+
+次は道代数全射の積保存・最小生成元の基底・核の二乗条件と最小関係、標準RHomの符号・shift/derived/perfect、Jacobian商・Ginzburg dg代数のd²=0と正則性、命題5.1・外部一般定理と主定理の同型類対応。定理3.2と系5.2は未証明で正式Lean定理文も未実装。検証とmainへの保存はチェックポイントとし、形式化を継続する。
+
+最初の公開検証20261008T164738Z-9459ddd0は、rootのmodule doc後に追加importを置いた配置ミスでビルド終了1・全体終了1、UTC16:47:38.628924→16:47:43.655201、5.026268414秒。数学草稿の失敗ではないが公開検査の失敗として保持し、importをファイル冒頭へ移して新規検査を実行した。旧成功で補わない。
+
+検証：`20261008T164858Z-3dea7a05`、1419.286460870秒、全段階終了0。
+JST 2026-10-09T01:48:58.294143+09:00 → 2026-10-09T02:12:37.580667+09:00。
+UTC 2026-10-08T16:48:58.294143+00:00 → 2026-10-08T17:12:37.580667+00:00。
+180数学モジュール・1777異なる宣言・810 theorem。
+差分：runs/total-algebra-20261008-unit39.patch。全theoremを監査し、許容公理3種類のみ。
+
+
+作業中チェックポイント UTC 2026-10-08T17:14:09.457465+00:00、開始から実測36811.457465秒。継続中、タスク終了時刻ではない。
+単位38はmain 8f3cc84ed81c11b8e95c2f5642992bac3d59644fへ保存済み。正確なheadのCI37811536193は最後の確認時in_progress。単位39の初回公開検証20261008T164738Z-9459ddd0のroot import配置エラーは終了1として保持。修正後の新規検証20261008T164858Z-3dea7a05は全6段階0、実際のシェルも0。UTC16:48:58.294143→17:12:37.580667、1419.286460870秒。180数学モジュール・1777異なる宣言・810 theorem・275 named instance。初期14・開始時60数学モジュールと歴史的577ファイル無変更は0。左右有限次元加群の全次数総正則Ext比較と全総代数作用適合性は両側とも公開検証0で完成。
+次の草稿では原論文(1.8)の最小生成元の次元公式、実際のincoming係数による基底、(1.10)の成分分解がas-generator-dimensions6とas-generator-basis3で個別Lean終了0。unrolled-path-finiteness2とunrolled-path-z-algebra1で実際の被覆道の局所有限性と具体的ZAlgebraを構成、unrolled-path-presentation-morphism2で積と単位元を保つ全成分への全射を構成し、いずれも0。unrolled-path-indecomposables2で長さ2以上の道が積の商で零になること、z-algebra-homomorphisms1で準同型の核の両側イデアル閉性と対角単射性・実際の成分商同型が0。unrolled-single-arrows2で長さ1の実際の道と指定sourceを持つincoming矢の全単射およびheightによる生成元添字との比較が0。全射の核が矢イデアルの二乗に入る逆向きの義務は未証明。今回単位39の公開監査には含めず、次の単位で公開検証を行う。
+保存用の作業中helper reconcile_periodicity.pyは既に更新済みのGAPS節7の旧見出しを検索したため一度終了1。見出しを現在の節番号から検索する形へ修正し、再実行0。数学ソース・公開検証結果は変更していない。
+次は核の二乗条件と最小関係、標準RHomの符号・shift/derived/perfect、Jacobian/Ginzburg dgと外部一般定理、主定理の同型類対応。定理3.2と系5.2は未証明で正式Lean定理文も未実装。検証・記録・push後も自律的に継続する。

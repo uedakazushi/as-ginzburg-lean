@@ -1,0 +1,108 @@
+import ASGinzburg.LeftFiniteExtColimits
+import ASGinzburg.LeftRegularCoproduct
+import ASGinzburg.LeftModuleExtRightSequence
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  (Q : CutQuiver) (hAS : A.ASRegular Q) (M : A.LeftModule)
+  (hM : A.leftFiniteDimensionalProperty M)
+
+@[reassoc] theorem leftFiniteDimensionalExtCoproductIso_inclusion_hom {I : Type}
+    (n : ℕ) (F : I → A.LeftModule) (i : I) :
+    (A.leftModuleExtCovariant M n).map (Sigma.ι F i) ≫
+        (A.leftFiniteDimensionalExtCoproductIso Q hAS M hM n F).hom =
+      Sigma.ι (fun j => ModuleCat.of k (Abelian.Ext.{v} M (F j) n)) i := by
+  letI := A.leftFiniteDimensionalExtPreservesCoproducts Q hAS M hM I n
+  exact IsColimit.comp_coconePointUniqueUpToIso_hom
+    (isColimitOfHasCoproductOfPreservesColimit (A.leftModuleExtCovariant M n) F)
+    (colimit.isColimit (Discrete.functor (fun j => ModuleCat.of k
+      (Abelian.Ext.{v} M (F j) n)))) (Discrete.mk i)
+
+@[simp] theorem leftFiniteDimensionalExtDirectSumLinearEquiv_postcomp_inclusion
+    {I : Type} [DecidableEq I] (n : ℕ) (F : I → A.LeftModule) (i : I)
+    (a : Abelian.Ext.{v} M (F i) n) :
+    A.leftFiniteDimensionalExtDirectSumLinearEquiv Q hAS M hM n F
+        (a.comp (Abelian.Ext.mk₀ (Sigma.ι F i)) (Nat.add_zero n)) =
+      DirectSum.lof k I (fun j => Abelian.Ext.{v} M (F j) n) i a := by
+  classical
+  have h := A.leftFiniteDimensionalExtCoproductIso_inclusion_hom Q hAS M hM n F i
+  have hh := congrArg (fun f => f ≫ (ModuleCat.coprodIsoDirectSum
+      (fun j => ModuleCat.of k (Abelian.Ext.{v} M (F j) n))).hom) h
+  dsimp only at hh
+  rw [ModuleCat.ι_coprodIsoDirectSum_hom] at hh
+  simpa [leftFiniteDimensionalExtDirectSumLinearEquiv,CategoryTheory.Iso.toLinearEquiv,
+    leftModuleExtCovariant,leftModuleExtPostcomp] using congrArg (fun f => f.hom a) hh
+
+noncomputable def leftFiniteDimensionalExtRegularCoproductLinearEquiv (n : ℕ) :
+    Abelian.Ext.{v} M A.leftRegularCoproduct n ≃ₗ[k]
+      A.rightModuleTotalSpace (A.leftModuleExtRight M n) :=
+  A.leftFiniteDimensionalExtDirectSumLinearEquiv Q hAS M hM n (fun i : ℤ => A.leftRepresentable i)
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+  (hAS : A.ASRegular Q) (M : A.LeftModule) (hM : A.leftFiniteDimensionalProperty M)
+
+@[reassoc] theorem leftFiniteDimensionalExtRegularCoproductEquiv_inclusion (n : ℕ) (i : ℤ) :
+    (A.leftModuleExtCovariant M n).map
+        (Sigma.ι (fun j : ℤ => A.leftRepresentable j) i) ≫
+          ModuleCat.ofHom (A.leftFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n).toLinearMap =
+      ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => Abelian.Ext.{v}
+        M (A.leftRepresentable j) n) i) := by
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  exact A.leftFiniteDimensionalExtDirectSumLinearEquiv_postcomp_inclusion Q hAS M hM n
+    (fun j : ℤ => A.leftRepresentable j) i x
+
+/-- The direct-sum Ext comparison intertwines actual postcomposition with every algebra
+component's left action. No required Ext isomorphism is supplied as a hypothesis. -/
+@[reassoc] theorem leftFiniteDimensionalExtRegularCoproductEquiv_action (n : ℕ) {i j : ℤ} (a : A.Hom i j) :
+    (A.leftModuleExtCovariant M n).map
+        (A.leftRegularCoproductAction a) ≫
+          ModuleCat.ofHom (A.leftFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n).toLinearMap =
+      ModuleCat.ofHom (A.leftFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n).toLinearMap ≫
+        ModuleCat.ofHom (A.rightModuleTotalAction
+          (A.leftModuleExtRight M n) a) := by
+  let H := A.leftModuleExtCovariant M n
+  letI := A.leftFiniteDimensionalExtPreservesCoproducts Q hAS M hM ℤ n
+  apply (isColimitOfHasCoproductOfPreservesColimit H (fun l : ℤ => A.leftRepresentable l)).hom_ext
+  rintro ⟨l⟩
+  change H.map (Sigma.ι (fun t : ℤ => A.leftRepresentable t) l) ≫ H.map _ ≫ _ =
+    H.map (Sigma.ι (fun t : ℤ => A.leftRepresentable t) l) ≫ _ ≫ _
+  rw [← H.map_comp_assoc]
+  by_cases hl : l = j
+  · subst l
+    rw [A.leftRegularCoproduct_inclusion_action, H.map_comp, Category.assoc,
+      A.leftFiniteDimensionalExtRegularCoproductEquiv_inclusion Q hAS M hM, A.leftFiniteDimensionalExtRegularCoproductEquiv_inclusion_assoc Q hAS M hM]
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_apply]
+    change _ = A.rightModuleTotalAction
+      (A.leftModuleExtRight M n) a
+      (DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj
+        (A.leftModuleExtRight M n)) j x)
+    rw [A.rightModuleTotalAction_lof]
+    rfl
+  · rw [A.leftRegularCoproduct_inclusion_action_off a l hl, H.map_zero, zero_comp,
+      A.leftFiniteDimensionalExtRegularCoproductEquiv_inclusion_assoc Q hAS M hM]
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_apply,
+      ModuleCat.hom_zero, LinearMap.zero_apply]
+    change _ = A.rightModuleTotalAction
+      (A.leftModuleExtRight M n) a
+      (DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj
+        (A.leftModuleExtRight M n)) l x)
+    rw [A.rightModuleTotalAction_lof_off
+      (A.leftModuleExtRight M n) a l hl x]
+
+end ASGinzburg.ZAlgebra
