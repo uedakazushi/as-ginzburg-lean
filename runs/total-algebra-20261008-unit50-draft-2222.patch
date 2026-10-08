@@ -1,0 +1,393 @@
+diff --git a/work/ASGinzburgDraft/GinzburgGeneratorFiltrationShortExact.lean b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationShortExact.lean
+new file mode 100644
+index 0000000..1ac9e80
+--- /dev/null
++++ b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationShortExact.lean
+@@ -0,0 +1,70 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerAugmentation
++import Mathlib.Algebra.Homology.HomologicalComplexAbelian
++import Mathlib.Algebra.Homology.HomologySequence
++
++/-! Consecutive genuine last-generator subcomplexes and their actual
++quotient form a short exact sequence of mathlib complexes. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorFiltrationAtDegree_step_le (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c ≤
++      Q.ginzburgGeneratorFiltrationAtDegree k u v r q c := by
++  apply Finsupp.supported_mono
++  intro p hp
++  exact ⟨Q.ginzburgGeneratorFiltrationPaths_antitone (by omega) hp.1,hp.2⟩
++
++noncomputable def ginzburgGeneratorFilteredInclusion (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v (r+1) c ⟶
++      Q.ginzburgGeneratorFilteredComplex k φ u v r c :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom
++      (Submodule.inclusion (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v r q c)))
++    (fun _q => by
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro f
++      apply Subtype.ext
++      rfl)
++
++theorem ginzburgGeneratorFilteredInclusion_comp_quotient (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    Q.ginzburgGeneratorFilteredInclusion k φ u v r c ≫
++      Q.ginzburgFilteredToAssociatedGraded k φ u v r c=0 := by
++  apply HomologicalComplex.Hom.ext
++  funext q
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro f
++  change (Submodule.Quotient.mk
++    (Submodule.inclusion (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v r q c) f) :
++      Q.GinzburgAssociatedGraded k u v r q c)=0
++  apply (Submodule.Quotient.mk_eq_zero _).mpr
++  exact f.property
++
++noncomputable def ginzburgGeneratorFilteredShortComplex (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) : ShortComplex (CochainComplex (ModuleCat.{u} k) ℤ) :=
++  ShortComplex.mk (Q.ginzburgGeneratorFilteredInclusion k φ u v r c)
++    (Q.ginzburgFilteredToAssociatedGraded k φ u v r c)
++    (Q.ginzburgGeneratorFilteredInclusion_comp_quotient k φ u v r c)
++
++theorem ginzburgGeneratorFilteredShortComplex_shortExact (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    (Q.ginzburgGeneratorFilteredShortComplex k φ u v r c).ShortExact := by
++  apply HomologicalComplex.shortExact_of_degreewise_shortExact
++  intro q
++  refine {exact:=?_,mono_f:=?_,epi_g:=?_}
++  · apply (ShortComplex.moduleCat_exact_iff _).mpr
++    intro f hf
++    change (Submodule.Quotient.mk f : Q.GinzburgAssociatedGraded k u v r q c)=0 at hf
++    have hmem := (Submodule.Quotient.mk_eq_zero _).mp hf
++    exact ⟨⟨f.val,hmem⟩,Subtype.ext rfl⟩
++  · apply (ModuleCat.mono_iff_injective _).mpr
++    exact Submodule.inclusion_injective (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v r q c)
++  · apply (ModuleCat.epi_iff_surjective _).mpr
++    exact (Q.ginzburgGeneratorHigherLayer k u v r q c).mkQ_surjective
++
++end ASGinzburg.CutQuiver
+diff --git a/work/ASGinzburgDraft/GinzburgGeneratorFiltrationHomologySequence.lean b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationHomologySequence.lean
+new file mode 100644
+index 0000000..71be398
+--- /dev/null
++++ b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationHomologySequence.lean
+@@ -0,0 +1,66 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFiltrationShortExact
++
++/-! The connecting maps and long exact homology sequence come from
++the actual short exact sequence of generator-filtered complexes. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgGeneratorFilteredHomology (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) : ModuleCat.{u} k :=
++  (Q.ginzburgGeneratorFilteredComplex k φ u v r c).homology q
++
++noncomputable def ginzburgGeneratorFilteredInclusionHomology (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    Q.ginzburgGeneratorFilteredHomology k φ u v (r+1) c q ⟶
++      Q.ginzburgGeneratorFilteredHomology k φ u v r c q :=
++  HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ u v r c) q
++
++noncomputable def ginzburgGeneratorFilteredQuotientHomology (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    Q.ginzburgGeneratorFilteredHomology k φ u v r c q ⟶
++      Q.ginzburgAssociatedGradedHomology k φ u v r c q :=
++  HomologicalComplex.homologyMap (Q.ginzburgFilteredToAssociatedGraded k φ u v r c) q
++
++noncomputable def ginzburgGeneratorFiltrationConnecting (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    Q.ginzburgAssociatedGradedHomology k φ u v r c q ⟶
++      Q.ginzburgGeneratorFilteredHomology k φ u v (r+1) c (q+1) :=
++  (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v r c).δ q (q+1) (by simp)
++
++theorem ginzburgGeneratorFiltrationConnecting_comp (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    Q.ginzburgGeneratorFiltrationConnecting k φ u v r c q ≫
++      Q.ginzburgGeneratorFilteredInclusionHomology k φ u v r c (q+1)=0 :=
++  (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v r c).δ_comp q (q+1) (by simp)
++
++theorem ginzburgGeneratorFilteredQuotientHomology_comp_connecting (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    Q.ginzburgGeneratorFilteredQuotientHomology k φ u v r c q ≫
++      Q.ginzburgGeneratorFiltrationConnecting k φ u v r c q=0 :=
++  (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v r c).comp_δ q (q+1) (by simp)
++
++theorem ginzburgGeneratorFiltrationHomology_exact₁ (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    (ShortComplex.mk (Q.ginzburgGeneratorFiltrationConnecting k φ u v r c q)
++      (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v r c (q+1))
++      (Q.ginzburgGeneratorFiltrationConnecting_comp k φ u v r c q)).Exact :=
++  (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v r c).homology_exact₁
++    q (q+1) (by simp)
++
++theorem ginzburgGeneratorFiltrationHomology_exact₂ (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    ((Q.ginzburgGeneratorFilteredShortComplex k φ u v r c).map
++      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q)).Exact :=
++  (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v r c).homology_exact₂ q
++
++theorem ginzburgGeneratorFiltrationHomology_exact₃ (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    (ShortComplex.mk (Q.ginzburgGeneratorFilteredQuotientHomology k φ u v r c q)
++      (Q.ginzburgGeneratorFiltrationConnecting k φ u v r c q)
++      (Q.ginzburgGeneratorFilteredQuotientHomology_comp_connecting k φ u v r c q)).Exact :=
++  (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v r c).homology_exact₃
++    q (q+1) (by simp)
++
++end ASGinzburg.CutQuiver
+diff --git a/work/ASGinzburgDraft/GinzburgGeneratorFilteredAugmentation.lean b/work/ASGinzburgDraft/GinzburgGeneratorFilteredAugmentation.lean
+new file mode 100644
+index 0000000..c919003
+--- /dev/null
++++ b/work/ASGinzburgDraft/GinzburgGeneratorFilteredAugmentation.lean
+@@ -0,0 +1,67 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFiltrationHomologySequence
++import work.ASGinzburgDraft.GinzburgAugmentationRegularity
++
++/-! The lowest genuine filtered subcomplex is the actual augmentation
++complex, so its negative homology vanishes under Ginzburg regularity. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorFiltrationAtDegree_le_augmentation (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorFiltrationAtDegree k u v r q c ≤
++      Q.ginzburgAugmentationAtDegree k u v q c := by
++  apply Finsupp.supported_mono
++  intro p hp
++  exact ⟨Q.ginzburgGeneratorFiltrationPaths_nonempty hp.1,hp.2⟩
++
++noncomputable def ginzburgGeneratorFilteredAugmentationInclusion (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v r c ⟶
++      Q.ginzburgAugmentationCochainComplex k φ u v c :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom
++      (Submodule.inclusion (Q.ginzburgGeneratorFiltrationAtDegree_le_augmentation k u v r q c)))
++    (fun _q => by
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro f
++      apply Subtype.ext
++      rfl)
++
++instance ginzburgGeneratorFilteredAugmentationInclusion_negTwo_f_isIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c q : ℤ) :
++    IsIso ((Q.ginzburgGeneratorFilteredAugmentationInclusion k φ u v (-2) c).f q) := by
++  apply (ConcreteCategory.isIso_iff_bijective _).mpr
++  refine ⟨Submodule.inclusion_injective
++    (Q.ginzburgGeneratorFiltrationAtDegree_le_augmentation k u v (-2) q c),?_⟩
++  intro f
++  refine ⟨⟨f.val,?_⟩,Subtype.ext rfl⟩
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_negTwo]
++  exact f.property
++
++instance ginzburgGeneratorFilteredAugmentationInclusion_negTwo_isIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    IsIso (Q.ginzburgGeneratorFilteredAugmentationInclusion k φ u v (-2) c) :=
++  HomologicalComplex.Hom.isIso_of_components _
++
++noncomputable def ginzburgGeneratorFilteredNegTwoIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v (-2) c ≅
++      Q.ginzburgAugmentationCochainComplex k φ u v c :=
++  asIso (Q.ginzburgGeneratorFilteredAugmentationInclusion k φ u v (-2) c)
++
++noncomputable def ginzburgGeneratorFilteredNegTwoHomologyIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c q : ℤ) :
++    Q.ginzburgGeneratorFilteredHomology k φ u v (-2) c q ≅
++      Q.ginzburgAugmentationHomology k φ u v c q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).mapIso
++    (Q.ginzburgGeneratorFilteredNegTwoIso k φ u v c)
++
++theorem GinzburgRegular.generatorFilteredNegTwoHomology_isZero {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c q : ℤ) (hq : q<0) :
++    IsZero (Q.ginzburgGeneratorFilteredHomology k φ u v (-2) c q) :=
++  (h.augmentationHomology_isZero Q k u v c q hq).of_iso
++    (Q.ginzburgGeneratorFilteredNegTwoHomologyIso k φ u v c q)
++
++end ASGinzburg.CutQuiver
+diff --git a/work/ASGinzburgDraft/GinzburgGeneratorFiltrationSyzygy.lean b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationSyzygy.lean
+new file mode 100644
+index 0000000..9b4cd27
+--- /dev/null
++++ b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationSyzygy.lean
+@@ -0,0 +1,28 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFilteredAugmentation
++
++/-! Genuine Ginzburg regularity identifies the first syzygy in the
++filtered homology sequence, using actual augmentation acyclicity. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem GinzburgRegular.lowestGeneratorConnecting_isIso {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c : ℤ) :
++    IsIso (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2)) := by
++  haveI : Mono (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2)) := by
++    apply (Q.ginzburgGeneratorFiltrationHomology_exact₃ k φ u v (-2) c (-2)).mono_g
++    exact (h.generatorFilteredNegTwoHomology_isZero Q k u v c (-2) (by norm_num)).eq_of_src _ _
++  haveI : Epi (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2)) := by
++    apply (Q.ginzburgGeneratorFiltrationHomology_exact₁ k φ u v (-2) c (-2)).epi_f
++    exact (h.generatorFilteredNegTwoHomology_isZero Q k u v c (-2+1) (by norm_num)).eq_of_tgt _ _
++  exact isIso_of_mono_of_epi _
++
++noncomputable def GinzburgRegular.lowestGeneratorConnectingIso {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2) ≅
++      Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c (-1) := by
++  letI := h.lowestGeneratorConnecting_isIso Q k u v c
++  exact asIso (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2))
++
++end ASGinzburg.CutQuiver
+diff --git a/work/ASGinzburgDraft/GinzburgGeneratorUpperFiltration.lean b/work/ASGinzburgDraft/GinzburgGeneratorUpperFiltration.lean
+new file mode 100644
+index 0000000..34de631
+--- /dev/null
++++ b/work/ASGinzburgDraft/GinzburgGeneratorUpperFiltration.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFiltrationSyzygy
++
++/-! The upper filtered complex is its genuine degree-zero associated
++graded complex, because the next filtration term is zero. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorHigherLayer_zero (u v : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgGeneratorHigherLayer k u v 0 q c=⊥ := by
++  apply bot_unique
++  intro f hf
++  change f.val ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v (0+1) q c at hf
++  rw [show (0:ℤ)+1=1 by norm_num,
++    Q.ginzburgGeneratorFiltrationAtDegree_one,Submodule.mem_bot] at hf
++  rw [Submodule.mem_bot]
++  exact Subtype.ext hf
++
++instance ginzburgFilteredToAssociatedGraded_zero_f_isIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c q : ℤ) :
++    IsIso ((Q.ginzburgFilteredToAssociatedGraded k φ u v 0 c).f q) := by
++  apply (ConcreteCategory.isIso_iff_bijective _).mpr
++  refine ⟨?_,(Q.ginzburgGeneratorHigherLayer k u v 0 q c).mkQ_surjective⟩
++  apply LinearMap.ker_eq_bot.mp
++  change LinearMap.ker (Q.ginzburgGeneratorHigherLayer k u v 0 q c).mkQ=⊥
++  rw [Submodule.ker_mkQ,Q.ginzburgGeneratorHigherLayer_zero]
++
++instance ginzburgFilteredToAssociatedGraded_zero_isIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    IsIso (Q.ginzburgFilteredToAssociatedGraded k φ u v 0 c) :=
++  HomologicalComplex.Hom.isIso_of_components _
++
++noncomputable def ginzburgGeneratorFilteredZeroIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v 0 c ≅
++      Q.ginzburgAssociatedGradedComplex k φ u v 0 c :=
++  asIso (Q.ginzburgFilteredToAssociatedGraded k φ u v 0 c)
++
++noncomputable def ginzburgGeneratorFilteredZeroHomologyIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c q : ℤ) :
++    Q.ginzburgGeneratorFilteredHomology k φ u v 0 c q ≅
++      Q.ginzburgAssociatedGradedHomology k φ u v 0 c q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).mapIso
++    (Q.ginzburgGeneratorFilteredZeroIso k φ u v c)
++
++theorem GinzburgRegular.generatorFilteredZeroHomology_isZero {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c q : ℤ) (hq : q≠0) :
++    IsZero (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c q) :=
++  (h.associatedGradedHomology_isZero_of_ne Q k u v 0 c q hq).of_iso
++    (Q.ginzburgGeneratorFilteredZeroHomologyIso k φ u v c q)
++
++end ASGinzburg.CutQuiver
+diff --git a/work/ASGinzburgDraft/GinzburgGeneratorFiltrationKernel.lean b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationKernel.lean
+new file mode 100644
+index 0000000..127b37b
+--- /dev/null
++++ b/work/ASGinzburgDraft/GinzburgGeneratorFiltrationKernel.lean
+@@ -0,0 +1,73 @@
++import work.ASGinzburgDraft.GinzburgGeneratorUpperFiltration
++
++/-! The actual long exact sequence gives a monomorphism from the loop
++layer onto the kernel of the next connecting map. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem GinzburgRegular.middleGeneratorQuotient_mono {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c : ℤ) :
++    Mono (Q.ginzburgGeneratorFilteredQuotientHomology k φ u v (-1) c (-1)) := by
++  apply (Q.ginzburgGeneratorFiltrationHomology_exact₂ k φ u v (-1) c (-1)).mono_g
++  exact (h.generatorFilteredZeroHomology_isZero Q k u v c (-1) (by norm_num)).eq_of_src _ _
++
++noncomputable def ginzburgGeneratorLoopToDualHomology (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2) ⟶
++      Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) := by
++  have f : Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2) ⟶
++      Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c (-1) :=
++    Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2)
++  exact f ≫ Q.ginzburgGeneratorFilteredQuotientHomology k φ u v (-1) c (-1)
++
++theorem ginzburgGeneratorLoopToDualHomology_comp (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgGeneratorLoopToDualHomology k φ u v c ≫
++      Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1)=0 := by
++  unfold ginzburgGeneratorLoopToDualHomology
++  rw [Category.assoc,Q.ginzburgGeneratorFilteredQuotientHomology_comp_connecting,
++    comp_zero]
++
++noncomputable def ginzburgGeneratorLoopDualShortComplex (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) : ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.mk (Q.ginzburgGeneratorLoopToDualHomology k φ u v c)
++    (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1))
++    (Q.ginzburgGeneratorLoopToDualHomology_comp k φ u v c)
++
++theorem GinzburgRegular.loopToDualHomology_mono {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c : ℤ) :
++    Mono (Q.ginzburgGeneratorLoopToDualHomology k φ u v c) := by
++  letI := h.lowestGeneratorConnecting_isIso Q k u v c
++  letI := h.middleGeneratorQuotient_mono Q k u v c
++  exact mono_comp _ _
++
++theorem GinzburgRegular.loopDualShortComplex_exact {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c : ℤ) :
++    (Q.ginzburgGeneratorLoopDualShortComplex k φ u v c).Exact := by
++  rw [ShortComplex.moduleCat_exact_iff]
++  intro x hx
++  rcases (ShortComplex.moduleCat_exact_iff _).mp
++    (Q.ginzburgGeneratorFiltrationHomology_exact₃ k φ u v (-1) c (-1)) x hx with ⟨y,hy⟩
++  let e := h.lowestGeneratorConnectingIso Q k u v c
++  refine ⟨e.inv y,?_⟩
++  change Q.ginzburgGeneratorFilteredQuotientHomology k φ u v (-1) c (-1)
++    (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2) (e.inv y))=x
++  have he : Q.ginzburgGeneratorFiltrationConnecting k φ u v (-2) c (-2) (e.inv y)=y := by
++    change e.hom (e.inv y)=y
++    simpa only [ModuleCat.comp_apply,ModuleCat.id_apply] using
++      congrArg (fun f => f y) e.inv_hom_id
++  rw [he]
++  exact hy
++
++noncomputable def GinzburgRegular.loopToDualHomology_isKernel {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c : ℤ) :
++    IsLimit (KernelFork.ofι (Q.ginzburgGeneratorLoopToDualHomology k φ u v c)
++      (Q.ginzburgGeneratorLoopToDualHomology_comp k φ u v c)) := by
++  letI := h.loopToDualHomology_mono Q k u v c
++  haveI : Mono (Q.ginzburgGeneratorLoopDualShortComplex k φ u v c).f :=
++    h.loopToDualHomology_mono Q k u v c
++  exact (h.loopDualShortComplex_exact Q k u v c).fIsKernel
++
++end ASGinzburg.CutQuiver

@@ -1,0 +1,47 @@
+import ASGinzburg.GinzburgGeneratorPrefixHomology
+import ASGinzburg.GinzburgLastGeneratorDifferential
+
+/-! The layer/prefix equivalence reads the actual coefficient of the
+path obtained by adjoining the specified last generator. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCutComponentBasisEquiv_apply (u v : Q.Vertex) (q c : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k u v q c)
+    (p : {p : Q.GinzburgPath u v // p.cohomologicalDegree=q ∧ p.cutDegree=c}) :
+    Q.ginzburgCutComponentBasisEquiv k u v q c f p=f.val p.val := by
+  simp only [ginzburgCutComponentBasisEquiv,LinearEquiv.trans_apply]
+  change (LinearEquiv.ofEq (Q.ginzburgCutCohomologicalComponent k u v q c)
+    (Finsupp.supported k k {p | p.cohomologicalDegree=q ∧ p.cutDegree=c}) _ f).val p.val=_
+  rw [LinearEquiv.coe_ofEq_apply]
+
+theorem ginzburgGeneratorLayerFreeEquiv_apply (u v : Q.Vertex) (r q c : ℤ)
+    (f : Q.ginzburgGeneratorLayerAtDegree k u v r q c)
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r})
+    (p : {p : Q.GinzburgPath u (a.val.source Q) //
+      p.cohomologicalDegree=q-r ∧ p.cutDegree=c-a.val.cutDegree Q}) :
+    (Q.ginzburgGeneratorLayerFreeEquiv k u v r q c f a).val p.val=
+      f.val ((GinzburgLastGeneratorData.path Q)
+        ⟨⟨a.val,a.property.1⟩,p.val⟩) := by
+  classical
+  letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}
+  simp only [ginzburgGeneratorLayerFreeEquiv,LinearEquiv.trans_apply,
+    LinearEquiv.piCongrRight_apply]
+  simp only [ginzburgCutComponentBasisEquiv,LinearEquiv.trans_symm,
+    LinearEquiv.trans_apply,LinearEquiv.ofEq_symm,LinearEquiv.coe_ofEq_apply]
+  let s : Set (Q.GinzburgPath u (a.val.source Q)) :=
+    {p | p.cohomologicalDegree=q-r ∧ p.cutDegree=c-a.val.cutDegree Q}
+  let g : s →₀ k := (Finsupp.sigmaFinsuppLEquivPiFinsupp k)
+    ((Finsupp.domLCongr (R:=k) (Q.ginzburgGeneratorLayerDegreeEquiv u v r q c))
+      ((Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
+        {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
+          p.cohomologicalDegree=q ∧ p.cutDegree=c}) f)) a
+  have he : ((Finsupp.supportedEquivFinsupp (M:=k) (R:=k) s).symm g).val p.val=g p := by
+    rw [Finsupp.supportedEquivFinsupp_symm_apply_coe (R:=k) (M:=k) s g]
+    rw [Finsupp.extendDomain_toFun]
+    rw [dif_pos (show p.val ∈ s from p.property)]
+    rfl
+  exact he.trans rfl
+
+end ASGinzburg.CutQuiver

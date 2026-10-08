@@ -1,8 +1,8 @@
 # Codexクラウドへの引継ぎ
 
-実際のcomplexのcanonical homology augmentationとquasi-isomorphismの判定、通常/固定cut/unrolled Ginzburg augmentationと実際のGinzburgRegularとの同値を証明。最後の生成元によるaugmentation idealの自由有限和表示と実際のcohomological/cut次数移動、signed微分の閉性とmathlib augmentation complexを構成し、GinzburgRegularからその全負次数homology消滅を証明。標準単純分解のexactness、AS対応の両方向、最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T214350Z-4231f27e：308数学モジュール・2514異なる宣言・1263 theorem、全段階終了0。
-単位1〜48の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のactual associated-graded complexを構成。実際の道の係数とLeibnizから全有限shifted-prefix complexとのcochain同型を証明し、GinzburgRegularから各層のhomologyが生成元次数だけに集中することを導いた。canonicalな層augmentationからその実際のhomologyのsingle complexへのquasi-isomorphismまで完成。生成元次数のhomologyとA(Φ)成分の比較、有限filtrationの長完全列から標準単純分解のexactness・Ext表/AS対応を導く部分は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T221936Z-0be3dec5：329数学モジュール・2625異なる宣言・1337 theorem、全段階終了0。
+単位1〜49の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -26,10 +26,12 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T214350Z-4231f27e`、全段階終了0、1617.721621879秒。
-UTC 2026-10-08T21:43:50.288138+00:00 → 2026-10-08T22:10:48.009764+00:00。
-JST 2026-10-09T06:43:50.288138+09:00 → 2026-10-09T07:10:48.009764+09:00。
-308数学モジュール・2514異なる明示的宣言・全1263 theorem・288 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+独立GitHub CI：単位47/main de666ed5のrun37848719715はsuccess（全7段階終了0、verifier20261008T214336Z-66989968、2423.870414934秒）。完全job logの874357バイトとSHA-256/digestはverification/total_algebra_unit47_github_ci.evidence.jsonおよびpart0/part1.logへ保存。最新保存済みmain70397c53（単位48）のCI37852698557は現在in_progressであり、単位49の公開ソースはまだmain保存前。旧CI成功を最新commitの成功と扱わない。
+
+最新ローカル検証 `20261008T221936Z-0be3dec5`、全段階終了0、1676.240996655秒。
+UTC 2026-10-08T22:19:36.306338+00:00 → 2026-10-08T22:47:32.547342+00:00。
+JST 2026-10-09T07:19:36.306338+09:00 → 2026-10-09T07:47:32.547342+09:00。
+329数学モジュール・2625異なる明示的宣言・全1337 theorem・290 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -63,7 +65,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。前合成・後合成の自然性も完成。正則総加群と総代数の同定と(1.12)への移送も完成。
 3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。有限生成射影の反変同値まで完成。有界cochainホモトピー圏まで完成。左単純分解とExtの相互計算も完成。二重Ext自然同型・有限次元Ext³反変同値・成分線形双対の反変同値・exactな自己同値と頂点単純の移送は完成。総ベクトル双対比較・全作用適合性とAS条件からの周期性まで完成。次は左側総正則Ext比較も完成。次はd₁からの道代数提示と標準RHom/derived接続。
 4. D Ext³の区間制限・projective cover・正規化同型、代数成分回収と区間coherence、AS条件からの正負周期性は完成。道代数全射・最小生成元の基底と成分分解は完成。核の矢イデアル平方への包含と実際の道代数商同型も完成。任意の基底の持上げ・選択の独立性と最小関係を続ける。
-5. 単位44で全d²=0、実際のcochain複体/homology・GinzburgRegular定義、Jacobianイデアル＝境界とH⁰の線形比較は公開検証済み。単位45で固定cut項/homologyの有限次元性と有界性、実際のretract、全正則性のcut成分判定、homogeneous Jacobian/H⁰の線形比較、道/線形unrolling同型まで公開検証済み。単位46でJacobian商とunrollingの交換・homogeneous商の積保存、固定cut H⁰とA(Φ)成分の線形比較も公開検証済み。単位47でH⁰そのものの積/単位元/結合則、Jacobian/A(Φ)比較の積保存、実際のH⁰ ZAlgebra同型、全単位的Jacobian/H⁰成分環とAlgEquivまで公開検証済み。canonical augmentation/quasi-isomorphismと実際のfree-generator augmentation complex/負次数消滅は単位48で公開検証済み。次は3層のprefix complex比較とA(Φ)上の標準単純分解のexactness。AS条件との両方向の対応・外部一般定理・主定理の同型類対応を続ける。次の未公開草稿の検査状態はRECENT_RUN.mdに記録する。
+5. 単位44で全d²=0、実際のcochain複体/homology・GinzburgRegular定義、Jacobianイデアル＝境界とH⁰の線形比較は公開検証済み。単位45で固定cut項/homologyの有限次元性と有界性、実際のretract、全正則性のcut成分判定、homogeneous Jacobian/H⁰の線形比較、道/線形unrolling同型まで公開検証済み。単位46でJacobian商とunrollingの交換・homogeneous商の積保存、固定cut H⁰とA(Φ)成分の線形比較も公開検証済み。単位47でH⁰そのものの積/単位元/結合則、Jacobian/A(Φ)比較の積保存、実際のH⁰ ZAlgebra同型、全単位的Jacobian/H⁰成分環とAlgEquivまで公開検証済み。canonical augmentation/quasi-isomorphismと実際のfree-generator augmentation complex/負次数消滅は単位48で公開検証済み。3層のprefix complex比較・homology集中・canonical augmentationは単位49で公開検証。次はfiltration長完全列とA(Φ)係数比較、標準単純分解のexactness。AS条件との両方向の対応・外部一般定理・主定理の同型類対応を続ける。次の未公開草稿の検査状態はRECENT_RUN.mdに記録する。
 
 一般の全M,N・全次数の自然なHom複体–Abelian.Ext比較も未証明。直和交換には長完全列の自然性を使用した。
 古いleftDerived型ProjectiveResolution.isoExtを新しいAbelian.Extの比較と取り違えない。

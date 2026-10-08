@@ -1362,3 +1362,41 @@ UTC 2026-10-08T21:43:50.288138+00:00 → 2026-10-08T22:10:48.009764+00:00。
 単位46のGitHub CI `37844799294` / exact head `644fca202aa02b8609c406868e2270b9a2d79660` はsuccess。独立検証 `20261008T211008Z-ba8f8cca`、UTC 2026-10-08T21:10:08.238684+00:00→2026-10-08T21:56:49.035800+00:00、2800.797115277秒、全7段階終了0。全836794バイトのjob logを2分割して保存し、SHA-256 `ce477ebdf0feac59dfdaf15d5c2866659b0a07d0c98520ff8acf271d46c7a892` とartifact digestをevidenceへ記録した。単位47の最新main CI 37848719715 / de666ed5は現時点in_progressであり、旧CIのsuccessを最新commitの成功と扱わない。
 
 次の単位49は実際の3層filtration・associated graded/prefix complexの全複体同型・全層のhomology集中・canonical augmentationのquasi-isomorphismまで21モジュール個別Lean終了0。21モジュール差分と旧15モジュールsnapshotを保存済み。単位50は実際のfiltration短完全列・長完全列・最下段augmentation同型・正則性からの最初の接続写像の同型まで4モジュール個別Lean終了0。単位49/50はまだ公開全監査前のdraftである。次は上段filtrationの同型と実際の核/像の一致、A(Φ)係数との比較、標準単純分解とExt表。定理3.2・系5.2の正式定理文/証明は未実装・未証明。これは作業途中の保存記録であり、終了時刻は未確定。
+
+### 単位50の6モジュール証明snapshot UTC 2026-10-08T22:22:46.481588+00:00 / JST 2026-10-09T07:22:46.481588+09:00
+
+実際のfiltration短完全列・mathlib長完全列、F_-2とaugmentation complexの同型、正則性から最初の接続写像の同型、F_0とassociated graded第0層の全複体同型とhomology集中、中段への射の単射性・次の接続写像の実際のkernelとの同定まで6モジュール個別Lean終了0・診断なし。最終ログはfiltration-short-exact3、filtration-homology-sequence1、filtered-augmentation1、filtration-syzygy1、upper-filtration4、filtration-kernel2。初回の型付き合成/整数添字とsubmodule lemmaの修正の失敗ログは保持。
+
+差分`runs/total-algebra-20261008-unit50-draft-2222.patch`（19399バイト）を保存。全監査前のdraftであり、publicの現在成功は単位48。単位48はmain70397c53f8aa558183165bc9f40c6fc581035cc5へ通常fast-forward保存済み。単位49の公開21モジュールの新規全検証は進行中。次は右端augmentation homologyへの全射と完全列、actual A(Φ)係数への比較・標準分解/Ext表。主結果の正式定理文/証明は未実装・未証明、作業継続中。
+
+## 継続checkpoint UTC 2026-10-08T22:35:30.617238+00:00 / JST 2026-10-09T07:35:30.617238+09:00
+
+単位50の10モジュールを個別Lean終了0・診断なしで完成。実際のfiltration短/長完全列とkernel同定に加え、正則性を仮定しない右端augmentation homologyへの全射とcokernelの普遍性、実際の3項mathlib chain complexとGinzburgRegularの下でのaugmentation quasi-isomorphism、各prefixの生成元次数homologyのactual differential imageによる商表示まで完成。各項のA(Φ)射影加群への同定はまだ未証明で、この複体を標準射影分解完成とは扱わない。最終追加ログはfiltration-radical3、filtration-cokernel1、prefix-top-quotient5、homology-complex2、すべて実際の終了0。型付き合成/整数添字、simpのno progressと初回timeoutの失敗ログは保持。
+
+差分`runs/total-algebra-20261008-unit50-draft-223530.patch`（36025バイト）を保存、旧6モジュールsnapshotも無変更。単位49新規公開検証はlake build終了0（実測858.396394秒、UTC2026-10-08T22:33:55.578328+00:00に終了）、独立#print axiomsは進行中で全検査成功はまだ宣言しない。単位47GitHub CI37848719715/exact head de666ed5はsuccess。全874357バイトのjob log、SHA-256 0922938afa21d2ece0fb0d1da608e6df32764ffcc75d3aa14bf9a3a3af3cc040、artifact digestを保存。CI verifier20261008T214336Z-66989968、UTC21:43:36.384873→22:24:00.255293、2423.870414934秒、全7段階終了0。最新main70397c5のCI37852698557はin_progress。
+
+次はsigned prefixのactual coefficient計算と各層のhomology≅A(Φ)成分の有限族、接続写像と標準分解の微分・A線形性の照合、Ext表/AS対応。定理3.2・系5.2の正式定理文/証明は未実装・未証明。これは継続checkpointで終了時刻未確定。
+
+## 単位49：実際の3層filtrationとassociated-graded/prefix complexes
+
+実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のassociated-graded complexを構成した。実際の道の係数とLeibnizから全有限shifted-prefix complexとのcochain同型を証明し、GinzburgRegularから各層のhomologyが生成元次数だけに集中することを導いた。canonicalな層augmentationから実際のhomologyのsingle complexへのquasi-isomorphismまで完成。生成元次数のhomologyとA(Φ)成分の比較、filtrationの長完全列から標準単純分解のexactness・Ext表/AS対応を導く部分は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+filtrationは実際の非空Ginzburg道の最後の生成元のcohomological次数がr以上というsupported部分空間である。signed微分はこれを保ち、生成元自身の微分は実際のdegree保存と正windingから次数r+1以上の層へ入る。生成元次数0/−1/−2から−2段＝実際のaugmentation ideal、1段＝零を証明した。隣接段を次の段とexact-generator層へ線形分解し、実際のquotientとその層の線形同型を構成した。
+
+全cohomological/cut次数で実際のfiltered/associated-graded mathlib cochain complexesと商写像を構成した。最後の生成元/prefixのbijectionにより各層を有限prefix族へ同定し、prefix次数q−r、cut次数c−genCutを保つ。native signed-prefix differentialの平方零性を証明した。生成元付加を実際のFinsupp.embDomainとして表し、同じlast-generatorではprefix係数を回収し、異なるlast-generatorでは零となることを証明した。有限lsumで束ねた付加写像は各次数でbijectiveであり、signed Leibnizから微分と可換するので、全複体と実際のhomologyの同型を構成した。
+
+GinzburgRegularの実際のcycle/boundary criterionと非零signからq<rのprefix homology零性を導いた。q>rは実際の正次数Ginzburg componentの零性から従う。よって正則性の下で各層homologyはq=rに集中する。一般canonical augmentationを適用し、その実際のhomologyのsingle complexへのquasi-isomorphismも証明した。ここで対象は実際のhomologyであり、A(Φ)の有限和への比較はまだ証明していない。
+
+最終個別Lean検査のログ：finsupp-supported-quotient3, ginzburg-generator-filtration3, ginzburg-generator-filtration-differential2, ginzburg-generator-filtration-bounds1, ginzburg-generator-layers3, ginzburg-generator-layer-quotients1, ginzburg-generator-filtered-complex1, ginzburg-associated-graded-complex3, ginzburg-generator-layer-basis1, ginzburg-last-generator-differential1, ginzburg-generator-prefix-complex2, ginzburg-generator-prefix-homology3, ginzburg-generator-layer-coefficients11, ginzburg-generator-layer-classes7, ginzburg-generator-shift-append3, ginzburg-generator-layer-comparison2, ginzburg-generator-append-coefficients2, ginzburg-generator-layer-inverse1, ginzburg-generator-layer-homology2, ginzburg-generator-layer-concentration2, ginzburg-generator-layer-augmentation1。21モジュールすべて実際の終了0・診断なし。namespace、finite lsumのscalar引数、CochainComplex.ofHomの合成方向、dependent subtype/cast/filterのrewrite、explicit binder、IsZero.of_isoの向き、positive cut importの初回失敗ログは保持した。旧15モジュール時点と最終21モジュールのdraft snapshotも保持した。
+
+利用先はGinzburgRegularからA(Φ)の4項単純分解のexactnessとExt表を導く証明。次の単位50で実際のfiltration短完全列・長完全列・A(Φ)係数比較と標準分解との照合へ進む。AS条件との両方向の対応、最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。周期性・必要なExt同型・主定理相当の仮定を追加していない。公開新規全検査/main保存後も継続する。
+
+検証：`20261008T221936Z-0be3dec5`、1676.240996655秒、全段階終了0。
+JST 2026-10-09T07:19:36.306338+09:00 → 2026-10-09T07:47:32.547342+09:00。
+UTC 2026-10-08T22:19:36.306338+00:00 → 2026-10-08T22:47:32.547342+00:00。
+329数学モジュール・2625異なる宣言・1337 theorem。
+差分：runs/total-algebra-20261008-unit49.patch。全theoremを監査し、許容公理3種類のみ。
+
+### 単位49公開検証の保存準備 UTC 2026-10-08T22:48:38.431469+00:00 / JST 2026-10-09T07:48:38.431469+09:00
+
+新規公開検証20261008T221936Z-0be3dec5は全6段階終了0、329数学モジュール・2625異なる宣言・1337 theorem・290 named instance。実測UTC22:19:36.306338→22:47:32.547342、1676.240996655秒。wrapper記録も実際の終了0、1676.287706512秒。初期14/基準60数学モジュール・577保護ファイル/PDFの無変更検査終了0。単位50の10モジュールは個別Lean終了0で2時点のdraft snapshot保存済み、公開全監査はこれから。単位51はactual prefix differential coefficientとboundary family quotient比較・任意origin sheetのJacobian比較が個別Lean終了0、層homologyからA(Φ)有限族への比較は検査中。主結果未証明・正式定理文未実装。main保存後も継続する。

@@ -1,0 +1,102 @@
+import ASGinzburg.GinzburgGeneratorLayerCoefficients
+import ASGinzburg.GinzburgGeneratorShiftAppend
+
+/-! The actual last-generator maps assemble into a cochain map
+from the genuine finite shifted-prefix complex to the associated graded. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+open scoped Classical
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgGeneratorPrefixSingleLayer (u v : Q.Vertex) (r q c : ℤ)
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
+    Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q) →ₗ[k]
+      Q.ginzburgGeneratorLayerAtDegree k u v r q c := by
+  obtain ⟨a,ht,hr⟩ := a
+  subst v
+  subst r
+  exact Q.ginzburgAppendGeneratorAtDegree k a u q c
+
+noncomputable def ginzburgGeneratorPrefixSingleClass (u v : Q.Vertex) (r q c : ℤ)
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
+    Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q) →ₗ[k]
+      Q.GinzburgAssociatedGraded k u v r q c :=
+  (Q.ginzburgGeneratorLayerClass k u v r q c).comp
+    (Q.ginzburgGeneratorPrefixSingleLayer k u v r q c a)
+
+theorem ginzburgGeneratorPrefixSingleClass_differential (φ : Q.Potential k)
+    (u v : Q.Vertex) (r q c : ℤ)
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
+    (Q.ginzburgAssociatedGradedDifferential k φ u v r q c).comp
+      (Q.ginzburgGeneratorPrefixSingleClass k u v r q c a)=
+    (Q.ginzburgGeneratorPrefixSingleClass k u v r (q+1) c a).comp
+      (Q.ginzburgSignedShiftDifferential k φ u (a.val.source Q) r q (c-a.val.cutDegree Q)) := by
+  apply LinearMap.ext
+  intro f
+  obtain ⟨a,ht,hr⟩ := a
+  subst v
+  subst r
+  exact Q.ginzburgAssociatedGradedDifferential_appendGenerator k φ a u q c f
+
+theorem ginzburgGeneratorPrefixDifferential_piSingle (φ : Q.Potential k)
+    (u v : Q.Vertex) (r q c : ℤ)
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r})
+    (f : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q)) :
+    Q.ginzburgGeneratorPrefixDifferential k φ u v r q c (Pi.single a f)=
+      Pi.single a (Q.ginzburgSignedShiftDifferential k φ u (a.val.source Q)
+        r q (c-a.val.cutDegree Q) f) := by
+  funext b
+  by_cases hab : a=b
+  · subst b
+    simp [ginzburgGeneratorPrefixDifferential]
+  · simp [ginzburgGeneratorPrefixDifferential,Pi.single_eq_of_ne (Ne.symm hab)]
+
+noncomputable def ginzburgGeneratorPrefixToGradedRow (u v : Q.Vertex) (r q c : ℤ) :
+    Q.GinzburgGeneratorPrefix k u v r q c →ₗ[k] Q.GinzburgAssociatedGraded k u v r q c := by
+  classical
+  letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}
+  exact LinearMap.lsum k
+    (fun a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r} =>
+      Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q)) k
+    (Q.ginzburgGeneratorPrefixSingleClass k u v r q c)
+
+theorem ginzburgGeneratorPrefixToGradedRow_piSingle (u v : Q.Vertex) (r q c : ℤ)
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r})
+    (f : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q)) :
+    Q.ginzburgGeneratorPrefixToGradedRow k u v r q c (Pi.single a f)=
+      Q.ginzburgGeneratorPrefixSingleClass k u v r q c a f := by
+  classical
+  letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}
+  exact LinearMap.lsum_piSingle k
+    (fun a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r} =>
+      Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q)) k
+    (Q.ginzburgGeneratorPrefixSingleClass k u v r q c) a f
+
+theorem ginzburgGeneratorPrefixToGradedRow_differential (φ : Q.Potential k)
+    (u v : Q.Vertex) (r q c : ℤ) :
+    (Q.ginzburgAssociatedGradedDifferential k φ u v r q c).comp
+      (Q.ginzburgGeneratorPrefixToGradedRow k u v r q c)=
+    (Q.ginzburgGeneratorPrefixToGradedRow k u v r (q+1) c).comp
+      (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c) := by
+  apply LinearMap.pi_ext
+  intro a f
+  change Q.ginzburgAssociatedGradedDifferential k φ u v r q c
+    (Q.ginzburgGeneratorPrefixToGradedRow k u v r q c (Pi.single a f))=
+    Q.ginzburgGeneratorPrefixToGradedRow k u v r (q+1) c
+      (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c (Pi.single a f))
+  rw [Q.ginzburgGeneratorPrefixToGradedRow_piSingle,
+    Q.ginzburgGeneratorPrefixDifferential_piSingle,Q.ginzburgGeneratorPrefixToGradedRow_piSingle]
+  exact LinearMap.congr_fun (Q.ginzburgGeneratorPrefixSingleClass_differential k φ u v r q c a) f
+
+noncomputable def ginzburgGeneratorPrefixToAssociatedGraded (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorPrefixComplex k φ u v r c ⟶
+      Q.ginzburgAssociatedGradedComplex k φ u v r c :=
+  CochainComplex.ofHom _ _ _ _ _ _
+    (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorPrefixToGradedRow k u v r q c))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgGeneratorPrefixToGradedRow_differential k φ u v r q c)
+
+end ASGinzburg.CutQuiver

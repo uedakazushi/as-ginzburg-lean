@@ -1,0 +1,50 @@
+import ASGinzburg.GinzburgGeneratorLayerConcentration
+import ASGinzburg.HomologyAugmentation
+
+/-! Genuine regularity makes the canonical augmentation of each
+actual generator layer to its own homology a quasi-isomorphism. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorPrefixOutgoing_zero (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    ((Q.ginzburgGeneratorPrefixComplex k φ u v r c).sc r).g=0 := by
+  have hn : (ComplexShape.up ℤ).next r=r+1 := by simp
+  change (Q.ginzburgGeneratorPrefixComplex k φ u v r c).d r ((ComplexShape.up ℤ).next r)=0
+  rw [hn]
+  exact (Q.ginzburgGeneratorPrefixTerm_isZero_of_above k u v r c (r+1) (by omega)).eq_of_tgt _ _
+
+noncomputable def ginzburgGeneratorPrefixHomologyAugmentation (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorPrefixComplex k φ u v r c ⟶
+      (HomologicalComplex.single (ModuleCat k) (ComplexShape.up ℤ) r).obj
+        (Q.ginzburgGeneratorPrefixHomology k φ u v r c r) :=
+  ASGinzburg.homologyAugmentation (Q.ginzburgGeneratorPrefixComplex k φ u v r c) r
+    (Q.ginzburgGeneratorPrefixOutgoing_zero k φ u v r c)
+
+theorem GinzburgRegular.generatorPrefixAugmentation_quasiIso {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (r c : ℤ) :
+    QuasiIso (Q.ginzburgGeneratorPrefixHomologyAugmentation k φ u v r c) := by
+  rw [ginzburgGeneratorPrefixHomologyAugmentation,ASGinzburg.homologyAugmentation_quasiIso_iff]
+  intro q hq
+  exact (h.associatedGradedHomology_isZero_of_ne Q k u v r c q hq).of_iso
+    (Q.ginzburgAssociatedGradedPrefixHomologyIso k φ u v r c q).symm
+
+noncomputable def ginzburgAssociatedGradedAugmentation (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgAssociatedGradedComplex k φ u v r c ⟶
+      (HomologicalComplex.single (ModuleCat k) (ComplexShape.up ℤ) r).obj
+        (Q.ginzburgGeneratorPrefixHomology k φ u v r c r) :=
+  (Q.ginzburgGeneratorPrefixGradedIso k φ u v r c).inv ≫
+    Q.ginzburgGeneratorPrefixHomologyAugmentation k φ u v r c
+
+theorem GinzburgRegular.associatedGradedAugmentation_quasiIso {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (r c : ℤ) :
+    QuasiIso (Q.ginzburgAssociatedGradedAugmentation k φ u v r c) := by
+  letI := h.generatorPrefixAugmentation_quasiIso Q k u v r c
+  dsimp only [ginzburgAssociatedGradedAugmentation]
+  infer_instance
+
+end ASGinzburg.CutQuiver

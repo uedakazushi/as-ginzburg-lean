@@ -1,0 +1,56 @@
+import ASGinzburg.GinzburgGeneratorLayers
+import ASGinzburg.FinsuppSupportedQuotient
+
+/-! The actual successive filtration quotient, in each genuine pair
+of cohomological and cut degrees, is the exact last-generator layer. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+theorem ginzburgGeneratorFiltrationPaths_difference (u v : Q.Vertex) (r : ℤ) :
+    Q.ginzburgGeneratorFiltrationPaths u v r\
+      Q.ginzburgGeneratorFiltrationPaths u v (r+1)=Q.ginzburgGeneratorLayerPaths u v r := by
+  ext p
+  constructor
+  · rintro ⟨hp,hn⟩
+    rw [Q.ginzburgGeneratorFiltrationPaths_step] at hp
+    exact hp.resolve_left hn
+  · intro hp
+    refine ⟨Q.ginzburgGeneratorLayerPaths_le_filtration u v r hp,?_⟩
+    intro hn
+    exact Set.disjoint_left.mp (Q.ginzburgGeneratorLayerPaths_disjoint u v r) hn hp
+
+theorem ginzburgGeneratorFiltrationDegreePaths_difference (u v : Q.Vertex) (r q c : ℤ) :
+    {p : Q.GinzburgPath u v | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c}\
+    {p : Q.GinzburgPath u v | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c}=
+    {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c} := by
+  ext p
+  have he := congrArg (fun s : Set (Q.GinzburgPath u v) => p∈s)
+    (Q.ginzburgGeneratorFiltrationPaths_difference u v r)
+  change (p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
+    p ∉ Q.ginzburgGeneratorFiltrationPaths u v (r+1))=
+      (p ∈ Q.ginzburgGeneratorLayerPaths u v r) at he
+  simp only [Set.mem_diff,Set.mem_setOf_eq]
+  rw [←he]
+  tauto
+
+universe u
+variable (k : Type u) [Field k]
+
+noncomputable def ginzburgGeneratorLayerQuotientEquiv (u v : Q.Vertex) (r q c : ℤ) :
+    (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c ⧸
+      (Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c).comap
+        (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c).subtype) ≃ₗ[k]
+      Q.ginzburgGeneratorLayerAtDegree k u v r q c :=
+  (supportedQuotientDifferenceEquiv k (Q.GinzburgPath u v)
+    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c}
+    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c}).trans
+      (LinearEquiv.ofEq _ _
+        (congrArg (Finsupp.supported k k)
+          (Q.ginzburgGeneratorFiltrationDegreePaths_difference u v r q c)))
+
+end ASGinzburg.CutQuiver

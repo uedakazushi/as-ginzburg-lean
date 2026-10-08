@@ -1,8 +1,8 @@
 # 現在までに完成したAS側の基盤
 
-実際のcomplexのcanonical homology augmentationとquasi-isomorphismの判定、通常/固定cut/unrolled Ginzburg augmentationと実際のGinzburgRegularとの同値を証明。最後の生成元によるaugmentation idealの自由有限和表示と実際のcohomological/cut次数移動、signed微分の閉性とmathlib augmentation complexを構成し、GinzburgRegularからその全負次数homology消滅を証明。標準単純分解のexactness、AS対応の両方向、最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T214350Z-4231f27e：308数学モジュール・2514異なる宣言・1263 theorem、全段階終了0。
-単位1〜48の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のactual associated-graded complexを構成。実際の道の係数とLeibnizから全有限shifted-prefix complexとのcochain同型を証明し、GinzburgRegularから各層のhomologyが生成元次数だけに集中することを導いた。canonicalな層augmentationからその実際のhomologyのsingle complexへのquasi-isomorphismまで完成。生成元次数のhomologyとA(Φ)成分の比較、有限filtrationの長完全列から標準単純分解のexactness・Ext表/AS対応を導く部分は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T221936Z-0be3dec5：329数学モジュール・2625異なる宣言・1337 theorem、全段階終了0。
+単位1〜49の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。既存の線形RightModuleを保ち、有限AS分解だけから全次数のExt(s_w,P_i)の有限性と次数4以上の消滅を証明しました。
 有限AS分解の存在の下で、元のASRegularと式(1.11)の数値条件の両方向の同値が証明済みです。
@@ -12,7 +12,7 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。具体的局所単位付きGr(A)モデルへの圏同値・Abelian構造は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送も完成。有限次元加群の実際Ext³反変同値と成分線形双対の反変同値は完成。AS条件からの正負周期性は証明済み。主定理は未証明です。
 
-308数学モジュール、2514異なる明示的宣言、1263 theorem、288 named instanceのビルド・公理監査は終了0。
+329数学モジュール、2625異なる明示的宣言、1337 theorem、290 named instanceのビルド・公理監査は終了0。
 定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 任意のAでAS分解の存在を証明したとは扱わない。具体的な局所単位付きGr(A)モデルとの左右圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送は完成。
 未解決のコンパイルエラーなし。原論文に反例・矛盾を発見したという記録なし。
@@ -143,6 +143,7 @@ presheafモデルと局所単位付き総加群の左右圏同値はLocallyUnita
 8. **商とunrollingの交換まで完成**：単位46で任意整数sheet差の道/線形同型・忘却の単射性と積保存、実際の巡回微分の持上げ/忘却、真のJacobianイデアルの同次数context spanを証明した。全sheetの関係の左右積閉性とspan延長からhomogeneous Jacobianイデアルと実際のunrolled Jacobianイデアルの一致を両方向に証明。実際のhomogeneous商≅A(Φ)のHom成分、固定cut mathlib H⁰≅A(Φ)の線形同型、homogeneous商同型の積保存まで公開検証済み。正則性やAS分解の存在は仮定していない。H⁰そのものの積の接続と有限箙の全単位的Jacobian環は単位47で公開検証済み。
 9. **実際のH⁰の代数構造まで完成**：単位47でsigned Leibnizから実際の境界の左右積閉性を証明し、実際のboundary商から通常/固定cutのmathlib H⁰の積を構成した。元の道からのゼロ道単位元/結合則、H⁰–Jacobian比較と固定cut H⁰–A(Φ)比較の積/単位元保存、整数添字H⁰ ZAlgebraとA(Φ)の同型まで完成。有限成分の中間頂点sumによる全単位的道環/Jacobian環・全環商同型、実際のH⁰成分環とのAlgEquiv・全mathlib H⁰の加群表示も公開検証済み。正則性からの実際の標準双加群/単純分解とAS条件との両方向対応は未証明。
 10. **canonical augmentationと実際のfree-generator complexまで完成**：単位48で一般Abelian圏のcanonical homology augmentationとquasi-isomorphismの判定を証明し、通常/固定cut/unrolled Ginzburg complexのaugmentationとGinzburgRegularの同値を導いた。非空の実際の道の最後の生成元/prefixによる自由有限和表示、実際のcohomological/cut次数移動、augmentation idealのsigned微分/左右積閉性、homogeneous mathlib augmentation complexとそのGinzburgRegularからの全負次数homology消滅まで公開検証。last-generatorの3層をprefix complexesと比較し、A(Φ)上の実際の単純分解のexactnessとExt表/AS条件を導く部分は未証明。
+11. **実際の3層filtrationと全associated-graded/prefix cochain同型まで完成**：単位49で実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のassociated-graded complexesを構成し、実際の道の係数・生成元付加・Leibnizから全有限signed shifted-prefix complexesとのcochain同型を証明した。GinzburgRegularから各層のhomologyが生成元次数だけに集中し、その実際のhomologyへのcanonical augmentationがquasi-isomorphismとなることも公開検証。A(Φ)成分との比較、filtration長完全列からの標準単純分解のexactnessとExt表/AS対応は未証明。
 
 Jacobian商で全巡回微分が零となることと、最小関係の基底を与えることは別の証明義務。Ginzburg正則性から最小分解やAS条件を導く部分は未証明。これを入力仮定に追加しない。
 

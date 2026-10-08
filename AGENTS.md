@@ -66,6 +66,7 @@ canonicalな二重双対は有限生成射影・有界cochainホモトピー圏�
 単位46で任意整数sheet差の道/線形同型・積保存、実際の巡回微分の持上げ/忘却、同次数context spanと全sheetの関係の積閉性から真のJacobianイデアルのunrolling対応、商同型とhomogeneous商積保存、固定cut H⁰≅A(Φ)成分の線形同型まで公開検証。H⁰そのものの積・全単位的環・正則性/AS対応は未証明。
 単位47で実際の微分からboundaryの左右積閉性・通常/固定cut mathlib H⁰の積/ゼロ道単位元/結合則、Jacobian/A(Φ)比較の積/単位元保存、整数添字H⁰ ZAlgebra同型、全単位的道環/Jacobian環と真の全環商同型、H⁰成分環AlgEquivと全mathlib H⁰の加群表示まで公開検証。canonical augmentation/quasi-isomorphism・標準双加群/単純分解・正則性/AS対応は未証明。
 単位48で一般Abelian圏のcanonical homology augmentation/quasi-isomorphism判定、通常/固定cut/unrolled Ginzburg augmentationとGinzburgRegularの同値、実際のaugmentation idealの最後の生成元による自由有限和表示・次数移動・signed微分閉性、mathlib augmentation complexとGinzburgRegularからの負次数homology消滅まで公開検証。3層のprefix complex比較、A(Φ)の実際の標準単純分解のexactnessとExt表/AS対応は未証明。
+単位49で実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のassociated-graded complexesを構成し、実際の道の係数・生成元付加・Leibnizから全有限signed shifted-prefix complexesとのcochain同型を証明した。GinzburgRegularから各層のhomologyが生成元次数だけに集中し、その実際のhomologyへのcanonical augmentationがquasi-isomorphismとなることも公開検証。A(Φ)成分との比較、filtration長完全列からの標準単純分解のexactnessとExt表/AS対応は未証明。
 任意のAについてAS分解の存在を証明したとは扱わない。
 その後の2026-10-08のユーザーの明示的な指示により、射影性・単純加群・実際の分解とExtなど、
 残る形式化を自律的に継続する権限を得た。通常の補題・実装方針について繰り返し確認しない。

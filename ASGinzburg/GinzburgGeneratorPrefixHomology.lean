@@ -1,0 +1,77 @@
+import ASGinzburg.GinzburgGeneratorPrefixComplex
+import ASGinzburg.GinzburgCutRegularity
+
+/-! Genuine Ginzburg regularity controls the homology of the actual
+shifted prefix complexes, without assuming exactness of a simple resolution. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgSign_ne_zero (r : ℤ) : ginzburgSign k r ≠ 0 := by
+  exact zpow_ne_zero r (neg_ne_zero.mpr (one_ne_zero : (1:k)≠0))
+
+theorem ginzburgGeneratorPrefixComplex_d (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c q : ℤ) :
+    (Q.ginzburgGeneratorPrefixComplex k φ u v r c).d q (q+1)=
+      ModuleCat.ofHom (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c) :=
+  CochainComplex.of_d _ _ _ q
+
+noncomputable def ginzburgGeneratorPrefixHomology (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c q : ℤ) : ModuleCat.{u} k :=
+  (Q.ginzburgGeneratorPrefixComplex k φ u v r c).homology q
+
+theorem ginzburgGeneratorPrefixHomology_succ_isZero_iff_cycles (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c q : ℤ) :
+    IsZero (Q.ginzburgGeneratorPrefixHomology k φ u v r c (q+1)) ↔
+      ∀ f : Q.GinzburgGeneratorPrefix k u v r (q+1) c,
+        Q.ginzburgGeneratorPrefixDifferential k φ u v r (q+1) c f=0 →
+          ∃ g : Q.GinzburgGeneratorPrefix k u v r q c,
+            Q.ginzburgGeneratorPrefixDifferential k φ u v r q c g=f := by
+  let C := Q.ginzburgGeneratorPrefixComplex k φ u v r c
+  change IsZero (C.homology (q+1)) ↔ _
+  rw [←C.exactAt_iff_isZero_homology,
+    C.exactAt_iff' (j:=q+1) (i:=q) (k:=q+1+1) (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  have hf : C.d q (q+1)=ModuleCat.ofHom
+      (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c) :=
+    Q.ginzburgGeneratorPrefixComplex_d k φ u v r c q
+  have hg : C.d (q+1) (q+1+1)=ModuleCat.ofHom
+      (Q.ginzburgGeneratorPrefixDifferential k φ u v r (q+1) c) :=
+    Q.ginzburgGeneratorPrefixComplex_d k φ u v r c (q+1)
+  change (∀ f : Q.GinzburgGeneratorPrefix k u v r (q+1) c,
+    C.d (q+1) (q+1+1) f=0 → ∃ g : Q.GinzburgGeneratorPrefix k u v r q c,
+      C.d q (q+1) g=f) ↔ _
+  rw [hf,hg]
+  rfl
+
+theorem GinzburgRegular.generatorPrefixHomology_succ_isZero {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (r c q : ℤ) (hq : q+1<r) :
+    IsZero (Q.ginzburgGeneratorPrefixHomology k φ u v r c (q+1)) := by
+  classical
+  apply (Q.ginzburgGeneratorPrefixHomology_succ_isZero_iff_cycles k φ u v r c q).mpr
+  intro f hf
+  have hex (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
+      ∃ g : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q)
+          (q-r) (c-a.val.cutDegree Q),
+        Q.ginzburgDifferential k φ u (a.val.source Q) g.val=(f a).val := by
+    have hdf := congrArg (fun t => (t a).val) hf
+    change ginzburgSign k r • Q.ginzburgDifferential k φ u (a.val.source Q) (f a).val=0 at hdf
+    have hd : Q.ginzburgDifferential k φ u (a.val.source Q) (f a).val=0 :=
+      (smul_eq_zero.mp hdf).resolve_left (ginzburgSign_ne_zero k r)
+    have he : q+1-r=(q-r)+1 := by omega
+    let f' : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q)
+        ((q-r)+1) (c-a.val.cutDegree Q) := ⟨(f a).val,by rw [←he]; exact (f a).property⟩
+    exact ((Q.ginzburgCutHomology_succ_isZero_iff_cycles k φ u (a.val.source Q)
+      (c-a.val.cutDegree Q) (q-r)).mp
+        (h.cutHomology_isZero Q k u (a.val.source Q) (c-a.val.cutDegree Q)
+          ((q-r)+1) (by omega))) f' hd
+  choose g hg using hex
+  refine ⟨fun a => (ginzburgSign k r)⁻¹ • g a,?_⟩
+  funext a
+  apply Subtype.ext
+  change ginzburgSign k r • Q.ginzburgDifferential k φ u (a.val.source Q)
+    ((ginzburgSign k r)⁻¹ • (g a).val)=(f a).val
+  rw [map_smul,hg,smul_smul,mul_inv_cancel₀ (ginzburgSign_ne_zero k r),one_smul]
+
+end ASGinzburg.CutQuiver
