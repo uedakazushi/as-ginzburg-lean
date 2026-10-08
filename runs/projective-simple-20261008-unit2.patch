@@ -1,0 +1,87 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 2e92cb6..42ecfac 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -7,6 +7,7 @@ import ASGinzburg.Representables
+ import ASGinzburg.RightModuleAbelian
+ import ASGinzburg.RightModuleHomology
+ import ASGinzburg.RightModuleProjectives
++import ASGinzburg.RightModuleEnoughProjectives
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+ import ASGinzburg.WindowPeriodicity
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 3eebbf2..64fc8a6 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -139,6 +139,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleAbelian
+ #print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteLimits
+ #print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteColimits
++#print axioms ASGinzburg.ZAlgebra.rightModuleGenerators
++#print axioms ASGinzburg.ZAlgebra.freeRightModule
++#print axioms ASGinzburg.ZAlgebra.freeRightModuleπ
++#print axioms ASGinzburg.ZAlgebra.freeRightModuleProjective
++#print axioms ASGinzburg.ZAlgebra.freeRightModuleπEpi
++#print axioms ASGinzburg.ZAlgebra.rightModuleEnoughProjectives
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits
+diff --git a/ASGinzburg/RightModuleEnoughProjectives.lean b/ASGinzburg/RightModuleEnoughProjectives.lean
+new file mode 100644
+index 0000000..5769063
+--- /dev/null
++++ b/ASGinzburg/RightModuleEnoughProjectives.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.RightModuleProjectives
++
++/-!
++# Enough projectives for linear right modules
++
++Each module is a quotient of the coproduct indexed by all its vertex elements.
++This is an unrestricted projective presentation, not the finite minimal
++four-term resolution required by the paper's AS condition.
++-/
++
++namespace ASGinzburg.ZAlgebra
++
++open CategoryTheory CategoryTheory.Limits Opposite
++
++universe u v
++
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Index all elements in all vertex components; no finite generation is assumed. -/
++abbrev rightModuleGenerators (M : A.RightModule) :=
++  Σ i : ℤ, (A.rightModuleEvaluation i).obj M
++
++/-- A coproduct of actual representables providing enough projectives. -/
++noncomputable def freeRightModule (M : A.RightModule) : A.RightModule :=
++  ∐ fun g : A.rightModuleGenerators M => A.representable g.1
++
++/-- Send each distinguished generator to the corresponding element of the target module. -/
++noncomputable def freeRightModuleπ (M : A.RightModule) : A.freeRightModule M ⟶ M :=
++  Sigma.desc fun g => (A.representableYonedaEquiv g.1 M).symm g.2
++
++noncomputable instance freeRightModuleProjective (M : A.RightModule) :
++    Projective (A.freeRightModule M) := by
++  dsimp [freeRightModule]
++  infer_instance
++
++noncomputable instance freeRightModuleπEpi (M : A.RightModule) : Epi (A.freeRightModuleπ M) := by
++  apply (A.rightModule_epi_iff_surjective _).mpr
++  intro i x
++  let g : A.rightModuleGenerators M := ⟨i, x⟩
++  refine ⟨(A.rightModuleEvaluation i).map
++    (Sigma.ι (fun g : A.rightModuleGenerators M => A.representable g.1) g) (A.id i), ?_⟩
++  have h := Sigma.ι_desc (fun g : A.rightModuleGenerators M =>
++    (A.representableYonedaEquiv g.1 M).symm g.2) g
++  have h' := congrArg (A.representableYonedaEquiv i M) h
++  rw [A.representableYonedaEquiv_comp, LinearEquiv.apply_symm_apply] at h'
++  exact h'
++
++/-- The existing category has enough projectives, via explicit coproduct presentations. -/
++noncomputable instance rightModuleEnoughProjectives : EnoughProjectives A.RightModule where
++  presentation M := ⟨{ p := A.freeRightModule M, f := A.freeRightModuleπ M }⟩
++
++end ASGinzburg.ZAlgebra

@@ -139,6 +139,12 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModuleAbelian
 #print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteLimits
 #print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteColimits
+#print axioms ASGinzburg.ZAlgebra.rightModuleGenerators
+#print axioms ASGinzburg.ZAlgebra.freeRightModule
+#print axioms ASGinzburg.ZAlgebra.freeRightModuleπ
+#print axioms ASGinzburg.ZAlgebra.freeRightModuleProjective
+#print axioms ASGinzburg.ZAlgebra.freeRightModuleπEpi
+#print axioms ASGinzburg.ZAlgebra.rightModuleEnoughProjectives
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits

@@ -37,7 +37,7 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
    `rightModuleProperty`の加法性・k線形性は既存の定義のまま。
 2. **完成**：任意のMについて線形Yoneda評価同型と`representable v`の射影性。
    `rightModule_epi_iff_surjective`を用いてdistinguished generatorを持ち上げる。
-   次：representableの直和によるEnoughProjectivesと実際の分解。
+   representableの直和によるEnoughProjectivesも完成。有限・最小の分解は未証明。
 3. 正次数radical submoduleと単純加群s_vを定義する。
 4. 原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
 5. 完全性と最小性を定義し、(1.7)を本物のExtの次元で定式化する。

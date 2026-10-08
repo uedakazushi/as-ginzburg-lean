@@ -29,3 +29,13 @@ force push・履歴の書換えなし。初期の原論文照合は§1.2 (1.5)�
 差分：runs/projective-simple-20261008-unit1.patch。
 次の利用先：representableの直和から任意のMへのepiを構成してEnoughProjectivesを証明する。
 その後、正次数radicalと単純商、最小分解・実際のExtへ進む。
+
+## 単位2：EnoughProjectives
+
+全頂点・全要素で添字付けたrepresentableの直和から任意のMへのepiを構成。
+`rightModuleEnoughProjectives`はmathlibの標準クラスであり、実際の射影提示から証明。
+有限生成・最小性・長さ3は主張していない。
+検証：`20261008T015423Z-b4287b26`、42.925535秒、全段階終了0。
+開始UTC 2026-10-08T01:54:23.096822+00:00、終了UTC 2026-10-08T01:55:06.022365+00:00。
+差分：runs/projective-simple-20261008-unit2.patch。
+次：右作用で閉じた成分submoduleを束ね、正次数radicalと商s_vを構成する。
