@@ -1,0 +1,170 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 122ade9..071c571 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -1,3 +1,4 @@
++import ASGinzburg.FiniteCoproductHomColimits
+ import ASGinzburg.LeftModuleADual
+ import ASGinzburg.LeftModuleExt
+ import ASGinzburg.RepresentableHomColimits
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index e100d9c..19940ec 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -179,6 +179,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.total_dimension_single
+ #print axioms ASGinzburg.total_one_iff_single
+ #print axioms ASGinzburg.ext_dimension_delta
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomDiagram
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso_hom_π
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitIso
++#print axioms ASGinzburg.ZAlgebra.finiteLimitFunctorPreservesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomDiagramPreservesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.finiteCoproductHomPreservesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.finiteRepresentableCoproductHomPreservesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₁HomPreservesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₂HomPreservesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.finiteRepresentableCoproductHomColimitIso
++#print axioms ASGinzburg.ZAlgebra.finiteRepresentableCoproductExtZeroPreservesColimitsOfShape
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
+diff --git a/ASGinzburg/FiniteCoproductHomColimits.lean b/ASGinzburg/FiniteCoproductHomColimits.lean
+new file mode 100644
+index 0000000..286e2a9
+--- /dev/null
++++ b/ASGinzburg/FiniteCoproductHomColimits.lean
+@@ -0,0 +1,132 @@
++import ASGinzburg.RepresentableHomColimits
++import ASGinzburg.RightModuleHomFinite
++import Mathlib.CategoryTheory.Limits.Preserves.FunctorCategory
++import Mathlib.Algebra.Category.ModuleCat.Products
++
++/-!
++# Finite coproduct Hom commutes naturally with colimits
++
++The comparison is built from the actual coproduct restriction maps and
++the concrete product of Hom spaces. Finiteness converts this product
++functor to a coproduct functor. In particular all finite projective terms
++of the original AS sequence preserve the allowed colimit shapes.
++-/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v w w'
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++def rightModuleHomDiagram {I : Type} (g : I → A.RightModule) :
++    A.RightModule ⥤ (Discrete I ⥤ ModuleCat.{v} k) where
++  obj N := Discrete.functor (fun i => ModuleCat.of k (g i ⟶ N))
++  map f := Discrete.natTrans (fun i =>
++    ((linearCoyoneda k A.RightModule).obj (op (g i.as))).map f)
++  map_id N := by
++    apply NatTrans.ext
++    funext i
++    exact ((linearCoyoneda k A.RightModule).obj (op (g i.as))).map_id N
++  map_comp f h := by
++    apply NatTrans.ext
++    funext i
++    exact ((linearCoyoneda k A.RightModule).obj (op (g i.as))).map_comp f h
++
++noncomputable def rightModuleCoproductHomLimitComponentIso {I : Type}
++    (g : I → A.RightModule) (N : A.RightModule) :
++    ModuleCat.of k (∐ g ⟶ N) ≅ limit ((A.rightModuleHomDiagram g).obj N) :=
++  (A.rightModuleCoproductHomLinearEquiv g N).toModuleIso ≪≫
++    (ModuleCat.piIsoPi (fun i => ModuleCat.of k (g i ⟶ N))).symm ≪≫
++    Pi.isoLimit ((A.rightModuleHomDiagram g).obj N)
++
++@[reassoc] theorem rightModuleCoproductHomLimitComponentIso_hom_π {I : Type}
++    (g : I → A.RightModule) (N : A.RightModule) (i : I) :
++    (A.rightModuleCoproductHomLimitComponentIso g N).hom ≫
++      limit.π ((A.rightModuleHomDiagram g).obj N) ⟨i⟩ =
++      ModuleCat.ofHom (A.rightModuleHomPrecomp (Sigma.ι g i) N) := by
++  simp only [rightModuleCoproductHomLimitComponentIso, Iso.trans_hom, Iso.symm_hom,
++    Category.assoc, Pi.isoLimit_hom_π]
++  change (A.rightModuleCoproductHomLinearEquiv g N).toModuleIso.hom ≫
++    (ModuleCat.piIsoPi (fun j => ModuleCat.of k (g j ⟶ N))).inv ≫
++      Pi.π (fun j => ModuleCat.of k (g j ⟶ N)) i = _
++  rw [ModuleCat.piIsoPi_inv_kernel_ι]
++  rfl
++
++noncomputable def rightModuleCoproductHomLimitIso {I : Type} (g : I → A.RightModule) :
++    (linearCoyoneda k A.RightModule).obj (op (∐ g)) ≅ A.rightModuleHomDiagram g ⋙ lim :=
++  NatIso.ofComponents (A.rightModuleCoproductHomLimitComponentIso g) (by
++    intro X Y f
++    apply limit.hom_ext
++    intro i
++    rcases i with ⟨i⟩
++    simp only [Functor.comp_map, lim_map, Category.assoc, limMap_π,
++      rightModuleCoproductHomLimitComponentIso_hom_π,
++      rightModuleCoproductHomLimitComponentIso_hom_π_assoc]
++    apply ModuleCat.hom_ext
++    ext h
++    exact (Category.assoc (Sigma.ι g i) h f).symm)
++
++noncomputable instance finiteLimitFunctorPreservesColimitsOfShape
++    (I : Type) [Finite I] (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    PreservesColimitsOfShape J (lim (J := Discrete I) (C := ModuleCat.{v} k)) := by
++  letI : HasFiniteBiproducts (ModuleCat.{v} k) := Abelian.hasFiniteBiproducts
++  exact preservesColimitsOfShape_of_natIso HasBiproductsOfShape.colimIsoLim
++
++noncomputable instance rightModuleHomDiagramPreservesColimitsOfShape {I : Type}
++    (g : I → A.RightModule) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)]
++    [∀ i, PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op (g i)))] :
++    PreservesColimitsOfShape J (A.rightModuleHomDiagram g) := by
++  apply preservesColimitsOfShape_of_evaluation
++  intro i
++  exact inferInstanceAs
++    (PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op (g i.as))))
++
++noncomputable instance finiteCoproductHomPreservesColimitsOfShape {I : Type} [Finite I]
++    (g : I → A.RightModule) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)]
++    [∀ i, PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op (g i)))] :
++    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op (∐ g))) :=
++  preservesColimitsOfShape_of_natIso (A.rightModuleCoproductHomLimitIso g).symm
++
++/-- Closure applied to actual representables, with no Hom exchange hypothesis. -/
++noncomputable instance finiteRepresentableCoproductHomPreservesColimitsOfShape
++    {I : Type} [Finite I] (indices : I → ℤ) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj
++      (op (∐ fun i => A.representable (indices i)))) := inferInstance
++
++noncomputable instance asResolutionTerm₁HomPreservesColimitsOfShape
++    (Q : CutQuiver) (x : Q.LiftVertex) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj
++      (op (A.asResolutionTerm₁ Q x))) := by
++  dsimp only [asResolutionTerm₁]
++  infer_instance
++
++noncomputable instance asResolutionTerm₂HomPreservesColimitsOfShape
++    (Q : CutQuiver) (x : Q.LiftVertex) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj
++      (op (A.asResolutionTerm₂ Q x))) := by
++  dsimp only [asResolutionTerm₂]
++  infer_instance
++
++/-- The canonical exchange isomorphism used on finite AS resolution terms. -/
++noncomputable def finiteRepresentableCoproductHomColimitIso {I : Type} [Finite I]
++    (indices : I → ℤ) {J : Type w} [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)] (F : J ⥤ A.RightModule) :
++    ModuleCat.of k ((∐ fun i => A.representable (indices i)) ⟶ colimit F) ≅
++      colimit (F ⋙ (linearCoyoneda k A.RightModule).obj
++        (op (∐ fun i => A.representable (indices i)))) :=
++  preservesColimitIso ((linearCoyoneda k A.RightModule).obj
++    (op (∐ fun i => A.representable (indices i)))) F
++
++noncomputable instance finiteRepresentableCoproductExtZeroPreservesColimitsOfShape
++    {I : Type} [Finite I] (indices : I → ℤ) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    PreservesColimitsOfShape J (A.rightModuleExtCovariant
++      (∐ fun i => A.representable (indices i)) 0) :=
++  preservesColimitsOfShape_of_natIso
++    (A.rightModuleExtZeroFunctorIso (∐ fun i => A.representable (indices i))).symm
++
++end ASGinzburg.ZAlgebra
