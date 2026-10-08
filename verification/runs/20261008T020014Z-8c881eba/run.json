@@ -1,0 +1,130 @@
+{
+  "run_id": "20261008T020014Z-8c881eba",
+  "started_at_utc": "2026-10-08T02:00:14.316187+00:00",
+  "status": "success",
+  "steps": [
+    {
+      "stage": "regression_tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "regression_tests.log",
+      "started_at_utc": "2026-10-08T02:00:14.318087+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:00:14.548453+00:00",
+      "elapsed_seconds": 0.23038891299984243,
+      "log_sha256": "f838761b01e7e9b4a280bc7d83a6e5b27e1884efcb16efa9b42e970fd57e076f"
+    },
+    {
+      "stage": "source_audit",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/audit_sources.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T020014Z-8c881eba"
+      ],
+      "log": "source_audit.log",
+      "started_at_utc": "2026-10-08T02:00:14.548834+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:00:14.602151+00:00",
+      "elapsed_seconds": 0.05333688800055825,
+      "log_sha256": "f13f80f2c04a90e9a7760612cd244f5e1be4ed84827c7e371380268a2e63a405"
+    },
+    {
+      "stage": "environment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check_environment.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T020014Z-8c881eba"
+      ],
+      "log": "environment.log",
+      "started_at_utc": "2026-10-08T02:00:14.603516+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:00:14.754236+00:00",
+      "elapsed_seconds": 0.15073841499906848,
+      "log_sha256": "d5e678cb314b7e8e314263cd7f435216c0155fcad8f097bb5e8865e6f3c01b2c"
+    },
+    {
+      "stage": "build",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "build"
+      ],
+      "log": "build.log",
+      "started_at_utc": "2026-10-08T02:00:14.754658+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:00:45.732336+00:00",
+      "elapsed_seconds": 30.977704949000326,
+      "log_sha256": "130ec024a721e24c8da5d5d9fff512bb3972d7ad0c6dd7ec6fa7759bd55d1c85"
+    },
+    {
+      "stage": "axioms",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "AxiomAudit.lean"
+      ],
+      "log": "axioms.log",
+      "started_at_utc": "2026-10-08T02:00:45.732874+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:01:09.207515+00:00",
+      "elapsed_seconds": 23.474667182999838,
+      "log_sha256": "31680bd6b3a5dbf3d9ec80ba17408ac781d309c775f5dd884e2f5c1a925bb1bf"
+    },
+    {
+      "stage": "report",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/report_verification.py",
+        "--run-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T020014Z-8c881eba"
+      ],
+      "log": "report.log",
+      "started_at_utc": "2026-10-08T02:01:09.207952+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:01:09.263832+00:00",
+      "elapsed_seconds": 0.055895509000038146,
+      "log_sha256": "1804e3dace46b4bed634164c77498ccdbc6ad92fc0c67b2ae4afce13607578f6"
+    }
+  ],
+  "git_head_before_run": "dc17b2b830fe6abf5eacf13e63f0ce6a62c3dd46",
+  "lean_source_sha256": {
+    "ASGinzburg.lean": "32a651e71ae84b72ea6b9efd962f5300e91530ec426ac05c9acd84a440170975",
+    "ASGinzburg/Conjugation.lean": "2cfa2d44166de9d005139d24319c7806e3b1677fe6de77c91f111409a608b4d8",
+    "ASGinzburg/CutPotential.lean": "21fae59909e7fe38e66d2f9bc27c9c27571fa1913cccb3774f39c424cad1d210",
+    "ASGinzburg/CutQuiver.lean": "ad45587f428a7b55348d9f741caae70363e765b71527b0a79130f28be0c20fdf",
+    "ASGinzburg/CyclicDerivative.lean": "70537ca04cc82fce284975bcec5160c60987130865f767b277d1c46eaca17ec7",
+    "ASGinzburg/ExtDimension.lean": "1df19458ab48a0fc664ecbe04bc788335f44e01a385d90189ee0c9a5fb8c055c",
+    "ASGinzburg/GinzburgGrading.lean": "2b39c8c5d25c57ab29311078538728bc5fd0db99595493e0f85b65d22e5960ad",
+    "ASGinzburg/Hilbert.lean": "951c6821fa5ec275e10658e9f51982e21983855da0e9cf1fc0b3849c0ad7cc3e",
+    "ASGinzburg/PathAlgebra.lean": "19cdabd6939e952b5e45d519fe5dc4a9a5801684cf20877c5cea8fa0c39b08ae",
+    "ASGinzburg/Representables.lean": "8770d9095bf8759bdd45d9167659baade106b450ab763cbb0da0d58a10f7483a",
+    "ASGinzburg/RightModuleAbelian.lean": "14758408f72e7ead396492ee16610d736b2eb349b25c448871a482a02f67f16b",
+    "ASGinzburg/RightModuleEnoughProjectives.lean": "d3dccf01abfcd62d3dbe45b2d67faba6d78fffdd1277f063a06f75450d515bd1",
+    "ASGinzburg/RightModuleHomology.lean": "a0cd325af678eaac86867dab31757e95542845036829518cda5ba7c2693fd634",
+    "ASGinzburg/RightModuleProjectives.lean": "783598edbfeeb8f105e2bd4cf2642447a496aac873239d00676a48a3708833b6",
+    "ASGinzburg/RightSubmodules.lean": "f64a3d4eac1a85590bdd087df238e4a07cc40aa92868dd2f98f825a0e577583c",
+    "ASGinzburg/SimpleRightModules.lean": "37b26615628628b3bde270a6bd296dec80835066e5880eb83872af0789a95b33",
+    "ASGinzburg/Tensor333.lean": "e154200878a4de683cf8f630d42cf90243deaeed8c5130f3186e1faedea9dbfc",
+    "ASGinzburg/TopCohomology.lean": "e0c6ba341fb427b00eb099a7b83a5bf307591096b08ce84152613428c7ce7f13",
+    "ASGinzburg/Triangle333.lean": "5b817ccbb9c4133d3129eda64b8af56ce1c79261bb35c4a9bc2f10e8dc803663",
+    "ASGinzburg/WindowPeriodicity.lean": "23af0e6da9a194a20f10bc3a8301415933deba6fcddf2167428dadc086c3f37a",
+    "ASGinzburg/ZAlgebra.lean": "00a370e8b60ca324c780b26e89642ce000292def9ba435ca445a23484d4ba9f1",
+    "AxiomAudit.lean": "49fa5b4bbe57bbb69dc93984b22a17fc644c8ed9ec1b693a75c75c2b2c60c20e"
+  },
+  "ended_at_utc": "2026-10-08T02:01:09.264189+00:00",
+  "elapsed_seconds": 54.947996182998395,
+  "exit_code": 0
+}

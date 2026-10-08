@@ -49,3 +49,15 @@ force push・履歴の書換えなし。初期の原論文照合は§1.2 (1.5)�
 226異なる宣言・100 theoremを監査。
 差分：runs/projective-simple-20261008-unit3.patch。
 次：positive条件からradicalの閉性を証明し、s_vの成分・単純性を確認する。
+
+## 単位4：正次数radicalと本物の単純商s_v
+
+`representableRadical`の右作用による閉性をpositive条件から証明。
+その成分が`positiveActionSpan`（正次数の右積のspan）に等しいことも証明。
+商`simpleRightModule`は選ばれた実際のcokernel。対角成分は1次元、他はIsZero、
+mathlibの`Simple`を証明し、radical→P_v→s_vの短完全列を得た。
+検証：`20261008T020014Z-8c881eba`、54.947996秒、全段階終了0。
+開始UTC 2026-10-08T02:00:14.316187+00:00、終了UTC 2026-10-08T02:01:09.264189+00:00。
+240異なる宣言・106 theoremを監査。
+差分：runs/projective-simple-20261008-unit4.patch。
+次：標準projective resolutionと実際のExtを供給し、有限最小分解の実装へ接続する。

@@ -9,6 +9,7 @@ import ASGinzburg.RightModuleHomology
 import ASGinzburg.RightModuleProjectives
 import ASGinzburg.RightModuleEnoughProjectives
 import ASGinzburg.RightSubmodules
+import ASGinzburg.SimpleRightModules
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology
 import ASGinzburg.WindowPeriodicity

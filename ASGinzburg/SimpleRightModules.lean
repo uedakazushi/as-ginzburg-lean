@@ -1,0 +1,157 @@
+import ASGinzburg.RightSubmodules
+import Mathlib.Algebra.Category.ModuleCat.Simple
+
+/-!
+# The vertex simple quotients from equation (1.5)
+
+The radical is proved to equal the span of all positive-degree right products.
+Its actual cokernel has a one-dimensional diagonal component and zero other
+components, and is a simple object of the existing linear module category.
+This does not provide the AS minimal projective resolution.
+-/
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- Positive-degree part of `P_i`: the whole component below `i`, zero at/above `i`. -/
+def representableRadical (i : ℤ) : RightSubmodule (A.representable i) where
+  component X := if X.unop.index < i then ⊤ else ⊥
+  map_mem := by
+    intro X Y f x hx
+    by_cases hy : Y.unop.index < i
+    · simp [hy]
+    · by_cases hx' : X.unop.index < i
+      · have hf : f.unop = 0 := A.positive (lt_of_lt_of_le hx' (le_of_not_gt hy)) f.unop
+        change A.comp x f.unop ∈ (if Y.unop.index < i then ⊤ else ⊥)
+        rw [hf, map_zero]
+        simp
+      · have hx0 : x = 0 := by simpa [hx'] using hx
+        rw [hx0]
+        simp
+
+/-- Span of products of elements of M with strictly positive degree algebra elements. -/
+def positiveActionSpan (M : A.RightModule) (j : ℤ) :
+    Submodule k ((A.rightModuleEvaluation j).obj M) :=
+  Submodule.span k { y | ∃ l : ℤ, j < l ∧ ∃ x : (A.rightModuleEvaluation l).obj M,
+    ∃ a : A.Hom j l, M.obj.map (show (⟨j⟩ : A.Obj) ⟶ ⟨l⟩ from a).op x = y }
+
+/-- The concrete radical component is exactly `(P_i A_{>0})_j`, not an added hypothesis. -/
+theorem representableRadical_eq_positiveActionSpan (i j : ℤ) :
+    (A.representableRadical i).component (op ⟨j⟩) =
+      A.positiveActionSpan (A.representable i) j := by
+  by_cases hj : j < i
+  · apply le_antisymm
+    · intro x hx
+      apply Submodule.subset_span
+      refine ⟨i, hj, A.id i, x, ?_⟩
+      change A.comp (A.id i) x = x
+      exact A.comp_id x
+    · simp [representableRadical, hj]
+  · have hz : A.positiveActionSpan (A.representable i) j ≤ ⊥ := by
+      apply Submodule.span_le.mpr
+      rintro y ⟨l, hl, x, a, rfl⟩
+      have hx : x = 0 := A.positive (lt_of_le_of_lt (le_of_not_gt hj) hl) x
+      change A.comp x a ∈ (⊥ : Submodule k (A.Hom j i))
+      rw [hx]
+      simp
+    simpa [representableRadical, hj] using (le_antisymm hz bot_le).symm
+
+noncomputable def simpleRightModule (i : ℤ) : A.RightModule := (A.representableRadical i).quotient
+noncomputable def simpleRightModuleπ (i : ℤ) : A.representable i ⟶ A.simpleRightModule i :=
+  (A.representableRadical i).quotientπ
+
+noncomputable instance simpleRightModuleπEpi (i : ℤ) : Epi (A.simpleRightModuleπ i) :=
+  (A.representableRadical i).quotientπEpi
+
+theorem representableRadical_diagonal_zero (i : ℤ) :
+    (A.rightModuleEvaluation i).map (A.representableRadical i).inclusion = 0 := by
+  apply ModuleCat.hom_ext
+  ext x
+  change x.val = 0
+  have h := x.property
+  simpa [representableRadical] using h
+
+noncomputable def simpleRightModuleDiagonalIso (i : ℤ) :
+    (A.rightModuleEvaluation i).obj (A.simpleRightModule i) ≅
+      (A.rightModuleEvaluation i).obj (A.representable i) := by
+  let e := A.rightModuleCokernelObjIso (A.representableRadical i).inclusion i
+  have e' : (A.rightModuleEvaluation i).obj (A.simpleRightModule i) ≅
+      cokernel (0 : (A.rightModuleEvaluation i).obj (A.representableRadical i).object ⟶
+        (A.rightModuleEvaluation i).obj (A.representable i)) := by
+    simpa only [A.representableRadical_diagonal_zero] using e
+  exact e' ≪≫ cokernelZeroIsoTarget
+
+theorem simpleRightModule_off_diagonal (i j : ℤ) (hji : j ≠ i) :
+    IsZero ((A.rightModuleEvaluation j).obj (A.simpleRightModule i)) := by
+  rcases lt_or_gt_of_ne hji with h | h
+  · have he : Epi ((A.rightModuleEvaluation j).map (A.representableRadical i).inclusion) := by
+      apply (ModuleCat.epi_iff_surjective _).mpr
+      intro x
+      refine ⟨⟨x, ?_⟩, rfl⟩
+      simp [representableRadical, h]
+    exact (isZero_cokernel_of_epi _).of_iso
+      (A.rightModuleCokernelObjIso (A.representableRadical i).inclusion j)
+  · apply IsZero.of_epi ((A.rightModuleEvaluation j).map (A.simpleRightModuleπ i))
+    apply ModuleCat.isZero_iff_subsingleton.mpr
+    refine ⟨fun x y => ?_⟩
+    change A.Hom j i at x y
+    rw [A.positive h x, A.positive h y]
+
+theorem simpleRightModule_diagonal_finrank (i : ℤ) :
+    Module.finrank k ((A.rightModuleEvaluation i).obj (A.simpleRightModule i)) = 1 := by
+  rw [(A.simpleRightModuleDiagonalIso i).toLinearEquiv.finrank_eq]
+  change Module.finrank k (A.Hom i i) = 1
+  rw [← (A.scalarEndEquiv i).finrank_eq]
+  exact Module.finrank_self k
+
+instance simpleRightModuleDiagonalSimple (i : ℤ) :
+    Simple ((A.rightModuleEvaluation i).obj (A.simpleRightModule i)) :=
+  simple_of_finrank_eq_one (A.simpleRightModule_diagonal_finrank i)
+
+/-- A morphism into the vertex quotient is zero exactly when its diagonal component is zero. -/
+theorem simpleRightModule_hom_eq_zero_iff (i : ℤ) {M : A.RightModule}
+    (f : M ⟶ A.simpleRightModule i) :
+    f = 0 ↔ (A.rightModuleEvaluation i).map f = 0 := by
+  constructor
+  · intro h
+    rw [h, Functor.map_zero]
+  · intro h
+    apply NatTrans.ext
+    funext X
+    by_cases hi : X.unop.index = i
+    · have hX : X = op (⟨i⟩ : A.Obj) := by
+        change op (⟨X.unop.index⟩ : A.Obj) = op (⟨i⟩ : A.Obj)
+        rw [hi]
+      subst X
+      exact h
+    · exact (A.simpleRightModule_off_diagonal i X.unop.index hi).eq_zero_of_tgt (f.app X)
+
+/-- The actual quotient `P_i / P_i A_{>0}` is a simple object of the existing module category. -/
+instance simpleRightModuleSimple (i : ℤ) : Simple (A.simpleRightModule i) where
+  mono_isIso_iff_nonzero := by
+    intro M f hf
+    constructor
+    · intro hi hz
+      letI := hi
+      have hzi : (A.rightModuleEvaluation i).map f = 0 := by rw [hz, Functor.map_zero]
+      exact Simple.not_isZero _ (IsZero.of_epi_eq_zero _ hzi)
+    · intro hn
+      have hni : (A.rightModuleEvaluation i).map f ≠ 0 := by
+        intro h
+        exact hn ((A.simpleRightModule_hom_eq_zero_iff i f).mpr h)
+      haveI : IsIso ((A.rightModuleEvaluation i).map f) := isIso_of_mono_of_nonzero hni
+      haveI : Epi f := (A.rightModule_epi_iff f).mpr fun j => by
+        by_cases hj : j = i
+        · subst j
+          infer_instance
+        · exact epi_of_target_iso_zero _ (A.simpleRightModule_off_diagonal i j hj).isoZero
+      exact isIso_of_mono_of_epi f
+
+/-- The defining radical inclusion and quotient projection form a short exact sequence. -/
+theorem simpleRightModule_shortExact (i : ℤ) :
+    (A.representableRadical i).quotientShortComplex.ShortExact :=
+  (A.representableRadical i).quotientShortExact
+
+end ASGinzburg.ZAlgebra
