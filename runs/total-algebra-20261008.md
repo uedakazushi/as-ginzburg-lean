@@ -1108,3 +1108,42 @@ UTC 2026-10-08T17:42:35.401640+00:00 → 2026-10-08T18:06:57.759478+00:00。
 単位39のCI37815094225/job113441565086は正確なhead 0eb34ad7704347e0a7386399063e9dce18a4ac84でsuccess。全ログ646424bytes・SHA-256 5c4cc31b584ad3e1553e5d01a9349f47882f8db1845f33754d2b3df818ed09fb、検証UTC17:15:39.075342→17:44:01.201392、単調時計1702.126045504秒、全7段階0、artifact11568756284とdigestをverification/total_algebra_unit39_github_ci*に保存した。単位40のCI37818577417はin_progressと確認。
 次の草稿unrolled-jacobian-relations1、unrolled-component-heights3、unrolled-jacobian-algebra2は個別Lean終了0・診断なし。実際の巡回微分の全sheetへの持上げ、長さ≥2、整数添字への線形同型とfiltration保存、実際の生成イデアル・矢イデアル平方包含・対角零性・正に有向/connected/locally finiteなunrolled Jacobian商、商射・核・全関係の零性まで完成。これらを含む14数学モジュールを単位42として新規公開監査する予定で、41の検査対象には含めていない。
 さらにginzburg-paths4、ginzburg-path-algebra1は個別Lean終了0・診断なし。拡張箙の実際の可合成道・三つの次数と加法性、非正コホモロジー次数、正のwinding、元の道の持上げとコホモロジー次数0の道の元の道への復元、実際の自由拡張道空間の双線形積・単位元・結合則と三つの次数のhomogeneous成分の積閉性まで草稿で完成。微分・signed Leibniz延長・d²=0・コホモロジーと正則性は未実装で、その義務を残したまま継続する。
+
+単位41はmain d29f1eded50bba8d7593245cd5c39356d6513cc4へ通常のfast-forwardで保存済み。38ファイル・32独立blob・2002734bytesを11部分に分け、GitHub tree 4dc4d6020d8741e32c8ededbfafb7fa0ba31a9c6がローカルtreeと一致することを確認。初回create_commit応答はエラーとなったがmainが旧a8f6f88のままであることを確認し、安全な再試行でcommitを作成した。force=false・expected旧headでmainを更新し、正確なAPI commit objectへのローカル同期は終了0。
+作業中保存 UTC 2026-10-08T18:11:47.197475+00:00、開始から実測40269.197475秒。タスク終了ではない。次の14数学モジュールを単位42として公開ソースへコピーし、新規全宣言監査を開始する。全実行をsubprocessの終了コードとUTC/単調時計まで別ファイルへ保存するwrapperを追加した。以前の成功を追加したソースの成功として扱わず、検査中の数学ソースを固定する。拡張道のgraded代数・微分への次の必要な草稿を継続する。
+
+作業中チェックポイント UTC 2026-10-08T18:46:09.011576+00:00、開始から実測42331.011576秒。継続中、タスク終了ではない。
+単位42の公開検査20261008T181147Z-bc8e0dceは全6段階0、219数学モジュール・2005異なる宣言・全950 theorem・276 named instance。検証UTC18:11:47.499720→18:36:29.372870、1481.873145590秒。独立wrapperで実際のシェル終了0、UTC18:11:47.467848→18:36:29.382503、1481.914657621秒も保存した。最新ソースのSHA・全定理の監査対象照合・許容公理3種類のみを確認。mainは単位41のd29f1eded50bba8d7593245cd5c39356d6513cc4で、42の検証済みソースをこれから保存する。
+単位40の正確なhead a8f6f88ab00a821cd4909b527b7668a01d4f5412のCI37818577417はsuccess、41のCI37822308916は直前の照会時in_progress。旧headの成功を42のCI成功として扱わない。
+ginzburg-paths4、ginzburg-path-algebra1、ginzburg-path-words2/3、ginzburg-degree-zero-algebra2は個別Lean終了0・診断なし。実際の拡張道の積と三つの次数、非正コホモロジー次数、元の道と次数0の道の対応、語への単射、次数0空間の実際の線形同型と積/単位元保存まで完成。生成元微分の型付き実装は作成済みだが、草稿と公開版PathWordEmbeddingsの二重importにより初回は終了1。その参照を公開版へ統一し、依存草稿を順に再ビルド中で、生成元微分の検査成功とはまだ扱わない。signed Leibniz延長とd²=0・コホモロジーは未実装。これら43の草稿は42の公開監査に含めていない。
+最小関係・選択の独立性、graded Jacobian商とunrollingの比較、quadratic分解の橋、標準RHom/derived/perfect・引用一般定理と主定理の同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+## 単位42：実際の閉路ポテンシャル・道を値に取る巡回微分・unrolled Jacobian商
+
+可合成な閉じた道・cut次数1・長さ3以上の巡回類に支持された有限巡回多項式の部分空間を構成した。これは原論文(1.2)の実際のポテンシャルであり、任意のPropで定義を置き換えていない。部分空間は該当する閉路のtraceWordのspanに等しく、その上で既存の(3.8)が成立することを証明した。
+
+始点を固定した実際の道は、終点も含めて矢の語から一意に復元できることを証明した。平行な矢の区別も保ったtoListの単射性から、道の自由ベクトル空間の語多項式への線形単射を構成した。その像を実際の道の語に支持された部分空間と同定し、線形同型を構成した。
+
+prefixとsuffixの実際の道による帰納法で、閉路の巡回微分が微分する矢の終点から始点へ向かう道の語に支持されることを証明した。ポテンシャル空間のspanへ延長し、上の線形同型の逆を用いて実際の道を値に取る線形巡回微分を構成した。語に戻すと既存cyclicDerivativeに厳密に一致することも証明した。微分が語の長さを1だけ減らし該当する矢のcut次数を除くことを一般に証明し、ポテンシャルの巡回微分の長さ≥2・補完cut次数・cut矢の微分のcut次数0を実際の道について導いた。
+
+Ginzburgのloop微分の二乗に必要な、全巡回微分の交換子の総和が零となる恒等式を、各有限語でのtelescopingとrotation商上の有限線形延長から証明した。dg代数の微分やd²=0そのもの、Ginzburg正則性の証明としては扱わない。
+
+実際の道を始点sheet mから終点sheet m+cutDegreeへ持ち上げるunrolling、sheetを忘れるerase、長さ保存・cut次数とsheet差の一致・語を失わない単射を構成した。固定cut次数の道のunrollingと対応する自由線形写像の単射性も証明した。これを巡回微分へ適用し、その固定cut次数の取り出しと各sheetへの実際の持上げを構成した。持ち上げた関係が長さ2以上のfiltrationに入ることも証明した。整数添字への実際の線形同型とfiltration保存により、全関係が矢イデアルの平方に入ることを導いた。
+
+全二側線形イデアルの交わりとして実際の生成イデアルを定義し、左右積の閉性・生成元の包含・最小性を証明した。全sheetの実際の巡回微分を生成元とするunrolledJacobianIdealを構成し、矢イデアル平方への包含と対角零性を証明した。このイデアルによる実際の商unrolledJacobianZAlgebraは正に有向・connected・locally finiteであり、実際の商射の全射性・核の同定・全巡回微分の像が零になることも証明した。有限cut graded Jacobian商を別途構成してからunrollするモデルとの商の交換は未証明であり、その比較を自明と扱わない。
+
+ASRegular triangle333からの正負3周期性も証明した。ただし原論文§5のquadratic分解(5.1)と既存のASResolution triangle333の三重coproductを同定する橋は未証明であり、この条件付き特殊化だけを命題5.1全体の完成と扱わない。
+
+利用先はA(Φ)の具体的な商モデル、Ginzburgの生成元微分・signed Leibniz延長とd²=0、最小関係からの逆対応と選択の独立性、quadratic系の対応。次は実際のgraded拡張道代数・微分とコホモロジー、Jacobian商/unrollingの比較、最小関係・選択の独立性、quadratic分解の橋、標準RHom/derived/perfect・引用の一般定理と主定理の同型類対応。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+個別草稿closed-path-potentials3、path-word-embeddings3、path-cyclic-derivative-support2、path-cyclic-derivatives2、cyclic-derivative-degrees2、path-cyclic-derivative-degrees1、cyclic-derivative-commutators3、path-unrolling3、path-degree-unrolling2、generated-linear-ideals1、unrolled-jacobian-relations1、unrolled-component-heights3、triangle-periodicity1、unrolled-jacobian-algebra2は実際のLean終了0・診断なし。初回のspanの値のgeneralize、Subtypeの名前解決、添字の輸送、simpの正規化と構造のcoercionによる終了1ログは保持。未完成の草稿や過去の成功を新しい公開ソースの成功と取り違えない。新規公開ビルド・公理監査・main保存後も継続する。
+
+検証：`20261008T181147Z-bc8e0dce`、1481.873145590秒、全段階終了0。
+JST 2026-10-09T03:11:47.499720+09:00 → 2026-10-09T03:36:29.372870+09:00。
+UTC 2026-10-08T18:11:47.499720+00:00 → 2026-10-08T18:36:29.372870+00:00。
+219数学モジュール・2005異なる宣言・950 theorem。
+差分：runs/total-algebra-20261008-unit42.patch。全theoremを監査し、許容公理3種類のみ。
+
+継続チェックポイント UTC 2026-10-08T18:49:48.204847+00:00。タスク開始から 42550.204847秒、継続中・タスク終了時刻は未記録。単位42の実際の検証シェルも終了0。wrapper測定UTC 2026-10-08T18:11:47.467848+00:00 → 2026-10-08T18:36:29.382503+00:00、1481.914657621秒。
+単位41の正確なmain head d29f1eded50bba8d7593245cd5c39356d6513cc4のGitHub Actions 37822308916はcompleted/successを確認。https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37822308916 。これは単位42のリモート検査とは区別する。
+次の草稿では実際の拡張道・道代数・degree-zero部分と元の道代数との同型を個別Lean終了0で検証。生成元微分は総和の括弧とunfoldの修正を検証中。未完成草稿の成功を公開ソースの成功として記録しない。main保存後も形式化を継続する。

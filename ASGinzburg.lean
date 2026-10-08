@@ -212,6 +212,21 @@ import ASGinzburg.QuotientZAlgebra
 import ASGinzburg.ZAlgebraIsomorphisms
 import ASGinzburg.ASPresentationQuotient
 
+import ASGinzburg.ClosedPathPotentials
+import ASGinzburg.PathWordEmbeddings
+import ASGinzburg.PathCyclicDerivativeSupport
+import ASGinzburg.PathCyclicDerivatives
+import ASGinzburg.CyclicDerivativeDegrees
+import ASGinzburg.PathCyclicDerivativeDegrees
+import ASGinzburg.CyclicDerivativeCommutators
+import ASGinzburg.PathUnrolling
+import ASGinzburg.PathDegreeUnrolling
+import ASGinzburg.GeneratedLinearIdeals
+import ASGinzburg.UnrolledJacobianRelations
+import ASGinzburg.UnrolledComponentHeights
+import ASGinzburg.TrianglePeriodicity
+import ASGinzburg.UnrolledJacobianAlgebra
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

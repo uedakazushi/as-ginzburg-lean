@@ -1,0 +1,56 @@
+import ASGinzburg.PathCyclicDerivatives
+import ASGinzburg.CyclicDerivativeDegrees
+
+/-! The actual path-valued Jacobian relations have length at least two
+and the required complementary cut degree. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem cyclicDerivative_potential_supported_degrees (a : Q.Arrow) (φ : Q.Potential k) :
+    cyclicDerivative a φ.val ∈ Finsupp.supported k k
+      {w | 2 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree a=1} := by
+  obtain ⟨φ,hf⟩ := φ
+  change cyclicDerivative a φ ∈ _
+  change φ ∈ Q.potentialSpace k at hf
+  rw [Q.potentialSpace_eq_span k] at hf
+  induction hf using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨v,p,hc,hl,rfl⟩ := hx
+    rw [cyclicDerivative_traceWord]
+    apply Finsupp.supported_mono _ (derivativeWord_supported_degrees (k:=k) Q.cut a p.toList)
+    rintro w ⟨hlen,hcut⟩
+    constructor
+    · rw [p.length_toList] at hlen
+      omega
+    · simpa only [CutQuiver.cutDegree,path_word_cutDegree,hc] using hcut
+  | zero => simp
+  | add x y hx hy ihx ihy =>
+    simpa only [map_add] using Submodule.add_mem _ ihx ihy
+  | smul c x hx ih =>
+    simpa only [map_smul] using Submodule.smul_mem _ c ih
+
+theorem pathCyclicDerivative_supported_degrees (a : Q.Arrow) (φ : Q.Potential k) :
+    Q.pathCyclicDerivative k a φ ∈ Finsupp.supported k k
+      {p : Q.Path (Q.target a) (Q.source a) |
+        2 ≤ p.length ∧ p.cutDegree+Q.cutDegree a=1} := by
+  apply (Finsupp.mem_supported' k _).mpr
+  intro p hp
+  have hword : p.toList ∉ {w : List Q.Arrow |
+      2 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree a=1} := by
+    simpa only [Set.mem_setOf_eq,p.length_toList,path_word_cutDegree] using hp
+  have H := (Finsupp.mem_supported' k _).mp
+    (Q.cyclicDerivative_potential_supported_degrees k a φ) p.toList hword
+  rw [←Q.pathWordMap_pathCyclicDerivative k a φ] at H
+  change (Finsupp.mapDomain Path.toList (Q.pathCyclicDerivative k a φ)) p.toList=0 at H
+  rw [Finsupp.mapDomain_apply (Path.toList_injective (Q.target a) (Q.source a))] at H
+  exact H
+
+theorem pathCyclicDerivative_cut_support (a : Q.Arrow) (ha : Q.cut a=true)
+    (φ : Q.Potential k) :
+    Q.pathCyclicDerivative k a φ ∈ Finsupp.supported k k
+      {p : Q.Path (Q.target a) (Q.source a) | 2 ≤ p.length ∧ p.cutDegree=0} := by
+  have H := Q.pathCyclicDerivative_supported_degrees k a φ
+  simpa [Q.cutDegree_true ha] using H
+
+end ASGinzburg.CutQuiver

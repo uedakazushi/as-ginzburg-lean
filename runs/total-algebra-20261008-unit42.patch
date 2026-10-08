@@ -1,0 +1,1023 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 1a96a4e..aa01cac 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -212,6 +212,21 @@ import ASGinzburg.QuotientZAlgebra
+ import ASGinzburg.ZAlgebraIsomorphisms
+ import ASGinzburg.ASPresentationQuotient
+ 
++import ASGinzburg.ClosedPathPotentials
++import ASGinzburg.PathWordEmbeddings
++import ASGinzburg.PathCyclicDerivativeSupport
++import ASGinzburg.PathCyclicDerivatives
++import ASGinzburg.CyclicDerivativeDegrees
++import ASGinzburg.PathCyclicDerivativeDegrees
++import ASGinzburg.CyclicDerivativeCommutators
++import ASGinzburg.PathUnrolling
++import ASGinzburg.PathDegreeUnrolling
++import ASGinzburg.GeneratedLinearIdeals
++import ASGinzburg.UnrolledJacobianRelations
++import ASGinzburg.UnrolledComponentHeights
++import ASGinzburg.TrianglePeriodicity
++import ASGinzburg.UnrolledJacobianAlgebra
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 3f695e4..cddc234 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -265,6 +265,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.reverseChainHomotopyFunctor_bounded
+ #print axioms ASGinzburg.boundedReverseDegreeEquivalence
+ #print axioms ASGinzburg.ZAlgebra.boundedCochainFiniteProjectiveADualEquivalence
++#print axioms ASGinzburg.CutQuiver.potentialClasses
++#print axioms ASGinzburg.CutQuiver.potentialSpace
++#print axioms ASGinzburg.CutQuiver.Potential
++#print axioms ASGinzburg.CutQuiver.traceWord_mem_potentialSpace
++#print axioms ASGinzburg.CutQuiver.potentialSpace_eq_span
++#print axioms ASGinzburg.CutQuiver.cyclicCutReconstruction_potential
++#print axioms ASGinzburg.CutQuiver.cut_cyclic_derivative_potential_identity
+ #print axioms ASGinzburg.reverseCochainComplex
+ #print axioms ASGinzburg.reverseChainComplex
+ #print axioms ASGinzburg.reverseCochainFunctor
+@@ -357,6 +364,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.cyclicCutReconstruction_traceWord
+ #print axioms ASGinzburg.cyclicCutReconstruction_comp_trace
+ #print axioms ASGinzburg.cut_cyclic_derivative_identity
++#print axioms ASGinzburg.prependWord
++#print axioms ASGinzburg.appendWord
++#print axioms ASGinzburg.wordCommutator
++#print axioms ASGinzburg.wordCommutator_single
++#print axioms ASGinzburg.derivativeAux_commutator
++#print axioms ASGinzburg.derivativeWord_commutator
++#print axioms ASGinzburg.cyclicDerivative_commutator
++#print axioms ASGinzburg.derivativeAux_supported_degrees
++#print axioms ASGinzburg.derivativeWord_supported_degrees
+ #print axioms ASGinzburg.directSumDualInto
+ #print axioms ASGinzburg.directSumDualInto_lof
+ #print axioms ASGinzburg.directSumDualInto_eval_lof
+@@ -731,6 +747,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.fullSubcategoryOpInverse
+ #print axioms ASGinzburg.fullSubcategoryOpEquivalence
+ #print axioms ASGinzburg.restrictEquivalence
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.subset_generated
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated_le
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
+@@ -1180,6 +1199,47 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathComp_id
+ #print axioms ASGinzburg.CutQuiver.id_pathComp
+ #print axioms ASGinzburg.CutQuiver.pathComp_assoc
++#print axioms ASGinzburg.CutQuiver.cyclicDerivative_potential_supported_degrees
++#print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_supported_degrees
++#print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_cut_support
++#print axioms ASGinzburg.CutQuiver.pathWordSpace
++#print axioms ASGinzburg.CutQuiver.single_path_mem_wordSpace
++#print axioms ASGinzburg.CutQuiver.derivativeAux_closed_path_mem
++#print axioms ASGinzburg.CutQuiver.cyclicDerivative_closed_path_mem
++#print axioms ASGinzburg.CutQuiver.cyclicDerivative_potential_mem
++#print axioms ASGinzburg.CutQuiver.pathWordMap_range
++#print axioms ASGinzburg.CutQuiver.pathWordEquiv
++#print axioms ASGinzburg.CutQuiver.pathWordEquiv_coe
++#print axioms ASGinzburg.CutQuiver.pathCyclicDerivative
++#print axioms ASGinzburg.CutQuiver.pathWordMap_pathCyclicDerivative
++#print axioms ASGinzburg.CutQuiver.Path.CutDegreePath
++#print axioms ASGinzburg.CutQuiver.Path.unrollDegree
++#print axioms ASGinzburg.CutQuiver.Path.unrollDegree_erase_toList
++#print axioms ASGinzburg.CutQuiver.Path.unrollDegree_injective
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.eraseDegree
++#print axioms ASGinzburg.CutQuiver.Path.eraseDegree_unrollDegree
++#print axioms ASGinzburg.CutQuiver.unrollDegreeLinearMap
++#print axioms ASGinzburg.CutQuiver.unrollDegreeLinearMap_injective
++#print axioms ASGinzburg.CutQuiver.Path.transport
++#print axioms ASGinzburg.CutQuiver.Path.length_transport
++#print axioms ASGinzburg.CutQuiver.Path.cutDegree_transport
++#print axioms ASGinzburg.CutQuiver.Path.toList_transport
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.transport
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.length_transport
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.erase
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.erase_transport
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.erase_length
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.erase_cutDegree
++#print axioms ASGinzburg.CutQuiver.incomingSource_unroll
++#print axioms ASGinzburg.CutQuiver.Path.unroll
++#print axioms ASGinzburg.CutQuiver.Path.unroll_length
++#print axioms ASGinzburg.CutQuiver.Path.unroll_erase_toList
++#print axioms ASGinzburg.CutQuiver.Path.unroll_sigma_injective
++#print axioms ASGinzburg.CutQuiver.Path.toList_comp
++#print axioms ASGinzburg.CutQuiver.Path.toList_sigma_injective
++#print axioms ASGinzburg.CutQuiver.Path.toList_injective
++#print axioms ASGinzburg.CutQuiver.pathWordMap
++#print axioms ASGinzburg.CutQuiver.pathWordMap_injective
+ #print axioms ASGinzburg.ZAlgebra.homTransport
+ #print axioms ASGinzburg.ZAlgebra.homTransport_id
+ #print axioms ASGinzburg.ZAlgebra.homTransport_comp
+@@ -1744,6 +1804,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.triangle_same_winding_as_arrow_is_linear
+ #print axioms ASGinzburg.trianglePotential
+ #print axioms ASGinzburg.trianglePotential_cut_derivative_identity
++#print axioms ASGinzburg.ZAlgebra.ASRegular.trianglePeriodIso
++#print axioms ASGinzburg.ZAlgebra.ASRegular.triangle_isPeriodic
++#print axioms ASGinzburg.ZAlgebra.ASRegular.triangleNegativePeriodIso
++#print axioms ASGinzburg.ZAlgebra.ASRegular.triangle_isPeriodic_negative
+ #print axioms ASGinzburg.ZAlgebra.simpleRightModuleπ_component_isIso
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableSimpleCover_component_isIso
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_postcomp_injective
+@@ -1836,6 +1900,31 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentSum_surjective
+ #print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentSumEquiv
+ #print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentSumEquiv
++#print axioms ASGinzburg.CutQuiver.heightEquiv_symm_height
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.endpointEquiv
++#print axioms ASGinzburg.CutQuiver.unrolledPathHeightEquiv
++#print axioms ASGinzburg.CutQuiver.unrolledPathHeightEquiv_length
++#print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv
++#print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_single
++#print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_mem_filtration
++#print axioms ASGinzburg.CutQuiver.integerJacobianRelation
++#print axioms ASGinzburg.CutQuiver.integerJacobianRelation_mem_square
++#print axioms ASGinzburg.CutQuiver.jacobianGenerators
++#print axioms ASGinzburg.CutQuiver.jacobianGenerators_subset_square
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianIdeal_le_square
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianIdeal_diagonal_eq_bot
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianZAlgebra
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap_surjective
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap_kernel
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap_relation_zero
++#print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_fixedCut
++#print axioms ASGinzburg.CutQuiver.restrictedJacobianRelation
++#print axioms ASGinzburg.CutQuiver.restrictedJacobianRelation_apply
++#print axioms ASGinzburg.CutQuiver.restrictedJacobianRelation_supported_long
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianRelation
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianRelation_supported_long
+ #print axioms ASGinzburg.CutQuiver.UnrolledPathComponent
+ #print axioms ASGinzburg.CutQuiver.unrolledPathComp
+ #print axioms ASGinzburg.CutQuiver.unrolledPathId
+diff --git a/ASGinzburg/ClosedPathPotentials.lean b/ASGinzburg/ClosedPathPotentials.lean
+new file mode 100644
+index 0000000..8507a63
+--- /dev/null
++++ b/ASGinzburg/ClosedPathPotentials.lean
+@@ -0,0 +1,61 @@
++import ASGinzburg.CyclicDerivative
++import ASGinzburg.PathAlgebra
++import Mathlib.LinearAlgebra.Finsupp.Supported
++
++/-! Actual potentials are finite cyclic polynomials supported on composable
++closed quiver paths of cut degree one and length at least three. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def potentialClasses : Set (CyclicWord Q.Arrow) :=
++  {c | ∃ v, ∃ p : Q.Path v v,
++    p.cutDegree=1 ∧ 3 ≤ p.length ∧ wordClass p.toList=c}
++
++def potentialSpace : Submodule k (CyclicPolynomial k Q.Arrow) :=
++  Finsupp.supported k k Q.potentialClasses
++
++abbrev Potential := Q.potentialSpace k
++
++theorem traceWord_mem_potentialSpace {v : Q.Vertex} (p : Q.Path v v)
++    (hc : p.cutDegree=1) (hl : 3 ≤ p.length) :
++    traceWord (k:=k) p.toList ∈ Q.potentialSpace k :=
++  Finsupp.single_mem_supported k 1 ⟨v,p,hc,hl,rfl⟩
++
++theorem potentialSpace_eq_span :
++    Q.potentialSpace k = Submodule.span k
++      {φ | ∃ v, ∃ p : Q.Path v v,
++        p.cutDegree=1 ∧ 3 ≤ p.length ∧ traceWord (k:=k) p.toList=φ} := by
++  rw [potentialSpace,Finsupp.supported_eq_span_single]
++  congr 1
++  ext φ
++  constructor
++  · rintro ⟨c,⟨v,p,hc,hl,rfl⟩,rfl⟩
++    exact ⟨v,p,hc,hl,rfl⟩
++  · rintro ⟨v,p,hc,hl,rfl⟩
++    exact ⟨wordClass p.toList,⟨v,p,hc,hl,rfl⟩,rfl⟩
++
++theorem cyclicCutReconstruction_potential (φ : Q.Potential k) :
++    cyclicCutReconstruction Q.cut φ.val = φ.val := by
++  obtain ⟨φ,hf⟩ := φ
++  change cyclicCutReconstruction Q.cut φ = φ
++  change φ ∈ Q.potentialSpace k at hf
++  rw [Q.potentialSpace_eq_span k] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨v,p,hc,hl,rfl⟩ := hx
++    rw [cyclicCutReconstruction_traceWord,reconstructAux_euler,path_word_cutDegree,hc]
++    simp
++  | zero => simp
++  | add x y hx hy ihx ihy => simp only [map_add,ihx,ihy]
++  | smul a x hx ih => simp only [map_smul,ih]
++
++/-- The actual cut Euler identity (3.8) on the closed-path potential space. -/
++theorem cut_cyclic_derivative_potential_identity (φ : Q.Potential k) :
++    (∑ a : Q.Arrow, if Q.cut a then
++      prependTrace a (cyclicDerivative a φ.val) else 0) = φ.val := by
++  have H := Q.cyclicCutReconstruction_potential k φ
++  simpa only [cyclicCutReconstruction,LinearMap.sum_apply,ite_linearMap_apply,
++    LinearMap.comp_apply,LinearMap.zero_apply] using H
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathWordEmbeddings.lean b/ASGinzburg/PathWordEmbeddings.lean
+new file mode 100644
+index 0000000..9e4e83f
+--- /dev/null
++++ b/ASGinzburg/PathWordEmbeddings.lean
+@@ -0,0 +1,55 @@
++import ASGinzburg.PathAlgebra
++
++/-! A composable path is determined by its initial vertex and actual arrow
++word, including for parallel arrows. -/
++namespace ASGinzburg.CutQuiver.Path
++variable {Q : CutQuiver}
++
++theorem toList_comp {u v w : Q.Vertex} (p : Q.Path u v) (q : Q.Path v w) :
++    (p.comp q).toList=p.toList++q.toList := by
++  induction q with
++  | nil => simp [comp,toList]
++  | snoc q a h ih => simp [comp,toList,ih,List.append_assoc]
++
++theorem toList_sigma_injective (u : Q.Vertex) :
++    Function.Injective (fun p : Σ v, Q.Path u v => p.2.toList) := by
++  rintro ⟨v,p⟩ ⟨w,q⟩ hword
++  induction p generalizing w with
++  | nil =>
++    cases q with
++    | nil => rfl
++    | snoc q a h => simp [toList] at hword
++  | @snoc v p a h ih =>
++    cases q with
++    | nil => simp [toList] at hword
++    | @snoc w q b hb =>
++      have hr := congrArg List.reverse hword
++      simp only [toList,List.reverse_append,List.reverse_singleton,List.singleton_append] at hr
++      obtain ⟨hab,hpq⟩ := List.cons.inj hr
++      subst b
++      have hpq' := List.reverse_injective hpq
++      have H := ih w q hpq'
++      cases H
++      rfl
++
++theorem toList_injective (u v : Q.Vertex) :
++    Function.Injective (toList : Q.Path u v → List Q.Arrow) := by
++  intro p q h
++  have H : (⟨v,p⟩ : Σ v, Q.Path u v)=⟨v,q⟩ := toList_sigma_injective u h
++  exact eq_of_heq (Sigma.mk.inj H).2
++
++end ASGinzburg.CutQuiver.Path
++
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def pathWordMap (u v : Q.Vertex) :
++    Q.PathComponent k u v →ₗ[k] WordPolynomial k Q.Arrow :=
++  Finsupp.lmapDomain k k Path.toList
++
++theorem pathWordMap_injective (u v : Q.Vertex) :
++    Function.Injective (Q.pathWordMap k u v) :=
++  Finsupp.mapDomain_injective (Path.toList_injective u v)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathCyclicDerivativeSupport.lean b/ASGinzburg/PathCyclicDerivativeSupport.lean
+new file mode 100644
+index 0000000..0003c75
+--- /dev/null
++++ b/ASGinzburg/PathCyclicDerivativeSupport.lean
+@@ -0,0 +1,60 @@
++import ASGinzburg.PathWordEmbeddings
++import ASGinzburg.ClosedPathPotentials
++
++/-! Cyclic derivatives of actual closed paths are supported on paths with
++the reversed endpoints of the differentiated arrow. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def pathWordSpace (u v : Q.Vertex) : Submodule k (WordPolynomial k Q.Arrow) :=
++  Finsupp.supported k k {w | ∃ p : Q.Path u v, p.toList=w}
++
++theorem single_path_mem_wordSpace {u v : Q.Vertex} (p : Q.Path u v) (c : k) :
++    Finsupp.single p.toList c ∈ Q.pathWordSpace k u v :=
++  Finsupp.single_mem_supported k c ⟨p,rfl⟩
++
++theorem derivativeAux_closed_path_mem (a : Q.Arrow) {u v : Q.Vertex}
++    (pre : Q.Path u v) (suffix : Q.Path v u) :
++    derivativeAux (k:=k) a pre.toList suffix.toList ∈
++      Q.pathWordSpace k (Q.target a) (Q.source a) := by
++  induction suffix with
++  | nil => simp [Path.toList,derivativeAux]
++  | @snoc w suffix b hb ih =>
++    rw [Path.toList,derivativeAux_append]
++    apply Submodule.add_mem
++    · let first : Q.Path w (Q.target b) := .snoc (.nil w) b hb
++      have H := ih (first.comp pre)
++      simpa only [Path.toList_comp,first,Path.toList,List.nil_append] using H
++    · by_cases hab : a=b
++      · subst a
++        have hp := Q.single_path_mem_wordSpace k (pre.comp suffix) (1:k)
++        have hends : w=Q.source b := hb.symm
++        subst w
++        simpa [derivativeAux,Path.toList_comp] using hp
++      · simp [derivativeAux,hab]
++
++theorem cyclicDerivative_closed_path_mem (a : Q.Arrow) {v : Q.Vertex}
++    (p : Q.Path v v) :
++    cyclicDerivative a (traceWord (k:=k) p.toList) ∈
++      Q.pathWordSpace k (Q.target a) (Q.source a) := by
++  rw [cyclicDerivative_traceWord]
++  exact Q.derivativeAux_closed_path_mem k a (.nil v) p
++
++theorem cyclicDerivative_potential_mem (a : Q.Arrow) (φ : Q.Potential k) :
++    cyclicDerivative a φ.val ∈ Q.pathWordSpace k (Q.target a) (Q.source a) := by
++  obtain ⟨φ,hf⟩ := φ
++  change cyclicDerivative a φ ∈ _
++  change φ ∈ Q.potentialSpace k at hf
++  rw [Q.potentialSpace_eq_span k] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨v,p,hc,hl,rfl⟩ := hx
++    exact Q.cyclicDerivative_closed_path_mem k a p
++  | zero => simp
++  | add x y hx hy ihx ihy =>
++    simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul c x hx ih =>
++    simpa only [map_smul] using Submodule.smul_mem _ c ih
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathCyclicDerivatives.lean b/ASGinzburg/PathCyclicDerivatives.lean
+new file mode 100644
+index 0000000..048a3d1
+--- /dev/null
++++ b/ASGinzburg/PathCyclicDerivatives.lean
+@@ -0,0 +1,43 @@
++import ASGinzburg.PathCyclicDerivativeSupport
++
++/-! Genuine path-valued cyclic derivatives of the actual closed-path
++potential space, obtained through the proved injective word embedding. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathWordMap_range (u v : Q.Vertex) :
++    LinearMap.range (Q.pathWordMap k u v)=Q.pathWordSpace k u v := by
++  rw [pathWordMap,LinearMap.range_eq_map,
++    ←(Finsupp.supported_univ : Finsupp.supported k k (Set.univ : Set (Q.Path u v))=⊤),
++    Finsupp.lmapDomain_supported]
++  change Finsupp.supported k k (Path.toList '' Set.univ)=Finsupp.supported k k _
++  congr 1
++  ext w
++  simp
++
++noncomputable def pathWordEquiv (u v : Q.Vertex) :
++    Q.PathComponent k u v ≃ₗ[k] Q.pathWordSpace k u v :=
++  (LinearEquiv.ofInjective (Q.pathWordMap k u v) (Q.pathWordMap_injective k u v)).trans
++    (LinearEquiv.ofEq _ _ (Q.pathWordMap_range k u v))
++
++theorem pathWordEquiv_coe (u v : Q.Vertex) (f : Q.PathComponent k u v) :
++    (Q.pathWordEquiv k u v f).val=Q.pathWordMap k u v f := rfl
++
++noncomputable def pathCyclicDerivative (a : Q.Arrow) :
++    Q.Potential k →ₗ[k] Q.PathComponent k (Q.target a) (Q.source a) :=
++  (Q.pathWordEquiv k (Q.target a) (Q.source a)).symm.toLinearMap.comp
++    ((((cyclicDerivative a).comp (Q.potentialSpace k).subtype)).codRestrict
++      (Q.pathWordSpace k (Q.target a) (Q.source a))
++      (fun φ => Q.cyclicDerivative_potential_mem k a φ))
++
++theorem pathWordMap_pathCyclicDerivative (a : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathWordMap k (Q.target a) (Q.source a) (Q.pathCyclicDerivative k a φ)=
++      cyclicDerivative a φ.val := by
++  rw [←Q.pathWordEquiv_coe]
++  change ((Q.pathWordEquiv k (Q.target a) (Q.source a))
++    ((Q.pathWordEquiv k (Q.target a) (Q.source a)).symm _)).val = _
++  rw [LinearEquiv.apply_symm_apply]
++  rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/CyclicDerivativeDegrees.lean b/ASGinzburg/CyclicDerivativeDegrees.lean
+new file mode 100644
+index 0000000..0aff3b8
+--- /dev/null
++++ b/ASGinzburg/CyclicDerivativeDegrees.lean
+@@ -0,0 +1,40 @@
++import ASGinzburg.CyclicDerivative
++import Mathlib.LinearAlgebra.Finsupp.Supported
++
++/-! Cyclic differentiation removes exactly one letter and its cut degree. -/
++namespace ASGinzburg
++universe u v
++variable {A : Type u} [DecidableEq A] {k : Type v} [Field k]
++
++theorem derivativeAux_supported_degrees (cut : A → Bool) (a : A) (pre suffix : List A) :
++    derivativeAux (k:=k) a pre suffix ∈ Finsupp.supported k k
++      {w | w.length+1=pre.length+suffix.length ∧
++        wordCutDegree cut w+(if cut a then 1 else 0)=
++          wordCutDegree cut pre+wordCutDegree cut suffix} := by
++  induction suffix generalizing pre with
++  | nil => simp [derivativeAux]
++  | cons b suffix ih =>
++    rw [derivativeAux]
++    apply Submodule.add_mem
++    · by_cases hab : a=b
++      · subst b
++        rw [if_pos rfl]
++        apply Finsupp.single_mem_supported
++        constructor
++        · simp only [List.length_append,List.length_cons]
++          omega
++        · simp only [wordCutDegree_append,wordCutDegree]
++          omega
++      · rw [if_neg hab]
++        exact Submodule.zero_mem _
++    · simpa [wordCutDegree_append,wordCutDegree,Nat.add_assoc,Nat.add_comm,
++        Nat.add_left_comm] using ih (pre++[b])
++
++theorem derivativeWord_supported_degrees (cut : A → Bool) (a : A) (w : List A) :
++    derivativeWord (k:=k) a w ∈ Finsupp.supported k k
++      {r | r.length+1=w.length ∧
++        wordCutDegree cut r+(if cut a then 1 else 0)=wordCutDegree cut w} := by
++  simpa only [List.length_nil,zero_add,wordCutDegree] using
++    derivativeAux_supported_degrees (k:=k) cut a [] w
++
++end ASGinzburg
+diff --git a/ASGinzburg/PathCyclicDerivativeDegrees.lean b/ASGinzburg/PathCyclicDerivativeDegrees.lean
+new file mode 100644
+index 0000000..93d50af
+--- /dev/null
++++ b/ASGinzburg/PathCyclicDerivativeDegrees.lean
+@@ -0,0 +1,56 @@
++import ASGinzburg.PathCyclicDerivatives
++import ASGinzburg.CyclicDerivativeDegrees
++
++/-! The actual path-valued Jacobian relations have length at least two
++and the required complementary cut degree. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem cyclicDerivative_potential_supported_degrees (a : Q.Arrow) (φ : Q.Potential k) :
++    cyclicDerivative a φ.val ∈ Finsupp.supported k k
++      {w | 2 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree a=1} := by
++  obtain ⟨φ,hf⟩ := φ
++  change cyclicDerivative a φ ∈ _
++  change φ ∈ Q.potentialSpace k at hf
++  rw [Q.potentialSpace_eq_span k] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨v,p,hc,hl,rfl⟩ := hx
++    rw [cyclicDerivative_traceWord]
++    apply Finsupp.supported_mono _ (derivativeWord_supported_degrees (k:=k) Q.cut a p.toList)
++    rintro w ⟨hlen,hcut⟩
++    constructor
++    · rw [p.length_toList] at hlen
++      omega
++    · simpa only [CutQuiver.cutDegree,path_word_cutDegree,hc] using hcut
++  | zero => simp
++  | add x y hx hy ihx ihy =>
++    simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul c x hx ih =>
++    simpa only [map_smul] using Submodule.smul_mem _ c ih
++
++theorem pathCyclicDerivative_supported_degrees (a : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathCyclicDerivative k a φ ∈ Finsupp.supported k k
++      {p : Q.Path (Q.target a) (Q.source a) |
++        2 ≤ p.length ∧ p.cutDegree+Q.cutDegree a=1} := by
++  apply (Finsupp.mem_supported' k _).mpr
++  intro p hp
++  have hword : p.toList ∉ {w : List Q.Arrow |
++      2 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree a=1} := by
++    simpa only [Set.mem_setOf_eq,p.length_toList,path_word_cutDegree] using hp
++  have H := (Finsupp.mem_supported' k _).mp
++    (Q.cyclicDerivative_potential_supported_degrees k a φ) p.toList hword
++  rw [←Q.pathWordMap_pathCyclicDerivative k a φ] at H
++  change (Finsupp.mapDomain Path.toList (Q.pathCyclicDerivative k a φ)) p.toList=0 at H
++  rw [Finsupp.mapDomain_apply (Path.toList_injective (Q.target a) (Q.source a))] at H
++  exact H
++
++theorem pathCyclicDerivative_cut_support (a : Q.Arrow) (ha : Q.cut a=true)
++    (φ : Q.Potential k) :
++    Q.pathCyclicDerivative k a φ ∈ Finsupp.supported k k
++      {p : Q.Path (Q.target a) (Q.source a) | 2 ≤ p.length ∧ p.cutDegree=0} := by
++  have H := Q.pathCyclicDerivative_supported_degrees k a φ
++  simpa [Q.cutDegree_true ha] using H
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/CyclicDerivativeCommutators.lean b/ASGinzburg/CyclicDerivativeCommutators.lean
+new file mode 100644
+index 0000000..73a324c
+--- /dev/null
++++ b/ASGinzburg/CyclicDerivativeCommutators.lean
+@@ -0,0 +1,60 @@
++import ASGinzburg.CyclicDerivative
++
++/-! The exact cyclic commutator identity needed for the square of the
++Ginzburg loop differential. No differential or regularity is assumed. -/
++namespace ASGinzburg
++universe u v
++variable {A : Type u} [DecidableEq A] [Fintype A] {k : Type v} [Field k]
++
++noncomputable def prependWord (a : A) : WordPolynomial k A →ₗ[k] WordPolynomial k A :=
++  Finsupp.lmapDomain k k (List.cons a)
++
++noncomputable def appendWord (a : A) : WordPolynomial k A →ₗ[k] WordPolynomial k A :=
++  Finsupp.lmapDomain k k (fun w => w++[a])
++
++noncomputable def wordCommutator (a : A) : WordPolynomial k A →ₗ[k] WordPolynomial k A :=
++  prependWord a-appendWord a
++
++omit [DecidableEq A] [Fintype A] in
++@[simp] theorem wordCommutator_single (a : A) (w : List A) (c : k) :
++    wordCommutator a (Finsupp.single w c)=
++      Finsupp.single (a::w) c-Finsupp.single (w++[a]) c := by
++  simp [wordCommutator,prependWord,appendWord,Finsupp.lmapDomain_apply,Finsupp.mapDomain_single]
++
++theorem derivativeAux_commutator (aPre suffix : List A) :
++    (∑ a : A, wordCommutator a (derivativeAux (k:=k) a aPre suffix)) =
++      Finsupp.single (suffix++aPre) 1-Finsupp.single (aPre++suffix) 1 := by
++  induction suffix generalizing aPre with
++  | nil => simp [derivativeAux]
++  | cons b suffix ih =>
++    have hterm (a : A) :
++        wordCommutator a (derivativeAux (k:=k) a aPre (b::suffix)) =
++        (if a=b then Finsupp.single (b::(suffix++aPre)) 1-
++          Finsupp.single ((suffix++aPre)++[b]) 1 else 0)+
++            wordCommutator a (derivativeAux a (aPre++[b]) suffix) := by
++      by_cases hab : a=b <;> simp [derivativeAux,hab]
++    simp_rw [hterm]
++    rw [Finset.sum_add_distrib,ih]
++    simp only [Finset.sum_ite_eq',Finset.mem_univ,if_true,List.append_assoc,
++      List.cons_append]
++    abel
++
++theorem derivativeWord_commutator (w : List A) :
++    (∑ a : A, wordCommutator a (derivativeWord (k:=k) a w))=0 := by
++  simpa only [List.append_nil,List.nil_append,sub_self] using
++    derivativeAux_commutator (k:=k) [] w
++
++theorem cyclicDerivative_commutator (φ : CyclicPolynomial k A) :
++    (∑ a : A, wordCommutator a (cyclicDerivative a φ))=0 := by
++  classical
++  induction φ using Finsupp.induction_linear with
++  | zero => simp
++  | add φ ψ hφ hψ => simp [map_add,Finset.sum_add_distrib,hφ,hψ]
++  | single c x =>
++    obtain ⟨w,rfl⟩ := Quotient.exists_rep c
++    change (∑ a, wordCommutator a
++      (cyclicDerivative a (Finsupp.single (wordClass w) x)))=0
++    simp only [cyclicDerivative,Finsupp.linearCombination_single,map_smul,
++      derivativeCyclicWord_mk,←Finset.smul_sum,derivativeWord_commutator,smul_zero]
++
++end ASGinzburg
+diff --git a/ASGinzburg/PathUnrolling.lean b/ASGinzburg/PathUnrolling.lean
+new file mode 100644
+index 0000000..d7dcf1a
+--- /dev/null
++++ b/ASGinzburg/PathUnrolling.lean
+@@ -0,0 +1,92 @@
++import ASGinzburg.UnrolledPathFiniteness
++import ASGinzburg.PathWordEmbeddings
++
++/-! Lifting genuine paths to the unrolled quiver with their actual cut
++degree recorded in the terminal sheet. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++def Path.transport {u v u' v' : Q.Vertex} (hu : u=u') (hv : v=v')
++    (p : Q.Path u v) : Q.Path u' v' := hu ▸ hv ▸ p
++
++@[simp] theorem Path.length_transport {u v u' v' : Q.Vertex}
++    (hu : u=u') (hv : v=v') (p : Q.Path u v) :
++    (p.transport hu hv).length=p.length := by subst u' v'; rfl
++
++@[simp] theorem Path.cutDegree_transport {u v u' v' : Q.Vertex}
++    (hu : u=u') (hv : v=v') (p : Q.Path u v) :
++    (p.transport hu hv).cutDegree=p.cutDegree := by subst u' v'; rfl
++
++@[simp] theorem Path.toList_transport {u v u' v' : Q.Vertex}
++    (hu : u=u') (hv : v=v') (p : Q.Path u v) :
++    (p.transport hu hv).toList=p.toList := by subst u' v'; rfl
++
++def UnrolledPath.transport {u v u' v' : Q.LiftVertex} (hu : u=u') (hv : v=v')
++    (p : Q.UnrolledPath u v) : Q.UnrolledPath u' v' := hu ▸ hv ▸ p
++
++@[simp] theorem UnrolledPath.length_transport {u v u' v' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') (p : Q.UnrolledPath u v) :
++    (p.transport hu hv).length=p.length := by subst u' v'; rfl
++
++def UnrolledPath.erase : {u v : Q.LiftVertex} → Q.UnrolledPath u v → Q.Path u.1 v.1
++  | _,_,.nil v => .nil v.1
++  | _,_,.snoc a p => (Path.snoc (erase p) a.val rfl).transport rfl a.property
++
++@[simp] theorem UnrolledPath.erase_transport {u v u' v' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') (p : Q.UnrolledPath u v) :
++    (p.transport hu hv).erase=p.erase.transport (congrArg Prod.fst hu) (congrArg Prod.fst hv) := by
++  subst u' v'
++  rfl
++
++theorem UnrolledPath.erase_length {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    p.erase.length=p.length := by
++  induction p with
++  | nil => simp [erase,Path.length,UnrolledPath.length]
++  | snoc a p ih => simp [erase,Path.length,UnrolledPath.length,ih]
++
++theorem UnrolledPath.erase_cutDegree {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    (p.erase.cutDegree : ℤ)=v.2-u.2 := by
++  induction p with
++  | nil => simp [erase,Path.cutDegree]
++  | @snoc v a p ih =>
++    simp only [erase,Path.cutDegree_transport,Path.cutDegree,Nat.cast_add,ih]
++    dsimp [incomingSource,liftedSource]
++    ring
++
++theorem incomingSource_unroll (m : ℤ) {u v : Q.Vertex} (p : Q.Path u v)
++    (a : Q.Arrow) (ha : Q.source a=v) :
++    Q.incomingSource (Q.target a,m+(p.cutDegree:ℤ)+Q.cutDegree a) ⟨a,rfl⟩ =
++      (v,m+(p.cutDegree:ℤ)) := by
++  apply Prod.ext
++  · exact ha
++  · simp [incomingSource,liftedSource]
++
++def Path.unroll (m : ℤ) : {u v : Q.Vertex} → (p : Q.Path u v) →
++    Q.UnrolledPath (u,m) (v,m+(p.cutDegree:ℤ))
++  | _,_,.nil u => (UnrolledPath.nil (u,m)).transport rfl (by simp [Path.cutDegree])
++  | _,_,.snoc p a ha =>
++    (UnrolledPath.snoc (v:=(Q.target a,m+(p.cutDegree:ℤ)+Q.cutDegree a)) ⟨a,rfl⟩
++      ((unroll m p).transport rfl (incomingSource_unroll m p a ha).symm)).transport
++        rfl (by simp [Path.cutDegree,Nat.cast_add,add_assoc])
++
++theorem Path.unroll_length (m : ℤ) {u v : Q.Vertex} (p : Q.Path u v) :
++    (p.unroll m).length=p.length := by
++  induction p with
++  | nil => simp [unroll,Path.length,UnrolledPath.length]
++  | snoc p a ha ih => simp [unroll,Path.length,UnrolledPath.length,ih]
++
++theorem Path.unroll_erase_toList (m : ℤ) {u v : Q.Vertex} (p : Q.Path u v) :
++    (p.unroll m).erase.toList=p.toList := by
++  induction p with
++  | nil => simp [unroll,UnrolledPath.erase,Path.toList]
++  | snoc p a ha ih => simp [unroll,UnrolledPath.erase,Path.toList,ih]
++
++theorem Path.unroll_sigma_injective (m : ℤ) (u v : Q.Vertex) :
++    Function.Injective (fun p : Q.Path u v =>
++      (⟨(v,m+(p.cutDegree:ℤ)),p.unroll m⟩ : Σ w, Q.UnrolledPath (u,m) w)) := by
++  intro p q h
++  have H := congrArg (fun x : Σ w, Q.UnrolledPath (u,m) w => x.2.erase.toList) h
++  simp only [Path.unroll_erase_toList] at H
++  exact Path.toList_injective u v H
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathDegreeUnrolling.lean b/ASGinzburg/PathDegreeUnrolling.lean
+new file mode 100644
+index 0000000..c008a9e
+--- /dev/null
++++ b/ASGinzburg/PathDegreeUnrolling.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.PathUnrolling
++import ASGinzburg.UnrolledPathAlgebra
++
++/-! Fixed cut-degree path spaces lift injectively to fixed unrolled
++components. Forgetting sheets recovers the actual arrow word. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++abbrev Path.CutDegreePath (u v : Q.Vertex) (d : ℕ) := {p : Q.Path u v //p.cutDegree=d}
++
++def Path.unrollDegree (m : ℤ) {u v : Q.Vertex} {d : ℕ}
++    (p : CutDegreePath (Q:=Q) u v d) : Q.UnrolledPath (u,m) (v,m+(d:ℤ)) :=
++  (p.val.unroll m).transport rfl (by rw [p.property])
++
++theorem Path.unrollDegree_erase_toList (m : ℤ) {u v : Q.Vertex} {d : ℕ}
++    (p : CutDegreePath (Q:=Q) u v d) :
++    (Path.unrollDegree m p).erase.toList=p.val.toList := by
++  simp [unrollDegree,unroll_erase_toList]
++
++theorem Path.unrollDegree_injective (m : ℤ) (u v : Q.Vertex) (d : ℕ) :
++    Function.Injective (unrollDegree (Q:=Q) m (u:=u) (v:=v) (d:=d)) := by
++  intro p q h
++  have H := congrArg (fun p : Q.UnrolledPath (u,m) (v,m+(d:ℤ)) => p.erase.toList) h
++  simp only [unrollDegree_erase_toList] at H
++  exact Subtype.ext (toList_injective u v H)
++
++def UnrolledPath.eraseDegree {u v : Q.Vertex} {m : ℤ} {d : ℕ}
++    (p : Q.UnrolledPath (u,m) (v,m+(d:ℤ))) : Path.CutDegreePath (Q:=Q) u v d :=
++  ⟨p.erase,by
++    have H := p.erase_cutDegree
++    have hc : (p.erase.cutDegree:ℤ)=(d:ℤ) := by simpa using H
++    exact_mod_cast hc⟩
++
++theorem Path.eraseDegree_unrollDegree (m : ℤ) {u v : Q.Vertex} {d : ℕ}
++    (p : CutDegreePath (Q:=Q) u v d) : (Path.unrollDegree m p).eraseDegree=p := by
++  apply Subtype.ext
++  apply toList_injective u v
++  exact Path.unrollDegree_erase_toList m p
++
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def unrollDegreeLinearMap (u v : Q.Vertex) (d : ℕ) (m : ℤ) :
++    (Path.CutDegreePath (Q:=Q) u v d →₀ k) →ₗ[k]
++      Q.UnrolledPathComponent k (u,m) (v,m+(d:ℤ)) :=
++  Finsupp.lmapDomain k k (Path.unrollDegree m)
++
++theorem unrollDegreeLinearMap_injective (u v : Q.Vertex) (d : ℕ) (m : ℤ) :
++    Function.Injective (Q.unrollDegreeLinearMap k u v d m) :=
++  Finsupp.mapDomain_injective (Path.unrollDegree_injective m u v d)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GeneratedLinearIdeals.lean b/ASGinzburg/GeneratedLinearIdeals.lean
+new file mode 100644
+index 0000000..efa5c1a
+--- /dev/null
++++ b/ASGinzburg/GeneratedLinearIdeals.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.LinearIdealProducts
++
++/-! Ideals generated by actual homogeneous component relations are the
++intersection of all genuine two-sided linear ideals containing them. -/
++namespace ASGinzburg.ZAlgebra.LinearIdeal
++universe u v
++variable {k : Type u} [Field k] {B : ZAlgebra.{u,v} k}
++
++def generated (R : ∀ i j, Set (B.Hom i j)) : B.LinearIdeal where
++  hom i j := ⨅ (I : B.LinearIdeal) (_ : ∀ i j, R i j ⊆ I.hom i j), I.hom i j
++  comp_left := by
++    intro i j l f hf g
++    simp only [Submodule.mem_iInf] at hf ⊢
++    intro I hI
++    exact I.comp_left (hf I hI) g
++  comp_right := by
++    intro i j l g hg f
++    simp only [Submodule.mem_iInf] at hg ⊢
++    intro I hI
++    exact I.comp_right (hg I hI) f
++
++theorem subset_generated (R : ∀ i j, Set (B.Hom i j)) (i j : ℤ) :
++    R i j ⊆ (generated R).hom i j := by
++  intro f hf
++  change f ∈ ⨅ (I : B.LinearIdeal) (_ : ∀ i j, R i j ⊆ I.hom i j), I.hom i j
++  simp only [Submodule.mem_iInf]
++  intro I hI
++  exact hI i j hf
++
++theorem generated_le (R : ∀ i j, Set (B.Hom i j)) (I : B.LinearIdeal)
++    (hI : ∀ i j, R i j ⊆ I.hom i j) (i j : ℤ) :
++    (generated R).hom i j ≤ I.hom i j :=
++  iInf_le_of_le I (iInf_le_of_le hI le_rfl)
++
++end ASGinzburg.ZAlgebra.LinearIdeal
+diff --git a/ASGinzburg/UnrolledJacobianRelations.lean b/ASGinzburg/UnrolledJacobianRelations.lean
+new file mode 100644
+index 0000000..2facb38
+--- /dev/null
++++ b/ASGinzburg/UnrolledJacobianRelations.lean
+@@ -0,0 +1,61 @@
++import ASGinzburg.PathCyclicDerivativeDegrees
++import ASGinzburg.PathDegreeUnrolling
++import ASGinzburg.UnrolledPathIdeals
++
++/-! Actual cyclic derivatives lift to homogeneous relations in the genuine
++unrolled path algebra, and lie in its arrow-ideal square. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathCyclicDerivative_fixedCut (a : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathCyclicDerivative k a φ ∈ Finsupp.supported k k
++      {p : Q.Path (Q.target a) (Q.source a) | p.cutDegree=1-Q.cutDegree a} := by
++  apply Finsupp.supported_mono _ (Q.pathCyclicDerivative_supported_degrees k a φ)
++  rintro p ⟨_,hp⟩
++  change p.cutDegree=1-Q.cutDegree a
++  omega
++
++noncomputable def restrictedJacobianRelation (a : Q.Arrow) (φ : Q.Potential k) :
++    (Path.CutDegreePath (Q:=Q) (Q.target a) (Q.source a) (1-Q.cutDegree a) →₀ k) :=
++  Finsupp.supportedEquivFinsupp (R:=k) _
++    ⟨Q.pathCyclicDerivative k a φ,Q.pathCyclicDerivative_fixedCut k a φ⟩
++
++theorem restrictedJacobianRelation_apply (a : Q.Arrow) (φ : Q.Potential k)
++    (p : Path.CutDegreePath (Q:=Q) (Q.target a) (Q.source a) (1-Q.cutDegree a)) :
++    Q.restrictedJacobianRelation k a φ p=Q.pathCyclicDerivative k a φ p.val := rfl
++
++theorem restrictedJacobianRelation_supported_long (a : Q.Arrow) (φ : Q.Potential k) :
++    Q.restrictedJacobianRelation k a φ ∈ Finsupp.supported k k
++      {p : Path.CutDegreePath (Q:=Q) (Q.target a) (Q.source a) (1-Q.cutDegree a) |
++        2 ≤ p.val.length} := by
++  apply (Finsupp.mem_supported' k _).mpr
++  intro p hp
++  rw [Q.restrictedJacobianRelation_apply]
++  have H : Q.pathCyclicDerivative k a φ ∈ Finsupp.supported k k
++      {p : Q.Path (Q.target a) (Q.source a) | 2 ≤ p.length} :=
++    Finsupp.supported_mono (fun p hp => hp.1) (Q.pathCyclicDerivative_supported_degrees k a φ)
++  exact (Finsupp.mem_supported' k _).mp H p.val hp
++
++noncomputable def unrolledJacobianRelation (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    Q.UnrolledPathComponent k (Q.target a,m) (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ)) :=
++  Q.unrollDegreeLinearMap k (Q.target a) (Q.source a) (1-Q.cutDegree a) m
++    (Q.restrictedJacobianRelation k a φ)
++
++theorem unrolledJacobianRelation_supported_long (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    Q.unrolledJacobianRelation k a φ m ∈ Q.unrolledPathFiltration k 2
++      (Q.target a,m) (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ)) := by
++  have H := Q.restrictedJacobianRelation_supported_long k a φ
++  have hm : (Finsupp.supported k k
++      {p : Path.CutDegreePath (Q:=Q) (Q.target a) (Q.source a) (1-Q.cutDegree a) |
++        2 ≤ p.val.length}).map
++      (Q.unrollDegreeLinearMap k (Q.target a) (Q.source a) (1-Q.cutDegree a) m) ≤
++        Q.unrolledPathFiltration k 2 (Q.target a,m)
++          (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ)) := by
++    rw [unrollDegreeLinearMap,Finsupp.lmapDomain_supported]
++    apply Finsupp.supported_mono
++    rintro p ⟨q,hq,rfl⟩
++    simpa [Path.unrollDegree,Path.unroll_length] using hq
++  exact hm ⟨Q.restrictedJacobianRelation k a φ,H,rfl⟩
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledComponentHeights.lean b/ASGinzburg/UnrolledComponentHeights.lean
+new file mode 100644
+index 0000000..18c7c4e
+--- /dev/null
++++ b/ASGinzburg/UnrolledComponentHeights.lean
+@@ -0,0 +1,62 @@
++import ASGinzburg.PathUnrolling
++import ASGinzburg.UnrolledPathIdeals
++
++/-! Actual linear reindexing between lifted vertices and the integer-indexed
++free path Z-algebra, preserving the path-length filtration. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++@[simp] theorem heightEquiv_symm_height (v : Q.LiftVertex) :
++    Q.heightEquiv.symm (Q.height v)=v := by
++  rw [←Q.heightEquiv_apply]
++  exact Q.heightEquiv.symm_apply_apply v
++
++def UnrolledPath.endpointEquiv {u v u' v' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') : Q.UnrolledPath u v ≃ Q.UnrolledPath u' v' where
++  toFun := UnrolledPath.transport hu hv
++  invFun := UnrolledPath.transport hu.symm hv.symm
++  left_inv := by subst u' v'; intro p; rfl
++  right_inv := by subst u' v'; intro p; rfl
++
++def unrolledPathHeightEquiv (u v : Q.LiftVertex) :
++    Q.UnrolledPath u v ≃
++      Q.UnrolledPath (Q.heightEquiv.symm (Q.height u)) (Q.heightEquiv.symm (Q.height v)) :=
++  UnrolledPath.endpointEquiv Q (Q.heightEquiv_symm_height u).symm (Q.heightEquiv_symm_height v).symm
++
++@[simp] theorem unrolledPathHeightEquiv_length (u v : Q.LiftVertex) (p : Q.UnrolledPath u v) :
++    (Q.unrolledPathHeightEquiv u v p).length=p.length := by
++  simp [unrolledPathHeightEquiv,UnrolledPath.endpointEquiv]
++
++noncomputable def unrolledComponentHeightEquiv (u v : Q.LiftVertex) :
++    Q.UnrolledPathComponent k u v ≃ₗ[k] (Q.unrolledPathZAlgebra k).Hom (Q.height u) (Q.height v) :=
++  Finsupp.mapDomain.linearEquiv k k (Q.unrolledPathHeightEquiv u v)
++
++@[simp] theorem unrolledComponentHeightEquiv_single (u v : Q.LiftVertex)
++    (p : Q.UnrolledPath u v) (c : k) :
++    Q.unrolledComponentHeightEquiv k u v (Finsupp.single p c)=
++      Finsupp.single (Q.unrolledPathHeightEquiv u v p) c := by
++  change Finsupp.mapDomain (Q.unrolledPathHeightEquiv u v) (Finsupp.single p c)=_
++  rw [Finsupp.mapDomain_single]
++
++theorem unrolledComponentHeightEquiv_mem_filtration (n : ℕ) {u v : Q.LiftVertex}
++    {f : Q.UnrolledPathComponent k u v} (hf : f ∈ Q.unrolledPathFiltration k n u v) :
++    Q.unrolledComponentHeightEquiv k u v f ∈
++      (Q.unrolledPathIdeal k n).hom (Q.height u) (Q.height v) := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    rw [Q.unrolledComponentHeightEquiv_single]
++    apply Finsupp.single_mem_supported
++    change n ≤ (Q.unrolledPathHeightEquiv u v p).length
++    rw [Q.unrolledPathHeightEquiv_length]
++    exact hp
++  | zero => simp
++  | add x y hx hy ihx ihy =>
++    simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul c x hx ih =>
++    simpa only [map_smul] using Submodule.smul_mem _ c ih
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/TrianglePeriodicity.lean b/ASGinzburg/TrianglePeriodicity.lean
+new file mode 100644
+index 0000000..6851dfe
+--- /dev/null
++++ b/ASGinzburg/TrianglePeriodicity.lean
+@@ -0,0 +1,23 @@
++import ASGinzburg.Triangle333
++import ASGinzburg.ASPeriodicity
++
++/-! Proposition 5.1 for the concrete three-vertex three-arrow AS model.
++The original quadratic resolution (5.1) still needs to be identified with
++this model's actual finite coproduct resolution, rather than postulated. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def ASRegular.trianglePeriodIso (hAS : A.ASRegular triangle333) :
++    A.PeriodIso 3 := hAS.periodIso A triangle333
++
++theorem ASRegular.triangle_isPeriodic (hAS : A.ASRegular triangle333) :
++    A.IsPeriodic 3 := ⟨hAS.trianglePeriodIso A⟩
++
++noncomputable def ASRegular.triangleNegativePeriodIso (hAS : A.ASRegular triangle333) :
++    A.PeriodIso (-3) := hAS.negativePeriodIso A triangle333
++
++theorem ASRegular.triangle_isPeriodic_negative (hAS : A.ASRegular triangle333) :
++    A.IsPeriodic (-3) := ⟨hAS.triangleNegativePeriodIso A⟩
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/UnrolledJacobianAlgebra.lean b/ASGinzburg/UnrolledJacobianAlgebra.lean
+new file mode 100644
+index 0000000..bca2567
+--- /dev/null
++++ b/ASGinzburg/UnrolledJacobianAlgebra.lean
+@@ -0,0 +1,78 @@
++import ASGinzburg.UnrolledJacobianRelations
++import ASGinzburg.UnrolledComponentHeights
++import ASGinzburg.GeneratedLinearIdeals
++import ASGinzburg.ASPresentationQuotient
++
++/-! The actual unrolled Jacobian algebra is the quotient by the ideal
++generated by all sheet translates of genuine path-valued cyclic derivatives. -/
++namespace ASGinzburg.CutQuiver
++open ZAlgebra
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def integerJacobianRelation (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    (Q.unrolledPathZAlgebra k).Hom (Q.height (Q.target a,m))
++      (Q.height (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))) :=
++  Q.unrolledComponentHeightEquiv k _ _ (Q.unrolledJacobianRelation k a φ m)
++
++theorem integerJacobianRelation_mem_square (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    Q.integerJacobianRelation k a φ m ∈
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom
++        (Q.height (Q.target a,m)) (Q.height (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))) := by
++  rw [Q.unrolledArrowIdeal_square k]
++  exact Q.unrolledComponentHeightEquiv_mem_filtration k 2
++    (Q.unrolledJacobianRelation_supported_long k a φ m)
++
++noncomputable def jacobianGenerators (φ : Q.Potential k) (i j : ℤ) :
++    Set ((Q.unrolledPathZAlgebra k).Hom i j) :=
++  {f | ∃ a m,
++    ∃ hi : Q.height (Q.target a,m)=i,
++    ∃ hj : Q.height (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))=j,
++      (Q.unrolledPathZAlgebra k).homTransport _ _ i j hi hj
++        (Q.integerJacobianRelation k a φ m)=f}
++
++theorem jacobianGenerators_subset_square (φ : Q.Potential k) (i j : ℤ) :
++    Q.jacobianGenerators k φ i j ⊆
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j := by
++  rintro f ⟨a,m,hi,hj,rfl⟩
++  subst i j
++  exact Q.integerJacobianRelation_mem_square k a φ m
++
++noncomputable def unrolledJacobianIdeal (φ : Q.Potential k) :
++    (Q.unrolledPathZAlgebra k).LinearIdeal :=
++  LinearIdeal.generated (Q.jacobianGenerators k φ)
++
++theorem unrolledJacobianIdeal_le_square (φ : Q.Potential k) (i j : ℤ) :
++    (Q.unrolledJacobianIdeal k φ).hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j :=
++  LinearIdeal.generated_le _ _ (Q.jacobianGenerators_subset_square k φ) i j
++
++theorem unrolledJacobianIdeal_diagonal_eq_bot (φ : Q.Potential k) (i : ℤ) :
++    (Q.unrolledJacobianIdeal k φ).hom i i=⊥ :=
++  Q.ideal_diagonal_eq_bot_of_le_arrow_square k _ (Q.unrolledJacobianIdeal_le_square k φ) i
++
++noncomputable def unrolledJacobianZAlgebra (φ : Q.Potential k) : ZAlgebra.{u,u} k :=
++  (Q.unrolledJacobianIdeal k φ).quotient (Q.unrolledJacobianIdeal_diagonal_eq_bot k φ)
++
++noncomputable def unrolledJacobianQuotientMap (φ : Q.Potential k) :
++    Homomorphism (Q.unrolledPathZAlgebra k) (Q.unrolledJacobianZAlgebra k φ) :=
++  (Q.unrolledJacobianIdeal k φ).quotientMap (Q.unrolledJacobianIdeal_diagonal_eq_bot k φ)
++
++theorem unrolledJacobianQuotientMap_surjective (φ : Q.Potential k) (i j : ℤ) :
++    Function.Surjective ((Q.unrolledJacobianQuotientMap k φ).map i j) :=
++  (Q.unrolledJacobianIdeal k φ).quotientMap_surjective _ i j
++
++theorem unrolledJacobianQuotientMap_kernel (φ : Q.Potential k) (i j : ℤ) :
++    (Q.unrolledJacobianQuotientMap k φ).kernel.hom i j=
++      (Q.unrolledJacobianIdeal k φ).hom i j :=
++  (Q.unrolledJacobianIdeal k φ).quotientMap_kernel _ i j
++
++theorem unrolledJacobianQuotientMap_relation_zero (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    (Q.unrolledJacobianQuotientMap k φ).map
++      (Q.height (Q.target a,m)) (Q.height (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ)))
++        (Q.integerJacobianRelation k a φ m)=0 := by
++  apply (Submodule.Quotient.mk_eq_zero _).mpr
++  apply LinearIdeal.subset_generated
++  exact ⟨a,m,rfl,rfl,rfl⟩
++
++end ASGinzburg.CutQuiver

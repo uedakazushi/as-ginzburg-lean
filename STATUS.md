@@ -1,8 +1,8 @@
 # 現在の状況
 
-AS分解だけから実際の道代数全射の核が矢イデアルの本来の積としての平方に含まれることを証明。単位40の(1.8)/(1.10)に加え、構成した最小生成元についての(1.9)まで完成。長さ1の類の線形独立性、全成分の核の長さ2以上支持性、イデアル積の左右閉性と道の長さfiltration・平方同定を追加した。実際のイデアル商ZAlgebra・商射、頂点固定の代数同型と第一同型定理、AS代数の道代数商との同型も完成。任意の基底の持上げ・選択の独立性と最小関係、標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、外部一般定理・同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T174235Z-09d23b17：205数学モジュール・1916異なる宣言・892 theorem、全段階終了0。
-単位1〜41の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の閉路・cut次数1・長さ3以上のポテンシャル空間、道を値に取る巡回微分と逆向き始点/終点、長さ≥2と補完cut次数、(3.8)と巡回微分の交換子恒等式を証明。通常の道のunrollingと単射・filtration保存、全sheetの実際の巡回微分が生成するJacobianイデアル・平方包含・対角零性と正に有向/connected/locally finiteな商ZAlgebra、商射・核・関係の零性まで完成。Ginzburg dg微分/d²=0/コホモロジー、有限graded Jacobian商との比較、最小関係・選択の独立性、quadratic分解の橋、標準RHom/derived/perfect・外部一般定理・主定理の同型類対応は未完成。ASRegular triangle333からの3周期性は完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T181147Z-bc8e0dce：219数学モジュール・2005異なる宣言・950 theorem、全段階終了0。
+単位1〜42の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1916異なる名前、全明示的宣言・276 named instanceを含む、終了0 |
-| theorem | 892、全件が監査対象 |
+| 個別公理監査 | 2005異なる名前、全明示的宣言・276 named instanceを含む、終了0 |
+| theorem | 950、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T174235Z-09d23b17`、全段階終了0、1462.357828785秒。
-UTC 2026-10-08T17:42:35.401640+00:00 → 2026-10-08T18:06:57.759478+00:00。
-JST 2026-10-09T02:42:35.401640+09:00 → 2026-10-09T03:06:57.759478+09:00。
+最新ローカル検証 `20261008T181147Z-bc8e0dce`、全段階終了0、1481.873145590秒。
+UTC 2026-10-08T18:11:47.499720+00:00 → 2026-10-08T18:36:29.372870+00:00。
+JST 2026-10-09T03:11:47.499720+09:00 → 2026-10-09T03:36:29.372870+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -102,6 +102,8 @@ JST 2026-10-09T02:42:35.401640+09:00 → 2026-10-09T03:06:57.759478+09:00。
 
 | 道代数提示の核・平方と実際の商 | UnrolledPathArrowClasses、FreeLinearKernelSupport、UnrolledPathKernelSquare、LinearIdealProducts、UnrolledPathFiltration、UnrolledPathIdeals、ASPresentationKernel、QuotientZAlgebra、ZAlgebraIsomorphisms、ASPresentationQuotient | 長さ1の類の独立性・核の長さ2以上支持性、実際の矢イデアル平方との一致、ASRegularから(1.9)、実際の商代数・商射・第一同型定理とAS代数の商同型 | 任意の基底の持上げ・最小関係・選択の独立性 |
 
+| 閉路ポテンシャル・巡回微分とJacobian商 | ClosedPathPotentials、PathWordEmbeddings、PathCyclicDerivativeSupport、PathCyclicDerivatives、CyclicDerivativeDegrees、PathCyclicDerivativeDegrees、CyclicDerivativeCommutators、PathUnrolling、PathDegreeUnrolling、GeneratedLinearIdeals、UnrolledJacobianRelations、UnrolledComponentHeights、UnrolledJacobianAlgebra | 実際の閉路/cut1/長さ≥3ポテンシャル、道を値に取る巡回微分と長さ/次数・(3.8)/交換子恒等式、unrolled Jacobianイデアル・平方包含と実際の商ZAlgebra・関係の零性 | dg微分・d²=0・コホモロジー、別のgraded Jacobianモデルとの比較とAS対応は未証明 |
+
 ## 主結果の状態
 
 | 主張 | 状態 |
@@ -109,7 +111,7 @@ JST 2026-10-09T02:42:35.401640+09:00 → 2026-10-09T03:06:57.759478+09:00。
 | 定理3.2：一般の型QのAS–Ginzburg対応 | 未証明。形式的な定理文も未実装 |
 | 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数・左右総作用と具体的局所単位付きGr(A)モデルへの圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。単純加群の(1.12)の左作用を含む移送は完成。一般有限次元右MのExt(M,A)比較と全左作用への適合性も完成。左側の総正則Ext比較と全右作用適合性も完成 |
 | 命題1.4：AS条件からの周期性 | 証明済み。ASRegular.nakayamaWindowSystemから正負の周期同型を構成。周期性を入力条件に追加していない |
-| 命題5.1：三周期性 | 未証明 |
+| 命題5.1：三周期性 | TrianglePeriodicityでASRegular triangle333から正負3周期性は証明済み。§5のquadratic最小分解(5.1)との三重coproductの比較は未証明 |
 | 系5.2：(3,3,3)型の全単射 | 未証明。形式的な定理文も未実装 |
 
 ## 条件付き結果と残る義務
