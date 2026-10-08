@@ -50,3 +50,5 @@ LinearExtTransport.lean、RegularLeftMultiplication.lean、RegularExtComparison.
 RegularExtLeftModule.leanで実際のExt(Fs_w,A)の単位化左作用を構成し、その作用式を元のk作用と実際の左乗法による後合成で証明した。局所単位付き左加群と元のExt成分左加群の総加群との同型を構成し、ASRegularから次数3の左単純商同型と他の全次数の零性を証明した。式(1.12)の順方向をこの具体的モデルで完成した。有限長双対性・周期性・主定理は引き続き未完成。
 
 ModuleBidualEvaluation.leanで、既存の左右加群についてcanonicalな二重A-dual評価とその自然性を証明し、representableでの評価が既存の同型の逆に一致することから同型性を証明した。有限直和・直和因子・有界複体への延長は次の検証単位。
+
+FiniteProjectiveBidual.leanで、canonical評価の同型性を有限直和・分裂写像を持つ直和因子に延長した。原論文どおりの有限生成射影の実際の定義から証明している。双対の閉性・左右の反変同値・有界複体への延長は次の検証単位。

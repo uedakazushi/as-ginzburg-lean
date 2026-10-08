@@ -239,6 +239,14 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.asResolutionTerm₂HomPreservesColimitsOfShape
 #print axioms ASGinzburg.ZAlgebra.finiteRepresentableCoproductHomColimitIso
 #print axioms ASGinzburg.ZAlgebra.finiteRepresentableCoproductExtZeroPreservesColimitsOfShape
+#print axioms ASGinzburg.isIso_natTrans_app_retract
+#print axioms ASGinzburg.isIso_natTrans_app_coproduct
+#print axioms ASGinzburg.ZAlgebra.rightFiniteSumBidualEvaluationIsIso
+#print axioms ASGinzburg.ZAlgebra.leftFiniteSumBidualEvaluationIsIso
+#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty
+#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty
+#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_bidual
+#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_bidual
 #print axioms ASGinzburg.CutQuiver.GinzburgArrow
 #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
 #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
