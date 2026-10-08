@@ -82,6 +82,10 @@ import ASGinzburg.FiniteProjectiveBidual
 import ASGinzburg.FiniteProjectiveDuality
 import ASGinzburg.FiniteProjectiveComplexDuality
 
+import ASGinzburg.ComplexDegreeReverse
+import ASGinzburg.HomotopyDegreeReverse
+import ASGinzburg.BoundedCochainDuality
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

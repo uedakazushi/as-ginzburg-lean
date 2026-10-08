@@ -56,3 +56,5 @@ FiniteProjectiveBidual.leanで、canonical評価の同型性を有限直和・�
 FiniteProjectiveDuality.leanで、有限直和のA-dualの同型、分裂写像の双対化による有限生成射影の閉性と射影性、左右の部分圏の実際の反変同値を完成した。canonical評価の自然同型から構成し、双対性を追加仮定にしていない。
 
 HomotopyOpposite、HomotopyEquivalence、FullSubcategoryEquivalence、FiniteProjectiveComplexDualityで、実際のホモトピーの移送と商上の単位・余単位から、有限生成射影複体と有界ホモトピー圏の反変同値を証明した。有界性は実際の複体の有限区間外の各項の零性である。標準RHom/derived・shiftの適合性は別の残る義務。
+
+単位23：整数cochain/chainの次数反転、鎖ホモトピーの対応、有界区間[a,b]↔[-b,-a]を証明し、有界cochain有限生成射影ホモトピー圏の反変同値を構成。標準RHomの符号・shift/derivedとの接続は未証明。次はAS分解の双対から左単純加群の四項射影分解と左Ext集中を構成する。

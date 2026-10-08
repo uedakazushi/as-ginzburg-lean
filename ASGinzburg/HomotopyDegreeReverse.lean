@@ -1,0 +1,71 @@
+import ASGinzburg.ComplexDegreeReverse
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits HomologicalComplex
+universe u v
+variable (C : Type u) [Category.{v} C] [Preadditive C]
+
+def reverseCochainHomotopy {X Y : CochainComplex C ℤ} {f g : X ⟶ Y}
+    (h : Homotopy f g) :
+    Homotopy ((reverseCochainFunctor C).map f) ((reverseCochainFunctor C).map g) where
+  hom i j := h.hom (-i) (-j)
+  zero i j hij := h.zero _ _ (by
+    change ¬ (i + 1 = j) at hij
+    change ¬ (-j + 1 = -i)
+    omega)
+  comm i := by
+    have H := h.comm (-i)
+    rw [dNext_eq _ (show (ComplexShape.up ℤ).Rel (-i) (-i+1) from rfl),
+      prevD_eq _ (show (ComplexShape.up ℤ).Rel (-i-1) (-i) from sub_add_cancel _ _)] at H
+    rw [dNext_eq _ (show (ComplexShape.down ℤ).Rel i (i-1) from sub_add_cancel _ _),
+      prevD_eq _ (show (ComplexShape.down ℤ).Rel (i+1) i from rfl)]
+    dsimp [reverseCochainFunctor, reverseCochainComplex]
+    convert H using 1
+    congr 5 <;> omega
+
+def reverseChainHomotopy {X Y : ChainComplex C ℤ} {f g : X ⟶ Y}
+    (h : Homotopy f g) :
+    Homotopy ((reverseChainFunctor C).map f) ((reverseChainFunctor C).map g) where
+  hom i j := h.hom (-i) (-j)
+  zero i j hij := h.zero _ _ (by
+    change ¬ (j + 1 = i) at hij
+    change ¬ (-i + 1 = -j)
+    omega)
+  comm i := by
+    have H := h.comm (-i)
+    rw [dNext_eq _ (show (ComplexShape.down ℤ).Rel (-i) (-i-1) from sub_add_cancel _ _),
+      prevD_eq _ (show (ComplexShape.down ℤ).Rel (-i+1) (-i) from rfl)] at H
+    rw [dNext_eq _ (show (ComplexShape.up ℤ).Rel i (i+1) from rfl),
+      prevD_eq _ (show (ComplexShape.up ℤ).Rel (i-1) i from sub_add_cancel _ _)]
+    dsimp [reverseChainFunctor, reverseChainComplex]
+    convert H using 1
+    congr 5 <;> omega
+
+def reverseCochainHomotopyFunctor :
+    HomotopyCategory C (ComplexShape.up ℤ) ⥤ HomotopyCategory C (ComplexShape.down ℤ) :=
+  CategoryTheory.Quotient.lift (homotopic C (ComplexShape.up ℤ))
+    (reverseCochainFunctor C ⋙ HomotopyCategory.quotient C (ComplexShape.down ℤ))
+    (fun _ _ _ _ h => HomotopyCategory.eq_of_homotopy _ _ (reverseCochainHomotopy C h.some))
+
+def reverseChainHomotopyFunctor :
+    HomotopyCategory C (ComplexShape.down ℤ) ⥤ HomotopyCategory C (ComplexShape.up ℤ) :=
+  CategoryTheory.Quotient.lift (homotopic C (ComplexShape.down ℤ))
+    (reverseChainFunctor C ⋙ HomotopyCategory.quotient C (ComplexShape.up ℤ))
+    (fun _ _ _ _ h => HomotopyCategory.eq_of_homotopy _ _ (reverseChainHomotopy C h.some))
+
+def reverseCochainHomotopyUnitIso : 𝟭 (HomotopyCategory C (ComplexShape.up ℤ)) ≅
+    reverseCochainHomotopyFunctor C ⋙ reverseChainHomotopyFunctor C :=
+  CategoryTheory.Quotient.natIsoLift (homotopic C (ComplexShape.up ℤ))
+    (CategoryTheory.Functor.isoWhiskerRight (reverseCochainUnitIso C)
+      (HomotopyCategory.quotient C (ComplexShape.up ℤ)))
+
+def reverseChainHomotopyUnitIso : 𝟭 (HomotopyCategory C (ComplexShape.down ℤ)) ≅
+    reverseChainHomotopyFunctor C ⋙ reverseCochainHomotopyFunctor C :=
+  CategoryTheory.Quotient.natIsoLift (homotopic C (ComplexShape.down ℤ))
+    (CategoryTheory.Functor.isoWhiskerRight (reverseChainUnitIso C)
+      (HomotopyCategory.quotient C (ComplexShape.down ℤ)))
+
+def reverseDegreeHomotopyEquivalence :
+    HomotopyCategory C (ComplexShape.up ℤ) ≌ HomotopyCategory C (ComplexShape.down ℤ) :=
+  CategoryTheory.Equivalence.mk (reverseCochainHomotopyFunctor C) (reverseChainHomotopyFunctor C)
+    (reverseCochainHomotopyUnitIso C) (reverseChainHomotopyUnitIso C).symm
+end ASGinzburg
