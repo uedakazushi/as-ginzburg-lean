@@ -1,0 +1,1169 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 5c7fa37..4777117 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -259,6 +259,22 @@ import ASGinzburg.GinzburgHomologyZero
+ import ASGinzburg.GinzburgTotalHomologyZero
+ import ASGinzburg.GinzburgPositiveHomology
+ 
++import ASGinzburg.GinzburgPathFiniteness
++import ASGinzburg.GinzburgCutCochainComplex
++import ASGinzburg.GinzburgCutProjections
++import ASGinzburg.GinzburgCutRetracts
++import ASGinzburg.GinzburgCutBounds
++import ASGinzburg.PathCutGrading
++import ASGinzburg.PathJacobianGrading
++import ASGinzburg.GinzburgCutDegreeZero
++import ASGinzburg.GinzburgCutHomologyFinite
++import ASGinzburg.GinzburgCutHomologyZero
++import ASGinzburg.UnrolledPathWords
++import ASGinzburg.PathCutUnrollingEquiv
++import ASGinzburg.GinzburgCycleBoundary
++import ASGinzburg.GinzburgCutDecomposition
++import ASGinzburg.GinzburgCutRegularity
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index d0d7cb0..3b85e7a 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -765,6 +765,59 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCochainComplex
+ #print axioms ASGinzburg.CutQuiver.ginzburgCochainComplex_d
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomology
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_lower_length
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_lower_winding
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_lower_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCohomologicalComponent_eq_bot_of_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCohomologicalComponent_eq_bot_of_pos
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainTerm_isZero_of_outside
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_isZero_of_outside
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCohomologicalComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCohomologicalComponent_finite
++#print axioms ASGinzburg.CutQuiver.ginzburgCutGradedDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgCutGradedDifferential_coe
++#print axioms ASGinzburg.CutQuiver.ginzburgCutGradedDifferential_square
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainDifferential_square
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainComplex_d
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_apply
++#print axioms ASGinzburg.CutQuiver.ginzburgCutSupport
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_sum
++#print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroMap
++#print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroMap_bijective
++#print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv
++#print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_coe
++#print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_symm_coe
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_finite
++#print axioms ASGinzburg.CutQuiver.ginzburgCutGradedDifferential_zero
++#print axioms ASGinzburg.CutQuiver.ginzburgCutNegativeOneDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroShortComplex_g
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroShortComplexIso
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroQuotientIso
++#print axioms ASGinzburg.CutQuiver.ginzburgCutGradedBoundary_map
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientJacobianEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroJacobianIso
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_single
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_on_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_cohomological
++#print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_mem
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_cutProjection
++#print axioms ASGinzburg.CutQuiver.ginzburgHomology_succ_isZero_of_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgRegular_iff_cutHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainProjectionTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainInclusion
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainProjection
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCochainInclusion_projection
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyInclusion
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyProjection
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyInclusion_projection
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.cutHomology_isZero
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_succ_isZero_iff_cycles
++#print axioms ASGinzburg.CutQuiver.ginzburgHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.degreeNegOne_decomposition
+ #print axioms ASGinzburg.CutQuiver.ginzburgCohomologicalComponent
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap
+@@ -863,6 +916,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_nil
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_id
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_generator
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.finiteCode
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.finiteCode_injective
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.finite
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.length_le_winding
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.boundedWord
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.boundedWord_injective
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.finiteFixedWinding
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.finiteFixedCut
++#print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_finite
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_sigma_injective
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_injective
+ #print axioms ASGinzburg.CutQuiver.ginzburgPathWordMap
+@@ -1352,6 +1414,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathComp_id
+ #print axioms ASGinzburg.CutQuiver.id_pathComp
+ #print axioms ASGinzburg.CutQuiver.pathComp_assoc
++#print axioms ASGinzburg.CutQuiver.pathCutComponent
++#print axioms ASGinzburg.CutQuiver.pathCutProjection
++#print axioms ASGinzburg.CutQuiver.pathCutProjection_single
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_cutProjection
++#print axioms ASGinzburg.CutQuiver.pathCutProjection_mem
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_cut_iff
++#print axioms ASGinzburg.CutQuiver.pathCutComponent_finite
++#print axioms ASGinzburg.CutQuiver.Path.castCutDegreeEquiv
++#print axioms ASGinzburg.CutQuiver.pathCutComponentBasisEquiv
++#print axioms ASGinzburg.CutQuiver.pathCutUnrollingEquiv
++#print axioms ASGinzburg.CutQuiver.unrollDegreeLinearEquiv_eq_map
+ #print axioms ASGinzburg.CutQuiver.baseArrowPath
+ #print axioms ASGinzburg.CutQuiver.transportPathComponent
+ #print axioms ASGinzburg.CutQuiver.transportPathComponent_single
+@@ -1381,6 +1454,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.Path.eraseDegree_unrollDegree
+ #print axioms ASGinzburg.CutQuiver.unrollDegreeLinearMap
+ #print axioms ASGinzburg.CutQuiver.unrollDegreeLinearMap_injective
++#print axioms ASGinzburg.CutQuiver.pathCutProjection_mem_pathJacobianIdeal
++#print axioms ASGinzburg.CutQuiver.pathJacobianCutIdeal
++#print axioms ASGinzburg.CutQuiver.ginzburgCutBoundaryLift
++#print axioms ASGinzburg.CutQuiver.ginzburgCutBoundaryLift_range
+ #print axioms ASGinzburg.CutQuiver.pathJacobianRelations
+ #print axioms ASGinzburg.CutQuiver.pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_mem_pathJacobianIdeal
+@@ -2140,6 +2217,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathPresentation_surjective
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.unrolledPathPresentation
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.unrolledPathPresentation_surjective
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.erase_toList_injective
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.unrollDegree_eraseDegree
++#print axioms ASGinzburg.CutQuiver.Path.unrollDegreeEquiv
++#print axioms ASGinzburg.CutQuiver.unrollDegreeLinearEquiv
++#print axioms ASGinzburg.CutQuiver.unrollDegreeLinearEquiv_single
+ #print axioms ASGinzburg.CutQuiver.height_heightEquiv_symm
+ #print axioms ASGinzburg.CutQuiver.unrolledPathZAlgebra
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.height_eq_of_length_zero
+diff --git a/ASGinzburg/GinzburgPathFiniteness.lean b/ASGinzburg/GinzburgPathFiniteness.lean
+new file mode 100644
+index 0000000..2d776f9
+--- /dev/null
++++ b/ASGinzburg/GinzburgPathFiniteness.lean
+@@ -0,0 +1,78 @@
++import ASGinzburg.GinzburgGeneratorGradings
++import Mathlib.Data.Fintype.Vector
++import Mathlib.LinearAlgebra.Dimension.Finite
++
++/-! Positive winding bounds the length of extended paths. Thus every
++fixed internal degree path space is genuinely finite dimensional. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++def GinzburgArrow.finiteCode : Q.GinzburgArrow → (Q.Arrow⊕Q.Arrow)⊕Q.Vertex
++  | .original a => .inl (.inl a)
++  | .dual a => .inl (.inr a)
++  | .loop v => .inr v
++
++theorem GinzburgArrow.finiteCode_injective : Function.Injective (GinzburgArrow.finiteCode Q) := by
++  intro a b h
++  cases a <;> cases b <;> simp [finiteCode] at h
++  all_goals cases h; rfl
++
++instance GinzburgArrow.finite : Finite Q.GinzburgArrow :=
++  Finite.of_injective (GinzburgArrow.finiteCode Q) (GinzburgArrow.finiteCode_injective Q)
++
++theorem GinzburgPath.length_le_winding {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    (p.length:ℤ)≤p.winding := by
++  induction p with
++  | nil => simp [length,winding]
++  | snoc p a h ih =>
++    have := a.winding_pos Q
++    simp only [length,winding,Nat.cast_add,Nat.cast_one]
++    omega
++
++noncomputable def GinzburgPath.boundedWord {u v : Q.Vertex} (w : ℤ)
++    (p : {p : Q.GinzburgPath u v // p.winding=w}) :
++    Σ n : Fin (w.toNat+1), List.Vector Q.GinzburgArrow n.val :=
++  ⟨⟨p.val.length,by
++    have hlen := p.val.length_le_winding Q
++    have hw := p.val.winding_nonneg
++    rw [p.property] at hlen hw
++    omega⟩,⟨p.val.toList,p.val.length_toList⟩⟩
++
++theorem GinzburgPath.boundedWord_injective {u v : Q.Vertex} (w : ℤ) :
++    Function.Injective (GinzburgPath.boundedWord Q (u:=u) (v:=v) w) := by
++  intro p q h
++  have hw := congrArg (fun z : Σ n : Fin (w.toNat+1), List.Vector Q.GinzburgArrow n.val => z.2.val) h
++  apply Subtype.ext
++  exact GinzburgPath.toList_injective u v hw
++
++instance GinzburgPath.finiteFixedWinding (u v : Q.Vertex) (w : ℤ) :
++    Finite {p : Q.GinzburgPath u v // p.winding=w} := by
++  letI := Fintype.ofFinite Q.GinzburgArrow
++  exact Finite.of_injective (GinzburgPath.boundedWord Q w) (GinzburgPath.boundedWord_injective Q w)
++
++instance GinzburgPath.finiteFixedCut (u v : Q.Vertex) (c : ℤ) :
++    Finite {p : Q.GinzburgPath u v // p.cutDegree=c} := by
++  let f : {p : Q.GinzburgPath u v // p.cutDegree=c} →
++      {p : Q.GinzburgPath u v // p.winding=(v.val:ℤ)-u.val+Q.vertices*c} :=
++    fun p => ⟨p.val,by rw [p.val.winding_formula,p.property]⟩
++  apply Finite.of_injective f
++  intro p q h
++  apply Subtype.ext
++  exact congrArg (fun z : {p : Q.GinzburgPath u v //
++    p.winding=(v.val:ℤ)-u.val+Q.vertices*c} => z.val) h
++
++universe u
++variable (k : Type u) [Field k]
++
++instance ginzburgCutComponent_finite (u v : Q.Vertex) (c : ℤ) :
++    Module.Finite k (Q.ginzburgCutComponent k u v c) := by
++  let S : Set (Q.GinzburgPath u v) := {p | p.cutDegree=c}
++  haveI : Finite S := by
++    change Finite {p : Q.GinzburgPath u v // p.cutDegree=c}
++    infer_instance
++  letI : Fintype S := Fintype.ofFinite S
++  let e : Q.ginzburgCutComponent k u v c ≃ₗ[k] (S →₀ k) :=
++    Finsupp.supportedEquivFinsupp (M:=k) (R:=k) S
++  exact Module.Finite.equiv e.symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutCochainComplex.lean b/ASGinzburg/GinzburgCutCochainComplex.lean
+new file mode 100644
+index 0000000..c3dc17c
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutCochainComplex.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.GinzburgCochainComplex
++import ASGinzburg.GinzburgPathFiniteness
++
++/-! Actual fixed cut degree subcomplexes have finite dimensional terms. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def ginzburgCutCohomologicalComponent (u v : Q.Vertex) (q c : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Q.ginzburgCohomologicalComponent k u v q ⊓ Q.ginzburgCutComponent k u v c
++
++instance ginzburgCutCohomologicalComponent_finite (u v : Q.Vertex) (q c : ℤ) :
++    Module.Finite k (Q.ginzburgCutCohomologicalComponent k u v q c) :=
++  Module.Finite.of_injective
++    (Submodule.inclusion (show Q.ginzburgCutCohomologicalComponent k u v q c ≤
++      Q.ginzburgCutComponent k u v c from inf_le_right)) (Submodule.inclusion_injective _)
++
++noncomputable def ginzburgCutGradedDifferential (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgCutCohomologicalComponent k u v q c →ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k u v (q+1) c :=
++  ((Q.ginzburgDifferential k φ u v).comp
++    (Q.ginzburgCutCohomologicalComponent k u v q c).subtype).codRestrict _
++      (fun f => ⟨Q.ginzburgDifferential_degree k φ q f.property.1,
++        Q.ginzburgDifferential_cut k φ c f.property.2⟩)
++
++@[simp] theorem ginzburgCutGradedDifferential_coe (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k u v q c) :
++    (Q.ginzburgCutGradedDifferential k φ u v q c f).val=Q.ginzburgDifferential k φ u v f.val := rfl
++
++theorem ginzburgCutGradedDifferential_square (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
++    (Q.ginzburgCutGradedDifferential k φ u v (q+1) c).comp
++      (Q.ginzburgCutGradedDifferential k φ u v q c)=0 := by
++  apply LinearMap.ext
++  intro f
++  apply Subtype.ext
++  exact Q.ginzburgDifferential_square k φ f.val
++
++noncomputable def ginzburgCutCochainDifferential (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
++    ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v q c) ⟶
++      ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v (q+1) c) :=
++  ModuleCat.ofHom (Q.ginzburgCutGradedDifferential k φ u v q c)
++
++theorem ginzburgCutCochainDifferential_square (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgCutCochainDifferential k φ u v q c ≫
++      Q.ginzburgCutCochainDifferential k φ u v (q+1) c=0 := by
++  apply ModuleCat.hom_ext
++  exact Q.ginzburgCutGradedDifferential_square k φ u v q c
++
++noncomputable def ginzburgCutCochainComplex (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    CochainComplex (ModuleCat.{u} k) ℤ :=
++  CochainComplex.of (fun q => ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v q c))
++    (fun q => Q.ginzburgCutCochainDifferential k φ u v q c)
++    (fun q => Q.ginzburgCutCochainDifferential_square k φ u v q c)
++
++theorem ginzburgCutCochainComplex_d (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
++    (Q.ginzburgCutCochainComplex k φ u v c).d q (q+1)=Q.ginzburgCutCochainDifferential k φ u v q c :=
++  CochainComplex.of_d _ _ _ q
++
++noncomputable def ginzburgCutHomology (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) : ModuleCat.{u} k :=
++  (Q.ginzburgCutCochainComplex k φ u v c).homology q
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutProjections.lean b/ASGinzburg/GinzburgCutProjections.lean
+new file mode 100644
+index 0000000..85196f4
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutProjections.lean
+@@ -0,0 +1,74 @@
++import ASGinzburg.GinzburgDifferentialGradings
++
++/-! Actual cut projections commute with the degree-one differential. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutProjection (u v : Q.Vertex) (c : ℤ) :
++    Q.GinzburgPathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u v :=
++  Finsupp.linearCombination k (fun p => if p.cutDegree=c then Finsupp.single p 1 else 0)
++
++@[simp] theorem ginzburgCutProjection_single {u v : Q.Vertex} (c : ℤ)
++    (p : Q.GinzburgPath u v) (a : k) :
++    Q.ginzburgCutProjection k u v c (Finsupp.single p a)=
++      if p.cutDegree=c then Finsupp.single p a else 0 := by
++  classical
++  by_cases h : p.cutDegree=c <;> simp [ginzburgCutProjection,h]
++
++theorem ginzburgCutProjection_on_cut {u v : Q.Vertex} (c d : ℤ)
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCutComponent k u v d) :
++    Q.ginzburgCutProjection k u v c f=if d=c then f else 0 := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    change p.cutDegree=d at hp
++    simp only [ginzburgCutProjection_single,hp]
++  | zero => simp
++  | add f g hf hg ihf ihg => by_cases h : d=c <;> simp [map_add,ihf,ihg,h]
++  | smul a f hf ih => by_cases h : d=c <;> simp [map_smul,ih,h]
++
++theorem ginzburgCutProjection_cohomological {u v : Q.Vertex} (c q : ℤ)
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCohomologicalComponent k u v q) :
++    Q.ginzburgCutProjection k u v c f ∈ Q.ginzburgCohomologicalComponent k u v q := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    rw [ginzburgCutProjection_single]
++    split_ifs
++    · exact Finsupp.single_mem_supported _ _ hp
++    · exact Submodule.zero_mem _
++  | zero => simp
++  | add f g hf hg ihf ihg => simpa only [map_add] using Submodule.add_mem _ ihf ihg
++  | smul a f hf ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++theorem ginzburgCutProjection_mem {u v : Q.Vertex} (c : ℤ) (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgCutProjection k u v c f ∈ Q.ginzburgCutComponent k u v c := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simpa only [map_add] using Submodule.add_mem _ hf hg
++  | single p a =>
++    rw [ginzburgCutProjection_single]
++    split_ifs with hp
++    · exact Finsupp.single_mem_supported _ _ hp
++    · exact Submodule.zero_mem _
++
++theorem ginzburgDifferential_cutProjection (φ : Q.Potential k) {u v : Q.Vertex}
++    (c : ℤ) (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgDifferential k φ u v (Q.ginzburgCutProjection k u v c f)=
++      Q.ginzburgCutProjection k u v c (Q.ginzburgDifferential k φ u v f) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp only [map_add,hf,hg]
++  | single p a =>
++    rw [ginzburgCutProjection_single,ginzburgDifferential_single,map_smul,
++      Q.ginzburgCutProjection_on_cut k c p.cutDegree (p.differential_cut Q k φ)]
++    by_cases h : p.cutDegree=c <;> simp [h]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutRetracts.lean b/ASGinzburg/GinzburgCutRetracts.lean
+new file mode 100644
+index 0000000..ed8241b
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutRetracts.lean
+@@ -0,0 +1,81 @@
++import ASGinzburg.GinzburgCutCochainComplex
++import ASGinzburg.GinzburgCutProjections
++import ASGinzburg.GinzburgRegularity
++
++/-! Fixed cut complexes are genuine retracts of the original path complexes,
++so actual regularity implies their negative homology vanishes. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutCochainProjectionTerm (u v : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgCohomologicalComponent k u v q →ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k u v q c :=
++  ((Q.ginzburgCutProjection k u v c).comp
++    (Q.ginzburgCohomologicalComponent k u v q).subtype).codRestrict _
++      (fun f => ⟨Q.ginzburgCutProjection_cohomological k c q f.property,
++        Q.ginzburgCutProjection_mem k c f.val⟩)
++
++noncomputable def ginzburgCutCochainInclusion (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutCochainComplex k φ u v c ⟶ Q.ginzburgCochainComplex k φ u v :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom (Submodule.inclusion
++      (show Q.ginzburgCutCohomologicalComponent k u v q c ≤
++        Q.ginzburgCohomologicalComponent k u v q from inf_le_left)))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro f
++      apply Subtype.ext
++      rfl)
++
++noncomputable def ginzburgCutCochainProjection (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCochainComplex k φ u v ⟶ Q.ginzburgCutCochainComplex k φ u v c :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom (Q.ginzburgCutCochainProjectionTerm k u v q c))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro f
++      apply Subtype.ext
++      exact Q.ginzburgDifferential_cutProjection k φ c f.val)
++
++theorem ginzburgCutCochainInclusion_projection (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutCochainInclusion k φ u v c ≫ Q.ginzburgCutCochainProjection k φ u v c=𝟙 _ := by
++  apply HomologicalComplex.hom_ext
++  intro q
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro f
++  apply Subtype.ext
++  change Q.ginzburgCutProjection k u v c f.val=f.val
++  rw [Q.ginzburgCutProjection_on_cut k c c f.property.2,if_pos rfl]
++
++noncomputable def ginzburgCutHomologyInclusion (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
++    Q.ginzburgCutHomology k φ u v c q ⟶ Q.ginzburgHomology k φ u v q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
++    (Q.ginzburgCutCochainInclusion k φ u v c)
++
++noncomputable def ginzburgCutHomologyProjection (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
++    Q.ginzburgHomology k φ u v q ⟶ Q.ginzburgCutHomology k φ u v c q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
++    (Q.ginzburgCutCochainProjection k φ u v c)
++
++theorem ginzburgCutHomologyInclusion_projection (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
++    Q.ginzburgCutHomologyInclusion k φ u v c q ≫ Q.ginzburgCutHomologyProjection k φ u v c q=𝟙 _ := by
++  change (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map _ ≫
++    (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map _=_
++  rw [←CategoryTheory.Functor.map_comp,Q.ginzburgCutCochainInclusion_projection,
++    CategoryTheory.Functor.map_id]
++  rfl
++
++theorem GinzburgRegular.cutHomology_isZero {φ : Q.Potential k} (h : Q.GinzburgRegular k φ)
++    (u v : Q.Vertex) (c q : ℤ) (hq : q<0) : IsZero (Q.ginzburgCutHomology k φ u v c q) := by
++  letI : IsSplitMono (Q.ginzburgCutHomologyInclusion k φ u v c q) :=
++    IsSplitMono.mk' ⟨Q.ginzburgCutHomologyProjection k φ u v c q,
++      Q.ginzburgCutHomologyInclusion_projection k φ u v c q⟩
++  exact IsZero.of_mono (Q.ginzburgCutHomologyInclusion k φ u v c q)
++    ((Q.ginzburgRegular_iff_components k φ).mp h u v q hq)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutBounds.lean b/ASGinzburg/GinzburgCutBounds.lean
+new file mode 100644
+index 0000000..34c548d
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutBounds.lean
+@@ -0,0 +1,68 @@
++import ASGinzburg.GinzburgCutCochainComplex
++
++/-! Fixed cut components have a concrete finite cohomological range,
++deduced from positive winding and the genuine generator degrees. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++variable (Q : CutQuiver)
++
++theorem GinzburgPath.cohomologicalDegree_lower_length {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) : -2*(p.length:ℤ) ≤ p.cohomologicalDegree := by
++  induction p with
++  | nil => simp [length,cohomologicalDegree]
++  | snoc p a h ih =>
++    cases a <;>
++      simp only [length,cohomologicalDegree,GinzburgArrow.cohomologicalDegree,
++        Nat.cast_add,Nat.cast_one] <;> omega
++
++theorem GinzburgPath.cohomologicalDegree_lower_winding {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) : -2*p.winding ≤ p.cohomologicalDegree := by
++  have := p.cohomologicalDegree_lower_length Q
++  have := p.length_le_winding Q
++  omega
++
++theorem GinzburgPath.cohomologicalDegree_lower_cut {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) :
++    -2*((v.val:ℤ)-u.val+Q.vertices*p.cutDegree) ≤ p.cohomologicalDegree := by
++  simpa only [p.winding_formula] using p.cohomologicalDegree_lower_winding Q
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgCutCohomologicalComponent_eq_bot_of_lt (u v : Q.Vertex) (c q : ℤ)
++    (hq : q < -2*((v.val:ℤ)-u.val+Q.vertices*c)) :
++    Q.ginzburgCutCohomologicalComponent k u v q c=⊥ := by
++  change Finsupp.supported k k _ ⊓ Finsupp.supported k k _=⊥
++  rw [←Finsupp.supported_inter]
++  have hs : {p : Q.GinzburgPath u v | p.cohomologicalDegree=q} ∩
++      {p : Q.GinzburgPath u v | p.cutDegree=c}=∅ := by
++    ext p
++    simp only [Set.mem_inter_iff,Set.mem_setOf_eq,Set.mem_empty_iff_false,iff_false]
++    rintro ⟨hp,hc⟩
++    have h := p.cohomologicalDegree_lower_cut Q
++    rw [hp,hc] at h
++    omega
++  rw [hs,Finsupp.supported_empty]
++
++theorem ginzburgCutCohomologicalComponent_eq_bot_of_pos (u v : Q.Vertex) (c q : ℤ)
++    (hq : 0<q) : Q.ginzburgCutCohomologicalComponent k u v q c=⊥ := by
++  unfold ginzburgCutCohomologicalComponent
++  rw [Q.ginzburgCohomologicalComponent_eq_bot_of_pos k u v hq,bot_inf_eq]
++
++theorem ginzburgCutCochainTerm_isZero_of_outside (u v : Q.Vertex) (c q : ℤ)
++    (hq : q < -2*((v.val:ℤ)-u.val+Q.vertices*c) ∨ 0<q) :
++    IsZero (ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v q c)) := by
++  have hb : Q.ginzburgCutCohomologicalComponent k u v q c=⊥ := by
++    rcases hq with hq|hq
++    · exact Q.ginzburgCutCohomologicalComponent_eq_bot_of_lt k u v c q hq
++    · exact Q.ginzburgCutCohomologicalComponent_eq_bot_of_pos k u v c q hq
++  rw [hb]
++  exact ModuleCat.isZero_of_subsingleton _
++
++theorem ginzburgCutHomology_isZero_of_outside (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ)
++    (hq : q < -2*((v.val:ℤ)-u.val+Q.vertices*c) ∨ 0<q) :
++    IsZero (Q.ginzburgCutHomology k φ u v c q) :=
++  ((Q.ginzburgCutCochainComplex k φ u v c).sc q).isZero_homology_of_isZero_X₂
++    (Q.ginzburgCutCochainTerm_isZero_of_outside k u v c q hq)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathCutGrading.lean b/ASGinzburg/PathCutGrading.lean
+new file mode 100644
+index 0000000..5bc69eb
+--- /dev/null
++++ b/ASGinzburg/PathCutGrading.lean
+@@ -0,0 +1,75 @@
++import ASGinzburg.GinzburgCutProjections
++import ASGinzburg.GinzburgPathFiniteness
++
++/-! The original path cut grading agrees with the actual degree zero
++Ginzburg grading, including its concrete homogeneous projections. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++universe u
++variable (k : Type u) [Field k]
++
++def pathCutComponent (u v : Q.Vertex) (c : ℤ) : Submodule k (Q.PathComponent k u v) :=
++  Finsupp.supported k k {p | (p.cutDegree:ℤ)=c}
++
++noncomputable def pathCutProjection (u v : Q.Vertex) (c : ℤ) :
++    Q.PathComponent k u v →ₗ[k] Q.PathComponent k u v :=
++  Finsupp.linearCombination k (fun p => if (p.cutDegree:ℤ)=c then Finsupp.single p 1 else 0)
++
++@[simp] theorem pathCutProjection_single {u v : Q.Vertex} (c : ℤ) (p : Q.Path u v) (a : k) :
++    Q.pathCutProjection k u v c (Finsupp.single p a)=
++      if (p.cutDegree:ℤ)=c then Finsupp.single p a else 0 := by
++  classical
++  by_cases h : (p.cutDegree:ℤ)=c <;> simp [pathCutProjection,h]
++
++theorem originalGinzburgLinearMap_cutProjection {u v : Q.Vertex} (c : ℤ)
++    (f : Q.PathComponent k u v) :
++    Q.originalGinzburgLinearMap k u v (Q.pathCutProjection k u v c f)=
++      Q.ginzburgCutProjection k u v c (Q.originalGinzburgLinearMap k u v f) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p a =>
++    rw [pathCutProjection_single,originalGinzburgLinearMap_single,
++      ginzburgCutProjection_single,p.originalGinzburg_cutDegree Q]
++    split_ifs <;> simp
++
++theorem pathCutProjection_mem {u v : Q.Vertex} (c : ℤ) (f : Q.PathComponent k u v) :
++    Q.pathCutProjection k u v c f ∈ Q.pathCutComponent k u v c := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simpa only [map_add] using Submodule.add_mem _ hf hg
++  | single p a =>
++    rw [pathCutProjection_single]
++    split_ifs with hp
++    · exact Finsupp.single_mem_supported _ _ hp
++    · exact Submodule.zero_mem _
++
++theorem originalGinzburgLinearMap_cut_iff {u v : Q.Vertex} (c : ℤ)
++    (f : Q.PathComponent k u v) :
++    Q.originalGinzburgLinearMap k u v f ∈ Q.ginzburgCutComponent k u v c ↔
++      f ∈ Q.pathCutComponent k u v c := by
++  constructor
++  · intro hf
++    have heq : Q.pathCutProjection k u v c f=f := by
++      apply Q.originalGinzburgLinearMap_injective k u v
++      rw [Q.originalGinzburgLinearMap_cutProjection,
++        Q.ginzburgCutProjection_on_cut k c c hf,if_pos rfl]
++    rw [←heq]
++    exact Q.pathCutProjection_mem k c f
++  · exact Q.originalGinzburgLinearMap_cut k
++
++instance pathCutComponent_finite (u v : Q.Vertex) (c : ℤ) :
++    Module.Finite k (Q.pathCutComponent k u v c) := by
++  let f : Q.pathCutComponent k u v c →ₗ[k] Q.ginzburgCutComponent k u v c :=
++    ((Q.originalGinzburgLinearMap k u v).comp (Q.pathCutComponent k u v c).subtype).codRestrict
++      _ (fun x => Q.originalGinzburgLinearMap_cut k x.property)
++  apply Module.Finite.of_injective f
++  intro x y h
++  apply Subtype.ext
++  apply Q.originalGinzburgLinearMap_injective k u v
++  exact congrArg (fun x : Q.ginzburgCutComponent k u v c => x.val) h
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathJacobianGrading.lean b/ASGinzburg/PathJacobianGrading.lean
+new file mode 100644
+index 0000000..156bbab
+--- /dev/null
++++ b/ASGinzburg/PathJacobianGrading.lean
+@@ -0,0 +1,62 @@
++import ASGinzburg.PathCutGrading
++import ASGinzburg.GinzburgCutCochainComplex
++import ASGinzburg.GinzburgJacobianBoundaries
++
++/-! The genuine Jacobian ideal is cut homogeneous. Its degree-c part
++is exactly the image of the genuine degree-c negative-one differential. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathCutProjection_mem_pathJacobianIdeal (φ : Q.Potential k) {u v : Q.Vertex}
++    (c : ℤ) {f : Q.PathComponent k u v} (hf : f ∈ (Q.pathJacobianIdeal k φ).hom u v) :
++    Q.pathCutProjection k u v c f ∈ (Q.pathJacobianIdeal k φ).hom u v := by
++  rw [←Q.ginzburgBoundarySpace_eq_pathJacobianIdeal k φ u v] at hf ⊢
++  obtain ⟨x,hx⟩ := (Q.ginzburgBoundarySpace_mem_iff k φ u v f).mp hf
++  apply (Q.ginzburgBoundarySpace_mem_iff k φ u v _).mpr
++  refine ⟨⟨Q.ginzburgCutProjection k u v c x.val,
++    Q.ginzburgCutProjection_cohomological k c (-1) x.property⟩,?_⟩
++  change Q.ginzburgDifferential k φ u v (Q.ginzburgCutProjection k u v c x.val)=_
++  rw [Q.ginzburgDifferential_cutProjection,hx,Q.originalGinzburgLinearMap_cutProjection]
++
++noncomputable def pathJacobianCutIdeal (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Submodule k (Q.pathCutComponent k u v c) :=
++  ((Q.pathJacobianIdeal k φ).hom u v).comap (Q.pathCutComponent k u v c).subtype
++
++noncomputable def ginzburgCutBoundaryLift (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutCohomologicalComponent k u v (-1) c →ₗ[k] Q.pathCutComponent k u v c :=
++  ((Q.ginzburgBoundaryLift k φ u v).comp (Submodule.inclusion
++    (show Q.ginzburgCutCohomologicalComponent k u v (-1) c ≤
++      Q.ginzburgCohomologicalComponent k u v (-1) from inf_le_left))).codRestrict _ (by
++        intro x
++        apply (Q.originalGinzburgLinearMap_cut_iff k c _).mp
++        change Q.originalGinzburgLinearMap k u v
++          (Q.ginzburgBoundaryLift k φ u v ⟨x.val,x.property.1⟩) ∈ _
++        rw [Q.originalGinzburgLinearMap_boundaryLift]
++        exact Q.ginzburgDifferential_cut k φ c x.property.2)
++
++theorem ginzburgCutBoundaryLift_range (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    LinearMap.range (Q.ginzburgCutBoundaryLift k φ u v c)=Q.pathJacobianCutIdeal k φ u v c := by
++  apply Submodule.ext
++  intro f
++  constructor
++  · rintro ⟨x,rfl⟩
++    change Q.ginzburgBoundaryLift k φ u v ⟨x.val,x.property.1⟩ ∈
++      (Q.pathJacobianIdeal k φ).hom u v
++    exact Q.ginzburgBoundaryLift_mem_pathJacobianIdeal k φ u v _
++  · intro hf
++    change f.val ∈ (Q.pathJacobianIdeal k φ).hom u v at hf
++    rw [←Q.ginzburgBoundarySpace_eq_pathJacobianIdeal k φ u v] at hf
++    obtain ⟨x,hx⟩ := (Q.ginzburgBoundarySpace_mem_iff k φ u v f.val).mp hf
++    refine ⟨⟨Q.ginzburgCutProjection k u v c x.val,
++      Q.ginzburgCutProjection_cohomological k c (-1) x.property,
++      Q.ginzburgCutProjection_mem k c x.val⟩,?_⟩
++    apply Subtype.ext
++    apply Q.originalGinzburgLinearMap_injective k u v
++    change Q.originalGinzburgLinearMap k u v
++      (Q.ginzburgBoundaryLift k φ u v ⟨Q.ginzburgCutProjection k u v c x.val,_⟩)=_
++    rw [Q.originalGinzburgLinearMap_boundaryLift,Q.ginzburgDifferential_cutProjection,hx,
++      Q.ginzburgCutProjection_on_cut k c c (Q.originalGinzburgLinearMap_cut k f.property),
++      if_pos rfl]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutDegreeZero.lean b/ASGinzburg/GinzburgCutDegreeZero.lean
+new file mode 100644
+index 0000000..3730a61
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutDegreeZero.lean
+@@ -0,0 +1,55 @@
++import ASGinzburg.PathCutGrading
++import ASGinzburg.GinzburgCutCochainComplex
++import ASGinzburg.GinzburgBoundaryProducts
++
++/-! The genuine cut-c degree-zero extended paths are precisely the
++ordinary paths of cut degree c, as finite-dimensional vector spaces. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def originalGinzburgCutDegreeZeroMap (u v : Q.Vertex) (c : ℤ) :
++    Q.pathCutComponent k u v c →ₗ[k] Q.ginzburgCutCohomologicalComponent k u v 0 c :=
++  ((Q.originalGinzburgLinearMap k u v).comp
++    (Q.pathCutComponent k u v c).subtype).codRestrict _ (fun f =>
++      ⟨Q.originalGinzburgLinearMap_degreeZero k f.val,
++        Q.originalGinzburgLinearMap_cut k f.property⟩)
++
++theorem originalGinzburgCutDegreeZeroMap_bijective (u v : Q.Vertex) (c : ℤ) :
++    Function.Bijective (Q.originalGinzburgCutDegreeZeroMap k u v c) := by
++  constructor
++  · intro f g h
++    apply Subtype.ext
++    apply Q.originalGinzburgLinearMap_injective k u v
++    exact congrArg (fun f : Q.ginzburgCutCohomologicalComponent k u v 0 c => f.val) h
++  · intro f
++    let g := (Q.originalGinzburgDegreeZeroEquiv k u v).symm ⟨f.val,f.property.1⟩
++    have hg : Q.originalGinzburgLinearMap k u v g=f.val := by
++      rw [←Q.originalGinzburgDegreeZeroEquiv_coe k]
++      change ((Q.originalGinzburgDegreeZeroEquiv k u v)
++        ((Q.originalGinzburgDegreeZeroEquiv k u v).symm _)).val=_
++      rw [LinearEquiv.apply_symm_apply]
++    have hc : g ∈ Q.pathCutComponent k u v c := by
++      apply (Q.originalGinzburgLinearMap_cut_iff k c g).mp
++      rw [hg]
++      exact f.property.2
++    exact ⟨⟨g,hc⟩,Subtype.ext hg⟩
++
++noncomputable def originalGinzburgCutDegreeZeroEquiv (u v : Q.Vertex) (c : ℤ) :
++    Q.pathCutComponent k u v c ≃ₗ[k] Q.ginzburgCutCohomologicalComponent k u v 0 c :=
++  LinearEquiv.ofBijective (Q.originalGinzburgCutDegreeZeroMap k u v c)
++    (Q.originalGinzburgCutDegreeZeroMap_bijective k u v c)
++
++theorem originalGinzburgCutDegreeZeroEquiv_coe (u v : Q.Vertex) (c : ℤ)
++    (f : Q.pathCutComponent k u v c) :
++    (Q.originalGinzburgCutDegreeZeroEquiv k u v c f).val=
++      Q.originalGinzburgLinearMap k u v f.val := rfl
++
++theorem originalGinzburgCutDegreeZeroEquiv_symm_coe (u v : Q.Vertex) (c : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k u v 0 c) :
++    Q.originalGinzburgLinearMap k u v
++      ((Q.originalGinzburgCutDegreeZeroEquiv k u v c).symm f).val=f.val := by
++  rw [←Q.originalGinzburgCutDegreeZeroEquiv_coe k]
++  rw [LinearEquiv.apply_symm_apply]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutHomologyFinite.lean b/ASGinzburg/GinzburgCutHomologyFinite.lean
+new file mode 100644
+index 0000000..1410579
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutHomologyFinite.lean
+@@ -0,0 +1,21 @@
++import ASGinzburg.GinzburgCutCochainComplex
++
++/-! The actual homology of every fixed cut component is finite dimensional,
++via mathlib's kernel/image quotient description of short complex homology. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++instance ginzburgCutHomology_finite (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
++    Module.Finite k (Q.ginzburgCutHomology k φ u v c q) := by
++  let S := (Q.ginzburgCutCochainComplex k φ u v c).sc q
++  haveI : Module.Finite k S.X₂ := by
++    change Module.Finite k (Q.ginzburgCutCohomologicalComponent k u v q c)
++    infer_instance
++  haveI : Module.Finite k S.moduleCatLeftHomologyData.H := by
++    change Module.Finite k (LinearMap.ker S.g.hom ⧸ LinearMap.range S.moduleCatToCycles)
++    infer_instance
++  exact Module.Finite.equiv S.moduleCatHomologyIso.toLinearEquiv.symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutHomologyZero.lean b/ASGinzburg/GinzburgCutHomologyZero.lean
+new file mode 100644
+index 0000000..225dea1
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutHomologyZero.lean
+@@ -0,0 +1,97 @@
++import ASGinzburg.GinzburgCutDegreeZero
++import ASGinzburg.PathJacobianGrading
++
++/-! Actual fixed cut H-zero equals the genuine homogeneous Jacobian
++quotient. This comparison is independent of regularity. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgCutGradedDifferential_zero (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutGradedDifferential k φ u v 0 c=0 := by
++  apply LinearMap.ext
++  intro f
++  apply Subtype.ext
++  exact Q.ginzburgDifferential_degreeZero k φ f.property.1
++
++noncomputable def ginzburgCutNegativeOneDifferential (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutCohomologicalComponent k u v (-1) c →ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k u v 0 c :=
++  Q.ginzburgCutGradedDifferential k φ u v (-1) c
++
++noncomputable def ginzburgCutZeroShortComplex (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.moduleCatMk (Q.ginzburgCutNegativeOneDifferential k φ u v c)
++    (Q.ginzburgCutGradedDifferential k φ u v 0 c)
++    (by
++      have h := Q.ginzburgCutGradedDifferential_square k φ u v (-1) c
++      simpa only [show (-1:ℤ)+1=0 by omega,ginzburgCutNegativeOneDifferential] using h)
++
++theorem ginzburgCutZeroShortComplex_g (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    (Q.ginzburgCutZeroShortComplex k φ u v c).g=0 := by
++  apply ModuleCat.hom_ext
++  exact Q.ginzburgCutGradedDifferential_zero k φ u v c
++
++noncomputable def ginzburgCutZeroShortComplexIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    (Q.ginzburgCutCochainComplex k φ u v c).sc' (-1) 0 1 ≅
++      Q.ginzburgCutZeroShortComplex k φ u v c :=
++  ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
++    (by simpa only [Category.id_comp,Category.comp_id] using
++      (Q.ginzburgCutCochainComplex_d k φ u v c (-1)).symm)
++    (by simpa only [Category.id_comp,Category.comp_id] using
++      (Q.ginzburgCutCochainComplex_d k φ u v c 0).symm)
++
++noncomputable def ginzburgCutHomologyZeroQuotientIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutHomology k φ u v c 0 ≅
++      ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v 0 c ⧸
++        LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u v c)) :=
++  ShortComplex.homologyMapIso ((Q.ginzburgCutCochainComplex k φ u v c).isoSc'
++    (i:=(-1)) (j:=0) (k:=1) (by simp) (by simp)) ≪≫
++  ShortComplex.homologyMapIso (Q.ginzburgCutZeroShortComplexIso k φ u v c) ≪≫
++  (ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork
++    (Q.ginzburgCutZeroShortComplex k φ u v c) (Q.ginzburgCutZeroShortComplex_g k φ u v c)
++      (ModuleCat.cokernelCocone (Q.ginzburgCutZeroShortComplex k φ u v c).f)
++      (ModuleCat.cokernelIsColimit (Q.ginzburgCutZeroShortComplex k φ u v c).f)).homologyIso
++
++theorem ginzburgCutGradedBoundary_map (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u v c)).map
++      (Q.originalGinzburgCutDegreeZeroEquiv k u v c).symm.toLinearMap=
++        Q.pathJacobianCutIdeal k φ u v c := by
++  rw [←LinearMap.range_comp]
++  have heq : (Q.originalGinzburgCutDegreeZeroEquiv k u v c).symm.toLinearMap.comp
++      (Q.ginzburgCutNegativeOneDifferential k φ u v c)=
++        Q.ginzburgCutBoundaryLift k φ u v c := by
++    apply LinearMap.ext
++    intro x
++    apply Subtype.ext
++    apply Q.originalGinzburgLinearMap_injective k u v
++    change Q.originalGinzburgLinearMap k u v
++      ((Q.originalGinzburgCutDegreeZeroEquiv k u v c).symm
++        (Q.ginzburgCutNegativeOneDifferential k φ u v c x)).val=
++      Q.originalGinzburgLinearMap k u v
++        (Q.ginzburgBoundaryLift k φ u v ⟨x.val,x.property.1⟩)
++    rw [Q.originalGinzburgCutDegreeZeroEquiv_symm_coe,
++      Q.originalGinzburgLinearMap_boundaryLift]
++    rfl
++  rw [heq,Q.ginzburgCutBoundaryLift_range]
++
++noncomputable def ginzburgCutZeroQuotientJacobianEquiv (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    (Q.ginzburgCutCohomologicalComponent k u v 0 c ⧸
++      LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u v c)) ≃ₗ[k]
++        (Q.pathCutComponent k u v c ⧸ Q.pathJacobianCutIdeal k φ u v c) :=
++  Submodule.Quotient.equiv _ _ (Q.originalGinzburgCutDegreeZeroEquiv k u v c).symm
++    (Q.ginzburgCutGradedBoundary_map k φ u v c)
++
++noncomputable def ginzburgCutHomologyZeroJacobianIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutHomology k φ u v c 0 ≅
++      ModuleCat.of k (Q.pathCutComponent k u v c ⧸ Q.pathJacobianCutIdeal k φ u v c) :=
++  Q.ginzburgCutHomologyZeroQuotientIso k φ u v c ≪≫
++    (Q.ginzburgCutZeroQuotientJacobianEquiv k φ u v c).toModuleIso
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledPathWords.lean b/ASGinzburg/UnrolledPathWords.lean
+new file mode 100644
+index 0000000..85768ff
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathWords.lean
+@@ -0,0 +1,57 @@
++import ASGinzburg.PathDegreeUnrolling
++
++/-! Forgetting sheets does not identify distinct unrolled paths with
++fixed endpoints. Hence lifting fixed-degree paths is an equivalence. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem UnrolledPath.erase_toList_injective (u v : Q.LiftVertex) :
++    Function.Injective (fun p : Q.UnrolledPath u v => p.erase.toList) := by
++  intro p
++  induction p with
++  | nil =>
++    intro q h
++    cases q with
++    | nil => rfl
++    | snoc a q => simp [erase,Path.toList] at h
++  | snoc a p ih =>
++    intro q h
++    cases q with
++    | nil => simp [erase,Path.toList] at h
++    | snoc b q =>
++      have hl : p.erase.toList++[a.val]=q.erase.toList++[b.val] := by
++        simpa [erase,Path.toList] using h
++      obtain ⟨hp,hab⟩ := List.append_inj' hl rfl
++      have hab' : a=b := Subtype.ext (List.singleton_inj.mp hab)
++      subst b
++      exact congrArg (UnrolledPath.snoc a) (ih hp)
++
++theorem UnrolledPath.unrollDegree_eraseDegree {u v : Q.Vertex} {m : ℤ} {d : ℕ}
++    (p : Q.UnrolledPath (u,m) (v,m+(d:ℤ))) : Path.unrollDegree m p.eraseDegree=p := by
++  apply UnrolledPath.erase_toList_injective
++  change (Path.unrollDegree m p.eraseDegree).erase.toList=p.erase.toList
++  rw [Path.unrollDegree_erase_toList]
++  rfl
++
++def Path.unrollDegreeEquiv (m : ℤ) (u v : Q.Vertex) (d : ℕ) :
++    Path.CutDegreePath (Q:=Q) u v d ≃ Q.UnrolledPath (u,m) (v,m+(d:ℤ)) where
++  toFun := Path.unrollDegree m
++  invFun := UnrolledPath.eraseDegree
++  left_inv := Path.eraseDegree_unrollDegree m
++  right_inv := UnrolledPath.unrollDegree_eraseDegree
++
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def unrollDegreeLinearEquiv (u v : Q.Vertex) (d : ℕ) (m : ℤ) :
++    (Path.CutDegreePath (Q:=Q) u v d →₀ k) ≃ₗ[k]
++      Q.UnrolledPathComponent k (u,m) (v,m+(d:ℤ)) :=
++  Finsupp.domLCongr (Path.unrollDegreeEquiv m u v d)
++
++@[simp] theorem unrollDegreeLinearEquiv_single (u v : Q.Vertex) (d : ℕ) (m : ℤ)
++    (p : Path.CutDegreePath (Q:=Q) u v d) (a : k) :
++    Q.unrollDegreeLinearEquiv k u v d m (Finsupp.single p a)=
++      Finsupp.single (Path.unrollDegree m p) a := by
++  simp [unrollDegreeLinearEquiv,Finsupp.domLCongr,Path.unrollDegreeEquiv]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathCutUnrollingEquiv.lean b/ASGinzburg/PathCutUnrollingEquiv.lean
+new file mode 100644
+index 0000000..762e280
+--- /dev/null
++++ b/ASGinzburg/PathCutUnrollingEquiv.lean
+@@ -0,0 +1,43 @@
++import ASGinzburg.PathCutGrading
++import ASGinzburg.UnrolledPathWords
++
++/-! A fixed cut homogeneous component is linearly equivalent to the
++actual fixed-sheet path space, before quotienting by relations. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++def Path.castCutDegreeEquiv (u v : Q.Vertex) (d : ℕ) :
++    {p : Q.Path u v // (p.cutDegree:ℤ)=(d:ℤ)} ≃ Path.CutDegreePath (Q:=Q) u v d where
++  toFun p := ⟨p.val,by exact_mod_cast p.property⟩
++  invFun p := ⟨p.val,by exact_mod_cast p.property⟩
++  left_inv _ := rfl
++  right_inv _ := rfl
++
++universe u
++variable (k : Type u) [Field k]
++
++noncomputable def pathCutComponentBasisEquiv (u v : Q.Vertex) (d : ℕ) :
++    Q.pathCutComponent k u v (d:ℤ) ≃ₗ[k] (Path.CutDegreePath (Q:=Q) u v d →₀ k) :=
++  (Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
++    {p : Q.Path u v | (p.cutDegree:ℤ)=(d:ℤ)}).trans
++      (Finsupp.domLCongr (Path.castCutDegreeEquiv Q u v d))
++
++noncomputable def pathCutUnrollingEquiv (u v : Q.Vertex) (d : ℕ) (m : ℤ) :
++    Q.pathCutComponent k u v (d:ℤ) ≃ₗ[k]
++      Q.UnrolledPathComponent k (u,m) (v,m+(d:ℤ)) :=
++  (Q.pathCutComponentBasisEquiv k u v d).trans (Q.unrollDegreeLinearEquiv k u v d m)
++
++theorem unrollDegreeLinearEquiv_eq_map (u v : Q.Vertex) (d : ℕ) (m : ℤ) :
++    (Q.unrollDegreeLinearEquiv k u v d m).toLinearMap=Q.unrollDegreeLinearMap k u v d m := by
++  classical
++  apply LinearMap.ext
++  intro f
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p a =>
++    change Q.unrollDegreeLinearEquiv k u v d m (Finsupp.single p a)=_
++    rw [Q.unrollDegreeLinearEquiv_single]
++    exact Finsupp.mapDomain_single.symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCycleBoundary.lean b/ASGinzburg/GinzburgCycleBoundary.lean
+new file mode 100644
+index 0000000..d699c4c
+--- /dev/null
++++ b/ASGinzburg/GinzburgCycleBoundary.lean
+@@ -0,0 +1,65 @@
++import ASGinzburg.GinzburgCutCochainComplex
++
++/-! Actual vanishing homology is equivalent to the concrete cycle-boundary
++criterion, for full and fixed-cut path complexes. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgCutHomology_succ_isZero_iff_cycles (φ : Q.Potential k)
++    (u v : Q.Vertex) (c q : ℤ) :
++    IsZero (Q.ginzburgCutHomology k φ u v c (q+1)) ↔
++      ∀ f : Q.ginzburgCutCohomologicalComponent k u v (q+1) c,
++        Q.ginzburgDifferential k φ u v f.val=0 →
++          ∃ g : Q.ginzburgCutCohomologicalComponent k u v q c,
++            Q.ginzburgDifferential k φ u v g.val=f.val := by
++  let C := Q.ginzburgCutCochainComplex k φ u v c
++  change IsZero (C.homology (q+1)) ↔ _
++  rw [←C.exactAt_iff_isZero_homology,
++    C.exactAt_iff' (j:=q+1) (i:=q) (k:=q+1+1) (by simp) (by simp),
++    ShortComplex.moduleCat_exact_iff]
++  have hf : C.d q (q+1)=Q.ginzburgCutCochainDifferential k φ u v q c := by
++    exact Q.ginzburgCutCochainComplex_d k φ u v c q
++  have hg : C.d (q+1) (q+1+1)=Q.ginzburgCutCochainDifferential k φ u v (q+1) c :=
++    Q.ginzburgCutCochainComplex_d k φ u v c (q+1)
++  change (∀ f : Q.ginzburgCutCohomologicalComponent k u v (q+1) c,
++    C.d (q+1) (q+1+1) f=0 → ∃ g : Q.ginzburgCutCohomologicalComponent k u v q c,
++      C.d q (q+1) g=f) ↔ _
++  rw [hf,hg]
++  constructor
++  · intro h f hf
++    obtain ⟨g,hg⟩ := h f (Subtype.ext hf)
++    exact ⟨g,congrArg Subtype.val hg⟩
++  · intro h f hf
++    obtain ⟨g,hg⟩ := h f (congrArg Subtype.val hf)
++    exact ⟨g,Subtype.ext hg⟩
++
++theorem ginzburgHomology_succ_isZero_iff_cycles (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) :
++    IsZero (Q.ginzburgHomology k φ u v (q+1)) ↔
++      ∀ f : Q.ginzburgCohomologicalComponent k u v (q+1),
++        Q.ginzburgDifferential k φ u v f.val=0 →
++          ∃ g : Q.ginzburgCohomologicalComponent k u v q,
++            Q.ginzburgDifferential k φ u v g.val=f.val := by
++  let C := Q.ginzburgCochainComplex k φ u v
++  change IsZero (C.homology (q+1)) ↔ _
++  rw [←C.exactAt_iff_isZero_homology,
++    C.exactAt_iff' (j:=q+1) (i:=q) (k:=q+1+1) (by simp) (by simp),
++    ShortComplex.moduleCat_exact_iff]
++  have hf : C.d q (q+1)=Q.ginzburgCochainDifferential k φ u v q := by
++    exact Q.ginzburgCochainComplex_d k φ u v q
++  have hg : C.d (q+1) (q+1+1)=Q.ginzburgCochainDifferential k φ u v (q+1) :=
++    Q.ginzburgCochainComplex_d k φ u v (q+1)
++  change (∀ f : Q.ginzburgCohomologicalComponent k u v (q+1),
++    C.d (q+1) (q+1+1) f=0 → ∃ g : Q.ginzburgCohomologicalComponent k u v q,
++      C.d q (q+1) g=f) ↔ _
++  rw [hf,hg]
++  constructor
++  · intro h f hf
++    obtain ⟨g,hg⟩ := h f (Subtype.ext hf)
++    exact ⟨g,congrArg Subtype.val hg⟩
++  · intro h f hf
++    obtain ⟨g,hg⟩ := h f (congrArg Subtype.val hf)
++    exact ⟨g,Subtype.ext hg⟩
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutDecomposition.lean b/ASGinzburg/GinzburgCutDecomposition.lean
+new file mode 100644
+index 0000000..23e8d1d
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutDecomposition.lean
+@@ -0,0 +1,41 @@
++import ASGinzburg.GinzburgCutProjections
++
++/-! Every actual finite path polynomial is the finite sum of its
++homogeneous cut projections, indexed by the degrees in its support. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgCutProjection_apply {u v : Q.Vertex} (c : ℤ)
++    (f : Q.GinzburgPathComponent k u v) (p : Q.GinzburgPath u v) :
++    Q.ginzburgCutProjection k u v c f p=if p.cutDegree=c then f p else 0 := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg =>
++    by_cases h : p.cutDegree=c <;> simp [map_add,hf,hg,h]
++  | single q a =>
++    rw [ginzburgCutProjection_single]
++    by_cases h : q=p
++    · subst q
++      by_cases h : p.cutDegree=c <;> simp [h]
++    · by_cases hq : q.cutDegree=c <;> by_cases hp : p.cutDegree=c <;>
++        simp [hq,hp,Ne.symm h]
++
++noncomputable def ginzburgCutSupport {u v : Q.Vertex} (f : Q.GinzburgPathComponent k u v) :
++    Finset ℤ := by
++  classical
++  exact f.support.image GinzburgPath.cutDegree
++
++theorem ginzburgCutProjection_sum {u v : Q.Vertex} (f : Q.GinzburgPathComponent k u v) :
++    ∑ c ∈ Q.ginzburgCutSupport k f, Q.ginzburgCutProjection k u v c f=f := by
++  classical
++  ext p
++  simp only [Finsupp.finset_sum_apply,ginzburgCutProjection_apply]
++  by_cases hp : p ∈ f.support
++  · have hc : p.cutDegree ∈ Q.ginzburgCutSupport k f := Finset.mem_image.mpr ⟨p,hp,rfl⟩
++    simp [eq_comm,hc]
++  · have hf : f p=0 := Finsupp.notMem_support_iff.mp hp
++    simp [hf]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutRegularity.lean b/ASGinzburg/GinzburgCutRegularity.lean
+new file mode 100644
+index 0000000..c0446d2
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutRegularity.lean
+@@ -0,0 +1,50 @@
++import ASGinzburg.GinzburgCutRetracts
++import ASGinzburg.GinzburgCycleBoundary
++import ASGinzburg.GinzburgCutDecomposition
++
++/-! Actual Ginzburg regularity is equivalent to vanishing of negative
++homology in every actual fixed-cut complex. The converse uses finite
++support decomposition of cycles and actual boundary preimages. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgHomology_succ_isZero_of_cut (φ : Q.Potential k)
++    (u v : Q.Vertex) (q : ℤ)
++    (h : ∀ c : ℤ, IsZero (Q.ginzburgCutHomology k φ u v c (q+1))) :
++    IsZero (Q.ginzburgHomology k φ u v (q+1)) := by
++  apply (Q.ginzburgHomology_succ_isZero_iff_cycles k φ u v q).mpr
++  intro f hf
++  have hex (c : ℤ) : ∃ g : Q.ginzburgCutCohomologicalComponent k u v q c,
++      Q.ginzburgDifferential k φ u v g.val=Q.ginzburgCutProjection k u v c f.val := by
++    apply (Q.ginzburgCutHomology_succ_isZero_iff_cycles k φ u v c q).mp (h c)
++      ⟨Q.ginzburgCutProjection k u v c f.val,
++        Q.ginzburgCutProjection_cohomological k c (q+1) f.property,
++        Q.ginzburgCutProjection_mem k c f.val⟩
++    change Q.ginzburgDifferential k φ u v (Q.ginzburgCutProjection k u v c f.val)=0
++    rw [Q.ginzburgDifferential_cutProjection,hf,map_zero]
++  choose g hg using hex
++  let g' (c : ℤ) : Q.ginzburgCohomologicalComponent k u v q := ⟨(g c).val,(g c).property.1⟩
++  refine ⟨∑ c ∈ Q.ginzburgCutSupport k f.val, g' c,?_⟩
++  change Q.ginzburgDifferential k φ u v
++    ((∑ c ∈ Q.ginzburgCutSupport k f.val, g' c).val)=f.val
++  simp only [Submodule.coe_sum,map_sum]
++  change (∑ c ∈ Q.ginzburgCutSupport k f.val,
++    Q.ginzburgDifferential k φ u v (g c).val)=f.val
++  simp_rw [hg]
++  exact Q.ginzburgCutProjection_sum k f.val
++
++theorem ginzburgRegular_iff_cutHomology (φ : Q.Potential k) :
++    Q.GinzburgRegular k φ ↔ ∀ u v : Q.Vertex, ∀ c q : ℤ, q<0 →
++      IsZero (Q.ginzburgCutHomology k φ u v c q) := by
++  constructor
++  · intro h u v c q hq
++    exact h.cutHomology_isZero Q k u v c q hq
++  · intro h
++    apply (Q.ginzburgRegular_iff_components k φ).mpr
++    intro u v q hq
++    obtain ⟨r,rfl⟩ : ∃ r : ℤ, q=r+1 := ⟨q-1,by omega⟩
++    exact Q.ginzburgHomology_succ_isZero_of_cut k φ u v r (fun c => h u v c (r+1) hq)
++
++end ASGinzburg.CutQuiver
