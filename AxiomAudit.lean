@@ -66,6 +66,9 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.ASResolution.extShiftThree
 #print axioms ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_eq_zero
 #print axioms ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_rank_zero
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroFinite
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtOneFinite
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extFinite_representable
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex
@@ -256,6 +259,15 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModuleExtDimensionShift
 #print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroBoundary_bijective
 #print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroDimensionShift
+#print axioms ASGinzburg.ZAlgebra.rightModuleHomPrecomp
+#print axioms ASGinzburg.ZAlgebra.rightModuleHomPrecomp_injective
+#print axioms ASGinzburg.ZAlgebra.rightModuleHomFinite_of_epi
+#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomFinite
+#print axioms ASGinzburg.ZAlgebra.representableHomFinite
+#print axioms ASGinzburg.ZAlgebra.representableHomRepresentableFinite
+#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₁HomFinite
+#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₂HomFinite
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits

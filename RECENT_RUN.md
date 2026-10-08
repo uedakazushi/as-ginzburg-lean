@@ -28,3 +28,19 @@ importを冒頭へ移して新規runで再検証する。失敗ログは削除�
 UTC 2026-10-08T03:40:26.273705+00:00 → 2026-10-08T03:43:02.165634+00:00。
 372異なる宣言・179 theorem・53 named instance。
 差分：runs/as-finiteness-20261008-unit1.patch。
+
+単位1のmain保存：7117937fdc3351dbc2cb4a7caa8cd5e2bbbe0b5b。tree一致を確認してAPIでfast-forward。
+
+## 単位2：有限AS分解からExt(s_w,P_i)の全次数の有限性
+
+有限coproductのHom–Pi線形同型、epiによるHomへの線形単射、線形YonedaからHomの有限性を証明した。
+実際のExtの長完全列でExt¹をkernelのHomの商として扱い、次数2・3はsyzygyのdimension shiftで移した。
+次数4以上は単位1の消滅を使い、全Ext(s_w,P_i,p)のModule.Finiteを得た。
+ASResolutionの存在とZAlgebraの局所有限性だけを使い、総rank=1やdelta表を仮定していない。
+利用先：finrank表からCardinal rank条件への逆方向、有限生成分解の双対性。
+次：実際のfinrankのdelta条件と元のASRegularとの同値を証明する。
+
+検証：`20261008T034423Z-c7c903db`、167.034188秒、全段階終了0。
+UTC 2026-10-08T03:44:23.495487+00:00 → 2026-10-08T03:47:10.529682+00:00。
+384異なる宣言・189 theorem・53 named instance。
+差分：runs/as-finiteness-20261008-unit2.patch。

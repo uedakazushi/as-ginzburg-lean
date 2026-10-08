@@ -1,0 +1,188 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index a2ad9d6..5d71887 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -1,3 +1,5 @@
++import ASGinzburg.RightModuleHomFinite
++import ASGinzburg.ASResolutionExtFinite
+ import ASGinzburg.ASResolutionExtBounds
+ import ASGinzburg.CutQuiver
+ import ASGinzburg.CutPotential
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 4932fbf..b73397e 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -66,6 +66,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.extShiftThree
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_rank_zero
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroFinite
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtOneFinite
++#print axioms ASGinzburg.ZAlgebra.ASResolution.extFinite_representable
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex
+@@ -256,6 +259,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtDimensionShift
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroBoundary_bijective
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroDimensionShift
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomPrecomp
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomPrecomp_injective
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomFinite_of_epi
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomFinite
++#print axioms ASGinzburg.ZAlgebra.representableHomFinite
++#print axioms ASGinzburg.ZAlgebra.representableHomRepresentableFinite
++#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₁HomFinite
++#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₂HomFinite
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits
+diff --git a/ASGinzburg/RightModuleHomFinite.lean b/ASGinzburg/RightModuleHomFinite.lean
+new file mode 100644
+index 0000000..3b31131
+--- /dev/null
++++ b/ASGinzburg/RightModuleHomFinite.lean
+@@ -0,0 +1,71 @@
++import ASGinzburg.ASResolution
++import Mathlib.LinearAlgebra.FiniteDimensional.Defs
++
++/-! Finite-dimensional Hom spaces, keeping the actual linear right modules. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Precomposition with an epimorphism embeds the actual Hom space. -/
++def rightModuleHomPrecomp {X Y : A.RightModule} (e : X ⟶ Y) (N : A.RightModule) :
++    (Y ⟶ N) →ₗ[k] (X ⟶ N) where
++  toFun f := e ≫ f
++  map_add' f g := Preadditive.comp_add _ _ _ e f g
++  map_smul' r f := Linear.comp_smul _ _ _ e r f
++
++theorem rightModuleHomPrecomp_injective {X Y : A.RightModule} (e : X ⟶ Y) [Epi e]
++    (N : A.RightModule) : Function.Injective (A.rightModuleHomPrecomp e N) := by
++  intro f g h
++  exact (cancel_epi e).mp h
++
++theorem rightModuleHomFinite_of_epi {X Y : A.RightModule} (e : X ⟶ Y) [Epi e]
++    (N : A.RightModule) [Module.Finite k (X ⟶ N)] : Module.Finite k (Y ⟶ N) :=
++  Module.Finite.of_injective (A.rightModuleHomPrecomp e N)
++    (A.rightModuleHomPrecomp_injective e N)
++
++/-- A finite coproduct of representables has finite Hom into a target whose
++relevant components are finite dimensional. -/
++noncomputable def rightModuleCoproductHomLinearEquiv {β : Type*} (g : β → A.RightModule)
++    [HasCoproduct g] (N : A.RightModule) :
++    (∐ g ⟶ N) ≃ₗ[k] (∀ b, g b ⟶ N) where
++  toFun f b := Sigma.ι g b ≫ f
++  invFun f := Sigma.desc f
++  left_inv f := by apply Sigma.hom_ext; intro b; simp
++  right_inv f := by funext b; simp
++  map_add' f h := by funext b; exact Preadditive.comp_add _ _ _ _ f h
++  map_smul' r f := by funext b; exact Linear.comp_smul _ _ _ _ r f
++
++theorem rightModuleCoproductHomFinite {β : Type*} [Finite β] (g : β → A.RightModule)
++    [HasCoproduct g] (N : A.RightModule) [∀ b, Module.Finite k (g b ⟶ N)] :
++    Module.Finite k (∐ g ⟶ N) :=
++  Module.Finite.of_injective (A.rightModuleCoproductHomLinearEquiv g N).toLinearMap
++    (A.rightModuleCoproductHomLinearEquiv g N).injective
++
++theorem representableHomFinite (i : ℤ) (N : A.RightModule)
++    [Module.Finite k ((A.rightModuleEvaluation i).obj N)] :
++    Module.Finite k (A.representable i ⟶ N) :=
++  Module.Finite.of_injective (A.representableYonedaEquiv i N).toLinearMap
++    (A.representableYonedaEquiv i N).injective
++
++theorem representableHomRepresentableFinite (i j : ℤ) :
++    Module.Finite k (A.representable i ⟶ A.representable j) :=
++  Module.Finite.of_injective (A.representableHomEquiv i j).symm.toLinearMap
++    (A.representableHomEquiv i j).symm.injective
++
++theorem asResolutionTerm₁HomFinite (Q : CutQuiver) (w : Q.LiftVertex) (i : ℤ) :
++    Module.Finite k (A.asResolutionTerm₁ Q w ⟶ A.representable i) := by
++  dsimp [asResolutionTerm₁]
++  letI := fun a : Q.incomingArrows w =>
++    A.representableHomRepresentableFinite (Q.height (Q.incomingSource w a)) i
++  exact A.rightModuleCoproductHomFinite _ _
++
++theorem asResolutionTerm₂HomFinite (Q : CutQuiver) (w : Q.LiftVertex) (i : ℤ) :
++    Module.Finite k (A.asResolutionTerm₂ Q w ⟶ A.representable i) := by
++  dsimp [asResolutionTerm₂]
++  letI := fun a : Q.outgoingArrows (Q.tau.symm w) =>
++    A.representableHomRepresentableFinite
++      (Q.height (Q.outgoingTarget (Q.tau.symm w) a)) i
++  exact A.rightModuleCoproductHomFinite _ _
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASResolutionExtFinite.lean b/ASGinzburg/ASResolutionExtFinite.lean
+new file mode 100644
+index 0000000..4589279
+--- /dev/null
++++ b/ASGinzburg/ASResolutionExtFinite.lean
+@@ -0,0 +1,65 @@
++import ASGinzburg.ASResolutionExtBounds
++import ASGinzburg.RightModuleHomFinite
++
++/-!
++# Finite-dimensional actual Ext from the AS resolution alone
++
++No total rank or delta table is assumed. The low degrees are quotients of
++finite-dimensional Hom spaces, by the actual long exact Ext sequences.
++-/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleExtZeroFinite (M N : A.RightModule) [Module.Finite k (M ⟶ N)] :
++    Module.Finite k (Abelian.Ext.{v} M N 0) :=
++  Module.Finite.of_injective (A.rightModuleExtZeroLinearEquiv M N).toLinearMap
++    (A.rightModuleExtZeroLinearEquiv M N).injective
++
++/-- Degree-one Ext is a quotient of Hom of the kernel, without requiring Hom vanishing. -/
++theorem rightModuleExtOneFinite {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) [Projective S.X₂] (N : A.RightModule)
++    [Module.Finite k (S.X₁ ⟶ N)] : Module.Finite k (Abelian.Ext.{v} S.X₃ N 1) := by
++  letI := A.rightModuleExtZeroFinite S.X₁ N
++  apply Module.Finite.of_surjective (A.rightModuleExtBoundary hS N 0)
++  intro x
++  exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
++    (Abelian.Ext.eq_zero_of_projective _) (by rfl)
++
++namespace ASResolution
++variable {A} {Q : CutQuiver} {w : Q.LiftVertex}
++
++/-- The finite AS sequence and local finiteness alone imply finite Ext into every P_i. -/
++theorem extFinite_representable (R : A.ASResolution Q w) (i : ℤ) (p : ℕ) :
++    Module.Finite k (Abelian.Ext.{v} (A.simpleRightModule (Q.height w))
++      (A.representable i) p) := by
++  let N := A.representable i
++  letI := A.representableHomRepresentableFinite (Q.height w) i
++  letI := A.representableHomRepresentableFinite (Q.height (Q.tau.symm w)) i
++  letI := A.asResolutionTerm₁HomFinite Q w i
++  letI := A.asResolutionTerm₂HomFinite Q w i
++  letI := A.rightModuleHomFinite_of_epi R.firstCover N
++  letI := A.rightModuleHomFinite_of_epi R.secondCover N
++  rcases p with _ | _ | _ | _ | p
++  · letI := A.rightModuleHomFinite_of_epi (A.simpleRightModuleπ (Q.height w)) N
++    exact A.rightModuleExtZeroFinite _ _
++  · exact A.rightModuleExtOneFinite
++      (ASResolution.shortExact₀ (A := A) (Q := Q) (v := w)) N
++  · letI := A.rightModuleExtOneFinite R.shortExact₁ N
++    exact Module.Finite.of_surjective
++      (A.rightModuleExtDimensionShift
++        (ASResolution.shortExact₀ (A := A) (Q := Q) (v := w)) N 0).toLinearMap
++      (A.rightModuleExtDimensionShift
++        (ASResolution.shortExact₀ (A := A) (Q := Q) (v := w)) N 0).surjective
++  · letI := A.rightModuleExtOneFinite R.shortExact₂ N
++    let e := (A.rightModuleExtDimensionShift R.shortExact₁ N 0).trans
++      (A.rightModuleExtDimensionShift
++        (ASResolution.shortExact₀ (A := A) (Q := Q) (v := w)) N 1)
++    exact Module.Finite.of_surjective e.toLinearMap e.surjective
++  · letI : Subsingleton (Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N (p + 4)) :=
++      ⟨fun x y => by rw [R.ext_ge_four_eq_zero N p x, R.ext_ge_four_eq_zero N p y]⟩
++    infer_instance
++
++end ASResolution
++end ASGinzburg.ZAlgebra
