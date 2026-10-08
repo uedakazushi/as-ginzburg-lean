@@ -5,6 +5,7 @@ import ASGinzburg.TotalAlgebraLocalUnits
 import ASGinzburg.TotalComponentActions
 import ASGinzburg.TotalAlgebraLift
 import ASGinzburg.TotalModuleRepresentations
+import ASGinzburg.LocallyUnitalModules
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct
