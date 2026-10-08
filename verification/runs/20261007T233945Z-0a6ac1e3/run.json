@@ -1,0 +1,79 @@
+{
+  "run_id": "20261007T233945Z-0a6ac1e3",
+  "started_at_utc": "2026-10-07T23:39:45.386189+00:00",
+  "status": "failed",
+  "steps": [
+    {
+      "stage": "regression_tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "regression_tests.log",
+      "started_at_utc": "2026-10-07T23:39:45.387730+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-07T23:39:45.604355+00:00",
+      "elapsed_seconds": 0.2166468379999742,
+      "log_sha256": "7f4dd7d5524ed6b3a1af6883d11b6b2de300a60b877676993bf8f226d7ca9e4c"
+    },
+    {
+      "stage": "source_audit",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/audit_sources.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261007T233945Z-0a6ac1e3"
+      ],
+      "log": "source_audit.log",
+      "started_at_utc": "2026-10-07T23:39:45.606251+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-07T23:39:45.652557+00:00",
+      "elapsed_seconds": 0.04632748099999162,
+      "log_sha256": "0edec0dd1bcaf0044152a3acdb4272e8efa0798cf835f6c12cd2abd45943fe5b"
+    },
+    {
+      "stage": "cache",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "exe",
+        "cache",
+        "get"
+      ],
+      "log": "cache.log",
+      "started_at_utc": "2026-10-07T23:39:45.653605+00:00",
+      "exit_code": 1,
+      "ended_at_utc": "2026-10-07T23:39:47.517631+00:00",
+      "elapsed_seconds": 1.8640510779999886,
+      "log_sha256": "56abe9e3b0becbe95d6d4fc4efb5b38fdb70a54d35fc03da1fbede79da0bbcb5"
+    }
+  ],
+  "git_head_before_run": "a648e473e33e8d6be605c56e8b06998a9945c4fd",
+  "lean_source_sha256": {
+    "ASGinzburg.lean": "c258806407cd4621e68951ff252ac4b1f87f810db269eb6709316ce7ad5532f8",
+    "ASGinzburg/Conjugation.lean": "2cfa2d44166de9d005139d24319c7806e3b1677fe6de77c91f111409a608b4d8",
+    "ASGinzburg/CutPotential.lean": "21fae59909e7fe38e66d2f9bc27c9c27571fa1913cccb3774f39c424cad1d210",
+    "ASGinzburg/CutQuiver.lean": "ad45587f428a7b55348d9f741caae70363e765b71527b0a79130f28be0c20fdf",
+    "ASGinzburg/CyclicDerivative.lean": "70537ca04cc82fce284975bcec5160c60987130865f767b277d1c46eaca17ec7",
+    "ASGinzburg/ExtDimension.lean": "1df19458ab48a0fc664ecbe04bc788335f44e01a385d90189ee0c9a5fb8c055c",
+    "ASGinzburg/GinzburgGrading.lean": "2b39c8c5d25c57ab29311078538728bc5fd0db99595493e0f85b65d22e5960ad",
+    "ASGinzburg/Hilbert.lean": "951c6821fa5ec275e10658e9f51982e21983855da0e9cf1fc0b3849c0ad7cc3e",
+    "ASGinzburg/PathAlgebra.lean": "19cdabd6939e952b5e45d519fe5dc4a9a5801684cf20877c5cea8fa0c39b08ae",
+    "ASGinzburg/Representables.lean": "8770d9095bf8759bdd45d9167659baade106b450ab763cbb0da0d58a10f7483a",
+    "ASGinzburg/Tensor333.lean": "e154200878a4de683cf8f630d42cf90243deaeed8c5130f3186e1faedea9dbfc",
+    "ASGinzburg/TopCohomology.lean": "e0c6ba341fb427b00eb099a7b83a5bf307591096b08ce84152613428c7ce7f13",
+    "ASGinzburg/Triangle333.lean": "5b817ccbb9c4133d3129eda64b8af56ce1c79261bb35c4a9bc2f10e8dc803663",
+    "ASGinzburg/WindowPeriodicity.lean": "23af0e6da9a194a20f10bc3a8301415933deba6fcddf2167428dadc086c3f37a",
+    "ASGinzburg/ZAlgebra.lean": "00a370e8b60ca324c780b26e89642ce000292def9ba435ca445a23484d4ba9f1",
+    "AxiomAudit.lean": "105c8fb83f0740d8d3b30b34f018ad4adbc0b3992b0743d96706c945268ed39d"
+  },
+  "ended_at_utc": "2026-10-07T23:39:47.518000+00:00",
+  "elapsed_seconds": 2.131807712000011,
+  "exit_code": 1
+}

@@ -1,48 +1,78 @@
-# 回収・引継ぎ記録
+# Codexクラウドへの引継ぎ
 
-今回の指示は成果の回収のみです。新しいLean形式化・証明修正・公理追加は行っていません。
-回収日時（UTC）：2026-10-07T21:01:24.323045+00:00
+2026年10月8日（JST）。今回の範囲はビルド再現、公理監査、CI、記録のみです。
+新しい数学的形式化・証明変更・公理追加は行っていません。
 
-## 場所と保存範囲
+## 現在の場所と固定環境
 
-- 現在の復元プロジェクト：`/workspace/scratch/0a3c62d44058/recovery/as_ginzburg_lean`。
-- 元の作業場所：`/workspace/scratch/0a3c62d44058/as_ginzburg_lean`。現在は存在しません。
-- 復元先はGitリポジトリではありません。Git履歴は元の保存zipに含まれず、外部リポジトリの所在を確認する記録もありません。
-- 元チェックポイント：`as_ginzburg_lean_20261007_checkpoint.zip`（35ファイル）。今回の回収パッケージにも無変更で同梱。
-- `FILES.md`：回収した全ファイルの区分・サイズ・ハッシュ。
-- `DECLARATIONS.md`：完成済みの全161宣言の完全名・種別・ソース位置。
-- 旧引継ぎ文書3点：`recovery/checkpoint_docs/`。
+- リポジトリ：`https://github.com/uedakazushi/as-ginzburg-lean`。
+- クラウドの作業場所：`/workspace/as-ginzburg-lean`。
+- 作業ブランチ：`codex/reproduce-audit-ci-20261008`。mainへマージしません。
+- Lean：`leanprover/lean4:v4.24.0`。
+- mathlib：`f897ebcf72cd16f89ab4577d0c826cd14afaafc7`。lakefileとmanifestで固定。
+- 元の場所・旧Git履歴欠落などの回収時点の事実は`recovery/`と`checkpoints/20261007/recovered_docs/`に保存。
+  現在のリポジトリには回収後のGit履歴があります。
 
-## 今回の検査と最後の成功
+## 実行結果
 
-現在の `lake build` は終了コード127、`lake: command not found`。現在のLean／lakeおよび依存キャッシュがないため、コンパイルの再検証はできていません。これはLeanソースのコンパイルエラーではありません。
-新しい形式化や依存環境の再構築には着手せず、回収を完了しています。
+最新検証 `20261007T234808Z-7dcf2867`：終了0、13.040697秒。
+UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
+初回の成功検証（キャッシュ準備を含む）は61.159680秒、全段階終了0。
 
-最後の確実な成功は **2026-10-07 08:37:54.907799 UTC** のチェックポイントです。
-`verification/build.log` は `Build completed successfully (3123 jobs).` を記録しています。
-Lean 4.24.0、mathlib `f897ebcf72cd16f89ab4577d0c826cd14afaafc7`。
-全16 Leanソースと論文PDFのSHA-256を旧results.jsonと照合し、すべて一致しました。
-旧verification/は上書きしていません。
+全14数学モジュール、ルートimport、生成監査ターゲットの`lake build`が成功。
+全172明示的宣言の`#print axioms`が成功しました。初期161宣言は161異なる名前として列挙し、
+既存の名前付きinstance 11件も追加で監査しました。全84補助定理の監査漏れはありません。
+161は件数の履歴で、将来の追加を拒む条件ではありません。
+`sorry`、`admit`、独自`axiom`は0件。依存は`propext`、`Classical.choice`、`Quot.sound`のみで、
+`sorryAx`、`Lean.ofReduceBool`、`Lean.trustCompiler`への依存はありません。
+既存の未使用変数・simp引数のlint警告は残りますが、コンパイルエラーはありません。
 
-## 監査記録の訂正
+## 同一性と旧版の保存
 
-旧監査スクリプトはドットを含む宣言名を途中で切り、`InWindow.mono`を`InWindow`と誤記しています。
-旧AxiomAudit.leanは161コマンドですが160個の異なる名前を監査し、`ASGinzburg.ZAlgebra.InWindow.mono`の個別公理監査が抜けています。
-記録された160宣言の依存公理は`propext`、`Classical.choice`、`Quot.sound`のみ。
-「全161宣言を個別監査済み」という旧文書の主張を訂正します。
-この補題は全体ビルドの成功範囲には入っています。今回は監査スクリプト・Leanファイルを修正していません。
+14数学モジュールと`ASGinzburg.lean`は旧results.jsonのSHA-256にすべて一致し、無変更です。
+入力PDFも旧ハッシュに一致します。`recovery/`は無変更。
+旧`verification/`の4ファイルは`checkpoints/20261007/verification/`へバイト単位で保存。
+旧`AxiomAudit.lean`、改訂前のREADME・引継ぎ・状況・不足・宣言・ファイル一覧も保存しました。
+詳細は`checkpoints/20261007/preservation.json`にあります。
 
-## 主結果・未完了事項
+## 公理監査の修正
 
-定理3.2と系5.2はLeanでの定理文自体が未実装です。命題1.4は区間同型を仮定した貼り合わせ段階だけ、命題5.1も未証明です。
-84個は補助定理です。AS条件からの周期性を完成したとは扱えません。
-原論文との詳細な対応はSTATUS.md、数学的・Lean上の不足はGAPS.mdを参照してください。
-数学的反例を発見したという記録はありません。
+旧スクリプトは`InWindow.mono`を切り詰め、161コマンドで160異なる名前だけを監査していました。
+今回、`ASGinzburg.ZAlgebra.InWindow.mono`を完全名で列挙し、ソース一覧・監査コマンド・ログを
+それぞれ重複検査して一対一で照合します。現在のソース一覧とも照合し、未対応の宣言構文は失敗します。
+Nested commentを除去してソース位置を保持し、ルートimportファイルもplaceholder検査に含めます。
+旧監査記録を全161宣言の成功証拠と解釈してはいけません。
 
-## 再現用情報（今回未実行）
+`AxiomAudit.lean`の差分は、重複したInWindowコマンドをInWindow.monoへ訂正し、
+既存instance 11件への監査コマンドを加えたものです。数学的宣言は追加していません。
+旧SHA-256：`06d8eced449f4f0e3a4e67a6eeda093e8aa037b5b4c729881f1e9001aeaa0dde`。
+新SHA-256：`105c8fb83f0740d8d3b30b34f018ad4adbc0b3992b0743d96706c945268ed39d`。
 
-Lean 4.24.0と固定された依存関係を別途用意すれば `lake build` を実行できます。
-zipから展開したscripts/は実行権限を保持していないため、シェルスクリプトは `bash scripts/with_lean.sh lake build` のように呼び出せます。
-`check.sh`は監査一覧と旧verification/を上書きするため、元の記録を保存してから使う必要があります。
-また、そのままでは上記のドット付き宣言名の監査不足が再発します。
-今回の回収結果は `recovery/recovery_results.json` と `recovery/current_build.log` にあります。
+## 次の検証とCI
+
+```bash
+USE_FRO_CACHE=1 AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux \
+  bash scripts/check.sh --prepare-cache
+```
+
+キャッシュがあれば`--prepare-cache`を省略できます。通常はPATH上の固定elan/Leanでも実行できます。
+Gitにシェルの実行権限を記録し、内部呼出しもbash経由にしました。
+キャッシュは`.lake/cache/mathlib/`を使います。通常の再現に`lake update`は不要です。
+今回、ホームへの書込み失敗、ネットワーク権限不足、Azure取得先のCONNECT 403を観測しました。
+書込み先を修正し、許可されたネットワークとmathlib対応のCloudflareキャッシュで解決しました。
+途中で停止したソースビルド・全mathlibキャッシュ取得も含め、失敗試行は各runに保存しています。
+
+CIはpush/pull_requestで同じ固定版と検証コマンドを使い、終了コードを反映します。
+今回のrunだけをartifactへ保存し、履歴の成功ログで判定しません。
+最終のリモート保存・PR・Actions状況は`RECENT_RUN.md`を確認してください。
+
+## 主結果
+
+定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
+命題1.4は区間同型を仮定した貼り合わせのみ、命題5.1も未証明です。
+補助定理の成功を主結果の完成として扱わないでください。
+原論文の仮定を弱めず、周期性をAS条件に追加しません。
+数学的形式化を再開するには別の明示的な指示が必要です。`AGENTS.md`、`STATUS.md`、`GAPS.md`を参照。
+過去の作業全体の稼働時間は不明であり、今回の実測時間と混同しません。
+
+CI確認：実装コミットd7503e0でpush・pull_requestの双方が成功し、各12ファイルの最新ログartifactを確認済み。詳細はRECENT_RUN.mdとverification/github_ci_evidence.json。

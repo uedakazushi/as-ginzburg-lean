@@ -1,23 +1,26 @@
-# 回収時点の状況
+# 現在の状況
 
-Leanソースは変更していません。最後の成功チェックポイントと全16ソースのハッシュが一致しています。
-現在のプロジェクト場所と検査記録はHANDOFF.mdを参照してください。
+数学的ソースは無変更。14モジュールと`ASGinzburg.lean`が旧SHA-256に一致しています。
 
-| 項目 | 回収時点の結論 |
+| 項目 | 今回の結論 |
 |---|---|
-| 現在のlake build | 実行不能。終了127、lake: command not found |
-| 最後の成功 | 2026-10-07 08:37:54.907799 UTC、3123 jobs成功 |
-| 完成済み宣言 | def 55、theorem 84、abbrev 14、structure 6、inductive 2。全名はDECLARATIONS.md |
-| sorry / admit / 独自axiom | プロジェクトLeanソース内0件。残存箇所なし |
-| 非コンパイルファイル | 最後の成功時にはなし。現在は環境欠落のためファイル単位の再検証不能 |
-| 個別公理監査の不足 | InWindow.monoが一覧生成時に誤記され、監査対象から欠落 |
-| 全ファイル | 元zipの35ファイル。全件はFILES.md。削除済み一時ファイルの一覧は不明 |
+| lake build | 成功、終了0、3123 jobs |
+| 個別公理監査 | 172異なる名前、終了0。初期161宣言＋既存instance 11件 |
+| 完成済み補助定理 | 84件。全件が監査対象 |
+| sorry / admit / 独自axiom | ソース内0件 |
+| 許容公理 | propext、Classical.choice、Quot.soundだけ |
+| 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerはなし |
+| 数学的主結果 | 定理3.2・系5.2は未証明、形式的な文も未実装 |
+| CI | push/pull_requestで固定版のビルド・監査、今回のログをartifactへ保存 |
+| 旧版・入力・回収 | checkpoints/とrecovery/、入力PDFを保存 |
 
-以下の表は最後の成功時点に実装された数学的範囲です。現在の再ビルド成功を意味しません。
+最新検証 `20261007T234808Z-7dcf2867`：終了0、13.040697秒。
+UTC 2026-10-07T23:48:08.189273+00:00 → 2026-10-07T23:48:21.229977+00:00。
+初回の成功検証（キャッシュ準備を含む）は61.159680秒、全段階終了0。
 
 # 形式化状況
 
-2026年10月7日。主結果の完全形式化は未完成です。
+2026年10月8日（JST）。数学的範囲は旧版と同じで、主結果の完全形式化は未完成です。
 
 ## 検証済みの範囲
 
@@ -48,17 +51,20 @@ Leanソースは変更していません。最後の成功チェックポイン�
 | 命題5.1：quadratic AS正則Z-代数の三周期性 | **未証明。** |
 | 系5.2：(3,3,3)型の全単射 | **未証明。Leanの形式的な文も未実装。** |
 
-完成した補題は84件です。`verification/declarations.json`に全宣言を列挙しています。
+完成した補題は84件です。`verification/declarations.json`に初期161宣言と既存instance 11件の全172監査対象を列挙しています。
 補題の本来の仮定はソースの型を参照して下さい。
 特に`WindowSystem.isPeriodic`は`WindowSystem`を入力に持ち、AS条件からの周期性ではありません。
 
-## 検査
+## 検査と残存事項
 
-- 全14モジュールと全宣言のaudit targetを含む`lake build`：成功。
-- sourceの`sorry`、`admit`、独自`axiom`：0件。
-- 161監査コマンド・160異なる宣言名の`#print axioms`：標準の`propext`、`Classical.choice`、`Quot.sound`の範囲。`InWindow.mono`の個別監査は欠落。
-- `sorryAx`、`Lean.ofReduceBool`、`Lean.trustCompiler`：依存なし。
-- 最後の成功時点でコンパイルしないプロジェクト内Leanファイル：なし。現在はlakeがなく再検証不能。
+- 初期161宣言の一覧は`recovery/corrected_declarations.json`とも一致。161異なる名前を確認。
+- `InWindow.mono`の完全名を監査。ソース・コマンド・ログの各重複を拒否。
+- 回帰テスト10件が成功。監査漏れ、重複、禁止公理、旧成功文字列による誤判定を検査。
+- 14数学モジュール＋ルートimportの同一性、旧verification/保存のSHA-256照合が成功。
+- 固定Leanの実行版とmanifestの全依存checkoutを検査。最新runの環境・ログ・終了コードで判定。
+- 既存の未使用変数・simp引数のlint警告は残存。コンパイルエラーはなし。
+- GitHubへの保存とActionsの実行状況は`RECENT_RUN.md`参照。
 
-未証明の主結果を隠すための公理・追加クラスはありません。
-それらは`GAPS.md`で未実装の作業として列挙しています。
+数学的形式化の再開は別の明示的指示が必要です。未証明の主結果を隠す公理・追加クラスはありません。
+
+CI確認：実装コミットd7503e0でpush・pull_requestの双方が成功し、各12ファイルの最新ログartifactを確認済み。詳細はRECENT_RUN.mdとverification/github_ci_evidence.json。
