@@ -962,3 +962,36 @@ UTC 2026-10-08T15:53:26.118149+00:00 → 2026-10-08T16:15:34.866291+00:00。
 
 単位37公開検証20261008T155326Z-0f95e4a0は全6段階終了0。UTC15:53:26.118149→16:15:34.866291、1328.748135112秒。166数学モジュール・1654異なる宣言・749 theorem・267 named instance。保存確認は初期14/開始時60数学モジュール・歴史的577ファイルについて終了0。mainへの保存を準備し、草稿のAS周期性を継続する。
 window-chosen-normalization1、window-chosen-coherence3、window-component-coherence3、as-periodicity2は個別Lean終了0・診断なし。頂点ごとに既に証明した単純同型の存在から一度選び、全区間に同じ選択を使った。区間商射と正規化同型の可換性、成分移送の単位元・積保存と区間coherence、既存WindowSystemの貼り合わせによるAS条件からの負の周期同型まで草稿で完成した。WindowSystemや周期性をAS条件に追加していない。今回の単位37の公開監査対象には含めない。正の周期への逆同型と必要な記録・新規公開監査を続ける。
+
+
+作業中チェックポイント UTC 2026-10-08T16:35:37.973584+00:00、開始から実測34499.973584秒。継続中、タスク終了時刻ではない。
+単位37はmain 24d0fa3224de2434851fa04124fddf20f547ea17へ保存済み。公開検証20261008T155326Z-0f95e4a0は全6段階0、UTC15:53:26.118149→16:15:34.866291、1328.748135112秒、166数学モジュール・1654異なる宣言・749 theorem・267 named instance。APIのmain更新は一度ReadTimeoutになり、実際のrefが旧headであることを確認して同じ非force更新を再実行し成功した。履歴書換えはしていない。
+単位38公開検証20261008T162222Z-fddbde44は171数学モジュール・1686異なる宣言・767 theorem・268 named instanceを対象とする。lake buildはUTC16:34:41.696074に終了0、738.649917秒。全宣言の独立公理監査を開始したが全体成功とはまだ扱わない。AS条件からの区間coherenceと正負周期同型が個別検査0で完成し、原論文命題1.4の周期性を現在の公開監査で確認中。周期性をAS条件に追加していない。単位36の正確なhead f41bf2fb12efba2db79410d87207e346e8cf3441のGitHub CI37803616544はsuccessと確認した。
+左側の実際の総正則加群・全次数Extと全総代数右作用の比較まで、left-hom-colimits1、left-finite-ext-colimits1、left-regular-coproduct4、left-finite-regular-ext-comparison2、left-regular-total-algebra1、regular-left-module2、left-regular-ext-comparison1、regular-right-multiplication2、left-finite-total-ext3の個別Leanが終了0。最後の定理に定義の入れ子によるmaxRecDepthを4096へ局所的に増やした。カーネル検査や証明義務を省略していない。これら9草稿は今回単位38の公開監査対象にはまだ含めない。
+AS分解のd₁から実際のincoming生成元と成分全射を取り出すas-generators1は、exactness補題の呼出しと未使用パラメータのフィールド記法で終了1。診断ログを保持して修正中。次はAS分解から生成・関係を導く命題1.2の必要な中間結果、左総正則Extの公開検証、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理と主定理。定理3.2と系5.2は未証明で正式Lean定理文も未実装。チェックポイント後も自律的に継続する。
+
+## 単位38：AS条件からの周期性
+
+NakayamaWindowNormalization.lean、NakayamaWindowComponents.lean、NakayamaWindowCoherence.lean、PeriodInverse.lean、ASPeriodicity.leanを追加。AS条件から既に証明済みの頂点単純移送同型の存在を用い、頂点ごとに一度選び、全有限区間で同じ選択を共用する。これは原論文§1.4のγ_vの一度の選択に対応し、周期性や必要な同型を新しい仮定にしていない。
+
+End=kと実際の射影被覆によりNakayama像と移送先の切詰めrepresentableの同型を正規化し、元の右加群圏での被覆への等式を証明した。区間商射の対角成分による後合成の単射性を用い、正規化同型と下端変更の実際の商射の可換性を証明。区間同値の全忠実性と既に証明したHomによる代数成分回収を使い、成分線形同型を構成した。単位元と積を保ち、区間を広げても同じ写像であることを、実際の商射の全射性で証明した。
+
+この構成したcoherentなWindowSystemを既存の貼り合わせ定理へ渡し、ASRegularから負の周期同型を導いた。一般の実際のPeriodIsoについて、添字の明示的な線形輸送・単位元/積保存を用いて逆周期同型を構成し、ASRegularから正の周期Q.verticesも導いた。WindowSystemを入力仮定とするだけの従来の条件付き貼り合わせから進み、周期性の存在は元のAS条件から証明した。定義ASRegular、初期14数学モジュール、開始時60数学モジュールは変更していない。
+
+元の単純同型の添字等式によるデータ輸送を直接比較するとカーネル検査が長時間化した。診断用のwindow-normalization-equation2、direct1、plain1、window-module-cover-comparison1、window-simple-hom-comparison1、window-module-cover-height1は公開監査とのメモリ競合を避け対象草稿だけを終了143で停止し、ログを保存した。公開検査は中断していない。既に証明した同型のNonemptyから頂点ごとにClassical.choiceで一度選ぶ構成により、window-chosen-normalization1は個別Lean終了0・診断なし。任意Propへの数学対象の置換や独自axiomではなく、許容する標準公理Classical.choiceと実際の存在証明の使用である。
+
+window-chosen-coherence1/2の線形同型の式のrewrite不一致、window-component-coherence1/2の結合則と自然性の向き、period-inverse1の依存する成分添字の簡約不足、as-periodicity1の未作成importは終了1の草稿ログを残した。修正後のwindow-chosen-coherence3、window-component-coherence3、period-inverse2、as-periodicity3は個別Lean終了0・診断なし。
+
+単位37はmain 24d0fa3224de2434851fa04124fddf20f547ea17へ保存済み。最初のGitHub ref更新はReadTimeoutで結果を取得できなかったためリモートmainを再読し、旧headであることを確認してexpected_shaを保ったまま再実行した。成功後に正確なGitコミットオブジェクトを取り込み、ローカルmainも履歴書換えなしにfast-forwardした。
+
+左側のHomの核・余極限交換、有限生成射影とAS条件からの長さ3分解による全次数Extの直和交換、実際の左representable直和と右作用、有限次元左加群のExt直和比較と全成分右作用への適合性も個別Lean終了0の草稿で完成している。この単位38の公開監査対象には含めず、次の単位で総正則左加群への比較を継続する。
+
+次は左側総正則Ext比較、AS分解d₁からの成分分解・道代数生成の証明、標準RHomの符号・shift/derived/perfect、Jacobian商とGinzburg dg代数・d²=0・正則性、命題5.1・外部一般定理、定理3.2と系5.2。両主定理は未証明で正式Lean定理文も未実装。周期性の補助結果を主定理の完成と扱わず、検証・保存後も継続する。
+
+検証：`20261008T162222Z-fddbde44`、1404.384748221秒、全段階終了0。
+JST 2026-10-09T01:22:22.303709+09:00 → 2026-10-09T01:45:46.688467+09:00。
+UTC 2026-10-08T16:22:22.303709+00:00 → 2026-10-08T16:45:46.688467+00:00。
+171数学モジュール・1686異なる宣言・767 theorem。
+差分：runs/total-algebra-20261008-unit38.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位38公開検証20261008T162222Z-fddbde44は全6段階終了0、実際の検査シェルも終了0。UTC16:22:22.303709→16:45:46.688467、1404.384748221秒。171数学モジュール・1686異なる宣言・767 theorem・268 named instance。初期14・開始時60数学モジュールと歴史的577ファイルの無変更確認は終了0。単位37の正確なhead 24d0fa3224de2434851fa04124fddf20f547ea17のGitHub CI37807936230はsuccessと確認した。これは単位38のCIとは別の証拠。

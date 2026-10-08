@@ -1,0 +1,64 @@
+import ASGinzburg.WindowPeriodicity
+import Mathlib.Tactic
+
+
+/-! The inverse of a genuine multiplicative period isomorphism, with explicit transport of component indices. -/
+
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+def homTransport (i j i' j' : ℤ) (hi : i=i') (hj : j=j') :
+    A.Hom i j ≃ₗ[k] A.Hom i' j' := by
+  subst i'
+  subst j'
+  exact LinearEquiv.refl k _
+
+theorem homTransport_id (i i' : ℤ) (hi : i=i') :
+    A.homTransport i i i' i' hi hi (A.id i) = A.id i' := by
+  subst i'
+  rfl
+
+theorem homTransport_comp (i j l i' j' l' : ℤ) (hi : i=i') (hj : j=j') (hl : l=l')
+    (f : A.Hom i j) (g : A.Hom j l) :
+    A.homTransport i l i' l' hi hl (A.comp g f) =
+      A.comp (A.homTransport j l j' l' hj hl g) (A.homTransport i j i' j' hi hj f) := by
+  subst i'; subst j'; subst l'
+  rfl
+
+namespace PeriodIso
+variable {A} {p : ℤ} (E : A.PeriodIso p)
+
+noncomputable def shiftedMap (i j : ℤ) : A.Hom (i-p) (j-p) ≃ₗ[k] A.Hom i j :=
+  (E.map (i-p) (j-p)).trans
+    (A.homTransport (i-p+p) (j-p+p) i j (sub_add_cancel _ _) (sub_add_cancel _ _))
+
+theorem shiftedMap_id (i : ℤ) : E.shiftedMap i i (A.id (i-p)) = A.id i := by
+  rw [shiftedMap,LinearEquiv.trans_apply,E.map_id,A.homTransport_id]
+
+theorem shiftedMap_comp {i j l : ℤ} (f : A.Hom (i-p) (j-p)) (g : A.Hom (j-p) (l-p)) :
+    E.shiftedMap i l (A.comp g f) = A.comp (E.shiftedMap j l g) (E.shiftedMap i j f) := by
+  rw [shiftedMap,LinearEquiv.trans_apply,E.map_comp,A.homTransport_comp]
+  rfl
+
+noncomputable def inverseComponent (i j : ℤ) : A.Hom i j ≃ₗ[k] A.Hom (i-p) (j-p) :=
+  (E.shiftedMap i j).symm
+
+theorem inverseComponent_id (i : ℤ) : E.inverseComponent i i (A.id i) = A.id (i-p) := by
+  apply (E.shiftedMap i i).injective
+  rw [inverseComponent,LinearEquiv.apply_symm_apply,E.shiftedMap_id]
+
+theorem inverseComponent_comp {i j l : ℤ} (f : A.Hom i j) (g : A.Hom j l) :
+    E.inverseComponent i l (A.comp g f) =
+      A.comp (E.inverseComponent j l g) (E.inverseComponent i j f) := by
+  apply (E.shiftedMap i l).injective
+  rw [inverseComponent,LinearEquiv.apply_symm_apply,E.shiftedMap_comp]
+  simp only [inverseComponent,LinearEquiv.apply_symm_apply]
+
+noncomputable def inverse : A.PeriodIso (-p) where
+  map i j := by simpa only [sub_eq_add_neg] using E.inverseComponent i j
+  map_id i := by simpa only [sub_eq_add_neg] using E.inverseComponent_id i
+  map_comp f g := by simpa only [sub_eq_add_neg] using E.inverseComponent_comp f g
+
+end PeriodIso
+end ASGinzburg.ZAlgebra

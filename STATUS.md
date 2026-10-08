@@ -1,8 +1,8 @@
 # 現在の状況
 
-総空間の成分線形双対と通常のk値双対のcanonicalな線形同型・左右の射に対する自然性・全総代数作用への適合性まで完成。有限区間Nakayamaの包含比較、区間内部の被覆正規化等式、実際の右加群射と合成保存・正規化した被覆の右加群同型まで完成。元の右加群圏での正規化等式と区間coherenceによるAS周期性、左側総正則Ext比較、標準RHom/derived/perfect、命題5.1と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
-最新ローカル検証 20261008T155326Z-0f95e4a0：166数学モジュール・1654異なる宣言・749 theorem、全段階終了0。
-単位1〜37の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+元のAS条件から、頂点ごとの一度の単純同型の選択による射影被覆の正規化、区間商射との可換性、成分移送の単位元・積保存と区間coherenceを証明。構成したWindowSystemを貼り合わせ、ASRegularから正負の周期Q.verticesを証明。周期性・WindowSystemをAS条件に追加していない。総ベクトル双対の自然比較と全作用適合性は単位37で完成。左側総正則Ext比較、AS分解d₁からの道代数生成、標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、命題5.1と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
+最新ローカル検証 20261008T162222Z-fddbde44：171数学モジュール・1686異なる宣言・767 theorem、全段階終了0。
+単位1〜38の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -12,7 +12,7 @@
 p≠3で零、p=3でs^left_(tau^{-1}w)に同型であることを左作用ごと証明しました。
 Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjectives・実際のExtの存在も完成しました。
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
-既存モデルのExt(s_w,⊕P_i)への直和交換は完成。原論文の局所単位付きGr(A)モデルとの圏同値は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送も完成。有限次元加群の実際Ext³反変同値と成分線形双対の反変同値は完成。周期性と主定理は未証明です。
+既存モデルのExt(s_w,⊕P_i)への直和交換は完成。原論文の局所単位付きGr(A)モデルとの圏同値は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送も完成。有限次元加群の実際Ext³反変同値と成分線形双対の反変同値は完成。AS条件からの正負周期性は証明済み。主定理は未証明です。
 
 前回ext-sumsでは開始時51数学モジュールに9モジュールを追加。8証明単位を個別Leanと全体ビルド・公理監査で検査してmainへ保存。
 初期14モジュール・入力PDF・checkpoints/・recovery/は無変更。
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1654異なる名前、全明示的宣言・267 named instanceを含む、終了0 |
-| theorem | 749、全件が監査対象 |
+| 個別公理監査 | 1686異なる名前、全明示的宣言・268 named instanceを含む、終了0 |
+| theorem | 767、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T155326Z-0f95e4a0`、全段階終了0、1328.748135112秒。
-UTC 2026-10-08T15:53:26.118149+00:00 → 2026-10-08T16:15:34.866291+00:00。
-JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
+最新ローカル検証 `20261008T162222Z-fddbde44`、全段階終了0、1404.384748221秒。
+UTC 2026-10-08T16:22:22.303709+00:00 → 2026-10-08T16:45:46.688467+00:00。
+JST 2026-10-09T01:22:22.303709+09:00 → 2026-10-09T01:45:46.688467+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -50,10 +50,10 @@ JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
 | (1.6)–(1.7)の基盤 | `RightModuleExt.lean` | 標準projective resolutionと正次数exactness、実際のderived-category Ext、Ext⁰(P_i,M)≃+M_i、高次Ext(P_i,M)=0 | 全M,N・全次数の自然なHom複体–Ext比較 |
 | 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 実際のExt移送による原論文(1.12)の左作用を含む比較 |
 | 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 一般の自然な比較（今回、命題1.3の3次は接続済み） |
-| 有限区間の代数回収と商射 | TruncatedRepresentableHom、TruncatedRepresentableRestrictions、TruncatedCoverComponents | 元の全代数成分とHomの線形同型、単位元/積保存、下端変更の全射と被覆・Homへの自然性、対角被覆同型と後合成単射性 | 正規化したNakayama同型の区間商射への適合性、成分移送のcoherenceと周期性 |
-| 有限区間の射影被覆と移送 | NakayamaInverseWindowSupport、NakayamaWindowEquivalence、TruncatedRepresentables、NormalizedProjectiveCovers、FiniteWindowProjectives、NakayamaWindowProjectives | 逆関手の台保存、線形exactな区間同値、実際の切詰めrepresentableの有限性・Yoneda・射影被覆の本質性、End=kと正規化した移送同型 | 代数成分回収と区間変更のcoherence、ASからの周期性 |
-| 有限区間と単純の移送 | RightSingleSupportIsomorphism、SimpleVectorDuality、FiniteDimensionalSimpleTranslation、FiniteDimensionalWindows、FiniteDimensionalWindowSequences、NakayamaWindowSupport | 双対の頂点単純同型、ASからNakayamaのτ⁻¹移送、有限区間Abelian構造と包含のexactness、組成列による区間台の負方向シフト | 逆像の台保存・区間同値・射影被覆と正規化は単位35で完成。coherenceと周期性 |
-| 命題1.4の貼り合わせ | `WindowPeriodicity.lean` | coherentな区間同型から積と単位元を保つ周期同型を構成 | 頂点単純移送と区間台の順方向保存は完成。逆方向保存・区間同値・射影被覆とcoherence |
+| 有限区間の代数回収と商射 | TruncatedRepresentableHom、TruncatedRepresentableRestrictions、TruncatedCoverComponents | 元の全代数成分とHomの線形同型、単位元/積保存、下端変更の全射と被覆・Homへの自然性、対角被覆同型と後合成単射性 | 区間商射適合性・coherence・AS周期性は単位38で完成 |
+| 有限区間の射影被覆と移送 | NakayamaInverseWindowSupport、NakayamaWindowEquivalence、TruncatedRepresentables、NormalizedProjectiveCovers、FiniteWindowProjectives、NakayamaWindowProjectives | 逆関手の台保存、線形exactな区間同値、実際の切詰めrepresentableの有限性・Yoneda・射影被覆の本質性、End=kと正規化した移送同型 | 代数成分回収・区間coherence・AS周期性も完成 |
+| 有限区間と単純の移送 | RightSingleSupportIsomorphism、SimpleVectorDuality、FiniteDimensionalSimpleTranslation、FiniteDimensionalWindows、FiniteDimensionalWindowSequences、NakayamaWindowSupport | 双対の頂点単純同型、ASからNakayamaのτ⁻¹移送、有限区間Abelian構造と包含のexactness、組成列による区間台の負方向シフト | 区間同値・射影被覆・coherenceとAS周期性も完成 |
+| 命題1.4のAS周期性 | WindowPeriodicity、NakayamaWindowNormalization、NakayamaWindowComponents、NakayamaWindowCoherence、PeriodInverse、ASPeriodicity | AS条件からの被覆正規化・商射適合性・成分移送のcoherence・正負の周期同型 | 標準RHom/derived/perfectは別の未完成事項 |
 | 命題3.1の共役段階 | `Conjugation.lean` | 完全忠実な線形関手と対象同型から、積を保つHom線形同型を構成 | tilting、Serre functor、高次preprojectiveとの同定 |
 | §4、§5の数値計算 | `Hilbert.lean` | 一般の正のlagの漸化式の一意性、quadratic Hilbert値、増大上界 | exact resolutionからのEuler式、del Pezzo模型との幾何的比較 |
 | 系5.2の線形表示 | `Tensor333.lean` | 実際の三重テンソル積、係数表示、cut関係への同型、27次元、基底変更 | tensor・potential・Jacobian代数の完全な比較 |
@@ -62,7 +62,7 @@ JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
 | 一般radical・minimality | RightModuleRadical、RightModuleMinimality、RightModuleSimpleHom | 閉性・自然性、radicalを通る因子化、Hom(-,s_i)の零微分 | 有限生成projective coverの一般理論 |
 | (1.6)の具体的分解 | ASResolution、ASResolutionComplex、ASResolutionSyzygies | 有限coproductの射影性、完全最小列、mathlib ProjectiveResolution、三つの実際の短完全列 | 特定の代数について分解の存在 |
 | (1.7)の具体的条件 | RightModuleExtLinear、ASRegular | 実際Extのk作用、Ext⁰の線形同型、総Cardinal rank=1、各Extの有限次元性 | 実際のExtのk線形な保存と原論文Gr(A)内のAS条件の比較 |
-| 命題1.3の順方向 | ASResolutionHomComplex、ASDualityHomTerms、ASDualityHomCohomology、RightModuleExtSequence、ASDualityExt、ASDualityDimension | 実際のHom複体、線形dimension shift、実際Ext³≃k、他Ext消滅、(1.11)の数値公式と有限台 | Gr(A)比較による原論文(1.12)、周期性、一般の自然なHom–Ext比較 |
+| 命題1.3の順方向 | ASResolutionHomComplex、ASDualityHomTerms、ASDualityHomCohomology、RightModuleExtSequence、ASDualityExt、ASDualityDimension | 実際のHom複体、線形dimension shift、実際Ext³≃k、他Ext消滅、(1.11)の数値公式と有限台 | (1.12)の移送とAS周期性は完成。一般の自然なHom–Ext比較 |
 | 有限AS分解からのExt有限性・数値的同値 | ASResolutionExtBounds、RightModuleHomFinite、ASResolutionExtFinite、ASDualityEquivalence | 任意Nへの次数4以上の消滅、Ext(s_w,P_i,p)の全次数有限性、(1.7)と(1.11)の両方向 | 実際のExt保存によるGr(A)への移送 |
 | 左加群・左単純商・Ext左作用 | LeftModules、LeftModuleAbelian、LeftModuleHomology、LeftSubmodules、SimpleLeftModules、RightModuleExtLeftAction、ASDualityLeftComponents | 左Abelian圏、A-dual、左radical商、Simple、Ext成分左加群の次数集中と左単純商への同型 | 総作用と圏同値は完成。実際のExt保存・自然性と原論文(1.12)への移送 |
 | 余極限交換と左射影基盤 | RepresentableHomColimits、LeftModuleProjectives、LeftModuleEnoughProjectives、LeftModuleExt | Hom(P_i,-)・Ext⁰(P_i,-)の自然な交換、左線形Yoneda・射影性・EnoughProjectives・標準分解・実際Ext | 一般の二重双対・有限生成射影への拡張、Gr(A)比較 |
@@ -90,11 +90,11 @@ JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
 
 | 有限次元加群の四項複体とExt交換 | FourTermProjectiveResolution、FiniteProjectiveFourTermResolution、ASFiniteDimensionalProjectiveResolution、ProjectiveResolutionHomExactness、FiniteProjectiveHomColimits、FiniteProjectiveResolutionExtColimits | 全項有限生成射影の実際の四項ProjectiveResolution・次数4以上零性・Hom複体のexactness・右有限次元加群の全次数Extの余極限/直和交換 | 総正則Extへの左作用適合比較・二重Ext自然同型 |
 
-| 総正則Extと二重Ext対象同型 | RightResolutionDuality、LeftResolutionDuality、RightResolutionExtBidual、LeftResolutionExtBidual、FiniteDimensionalExtBidual、FiniteDimensionalRegularExtComparison | 一般四項分解の双対分解・canonical二重Ext対象同型、右有限次元加群の総正則Ext比較と全左作用適合性 | 二重Ext自然同型と有限次元Ext³反変同値は後続単位で完成。左側総正則Ext比較と周期性 |
+| 総正則Extと二重Ext対象同型 | RightResolutionDuality、LeftResolutionDuality、RightResolutionExtBidual、LeftResolutionExtBidual、FiniteDimensionalExtBidual、FiniteDimensionalRegularExtComparison | 一般四項分解の双対分解・canonical二重Ext対象同型、右有限次元加群の総正則Ext比較と全左作用適合性 | 二重Ext自然同型と有限次元Ext³反変同値は後続単位で完成。左側総正則Ext比較。周期性は完成 |
 
-| 二重Ext自然同型と有限次元Ext³反変同値 | ExtClassNaturality、ProjectiveResolutionSyzygyNaturality、ResolutionExtBoundaryNaturality、DualResolutionComparisonMaps、ResolutionExtBidualNaturality、FiniteDimensionalExtEquivalence | mapping coneから実際Ext接続の自然性・双対分解比較射とcanonical評価の自然性・左右二重Ext自然同型・実際Ext³反変同値 | 有限次元Abelian部分圏と成分線形双対は後続単位で完成。有限区間の周期性 |
+| 二重Ext自然同型と有限次元Ext³反変同値 | ExtClassNaturality、ProjectiveResolutionSyzygyNaturality、ResolutionExtBoundaryNaturality、DualResolutionComparisonMaps、ResolutionExtBidualNaturality、FiniteDimensionalExtEquivalence | mapping coneから実際Ext接続の自然性・双対分解比較射とcanonical評価の自然性・左右二重Ext自然同型・実際Ext³反変同値 | 有限次元Abelian部分圏・成分線形双対・有限区間のcoherenceとAS周期性も完成 |
 
-| 有限次元Abelian部分圏と線形双対 | FiniteDiagramClosureMaps、FiniteDimensionalAbelian、SmallVectorDuality、ModuleVectorDuality、FiniteDimensionalVectorDuality、FiniteDimensionalNakayama | 左右有限次元Abelian圏・有限極限/余極限の閉性・成分線形双対の自然な反変同値・Ext³との合成による線形exactな自己同値 | 総空間のベクトル双対比較・全作用適合性、頂点/有限区間の移送と射影被覆は完成。残る義務は区間coherence・AS周期性・左側総正則Ext比較 |
+| 有限次元Abelian部分圏と線形双対 | FiniteDiagramClosureMaps、FiniteDimensionalAbelian、SmallVectorDuality、ModuleVectorDuality、FiniteDimensionalVectorDuality、FiniteDimensionalNakayama | 左右有限次元Abelian圏・有限極限/余極限の閉性・成分線形双対の自然な反変同値・Ext³との合成による線形exactな自己同値 | 総空間のベクトル双対比較・全作用適合性、頂点/有限区間の移送と射影被覆は完成。区間coherence・AS周期性は完成。残る義務は左側総正則Ext比較 |
 
 ## 主結果の状態
 
@@ -102,7 +102,7 @@ JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
 |---|---|
 | 定理3.2：一般の型QのAS–Ginzburg対応 | 未証明。形式的な定理文も未実装 |
 | 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数・左右総作用と具体的局所単位付きGr(A)モデルへの圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。単純加群の(1.12)の左作用を含む移送は完成。一般有限次元右MのExt(M,A)比較と全左作用への適合性も完成。左側の総正則Ext比較は未完成 |
-| 命題1.4：AS条件からの周期性 | 未証明。coherentな区間同型を仮定した最後の貼り合わせのみ |
+| 命題1.4：AS条件からの周期性 | 証明済み。ASRegular.nakayamaWindowSystemから正負の周期同型を構成。周期性を入力条件に追加していない |
 | 命題5.1：三周期性 | 未証明 |
 | 系5.2：(3,3,3)型の全単射 | 未証明。形式的な定理文も未実装 |
 
@@ -110,14 +110,14 @@ JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
 
 ASResolutionの存在は原論文定義(i)の条件をモデル化したもの。任意のAで導いたとは扱わない。
 ASRegularの条件には周期性・WindowSystem・delta型のExt表・主定理相当の結論を含めない。
-既存の数値表・共役・WindowSystemの補題の入力を原論文から導く未証明部分も残る。
+数値Ext表とcoherentなWindowSystemはAS条件から導いている。幾何的な共役・tilting・CY completionへの入力を原論文から導く証明義務は残る。
 標準無限分解だけから有限性を主張しない。
 古いleftDerived型ExtのisoExtを新しいAbelian.Extの比較定理と取り違えない。
 
 - Gr(A)モデルとの左右圏同値とAbelian構造は完成。実際のExt保存と自然性も完成。正則加群の同定と(1.12)への移送。
 - 全M,N・全次数の自然なHom複体–Abelian.Ext比較。命題1.3の3次比較は証明済み。
 - A-dual・左単純商の同型、全次数Extと直和の交換、成分左作用への適合性は完成。総代数・局所単位付き加群との圏同値・Abelian構造は完成。実際の全次数Ext保存と自然性も完成。正則加群の同定と全左作用を保つ実際のExt移送は完成。(1.12)の左加群の束ねと次数3の同型が次の義務。
-- 有限長双対性、区間同型のcoherence、AS条件からの周期性。WindowSystemをAS条件に加えない。
+- 有限長Ext双対性と区間coherence、AS条件からの正負周期性は完成。左側総正則Ext比較と標準RHom/derived/perfectへの接続を続ける。
 - 特定のJacobian代数についてAS分解の存在、Jacobian商とGinzburg dg代数、外部一般定理、主定理の同型類対応。
 
 ソースにsorry/admit/独自axiomなし。公理依存はpropext、Classical.choice、Quot.soundのみ。

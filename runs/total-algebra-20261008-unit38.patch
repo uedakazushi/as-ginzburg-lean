@@ -1,0 +1,528 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 3a03593..0a0eb48 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -169,6 +169,12 @@ import ASGinzburg.NakayamaWindowComparisons
+ import ASGinzburg.NakayamaUnderlyingMaps
+ import ASGinzburg.NakayamaRepresentableUnderlying
+ 
++import ASGinzburg.NakayamaWindowNormalization
++import ASGinzburg.NakayamaWindowComponents
++import ASGinzburg.NakayamaWindowCoherence
++import ASGinzburg.PeriodInverse
++import ASGinzburg.ASPeriodicity
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index d9df797..35913ce 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -124,6 +124,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionTermFiniteProjective
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionComplex_isZero_ge_four
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.leftSimpleProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.ASRegular.nakayamaWindowSystem
++#print axioms ASGinzburg.ZAlgebra.ASRegular.negativePeriodIso
++#print axioms ASGinzburg.ZAlgebra.ASRegular.isPeriodic_negative
++#print axioms ASGinzburg.ZAlgebra.ASRegular.periodIso
++#print axioms ASGinzburg.ZAlgebra.ASRegular.isPeriodic
+ #print axioms ASGinzburg.ZAlgebra.asExtTotalRank
+ #print axioms ASGinzburg.ZAlgebra.ASRegular
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.resolution
+@@ -980,12 +985,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableIso_hom_cover
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaUnderlyingMap
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaUnderlyingMap_comp
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaComponentEquiv_coherent
+ #print axioms ASGinzburg.equivalenceMk_functor_eq
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalence_functor_eq
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIsoWith
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIsoWith_underlying_hom
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIso_underlying_hom
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctor_underlying_map
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableModuleIso_restriction
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaComponentEquiv
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaComponentEquiv_hom
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaComponentEquiv_id
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaComponentEquiv_comp
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctor
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaInverseFunctor
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaUnitIso
+@@ -996,6 +1007,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalenceFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalenceFunctorLinear
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayama_shortExact
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaSimpleChosenIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenSimpleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenSimpleIso_hom_eq
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableCover
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableCoverEpi
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableCover_nonzero
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentable_cover_rigidity
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableIso_hom_cover
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableModuleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaChosenRepresentableModuleIso_hom_cover
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIso
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableCover
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableCoverEpi
+@@ -1025,6 +1047,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathComp_id
+ #print axioms ASGinzburg.CutQuiver.id_pathComp
+ #print axioms ASGinzburg.CutQuiver.pathComp_assoc
++#print axioms ASGinzburg.ZAlgebra.homTransport
++#print axioms ASGinzburg.ZAlgebra.homTransport_id
++#print axioms ASGinzburg.ZAlgebra.homTransport_comp
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.shiftedMap
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.shiftedMap_id
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.shiftedMap_comp
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.inverseComponent
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.inverseComponent_id
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.inverseComponent_comp
++#print axioms ASGinzburg.ZAlgebra.PeriodIso.inverse
+ #print axioms ASGinzburg.extensionProjectiveπ
+ #print axioms ASGinzburg.extensionProjectiveπ_inl
+ #print axioms ASGinzburg.extensionProjectiveπ_g
+diff --git a/ASGinzburg/NakayamaWindowNormalization.lean b/ASGinzburg/NakayamaWindowNormalization.lean
+new file mode 100644
+index 0000000..edee0e9
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowNormalization.lean
+@@ -0,0 +1,111 @@
++import ASGinzburg.NakayamaRepresentableUnderlying
++
++
++/-! Choose the proved simple isomorphism once per vertex and normalize all finite-window projective-cover isomorphisms with the same choice. -/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++/-- Choose once for each vertex from the already proved simple isomorphism.
++This packages an actual existence proof, rather than adding an assumption. -/
++noncomputable def rightFiniteDimensionalNakayamaSimpleChosenIso (hAS : A.ASRegular Q) (i : ℤ) :
++    (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.obj
++      (A.rightFiniteDimensionalSimple i) ≅ A.rightFiniteDimensionalSimple (i-Q.vertices) :=
++  Classical.choice ⟨A.rightFiniteDimensionalNakayamaSimpleHeightIso Q hAS i⟩
++
++noncomputable def rightFiniteWindowNakayamaChosenSimpleIso (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++      (A.rightFiniteWindowSimple l r i hli hir) ≅
++      A.rightFiniteWindowSimple (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++        (sub_le_sub_right hli _) (sub_le_sub_right hir _) :=
++  A.rightFiniteWindowNakayamaSimpleIsoWith Q hAS l r i hli hir
++    (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i)
++
++theorem rightFiniteWindowNakayamaChosenSimpleIso_hom_eq (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaChosenSimpleIso Q hAS l r i hli hir).hom =
++      (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i).hom := rfl
++
++noncomputable def rightFiniteWindowNakayamaChosenRepresentableCover (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++      (A.rightFiniteWindowRepresentable l r i hir) ⟶
++      A.rightFiniteWindowSimple (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++        (sub_le_sub_right hli _) (sub_le_sub_right hir _) :=
++  (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.map
++    (A.rightFiniteWindowRepresentableCover l r i hli hir) ≫
++      (A.rightFiniteWindowNakayamaChosenSimpleIso Q hAS l r i hli hir).hom
++
++instance rightFiniteWindowNakayamaChosenRepresentableCoverEpi (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    Epi (A.rightFiniteWindowNakayamaChosenRepresentableCover Q hAS l r i hli hir) := by
++  dsimp [rightFiniteWindowNakayamaChosenRepresentableCover]
++  infer_instance
++
++theorem rightFiniteWindowNakayamaChosenRepresentableCover_nonzero (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    A.rightFiniteWindowNakayamaChosenRepresentableCover Q hAS l r i hli hir ≠ 0 := by
++  intro h
++  have H := IsZero.of_epi_eq_zero _ h
++  have H' := A.rightFiniteDimensionalProperty.ι.map_isZero
++    ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map_isZero H)
++  exact Simple.not_isZero (A.simpleRightModule (i-Q.vertices)) H'
++
++theorem rightFiniteWindowNakayamaChosenRepresentable_cover_rigidity (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
++    (t : (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++      (A.rightFiniteWindowRepresentable l r i hir) ⟶
++      (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++        (A.rightFiniteWindowRepresentable l r i hir))
++    (ht : t ≫ A.rightFiniteWindowNakayamaChosenRepresentableCover Q hAS l r i hli hir =
++      A.rightFiniteWindowNakayamaChosenRepresentableCover Q hAS l r i hli hir) : t = 𝟙 _ :=
++  ASGinzburg.endomorphism_eq_id_of_preserves_nonzero_map
++    (A.rightFiniteWindowNakayamaRepresentableEnd_finrank Q hAS l r i hli hir) _
++    (A.rightFiniteWindowNakayamaChosenRepresentableCover_nonzero Q hAS l r i hli hir) t ht
++
++noncomputable def rightFiniteWindowNakayamaChosenRepresentableIso (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++      (A.rightFiniteWindowRepresentable l r i hir) ≅
++      A.rightFiniteWindowRepresentable (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++        (sub_le_sub_right hir _) :=
++  ASGinzburg.normalizedProjectiveIso
++    (A.rightFiniteWindowNakayamaChosenRepresentableCover Q hAS l r i hli hir)
++    (A.rightFiniteWindowRepresentableCover (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++      (sub_le_sub_right hli _) (sub_le_sub_right hir _))
++    (A.rightFiniteWindowNakayamaChosenRepresentable_cover_rigidity Q hAS l r i hli hir)
++    (A.rightFiniteWindowRepresentable_cover_rigidity (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++      (sub_le_sub_right hli _) (sub_le_sub_right hir _))
++
++theorem rightFiniteWindowNakayamaChosenRepresentableIso_hom_cover (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).hom ≫
++      A.rightFiniteWindowRepresentableCover (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++        (sub_le_sub_right hli _) (sub_le_sub_right hir _) =
++      A.rightFiniteWindowNakayamaChosenRepresentableCover Q hAS l r i hli hir :=
++  ASGinzburg.normalizedProjectiveIso_hom_comp _ _ _ _
++
++noncomputable def rightFiniteWindowNakayamaChosenRepresentableModuleIso (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    A.rightFiniteDimensionalNakayamaUnderlying Q hAS (A.rightTruncatedRepresentable l i)
++        (A.rightTruncatedRepresentable_finite l i) ≅
++      A.rightTruncatedRepresentable (l-Q.vertices) (i-Q.vertices) :=
++  { hom := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).hom
++    inv := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).inv
++    hom_inv_id := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).hom_inv_id
++    inv_hom_id := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).inv_hom_id }
++
++theorem rightFiniteWindowNakayamaChosenRepresentableModuleIso_hom_cover (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r i hli hir).hom ≫
++        A.rightTruncatedRepresentableSimpleCover (l-Q.vertices) (i-Q.vertices) (sub_le_sub_right hli _) =
++      A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++        (A.rightTruncatedRepresentable_finite l i) (A.rightFiniteDimensional_simple i)
++        (A.rightTruncatedRepresentableSimpleCover l i hli) ≫
++          (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i).hom :=
++  A.rightFiniteWindowNakayamaChosenRepresentableIso_hom_cover Q hAS l r i hli hir
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaWindowComponents.lean b/ASGinzburg/NakayamaWindowComponents.lean
+new file mode 100644
+index 0000000..925f079
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowComponents.lean
+@@ -0,0 +1,125 @@
++import ASGinzburg.NakayamaWindowNormalization
++import ASGinzburg.Conjugation
++import ASGinzburg.WindowPeriodicity
++
++/-! Recover multiplicative algebra-component maps from the normalized finite-window Nakayama equivalence. -/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++@[reassoc] theorem rightFiniteWindowNakayamaChosenRepresentableModuleIso_restriction (hAS : A.ASRegular Q)
++    (l r l' r' i : ℤ) (hli : l ≤ i) (hir : i ≤ r) (hl : l' ≤ l) (hr : r ≤ r') :
++    A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++        (A.rightTruncatedRepresentable_finite l' i) (A.rightTruncatedRepresentable_finite l i)
++        (A.rightTruncatedRepresentableRestriction l' l i hl) ≫
++          (A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r i hli hir).hom =
++      (A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l' r' i (hl.trans hli) (hir.trans hr)).hom ≫
++        A.rightTruncatedRepresentableRestriction (l'-Q.vertices) (l-Q.vertices) (i-Q.vertices)
++          (sub_le_sub_right hl _) := by
++  let e := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r i hli hir
++  let e' := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l' r' i (hl.trans hli) (hir.trans hr)
++  let q := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l' i) (A.rightTruncatedRepresentable_finite l i)
++    (A.rightTruncatedRepresentableRestriction l' l i hl)
++  let q' := A.rightTruncatedRepresentableRestriction (l'-Q.vertices) (l-Q.vertices) (i-Q.vertices)
++    (sub_le_sub_right hl _)
++  let p := A.rightTruncatedRepresentableSimpleCover (l-Q.vertices) (i-Q.vertices) (sub_le_sub_right hli _)
++  let p' := A.rightTruncatedRepresentableSimpleCover (l'-Q.vertices) (i-Q.vertices)
++    (sub_le_sub_right (hl.trans hli) _)
++  let γ := (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i).hom
++  let np := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l i) (A.rightFiniteDimensional_simple i)
++    (A.rightTruncatedRepresentableSimpleCover l i hli)
++  let np' := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l' i) (A.rightFiniteDimensional_simple i)
++    (A.rightTruncatedRepresentableSimpleCover l' i (hl.trans hli))
++  have he : e.hom ≫ p = np ≫ γ := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso_hom_cover Q hAS l r i hli hir
++  have he' : e'.hom ≫ p' = np' ≫ γ := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso_hom_cover Q hAS l' r' i _ _
++  have hq : q ≫ np = np' := by
++    dsimp [q,np,np']
++    rw [← A.rightFiniteDimensionalNakayamaUnderlyingMap_comp,
++      A.rightTruncatedRepresentableRestriction_cover]
++  have hq' : q' ≫ p = p' := A.rightTruncatedRepresentableRestriction_cover _ _ _ _ _
++  letI : IsIso ((A.rightModuleEvaluation (i-Q.vertices)).map p) :=
++    A.rightTruncatedRepresentableSimpleCover_component_isIso _ _ _
++  have h : e'.inv ≫ q ≫ e.hom = q' := by
++    apply A.rightTruncatedRepresentable_postcomp_injective (l'-Q.vertices) (i-Q.vertices)
++      (fun j hj => A.rightTruncatedRepresentable_below (l-Q.vertices) (i-Q.vertices) j (by omega))
++      (fun j hj => A.simpleRightModule_off_diagonal (i-Q.vertices) j (by omega)) p
++    calc
++      (e'.inv ≫ q ≫ e.hom) ≫ p = e'.inv ≫ q ≫ (np ≫ γ) := by simp only [Category.assoc,he]
++      _ = e'.inv ≫ np' ≫ γ := by rw [← Category.assoc q np γ,hq]
++      _ = e'.inv ≫ e'.hom ≫ p' := by rw [← he']
++      _ = p' := by simp
++      _ = q' ≫ p := hq'.symm
++  change q ≫ e.hom = e'.hom ≫ q'
++  rw [← h]
++  simp
++
++noncomputable def rightFiniteWindowNakayamaComponentEquiv (hAS : A.ASRegular Q)
++    (l r i j : ℤ) (hi : InWindow l r i) (hj : InWindow l r j) :
++    A.Hom i j ≃ₗ[k] A.Hom (i-Q.vertices) (j-Q.vertices) := by
++  let E := (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor
++  let P := A.rightFiniteWindowRepresentable l r i hi.2
++  let R := A.rightFiniteWindowRepresentable l r j hj.2
++  let h : (P ⟶ R) ≃ₗ[k] (E.obj P ⟶ E.obj R) :=
++    LinearEquiv.ofBijective (E.mapLinearMap k) ⟨E.map_injective,E.map_surjective⟩
++  exact (A.rightTruncatedRepresentableHomComponentEquiv l i j hi.1).trans
++    ((h.trans (Linear.homCongr k
++      (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hi.1 hi.2)
++      (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r j hj.1 hj.2))).trans
++        (A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (j-Q.vertices)
++          (sub_le_sub_right hi.1 _)).symm)
++
++theorem rightFiniteWindowNakayamaComponentEquiv_hom (hAS : A.ASRegular Q)
++    (l r i j : ℤ) (hi : InWindow l r i) (hj : InWindow l r j) (x : A.Hom i j) :
++    A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (j-Q.vertices)
++        (sub_le_sub_right hi.1 _) (A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r i j hi hj x) =
++      (A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r i hi.1 hi.2).inv ≫
++        A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS (A.rightTruncatedRepresentable_finite l i)
++          (A.rightTruncatedRepresentable_finite l j) (A.rightTruncatedRepresentableHomComponentEquiv l i j hi.1 x) ≫
++            (A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r j hj.1 hj.2).hom := by
++  unfold rightFiniteWindowNakayamaComponentEquiv
++  rw [LinearEquiv.trans_apply,LinearEquiv.trans_apply,LinearEquiv.trans_apply]
++  change (A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (j-Q.vertices)
++    (sub_le_sub_right hi.1 _))
++      ((A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (j-Q.vertices)
++        (sub_le_sub_right hi.1 _)).symm _) = _
++  refine ((A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (j-Q.vertices)
++    (sub_le_sub_right hi.1 _)).apply_symm_apply _).trans ?_
++  change _ ≫ A.rightFiniteDimensionalProperty.ι.map
++    ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map
++      ((A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.map
++        (show A.rightFiniteWindowRepresentable l r i hi.2 ⟶ A.rightFiniteWindowRepresentable l r j hj.2 from
++          A.rightTruncatedRepresentableHomComponentEquiv l i j hi.1 x))) ≫ _ = _
++  rw [A.rightFiniteWindowNakayamaFunctor_underlying_map]
++  rfl
++
++theorem rightFiniteWindowNakayamaComponentEquiv_id (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hi : InWindow l r i) :
++    A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r i i hi hi (A.id i) = A.id (i-Q.vertices) := by
++  apply (A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (i-Q.vertices)
++    (sub_le_sub_right hi.1 _)).injective
++  rw [A.rightFiniteWindowNakayamaComponentEquiv_hom,A.rightTruncatedRepresentableHomComponentEquiv_id,
++    A.rightTruncatedRepresentableHomComponentEquiv_id]
++  change _ ≫ (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map
++    (𝟙 (⟨A.rightTruncatedRepresentable l i,A.rightTruncatedRepresentable_finite l i⟩ : A.RightFiniteDimensional)) ≫ _ = _
++  rw [CategoryTheory.Functor.map_id]
++  exact (A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r i hi.1 hi.2).inv_hom_id
++
++theorem rightFiniteWindowNakayamaComponentEquiv_comp (hAS : A.ASRegular Q)
++    (l r i j m : ℤ) (hi : InWindow l r i) (hj : InWindow l r j) (hm : InWindow l r m)
++    (f : A.Hom i j) (g : A.Hom j m) :
++    A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r i m hi hm (A.comp g f) =
++      A.comp (A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r j m hj hm g)
++        (A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r i j hi hj f) := by
++  apply (A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (m-Q.vertices)
++    (sub_le_sub_right hi.1 _)).injective
++  rw [A.rightTruncatedRepresentableHomComponentEquiv_comp _ _ _ _ _ (sub_le_sub_right hj.1 _),
++    A.rightFiniteWindowNakayamaComponentEquiv_hom,A.rightFiniteWindowNakayamaComponentEquiv_hom,
++    A.rightFiniteWindowNakayamaComponentEquiv_hom,
++    A.rightTruncatedRepresentableHomComponentEquiv_comp l i j m hi.1 hj.1,
++    A.rightFiniteDimensionalNakayamaUnderlyingMap_comp Q hAS _ (A.rightTruncatedRepresentable_finite l j)]
++  simp [Category.assoc]
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaWindowCoherence.lean b/ASGinzburg/NakayamaWindowCoherence.lean
+new file mode 100644
+index 0000000..19a81b6
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowCoherence.lean
+@@ -0,0 +1,68 @@
++import ASGinzburg.NakayamaWindowComponents
++
++
++/-! Compatibility of the actual algebra-component translations on enlarging finite windows. -/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem rightFiniteWindowNakayamaComponentEquiv_coherent (hAS : A.ASRegular Q)
++    (l r l' r' i j : ℤ) (hi : InWindow l r i) (hj : InWindow l r j)
++    (hl : l' ≤ l) (hr : r ≤ r') :
++    A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r i j hi hj =
++      A.rightFiniteWindowNakayamaComponentEquiv Q hAS l' r' i j (hi.mono hl hr) (hj.mono hl hr) := by
++  apply LinearEquiv.ext
++  intro x
++  let eI := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r i hi.1 hi.2
++  let eJ := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l r j hj.1 hj.2
++  let eI' := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l' r' i
++    (hl.trans hi.1) (hi.2.trans hr)
++  let eJ' := A.rightFiniteWindowNakayamaChosenRepresentableModuleIso Q hAS l' r' j
++    (hl.trans hj.1) (hj.2.trans hr)
++  let qi := A.rightTruncatedRepresentableRestriction l' l i hl
++  let qj := A.rightTruncatedRepresentableRestriction l' l j hl
++  let qi' := A.rightTruncatedRepresentableRestriction (l'-Q.vertices) (l-Q.vertices) (i-Q.vertices)
++    (sub_le_sub_right hl _)
++  let qj' := A.rightTruncatedRepresentableRestriction (l'-Q.vertices) (l-Q.vertices) (j-Q.vertices)
++    (sub_le_sub_right hl _)
++  let ni := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l' i) (A.rightTruncatedRepresentable_finite l i) qi
++  let nj := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l' j) (A.rightTruncatedRepresentable_finite l j) qj
++  let f := A.rightTruncatedRepresentableHomComponentEquiv l i j hi.1 x
++  let f' := A.rightTruncatedRepresentableHomComponentEquiv l' i j (hl.trans hi.1) x
++  let nf := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l i) (A.rightTruncatedRepresentable_finite l j) f
++  let nf' := A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
++    (A.rightTruncatedRepresentable_finite l' i) (A.rightTruncatedRepresentable_finite l' j) f'
++  have hI : ni ≫ eI.hom = eI'.hom ≫ qi' :=
++    A.rightFiniteWindowNakayamaChosenRepresentableModuleIso_restriction Q hAS l r l' r' i hi.1 hi.2 hl hr
++  have hJ : nj ≫ eJ.hom = eJ'.hom ≫ qj' :=
++    A.rightFiniteWindowNakayamaChosenRepresentableModuleIso_restriction Q hAS l r l' r' j hj.1 hj.2 hl hr
++  have hIinv : qi' ≫ eI.inv = eI'.inv ≫ ni := by
++    apply (cancel_mono eI.hom).mp
++    simp only [Category.assoc,Iso.inv_hom_id,Category.comp_id]
++    rw [hI]
++    simp
++  have hnat : ni ≫ nf = nf' ≫ nj := by
++    dsimp [ni,nf,nf',nj,f,f',qi,qj]
++    rw [← A.rightFiniteDimensionalNakayamaUnderlyingMap_comp,
++      ← A.rightFiniteDimensionalNakayamaUnderlyingMap_comp,
++      A.rightTruncatedRepresentableRestriction_hom]
++  apply (A.rightTruncatedRepresentableHomComponentEquiv (l-Q.vertices) (i-Q.vertices) (j-Q.vertices)
++    (sub_le_sub_right hi.1 _)).injective
++  letI : Epi qi' := by dsimp [qi']; infer_instance
++  apply (cancel_epi qi').mp
++  rw [A.rightFiniteWindowNakayamaComponentEquiv_hom]
++  change qi' ≫ eI.inv ≫ nf ≫ eJ.hom = _
++  rw [← Category.assoc qi' eI.inv, hIinv, Category.assoc,
++    ← Category.assoc ni nf,hnat,Category.assoc nf' nj,hJ]
++  rw [← Category.assoc nf' eJ'.hom qj',
++    ← Category.assoc eI'.inv (nf' ≫ eJ'.hom) qj']
++  rw [← A.rightFiniteWindowNakayamaComponentEquiv_hom Q hAS l' r' i j (hi.mono hl hr) (hj.mono hl hr)]
++  exact (A.rightTruncatedRepresentableRestriction_hom (l'-Q.vertices) (l-Q.vertices)
++    (i-Q.vertices) (j-Q.vertices) (sub_le_sub_right hl _) (sub_le_sub_right hi.1 _) _)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/PeriodInverse.lean b/ASGinzburg/PeriodInverse.lean
+new file mode 100644
+index 0000000..d092e99
+--- /dev/null
++++ b/ASGinzburg/PeriodInverse.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.WindowPeriodicity
++import Mathlib.Tactic
++
++
++/-! The inverse of a genuine multiplicative period isomorphism, with explicit transport of component indices. -/
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++def homTransport (i j i' j' : ℤ) (hi : i=i') (hj : j=j') :
++    A.Hom i j ≃ₗ[k] A.Hom i' j' := by
++  subst i'
++  subst j'
++  exact LinearEquiv.refl k _
++
++theorem homTransport_id (i i' : ℤ) (hi : i=i') :
++    A.homTransport i i i' i' hi hi (A.id i) = A.id i' := by
++  subst i'
++  rfl
++
++theorem homTransport_comp (i j l i' j' l' : ℤ) (hi : i=i') (hj : j=j') (hl : l=l')
++    (f : A.Hom i j) (g : A.Hom j l) :
++    A.homTransport i l i' l' hi hl (A.comp g f) =
++      A.comp (A.homTransport j l j' l' hj hl g) (A.homTransport i j i' j' hi hj f) := by
++  subst i'; subst j'; subst l'
++  rfl
++
++namespace PeriodIso
++variable {A} {p : ℤ} (E : A.PeriodIso p)
++
++noncomputable def shiftedMap (i j : ℤ) : A.Hom (i-p) (j-p) ≃ₗ[k] A.Hom i j :=
++  (E.map (i-p) (j-p)).trans
++    (A.homTransport (i-p+p) (j-p+p) i j (sub_add_cancel _ _) (sub_add_cancel _ _))
++
++theorem shiftedMap_id (i : ℤ) : E.shiftedMap i i (A.id (i-p)) = A.id i := by
++  rw [shiftedMap,LinearEquiv.trans_apply,E.map_id,A.homTransport_id]
++
++theorem shiftedMap_comp {i j l : ℤ} (f : A.Hom (i-p) (j-p)) (g : A.Hom (j-p) (l-p)) :
++    E.shiftedMap i l (A.comp g f) = A.comp (E.shiftedMap j l g) (E.shiftedMap i j f) := by
++  rw [shiftedMap,LinearEquiv.trans_apply,E.map_comp,A.homTransport_comp]
++  rfl
++
++noncomputable def inverseComponent (i j : ℤ) : A.Hom i j ≃ₗ[k] A.Hom (i-p) (j-p) :=
++  (E.shiftedMap i j).symm
++
++theorem inverseComponent_id (i : ℤ) : E.inverseComponent i i (A.id i) = A.id (i-p) := by
++  apply (E.shiftedMap i i).injective
++  rw [inverseComponent,LinearEquiv.apply_symm_apply,E.shiftedMap_id]
++
++theorem inverseComponent_comp {i j l : ℤ} (f : A.Hom i j) (g : A.Hom j l) :
++    E.inverseComponent i l (A.comp g f) =
++      A.comp (E.inverseComponent j l g) (E.inverseComponent i j f) := by
++  apply (E.shiftedMap i l).injective
++  rw [inverseComponent,LinearEquiv.apply_symm_apply,E.shiftedMap_comp]
++  simp only [inverseComponent,LinearEquiv.apply_symm_apply]
++
++noncomputable def inverse : A.PeriodIso (-p) where
++  map i j := by simpa only [sub_eq_add_neg] using E.inverseComponent i j
++  map_id i := by simpa only [sub_eq_add_neg] using E.inverseComponent_id i
++  map_comp f g := by simpa only [sub_eq_add_neg] using E.inverseComponent_comp f g
++
++end PeriodIso
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASPeriodicity.lean b/ASGinzburg/ASPeriodicity.lean
+new file mode 100644
+index 0000000..84435ee
+--- /dev/null
++++ b/ASGinzburg/ASPeriodicity.lean
+@@ -0,0 +1,43 @@
++import ASGinzburg.NakayamaWindowCoherence
++import ASGinzburg.PeriodInverse
++
++
++/-! AS regularity implies positive and negative periodicity through the constructed coherent finite-window system. -/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++/-- The finite-window algebra system is derived from the original AS conditions. -/
++noncomputable def ASRegular.nakayamaWindowSystem (hAS : A.ASRegular Q) :
++    A.WindowSystem (-(Q.vertices : ℤ)) where
++  map l r i j hi hj := by
++    simpa only [sub_eq_add_neg] using A.rightFiniteWindowNakayamaComponentEquiv Q hAS l r i j hi hj
++  coherent := by
++    intro l r l' r' i j hi hj hl hr
++    simpa only [sub_eq_add_neg] using
++      A.rightFiniteWindowNakayamaComponentEquiv_coherent Q hAS l r l' r' i j hi hj hl hr
++  map_id := by
++    intro l r i hi
++    simpa only [sub_eq_add_neg] using A.rightFiniteWindowNakayamaComponentEquiv_id Q hAS l r i hi
++  map_comp := by
++    intro l r i j m hi hj hm f g
++    simpa only [sub_eq_add_neg] using
++      A.rightFiniteWindowNakayamaComponentEquiv_comp Q hAS l r i j m hi hj hm f g
++
++noncomputable def ASRegular.negativePeriodIso (hAS : A.ASRegular Q) :
++    A.PeriodIso (-(Q.vertices : ℤ)) := (hAS.nakayamaWindowSystem A Q).periodIso
++
++theorem ASRegular.isPeriodic_negative (hAS : A.ASRegular Q) :
++    A.IsPeriodic (-(Q.vertices : ℤ)) := ⟨hAS.negativePeriodIso A Q⟩
++
++/-- Positive periodicity is the inverse of the proved Nakayama translation.
++No periodicity or coherent window system is part of the AS hypotheses. -/
++noncomputable def ASRegular.periodIso (hAS : A.ASRegular Q) : A.PeriodIso (Q.vertices : ℤ) := by
++  simpa only [neg_neg] using (hAS.negativePeriodIso A Q).inverse
++
++theorem ASRegular.isPeriodic (hAS : A.ASRegular Q) : A.IsPeriodic (Q.vertices : ℤ) :=
++  ⟨hAS.periodIso A Q⟩
++
++end ASGinzburg.ZAlgebra
