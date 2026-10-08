@@ -39,3 +39,13 @@ force push・履歴の書換えなし。初期の原論文照合は§1.2 (1.5)�
 開始UTC 2026-10-08T01:54:23.096822+00:00、終了UTC 2026-10-08T01:55:06.022365+00:00。
 差分：runs/projective-simple-20261008-unit2.patch。
 次：右作用で閉じた成分submoduleを束ね、正次数radicalと商s_vを構成する。
+
+## 単位3：右作用で閉じた部分加群と商
+
+成分subspaceと右作用の閉性から実際の線形presheafを構成する`RightSubmodule`を定義。
+包含のmono、mathlib cokernelとしての商と射影epi、短完全列を証明。
+検証：`20261008T015621Z-6b22140d`、47.605570秒、全段階終了0。
+開始UTC 2026-10-08T01:56:21.914268+00:00、終了UTC 2026-10-08T01:57:09.519848+00:00。
+226異なる宣言・100 theoremを監査。
+差分：runs/projective-simple-20261008-unit3.patch。
+次：positive条件からradicalの閉性を証明し、s_vの成分・単純性を確認する。
