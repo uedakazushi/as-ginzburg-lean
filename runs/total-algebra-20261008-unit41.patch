@@ -1,0 +1,784 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 9e1d5d1..1a96a4e 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -201,6 +201,17 @@ import ASGinzburg.UnrolledPathIndecomposables
+ import ASGinzburg.ZAlgebraHomomorphisms
+ import ASGinzburg.UnrolledSingleArrows
+ 
++import ASGinzburg.UnrolledPathArrowClasses
++import ASGinzburg.FreeLinearKernelSupport
++import ASGinzburg.UnrolledPathKernelSquare
++import ASGinzburg.LinearIdealProducts
++import ASGinzburg.UnrolledPathFiltration
++import ASGinzburg.UnrolledPathIdeals
++import ASGinzburg.ASPresentationKernel
++import ASGinzburg.QuotientZAlgebra
++import ASGinzburg.ZAlgebraIsomorphisms
++import ASGinzburg.ASPresentationQuotient
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index d9a3471..3f695e4 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -167,6 +167,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.isPeriodic_negative
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.periodIso
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.isPeriodic
++#print axioms ASGinzburg.ZAlgebra.unrolledPathPresentation_kernel_le_arrow_square
++#print axioms ASGinzburg.ZAlgebra.ASRegular.unrolledPathPresentation_kernel_le_arrow_square
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.minimalPathPresentation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.exists_minimalPathPresentation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.presentationQuotientIso
++#print axioms ASGinzburg.ZAlgebra.ASRegular.presentationQuotientIso_apply_mk
++#print axioms ASGinzburg.CutQuiver.unrolledPathIdeal_diagonal_eq_bot
++#print axioms ASGinzburg.CutQuiver.ideal_diagonal_eq_bot_of_le_arrow_square
+ #print axioms ASGinzburg.ZAlgebra.asExtTotalRank
+ #print axioms ASGinzburg.ZAlgebra.ASRegular
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.resolution
+@@ -717,6 +726,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.FourTermProjectiveResolution.toProjectiveResolution
+ #print axioms ASGinzburg.FourTermProjectiveResolution.complex_isZero_ge_four
+ #print axioms ASGinzburg.FourTermProjectiveResolution.ofKernelCovers
++#print axioms ASGinzburg.linearCombination_ker_le_supported
+ #print axioms ASGinzburg.fullSubcategoryOpFunctor
+ #print axioms ASGinzburg.fullSubcategoryOpInverse
+ #print axioms ASGinzburg.fullSubcategoryOpEquivalence
+@@ -979,6 +989,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.exactExtPostcompIso
+ #print axioms ASGinzburg.exactExtPostcompIso_apply
+ #print axioms ASGinzburg.exactExtPostcompIso_conjugation
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.productGenerators
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.mul
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.comp_mem_mul
+ #print axioms ASGinzburg.ZAlgebra.leftTotalLocallyUnitalFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightTotalLocallyUnitalFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalComponentFunctorAdditive
+@@ -1226,6 +1239,16 @@ import ASGinzburg
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₀Hom
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₁Hom
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₂Hom
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.QuotientComponent
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompRight
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompRight_mk
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompPre
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientComp
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientComp_mk
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotient
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientMap
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientMap_surjective
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientMap_kernel
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproductProjection
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproduct_inclusion_projection
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproduct_inclusion_projection_off
+@@ -1822,6 +1845,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrolledPathComp_assoc
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_id
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_comp
++#print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_singleArrow
++#print axioms ASGinzburg.ZAlgebra.unrolledPath_oneArrow_class_independent
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.length_comp
++#print axioms ASGinzburg.CutQuiver.unrolledPathFiltration
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp_mem_filtration
++#print axioms ASGinzburg.CutQuiver.mem_unrolledPathFiltration_zero
++#print axioms ASGinzburg.CutQuiver.unrolledPath_long_factor
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.length
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.height_le
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.height_lt_of_length_pos
+@@ -1829,10 +1859,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.lastStep
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.lastStep_injective
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.finite
++#print axioms ASGinzburg.CutQuiver.unrolledPathIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledArrowIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledPathIdeal_mul_le
++#print axioms ASGinzburg.CutQuiver.unrolledArrowIdeal_square
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_surjective
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_single_long
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLong_supported_le_ker
++#print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_eq_linearCombination
++#print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_ker_le_long
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_ker_le_long_of_lt
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_ker_le_long
+ #print axioms ASGinzburg.ZAlgebra.Homomorphism
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathPresentationMap
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathPresentationMap_id
+@@ -1871,3 +1909,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.Homomorphism.kernel_diagonal_eq_bot
+ #print axioms ASGinzburg.ZAlgebra.Homomorphism.componentQuotientEquiv
+ #print axioms ASGinzburg.ZAlgebra.Homomorphism.componentQuotientEquiv_apply_mk
++#print axioms ASGinzburg.ZAlgebra.Isomorphism
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.homomorphism
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.refl
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.symm
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.trans
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.quotientKernelIso
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.quotientKernelIso_apply_mk
+diff --git a/ASGinzburg/UnrolledPathArrowClasses.lean b/ASGinzburg/UnrolledPathArrowClasses.lean
+new file mode 100644
+index 0000000..1b45224
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathArrowClasses.lean
+@@ -0,0 +1,40 @@
++import ASGinzburg.UnrolledPathIndecomposables
++import ASGinzburg.UnrolledSingleArrows
++
++/-! Images of actual one-arrow paths form the already proved minimal
++indecomposable basis. This supplies the injectivity direction for (1.9). -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++open CutQuiver.UnrolledPath
++
++theorem unrolledPathIndecomposableMap_singleArrow (u v : Q.LiftVertex)
++    (a : SingleArrowIndex u v) :
++    A.unrolledPathIndecomposableMap Q R u v (Finsupp.single (singleArrow u v a) 1) =
++      (R v).indecomposableGenerator (Q.height u) (singleArrowHeightEquiv u v a) := by
++  obtain ⟨a,ha⟩ := a
++  subst u
++  simp [unrolledPathIndecomposableMap,unrolledPathLinearEvaluation,unrolledPathEvaluation,
++    singleArrow,singleArrowHeightEquiv,ASResolution.indecomposableGenerator,
++    ASResolution.incomingGenerator,homTransport,A.id_comp]
++
++theorem unrolledPath_oneArrow_class_independent (u v : Q.LiftVertex)
++    (huv : Q.height u < Q.height v) :
++    LinearIndependent k (fun p : {p : Q.UnrolledPath u v // p.length=1} =>
++      A.unrolledPathIndecomposableMap Q R u v (Finsupp.single p.val 1)) := by
++  let e := (singleArrowEquiv u v).symm.trans (singleArrowHeightEquiv u v)
++  have heval (p : {p : Q.UnrolledPath u v // p.length=1}) :
++      A.unrolledPathIndecomposableMap Q R u v (Finsupp.single p.val 1) =
++        (R v).indecomposableGeneratorBasis (Q.height u) huv (e p) := by
++    rw [(R v).indecomposableGeneratorBasis_apply]
++    have H := A.unrolledPathIndecomposableMap_singleArrow Q R u v ((singleArrowEquiv u v).symm p)
++    have hp : singleArrow u v ((singleArrowEquiv u v).symm p) = p.val :=
++      singleArrow_singleArrowOfPath p.val p.property
++    rw [hp] at H
++    exact H
++  simp_rw [heval]
++  exact ((R v).indecomposableGeneratorBasis (Q.height u) huv).linearIndependent.comp e e.injective
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FreeLinearKernelSupport.lean b/ASGinzburg/FreeLinearKernelSupport.lean
+new file mode 100644
+index 0000000..a2c36ba
+--- /dev/null
++++ b/ASGinzburg/FreeLinearKernelSupport.lean
+@@ -0,0 +1,46 @@
++import Mathlib.LinearAlgebra.LinearIndependent.Defs
++import Mathlib.LinearAlgebra.Finsupp.Supported
++
++/-! A free linear evaluation can have relations only on the discarded basis
++vectors when the remaining images are linearly independent. -/
++namespace ASGinzburg
++universe u v w
++variable {k : Type u} [Field k] {I : Type v} {V : Type w}
++  [AddCommGroup V] [Module k V]
++
++theorem linearCombination_ker_le_supported (v : I → V) (S : Set I)
++    (hzero : ∀ i ∈ S, v i=0) (hind : LinearIndepOn k v Sᶜ) :
++    LinearMap.ker (Finsupp.linearCombination k v) ≤ Finsupp.supported k k S := by
++  classical
++  have hlong : Finsupp.supported k k S ≤ LinearMap.ker (Finsupp.linearCombination k v) := by
++    rw [Finsupp.supported_eq_span_single]
++    apply Submodule.span_le.mpr
++    rintro x ⟨i,hi,rfl⟩
++    simp [hzero i hi]
++  intro f hf
++  let short := f.filter (fun i => i ∉ S)
++  let long := f.filter (fun i => i ∈ S)
++  have hshortmem : short ∈ Finsupp.supported k k Sᶜ := by
++    apply (Finsupp.mem_supported' k _).mpr
++    intro i hi
++    have h : i ∈ S := by simpa using hi
++    simp [short,h]
++  have hlongmem : long ∈ Finsupp.supported k k S := by
++    apply (Finsupp.mem_supported' k _).mpr
++    intro i hi
++    simp [long,hi]
++  have hlongzero := hlong hlongmem
++  have hsplit : short+long=f := by
++    ext i
++    by_cases hi : i∈S <;> simp [short,long,hi]
++  have hshortzero : Finsupp.linearCombination k v short = 0 := by
++    have H := congrArg (Finsupp.linearCombination k v) hsplit
++    rw [map_add,hlongzero,add_zero,hf] at H
++    exact H
++  have hs : short=0 := (linearIndepOn_iff.mp hind) short hshortmem hshortzero
++  apply (Finsupp.mem_supported' k _).mpr
++  intro i hi
++  have H := congrArg (fun f : I →₀ k => f i) hs
++  simpa [short,hi] using H
++
++end ASGinzburg
+diff --git a/ASGinzburg/UnrolledPathKernelSquare.lean b/ASGinzburg/UnrolledPathKernelSquare.lean
+new file mode 100644
+index 0000000..52ff873
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathKernelSquare.lean
+@@ -0,0 +1,86 @@
++import ASGinzburg.UnrolledPathArrowClasses
++import ASGinzburg.FreeLinearKernelSupport
++
++/-! Positive-component relations in the AS path presentation contain no
++length-one terms: the kernel lies in the span of paths of length at least two. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++open CutQuiver.UnrolledPath
++
++theorem unrolledPathIndecomposableMap_eq_linearCombination (u v : Q.LiftVertex) :
++    A.unrolledPathIndecomposableMap Q R u v =
++      Finsupp.linearCombination k (fun p =>
++        (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
++          (A.unrolledPathEvaluation Q R p)) := by
++  rw [unrolledPathIndecomposableMap,unrolledPathLinearEvaluation,
++    ← Finsupp.linearCombination_linear_comp]
++  rfl
++
++theorem unrolledPathIndecomposableMap_ker_le_long (u v : Q.LiftVertex)
++    (huv : Q.height u < Q.height v) :
++    LinearMap.ker (A.unrolledPathIndecomposableMap Q R u v) ≤
++      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
++  classical
++  let S : Set (Q.UnrolledPath u v) := {p | 2 ≤ p.length}
++  rw [A.unrolledPathIndecomposableMap_eq_linearCombination]
++  apply linearCombination_ker_le_supported
++  · intro p hp
++    have H := A.unrolledPathIndecomposableMap_single_long Q R p hp
++    simpa [unrolledPathIndecomposableMap,A.unrolledPathLinearEvaluation_single] using H
++  · have hlen (p : {p : Q.UnrolledPath u v // p ∉ S}) : p.val.length=1 := by
++      have hn : ¬2 ≤ p.val.length := p.property
++      have hp : p.val.length ≠ 0 := by
++        intro hzero
++        have heq := p.val.height_eq_of_length_zero hzero
++        omega
++      omega
++    let e : {p : Q.UnrolledPath u v // p ∉ S} →
++        {p : Q.UnrolledPath u v // p.length=1} := fun p => ⟨p.val,hlen p⟩
++    have he : Function.Injective e := by
++      intro p q h
++      exact Subtype.ext (congrArg (fun x : {p : Q.UnrolledPath u v // p.length=1} => x.val) h)
++    have H := (A.unrolledPath_oneArrow_class_independent Q R u v huv).comp e he
++    simpa [LinearIndepOn,unrolledPathIndecomposableMap,A.unrolledPathLinearEvaluation_single,e]
++      using H
++
++theorem unrolledPathLinearEvaluation_ker_le_long_of_lt (u v : Q.LiftVertex)
++    (huv : Q.height u < Q.height v) :
++    LinearMap.ker (A.unrolledPathLinearEvaluation Q R u v) ≤
++      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
++  apply le_trans _ (A.unrolledPathIndecomposableMap_ker_le_long Q R u v huv)
++  intro f hf
++  change (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
++    (A.unrolledPathLinearEvaluation Q R u v f) = 0
++  rw [hf,map_zero]
++
++theorem unrolledPathLinearEvaluation_ker_le_long (u v : Q.LiftVertex) :
++    LinearMap.ker (A.unrolledPathLinearEvaluation Q R u v) ≤
++      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
++  by_cases huv : Q.height u < Q.height v
++  · exact A.unrolledPathLinearEvaluation_ker_le_long_of_lt Q R u v huv
++  by_cases heq : Q.height u = Q.height v
++  · have huv := Q.height_bijective.injective heq
++    subst v
++    intro f hf
++    change A.unrolledPathLinearEvaluation Q R u u f = 0 at hf
++    have hrep : f = f (.nil u) • Q.unrolledPathId k u := by
++      ext p
++      rw [p.diagonal_eq_nil]
++      simp [CutQuiver.unrolledPathId,Finsupp.smul_single,smul_eq_mul]
++    have hz : f (.nil u) • A.id (Q.height u) = 0 := by
++      rw [hrep,map_smul,A.unrolledPathLinearEvaluation_id] at hf
++      exact hf
++    have hc : f (.nil u) = 0 := (smul_eq_zero.mp hz).resolve_right
++      (A.id_nonzero (Q.height u))
++    rw [hrep,hc,zero_smul]
++    exact Submodule.zero_mem _
++  · haveI : IsEmpty (Q.UnrolledPath u v) :=
++      ⟨fun p => by have := p.height_le; omega⟩
++    intro f _
++    have hf : f=0 := Subsingleton.elim _ _
++    rw [hf]
++    exact Submodule.zero_mem _
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LinearIdealProducts.lean b/ASGinzburg/LinearIdealProducts.lean
+new file mode 100644
+index 0000000..83c5ceb
+--- /dev/null
++++ b/ASGinzburg/LinearIdealProducts.lean
+@@ -0,0 +1,44 @@
++import ASGinzburg.ZAlgebraHomomorphisms
++
++/-! The product of genuine two-sided linear ideals is again a two-sided
++linear ideal, using the span of actual composable products. -/
++namespace ASGinzburg.ZAlgebra.LinearIdeal
++universe u v
++variable {k : Type u} [Field k] {B : ZAlgebra.{u,v} k}
++
++def productGenerators (I J : B.LinearIdeal) (i l : ℤ) : Set (B.Hom i l) :=
++  {x | ∃ j, ∃ f ∈ I.hom i j, ∃ g ∈ J.hom j l, B.comp g f = x}
++
++def mul (I J : B.LinearIdeal) : B.LinearIdeal where
++  hom i l := Submodule.span k (productGenerators I J i l)
++  comp_left := by
++    intro i l m f hf g
++    induction hf using Submodule.span_induction with
++    | mem x hx =>
++      obtain ⟨j,f,hf,h,hh,rfl⟩ := hx
++      apply Submodule.subset_span
++      exact ⟨j,f,hf,B.comp g h,J.comp_left hh g,(B.comp_assoc f h g).symm⟩
++    | zero => simp
++    | add x y hx hy ihx ihy =>
++      simpa only [map_add] using Submodule.add_mem _ ihx ihy
++    | smul a x hx ih =>
++      simpa only [map_smul] using Submodule.smul_mem _ a ih
++  comp_right := by
++    intro i j l g hg f
++    induction hg using Submodule.span_induction with
++    | mem x hx =>
++      obtain ⟨m,h,hh,g,hg,rfl⟩ := hx
++      apply Submodule.subset_span
++      exact ⟨m,B.comp h f,I.comp_right hh f,g,hg,B.comp_assoc f h g⟩
++    | zero => simp
++    | add x y hx hy ihx ihy =>
++      simpa only [map_add,LinearMap.add_apply] using Submodule.add_mem _ ihx ihy
++    | smul a x hx ih =>
++      simpa only [map_smul,LinearMap.smul_apply] using Submodule.smul_mem _ a ih
++
++theorem comp_mem_mul (I J : B.LinearIdeal) {i j l : ℤ}
++    {f : B.Hom i j} (hf : f ∈ I.hom i j)
++    {g : B.Hom j l} (hg : g ∈ J.hom j l) : B.comp g f ∈ (I.mul J).hom i l :=
++  Submodule.subset_span ⟨j,f,hf,g,hg,rfl⟩
++
++end ASGinzburg.ZAlgebra.LinearIdeal
+diff --git a/ASGinzburg/UnrolledPathFiltration.lean b/ASGinzburg/UnrolledPathFiltration.lean
+new file mode 100644
+index 0000000..691fe86
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathFiltration.lean
+@@ -0,0 +1,74 @@
++import ASGinzburg.UnrolledPathFiniteness
++import ASGinzburg.UnrolledPathAlgebra
++import Mathlib.LinearAlgebra.Finsupp.Supported
++
++/-! The length filtration on the genuine free unrolled path algebra. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++@[simp] theorem UnrolledPath.length_comp {u v w : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (q : Q.UnrolledPath v w) :
++    (p.comp q).length = p.length + q.length := by
++  induction q with
++  | nil => simp [UnrolledPath.comp,UnrolledPath.length]
++  | snoc a q ih => simp [UnrolledPath.comp,UnrolledPath.length,ih,Nat.add_assoc]
++
++def unrolledPathFiltration (n : ℕ) (u v : Q.LiftVertex) :
++    Submodule k (Q.UnrolledPathComponent k u v) :=
++  Finsupp.supported k k {p : Q.UnrolledPath u v | n ≤ p.length}
++
++theorem unrolledPathComp_mem_filtration {u v w : Q.LiftVertex} {m n : ℕ}
++    {f : Q.UnrolledPathComponent k u v} (hf : f ∈ Q.unrolledPathFiltration k m u v)
++    {g : Q.UnrolledPathComponent k v w} (hg : g ∈ Q.unrolledPathFiltration k n v w) :
++    Q.unrolledPathComp k g f ∈ Q.unrolledPathFiltration k (m+n) u w := by
++  change f ∈ Finsupp.supported k k _ at hf
++  change g ∈ Finsupp.supported k k _ at hg
++  rw [Finsupp.supported_eq_span_single] at hf hg
++  induction hg using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨q,hq,rfl⟩ := hx
++    induction hf using Submodule.span_induction with
++    | mem x hx =>
++      obtain ⟨p,hp,rfl⟩ := hx
++      rw [Q.unrolledPathComp_single]
++      apply Finsupp.single_mem_supported
++      change m+n ≤ (p.comp q).length
++      rw [UnrolledPath.length_comp]
++      exact Nat.add_le_add hp hq
++    | zero => simp
++    | add x y hx hy ihx ihy =>
++      simpa only [map_add] using Submodule.add_mem _ ihx ihy
++    | smul a x hx ih =>
++      simpa only [map_smul] using Submodule.smul_mem _ a ih
++  | zero => simp
++  | add x y hx hy ihx ihy =>
++    simpa only [map_add,LinearMap.add_apply] using Submodule.add_mem _ ihx ihy
++  | smul a x hx ih =>
++    simpa only [map_smul,LinearMap.smul_apply] using Submodule.smul_mem _ a ih
++
++theorem mem_unrolledPathFiltration_zero {u v : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) : f ∈ Q.unrolledPathFiltration k 0 u v := by
++  apply (Finsupp.mem_supported k f).mpr
++  intro p _
++  exact Nat.zero_le _
++
++theorem unrolledPath_long_factor {u v : Q.LiftVertex} (p : Q.UnrolledPath u v)
++    (hp : 2 ≤ p.length) :
++    ∃ w, ∃ f ∈ Q.unrolledPathFiltration k 1 u w,
++      ∃ g ∈ Q.unrolledPathFiltration k 1 w v,
++        Q.unrolledPathComp k g f = Finsupp.single p 1 := by
++  cases p with
++  | nil => simp [UnrolledPath.length] at hp
++  | @snoc v a p =>
++    have hp' : 1 ≤ p.length := by
++      simp only [UnrolledPath.length] at hp
++      omega
++    refine ⟨Q.incomingSource v a,Finsupp.single p 1,?_,
++      Finsupp.single (UnrolledPath.snoc a (.nil (Q.incomingSource v a))) 1,?_,?_⟩
++    · exact Finsupp.single_mem_supported k (1:k) hp'
++    · apply Finsupp.single_mem_supported
++      simp [UnrolledPath.length]
++    · simp [UnrolledPath.comp]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledPathIdeals.lean b/ASGinzburg/UnrolledPathIdeals.lean
+new file mode 100644
+index 0000000..5ef41ac
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathIdeals.lean
+@@ -0,0 +1,48 @@
++import ASGinzburg.UnrolledPathFiltration
++import ASGinzburg.LinearIdealProducts
++
++/-! The arrow ideal and its genuine ideal square in the unrolled path algebra. -/
++namespace ASGinzburg.CutQuiver
++open ZAlgebra ZAlgebra.LinearIdeal
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def unrolledPathIdeal (n : ℕ) : (Q.unrolledPathZAlgebra k).LinearIdeal where
++  hom i j := Q.unrolledPathFiltration k n (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
++  comp_left := by
++    intro i j l f hf g
++    simpa only [Nat.add_zero] using Q.unrolledPathComp_mem_filtration k hf
++      (Q.mem_unrolledPathFiltration_zero k g)
++  comp_right := by
++    intro i j l g hg f
++    simpa only [Nat.zero_add] using Q.unrolledPathComp_mem_filtration k
++      (Q.mem_unrolledPathFiltration_zero k f) hg
++
++noncomputable abbrev unrolledArrowIdeal := Q.unrolledPathIdeal k 1
++
++theorem unrolledPathIdeal_mul_le (m n : ℕ) (i j : ℤ) :
++    ((Q.unrolledPathIdeal k m).mul (Q.unrolledPathIdeal k n)).hom i j ≤
++      (Q.unrolledPathIdeal k (m+n)).hom i j := by
++  apply Submodule.span_le.mpr
++  rintro x ⟨l,f,hf,g,hg,rfl⟩
++  exact Q.unrolledPathComp_mem_filtration k hf hg
++
++theorem unrolledArrowIdeal_square (i j : ℤ) :
++    ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j =
++      (Q.unrolledPathIdeal k 2).hom i j := by
++  apply le_antisymm
++  · exact Q.unrolledPathIdeal_mul_le k 1 1 i j
++  · change Finsupp.supported k k _ ≤ _
++    rw [Finsupp.supported_eq_span_single]
++    apply Submodule.span_le.mpr
++    rintro x ⟨p,hp,rfl⟩
++    obtain ⟨s,f,hf,g,hg,hcomp⟩ := Q.unrolledPath_long_factor k p hp
++    generalize hll : Q.heightEquiv s = l
++    have hl : Q.heightEquiv.symm l=s := by
++      rw [←hll]
++      exact Q.heightEquiv.symm_apply_apply s
++    subst s
++    apply Submodule.subset_span
++    exact ⟨l,f,hf,g,hg,hcomp⟩
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ASPresentationKernel.lean b/ASGinzburg/ASPresentationKernel.lean
+new file mode 100644
+index 0000000..b56847f
+--- /dev/null
++++ b/ASGinzburg/ASPresentationKernel.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.UnrolledPathKernelSquare
++import ASGinzburg.UnrolledPathIdeals
++
++/-! Proposition 1.2's actual kernel-square condition follows from the
++original finite minimal AS resolution, with no extra algebraic assumptions. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++theorem unrolledPathPresentation_kernel_le_arrow_square (i j : ℤ) :
++    (A.unrolledPathPresentation Q R).kernel.hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j := by
++  rw [Q.unrolledArrowIdeal_square k]
++  intro f hf
++  apply A.unrolledPathLinearEvaluation_ker_le_long Q R
++    (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
++  change A.unrolledPathLinearEvaluation Q R _ _ f = 0
++  change A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j) (A.unrolledPathLinearEvaluation Q R _ _ f) = 0 at hf
++  apply (A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)).injective
++  rw [map_zero]
++  exact hf
++
++theorem ASRegular.unrolledPathPresentation_kernel_le_arrow_square
++    (hAS : A.ASRegular Q) (i j : ℤ) :
++    (hAS.unrolledPathPresentation A Q).kernel.hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j :=
++  A.unrolledPathPresentation_kernel_le_arrow_square Q (hAS.resolution A Q) i j
++
++/-- A genuine free-path presentation satisfying the kernel condition (1.9).
++This is output data, not an additional hypothesis in ASRegular. -/
++structure MinimalPathPresentation where
++  presentation : Homomorphism (Q.unrolledPathZAlgebra k) A
++  surjective : ∀ i j, Function.Surjective (presentation.map i j)
++  kernel_square : ∀ i j, presentation.kernel.hom i j ≤
++    ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j
++
++noncomputable def ASRegular.minimalPathPresentation (hAS : A.ASRegular Q) :
++    A.MinimalPathPresentation Q where
++  presentation := hAS.unrolledPathPresentation A Q
++  surjective := hAS.unrolledPathPresentation_surjective A Q
++  kernel_square := hAS.unrolledPathPresentation_kernel_le_arrow_square A Q
++
++theorem ASRegular.exists_minimalPathPresentation (hAS : A.ASRegular Q) :
++    Nonempty (A.MinimalPathPresentation Q) := ⟨hAS.minimalPathPresentation A Q⟩
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/QuotientZAlgebra.lean b/ASGinzburg/QuotientZAlgebra.lean
+new file mode 100644
+index 0000000..12d1c8d
+--- /dev/null
++++ b/ASGinzburg/QuotientZAlgebra.lean
+@@ -0,0 +1,99 @@
++import ASGinzburg.LinearIdealProducts
++
++/-! Actual quotient component algebras by two-sided linear ideals. -/
++namespace ASGinzburg.ZAlgebra.LinearIdeal
++universe u v
++variable {k : Type u} [Field k] {B : ZAlgebra.{u,v} k} (I : B.LinearIdeal)
++
++abbrev QuotientComponent (i j : ℤ) := B.Hom i j ⧸ I.hom i j
++
++noncomputable def quotientCompRight {i j l : ℤ} (g : B.Hom j l) :
++    I.QuotientComponent i j →ₗ[k] I.QuotientComponent i l :=
++  (I.hom i j).liftQ (((I.hom i l).mkQ).comp (B.comp g)) (by
++    intro f hf
++    change (I.hom i l).mkQ (B.comp g f)=0
++    exact (Submodule.Quotient.mk_eq_zero _).mpr (I.comp_left hf g))
++
++@[simp] theorem quotientCompRight_mk {i j l : ℤ} (g : B.Hom j l) (f : B.Hom i j) :
++    I.quotientCompRight g (Submodule.Quotient.mk f) =
++      Submodule.Quotient.mk (B.comp g f) := rfl
++
++noncomputable def quotientCompPre {i j l : ℤ} :
++    B.Hom j l →ₗ[k] I.QuotientComponent i j →ₗ[k] I.QuotientComponent i l where
++  toFun := I.quotientCompRight
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    simp [LinearMap.add_apply]
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    simp [LinearMap.smul_apply]
++
++noncomputable def quotientComp {i j l : ℤ} :
++    I.QuotientComponent j l →ₗ[k] I.QuotientComponent i j →ₗ[k]
++      I.QuotientComponent i l :=
++  (I.hom j l).liftQ I.quotientCompPre (by
++    intro g hg
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    change Submodule.Quotient.mk (B.comp g f)=0
++    exact (Submodule.Quotient.mk_eq_zero _).mpr (I.comp_right hg f))
++
++@[simp] theorem quotientComp_mk {i j l : ℤ} (f : B.Hom i j) (g : B.Hom j l) :
++    I.quotientComp (Submodule.Quotient.mk g) (Submodule.Quotient.mk f) =
++      Submodule.Quotient.mk (B.comp g f) := rfl
++
++noncomputable def quotient (hdiag : ∀ i, I.hom i i=⊥) : ZAlgebra.{u,v} k where
++  Hom := I.QuotientComponent
++  id i := Submodule.Quotient.mk (B.id i)
++  comp := I.quotientComp
++  comp_id := by
++    intro i j x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    simp [B.comp_id]
++  id_comp := by
++    intro i j x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    simp [B.id_comp]
++  comp_assoc := by
++    intro i j l m x y z
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    obtain ⟨g,rfl⟩ := (I.hom j l).mkQ_surjective y
++    obtain ⟨h,rfl⟩ := (I.hom l m).mkQ_surjective z
++    simp [B.comp_assoc]
++  positive := by
++    intro i j hij x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    rw [B.positive hij f]
++    exact Submodule.Quotient.mk_zero _
++  connected := by
++    intro i x
++    obtain ⟨f,rfl⟩ := (I.hom i i).mkQ_surjective x
++    obtain ⟨a,rfl⟩ := B.connected i f
++    exact ⟨a,Submodule.Quotient.mk_smul _ _ _⟩
++  id_nonzero := by
++    intro i h
++    have hi := (Submodule.Quotient.mk_eq_zero (I.hom i i)).mp h
++    rw [hdiag i] at hi
++    exact B.id_nonzero i hi
++  finite := by intro i j; infer_instance
++
++noncomputable def quotientMap (hdiag : ∀ i, I.hom i i=⊥) :
++    Homomorphism B (I.quotient hdiag) where
++  map := fun i j => (I.hom i j).mkQ
++  map_id := by intro i; rfl
++  map_comp := by intro i j l f g; rfl
++
++theorem quotientMap_surjective (hdiag : ∀ i, I.hom i i=⊥) (i j : ℤ) :
++    Function.Surjective ((I.quotientMap hdiag).map i j) := (I.hom i j).mkQ_surjective
++
++theorem quotientMap_kernel (hdiag : ∀ i, I.hom i i=⊥) (i j : ℤ) :
++    (I.quotientMap hdiag).kernel.hom i j=I.hom i j := (I.hom i j).ker_mkQ
++
++end ASGinzburg.ZAlgebra.LinearIdeal
+diff --git a/ASGinzburg/ZAlgebraIsomorphisms.lean b/ASGinzburg/ZAlgebraIsomorphisms.lean
+new file mode 100644
+index 0000000..dcf9b55
+--- /dev/null
++++ b/ASGinzburg/ZAlgebraIsomorphisms.lean
+@@ -0,0 +1,68 @@
++import ASGinzburg.QuotientZAlgebra
++
++/-! Vertex-fixing isomorphisms and the actual first isomorphism theorem
++for the concrete locally finite directed Z-algebras. -/
++namespace ASGinzburg.ZAlgebra
++universe u v w x
++variable {k : Type u} [Field k]
++
++structure Isomorphism (B : ZAlgebra.{u,v} k) (A : ZAlgebra.{u,w} k) where
++  map : ∀ i j, B.Hom i j ≃ₗ[k] A.Hom i j
++  map_id : ∀ i, map i i (B.id i)=A.id i
++  map_comp : ∀ {i j l} (f : B.Hom i j) (g : B.Hom j l),
++    map i l (B.comp g f)=A.comp (map j l g) (map i j f)
++
++namespace Isomorphism
++variable {B : ZAlgebra.{u,v} k} {A : ZAlgebra.{u,w} k} {C : ZAlgebra.{u,x} k}
++
++noncomputable def homomorphism (F : Isomorphism B A) : Homomorphism B A where
++  map i j := (F.map i j).toLinearMap
++  map_id := F.map_id
++  map_comp := F.map_comp
++
++noncomputable def refl (B : ZAlgebra.{u,v} k) : Isomorphism B B where
++  map i j := LinearEquiv.refl k (B.Hom i j)
++  map_id := by intro i; rfl
++  map_comp := by intro i j l f g; rfl
++
++noncomputable def symm (F : Isomorphism B A) : Isomorphism A B where
++  map i j := (F.map i j).symm
++  map_id := by
++    intro i
++    apply (F.map i i).injective
++    simp [F.map_id]
++  map_comp := by
++    intro i j l f g
++    apply (F.map i l).injective
++    simp [F.map_comp]
++
++noncomputable def trans (F : Isomorphism B A) (G : Isomorphism A C) :
++    Isomorphism B C where
++  map i j := (F.map i j).trans (G.map i j)
++  map_id := by intro i; simp [F.map_id,G.map_id]
++  map_comp := by intro i j l f g; simp [F.map_comp,G.map_comp]
++
++end Isomorphism
++
++namespace Homomorphism
++variable {B : ZAlgebra.{u,v} k} {A : ZAlgebra.{u,w} k}
++variable (F : Homomorphism B A) (hF : ∀ i j, Function.Surjective (F.map i j))
++
++noncomputable def quotientKernelIso :
++    Isomorphism (F.kernel.quotient F.kernel_diagonal_eq_bot) A where
++  map := F.componentQuotientEquiv hF
++  map_id := by intro i; exact F.map_id i
++  map_comp := by
++    intro i j l x y
++    obtain ⟨f,rfl⟩ := (F.kernel.hom i j).mkQ_surjective x
++    obtain ⟨g,rfl⟩ := (F.kernel.hom j l).mkQ_surjective y
++    change F.componentQuotientEquiv hF i l
++      (F.kernel.quotientComp (Submodule.Quotient.mk g) (Submodule.Quotient.mk f)) = _
++    rw [LinearIdeal.quotientComp_mk]
++    exact F.map_comp f g
++
++theorem quotientKernelIso_apply_mk {i j : ℤ} (f : B.Hom i j) :
++    (F.quotientKernelIso hF).map i j (Submodule.Quotient.mk f)=F.map i j f := rfl
++
++end Homomorphism
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASPresentationQuotient.lean b/ASGinzburg/ASPresentationQuotient.lean
+new file mode 100644
+index 0000000..0a83b05
+--- /dev/null
++++ b/ASGinzburg/ASPresentationQuotient.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.ASPresentationKernel
++import ASGinzburg.ZAlgebraIsomorphisms
++
++/-! The original AS algebra is the actual quotient of its free path
++presentation by its genuine kernel ideal. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.presentationQuotientIso (hAS : A.ASRegular Q) :
++    Isomorphism
++      ((hAS.unrolledPathPresentation A Q).kernel.quotient
++        (hAS.unrolledPathPresentation A Q).kernel_diagonal_eq_bot) A :=
++  (hAS.unrolledPathPresentation A Q).quotientKernelIso
++    (hAS.unrolledPathPresentation_surjective A Q)
++
++theorem ASRegular.presentationQuotientIso_apply_mk (hAS : A.ASRegular Q)
++    {i j : ℤ} (f : (Q.unrolledPathZAlgebra k).Hom i j) :
++    (hAS.presentationQuotientIso A Q).map i j (Submodule.Quotient.mk f) =
++      (hAS.unrolledPathPresentation A Q).map i j f := rfl
++
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledPathIdeal_diagonal_eq_bot (n : ℕ) (hn : 0<n) (i : ℤ) :
++    (Q.unrolledPathIdeal k n).hom i i=⊥ := by
++  apply eq_bot_iff.mpr
++  intro f hf
++  apply Finsupp.ext
++  intro p
++  apply (Finsupp.mem_supported' k f).mp hf
++  change ¬n ≤ p.length
++  rw [p.diagonal_eq_nil]
++  simpa only [UnrolledPath.length] using Nat.not_le.mpr hn
++
++theorem ideal_diagonal_eq_bot_of_le_arrow_square
++    (I : (Q.unrolledPathZAlgebra k).LinearIdeal)
++    (hI : ∀ i j, I.hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j) (i : ℤ) :
++    I.hom i i=⊥ := by
++  apply eq_bot_iff.mpr
++  have H := hI i i
++  rw [Q.unrolledArrowIdeal_square k,Q.unrolledPathIdeal_diagonal_eq_bot k 2 (by omega)] at H
++  exact H
++
++end ASGinzburg.CutQuiver

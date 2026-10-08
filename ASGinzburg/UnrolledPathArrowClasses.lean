@@ -1,0 +1,40 @@
+import ASGinzburg.UnrolledPathIndecomposables
+import ASGinzburg.UnrolledSingleArrows
+
+/-! Images of actual one-arrow paths form the already proved minimal
+indecomposable basis. This supplies the injectivity direction for (1.9). -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+
+open CutQuiver.UnrolledPath
+
+theorem unrolledPathIndecomposableMap_singleArrow (u v : Q.LiftVertex)
+    (a : SingleArrowIndex u v) :
+    A.unrolledPathIndecomposableMap Q R u v (Finsupp.single (singleArrow u v a) 1) =
+      (R v).indecomposableGenerator (Q.height u) (singleArrowHeightEquiv u v a) := by
+  obtain ⟨a,ha⟩ := a
+  subst u
+  simp [unrolledPathIndecomposableMap,unrolledPathLinearEvaluation,unrolledPathEvaluation,
+    singleArrow,singleArrowHeightEquiv,ASResolution.indecomposableGenerator,
+    ASResolution.incomingGenerator,homTransport,A.id_comp]
+
+theorem unrolledPath_oneArrow_class_independent (u v : Q.LiftVertex)
+    (huv : Q.height u < Q.height v) :
+    LinearIndependent k (fun p : {p : Q.UnrolledPath u v // p.length=1} =>
+      A.unrolledPathIndecomposableMap Q R u v (Finsupp.single p.val 1)) := by
+  let e := (singleArrowEquiv u v).symm.trans (singleArrowHeightEquiv u v)
+  have heval (p : {p : Q.UnrolledPath u v // p.length=1}) :
+      A.unrolledPathIndecomposableMap Q R u v (Finsupp.single p.val 1) =
+        (R v).indecomposableGeneratorBasis (Q.height u) huv (e p) := by
+    rw [(R v).indecomposableGeneratorBasis_apply]
+    have H := A.unrolledPathIndecomposableMap_singleArrow Q R u v ((singleArrowEquiv u v).symm p)
+    have hp : singleArrow u v ((singleArrowEquiv u v).symm p) = p.val :=
+      singleArrow_singleArrowOfPath p.val p.property
+    rw [hp] at H
+    exact H
+  simp_rw [heval]
+  exact ((R v).indecomposableGeneratorBasis (Q.height u) huv).linearIndependent.comp e e.injective
+
+end ASGinzburg.ZAlgebra

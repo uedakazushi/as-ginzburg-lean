@@ -1071,3 +1071,40 @@ UTC 2026-10-08T17:15:34.771206+00:00 → 2026-10-08T17:39:44.584660+00:00。
 単位40の新規検査20261008T171534Z-a4ada4a1は全6段階終了0、実際の検査シェル終了0を確認。UTC17:15:34.771206→17:39:44.584660、1449.813445645秒。195数学モジュール・1871異なる宣言・全867 theorem・276 named instance。初期14/開始時60数学モジュールと歴史的577ファイルの無変更確認は終了0。単位37のCIの全ログ・実測1411.696599437秒・全7段階0・artifact digestを保存し、38のCI成功と39のCI進行中も正確なheadで確認。単位40のmain保存後も継続する。
 次の草稿quotient-z-algebra2、z-algebra-isomorphisms1、as-presentation-quotient1は個別Lean終了0・診断なし。実際の二側イデアルによる商ZAlgebra・商射と核、頂点固定の線形代数同型の反射/逆/合成、全射についての積・単位元を保つ第一同型定理、AS代数の実際の道代数の核による商との同型まで証明。核の矢イデアル平方への包含も個別検査終了0だが、単位40の公開監査には含めず次の新規公開検査で扱う。最小関係・任意の生成元の持上げと選択の独立性は未完成。
 closed-path-potentials3とpath-word-embeddings3も個別Lean終了0・診断なし。実際の可合成閉路・cut次数1・長さ3以上に支持された有限巡回多項式の部分空間を定義し、その上の(3.8)を証明した。元の道のtoListが始点を固定すれば終点込みで単射であること、実際の道の自由ベクトル空間から語多項式への線形単射も証明した。巡回微分の正しい始点・終点への接続は未証明で、Jacobian商・Ginzburg dg代数が完成したとは扱わない。
+
+単位40はmain a8f6f88ab00a821cd4909b527b7668a01d4f5412へ通常のfast-forwardで保存済み。APIで43ファイル・37独立blob・1974484bytesを11部分に分けて保存し、Git tree e365b60e2fc6345458404a4df8ece024f70fb624がローカルのtreeと一致することを確認。force=false・expected旧headで更新し、正確なAPI commit objectのローカルmain/origin同期は終了0。
+作業中保存 UTC 2026-10-08T17:42:36.712185+00:00、開始から実測38518.712185秒。タスク終了ではない。核の矢イデアル平方条件・実際の商ZAlgebraと第一同型定理の10数学モジュールを単位41として公開ソースにコピーし、新規lake build/全宣言公理監査を開始。単位40の成功を追加した41の成功判定には使わない。公開ソースは検査完了まで固定する。次は閉路ポテンシャルの巡回微分の逆向き始点・終点とJacobian商への接続を草稿で進める。最小関係・選択の独立性、標準RHom/derived/perfect、Ginzburg dg構築・外部一般定理と両主定理は未完成。
+
+作業中チェックポイント UTC 2026-10-08T17:53:01.574468+00:00、開始から実測39143.574468秒。継続中、タスク終了ではない。
+最後の全体成功検査は単位40の20261008T171534Z-a4ada4a1、全6段階0、195数学モジュール・1871異なる宣言・全867 theorem。main a8f6f88ab00a821cd4909b527b7668a01d4f5412へ保存済み。単位41の公開検査20261008T174235Z-09d23b17は205数学モジュール・1916異なる宣言・892 theorem・276 named instanceを対象に進行中。11回帰テスト・ソース監査・固定環境は0、10新数学モジュールとrootのビルドは成功しているが、全体のlake buildと独立した全宣言監査は完了しておらず、全体成功とは扱わない。数学ソースは固定したまま。単位39の正確なhead 0eb34ad7704347e0a7386399063e9dce18a4ac84のCI37815094225はsuccessと確認し、単位40の正確なheadのCI37818577417は進行中。
+次の草稿closed-path-potentials3、path-word-embeddings3、path-cyclic-derivative-support2、path-cyclic-derivatives2、cyclic-derivative-degrees2、path-cyclic-derivative-degrees1、cyclic-derivative-commutators3、path-unrolling3は個別Lean終了0・診断なし。実際の閉路・cut1・長さ3以上のポテンシャル空間と(3.8)、元の道の語への線形単射、巡回微分の逆向き始点/終点と実際の道を値に取る線形写像、長さ≥2と補完cut次数、cut矢の微分のcut次数0、交換子の総和が零となる恒等式、cut次数を終点sheetへ記録するunrolling・長さ保存・語を忘れても情報を失わない単射まで完成。これらは次の新規公開監査で扱い、41の対象には含めない。
+triangle-periodicity1も個別Lean終了0・診断なし。ASRegular triangle333から正負の3周期性を証明。原論文§5の通常のquadratic AS分解(5.1)を既存ASResolution triangle333と同定する橋はまだ未証明であり、その義務を隠して命題5.1全体の完成と扱わない。系5.2の全単射は依然未証明。
+環境切替表示の直後、一時的にexec_commandがcallableでなくTypeErrorとなった。コマンドは実行されず、続くツール一覧確認と復旧後のHEAD/ログ読取は0。作業ツリーと進行中の検査が保持されていることを確認し継続した。
+次はunrollingの成分線形同型と巡回微分の持上げ、実際のJacobianイデアルと商、最小関係・選択の独立性、quadratic分解の比較、標準RHom/derived/perfect、Ginzburg dg構築・外部一般定理と主定理の同型類対応。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+## 単位41：AS道代数提示の核と矢イデアル平方
+
+長さ1の道の評価の積の商での類を、単位40の実際のincoming生成元基底と同定し、線形独立性を証明した。一般の自由線形評価について、捨てる基底ベクトルの像が零で残る像が線形独立なら、その核は捨てる基底に支持されるという補題を証明した。この補題の前提はAS道評価に対して既存の分解と最小性から導いて適用し、ASRegularへ追加していない。
+
+正次数ではこの独立性と長い道の零性から、評価の核に長さ1の項がないことを証明した。対角ではすべての道がnilであり、恒等元の非零性から評価が単射であることを直接示した。負次数では道が存在しない。これにより全成分で、評価の核が長さ2以上の道に支持されることを証明した。
+
+一般の実際のLinearIdealについて、可合成な両イデアルの元の積のspanを積イデアルとして定義し、結合則を使って左右の積の閉性を証明した。実際の道の長さが合成で加法的であること、長さfiltrationの積閉性、長い道が正の長さのprefixと最後の矢へ分解することを証明した。これから矢イデアルを実際の二側イデアルとして構成し、その本来のイデアル積としての平方が長さ2以上のsupported部分空間に等しいことを証明した。
+
+height添字の輸送が単射であることを用い、元のASRegularから構成した道代数全射の核がこの矢イデアル平方に入ることを全成分で証明した。頂点固定・積と単位元保存・全成分全射・核の平方包含を満たす実際のMinimalPathPresentationをASRegularの出力として構成した。原論文命題1.2の(1.8)、(1.10)に加え、構成した生成元についての(1.9)が完成。任意の基底の持上げ・選択の独立性、最小関係の基底と代表元は別の未完成義務として残す。
+
+個別草稿unrolled-path-arrow-classes1、free-linear-kernel-support2、unrolled-path-kernel-square6、linear-ideal-products2、unrolled-path-filtration2、unrolled-path-ideals5、as-presentation-kernel1は実際のLean終了0・診断なし。初回のSubtype coercion、kernel membershipの展開、scalarEndEquivの展開、comp_assocの向き、dependent elimination、olean検索場所、height添字の輸送による終了1ログは保持した。最後に成功した検査だけを今回の証拠と扱う。
+
+実際の二側イデアルによる成分商の積を二段階のliftQで定義し、単位元・結合則・正次数性・connectedness・対角非零性・局所有限性を証明してquotient ZAlgebraを構成した。商射の全射性と核が元のイデアルに一致することを証明した。頂点固定の実際の成分線形同型によるIsomorphismを定義し、反射・逆・合成と、全射についての積/単位元を保つ第一同型定理を証明した。ASRegularから元の代数と道代数の核による実際の商との同型まで構成した。矢イデアル平方に含まれる一般イデアルの対角零性も証明した。quotient-z-algebra2、z-algebra-isomorphisms1、as-presentation-quotient1は個別Lean終了0・診断なし。初回のextが商まで展開したことによる終了1ログは保持。
+
+利用先はfoundationの道代数商と最小関係の復元、Jacobian商の定義、生成元の変更を吸収する道代数自己同型と選択の独立性。実際のイデアル商・第一同型定理は完成。次は任意の生成元基底の持上げ、最小関係、標準RHom/derived/perfect、Jacobian/Ginzburg dg構築・外部一般定理と両主定理。定理3.2・系5.2は未証明で正式Lean定理文も未実装。検証・main保存後も継続する。
+
+検証：`20261008T174235Z-09d23b17`、1462.357828785秒、全段階終了0。
+JST 2026-10-09T02:42:35.401640+09:00 → 2026-10-09T03:06:57.759478+09:00。
+UTC 2026-10-08T17:42:35.401640+00:00 → 2026-10-08T18:06:57.759478+00:00。
+205数学モジュール・1916異なる宣言・892 theorem。
+差分：runs/total-algebra-20261008-unit41.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位41の新規公開検査20261008T174235Z-09d23b17は全6段階終了0、205数学モジュール・1916異なる宣言・全892 theorem・276 named instance。UTC17:42:35.401640→18:06:57.759478、1462.357828785秒。初期14/開始時60数学モジュールと歴史的577ファイルの無変更確認は終了0。環境再接続後の旧session ID25348はUnknown process idとなり、toolからそのシェル終了を回収できなかった。check.shがexecするrun_verification.pyの実行ログとrun.jsonの最終exit_code=0・status=success、全段階の実際の終了0を確認し、保存する最新の数学検査の証拠とした。ツールの旧sessionがないことを数学エラーや成功した再実行と扱わない。
+単位39のCI37815094225/job113441565086は正確なhead 0eb34ad7704347e0a7386399063e9dce18a4ac84でsuccess。全ログ646424bytes・SHA-256 5c4cc31b584ad3e1553e5d01a9349f47882f8db1845f33754d2b3df818ed09fb、検証UTC17:15:39.075342→17:44:01.201392、単調時計1702.126045504秒、全7段階0、artifact11568756284とdigestをverification/total_algebra_unit39_github_ci*に保存した。単位40のCI37818577417はin_progressと確認。
+次の草稿unrolled-jacobian-relations1、unrolled-component-heights3、unrolled-jacobian-algebra2は個別Lean終了0・診断なし。実際の巡回微分の全sheetへの持上げ、長さ≥2、整数添字への線形同型とfiltration保存、実際の生成イデアル・矢イデアル平方包含・対角零性・正に有向/connected/locally finiteなunrolled Jacobian商、商射・核・全関係の零性まで完成。これらを含む14数学モジュールを単位42として新規公開監査する予定で、41の検査対象には含めていない。
+さらにginzburg-paths4、ginzburg-path-algebra1は個別Lean終了0・診断なし。拡張箙の実際の可合成道・三つの次数と加法性、非正コホモロジー次数、正のwinding、元の道の持上げとコホモロジー次数0の道の元の道への復元、実際の自由拡張道空間の双線形積・単位元・結合則と三つの次数のhomogeneous成分の積閉性まで草稿で完成。微分・signed Leibniz延長・d²=0・コホモロジーと正則性は未実装で、その義務を残したまま継続する。
