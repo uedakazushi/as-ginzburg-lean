@@ -570,6 +570,16 @@ import ASGinzburg
 #print axioms ASGinzburg.topCohomologyEquiv
 #print axioms ASGinzburg.topCohomology_finrank
 #print axioms ASGinzburg.topCohomology_field_finrank
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraSpace
+#print axioms ASGinzburg.ZAlgebra.regularComponentActionLinear
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation_single
+#print axioms ASGinzburg.ZAlgebra.regularMatrixEntry
+#print axioms ASGinzburg.ZAlgebra.regularMatrixEntry_action
+#print axioms ASGinzburg.ZAlgebra.regularMatrixEntry_action_off
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraEntry
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraEntry_representation
+#print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation_injective
 #print axioms ASGinzburg.finiteTotalProjection
 #print axioms ASGinzburg.finiteTotalProjection_apply
 #print axioms ASGinzburg.finiteTotalProjection_apply_component

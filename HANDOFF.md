@@ -1,18 +1,17 @@
 # Codexクラウドへの引継ぎ
 
-有限AS分解から全次数Extと小さい直和の交換、総空間比較、Ext交換同型の全成分左作用への適合性を証明しました。
-左右の総空間関手の忠実性とexactnessに加え、任意の有限個の元が恒等成分作用の有限和で固定されることを証明済みです。
-ASRegularから次数3集中と正次数作用の消滅を導きました。新しいAS仮定はありません。
-次は有限台非単位的総代数・総加群構造、成分逆関手とGr(A)圏同値・Ext保存です。
-有限長双対性・周期性・定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T062041Z-c4ef97ab：60数学モジュール・636異なる宣言・274 theorem、全段階終了0。
-単位1〜8の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+有限台成分空間⊕_(i,j) A.Hom i jから正則右加群の自己準同型への線形埋込みを構成し、成分回収と単射性を証明しました。
+既存の全次数Ext直和交換・総空間関手・成分作用適合性・総空間の有限局所単位も保持しています。
+次は正則表現の像の積の閉性と両側局所単位、その後、総加群構造・成分逆関手・Gr(A)圏同値と実際のExt保存です。
+有限長双対性・周期性・主定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
+最新ローカル検証 20261008T071101Z-c88b8ead：61数学モジュール・646異なる宣言・279 theorem、全段階終了0。
+単位1〜1の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
 - リポジトリ：https://github.com/uedakazushi/as-ginzburg-lean 。作業場所：`/workspace/as-ginzburg-lean`。
 - mainへ直接保存。最新ユーザー指示は自律的な継続・検証済み単位の直接push。新規PRなし、force pushなし。
-- 今回の開始main：9356dc08b65fd8265659871b8efefb342d12cbcb。各単位の保存SHAはRECENT_RUN.md参照。
+- 今回の開始main：e2aa1fe65b295ec74457c3c4d09015c9d1aff473。各単位の保存SHAはRECENT_RUN.md参照。
 - Lean：leanprover/lean4:v4.24.0。mathlib：f897ebcf72cd16f89ab4577d0c826cd14afaafc7。manifest全依存固定。
 - 既存の加法的・k線形反変presheafのRightModule定義を保持。
 - ASRegularは原論文の有限最小分解の存在(i)と実際の総Ext rank条件(ii)。周期性・WindowSystem・必要なExt同型を追加しない。
