@@ -1,5 +1,9 @@
 import ASGinzburg
 
+#print axioms ASGinzburg.ZAlgebra.ASResolution.asDualityExtThreeEquiv
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extThreeEquiv
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extThree_finrank
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extThree_rank
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_isZero_ge_four
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_terms_isZero
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homologyLinearEquiv

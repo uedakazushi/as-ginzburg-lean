@@ -200,3 +200,20 @@ ASResolutionの存在以外の新しいAS仮定は追加していない。
 開始UTC 2026-10-08T03:06:49.133793+00:00、終了UTC 2026-10-08T03:08:55.327889+00:00。
 356異なる宣言・168 theorem・53 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit12.patch。
+
+## 証明単位13：実際のExt³(s_(tau v),P_v)=k
+
+`ASDualityExt.lean`で三つのsyzygy短完全列の線形connecting isomorphismを合成した。
+最初の0次shiftに必要なHom消滅は単位9の高い頂点の射影項の計算から導いた。
+既存のExt⁰–Hom線形同型とHom(P_v,P_v)=kを使い、実際のderived-category
+Abelian.Ext³(s_(tau v),P_v)とkの線形同型を構成した。ASRegularから選んだ分解でも使える。
+そのfinrank=1とrank=1を証明した。必要なExt同型を仮定に追加していない。
+命題1.3の一つの非零位置が実際のExtとして完成。全Extのdelta型と左加群AS双対性はこの単位では未証明。
+次：総Cardinal rank=1から他のExtを零とし、原論文(1.11)の数値的な順方向を証明する。
+単位12のmain保存：cd1a2a5a0dfcc696a362fd9aaf7a38b9396f9e37。
+
+
+検証：`20261008T030958Z-4779ab4b`、134.503781秒、全段階終了0。
+開始UTC 2026-10-08T03:09:58.505756+00:00、終了UTC 2026-10-08T03:12:13.009546+00:00。
+360異なる宣言・170 theorem・53 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit13.patch。
