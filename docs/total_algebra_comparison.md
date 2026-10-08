@@ -24,6 +24,7 @@ LocallyUnitalModules.leanで、単位化上のModuleCatのうち、恒等成分�
 実際の部分圏と、左右総加群の対象・所属の証明を構成した。単位化の全ModuleCatをGr(A)と同一視してはいけない。
 TotalModuleFunctors.leanで射の対応と左右の忠実関手を構成済み。
 TotalModuleFullness.leanで任意の総加群射から自然変換を回収し、左右関手の充満性も証明済み。
+UnitizationComponentActions.leanで、任意の単位化上の左右加群の成分作用と、恒等成分の直交冪等な射影を証明済み。
 残る任意の対象の成分射影像・直接和分解、逆関手、有限台分解の一意性、単位・余単位の自然性と
 圏同値を証明し、その同値による実際のAbelian.Extの保存を示す必要がある。
 忠実性とexactnessだけからExt保存を結論しない。

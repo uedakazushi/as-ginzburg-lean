@@ -1,0 +1,146 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index ab90f31..26cf5a2 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -8,6 +8,7 @@ import ASGinzburg.TotalModuleRepresentations
+ import ASGinzburg.LocallyUnitalModules
+ import ASGinzburg.TotalModuleFunctors
+ import ASGinzburg.TotalModuleFullness
++import ASGinzburg.UnitizationComponentActions
+ import ASGinzburg.RegularCoproductActions
+ import ASGinzburg.TotalModuleSpaces
+ import ASGinzburg.ASDualityRegularCoproduct
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index d208a26..31759d9 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -725,6 +725,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.triangle_same_winding_as_arrow_is_linear
+ #print axioms ASGinzburg.trianglePotential
+ #print axioms ASGinzburg.trianglePotential_cut_derivative_identity
++#print axioms ASGinzburg.ZAlgebra.totalUnitizationComponentLinear
++#print axioms ASGinzburg.ZAlgebra.totalUnitizationComponentLinear_apply
++#print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentAction
++#print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentAction
++#print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentAction_comp
++#print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentAction_comp
++#print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentAction_comp_off
++#print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentAction_comp_off
++#print axioms ASGinzburg.ZAlgebra.leftUnitizationProjection
++#print axioms ASGinzburg.ZAlgebra.rightUnitizationProjection
++#print axioms ASGinzburg.ZAlgebra.leftUnitizationProjection_idempotent
++#print axioms ASGinzburg.ZAlgebra.rightUnitizationProjection_idempotent
++#print axioms ASGinzburg.ZAlgebra.leftUnitizationProjection_orthogonal
++#print axioms ASGinzburg.ZAlgebra.rightUnitizationProjection_orthogonal
+ #print axioms ASGinzburg.ZAlgebra.InWindow
+ #print axioms ASGinzburg.ZAlgebra.InWindow.mono
+ #print axioms ASGinzburg.ZAlgebra.WindowSystem
+diff --git a/ASGinzburg/UnitizationComponentActions.lean b/ASGinzburg/UnitizationComponentActions.lean
+new file mode 100644
+index 0000000..bdfd70b
+--- /dev/null
++++ b/ASGinzburg/UnitizationComponentActions.lean
+@@ -0,0 +1,103 @@
++import ASGinzburg.TotalModuleFullness
++
++/-!
++Any module over the unitization has the original component actions. The
++identity components act as orthogonal idempotent k-linear projectors. Their
++ranges will be used to reconstruct the component functors.
++-/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory Opposite
++open scoped ModuleCat.Algebra DirectSum
++attribute [local instance 2000] ModuleCat.isModule
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def totalUnitizationComponentLinear (i j : ℤ) :
++    A.Hom i j →ₗ[k] A.totalUnitization :=
++  (Unitization.inrHom k A.totalAlgebra).comp
++    (A.totalAlgebraEquiv.toLinearMap.comp (DFinsupp.lsingle (R := k) (M := fun p : ℤ × ℤ => A.Hom p.1 p.2) (i,j)))
++
++@[simp] theorem totalUnitizationComponentLinear_apply {i j : ℤ} (a : A.Hom i j) :
++    A.totalUnitizationComponentLinear i j a = (A.totalAlgebraComponent a : A.totalUnitization) := rfl
++
++noncomputable def leftUnitizationComponentAction (M : ModuleCat.{v} A.totalUnitization)
++    {i j : ℤ} (a : A.Hom i j) : Module.End k M :=
++  DistribMulAction.toLinearMap k M (A.totalAlgebraComponent a : A.totalUnitization)
++
++noncomputable def rightUnitizationComponentAction (M : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ)
++    {i j : ℤ} (a : A.Hom i j) : Module.End k M :=
++  DistribMulAction.toLinearMap k M
++    (MulOpposite.op (A.totalAlgebraComponent a : A.totalUnitization))
++
++theorem leftUnitizationComponentAction_comp (M : ModuleCat.{v} A.totalUnitization)
++    {i j l : ℤ} (a : A.Hom i j) (b : A.Hom j l) :
++    (A.leftUnitizationComponentAction M b).comp (A.leftUnitizationComponentAction M a) =
++      A.leftUnitizationComponentAction M (A.comp b a) := by
++  apply LinearMap.ext
++  intro x
++  change (A.totalAlgebraComponent b : A.totalUnitization) •
++    ((A.totalAlgebraComponent a : A.totalUnitization) • x) = _
++  rw [smul_smul, ← Unitization.inr_mul, A.totalAlgebraComponent_mul]
++  rfl
++
++theorem rightUnitizationComponentAction_comp (M : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ)
++    {i j l : ℤ} (a : A.Hom i j) (b : A.Hom j l) :
++    (A.rightUnitizationComponentAction M a).comp (A.rightUnitizationComponentAction M b) =
++      A.rightUnitizationComponentAction M (A.comp b a) := by
++  apply LinearMap.ext
++  intro x
++  change MulOpposite.op (A.totalAlgebraComponent a : A.totalUnitization) •
++    (MulOpposite.op (A.totalAlgebraComponent b : A.totalUnitization) • x) = _
++  rw [smul_smul, ← MulOpposite.op_mul, ← Unitization.inr_mul, A.totalAlgebraComponent_mul]
++  rfl
++
++theorem leftUnitizationComponentAction_comp_off (M : ModuleCat.{v} A.totalUnitization)
++    {i j p q : ℤ} (a : A.Hom i j) (b : A.Hom p q) (hjp : j ≠ p) :
++    (A.leftUnitizationComponentAction M b).comp (A.leftUnitizationComponentAction M a) = 0 := by
++  apply LinearMap.ext
++  intro x
++  change (A.totalAlgebraComponent b : A.totalUnitization) •
++    ((A.totalAlgebraComponent a : A.totalUnitization) • x) = 0
++  rw [smul_smul, ← Unitization.inr_mul, A.totalAlgebraComponent_mul_off a b hjp]
++  change (0 : A.totalUnitization) • x = 0
++  exact zero_smul _ _
++
++theorem rightUnitizationComponentAction_comp_off (M : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ)
++    {i j p q : ℤ} (a : A.Hom i j) (b : A.Hom p q) (hjp : j ≠ p) :
++    (A.rightUnitizationComponentAction M a).comp (A.rightUnitizationComponentAction M b) = 0 := by
++  apply LinearMap.ext
++  intro x
++  change MulOpposite.op (A.totalAlgebraComponent a : A.totalUnitization) •
++    (MulOpposite.op (A.totalAlgebraComponent b : A.totalUnitization) • x) = 0
++  rw [smul_smul, ← MulOpposite.op_mul, ← Unitization.inr_mul,
++    A.totalAlgebraComponent_mul_off a b hjp]
++  change (0 : A.totalUnitizationᵐᵒᵖ) • x = 0
++  exact zero_smul _ _
++
++noncomputable def leftUnitizationProjection (M : ModuleCat.{v} A.totalUnitization) (i : ℤ) :
++    Module.End k M := A.leftUnitizationComponentAction M (A.id i)
++
++noncomputable def rightUnitizationProjection (M : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ) (i : ℤ) :
++    Module.End k M := A.rightUnitizationComponentAction M (A.id i)
++
++theorem leftUnitizationProjection_idempotent (M : ModuleCat.{v} A.totalUnitization) (i : ℤ) :
++    (A.leftUnitizationProjection M i).comp (A.leftUnitizationProjection M i) =
++      A.leftUnitizationProjection M i := by
++  rw [leftUnitizationProjection, A.leftUnitizationComponentAction_comp, A.comp_id]
++
++theorem rightUnitizationProjection_idempotent (M : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ) (i : ℤ) :
++    (A.rightUnitizationProjection M i).comp (A.rightUnitizationProjection M i) =
++      A.rightUnitizationProjection M i := by
++  rw [rightUnitizationProjection, A.rightUnitizationComponentAction_comp, A.comp_id]
++
++theorem leftUnitizationProjection_orthogonal (M : ModuleCat.{v} A.totalUnitization)
++    (i j : ℤ) (hij : i ≠ j) :
++    (A.leftUnitizationProjection M j).comp (A.leftUnitizationProjection M i) = 0 :=
++  A.leftUnitizationComponentAction_comp_off M (A.id i) (A.id j) hij
++
++theorem rightUnitizationProjection_orthogonal (M : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ)
++    (i j : ℤ) (hij : i ≠ j) :
++    (A.rightUnitizationProjection M j).comp (A.rightUnitizationProjection M i) = 0 :=
++  A.rightUnitizationComponentAction_comp_off M (A.id j) (A.id i) (Ne.symm hij)
++
++end ASGinzburg.ZAlgebra
