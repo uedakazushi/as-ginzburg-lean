@@ -1,5 +1,11 @@
 import ASGinzburg
 
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_isZero_ge_four
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_terms_isZero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homologyLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_homology_isZero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_high_homology_isZero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homology_finrank
 #print axioms ASGinzburg.CutQuiver.tau_incomingSource_height_gt
 #print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₀_zero
 #print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₁_zero

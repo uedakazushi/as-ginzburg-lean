@@ -170,3 +170,18 @@ AS有限分解をsyzygyの短完全列に切り分けてこの同型を合成す
 開始UTC 2026-10-08T02:59:35.218932+00:00、終了UTC 2026-10-08T03:01:34.066331+00:00。
 336異なる宣言・153 theorem・51 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit10.patch。
+
+## 証明単位11：命題1.3の実際のHom cohomology
+
+`ASDualityHomCohomology.lean`でs_(tau v)の有限分解にHom(-,P_v)を適用した
+実際の複体の0,1,2次の項と4次以降の項がIsZeroであることを証明した。
+3次ホモロジーとkの線形同型、finrank=1、他の全次数のホモロジーのIsZeroも証明した。
+この時点ではderived-category Abelian.Extとの比較は未証明。
+次：syzygy短完全列から線形dimension shiftを合成して実際のExt³を計算する。
+単位10のmain保存：719f8521a6909533a39c57f8d6573b55a84c5b97。
+
+
+検証：`20261008T030308Z-ec72e438`、121.208460秒、全段階終了0。
+開始UTC 2026-10-08T03:03:08.873014+00:00、終了UTC 2026-10-08T03:05:10.081482+00:00。
+342異なる宣言・158 theorem・51 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit11.patch。

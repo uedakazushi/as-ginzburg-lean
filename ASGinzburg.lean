@@ -20,6 +20,7 @@ import ASGinzburg.ASRegular
 import ASGinzburg.ASResolutionHomComplex
 import ASGinzburg.ASDualityHomTerms
 import ASGinzburg.RightModuleExtSequence
+import ASGinzburg.ASDualityHomCohomology
 import ASGinzburg.RightModuleExt
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology
