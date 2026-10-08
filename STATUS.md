@@ -1,9 +1,10 @@
 # 現在の状況
 
-有限coproductのHomと余極限の自然な交換を追加しました（FiniteCoproductHomColimits）。
-AS分解の第1・第2項と実際のExt⁰にも適用済みです。高次Extの直和交換とGr(A)比較は未証明です。
-最新ローカル検証 20261008T050918Z-e404c546：52数学モジュール・517異なる宣言・224 theorem、全段階終了0。
-単位1の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+有限coproductのHom交換に加え、実際のExtの接続写像と次元シフトの自然性、関手圏での余核表示を証明しました。
+射影的な中項の短完全列に適用できます。Hom消滅を追加仮定していません。
+次は核・余核による交換の閉性と高次Extの直和交換。Gr(A)比較は未証明です。
+最新ローカル検証 20261008T052305Z-ec668cf7：53数学モジュール・529異なる宣言・227 theorem、全段階終了0。
+単位1〜2の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -21,8 +22,8 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 517異なる名前、全明示的宣言・98 named instanceを含む、終了0 |
-| theorem | 224、全件が監査対象 |
+| 個別公理監査 | 529異なる名前、全明示的宣言・100 named instanceを含む、終了0 |
+| theorem | 227、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
