@@ -19,6 +19,9 @@ import ASGinzburg.LocallyUnitalExtComparison
 import ASGinzburg.LocallyUnitalExtNaturality
 import ASGinzburg.RegularTotalAlgebra
 import ASGinzburg.RegularRightModule
+import ASGinzburg.LinearExtTransport
+import ASGinzburg.RegularLeftMultiplication
+import ASGinzburg.RegularExtComparison
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct

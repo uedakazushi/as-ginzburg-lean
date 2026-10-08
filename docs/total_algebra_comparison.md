@@ -44,3 +44,5 @@ LocallyUnitalExtNaturality.leanで全次数Ext比較の前合成・後合成の�
 RegularTotalAlgebra.leanで正則右総空間の有限台二重直和・総代数とのk線形同型、成分包含と行列元の対応、成分および全総代数の右作用と右乗法の一致を証明した。実際の局所単位付き右加群対象・加群同型・左乗法の同定が次の義務。
 
 RegularRightModule.leanで総代数の実際の単位化右加群、スカラー作用と右乗法の作用式、局所単位付き対象、正則総加群との加群同型、成分左乗法の右加群射と具体式を構成・証明した。全左乗法とExtの移送が次の義務。
+
+LinearExtTransport.lean、RegularLeftMultiplication.lean、RegularExtComparison.leanにより、実際のExt(Fs_w,A)と元のExt成分左加群の総空間をk線形に比較した。自然なExt保存・正則右加群の同型・有限AS分解の直和交換を合成し、任意の総代数元の左乗法による後合成と全左表現の一致を証明した。左Ext加群としての束ねと次数3の単純商同型を次に公開検証する。

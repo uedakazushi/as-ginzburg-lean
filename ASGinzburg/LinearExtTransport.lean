@@ -1,0 +1,142 @@
+import ASGinzburg.ExactEquivalenceExt
+
+/-! Actual scalar-linear Ext postcomposition, isomorphism transport, and its
+compatibility with conjugation. The auxiliary module transport keeps the
+underlying additive structure unchanged. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe w w₁ u v
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasDerivedCategory.{w₁} C]
+  [HasExt.{w} C] (R : Type*) [Field R] [Linear R C]
+attribute [local instance] exactExtModule
+
+noncomputable def additiveModuleTransportEquiv (S : Type*) [Semiring S] {α β : Type*}
+    [AddCommMonoid α] [AddCommMonoid β] [Module S β] (e : α ≃+ β) :
+    letI := e.module S
+    α ≃ₗ[S] β := by
+  letI := e.module S
+  exact
+    { e with
+      map_smul' := fun r x => e.apply_symm_apply (r • e x) }
+
+theorem exactExt_smul_comp {X Y Z : C} {a b c : ℕ}
+    (x : Abelian.Ext.{w} X Y a) (y : Abelian.Ext.{w} Y Z b) (h : a + b = c) (r : R) :
+    letI := exactExtModule R X Y a
+    letI := exactExtModule R X Z c
+    (r • x).comp y h = r • x.comp y h := by
+  letI := exactExtModule R X Y a
+  letI := exactExtModule R X Z c
+  apply (exactExtHomLinearEquiv R X Z c).injective
+  rw [LinearEquiv.map_smul]
+  change ((r • x).comp y h).hom = r • (x.comp y h).hom
+  rw [Abelian.Ext.comp_hom, Abelian.Ext.comp_hom]
+  have hx : (r • x).hom = r • x.hom := (exactExtHomLinearEquiv R X Y a).map_smul r x
+  rw [hx]
+  dsimp only [ShiftedHom.comp]
+  exact Linear.smul_comp _ _ _ r x.hom _
+
+theorem exactExt_comp_smul {X Y Z : C} {a b c : ℕ}
+    (x : Abelian.Ext.{w} X Y a) (y : Abelian.Ext.{w} Y Z b) (h : a + b = c) (r : R) :
+    letI := exactExtModule R Y Z b
+    letI := exactExtModule R X Z c
+    x.comp (r • y) h = r • x.comp y h := by
+  letI := exactExtModule R Y Z b
+  letI := exactExtModule R X Z c
+  apply (exactExtHomLinearEquiv R X Z c).injective
+  rw [LinearEquiv.map_smul]
+  change (x.comp (r • y) h).hom = r • (x.comp y h).hom
+  rw [Abelian.Ext.comp_hom, Abelian.Ext.comp_hom]
+  have hy : (r • y).hom = r • y.hom := (exactExtHomLinearEquiv R Y Z b).map_smul r y
+  rw [hy]
+  dsimp only [ShiftedHom.comp]
+  rw [Functor.map_smul]
+  rw [Linear.smul_comp _ _ _ r ((shiftFunctor (DerivedCategory C) (a : ℤ)).map y.hom) _]
+  exact Linear.comp_smul _ _ _ x.hom r _
+
+theorem exactExt_mk₀_smul {X Y : C} (r : R) (f : X ⟶ Y) :
+    letI := exactExtModule R X Y 0
+    Abelian.Ext.mk₀ (r • f) = r • (Abelian.Ext.mk₀ f : Abelian.Ext.{w} X Y 0) := by
+  letI := exactExtModule R X Y 0
+  letI : (DerivedCategory.singleFunctor C 0).Linear R :=
+    inferInstanceAs (Functor.Linear R (HomotopyCategory.singleFunctor C 0 ⋙
+      (DerivedCategory.Qh : _ ⥤ DerivedCategory C)))
+  apply (exactExtHomLinearEquiv R X Y 0).injective
+  rw [LinearEquiv.map_smul]
+  change (Abelian.Ext.mk₀ (r • f)).hom = r • (Abelian.Ext.mk₀ f).hom
+  rw [Abelian.Ext.mk₀_hom, Abelian.Ext.mk₀_hom]
+  dsimp only [ShiftedHom.mk₀]
+  rw [Functor.map_smul]
+  exact Linear.smul_comp _ _ _ r _ _
+
+noncomputable def exactExtPostcomp {M N P : C} (f : N ⟶ P) (n : ℕ) :
+    letI := exactExtModule R M N n
+    letI := exactExtModule R M P n
+    Abelian.Ext.{w} M N n →ₗ[R] Abelian.Ext.{w} M P n := by
+  letI := exactExtModule R M N n
+  letI := exactExtModule R M P n
+  exact
+    { toFun x := x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+      map_add' x y := Abelian.Ext.add_comp x y _ _
+      map_smul' r x := exactExt_smul_comp R x _ _ r }
+
+noncomputable def exactExtCovariant (M : C) (n : ℕ) : C ⥤ ModuleCat.{w} R where
+  obj N := by
+    letI := exactExtModule R M N n
+    exact ModuleCat.of R (Abelian.Ext.{w} M N n)
+  map {N P} f := ModuleCat.ofHom (exactExtPostcomp R (M := M) f n)
+  map_id N := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    exact Abelian.Ext.comp_mk₀_id x
+  map_comp f g := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change x.comp (Abelian.Ext.mk₀ (f ≫ g)) (Nat.add_zero n) =
+      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [← Abelian.Ext.mk₀_comp_mk₀]
+    symm
+    apply Abelian.Ext.comp_assoc
+    omega
+
+instance exactExtCovariantAdditive (M : C) (n : ℕ) : (exactExtCovariant R M n).Additive where
+  map_add := by
+    intro X Y f g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change x.comp (Abelian.Ext.mk₀ (f + g)) (Nat.add_zero n) =
+      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n) + x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [Abelian.Ext.mk₀_add, Abelian.Ext.comp_add]
+
+instance exactExtCovariantLinear (M : C) (n : ℕ) : (exactExtCovariant R M n).Linear R where
+  map_smul := by
+    intro X Y f r
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n) =
+      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+    rw [exactExt_mk₀_smul R]
+    exact exactExt_comp_smul R x _ _ r
+
+noncomputable def exactExtPostcompIso {M N P : C} (e : N ≅ P) (n : ℕ) :
+    letI := exactExtModule R M N n
+    letI := exactExtModule R M P n
+    Abelian.Ext.{w} M N n ≃ₗ[R] Abelian.Ext.{w} M P n :=
+  ((exactExtCovariant R M n).mapIso e).toLinearEquiv
+theorem exactExtPostcompIso_apply {M N P : C} (e : N ≅ P) (n : ℕ)
+    (x : Abelian.Ext.{w} M N n) :
+    exactExtPostcompIso R e n x = x.comp (Abelian.Ext.mk₀ e.hom) (Nat.add_zero n) := rfl
+
+theorem exactExtPostcompIso_conjugation {M N P : C} (e : N ≅ P) (n : ℕ)
+    (f : N ⟶ N) (x : Abelian.Ext.{w} M N n) :
+    exactExtPostcompIso R e n (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)) =
+      (exactExtPostcompIso R e n x).comp
+        (Abelian.Ext.mk₀ (e.inv ≫ f ≫ e.hom)) (Nat.add_zero n) := by
+  rw [exactExtPostcompIso_apply, exactExtPostcompIso_apply]
+  simp only [Abelian.Ext.comp_assoc_of_second_deg_zero, Abelian.Ext.mk₀_comp_mk₀,
+    ← Category.assoc, e.hom_inv_id, Category.id_comp]
+
+end ASGinzburg

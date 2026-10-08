@@ -1,0 +1,370 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 76a7f24..32f0a7c 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -19,6 +19,9 @@ import ASGinzburg.LocallyUnitalExtComparison
+ import ASGinzburg.LocallyUnitalExtNaturality
+ import ASGinzburg.RegularTotalAlgebra
+ import ASGinzburg.RegularRightModule
++import ASGinzburg.LinearExtTransport
++import ASGinzburg.RegularLeftMultiplication
++import ASGinzburg.RegularExtComparison
+ import ASGinzburg.RegularCoproductActions
+ import ASGinzburg.TotalModuleSpaces
+ import ASGinzburg.ASDualityRegularCoproduct
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 3343ca4..6d17455 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -348,6 +348,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientπEpi
+ #print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortComplex
+ #print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortExact
++#print axioms ASGinzburg.additiveModuleTransportEquiv
++#print axioms ASGinzburg.exactExt_smul_comp
++#print axioms ASGinzburg.exactExt_comp_smul
++#print axioms ASGinzburg.exactExt_mk₀_smul
++#print axioms ASGinzburg.exactExtPostcomp
++#print axioms ASGinzburg.exactExtCovariant
++#print axioms ASGinzburg.exactExtCovariantAdditive
++#print axioms ASGinzburg.exactExtCovariantLinear
++#print axioms ASGinzburg.exactExtPostcompIso
++#print axioms ASGinzburg.exactExtPostcompIso_apply
++#print axioms ASGinzburg.exactExtPostcompIso_conjugation
+ #print axioms ASGinzburg.ZAlgebra.leftTotalLocallyUnitalFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightTotalLocallyUnitalFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalComponentFunctorAdditive
+@@ -456,6 +467,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.extRegularCoproductEquiv_inclusion
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.extRegularCoproductEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproductThree_positive_action_zero
++#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtIso
++#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtIso_conjugation
++#print axioms ASGinzburg.ZAlgebra.rightRegularExtGrLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.rightRegularExtGrLinearEquiv_postcomp
++#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLinearEquiv_action
++#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLinearEquiv_representation
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap_component
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap_add
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap_zero
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap_apply
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraRightUnitizationModule
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraRightModule
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraRightModule_smul
+diff --git a/ASGinzburg/LinearExtTransport.lean b/ASGinzburg/LinearExtTransport.lean
+new file mode 100644
+index 0000000..7f02675
+--- /dev/null
++++ b/ASGinzburg/LinearExtTransport.lean
+@@ -0,0 +1,142 @@
++import ASGinzburg.ExactEquivalenceExt
++
++/-! Actual scalar-linear Ext postcomposition, isomorphism transport, and its
++compatibility with conjugation. The auxiliary module transport keeps the
++underlying additive structure unchanged. -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe w w₁ u v
++variable {C : Type u} [Category.{v} C] [Abelian C] [HasDerivedCategory.{w₁} C]
++  [HasExt.{w} C] (R : Type*) [Field R] [Linear R C]
++attribute [local instance] exactExtModule
++
++noncomputable def additiveModuleTransportEquiv (S : Type*) [Semiring S] {α β : Type*}
++    [AddCommMonoid α] [AddCommMonoid β] [Module S β] (e : α ≃+ β) :
++    letI := e.module S
++    α ≃ₗ[S] β := by
++  letI := e.module S
++  exact
++    { e with
++      map_smul' := fun r x => e.apply_symm_apply (r • e x) }
++
++theorem exactExt_smul_comp {X Y Z : C} {a b c : ℕ}
++    (x : Abelian.Ext.{w} X Y a) (y : Abelian.Ext.{w} Y Z b) (h : a + b = c) (r : R) :
++    letI := exactExtModule R X Y a
++    letI := exactExtModule R X Z c
++    (r • x).comp y h = r • x.comp y h := by
++  letI := exactExtModule R X Y a
++  letI := exactExtModule R X Z c
++  apply (exactExtHomLinearEquiv R X Z c).injective
++  rw [LinearEquiv.map_smul]
++  change ((r • x).comp y h).hom = r • (x.comp y h).hom
++  rw [Abelian.Ext.comp_hom, Abelian.Ext.comp_hom]
++  have hx : (r • x).hom = r • x.hom := (exactExtHomLinearEquiv R X Y a).map_smul r x
++  rw [hx]
++  dsimp only [ShiftedHom.comp]
++  exact Linear.smul_comp _ _ _ r x.hom _
++
++theorem exactExt_comp_smul {X Y Z : C} {a b c : ℕ}
++    (x : Abelian.Ext.{w} X Y a) (y : Abelian.Ext.{w} Y Z b) (h : a + b = c) (r : R) :
++    letI := exactExtModule R Y Z b
++    letI := exactExtModule R X Z c
++    x.comp (r • y) h = r • x.comp y h := by
++  letI := exactExtModule R Y Z b
++  letI := exactExtModule R X Z c
++  apply (exactExtHomLinearEquiv R X Z c).injective
++  rw [LinearEquiv.map_smul]
++  change (x.comp (r • y) h).hom = r • (x.comp y h).hom
++  rw [Abelian.Ext.comp_hom, Abelian.Ext.comp_hom]
++  have hy : (r • y).hom = r • y.hom := (exactExtHomLinearEquiv R Y Z b).map_smul r y
++  rw [hy]
++  dsimp only [ShiftedHom.comp]
++  rw [Functor.map_smul]
++  rw [Linear.smul_comp _ _ _ r ((shiftFunctor (DerivedCategory C) (a : ℤ)).map y.hom) _]
++  exact Linear.comp_smul _ _ _ x.hom r _
++
++theorem exactExt_mk₀_smul {X Y : C} (r : R) (f : X ⟶ Y) :
++    letI := exactExtModule R X Y 0
++    Abelian.Ext.mk₀ (r • f) = r • (Abelian.Ext.mk₀ f : Abelian.Ext.{w} X Y 0) := by
++  letI := exactExtModule R X Y 0
++  letI : (DerivedCategory.singleFunctor C 0).Linear R :=
++    inferInstanceAs (Functor.Linear R (HomotopyCategory.singleFunctor C 0 ⋙
++      (DerivedCategory.Qh : _ ⥤ DerivedCategory C)))
++  apply (exactExtHomLinearEquiv R X Y 0).injective
++  rw [LinearEquiv.map_smul]
++  change (Abelian.Ext.mk₀ (r • f)).hom = r • (Abelian.Ext.mk₀ f).hom
++  rw [Abelian.Ext.mk₀_hom, Abelian.Ext.mk₀_hom]
++  dsimp only [ShiftedHom.mk₀]
++  rw [Functor.map_smul]
++  exact Linear.smul_comp _ _ _ r _ _
++
++noncomputable def exactExtPostcomp {M N P : C} (f : N ⟶ P) (n : ℕ) :
++    letI := exactExtModule R M N n
++    letI := exactExtModule R M P n
++    Abelian.Ext.{w} M N n →ₗ[R] Abelian.Ext.{w} M P n := by
++  letI := exactExtModule R M N n
++  letI := exactExtModule R M P n
++  exact
++    { toFun x := x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
++      map_add' x y := Abelian.Ext.add_comp x y _ _
++      map_smul' r x := exactExt_smul_comp R x _ _ r }
++
++noncomputable def exactExtCovariant (M : C) (n : ℕ) : C ⥤ ModuleCat.{w} R where
++  obj N := by
++    letI := exactExtModule R M N n
++    exact ModuleCat.of R (Abelian.Ext.{w} M N n)
++  map {N P} f := ModuleCat.ofHom (exactExtPostcomp R (M := M) f n)
++  map_id N := by
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    exact Abelian.Ext.comp_mk₀_id x
++  map_comp f g := by
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    change x.comp (Abelian.Ext.mk₀ (f ≫ g)) (Nat.add_zero n) =
++      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    rw [← Abelian.Ext.mk₀_comp_mk₀]
++    symm
++    apply Abelian.Ext.comp_assoc
++    omega
++
++instance exactExtCovariantAdditive (M : C) (n : ℕ) : (exactExtCovariant R M n).Additive where
++  map_add := by
++    intro X Y f g
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    change x.comp (Abelian.Ext.mk₀ (f + g)) (Nat.add_zero n) =
++      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n) + x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    rw [Abelian.Ext.mk₀_add, Abelian.Ext.comp_add]
++
++instance exactExtCovariantLinear (M : C) (n : ℕ) : (exactExtCovariant R M n).Linear R where
++  map_smul := by
++    intro X Y f r
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n) =
++      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
++    rw [exactExt_mk₀_smul R]
++    exact exactExt_comp_smul R x _ _ r
++
++noncomputable def exactExtPostcompIso {M N P : C} (e : N ≅ P) (n : ℕ) :
++    letI := exactExtModule R M N n
++    letI := exactExtModule R M P n
++    Abelian.Ext.{w} M N n ≃ₗ[R] Abelian.Ext.{w} M P n :=
++  ((exactExtCovariant R M n).mapIso e).toLinearEquiv
++theorem exactExtPostcompIso_apply {M N P : C} (e : N ≅ P) (n : ℕ)
++    (x : Abelian.Ext.{w} M N n) :
++    exactExtPostcompIso R e n x = x.comp (Abelian.Ext.mk₀ e.hom) (Nat.add_zero n) := rfl
++
++theorem exactExtPostcompIso_conjugation {M N P : C} (e : N ≅ P) (n : ℕ)
++    (f : N ⟶ N) (x : Abelian.Ext.{w} M N n) :
++    exactExtPostcompIso R e n (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)) =
++      (exactExtPostcompIso R e n x).comp
++        (Abelian.Ext.mk₀ (e.inv ≫ f ≫ e.hom)) (Nat.add_zero n) := by
++  rw [exactExtPostcompIso_apply, exactExtPostcompIso_apply]
++  simp only [Abelian.Ext.comp_assoc_of_second_deg_zero, Abelian.Ext.mk₀_comp_mk₀,
++    ← Category.assoc, e.hom_inv_id, Category.id_comp]
++
++end ASGinzburg
+diff --git a/ASGinzburg/RegularLeftMultiplication.lean b/ASGinzburg/RegularLeftMultiplication.lean
+new file mode 100644
+index 0000000..60cfb63
+--- /dev/null
++++ b/ASGinzburg/RegularLeftMultiplication.lean
+@@ -0,0 +1,46 @@
++import ASGinzburg.RegularRightModule
++
++/-! Every total algebra element acts on the concrete right regular module by
++actual left multiplication, as a morphism of unitized right modules. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++noncomputable def totalAlgebraLeftMap (a : A.totalAlgebra) :
++    A.totalAlgebraRightLocallyUnitalModule ⟶ A.totalAlgebraRightLocallyUnitalModule :=
++  A.rightRegularTotalLocallyUnitalIso.inv ≫
++    A.rightTotalLocallyUnitalFunctor.map (a : CategoryTheory.End A.rightRegularCoproduct) ≫
++      A.rightRegularTotalLocallyUnitalIso.hom
++
++@[simp] theorem totalAlgebraLeftMap_component {i j : ℤ} (a : A.Hom i j) :
++    A.totalAlgebraLeftMap (A.totalAlgebraComponent a) = A.totalAlgebraLeftComponentMap a := by
++  dsimp only [totalAlgebraLeftMap]
++  rw [A.totalAlgebraComponent_coe]
++  rfl
++
++theorem totalAlgebraLeftMap_add (a b : A.totalAlgebra) :
++    A.totalAlgebraLeftMap (a + b) = A.totalAlgebraLeftMap a + A.totalAlgebraLeftMap b := by
++  change _ ≫ A.rightTotalLocallyUnitalFunctor.map
++    ((a : CategoryTheory.End A.rightRegularCoproduct) + (b : CategoryTheory.End A.rightRegularCoproduct)) ≫ _ = _
++  rw [Functor.map_add, Preadditive.add_comp, Preadditive.comp_add]
++  rfl
++
++theorem totalAlgebraLeftMap_zero : A.totalAlgebraLeftMap 0 = 0 := by
++  change _ ≫ A.rightTotalLocallyUnitalFunctor.map (0 : CategoryTheory.End A.rightRegularCoproduct) ≫ _ = 0
++  rw [Functor.map_zero, zero_comp, comp_zero]
++
++theorem totalAlgebraLeftMap_apply (a : A.totalAlgebra) (x : A.totalAlgebra) :
++    (A.totalAlgebraLeftMap a).hom x = a * x := by
++  obtain ⟨a,rfl⟩ := A.totalAlgebraEquiv.surjective a
++  induction a using DFinsupp.induction with
++  | h0 => rw [map_zero, A.totalAlgebraLeftMap_zero]; rfl
++  | ha p b a _ _ ih =>
++    rw [map_add, A.totalAlgebraLeftMap_add, ModuleCat.hom_add, LinearMap.add_apply, add_mul, ih]
++    congr 1
++    rcases p with ⟨i,j⟩
++    change (A.totalAlgebraLeftMap (A.totalAlgebraComponent b)).hom x =
++      A.totalAlgebraComponent b * x
++    rw [A.totalAlgebraLeftMap_component]
++    exact A.totalAlgebraLeftComponentMap_apply b x
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/RegularExtComparison.lean b/ASGinzburg/RegularExtComparison.lean
+new file mode 100644
+index 0000000..c7a8819
+--- /dev/null
++++ b/ASGinzburg/RegularExtComparison.lean
+@@ -0,0 +1,109 @@
++import ASGinzburg.LinearExtTransport
++import ASGinzburg.RegularLeftMultiplication
++
++/-! Actual Ext into the total algebra, compared with the old component Ext
++module. The isomorphism intertwines postcomposition by every left multiplier
++with the complete total-algebra left action. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightLocallyUnitalExtIso {M N P : A.RightLocallyUnitalModule}
++    (e : N ≅ P) (n : ℕ) : Abelian.Ext.{v} M N n ≃ₗ[k] Abelian.Ext.{v} M P n := by
++  letI := HasDerivedCategory.standard A.RightLocallyUnitalModule
++  exact ASGinzburg.exactExtPostcompIso k e n
++
++theorem rightLocallyUnitalExtIso_conjugation {M N P : A.RightLocallyUnitalModule}
++    (e : N ≅ P) (n : ℕ) (f : N ⟶ N) (x : Abelian.Ext.{v} M N n) :
++    A.rightLocallyUnitalExtIso e n (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)) =
++      (A.rightLocallyUnitalExtIso e n x).comp
++        (Abelian.Ext.mk₀ (e.inv ≫ f ≫ e.hom)) (Nat.add_zero n) := by
++  letI := HasDerivedCategory.standard A.RightLocallyUnitalModule
++  exact ASGinzburg.exactExtPostcompIso_conjugation k e n f x
++
++noncomputable def rightRegularExtGrLinearEquiv (M : A.RightModule) (n : ℕ) :
++    Abelian.Ext.{v} M A.rightRegularCoproduct n ≃ₗ[k]
++      Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule M) A.totalAlgebraRightLocallyUnitalModule n :=
++  (A.rightLocallyUnitalExtLinearEquiv M A.rightRegularCoproduct n).trans
++    (A.rightLocallyUnitalExtIso A.rightRegularTotalLocallyUnitalIso n)
++
++theorem rightRegularExtGrLinearEquiv_postcomp (M : A.RightModule) (n : ℕ)
++    (f : A.rightRegularCoproduct ⟶ A.rightRegularCoproduct)
++    (x : Abelian.Ext.{v} M A.rightRegularCoproduct n) :
++    A.rightRegularExtGrLinearEquiv M n (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)) =
++      (A.rightRegularExtGrLinearEquiv M n x).comp
++        (Abelian.Ext.mk₀ (A.rightRegularTotalLocallyUnitalIso.inv ≫
++          A.rightTotalLocallyUnitalFunctor.map f ≫ A.rightRegularTotalLocallyUnitalIso.hom))
++          (Nat.add_zero n) := by
++  change A.rightLocallyUnitalExtIso A.rightRegularTotalLocallyUnitalIso n
++    (A.rightLocallyUnitalExtLinearEquiv M A.rightRegularCoproduct n
++      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n))) = _
++  rw [A.rightLocallyUnitalExtLinearEquiv_postcomp]
++  exact A.rightLocallyUnitalExtIso_conjugation A.rightRegularTotalLocallyUnitalIso n _ _
++
++namespace ASResolution
++variable {A} {Q : CutQuiver} {w : Q.LiftVertex} (S : A.ASResolution Q w)
++
++noncomputable def extTotalAlgebraLinearEquiv (n : ℕ) :
++    Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w)))
++      A.totalAlgebraRightLocallyUnitalModule n ≃ₗ[k]
++        A.leftModuleTotalSpace (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) :=
++  (A.rightRegularExtGrLinearEquiv (A.simpleRightModule (Q.height w)) n).symm.trans
++    (S.extRegularCoproductLinearEquiv n)
++
++theorem extTotalAlgebraLinearEquiv_action (n : ℕ) {i j : ℤ} (a : A.Hom i j)
++    (x : Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w)))
++      A.totalAlgebraRightLocallyUnitalModule n) :
++    S.extTotalAlgebraLinearEquiv n
++      (x.comp (Abelian.Ext.mk₀ (A.totalAlgebraLeftComponentMap a)) (Nat.add_zero n)) =
++        A.leftModuleTotalAction (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a
++          (S.extTotalAlgebraLinearEquiv n x) := by
++  obtain ⟨x,rfl⟩ :=
++    (A.rightRegularExtGrLinearEquiv (A.simpleRightModule (Q.height w)) n).surjective x
++  dsimp only [totalAlgebraLeftComponentMap]
++  rw [← A.rightRegularExtGrLinearEquiv_postcomp (A.simpleRightModule (Q.height w)) n
++    (A.rightRegularCoproductAction a)]
++  change S.extRegularCoproductLinearEquiv n
++    ((A.rightRegularExtGrLinearEquiv (A.simpleRightModule (Q.height w)) n).symm
++      ((A.rightRegularExtGrLinearEquiv (A.simpleRightModule (Q.height w)) n)
++        (x.comp (Abelian.Ext.mk₀ (A.rightRegularCoproductAction a)) (Nat.add_zero n)))) = _
++  rw [LinearEquiv.symm_apply_apply]
++  simp only [extTotalAlgebraLinearEquiv, LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
++  change S.extRegularCoproductLinearEquiv n
++    (x.comp (Abelian.Ext.mk₀ (A.rightRegularCoproductAction a)) (Nat.add_zero n)) =
++      A.leftModuleTotalAction (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a
++        (S.extRegularCoproductLinearEquiv n x)
++  exact congrArg (fun f => f.hom x) (S.extRegularCoproductEquiv_action n a)
++
++theorem extTotalAlgebraLinearEquiv_representation (n : ℕ) (a : A.totalAlgebra)
++    (x : Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w)))
++      A.totalAlgebraRightLocallyUnitalModule n) :
++    S.extTotalAlgebraLinearEquiv n
++      (x.comp (Abelian.Ext.mk₀ (A.totalAlgebraLeftMap a)) (Nat.add_zero n)) =
++        A.leftTotalRepresentation (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a
++          (S.extTotalAlgebraLinearEquiv n x) := by
++  obtain ⟨a,rfl⟩ := A.totalAlgebraEquiv.surjective a
++  induction a using DFinsupp.induction with
++  | h0 =>
++    rw [A.totalAlgebraEquiv.map_zero, A.totalAlgebraLeftMap_zero, Abelian.Ext.mk₀_zero,
++      Abelian.Ext.comp_zero, LinearEquiv.map_zero,
++      (A.leftTotalRepresentation (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)).map_zero,
++      LinearMap.zero_apply]
++  | ha p b a _ _ ih =>
++    rw [A.totalAlgebraEquiv.map_add, A.totalAlgebraLeftMap_add, Abelian.Ext.mk₀_add,
++      Abelian.Ext.comp_add, LinearEquiv.map_add,
++      (A.leftTotalRepresentation (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)).map_add,
++      LinearMap.add_apply, ih]
++    congr 1
++    rcases p with ⟨i,j⟩
++    change S.extTotalAlgebraLinearEquiv n
++      (x.comp (Abelian.Ext.mk₀ (A.totalAlgebraLeftMap (A.totalAlgebraComponent b))) (Nat.add_zero n)) =
++        A.leftTotalRepresentation (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)
++          (A.totalAlgebraComponent b) (S.extTotalAlgebraLinearEquiv n x)
++    rw [A.totalAlgebraLeftMap_component, A.leftTotalRepresentation_component]
++    exact S.extTotalAlgebraLinearEquiv_action n b x
++
++end ASResolution
++end ASGinzburg.ZAlgebra
