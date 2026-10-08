@@ -7,7 +7,7 @@
 AGENTS/HANDOFF/STATUS/GAPS/最新検証・回収記録と入力PDF §1.2 (1.5)–(1.7)を再読。
 右作用はM_v×A_vu→M_u。最小性は各微分の像が対象のM A_{>0}に入ること。
 AS条件に周期性やExt同型を追加せず、定理3.2・系5.2を完成扱いにしない。
-作業中。完成単位・検査・終了時刻は逐次追記する。
+14単位の完成・検査・終了記録を以下に保存。
 
 ## 単位1：任意のMの正次数radical
 
@@ -236,3 +236,38 @@ Hom cohomologyとExt³の二つのkとの証明済み線形同型を合成した
 開始UTC 2026-10-08T03:13:42.658554+00:00、終了UTC 2026-10-08T03:16:24.396290+00:00。
 369異なる宣言・177 theorem・53 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit14.patch。
+
+## 最終記録：14証明単位・最新main CI確認
+
+最終数学コミット：c314180bd6d177dd7441bc137dc5c5d6a91ccf33。14単位を直接mainに保存、新規PRなし。
+最新main CI：[Actions 37722129359](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37722129359) はsuccess。
+同一コミットに対する最新の実行であり、旧成功記録からの判定ではない。
+ログを保存したartifactも確認。証拠はverification/radical_resolution_github_ci_evidence.json、
+実行ログはverification/radical_resolution_github_ci.log。
+CI検証開始UTC 2026-10-08T03:19:25.826958+00:00、終了UTC 2026-10-08T03:24:43.880453+00:00、
+単調時計の実測318.053491279秒、終了0。
+
+今回の記録確定時刻：2026-10-08 12:27:57 JST
+（UTC 2026-10-08T03:27:57+00:00）。開始JST 2026-10-08 11:15:27。
+実測経過：1時間12分30秒、4350秒。秒精度のUTC観測時刻の差。
+測定区間は開始から証明・ローカル検査・保存確認・文書更新・GitHub CI確認まで。
+この終了記録の最終commit/API保存は区間外。過去の稼働時間を推測して加えていない。
+各check.shの経過時間はrun.jsonに単調時計で保存。これらの合計はタスク全体時間ではない。
+
+最終ローカル検証：20261008T031342Z-13ba299c、161.737727438秒、全6段階終了0。
+35数学モジュール、369異なる宣言、177 theorem、53 named instance。
+14単位の全ローカルrunで全検査終了0。今回の追加は14数学モジュール・124宣言・69 theorem。
+現在の全Leanソースは最終results.jsonのSHA-256と一致。git diff --checkも終了0。
+初期14モジュール・入力PDF・checkpoints・recoveryの無変更確認も終了0。
+sorry/admit/独自axiomなし。依存はpropext、Classical.choice、Quot.soundのみ。
+sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
+
+残る数学：Gr(A)との明示的同値、(1.11)の逆方向、左加群AS双対性(1.12)、
+有限長双対性・区間同型のcoherence・AS条件からの周期性、Jacobian/Ginzburg・外部一般定理・主定理。
+定理3.2・系5.2は未証明で、形式的な文も未実装。
+一般のAでAS分解が存在するとは証明していない。一般の自然なHom複体–Ext比較も未証明。
+
+未解決のコンパイル・公理監査エラーなし。既存lint警告は残存。
+CLI git pushの認証エラー終了128は接続済みAPIによるmain保存で回避し、CLI認証を修復したとは扱わない。
+後処理の検査一覧表示は誤ってstep.nameを参照してKeyError/終了1だったが、
+step.stageへ修正して再実行終了0。実際の検証runへの影響なし。

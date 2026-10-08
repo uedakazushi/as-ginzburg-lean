@@ -106,3 +106,7 @@ UTC 2026-10-08T03:13:42.658554+00:00 → 2026-10-08T03:16:24.396290+00:00。
 証明単位ごとのmainへの保存・Actions・実測時間はRECENT_RUN.md参照。
 CLI push認証エラー後は接続済みGitHub APIで検証済みtreeを通常のfast-forward保存。
 新規PRなし。数学的ソースの保存確認はverification/radical_resolution_preservation.json。
+
+最終数学コミットc314180の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37722129359)はsuccess。
+369宣言・177 theoremの監査と12ファイルの最新artifact保存を確認。
+実行ログと実測時刻はverification/radical_resolution_github_ci.logおよびCI evidence JSONに保存。

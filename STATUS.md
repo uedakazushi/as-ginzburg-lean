@@ -95,3 +95,6 @@ CLI git pushの認証エラー(終了128)後、接続済みGitHub APIへ切り�
 新規PRなし。mainへのpush・最新Actionsとartifactの確認はRECENT_RUN.md参照。
 
 ユーザーは形式化の自律的継続を明示的に指示。通常の補題について再開確認は不要。
+
+最終数学コミットc314180のmain CI 37722129359はsuccess、12ファイルの最新artifact保存済み。
+CI実行の時刻と終了0はverification/radical_resolution_github_ci_evidence.json・CI logに保存。
