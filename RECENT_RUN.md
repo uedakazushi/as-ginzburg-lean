@@ -129,3 +129,20 @@ UTC 2026-10-08T04:04:40.274552+00:00 → 2026-10-08T04:08:10.685032+00:00。
 UTC 2026-10-08T04:09:26.226821+00:00 → 2026-10-08T04:12:57.059910+00:00。
 477異なる宣言・217 theorem・83 named instance。
 差分：runs/as-finiteness-20261008-unit7.patch。
+
+単位7のmain保存：e2851ad80912db09c81e09dbf4de9d2db39887a7。
+
+## 単位8：左側の線形Yoneda・射影性・EnoughProjectives・実際Ext
+
+全LeftModuleへの線形Yonedaと、A e_iの射影性を共変な左作用から証明した。
+全頂点成分の全要素で添字付けたrepresentableのcoproductから任意左加群へのepiを構成した。
+この実際の射影提示からEnoughProjectives、標準ProjectiveResolution、実際のAbelian.Extの存在を得た。
+左representableのExt⁰は成分評価に加法的に同型で、第一引数にある左representableの高次Extは零。
+AS条件の仮定なし。標準分解は無限であり得るので有限AS分解の存在を証明したとは扱わない。
+利用先：左側の導来ホモロジー代数、有限生成射影の二重双対、有限長双対性。
+次：有限生成射影の双対と二重双対の自然性、右側の高次Extの直和交換、有限長双対性。
+
+検証：`20261008T041353Z-d80bc08c`、225.955783秒、全段階終了0。
+UTC 2026-10-08T04:13:53.678555+00:00 → 2026-10-08T04:17:39.634349+00:00。
+494異なる宣言・222 theorem・88 named instance。
+差分：runs/as-finiteness-20261008-unit8.patch。

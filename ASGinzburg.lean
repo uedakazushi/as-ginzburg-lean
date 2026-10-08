@@ -1,3 +1,4 @@
+import ASGinzburg.LeftModuleExt
 import ASGinzburg.RepresentableHomColimits
 import ASGinzburg.ASDualityLeftComponents
 import ASGinzburg.SimpleLeftModules

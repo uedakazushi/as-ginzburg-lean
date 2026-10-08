@@ -1,0 +1,95 @@
+import ASGinzburg.LeftModuleHomology
+import Mathlib.CategoryTheory.Preadditive.Projective.Basic
+
+/-!
+# Linear Yoneda and projectivity of actual left representables
+
+The covariant action maps along i → j. Componentwise epimorphisms lift
+its distinguished generator and prove projectivity, with no AS assumption.
+-/
+
+namespace ASGinzburg.ZAlgebra
+
+open CategoryTheory CategoryTheory.Limits Opposite
+
+universe u v
+
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- An element of `M_i` induces the left-module map `A e_i → M`. -/
+def leftRepresentableToElement (i : ℤ) (M : A.LeftModule)
+    (x : (A.leftModuleEvaluation i).obj M) : A.leftRepresentable i ⟶ M := by
+  letI := M.property.1
+  letI := M.property.2
+  exact
+    { app := fun Y => ModuleCat.ofHom
+        { toFun := fun f => M.obj.map f x
+          map_add' := by
+            intro f g
+            change M.obj.map (f + g) x = M.obj.map f x + M.obj.map g x
+            rw [Functor.map_add]
+            rfl
+          map_smul' := by
+            intro r f
+            change M.obj.map (r • f) x = r • M.obj.map f x
+            rw [Functor.map_smul]
+            rfl }
+      naturality := by
+        intro Y Z f
+        ext g
+        change M.obj.map (g ≫ f) x = M.obj.map f (M.obj.map g x)
+        rw [CategoryTheory.Functor.map_comp]
+        rfl }
+
+/-- Linear Yoneda for every left module, with no additional representability assumption. -/
+def leftRepresentableYonedaEquiv (i : ℤ) (M : A.LeftModule) :
+    (A.leftRepresentable i ⟶ M) ≃ₗ[k] (A.leftModuleEvaluation i).obj M where
+  toFun f := f.app (⟨i⟩) (A.id i)
+  invFun x := A.leftRepresentableToElement i M x
+  left_inv f := by
+    apply NatTrans.ext
+    funext Y
+    apply ModuleCat.hom_ext
+    ext g
+    change M.obj.map g (f.app (⟨i⟩) (A.id i)) = f.app Y g
+    have h := congrArg (fun h => h (A.id i)) (f.naturality g)
+    change f.app Y (A.comp g (A.id i)) =
+      M.obj.map g (f.app (⟨i⟩) (A.id i)) at h
+    rw [A.id_comp] at h
+    exact h.symm
+  right_inv x := by
+    change M.obj.map (𝟙 (⟨i⟩ : A.Obj)) x = x
+    rw [CategoryTheory.Functor.map_id]
+    rfl
+  map_add' f g := rfl
+  map_smul' r f := rfl
+
+@[simp]
+theorem leftRepresentableYonedaEquiv_apply (i : ℤ) (M : A.LeftModule)
+    (f : A.leftRepresentable i ⟶ M) :
+    A.leftRepresentableYonedaEquiv i M f = f.app (⟨i⟩) (A.id i) := rfl
+
+@[simp]
+theorem leftRepresentableYonedaEquiv_comp (i : ℤ) {M N : A.LeftModule}
+    (f : A.leftRepresentable i ⟶ M) (g : M ⟶ N) :
+    A.leftRepresentableYonedaEquiv i N (f ≫ g) =
+      (A.leftModuleEvaluation i).map g (A.leftRepresentableYonedaEquiv i M f) := rfl
+
+/-- The inverse Yoneda map is left multiplication of an element by a component of `A`. -/
+@[simp]
+theorem leftRepresentableYonedaEquiv_symm_app (i : ℤ) (M : A.LeftModule)
+    (x : (A.leftModuleEvaluation i).obj M) (Y : A.Obj) (f : (⟨i⟩ : A.Obj) ⟶ Y) :
+    ((A.leftRepresentableYonedaEquiv i M).symm x).app Y f = M.obj.map f x := rfl
+
+/-- Lift the distinguished generator through the epi, then extend by the left action. -/
+instance leftRepresentableProjective (i : ℤ) : Projective (A.leftRepresentable i) where
+  factors := by
+    intro M N f e he
+    have hs := (A.leftModule_epi_iff_surjective e).mp he i
+    obtain ⟨x, hx⟩ := hs (A.leftRepresentableYonedaEquiv i N f)
+    refine ⟨(A.leftRepresentableYonedaEquiv i M).symm x, ?_⟩
+    apply (A.leftRepresentableYonedaEquiv i N).injective
+    rw [A.leftRepresentableYonedaEquiv_comp, LinearEquiv.apply_symm_apply]
+    exact hx
+
+end ASGinzburg.ZAlgebra

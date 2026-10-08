@@ -1,0 +1,251 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 32ca1c8..42fc30e 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -1,3 +1,4 @@
++import ASGinzburg.LeftModuleExt
+ import ASGinzburg.RepresentableHomColimits
+ import ASGinzburg.ASDualityLeftComponents
+ import ASGinzburg.SimpleLeftModules
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 9fc19bd..3993d6e 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -208,6 +208,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModuleAbelian
+ #print axioms ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteLimits
+ #print axioms ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteColimits
++#print axioms ASGinzburg.ZAlgebra.leftModuleGenerators
++#print axioms ASGinzburg.ZAlgebra.freeLeftModule
++#print axioms ASGinzburg.ZAlgebra.freeLeftModuleπ
++#print axioms ASGinzburg.ZAlgebra.freeLeftModuleProjective
++#print axioms ASGinzburg.ZAlgebra.freeLeftModuleπEpi
++#print axioms ASGinzburg.ZAlgebra.leftModuleEnoughProjectives
++#print axioms ASGinzburg.ZAlgebra.leftModuleProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.leftModuleProjectiveResolution_exactAt_succ
++#print axioms ASGinzburg.ZAlgebra.leftModuleHasExt
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableExtZeroEquiv
++#print axioms ASGinzburg.ZAlgebra.leftRepresentable_higher_ext_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.leftModuleEvaluation
+ #print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteLimits
+@@ -227,6 +238,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModule_exact_iff
+ #print axioms ASGinzburg.ZAlgebra.leftModule_exact_iff_range_eq_ker
+ #print axioms ASGinzburg.ZAlgebra.leftModule_shortExact_iff
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableToElement
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_apply
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_comp
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_symm_app
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableProjective
+ #print axioms ASGinzburg.ZAlgebra.leftModuleProperty
+ #print axioms ASGinzburg.ZAlgebra.LeftModule
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableLinear
+diff --git a/ASGinzburg/LeftModuleProjectives.lean b/ASGinzburg/LeftModuleProjectives.lean
+new file mode 100644
+index 0000000..352a6ef
+--- /dev/null
++++ b/ASGinzburg/LeftModuleProjectives.lean
+@@ -0,0 +1,95 @@
++import ASGinzburg.LeftModuleHomology
++import Mathlib.CategoryTheory.Preadditive.Projective.Basic
++
++/-!
++# Linear Yoneda and projectivity of actual left representables
++
++The covariant action maps along i → j. Componentwise epimorphisms lift
++its distinguished generator and prove projectivity, with no AS assumption.
++-/
++
++namespace ASGinzburg.ZAlgebra
++
++open CategoryTheory CategoryTheory.Limits Opposite
++
++universe u v
++
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- An element of `M_i` induces the left-module map `A e_i → M`. -/
++def leftRepresentableToElement (i : ℤ) (M : A.LeftModule)
++    (x : (A.leftModuleEvaluation i).obj M) : A.leftRepresentable i ⟶ M := by
++  letI := M.property.1
++  letI := M.property.2
++  exact
++    { app := fun Y => ModuleCat.ofHom
++        { toFun := fun f => M.obj.map f x
++          map_add' := by
++            intro f g
++            change M.obj.map (f + g) x = M.obj.map f x + M.obj.map g x
++            rw [Functor.map_add]
++            rfl
++          map_smul' := by
++            intro r f
++            change M.obj.map (r • f) x = r • M.obj.map f x
++            rw [Functor.map_smul]
++            rfl }
++      naturality := by
++        intro Y Z f
++        ext g
++        change M.obj.map (g ≫ f) x = M.obj.map f (M.obj.map g x)
++        rw [CategoryTheory.Functor.map_comp]
++        rfl }
++
++/-- Linear Yoneda for every left module, with no additional representability assumption. -/
++def leftRepresentableYonedaEquiv (i : ℤ) (M : A.LeftModule) :
++    (A.leftRepresentable i ⟶ M) ≃ₗ[k] (A.leftModuleEvaluation i).obj M where
++  toFun f := f.app (⟨i⟩) (A.id i)
++  invFun x := A.leftRepresentableToElement i M x
++  left_inv f := by
++    apply NatTrans.ext
++    funext Y
++    apply ModuleCat.hom_ext
++    ext g
++    change M.obj.map g (f.app (⟨i⟩) (A.id i)) = f.app Y g
++    have h := congrArg (fun h => h (A.id i)) (f.naturality g)
++    change f.app Y (A.comp g (A.id i)) =
++      M.obj.map g (f.app (⟨i⟩) (A.id i)) at h
++    rw [A.id_comp] at h
++    exact h.symm
++  right_inv x := by
++    change M.obj.map (𝟙 (⟨i⟩ : A.Obj)) x = x
++    rw [CategoryTheory.Functor.map_id]
++    rfl
++  map_add' f g := rfl
++  map_smul' r f := rfl
++
++@[simp]
++theorem leftRepresentableYonedaEquiv_apply (i : ℤ) (M : A.LeftModule)
++    (f : A.leftRepresentable i ⟶ M) :
++    A.leftRepresentableYonedaEquiv i M f = f.app (⟨i⟩) (A.id i) := rfl
++
++@[simp]
++theorem leftRepresentableYonedaEquiv_comp (i : ℤ) {M N : A.LeftModule}
++    (f : A.leftRepresentable i ⟶ M) (g : M ⟶ N) :
++    A.leftRepresentableYonedaEquiv i N (f ≫ g) =
++      (A.leftModuleEvaluation i).map g (A.leftRepresentableYonedaEquiv i M f) := rfl
++
++/-- The inverse Yoneda map is left multiplication of an element by a component of `A`. -/
++@[simp]
++theorem leftRepresentableYonedaEquiv_symm_app (i : ℤ) (M : A.LeftModule)
++    (x : (A.leftModuleEvaluation i).obj M) (Y : A.Obj) (f : (⟨i⟩ : A.Obj) ⟶ Y) :
++    ((A.leftRepresentableYonedaEquiv i M).symm x).app Y f = M.obj.map f x := rfl
++
++/-- Lift the distinguished generator through the epi, then extend by the left action. -/
++instance leftRepresentableProjective (i : ℤ) : Projective (A.leftRepresentable i) where
++  factors := by
++    intro M N f e he
++    have hs := (A.leftModule_epi_iff_surjective e).mp he i
++    obtain ⟨x, hx⟩ := hs (A.leftRepresentableYonedaEquiv i N f)
++    refine ⟨(A.leftRepresentableYonedaEquiv i M).symm x, ?_⟩
++    apply (A.leftRepresentableYonedaEquiv i N).injective
++    rw [A.leftRepresentableYonedaEquiv_comp, LinearEquiv.apply_symm_apply]
++    exact hx
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LeftModuleEnoughProjectives.lean b/ASGinzburg/LeftModuleEnoughProjectives.lean
+new file mode 100644
+index 0000000..4c85b14
+--- /dev/null
++++ b/ASGinzburg/LeftModuleEnoughProjectives.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.LeftModuleProjectives
++
++/-!
++# Enough projectives for linear left modules
++
++Each module is a quotient of the coproduct indexed by all its vertex elements.
++This is an unrestricted projective presentation, not the finite minimal
++four-term resolution required by the paper's AS condition.
++-/
++
++namespace ASGinzburg.ZAlgebra
++
++open CategoryTheory CategoryTheory.Limits Opposite
++
++universe u v
++
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Index all elements in all vertex components; no finite generation is assumed. -/
++abbrev leftModuleGenerators (M : A.LeftModule) :=
++  Σ i : ℤ, (A.leftModuleEvaluation i).obj M
++
++/-- A coproduct of actual representables providing enough projectives. -/
++noncomputable def freeLeftModule (M : A.LeftModule) : A.LeftModule :=
++  ∐ fun g : A.leftModuleGenerators M => A.leftRepresentable g.1
++
++/-- Send each distinguished generator to the corresponding element of the target module. -/
++noncomputable def freeLeftModuleπ (M : A.LeftModule) : A.freeLeftModule M ⟶ M :=
++  Sigma.desc fun g => (A.leftRepresentableYonedaEquiv g.1 M).symm g.2
++
++noncomputable instance freeLeftModuleProjective (M : A.LeftModule) :
++    Projective (A.freeLeftModule M) := by
++  dsimp [freeLeftModule]
++  infer_instance
++
++noncomputable instance freeLeftModuleπEpi (M : A.LeftModule) : Epi (A.freeLeftModuleπ M) := by
++  apply (A.leftModule_epi_iff_surjective _).mpr
++  intro i x
++  let g : A.leftModuleGenerators M := ⟨i, x⟩
++  refine ⟨(A.leftModuleEvaluation i).map
++    (Sigma.ι (fun g : A.leftModuleGenerators M => A.leftRepresentable g.1) g) (A.id i), ?_⟩
++  have h := Sigma.ι_desc (fun g : A.leftModuleGenerators M =>
++    (A.leftRepresentableYonedaEquiv g.1 M).symm g.2) g
++  have h' := congrArg (A.leftRepresentableYonedaEquiv i M) h
++  rw [A.leftRepresentableYonedaEquiv_comp, LinearEquiv.apply_symm_apply] at h'
++  exact h'
++
++/-- The existing category has enough projectives, via explicit coproduct presentations. -/
++noncomputable instance leftModuleEnoughProjectives : EnoughProjectives A.LeftModule where
++  presentation M := ⟨{ p := A.freeLeftModule M, f := A.freeLeftModuleπ M }⟩
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LeftModuleExt.lean b/ASGinzburg/LeftModuleExt.lean
+new file mode 100644
+index 0000000..aa8ec11
+--- /dev/null
++++ b/ASGinzburg/LeftModuleExt.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.LeftModuleEnoughProjectives
++import Mathlib.CategoryTheory.Abelian.Projective.Resolution
++import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
++
++/-!
++# Projective resolutions and actual derived-category Ext
++
++Enough projectives gives standard, possibly infinite resolutions and Ext in
++the Hom universe. Degree-zero Ext of a representable is vertex evaluation;
++its higher Ext in the first argument vanishes. No AS Ext condition, finite
++resolution, or Hom-complex comparison is assumed here.
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Standard, possibly infinite projective resolutions of the actual left modules. -/
++noncomputable def leftModuleProjectiveResolution (M : A.LeftModule) : ProjectiveResolution M :=
++  ProjectiveResolution.of M
++
++/-- Positive degrees of the constructed resolution are exact. -/
++theorem leftModuleProjectiveResolution_exactAt_succ (M : A.LeftModule) (n : ℕ) :
++    (A.leftModuleProjectiveResolution M).complex.ExactAt (n + 1) :=
++  (A.leftModuleProjectiveResolution M).complex_exactAt_succ n
++
++/-- Hom-universe Ext exists by the proved supply of projectives, not by an Ext hypothesis. -/
++instance leftModuleHasExt : HasExt.{v} A.LeftModule :=
++  hasExt_of_enoughProjectives A.LeftModule
++
++/-- Actual degree-zero derived-category Ext agrees additively with vertex evaluation. -/
++noncomputable def leftRepresentableExtZeroEquiv (i : ℤ) (M : A.LeftModule) :
++    Abelian.Ext.{v} (A.leftRepresentable i) M 0 ≃+ (A.leftModuleEvaluation i).obj M :=
++  Abelian.Ext.addEquiv₀.trans (A.leftRepresentableYonedaEquiv i M).toAddEquiv
++
++/-- The paper's projectives have zero higher Ext in the first argument. -/
++theorem leftRepresentable_higher_ext_eq_zero (i : ℤ) (M : A.LeftModule) (n : ℕ)
++    (e : Abelian.Ext.{v} (A.leftRepresentable i) M (n + 1)) : e = 0 :=
++  Abelian.Ext.eq_zero_of_projective e
++
++end ASGinzburg.ZAlgebra
