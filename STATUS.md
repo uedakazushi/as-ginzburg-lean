@@ -6,8 +6,8 @@ Abelian構造と成分ホモロジー・exactnessへの接続を完成しまし�
 | 項目 | 今回の結論 |
 |---|---|
 | lake build | 成功、終了0、3199 jobs |
-| 個別公理監査 | 202異なる名前、終了0。全明示的宣言・25 named instanceを含む |
-| 完成済み補助定理 | 96件。全件が監査対象 |
+| 個別公理監査 | 208異なる名前、終了0。全明示的宣言・25 named instanceを含む |
+| 完成済み補助定理 | 99件。全件が監査対象 |
 | sorry / admit / 独自axiom | ソース内0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundだけ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerはなし |
@@ -33,7 +33,7 @@ UTC 2026-10-08T00:32:39.439384+00:00 → 2026-10-08T00:33:18.728587+00:00。
 | 道代数 | `PathAlgebra.lean` | 成分の自由ベクトル空間、双線形積、単位元、結合則 | 関係イデアルとその商、unrolling |
 | (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 原論文のAS正則性の定義 |
 | 命題1.2の帰納法 | `ZAlgebra.lean` | 成分が生成元と短い積に分解されれば全成分を生成する | 分解条件を最小射影分解から導くこと、核が矢イデアルの二乗に入ること |
-| (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 射影性、単純加群、直和・局所単位元付き加群との明示的同値 |
+| (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 単純加群、直和・局所単位元付き加群との明示的同値 |
 | §1.2の加群圏・(1.6)の基盤 | `RightModuleAbelian.lean`、`RightModuleHomology.lean` | (余)極限の閉性、Abelian構造、核・余核・homologyの成分同型、exactness・短完全列・mono/epiの成分判定 | 実際の射影分解・minimality・Extとの比較 |
 | 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 表と実際のExtの同定、有限台、非零項の導出 |
 | 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 実際のHom複体とExtへの同定 |
@@ -53,7 +53,7 @@ UTC 2026-10-08T00:32:39.439384+00:00 → 2026-10-08T00:33:18.728587+00:00。
 | 命題5.1：quadratic AS正則Z-代数の三周期性 | **未証明。** |
 | 系5.2：(3,3,3)型の全単射 | **未証明。Leanの形式的な文も未実装。** |
 
-完成した補題は96件です。`verification/declarations.json`に初期161宣言を含む全202監査対象を列挙しています。
+完成した補題は99件です。`verification/declarations.json`に初期161宣言を含む全208監査対象を列挙しています。
 新規単位は12 theorem・4 def・14 named instance。既存RightModuleの定義を保ち、
 周期性・Ext同型・AS結論を仮定に追加していません。
 補題の本来の仮定はソースの型を参照して下さい。
@@ -72,7 +72,7 @@ UTC 2026-10-08T00:32:39.439384+00:00 → 2026-10-08T00:33:18.728587+00:00。
 
 今回のRightModuleの目標を超える数学的形式化には別の明示的指示が必要です。未証明の主結果を隠す公理・追加クラスはありません。
 
-原論文の`Gr(A)`との明示的な直和加群モデルの同値、representableの射影性、radical・s_v、
+原論文の`Gr(A)`との明示的な直和加群モデルの同値、radical・s_v、
 (1.6)の完全・最小分解、(1.7)の実際のExt条件は未実装です。
 今回の形状の(余)極限存在の仮定は有限図式についてmathlibで満たされます。
 ASから導出すべき新たな仮定を置いた条件付き補題は追加していません。
@@ -81,3 +81,6 @@ ASから導出すべき新たな仮定を置いた条件付き補題は追加し
 
 数学的実装コミットf8e7ce0のpush・pull_request CIは双方success、各12ファイルのartifact保存を確認。
 詳細はRECENT_RUN.mdとverification/rightmodule_github_ci_evidence.json。
+
+射影性：RightModuleProjectives.leanで全右加群に対する線形Yoneda同型とProjectiveを完成。
+最新の検証と継続記録はRECENT_RUN.mdを参照。

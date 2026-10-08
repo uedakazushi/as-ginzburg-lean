@@ -16,3 +16,16 @@ force push・履歴の書換えなし。初期の原論文照合は§1.2 (1.5)�
 全202宣言の監査・ビルド・11回帰テスト・固定環境・照合が終了0。
 次：全右加群に対する線形Yoneda評価同型を構成し、成分の全射性からrepresentableのProjectiveを導く。
 作業中。終了時刻・経過時間は最後に実測して追記する。
+
+## 単位1：線形Yonedaとrepresentableの射影性
+
+`representableYonedaEquiv i M : (P_i ⟶ M) ≃ₗ[k] M_i`と逆写像の右作用の公式を完成。
+自然性を証明し、epiの各成分の全射性から`representableProjective`を構成。
+任意の右加群Mに対する実際のHom同型であり、AS条件やExt同型を仮定していない。
+検証：`20261008T014813Z-d160e1b1`、42.293801秒、全段階終了0。
+開始UTC 2026-10-08T01:48:13.771735+00:00、終了UTC 2026-10-08T01:48:56.065545+00:00。
+208異なる宣言・99 theorem・11回帰テスト・lake build・公理監査・固定環境・照合が成功。
+初期の一時ファイルでのYoneda自然性の型合わせとidentity rewriteを修正し、解消。
+差分：runs/projective-simple-20261008-unit1.patch。
+次の利用先：representableの直和から任意のMへのepiを構成してEnoughProjectivesを証明する。
+その後、正次数radicalと単純商、最小分解・実際のExtへ進む。

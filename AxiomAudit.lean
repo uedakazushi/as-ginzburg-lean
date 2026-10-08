@@ -158,6 +158,12 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff
 #print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff_range_eq_ker
 #print axioms ASGinzburg.ZAlgebra.rightModule_shortExact_iff
+#print axioms ASGinzburg.ZAlgebra.representableToElement
+#print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv
+#print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_apply
+#print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_comp
+#print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_symm_app
+#print axioms ASGinzburg.ZAlgebra.representableProjective
 #print axioms ASGinzburg.ArrowSpace333
 #print axioms ASGinzburg.CubicTensor333
 #print axioms ASGinzburg.Triple333
