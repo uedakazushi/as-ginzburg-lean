@@ -1,0 +1,272 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 6bc47c8..941fd7a 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -77,6 +77,7 @@ import ASGinzburg.Hilbert
+ import ASGinzburg.Tensor333
+ import ASGinzburg.Triangle333
+ import ASGinzburg.GinzburgGrading
++import ASGinzburg.ModuleBidualEvaluation
+ 
+ /-!
+ # AS--Ginzburg formalization checkpoint
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 9a5e8b3..34ea600 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -436,6 +436,24 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightTotalModule_locally_unital
+ #print axioms ASGinzburg.ZAlgebra.leftTotalLocallyUnitalModule
+ #print axioms ASGinzburg.ZAlgebra.rightTotalLocallyUnitalModule
++#print axioms ASGinzburg.ZAlgebra.rightModuleBidualElement
++#print axioms ASGinzburg.ZAlgebra.rightModuleBidualEvaluation
++#print axioms ASGinzburg.ZAlgebra.rightModuleBidualEvaluation_natural
++#print axioms ASGinzburg.ZAlgebra.representableBidualEvaluation_comp_iso
++#print axioms ASGinzburg.ZAlgebra.representableBidualEvaluationIsIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleBidualElement
++#print axioms ASGinzburg.ZAlgebra.leftModuleBidualEvaluation
++#print axioms ASGinzburg.ZAlgebra.leftModuleBidualEvaluation_natural
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableBidualEvaluation_comp_iso
++#print axioms ASGinzburg.ZAlgebra.leftRepresentableBidualEvaluationIsIso
++#print axioms ASGinzburg.ZAlgebra.rightModuleADualFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.leftModuleADualFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.rightModuleBidualFunctor
++#print axioms ASGinzburg.ZAlgebra.leftModuleBidualFunctor
++#print axioms ASGinzburg.ZAlgebra.rightModuleBidualEvaluationNatTrans
++#print axioms ASGinzburg.ZAlgebra.leftModuleBidualEvaluationNatTrans
++#print axioms ASGinzburg.ZAlgebra.rightModuleBidualFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.leftModuleBidualFunctorAdditive
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+diff --git a/ASGinzburg/ModuleBidualEvaluation.lean b/ASGinzburg/ModuleBidualEvaluation.lean
+new file mode 100644
+index 0000000..08f0683
+--- /dev/null
++++ b/ASGinzburg/ModuleBidualEvaluation.lean
+@@ -0,0 +1,225 @@
++import ASGinzburg.LeftModuleADual
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++def rightModuleBidualElement (M : A.RightModule) (i : ℤ)
++    (x : (A.rightModuleEvaluation i).obj M) :
++    A.rightModuleADual M ⟶ A.leftRepresentable i where
++  app Y := ModuleCat.ofHom
++    { toFun g := (g.app (op (⟨i⟩ : A.Obj))).hom x
++      map_add' g h := rfl
++      map_smul' r g := rfl }
++  naturality := by
++    intro Y Z a
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro g
++    rfl
++
++def rightModuleBidualEvaluation (M : A.RightModule) :
++    M ⟶ A.leftModuleADual (A.rightModuleADual M) where
++  app X := ModuleCat.ofHom
++    { toFun x := A.rightModuleBidualElement M X.unop.index x
++      map_add' := by
++        intro x y
++        apply NatTrans.ext
++        funext Y
++        apply ModuleCat.hom_ext
++        apply LinearMap.ext
++        intro g
++        exact (g.app X).hom.map_add x y
++      map_smul' := by
++        intro r x
++        apply NatTrans.ext
++        funext Y
++        apply ModuleCat.hom_ext
++        apply LinearMap.ext
++        intro g
++        exact (g.app X).hom.map_smul r x }
++  naturality := by
++    intro X Y a
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    apply NatTrans.ext
++    funext Z
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro g
++    exact congrArg (fun f => f.hom x) (g.naturality a)
++
++@[reassoc] theorem rightModuleBidualEvaluation_natural {M N : A.RightModule} (f : M ⟶ N) :
++    f ≫ A.rightModuleBidualEvaluation N =
++      A.rightModuleBidualEvaluation M ≫ A.leftModuleADualMap (A.rightModuleADualMap f) := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  apply NatTrans.ext
++  funext Y
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro g
++  rfl
++theorem representableBidualEvaluation_comp_iso (i : ℤ) :
++    A.rightModuleBidualEvaluation (A.representable i) ≫ (A.representableBidualIso i).hom =
++      𝟙 (A.representable i) := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  change (((A.representableADualIso i).inv ≫
++    A.rightModuleBidualElement (A.representable i) X.unop.index x).app (⟨i⟩ : A.Obj)).hom (A.id i) = x
++  change (((A.representableADualIso i).inv.app (⟨i⟩ : A.Obj)).hom (A.id i)).app X x = x
++  change (((A.representableHomEquiv i i) (A.id i)).app X).hom x = x
++  change A.comp (A.id i) x = x
++  exact A.comp_id x
++
++noncomputable instance representableBidualEvaluationIsIso (i : ℤ) :
++    IsIso (A.rightModuleBidualEvaluation (A.representable i)) := by
++  have h : A.rightModuleBidualEvaluation (A.representable i) = (A.representableBidualIso i).inv := by
++    apply (cancel_mono (A.representableBidualIso i).hom).mp
++    rw [A.representableBidualEvaluation_comp_iso, Iso.inv_hom_id]
++  rw [h]
++  infer_instance
++
++def leftModuleBidualElement (M : A.LeftModule) (i : ℤ)
++    (x : (A.leftModuleEvaluation i).obj M) :
++    A.leftModuleADual M ⟶ A.representable i where
++  app Y := ModuleCat.ofHom
++    { toFun g := (g.app (⟨i⟩ : A.Obj)).hom x
++      map_add' g h := rfl
++      map_smul' r g := rfl }
++  naturality := by
++    intro Y Z a
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro g
++    rfl
++
++def leftModuleBidualEvaluation (M : A.LeftModule) :
++    M ⟶ A.rightModuleADual (A.leftModuleADual M) where
++  app X := ModuleCat.ofHom
++    { toFun x := A.leftModuleBidualElement M X.index x
++      map_add' := by
++        intro x y
++        apply NatTrans.ext
++        funext Y
++        apply ModuleCat.hom_ext
++        apply LinearMap.ext
++        intro g
++        exact (g.app X).hom.map_add x y
++      map_smul' := by
++        intro r x
++        apply NatTrans.ext
++        funext Y
++        apply ModuleCat.hom_ext
++        apply LinearMap.ext
++        intro g
++        exact (g.app X).hom.map_smul r x }
++  naturality := by
++    intro X Y a
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    apply NatTrans.ext
++    funext Z
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro g
++    exact congrArg (fun f => f.hom x) (g.naturality a)
++
++@[reassoc] theorem leftModuleBidualEvaluation_natural {M N : A.LeftModule} (f : M ⟶ N) :
++    f ≫ A.leftModuleBidualEvaluation N =
++      A.leftModuleBidualEvaluation M ≫ A.rightModuleADualMap (A.leftModuleADualMap f) := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  apply NatTrans.ext
++  funext Y
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro g
++  rfl
++
++theorem leftRepresentableBidualEvaluation_comp_iso (i : ℤ) :
++    A.leftModuleBidualEvaluation (A.leftRepresentable i) ≫ (A.leftRepresentableBidualIso i).hom =
++      𝟙 (A.leftRepresentable i) := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  apply (A.representableHomEquiv i X.index).injective
++  change (A.representableHomEquiv i X.index)
++    ((A.representableHomEquiv i X.index).symm
++      ((A.leftRepresentableADualIso i).inv ≫
++        A.leftModuleBidualElement (A.leftRepresentable i) X.index x)) =
++      (A.representableHomEquiv i X.index) x
++  rw [LinearEquiv.apply_symm_apply]
++  apply NatTrans.ext
++  funext Y
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro a
++  change (((A.leftRepresentableYonedaEquiv i (A.leftRepresentable Y.unop.index)).symm a).app X).hom x =
++    A.comp x a
++  rfl
++
++noncomputable instance leftRepresentableBidualEvaluationIsIso (i : ℤ) :
++    IsIso (A.leftModuleBidualEvaluation (A.leftRepresentable i)) := by
++  have h : A.leftModuleBidualEvaluation (A.leftRepresentable i) = (A.leftRepresentableBidualIso i).inv := by
++    apply (cancel_mono (A.leftRepresentableBidualIso i).hom).mp
++    rw [A.leftRepresentableBidualEvaluation_comp_iso, Iso.inv_hom_id]
++  rw [h]
++  infer_instance
++
++instance rightModuleADualFunctorAdditive : A.rightModuleADualFunctor.Additive where
++  map_add := by
++    intro M N f g
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro h
++    change (f.unop + g.unop) ≫ h = f.unop ≫ h + g.unop ≫ h
++    exact Preadditive.add_comp _ _ _ _ _ _
++
++instance leftModuleADualFunctorAdditive : A.leftModuleADualFunctor.Additive where
++  map_add := by
++    intro M N f g
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro h
++    change (f.unop + g.unop) ≫ h = f.unop ≫ h + g.unop ≫ h
++    exact Preadditive.add_comp _ _ _ _ _ _
++
++def rightModuleBidualFunctor : A.RightModule ⥤ A.RightModule :=
++  A.rightModuleADualFunctor.rightOp ⋙ A.leftModuleADualFunctor
++
++def leftModuleBidualFunctor : A.LeftModule ⥤ A.LeftModule :=
++  A.leftModuleADualFunctor.rightOp ⋙ A.rightModuleADualFunctor
++
++def rightModuleBidualEvaluationNatTrans : 𝟭 A.RightModule ⟶ A.rightModuleBidualFunctor where
++  app := A.rightModuleBidualEvaluation
++  naturality := by intro M N f; exact A.rightModuleBidualEvaluation_natural f
++
++def leftModuleBidualEvaluationNatTrans : 𝟭 A.LeftModule ⟶ A.leftModuleBidualFunctor where
++  app := A.leftModuleBidualEvaluation
++  naturality := by intro M N f; exact A.leftModuleBidualEvaluation_natural f
++
++instance rightModuleBidualFunctorAdditive : A.rightModuleBidualFunctor.Additive :=
++  inferInstanceAs (A.rightModuleADualFunctor.rightOp ⋙ A.leftModuleADualFunctor).Additive
++
++instance leftModuleBidualFunctorAdditive : A.leftModuleBidualFunctor.Additive :=
++  inferInstanceAs (A.leftModuleADualFunctor.rightOp ⋙ A.rightModuleADualFunctor).Additive
++
++end ASGinzburg.ZAlgebra

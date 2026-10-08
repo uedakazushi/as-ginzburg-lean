@@ -77,6 +77,7 @@ import ASGinzburg.Hilbert
 import ASGinzburg.Tensor333
 import ASGinzburg.Triangle333
 import ASGinzburg.GinzburgGrading
+import ASGinzburg.ModuleBidualEvaluation
 
 /-!
 # AS--Ginzburg formalization checkpoint
