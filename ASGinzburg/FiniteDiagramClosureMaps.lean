@@ -23,4 +23,3 @@ theorem colimitCoconeCoproductEpi {F : J ⥤ C} (c : Cocone F) (hc : IsColimit c
   have H := congrArg (fun t => Sigma.ι (fun j => F.obj j) j ≫ t) h
   simpa only [← Category.assoc,Sigma.ι_desc] using H
 end ASGinzburg
-

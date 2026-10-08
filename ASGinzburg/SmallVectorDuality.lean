@@ -101,4 +101,3 @@ theorem moduleCatDualIntoEvaluation_bijective [Module.Finite k M] (e : k ≃ₗ[
     refine ⟨x,q.injective ?_⟩
     rw [H,hx]
 end ASGinzburg
-

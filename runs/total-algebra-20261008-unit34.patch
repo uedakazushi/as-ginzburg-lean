@@ -1,0 +1,540 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 27dd76d..efafe36 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -144,6 +144,13 @@ import ASGinzburg.ModuleVectorDuality
+ import ASGinzburg.FiniteDimensionalVectorDuality
+ import ASGinzburg.FiniteDimensionalNakayama
+ 
++import ASGinzburg.RightSingleSupportIsomorphism
++import ASGinzburg.SimpleVectorDuality
++import ASGinzburg.FiniteDimensionalSimpleTranslation
++import ASGinzburg.FiniteDimensionalWindows
++import ASGinzburg.FiniteDimensionalWindowSequences
++import ASGinzburg.NakayamaWindowSupport
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/ASGinzburg/FiniteDiagramClosureMaps.lean b/ASGinzburg/FiniteDiagramClosureMaps.lean
+index 2f0904f..f620a22 100644
+--- a/ASGinzburg/FiniteDiagramClosureMaps.lean
++++ b/ASGinzburg/FiniteDiagramClosureMaps.lean
+@@ -23,4 +23,3 @@ theorem colimitCoconeCoproductEpi {F : J ⥤ C} (c : Cocone F) (hc : IsColimit c
+   have H := congrArg (fun t => Sigma.ι (fun j => F.obj j) j ≫ t) h
+   simpa only [← Category.assoc,Sigma.ι_desc] using H
+ end ASGinzburg
+-
+diff --git a/ASGinzburg/SmallVectorDuality.lean b/ASGinzburg/SmallVectorDuality.lean
+index a084897..9588641 100644
+--- a/ASGinzburg/SmallVectorDuality.lean
++++ b/ASGinzburg/SmallVectorDuality.lean
+@@ -101,4 +101,3 @@ theorem moduleCatDualIntoEvaluation_bijective [Module.Finite k M] (e : k ≃ₗ[
+     refine ⟨x,q.injective ?_⟩
+     rw [H,hx]
+ end ASGinzburg
+-
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 40e836a..40886f2 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -460,6 +460,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtTotalAlgebraLinearEquiv
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtTotalAlgebraLinearEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtTotalAlgebraLinearEquiv_representation
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalSimple
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalSimple
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalSimpleVectorDualIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtThreeSimpleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaSimpleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaSimpleHeightIso
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalVectorDualFunctor
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalVectorDualFunctor
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalVectorBidualNatIso
+@@ -470,6 +476,27 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalVectorDualFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalVectorDualFunctorLinear
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalVectorDualEquivalence
++#print axioms ASGinzburg.ZAlgebra.rightModuleWindow_simple
++#print axioms ASGinzburg.ZAlgebra.rightModuleWindow_vertex_of_mono
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalShortComplex
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalShortComplex_shortExact
++#print axioms ASGinzburg.ZAlgebra.rightModuleWindowProperty
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowProperty
++#print axioms ASGinzburg.ZAlgebra.RightFiniteWindow
++#print axioms ASGinzburg.ZAlgebra.rightModuleWindow_of_mono
++#print axioms ASGinzburg.ZAlgebra.rightModuleWindow_of_epi
++#print axioms ASGinzburg.ZAlgebra.rightModuleWindow_of_shortExact
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowProperty_closedUnderLimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowProperty_closedUnderColimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowHasLimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowHasColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowInclusionCreatesLimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowInclusionCreatesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowHasFiniteProducts
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowCoimageImageComparisonIsIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowAbelian
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowInclusionPreservesFiniteLimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowInclusionPreservesFiniteColimits
+ #print axioms ASGinzburg.isIso_natTrans_app_retract
+ #print axioms ASGinzburg.isIso_natTrans_app_coproduct
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteSumBidualEvaluationIsIso
+@@ -912,6 +939,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualFunctorLinear
+ #print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaUnderlying
++#print axioms ASGinzburg.ZAlgebra.rightVertexFiltration_nakayama_window
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_nakayama_window
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+@@ -1223,6 +1253,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_differential
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_exact
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionExtBidualIso
++#print axioms ASGinzburg.ZAlgebra.rightSingleSupportComponentIso
++#print axioms ASGinzburg.ZAlgebra.rightSingleSupportIso
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheaf
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheafAdditive
+@@ -1265,6 +1297,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.simpleRightModule_hom_eq_zero_iff
+ #print axioms ASGinzburg.ZAlgebra.simpleRightModuleSimple
+ #print axioms ASGinzburg.ZAlgebra.simpleRightModule_shortExact
++#print axioms ASGinzburg.moduleCatDualInto_isZero
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDual_component_isZero
++#print axioms ASGinzburg.ZAlgebra.rightSimpleVectorDual_diagonal_finrank
++#print axioms ASGinzburg.ZAlgebra.rightSimpleVectorDualDiagonalIso
++#print axioms ASGinzburg.ZAlgebra.rightSimpleVectorDualIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDual_component_isZero
++#print axioms ASGinzburg.ZAlgebra.leftSimpleVectorDual_diagonal_finrank
++#print axioms ASGinzburg.ZAlgebra.leftSimpleVectorDualDiagonalIso
++#print axioms ASGinzburg.ZAlgebra.leftSimpleVectorDualIso
+ #print axioms ASGinzburg.dualIntoEvaluation
+ #print axioms ASGinzburg.dualIntoToDual
+ #print axioms ASGinzburg.dualIntoEvaluation_bijective
+diff --git a/ASGinzburg/RightSingleSupportIsomorphism.lean b/ASGinzburg/RightSingleSupportIsomorphism.lean
+new file mode 100644
+index 0000000..c1d92c2
+--- /dev/null
++++ b/ASGinzburg/RightSingleSupportIsomorphism.lean
+@@ -0,0 +1,47 @@
++import ASGinzburg.FiniteProjectivePresentations
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightSingleSupportComponentIso (i : ℤ) (M N : A.RightModule)
++    (hM : ∀ j, j ≠ i → Limits.IsZero ((A.rightModuleEvaluation j).obj M))
++    (hN : ∀ j, j ≠ i → Limits.IsZero ((A.rightModuleEvaluation j).obj N))
++    (e : (A.rightModuleEvaluation i).obj M ≅ (A.rightModuleEvaluation i).obj N) :
++    ∀ X : A.Objᵒᵖ, M.obj.obj X ≅ N.obj.obj X := by
++  intro X
++  cases X using Opposite.rec
++  rename_i X
++  rcases X with ⟨j⟩
++  by_cases h : j=i
++  · subst j; exact e
++  · exact (hM j h).iso (hN j h)
++
++noncomputable def rightSingleSupportIso (i : ℤ) (M N : A.RightModule)
++    (hM : ∀ j, j ≠ i → Limits.IsZero ((A.rightModuleEvaluation j).obj M))
++    (hN : ∀ j, j ≠ i → Limits.IsZero ((A.rightModuleEvaluation j).obj N))
++    (e : (A.rightModuleEvaluation i).obj M ≅ (A.rightModuleEvaluation i).obj N) : M ≅ N := by
++  letI : M.obj.Linear k := M.property.2
++  letI : N.obj.Linear k := N.property.2
++  apply A.rightModuleProperty.isoMk
++  refine NatIso.ofComponents (F := M.obj) (G := N.obj) (A.rightSingleSupportComponentIso i M N hM hN e) ?_
++  intro X Y f
++  cases X using Opposite.rec
++  cases Y using Opposite.rec
++  rename_i X Y
++  rcases X with ⟨j⟩
++  rcases Y with ⟨l⟩
++  by_cases hj : j=i
++  · by_cases hl : l=i
++    · subst j; subst l
++      obtain ⟨r,hr⟩ := (A.scalarEndEquiv i).surjective f.unop
++      have hf : f = r • 𝟙 (op (⟨i⟩ : A.Obj)) := by
++        apply Quiver.Hom.unop_inj
++        change f.unop = r • A.id i
++        exact hr.symm
++      rw [hf,M.obj.map_smul,N.obj.map_smul,M.obj.map_id,N.obj.map_id]
++      simp
++    · exact (hN l hl).eq_of_tgt _ _
++  · exact (hM j hj).eq_of_src _ _
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/SimpleVectorDuality.lean b/ASGinzburg/SimpleVectorDuality.lean
+new file mode 100644
+index 0000000..e3c6d2e
+--- /dev/null
++++ b/ASGinzburg/SimpleVectorDuality.lean
+@@ -0,0 +1,103 @@
++import ASGinzburg.RightSingleSupportIsomorphism
++import ASGinzburg.ModuleVectorDuality
++
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k]
++theorem moduleCatDualInto_isZero (U M : ModuleCat.{v} k) (hM : IsZero M) :
++    IsZero ((moduleCatDualIntoFunctor U).obj (op M)) := by
++  apply ModuleCat.isZero_iff_subsingleton.mpr
++  constructor
++  intro f g
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  have hx : x=0 := (ModuleCat.isZero_iff_subsingleton.mp hM).elim x 0
++  change f.hom x = g.hom x
++  rw [hx,map_zero,map_zero]
++end ASGinzburg
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleVectorDual_component_isZero (M : A.RightModule) (i : ℤ)
++    (hM : IsZero ((A.rightModuleEvaluation i).obj M)) :
++    IsZero ((A.leftModuleEvaluation i).obj (A.rightModuleVectorDual M)) :=
++  ASGinzburg.moduleCatDualInto_isZero (ModuleCat.of k (A.Hom 0 0)) _ hM
++
++theorem rightSimpleVectorDual_diagonal_finrank (i : ℤ) :
++    Module.finrank k ((A.leftModuleEvaluation i).obj (A.rightModuleVectorDual (A.simpleRightModule i))) = 1 := by
++  let M : ModuleCat.{v} k := (A.rightModuleEvaluation i).obj (A.simpleRightModule i)
++  let U : ModuleCat.{v} k := ModuleCat.of k (A.Hom 0 0)
++  change Module.finrank k (M ⟶ U) = 1
++  rw [(ModuleCat.homLinearEquiv (M := M) (N := U) (S := k)).finrank_eq,
++    (ASGinzburg.dualIntoToDual (M := M) (A.scalarEndEquiv 0)).finrank_eq,
++    Subspace.dual_finrank_eq]
++  exact A.simpleRightModule_diagonal_finrank i
++
++noncomputable def rightSimpleVectorDualDiagonalIso (i : ℤ) :
++    (A.leftModuleEvaluation i).obj (A.rightModuleVectorDual (A.simpleRightModule i)) ≅
++      (A.leftModuleEvaluation i).obj (A.simpleLeftModule i) := by
++  let V : ModuleCat.{v} k := (A.leftModuleEvaluation i).obj
++    (A.rightModuleVectorDual (A.simpleRightModule i))
++  let W : ModuleCat.{v} k := (A.leftModuleEvaluation i).obj (A.simpleLeftModule i)
++  letI : Module.Finite k V := A.leftFiniteDimensional_component_finite
++    (A.rightModuleVectorDual_finite (A.rightFiniteDimensional_simple i)) i
++  letI : Module.Finite k W := A.leftFiniteDimensional_component_finite (A.leftFiniteDimensional_simple i) i
++  let e : V ≃ₗ[k] W := LinearEquiv.ofFinrankEq (R := k) V W
++    ((A.rightSimpleVectorDual_diagonal_finrank i).trans (A.simpleLeftModule_diagonal_finrank i).symm)
++  exact e.toModuleIso
++
++noncomputable def rightSimpleVectorDualIso (i : ℤ) :
++    A.rightModuleVectorDual (A.simpleRightModule i) ≅ A.simpleLeftModule i :=
++  A.leftModuleIsoOfSingleSupport _ _ i
++    (fun j hj => A.rightModuleVectorDual_component_isZero _ j (A.simpleRightModule_off_diagonal i j hj))
++    (fun j hj => A.simpleLeftModule_off_diagonal i j hj)
++    (A.rightSimpleVectorDualDiagonalIso i)
++
++theorem leftModuleVectorDual_component_isZero (M : A.LeftModule) (i : ℤ)
++    (hM : IsZero ((A.leftModuleEvaluation i).obj M)) :
++    IsZero ((A.rightModuleEvaluation i).obj (A.leftModuleVectorDual M)) :=
++  ASGinzburg.moduleCatDualInto_isZero (ModuleCat.of k (A.Hom 0 0)) _ hM
++
++theorem leftSimpleVectorDual_diagonal_finrank (i : ℤ) :
++    Module.finrank k ((A.rightModuleEvaluation i).obj (A.leftModuleVectorDual (A.simpleLeftModule i))) = 1 := by
++  let M : ModuleCat.{v} k := (A.leftModuleEvaluation i).obj (A.simpleLeftModule i)
++  let U : ModuleCat.{v} k := ModuleCat.of k (A.Hom 0 0)
++  change Module.finrank k (M ⟶ U) = 1
++  rw [(ModuleCat.homLinearEquiv (M := M) (N := U) (S := k)).finrank_eq,
++    (ASGinzburg.dualIntoToDual (M := M) (A.scalarEndEquiv 0)).finrank_eq,
++    Subspace.dual_finrank_eq]
++  exact A.simpleLeftModule_diagonal_finrank i
++
++noncomputable def leftSimpleVectorDualDiagonalIso (i : ℤ) :
++    (A.rightModuleEvaluation i).obj (A.leftModuleVectorDual (A.simpleLeftModule i)) ≅
++      (A.rightModuleEvaluation i).obj (A.simpleRightModule i) := by
++  let V : ModuleCat.{v} k := (A.rightModuleEvaluation i).obj
++    (A.leftModuleVectorDual (A.simpleLeftModule i))
++  let W : ModuleCat.{v} k := (A.rightModuleEvaluation i).obj (A.simpleRightModule i)
++  letI : Module.Finite k V := A.rightFiniteDimensional_component_finite
++    (A.leftModuleVectorDual_finite (A.leftFiniteDimensional_simple i)) i
++  letI : Module.Finite k W := A.rightFiniteDimensional_component_finite (A.rightFiniteDimensional_simple i) i
++  let e : V ≃ₗ[k] W := LinearEquiv.ofFinrankEq (R := k) V W
++    ((A.leftSimpleVectorDual_diagonal_finrank i).trans (A.simpleRightModule_diagonal_finrank i).symm)
++  exact e.toModuleIso
++
++noncomputable def leftSimpleVectorDualIso (i : ℤ) :
++    A.leftModuleVectorDual (A.simpleLeftModule i) ≅ A.simpleRightModule i :=
++  A.rightSingleSupportIso i _ _
++    (fun j hj => A.leftModuleVectorDual_component_isZero _ j (A.simpleLeftModule_off_diagonal i j hj))
++    (fun j hj => A.simpleRightModule_off_diagonal i j hj)
++    (A.leftSimpleVectorDualDiagonalIso i)
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteDimensionalSimpleTranslation.lean b/ASGinzburg/FiniteDimensionalSimpleTranslation.lean
+new file mode 100644
+index 0000000..229b6cb
+--- /dev/null
++++ b/ASGinzburg/FiniteDimensionalSimpleTranslation.lean
+@@ -0,0 +1,47 @@
++import ASGinzburg.SimpleVectorDuality
++import ASGinzburg.FiniteDimensionalNakayama
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightFiniteDimensionalSimple (i : ℤ) : A.RightFiniteDimensional :=
++  ⟨A.simpleRightModule i,A.rightFiniteDimensional_simple i⟩
++noncomputable def leftFiniteDimensionalSimple (i : ℤ) : A.LeftFiniteDimensional :=
++  ⟨A.simpleLeftModule i,A.leftFiniteDimensional_simple i⟩
++
++noncomputable def leftFiniteDimensionalSimpleVectorDualIso (i : ℤ) :
++    A.leftFiniteDimensionalVectorDualFunctor.obj (op (A.leftFiniteDimensionalSimple i)) ≅
++      A.rightFiniteDimensionalSimple i :=
++  A.rightFiniteDimensionalProperty.isoMk (A.leftSimpleVectorDualIso i)
++
++noncomputable def rightFiniteDimensionalExtThreeSimpleIso (Q : CutQuiver) (hAS : A.ASRegular Q)
++    (w : Q.LiftVertex) :
++    (A.rightFiniteDimensionalExtThreeFunctor Q hAS).obj (op (A.rightFiniteDimensionalSimple (Q.height w))) ≅
++      A.leftFiniteDimensionalSimple (Q.height (Q.tau.symm w)) :=
++  A.leftFiniteDimensionalProperty.isoMk (hAS.extLeftThreeIsoSimple A Q w)
++
++noncomputable def rightFiniteDimensionalNakayamaSimpleIso (Q : CutQuiver) (hAS : A.ASRegular Q)
++    (w : Q.LiftVertex) :
++    (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.obj
++        (A.rightFiniteDimensionalSimple (Q.height w)) ≅
++      A.rightFiniteDimensionalSimple (Q.height (Q.tau.symm w)) :=
++  (A.leftFiniteDimensionalVectorDualFunctor.mapIso
++    (A.rightFiniteDimensionalExtThreeSimpleIso Q hAS w).op).symm ≪≫
++      A.leftFiniteDimensionalSimpleVectorDualIso _
++
++noncomputable def rightFiniteDimensionalNakayamaSimpleHeightIso (Q : CutQuiver) (hAS : A.ASRegular Q)
++    (i : ℤ) :
++    (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.obj (A.rightFiniteDimensionalSimple i) ≅
++      A.rightFiniteDimensionalSimple (i - Q.vertices) := by
++  let w := Q.heightEquiv.symm i
++  have hw : Q.height w = i := by
++    rw [← Q.heightEquiv_apply]
++    exact Q.heightEquiv.apply_symm_apply i
++  have ht : Q.height (Q.tau.symm w) = i-Q.vertices := by
++    have H := Q.height_tau (Q.tau.symm w)
++    rw [Q.tau.apply_symm_apply,hw] at H
++    omega
++  simpa only [hw,ht] using A.rightFiniteDimensionalNakayamaSimpleIso Q hAS w
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteDimensionalWindows.lean b/ASGinzburg/FiniteDimensionalWindows.lean
+new file mode 100644
+index 0000000..98ff3e7
+--- /dev/null
++++ b/ASGinzburg/FiniteDimensionalWindows.lean
+@@ -0,0 +1,93 @@
++import ASGinzburg.FiniteDimensionalAbelian
++import Mathlib.CategoryTheory.Limits.FullSubcategory
++import Mathlib.CategoryTheory.Limits.Preserves.Shapes.AbelianImages
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++def rightModuleWindowProperty (l r : ℤ) : ObjectProperty A.RightModule :=
++  fun M => ∀ i : ℤ, (i < l ∨ r < i) → IsZero ((A.rightModuleEvaluation i).obj M)
++
++def rightFiniteWindowProperty (l r : ℤ) : ObjectProperty A.RightFiniteDimensional :=
++  fun M => A.rightModuleWindowProperty l r M.obj
++abbrev RightFiniteWindow (l r : ℤ) := (A.rightFiniteWindowProperty l r).FullSubcategory
++
++theorem rightModuleWindow_of_mono {M N : A.RightModule} (f : M ⟶ N) [Mono f]
++    {l r : ℤ} (hN : A.rightModuleWindowProperty l r N) : A.rightModuleWindowProperty l r M := by
++  intro i hi
++  exact (hN i hi).of_mono ((A.rightModuleEvaluation i).map f)
++
++theorem rightModuleWindow_of_epi {M N : A.RightModule} (f : M ⟶ N) [Epi f]
++    {l r : ℤ} (hM : A.rightModuleWindowProperty l r M) : A.rightModuleWindowProperty l r N := by
++  intro i hi
++  exact (hM i hi).of_epi ((A.rightModuleEvaluation i).map f)
++
++theorem rightModuleWindow_of_shortExact {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) {l r : ℤ} (h₁ : A.rightModuleWindowProperty l r S.X₁)
++    (h₃ : A.rightModuleWindowProperty l r S.X₃) : A.rightModuleWindowProperty l r S.X₂ := by
++  intro i hi
++  have E := hS.exact.map (A.rightModuleEvaluation i)
++  exact E.isZero_X₂ ((h₁ i hi).eq_zero_of_src _) ((h₃ i hi).eq_zero_of_tgt _)
++
++attribute [-instance] ModuleCat.instHasLimitsOfSize in
++theorem rightFiniteWindowProperty_closedUnderLimits (l r : ℤ) (J : Type)
++    [SmallCategory J] [FinCategory J] : ClosedUnderLimitsOfShape J (A.rightFiniteWindowProperty l r) := by
++  intro F c hc hF i hi
++  let E := A.rightFiniteDimensionalProperty.ι ⋙ A.rightModuleEvaluation i
++  haveI : PreservesLimit F E := by dsimp [E]; infer_instance
++  have hD : IsZero (F ⋙ E) := by
++    rw [IsZero.iff_id_eq_zero]
++    apply NatTrans.ext
++    funext j
++    exact (hF j i hi).eq_of_src _ _
++  exact (isLimitOfPreserves E hc).isZero_pt hD
++
++attribute [-instance] ModuleCat.instHasLimitsOfSize in
++theorem rightFiniteWindowProperty_closedUnderColimits (l r : ℤ) (J : Type)
++    [SmallCategory J] [FinCategory J] : ClosedUnderColimitsOfShape J (A.rightFiniteWindowProperty l r) := by
++  intro F c hc hF i hi
++  let E := A.rightFiniteDimensionalProperty.ι ⋙ A.rightModuleEvaluation i
++  haveI : PreservesColimit F E := by dsimp [E]; infer_instance
++  have hD : IsZero (F ⋙ E) := by
++    rw [IsZero.iff_id_eq_zero]
++    apply NatTrans.ext
++    funext j
++    exact (hF j i hi).eq_of_src _ _
++  exact (isColimitOfPreserves E hc).isZero_pt hD
++
++noncomputable instance rightFiniteWindowHasLimitsOfShape (l r : ℤ) (J : Type)
++    [SmallCategory J] [FinCategory J] : HasLimitsOfShape J (A.RightFiniteWindow l r) :=
++  hasLimitsOfShape_of_closedUnderLimits (A.rightFiniteWindowProperty_closedUnderLimits l r J)
++noncomputable instance rightFiniteWindowHasColimitsOfShape (l r : ℤ) (J : Type)
++    [SmallCategory J] [FinCategory J] : HasColimitsOfShape J (A.RightFiniteWindow l r) :=
++  hasColimitsOfShape_of_closedUnderColimits (A.rightFiniteWindowProperty_closedUnderColimits l r J)
++noncomputable instance rightFiniteWindowInclusionCreatesLimitsOfShape (l r : ℤ) (J : Type)
++    [SmallCategory J] [FinCategory J] : CreatesLimitsOfShape J (A.rightFiniteWindowProperty l r).ι :=
++  createsLimitsOfShapeFullSubcategoryInclusion (A.rightFiniteWindowProperty_closedUnderLimits l r J)
++noncomputable instance rightFiniteWindowInclusionCreatesColimitsOfShape (l r : ℤ) (J : Type)
++    [SmallCategory J] [FinCategory J] : CreatesColimitsOfShape J (A.rightFiniteWindowProperty l r).ι :=
++  createsColimitsOfShapeFullSubcategoryInclusion (A.rightFiniteWindowProperty_closedUnderColimits l r J)
++noncomputable instance rightFiniteWindowHasFiniteProducts (l r : ℤ) : HasFiniteProducts (A.RightFiniteWindow l r) where
++  out _ := inferInstance
++
++set_option maxHeartbeats 1600000 in
++noncomputable instance rightFiniteWindowCoimageImageComparisonIsIso (l r : ℤ)
++    {M N : A.RightFiniteWindow l r} (f : M ⟶ N) : IsIso (Abelian.coimageImageComparison f) := by
++  haveI : IsIso ((A.rightFiniteWindowProperty l r).ι.map (Abelian.coimageImageComparison f)) := by
++    rw [Arrow.isIso_iff_isIso_of_isIso
++      (Abelian.PreservesCoimageImageComparison.iso (A.rightFiniteWindowProperty l r).ι f).hom]
++    infer_instance
++  exact isIso_of_reflects_iso _ (A.rightFiniteWindowProperty l r).ι
++
++noncomputable instance rightFiniteWindowAbelian (l r : ℤ) : Abelian (A.RightFiniteWindow l r) :=
++  Abelian.ofCoimageImageComparisonIsIso
++noncomputable instance rightFiniteWindowInclusionPreservesFiniteLimits (l r : ℤ) :
++    PreservesFiniteLimits (A.rightFiniteWindowProperty l r).ι where
++  preservesFiniteLimits _ := inferInstance
++noncomputable instance rightFiniteWindowInclusionPreservesFiniteColimits (l r : ℤ) :
++    PreservesFiniteColimits (A.rightFiniteWindowProperty l r).ι where
++  preservesFiniteColimits _ := inferInstance
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteDimensionalWindowSequences.lean b/ASGinzburg/FiniteDimensionalWindowSequences.lean
+new file mode 100644
+index 0000000..5e44643
+--- /dev/null
++++ b/ASGinzburg/FiniteDimensionalWindowSequences.lean
+@@ -0,0 +1,46 @@
++import ASGinzburg.FiniteDimensionalWindows
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleWindow_simple (l r i : ℤ) (hl : l ≤ i) (hr : i ≤ r) :
++    A.rightModuleWindowProperty l r (A.simpleRightModule i) := by
++  intro j hj
++  exact A.simpleRightModule_off_diagonal i j (by omega)
++
++theorem rightModuleWindow_vertex_of_mono {M : A.RightModule} {l r i : ℤ}
++    (hM : A.rightModuleWindowProperty l r M) (f : A.simpleRightModule i ⟶ M) [Mono f] :
++    l ≤ i ∧ i ≤ r := by
++  by_contra h
++  have hi : i < l ∨ r < i := by omega
++  have H := (hM i hi).of_mono ((A.rightModuleEvaluation i).map f)
++  exact Simple.not_isZero ((A.rightModuleEvaluation i).obj (A.simpleRightModule i)) H
++
++noncomputable def rightFiniteDimensionalShortComplex (S : ShortComplex A.RightModule)
++    (h₁ : A.rightFiniteDimensionalProperty S.X₁) (h₂ : A.rightFiniteDimensionalProperty S.X₂)
++    (h₃ : A.rightFiniteDimensionalProperty S.X₃) : ShortComplex A.RightFiniteDimensional where
++  X₁ := ⟨S.X₁,h₁⟩
++  X₂ := ⟨S.X₂,h₂⟩
++  X₃ := ⟨S.X₃,h₃⟩
++  f := S.f
++  g := S.g
++  zero := S.zero
++
++theorem rightFiniteDimensionalShortComplex_shortExact {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact)
++    (h₁ : A.rightFiniteDimensionalProperty S.X₁) (h₂ : A.rightFiniteDimensionalProperty S.X₂)
++    (h₃ : A.rightFiniteDimensionalProperty S.X₃) :
++    (A.rightFiniteDimensionalShortComplex S h₁ h₂ h₃).ShortExact := by
++  let T := A.rightFiniteDimensionalShortComplex S h₁ h₂ h₃
++  have hE : (T.map A.rightFiniteDimensionalProperty.ι).Exact := hS.exact
++  have hM : Mono T.f := A.rightFiniteDimensionalProperty.ι.mono_of_mono_map (by
++    change Mono S.f; exact hS.mono_f)
++  have hG : Epi T.g := A.rightFiniteDimensionalProperty.ι.epi_of_epi_map (by
++    change Epi S.g; exact hS.epi_g)
++  exact {
++    exact := (T.exact_map_iff_of_faithful A.rightFiniteDimensionalProperty.ι).mp hE
++    mono_f := hM
++    epi_g := hG }
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaWindowSupport.lean b/ASGinzburg/NakayamaWindowSupport.lean
+new file mode 100644
+index 0000000..613f2b7
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowSupport.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.FiniteDimensionalSimpleTranslation
++import ASGinzburg.FiniteDimensionalWindowSequences
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def rightFiniteDimensionalNakayamaUnderlying (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) : A.RightModule :=
++  ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.obj ⟨M,hM⟩).obj
++
++theorem rightVertexFiltration_nakayama_window (hAS : A.ASRegular Q)
++    {M : A.RightModule} (F : A.RightVertexFiltration M) :
++    ∀ (hM : A.rightFiniteDimensionalProperty M) (l r : ℤ),
++      A.rightModuleWindowProperty l r M →
++        A.rightModuleWindowProperty (l-Q.vertices) (r-Q.vertices)
++          (A.rightFiniteDimensionalNakayamaUnderlying Q hAS M hM) := by
++  induction F with
++  | zero hZero =>
++    intro hM l r hW i hi
++    have H := A.rightModuleExtLeft_isZero_of_isZero hZero 3
++    exact A.leftModuleVectorDual_component_isZero _ i ((A.leftModuleEvaluation i).map_isZero H)
++  | @step M i f hf tail ih =>
++    intro hM l r hW
++    letI := hf
++    let S : ShortComplex A.RightModule := ShortComplex.mk f (cokernel.π f) (cokernel.condition f)
++    have hS : S.ShortExact := { exact := ShortComplex.exact_cokernel f }
++    have hC : A.rightFiniteDimensionalProperty (cokernel f) :=
++      A.rightFiniteDimensional_of_epi (cokernel.π f) hM
++    have hCW := A.rightModuleWindow_of_epi (cokernel.π f) hW
++    obtain ⟨hli,hir⟩ := A.rightModuleWindow_vertex_of_mono hW f
++    let T := A.rightFiniteDimensionalShortComplex S (A.rightFiniteDimensional_simple i) hM hC
++    have hT : T.ShortExact := A.rightFiniteDimensionalShortComplex_shortExact hS _ _ _
++    let E := (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor
++    have H := (A.rightFiniteDimensionalNakayama_shortExact Q hAS hT).map_of_exact
++      A.rightFiniteDimensionalProperty.ι
++    have h₁ : A.rightModuleWindowProperty (l-Q.vertices) (r-Q.vertices)
++        (A.rightFiniteDimensionalNakayamaUnderlying Q hAS (A.simpleRightModule i)
++          (A.rightFiniteDimensional_simple i)) := by
++      let e := A.rightFiniteDimensionalProperty.ι.mapIso
++        (A.rightFiniteDimensionalNakayamaSimpleHeightIso Q hAS i)
++      exact A.rightModuleWindow_of_mono e.hom
++        (A.rightModuleWindow_simple _ _ _ (by omega) (by omega))
++    exact A.rightModuleWindow_of_shortExact H h₁ (ih hC l r hCW)
++theorem rightFiniteDimensional_nakayama_window (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) (l r : ℤ)
++    (hW : A.rightModuleWindowProperty l r M) :
++    A.rightModuleWindowProperty (l-Q.vertices) (r-Q.vertices)
++      (A.rightFiniteDimensionalNakayamaUnderlying Q hAS M hM) :=
++  A.rightVertexFiltration_nakayama_window Q hAS (A.rightFiniteDimensionalVertexFiltration M hM) hM l r hW
++end ASGinzburg.ZAlgebra

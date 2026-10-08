@@ -837,3 +837,32 @@ nakayama-window-draft2は個別Lean終了0・診断なし。線形双対の頂�
 単位32の正確なhead e27c706570f20b142cb0d32ac33b0d1afc52c6cbのGitHub CI37789422870はsuccessと確認した。単位33のCI成功を確認したとは扱わない。
 
 保存前のgit diff --cached --checkは終了2。FiniteDiagramClosureMaps.leanとSmallVectorDuality.leanの末尾空行を指摘した。Lean build・全宣言監査の失敗ではなく、その検証済みSHAを保って単位33を保存する。末尾空行は次の単位34の新規全体検証前に除去する。
+
+単位33はmain 6ede66df66c3105035ec5d209368839a05f18e14へ保存済み。単位34として線形双対の頂点単純同型・Ext³との合成のτ⁻¹移送、有限区間部分圏のAbelian構造と組成列による一般有限次元加群の区間台の移送を公開検査する。nakayama-window-draft2は個別Lean終了0・診断なし。単位33保存時の2つの末尾空行も修正し、この新しいソースで全体を検証する。次は逆関手の区間台の移送・制限同値、切詰めrepresentableの射影性と被覆・正規化・coherence。
+
+作業中チェックポイント UTC 2026-10-08T14:45:16.070942+00:00、開始から実測27878.070942秒。継続中、タスク終了時刻ではない。
+単位33はmain 6ede66df66c3105035ec5d209368839a05f18e14へ保存済み。正確なheadのGitHub CI37792742213は現在in_progressで、成功とは扱わない。単位34公開検査20261008T143032Z-db58fadbは進行中。lake build終了0、全宣言の独立公理監査を実行中。検査対象は151数学モジュール・1538異なる宣言・687 theorem。
+nakayama-window-equivalence-draft1は個別Lean終了0・診断なし。AS条件から逆自己同値の頂点単純τ移送・正の高さシフトと一般加群の区間台の移送、両方向の台保存を用いた有限区間制限同値・線形性・短完全列保存まで完成した草稿。truncated-representable-draft2は個別Lean終了0・診断なし。実際の下端部分加群の余核による切詰めrepresentable、有限次元性・区間台・成分同型とYoneda、区間full部分圏での射影性まで完成した草稿。これらは単位34の監査対象ではなく、次の公開単位35で監査する。
+次は頂点単純への実際の被覆とEnd=k、被覆への射を保つ自己射の恒等性、正規化した射影対象同型の一意性、区間の変更に関するcoherenceと周期性。総ベクトル双対の自然比較・作用適合性、左側総正則Ext比較、標準RHom・derived/perfect、命題5.1・外部一般定理、定理3.2と系5.2は未完成で、両主定理の正式Lean定理文も未実装。
+
+## 単位34：頂点単純の移送、有限区間Abelian部分圏と台の保存
+
+RightSingleSupportIsomorphism.lean、SimpleVectorDuality.lean、FiniteDimensionalSimpleTranslation.lean、FiniteDimensionalWindows.lean、FiniteDimensionalWindowSequences.lean、NakayamaWindowSupport.leanを追加。単一頂点に台を持つ実際の右加群の成分同型から加群同型を復元する。左側は既存の復元補題を再利用。成分線形双対の零性と一次元性から、左右の頂点単純の実際の双対同型を構成し、AS条件で既に証明したExt³単純同型と合成して、Nakayama自己同値が頂点をτ⁻¹、高さをQ.verticesだけ負方向へ移すことを証明した。
+
+既存の有限次元full部分圏の内部に、区間外の実際の成分が零であるという性質で有限区間部分圏を定義した。部分対象・商・拡大での閉性、有限圏を添字とする極限・余極限の閉性、Abelian構造と包含のexactnessを証明。実際の短完全列と頂点単純の組成列を使用し、任意の有限次元右加群の台が[l,r]内ならNakayama像の台が[l-p,r-p]内であることを証明した。任意Propで数学対象を置き換えず、追加の周期性・Ext同型・主定理と同等のAS仮定はない。
+
+単位33で記録したFiniteDiagramClosureMaps.leanとSmallVectorDuality.leanの末尾空行も除去し、このソースを新規に全体検証した。数学的意味を変える修正ではない。初期14/開始時60数学モジュール・入力PDF・歴史的577ファイルは無変更。
+
+単位33はmain 6ede66df66c3105035ec5d209368839a05f18e14へ保存済み。その正確なheadのCI37792742213は14:42 UTCの確認時in_progressで、今回単位34のCI成功と扱わない。
+
+次の草稿nakayama-window-equivalence-draft1は個別Lean終了0・診断なし。逆自己同値のτ移送と正方向シフト、一般加群の逆像の台保存、両方向の台保存を用いた有限区間制限同値・線形性・短完全列保存まで完成した。truncated-representable-draft3は個別Lean終了0・診断なし。下端部分加群の余核で切詰めたrepresentable、有限次元性・区間台・成分同型・Yoneda・区間での射影性、頂点単純への全射とEnd=kを構成した。これらの草稿は今回単位34の公理監査対象ではない。
+
+次は実際の射影被覆・End=kによる正規化同型の一意性、区間の変更に関するcoherenceと周期性。総空間のベクトル双対との自然比較と作用適合性、左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理、定理3.2と系5.2は未完成。両主定理の正式Lean定理文も未実装。検証とmain保存をチェックポイントとし、引き続き作業する。
+
+検証：`20261008T143032Z-db58fadb`、1124.405108447秒、全段階終了0。
+JST 2026-10-08T23:30:32.208108+09:00 → 2026-10-08T23:49:16.613227+09:00。
+UTC 2026-10-08T14:30:32.208108+00:00 → 2026-10-08T14:49:16.613227+00:00。
+151数学モジュール・1538異なる宣言・687 theorem。
+差分：runs/total-algebra-20261008-unit34.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位34公開検査は全6段階終了0。UTC14:30:32.208108→14:49:16.613227、1124.405108447秒。151数学モジュール・1538異なる宣言・687 theorem・253 named instance。旧14/開始時60数学モジュール・過去577ファイル・PDFの保存確認も終了0。main保存を準備し、草稿の射影被覆とその移送を継続する。
