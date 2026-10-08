@@ -1,0 +1,167 @@
+import ASGinzburg.RightModuleHomKernel
+import ASGinzburg.FiniteCoproductHomColimits
+import ASGinzburg.ASResolutionExtBounds
+
+/-! Actual Ext of a simple module commutes with exact colimits from its finite AS sequence. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped DirectSum
+universe u v w w'
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable def rightModuleExtZeroPreservesColimits (M : A.RightModule)
+    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)]
+    [PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op M))] :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant M 0) :=
+  preservesColimitsOfShape_of_natIso (A.rightModuleExtZeroFunctorIso M).symm
+
+noncomputable def rightModuleExtSuccPreservesColimits {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) (J : Type w) [Category.{w'} J]
+    [HasColimitsOfShape J (ModuleCat.{v} k)]
+    [PreservesColimitsOfShape J (A.rightModuleExtCovariant S.X₁ n)]
+    [PreservesColimitsOfShape J (A.rightModuleExtCovariant S.X₂ n)] :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant S.X₃ (n + 1)) := by
+  letI := cokernelFunctorPreservesColimits (J := J) (A.rightModuleExtPrecompNat S.f n)
+  exact preservesColimitsOfShape_of_natIso (A.rightModuleExtCokernelNatIso hS n)
+
+namespace ASResolution
+variable {A} {Q : CutQuiver} {x : Q.LiftVertex} (R : A.ASResolution Q x)
+variable (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)]
+variable [HasExactColimitsOfShape J (ModuleCat.{v} k)]
+
+noncomputable def secondSyzygyHomPreservesColimits :
+    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj
+      (op (kernel R.firstCover))) :=
+  A.rightModuleHomPreservesExactColimits R.shortExact₂ J
+
+noncomputable def firstSyzygyHomPreservesColimits :
+    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj
+      (op (kernel (A.simpleRightModuleπ (Q.height x))))) := by
+  letI := R.secondSyzygyHomPreservesColimits J
+  exact A.rightModuleHomPreservesExactColimits R.shortExact₁ J
+
+noncomputable def simpleHomPreservesColimits :
+    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj
+      (op (A.simpleRightModule (Q.height x)))) := by
+  letI := R.firstSyzygyHomPreservesColimits J
+  exact A.rightModuleHomPreservesExactColimits
+    (ASResolution.shortExact₀ (A := A) (Q := Q) (v := x)) J
+
+noncomputable def secondSyzygyExtOnePreservesColimits :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant (kernel R.firstCover) 1) := by
+  letI := A.rightModuleExtZeroPreservesColimits (A.asResolutionTerm₂ Q x) J
+  exact A.rightModuleExtSuccPreservesColimits R.shortExact₂ 0 J
+
+noncomputable def firstSyzygyExtOnePreservesColimits :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant
+      (kernel (A.simpleRightModuleπ (Q.height x))) 1) := by
+  letI := R.secondSyzygyHomPreservesColimits J
+  letI := A.rightModuleExtZeroPreservesColimits (kernel R.firstCover) J
+  letI := A.rightModuleExtZeroPreservesColimits (A.asResolutionTerm₁ Q x) J
+  exact A.rightModuleExtSuccPreservesColimits R.shortExact₁ 0 J
+
+noncomputable def simpleExtOnePreservesColimits :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant
+      (A.simpleRightModule (Q.height x)) 1) := by
+  letI := R.firstSyzygyHomPreservesColimits J
+  letI := A.rightModuleExtZeroPreservesColimits
+    (kernel (A.simpleRightModuleπ (Q.height x))) J
+  exact A.rightModuleExtSuccPreservesColimits
+    (ASResolution.shortExact₀ (A := A) (Q := Q) (v := x)) 0 J
+
+noncomputable def simpleExtTwoPreservesColimits :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant
+      (A.simpleRightModule (Q.height x)) 2) := by
+  letI := R.firstSyzygyExtOnePreservesColimits J
+  exact preservesColimitsOfShape_of_natIso (A.rightModuleExtDimensionShiftNatIso
+    (ASResolution.shortExact₀ (A := A) (Q := Q) (v := x)) 0)
+
+noncomputable def simpleExtThreePreservesColimits :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant
+      (A.simpleRightModule (Q.height x)) 3) := by
+  letI := R.secondSyzygyExtOnePreservesColimits J
+  letI : PreservesColimitsOfShape J (A.rightModuleExtCovariant
+      (kernel (A.simpleRightModuleπ (Q.height x))) 2) :=
+    preservesColimitsOfShape_of_natIso (A.rightModuleExtDimensionShiftNatIso R.shortExact₁ 0)
+  exact preservesColimitsOfShape_of_natIso (A.rightModuleExtDimensionShiftNatIso
+    (ASResolution.shortExact₀ (A := A) (Q := Q) (v := x)) 1)
+
+include R in
+theorem simpleHigherExtFunctorIsZero (n : ℕ) :
+    IsZero (A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) (n + 4)) := by
+  rw [Functor.isZero_iff]
+  intro N
+  letI : Subsingleton (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) N (n + 4)) :=
+    ⟨fun a b => by rw [R.ext_ge_four_eq_zero N n a, R.ext_ge_four_eq_zero N n b]⟩
+  change IsZero (ModuleCat.of k (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) N (n + 4)))
+  exact ModuleCat.isZero_of_subsingleton _
+
+/-- Only the finite AS resolution is used; no AS rank, periodicity, or exchange hypothesis. -/
+noncomputable def simpleExtPreservesExactColimits (n : ℕ) :
+    PreservesColimitsOfShape J (A.rightModuleExtCovariant
+      (A.simpleRightModule (Q.height x)) n) := by
+  rcases n with _ | _ | _ | _ | n
+  · letI := R.simpleHomPreservesColimits J
+    exact A.rightModuleExtZeroPreservesColimits _ J
+  · exact R.simpleExtOnePreservesColimits J
+  · exact R.simpleExtTwoPreservesColimits J
+  · exact R.simpleExtThreePreservesColimits J
+  · exact Functor.preservesColimitsOfShape_of_isZero _ (R.simpleHigherExtFunctorIsZero n) J
+
+noncomputable def simpleExtColimitIso (n : ℕ) (F : J ⥤ A.RightModule) :
+    ModuleCat.of k (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (colimit F) n) ≅
+      colimit (F ⋙ A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) n) := by
+  letI := R.simpleExtPreservesExactColimits J n
+  exact preservesColimitIso (A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) n) F
+
+/-- Exactness of coproducts is proved for ModuleCat, so no exchange hypothesis is needed. -/
+noncomputable def simpleExtPreservesCoproducts (I : Type) (n : ℕ) :
+    PreservesColimitsOfShape (Discrete I)
+      (A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) n) := by
+  letI : HasExactColimitsOfShape (Discrete I) (ModuleCat.{v} k) := moduleCatExactCoproducts I
+  exact R.simpleExtPreservesExactColimits (Discrete I) n
+
+noncomputable def simpleExtCoproductIso {I : Type} (n : ℕ) (F : I → A.RightModule) :
+    ModuleCat.of k (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (∐ F) n) ≅
+      ∐ fun i => ModuleCat.of k (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (F i) n) := by
+  letI := R.simpleExtPreservesCoproducts I n
+  exact PreservesCoproduct.iso (A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) n) F
+
+@[reassoc] theorem simpleExtCoproductIso_inclusion_hom {I : Type} (n : ℕ)
+    (F : I → A.RightModule) (i : I) :
+    (A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) n).map (Sigma.ι F i) ≫
+        (R.simpleExtCoproductIso n F).hom =
+      Sigma.ι (fun j => ModuleCat.of k
+        (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (F j) n)) i := by
+  letI := R.simpleExtPreservesCoproducts I n
+  exact IsColimit.comp_coconePointUniqueUpToIso_hom
+    (isColimitOfHasCoproductOfPreservesColimit
+      (A.rightModuleExtCovariant (A.simpleRightModule (Q.height x)) n) F)
+    (colimit.isColimit (Discrete.functor (fun j => ModuleCat.of k
+      (Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (F j) n)))) (Discrete.mk i)
+
+noncomputable def simpleExtDirectSumLinearEquiv {I : Type} [DecidableEq I]
+    (n : ℕ) (F : I → A.RightModule) :
+    Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (∐ F) n ≃ₗ[k]
+      ⨁ i, Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (F i) n := by
+  exact ((R.simpleExtCoproductIso n F) ≪≫ ModuleCat.coprodIsoDirectSum _).toLinearEquiv
+
+@[simp] theorem simpleExtDirectSumLinearEquiv_postcomp_inclusion {I : Type} [DecidableEq I] (n : ℕ)
+    (F : I → A.RightModule) (i : I)
+    (a : Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (F i) n) :
+    R.simpleExtDirectSumLinearEquiv n F
+        (a.comp (Abelian.Ext.mk₀ (Sigma.ι F i)) (Nat.add_zero n)) =
+      DirectSum.lof k I (fun j => Abelian.Ext.{v}
+        (A.simpleRightModule (Q.height x)) (F j) n) i a := by
+  classical
+  have h := R.simpleExtCoproductIso_inclusion_hom n F i
+  have hh := congrArg (fun f => f ≫ (ModuleCat.coprodIsoDirectSum
+      (fun j => ModuleCat.of k (Abelian.Ext.{v}
+        (A.simpleRightModule (Q.height x)) (F j) n))).hom) h
+  dsimp only at hh
+  rw [ModuleCat.ι_coprodIsoDirectSum_hom] at hh
+  simpa [simpleExtDirectSumLinearEquiv, CategoryTheory.Iso.toLinearEquiv,
+    rightModuleExtCovariant, rightModuleExtPostcomp] using congrArg (fun f => f.hom a) hh
+
+end ASResolution
+end ASGinzburg.ZAlgebra
