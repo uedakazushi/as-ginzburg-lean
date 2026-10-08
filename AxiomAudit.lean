@@ -169,6 +169,16 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModuleHasExt
 #print axioms ASGinzburg.ZAlgebra.representableExtZeroEquiv
 #print axioms ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero
+#print axioms ASGinzburg.ZAlgebra.shiftedHomModule
+#print axioms ASGinzburg.ZAlgebra.rightModuleDerivedLinear
+#print axioms ASGinzburg.ZAlgebra.rightModuleDerivedQhLinear
+#print axioms ASGinzburg.ZAlgebra.rightModuleDerivedSingleLinear
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtHomAddEquiv
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtModule
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtHomLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.rightModuleExt_mk₀_smul
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.representableExtZeroLinearEquiv
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits

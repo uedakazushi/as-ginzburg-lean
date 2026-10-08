@@ -1,0 +1,136 @@
+{
+  "run_id": "20261008T023950Z-d459766f",
+  "started_at_utc": "2026-10-08T02:39:50.396901+00:00",
+  "status": "success",
+  "steps": [
+    {
+      "stage": "regression_tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "regression_tests.log",
+      "started_at_utc": "2026-10-08T02:39:50.399214+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:39:50.655799+00:00",
+      "elapsed_seconds": 0.2566043320002791,
+      "log_sha256": "b2d4d2420cdf56d1fedf46e5a2bcceaa4e829131686773a2b3e581b43c57a455"
+    },
+    {
+      "stage": "source_audit",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/audit_sources.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T023950Z-d459766f"
+      ],
+      "log": "source_audit.log",
+      "started_at_utc": "2026-10-08T02:39:50.656143+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:39:50.721859+00:00",
+      "elapsed_seconds": 0.06573813300019538,
+      "log_sha256": "722e382defb57d3e49ad72f2022796514c99c2654480671275501b5ec7c77658"
+    },
+    {
+      "stage": "environment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check_environment.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T023950Z-d459766f"
+      ],
+      "log": "environment.log",
+      "started_at_utc": "2026-10-08T02:39:50.723706+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:39:50.897742+00:00",
+      "elapsed_seconds": 0.17405581699858885,
+      "log_sha256": "d5e678cb314b7e8e314263cd7f435216c0155fcad8f097bb5e8865e6f3c01b2c"
+    },
+    {
+      "stage": "build",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "build"
+      ],
+      "log": "build.log",
+      "started_at_utc": "2026-10-08T02:39:50.898097+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:40:35.057682+00:00",
+      "elapsed_seconds": 44.159625719999894,
+      "log_sha256": "fb7ab1d77262a9fdb5fa4673b77ced0d91cc0572a449aaec5b48005fb1ee1de5"
+    },
+    {
+      "stage": "axioms",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "AxiomAudit.lean"
+      ],
+      "log": "axioms.log",
+      "started_at_utc": "2026-10-08T02:40:35.058185+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:41:15.127023+00:00",
+      "elapsed_seconds": 40.068875352999385,
+      "log_sha256": "ae040f16a80ba946b5f65df04dc66d2ac81df0bbfc8dd7f93828463ac4e574c5"
+    },
+    {
+      "stage": "report",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/report_verification.py",
+        "--run-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T023950Z-d459766f"
+      ],
+      "log": "report.log",
+      "started_at_utc": "2026-10-08T02:41:15.127559+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T02:41:15.194352+00:00",
+      "elapsed_seconds": 0.06680958700053452,
+      "log_sha256": "60e093c6a072177dd8a9d399982c582e49a1767a7473c315ad37d1bc4ef07059"
+    }
+  ],
+  "git_head_before_run": "982f6a1a6fef4edce4dbbf490166854c00b46d2a",
+  "lean_source_sha256": {
+    "ASGinzburg.lean": "ede8200a9e6554a547088a946f6570901cb87a6cf95b5eb68c4079c318d84c81",
+    "ASGinzburg/ASResolution.lean": "bed6d1fd1994b561af09ec714de2b37fcc7ba2d65fa650fff0fcb794cf1f5ff1",
+    "ASGinzburg/Conjugation.lean": "2cfa2d44166de9d005139d24319c7806e3b1677fe6de77c91f111409a608b4d8",
+    "ASGinzburg/CutPotential.lean": "21fae59909e7fe38e66d2f9bc27c9c27571fa1913cccb3774f39c424cad1d210",
+    "ASGinzburg/CutQuiver.lean": "ad45587f428a7b55348d9f741caae70363e765b71527b0a79130f28be0c20fdf",
+    "ASGinzburg/CyclicDerivative.lean": "70537ca04cc82fce284975bcec5160c60987130865f767b277d1c46eaca17ec7",
+    "ASGinzburg/ExtDimension.lean": "1df19458ab48a0fc664ecbe04bc788335f44e01a385d90189ee0c9a5fb8c055c",
+    "ASGinzburg/GinzburgGrading.lean": "2b39c8c5d25c57ab29311078538728bc5fd0db99595493e0f85b65d22e5960ad",
+    "ASGinzburg/Hilbert.lean": "951c6821fa5ec275e10658e9f51982e21983855da0e9cf1fc0b3849c0ad7cc3e",
+    "ASGinzburg/PathAlgebra.lean": "19cdabd6939e952b5e45d519fe5dc4a9a5801684cf20877c5cea8fa0c39b08ae",
+    "ASGinzburg/Representables.lean": "8770d9095bf8759bdd45d9167659baade106b450ab763cbb0da0d58a10f7483a",
+    "ASGinzburg/RightModuleAbelian.lean": "14758408f72e7ead396492ee16610d736b2eb349b25c448871a482a02f67f16b",
+    "ASGinzburg/RightModuleEnoughProjectives.lean": "d3dccf01abfcd62d3dbe45b2d67faba6d78fffdd1277f063a06f75450d515bd1",
+    "ASGinzburg/RightModuleExt.lean": "d90f2e03c4fef4770da88546140a9c420aaf5b7fd92e9fce5c9cc5c751a1180e",
+    "ASGinzburg/RightModuleExtLinear.lean": "c1915aa61e0513b3f8c569e94a16d7c6f7c7410a46c4105a27a5ea4fcc902978",
+    "ASGinzburg/RightModuleHomology.lean": "a0cd325af678eaac86867dab31757e95542845036829518cda5ba7c2693fd634",
+    "ASGinzburg/RightModuleMinimality.lean": "4bf1b2ab1418567e74a1d9b83e17ddcb010dfc4f46a111772a676f46ac74ae98",
+    "ASGinzburg/RightModuleProjectives.lean": "783598edbfeeb8f105e2bd4cf2642447a496aac873239d00676a48a3708833b6",
+    "ASGinzburg/RightModuleRadical.lean": "d232b4cf5e46afe309cdf81a3881f535df5e5b349e28835207bdd6bc20595505",
+    "ASGinzburg/RightModuleSimpleHom.lean": "d5491343d1966242df13e96441895cb4567b03d412c6a99bdc06503b35146893",
+    "ASGinzburg/RightSubmodules.lean": "f64a3d4eac1a85590bdd087df238e4a07cc40aa92868dd2f98f825a0e577583c",
+    "ASGinzburg/SimpleRightModules.lean": "37b26615628628b3bde270a6bd296dec80835066e5880eb83872af0789a95b33",
+    "ASGinzburg/Tensor333.lean": "e154200878a4de683cf8f630d42cf90243deaeed8c5130f3186e1faedea9dbfc",
+    "ASGinzburg/TopCohomology.lean": "e0c6ba341fb427b00eb099a7b83a5bf307591096b08ce84152613428c7ce7f13",
+    "ASGinzburg/Triangle333.lean": "5b817ccbb9c4133d3129eda64b8af56ce1c79261bb35c4a9bc2f10e8dc803663",
+    "ASGinzburg/WindowPeriodicity.lean": "23af0e6da9a194a20f10bc3a8301415933deba6fcddf2167428dadc086c3f37a",
+    "ASGinzburg/ZAlgebra.lean": "00a370e8b60ca324c780b26e89642ce000292def9ba435ca445a23484d4ba9f1",
+    "AxiomAudit.lean": "82e9b7eace162242ff3fd505564dcc0bd6b1b3c8d3afc5cf81cf3999131cf4e5"
+  },
+  "ended_at_utc": "2026-10-08T02:41:15.194736+00:00",
+  "elapsed_seconds": 84.79782662400066,
+  "exit_code": 0
+}

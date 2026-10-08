@@ -68,3 +68,20 @@ APIで作られたcommit objectのSHAを再構成して確認し、ローカルm
 開始UTC 2026-10-08T02:34:59.904668+00:00、終了UTC 2026-10-08T02:36:09.815913+00:00。
 285異なる宣言・130 theorem・43 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit4.patch。
+
+## 証明単位5：実際の導来圏Extのk線形構造
+
+`RightModuleExtLinear.lean`で標準導来圏のlocalizationからk線形構造を構成した。
+既存の`Abelian.Ext`の加法群を保ち、実際のShiftedHomとの同型からModule構造を移した。
+0次の`Ext.mk₀`がスカラー倍を保つこと、Homおよびrepresentableの頂点評価との線形同型を証明した。
+必要なExt同型を新しい仮定にしていない。高次のHom複体との比較はまだ未証明。
+mathlibの古いleftDerived型`Ext`と新しい`Abelian.Ext`は別定義であり、
+古い`ProjectiveResolution.isoExt`だけを新しいExtとの比較として扱わない。
+次：原論文(1.7)の総次元を実際のExtのModule.rankで定義し、有限分解の比較を進める。
+単位4のGitHub main保存：982f6a1a6fef4edce4dbbf490166854c00b46d2a。
+
+
+検証：`20261008T023950Z-d459766f`、84.797827秒、全段階終了0。
+開始UTC 2026-10-08T02:39:50.396901+00:00、終了UTC 2026-10-08T02:41:15.194736+00:00。
+295異なる宣言・131 theorem・48 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit5.patch。
