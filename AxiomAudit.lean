@@ -1,5 +1,24 @@
 import ASGinzburg
 
+#print axioms ASGinzburg.CutQuiver.incomingArrows
+#print axioms ASGinzburg.CutQuiver.outgoingArrows
+#print axioms ASGinzburg.CutQuiver.incomingArrowsFintype
+#print axioms ASGinzburg.CutQuiver.outgoingArrowsFintype
+#print axioms ASGinzburg.CutQuiver.incomingSource
+#print axioms ASGinzburg.CutQuiver.outgoingTarget
+#print axioms ASGinzburg.CutQuiver.incoming_liftedTarget
+#print axioms ASGinzburg.CutQuiver.outgoing_liftedSource
+#print axioms ASGinzburg.CutQuiver.incomingSource_height_lt
+#print axioms ASGinzburg.CutQuiver.outgoingTarget_height_gt
+#print axioms ASGinzburg.ZAlgebra.rightModule_coproduct_projective
+#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₁
+#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₂
+#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₁Projective
+#print axioms ASGinzburg.ZAlgebra.asResolutionTerm₂Projective
+#print axioms ASGinzburg.ZAlgebra.ASResolution
+#print axioms ASGinzburg.ZAlgebra.ASResolution.hom_d₁_simple_zero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.hom_d₂_simple_zero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.hom_d₃_simple_zero
 #print axioms ASGinzburg.conjugateHom
 #print axioms ASGinzburg.conjugateHom_apply
 #print axioms ASGinzburg.conjugateHom_id

@@ -52,3 +52,19 @@ APIで作られたcommit objectのSHAを再構成して確認し、ローカルm
 開始UTC 2026-10-08T02:28:02.786776+00:00、終了UTC 2026-10-08T02:29:08.974429+00:00。
 266異なる宣言・122 theorem・39 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit3.patch。
+
+## 証明単位4：原論文(1.6)の具体的な有限最小分解データ
+
+`ASResolution.lean`でincoming/outgoing arrowsを有限型として定義し、lifted endpointと高さの対応を証明した。
+有限直和を実際のrepresentableのcoproductで定義し、射影性を普遍性から証明した。
+`ASResolution`は原論文(1.6)の四つの射影項、三つの微分、既存のs_vへの射、
+隣接合成の零、三箇所のmathlib `ShortComplex.Exact`、左端Mono、既存radicalへの像の包含を持つ。
+このデータからHom(-,s_i)の三つの微分が零であることを証明した。
+任意のAについてこの分解が存在するという定理は未証明であり、存在は原論文AS定義(i)の内容である。
+次：この具体的データからmathlib ProjectiveResolutionを構成し、実際のExtとの比較を証明する。
+
+
+検証：`20261008T023459Z-4389600a`、69.911236秒、全段階終了0。
+開始UTC 2026-10-08T02:34:59.904668+00:00、終了UTC 2026-10-08T02:36:09.815913+00:00。
+285異なる宣言・130 theorem・43 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit4.patch。
