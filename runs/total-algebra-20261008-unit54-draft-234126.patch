@@ -1,0 +1,367 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgCutQuotientUnrolledProducts.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.GinzburgCutJacobianProducts
++
++/-! The actual fixed-cut degree-zero boundary quotient identifies
++multiplicatively with the existing unrolled Jacobian algebra components. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutZeroQuotientUnrolledEquiv (φ : Q.Potential k)
++    (x y : Q.LiftVertex) :
++    Q.GinzburgCutZeroQuotient k φ x y ≃ₗ[k]
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height y) :=
++  (Q.ginzburgCutZeroQuotientJacobianEquiv k φ x.1 y.1 (y.2-x.2)).trans
++    (Q.homogeneousJacobianUnrolledEquiv k φ x y)
++
++theorem ginzburgCutZeroQuotientUnrolledEquiv_comp (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (f : Q.GinzburgCutZeroQuotient k φ x y)
++    (g : Q.GinzburgCutZeroQuotient k φ y v) :
++    Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x v
++        (Q.ginzburgCutZeroQuotientComp k φ g f)=
++      (Q.unrolledJacobianZAlgebra k φ).comp
++        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ y v g)
++        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y f) := by
++  change Q.homogeneousJacobianUnrolledEquiv k φ x v
++    (Q.ginzburgCutZeroQuotientJacobianEquiv k φ x.1 v.1 (v.2-x.2)
++      (Q.ginzburgCutZeroQuotientComp k φ g f))=_
++  rw [Q.ginzburgCutZeroQuotientJacobianEquiv_comp k φ]
++  exact Q.homogeneousJacobianUnrolledEquiv_comp k φ _ _
++
++theorem ginzburgCutZeroQuotientUnrolledEquiv_surjective (φ : Q.Potential k)
++    (x y : Q.LiftVertex) :
++    Function.Surjective (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) :=
++  (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y).surjective
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgCutZeroQuotientTransports.lean
+@@ -0,0 +1,38 @@
++import ASGinzburg.GinzburgCutZeroQuotientProducts
++
++/-! Arithmetic transport of actual fixed-cut degree-zero spaces and
++their actual differential-boundary quotients preserves coefficient classes. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutZeroEquivOfCutEq (u v : Q.Vertex) (c d : ℤ) (h : c=d) :
++    Q.ginzburgCutCohomologicalComponent k u v 0 c ≃ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k u v 0 d := by
++  cases h
++  exact LinearEquiv.refl k _
++
++noncomputable def ginzburgCutZeroQuotientEquivOfCutEq (φ : Q.Potential k)
++    (u v : Q.Vertex) (c d : ℤ) (h : c=d) :
++    (Q.ginzburgCutCohomologicalComponent k u v 0 c ⧸
++      LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u v c)) ≃ₗ[k]
++    (Q.ginzburgCutCohomologicalComponent k u v 0 d ⧸
++      LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u v d)) := by
++  cases h
++  exact LinearEquiv.refl k _
++
++theorem ginzburgCutZeroEquivOfCutEq_apply_coe (u v : Q.Vertex) (c d : ℤ) (h : c=d)
++    (f : Q.ginzburgCutCohomologicalComponent k u v 0 c) :
++    (Q.ginzburgCutZeroEquivOfCutEq k u v c d h f).val=f.val := by
++  cases h
++  rfl
++
++theorem ginzburgCutZeroQuotientEquivOfCutEq_mk (φ : Q.Potential k)
++    (u v : Q.Vertex) (c d : ℤ) (h : c=d)
++    (f : Q.ginzburgCutCohomologicalComponent k u v 0 c) :
++    Q.ginzburgCutZeroQuotientEquivOfCutEq k φ u v c d h (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.ginzburgCutZeroEquivOfCutEq k u v c d h f) := by
++  cases h
++  rfl
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPrefixFixedCoefficients.lean
+@@ -0,0 +1,45 @@
++import work.ASGinzburgDraft.GinzburgPrefixFamilyClasses
++import work.ASGinzburgDraft.GinzburgCutQuotientUnrolledProducts
++import work.ASGinzburgDraft.GinzburgCutZeroQuotientTransports
++
++/-! Prefix coefficient quotients are genuine A(Phi) components with
++endpoints independent of the origin sheet. Only arithmetic transport is used. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def ginzburgPrefixGeneratorEndpoint (v : Q.LiftVertex) (a : Q.GinzburgArrow) :
++    Q.LiftVertex := (a.source Q,v.2-a.cutDegree Q)
++
++noncomputable def ginzburgPrefixCoefficientCutEquiv (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (a : Q.GinzburgArrow) :
++    (Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ⧸
++      LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.source Q)
++        (v.2-x.2-a.cutDegree Q))) ≃ₗ[k]
++      Q.GinzburgCutZeroQuotient k φ x (Q.ginzburgPrefixGeneratorEndpoint v a) :=
++  Q.ginzburgCutZeroQuotientEquivOfCutEq k φ x.1 (a.source Q)
++    (v.2-x.2-a.cutDegree Q) ((v.2-a.cutDegree Q)-x.2) (by omega)
++
++noncomputable def ginzburgPrefixCoefficientFixedUnrolledEquiv (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (a : Q.GinzburgArrow) :
++    (Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ⧸
++      LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.source Q)
++        (v.2-x.2-a.cutDegree Q))) ≃ₗ[k]
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a)) :=
++  (Q.ginzburgPrefixCoefficientCutEquiv k φ x v a).trans
++    (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x (Q.ginzburgPrefixGeneratorEndpoint v a))
++
++noncomputable def ginzburgPrefixFixedQuotientFamilyEquiv (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (r : ℤ) :
++    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++      (Q.ginzburgCutCohomologicalComponent k x.1 (a.val.source Q) 0 (v.2-x.2-a.val.cutDegree Q) ⧸
++        LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.val.source Q)
++          (v.2-x.2-a.val.cutDegree Q)))) ≃ₗ[k]
++    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
++  LinearEquiv.piCongrRight fun a => Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPrefixFixedCoefficientClasses.lean
+@@ -0,0 +1,54 @@
++import work.ASGinzburgDraft.GinzburgPrefixFixedCoefficients
++
++/-! Arithmetic endpoint transport preserves actual coefficient classes
++and the actual degree-zero path products in the prefix family. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgPrefixCoefficientZeroCutEquiv (x v : Q.LiftVertex)
++    (a : Q.GinzburgArrow) :
++    Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ≃ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0
++        ((v.2-a.cutDegree Q)-x.2) :=
++  Q.ginzburgCutZeroEquivOfCutEq k x.1 (a.source Q)
++    (v.2-x.2-a.cutDegree Q) ((v.2-a.cutDegree Q)-x.2) (by omega)
++
++theorem ginzburgPrefixCoefficientZeroCutEquiv_coe (x v : Q.LiftVertex)
++    (a : Q.GinzburgArrow)
++    (g : Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q)) :
++    (Q.ginzburgPrefixCoefficientZeroCutEquiv k x v a g).val=g.val :=
++  Q.ginzburgCutZeroEquivOfCutEq_apply_coe k x.1 (a.source Q) _ _ _ g
++
++theorem ginzburgPrefixCoefficientFixedUnrolledEquiv_mk (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (a : Q.GinzburgArrow)
++    (g : Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q)) :
++    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a (Submodule.Quotient.mk g)=
++      Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x (Q.ginzburgPrefixGeneratorEndpoint v a)
++        (Submodule.Quotient.mk (Q.ginzburgPrefixCoefficientZeroCutEquiv k x v a g)) := by
++  simp only [ginzburgPrefixCoefficientFixedUnrolledEquiv,LinearEquiv.trans_apply,
++    ginzburgPrefixCoefficientCutEquiv]
++  apply congrArg (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x
++    (Q.ginzburgPrefixGeneratorEndpoint v a))
++  exact Q.ginzburgCutZeroQuotientEquivOfCutEq_mk k φ x.1 (a.source Q)
++    (v.2-x.2-a.cutDegree Q) ((v.2-a.cutDegree Q)-x.2) (by omega) g
++
++theorem ginzburgPrefixCoefficientZeroCutEquiv_leftTerm {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2-y.2))
++    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}) :
++    Q.ginzburgPrefixCoefficientZeroCutEquiv k x v a.val
++        (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
++          (Q.ginzburgPrefixLeftTerm k r r f g) a)=
++      Q.ginzburgCutZeroComp k (u:=x) (v:=y) (w:=Q.ginzburgPrefixGeneratorEndpoint v a.val)
++        (Q.ginzburgPrefixCoefficientZeroCutEquiv k y v a.val
++          (Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2-y.2) g a)) f := by
++  apply Subtype.ext
++  change _=Q.ginzburgPathComp k
++    (Q.ginzburgPrefixCoefficientZeroCutEquiv k y v a.val
++      (Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2-y.2) g a)).val f.val
++  rw [Q.ginzburgPrefixCoefficientZeroCutEquiv_coe,
++    Q.ginzburgPrefixCoefficientZeroCutEquiv_coe]
++  exact Q.ginzburgPrefixTopEquiv_leftTerm_coe k r f g a
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPrefixFixedProducts.lean
+@@ -0,0 +1,27 @@
++import work.ASGinzburgDraft.GinzburgPrefixFixedCoefficientClasses
++
++/-! The actual prefix left-path coefficient action becomes actual
++precomposition in the existing A(Phi) algebra. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgPrefixFixedCoefficient_leftClass (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2-y.2))
++    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}) :
++    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
++        (Submodule.Quotient.mk (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
++          (Q.ginzburgPrefixLeftTerm k r r f g) a))=
++      (Q.unrolledJacobianZAlgebra k φ).comp
++        (Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ y v a.val
++          (Submodule.Quotient.mk (Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2-y.2) g a)))
++        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)) := by
++  rw [Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk,
++    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk,
++    Q.ginzburgPrefixCoefficientZeroCutEquiv_leftTerm]
++  rw [← Q.ginzburgCutZeroQuotientComp_mk k φ]
++  exact Q.ginzburgCutZeroQuotientUnrolledEquiv_comp k φ _ _
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPrefixFixedFamilyAction.lean
+@@ -0,0 +1,60 @@
++import work.ASGinzburgDraft.GinzburgPrefixFixedProducts
++
++/-! The actual prefix quotient-family comparison intertwines path
++multiplication with genuine A(Phi) precomposition at each fixed endpoint. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgPrefixTopFixedUnrolledEquiv (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (r : ℤ) :
++    (Q.GinzburgGeneratorPrefix k x.1 v.1 r r (v.2-x.2) ⧸
++      LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ x.1 v.1 r (v.2-x.2))) ≃ₗ[k]
++    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
++  (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2-x.2)).trans
++    (Q.ginzburgPrefixFixedQuotientFamilyEquiv k φ x v r)
++
++noncomputable def ginzburgPrefixFixedFamilyPrecomposition (φ : Q.Potential k)
++    (x y v : Q.LiftVertex) (r : ℤ)
++    (f : (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height y)) :
++    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height y)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) →ₗ[k]
++    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
++  LinearMap.pi fun a => (((Q.unrolledJacobianZAlgebra k φ).comp
++    (u:=Q.height x) (v:=Q.height y) (w:=Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).flip f).comp
++      (LinearMap.proj a)
++
++theorem ginzburgPrefixTopFixedUnrolledEquiv_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toLinearMap.comp
++        (moduleCatShortComplexQuotientMap
++          (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f)).hom=
++      (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
++        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))).comp
++          (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ y v r).toLinearMap := by
++  apply LinearMap.ext
++  intro z
++  refine Submodule.Quotient.induction_on _ z ?_
++  intro g
++  funext a
++  change Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
++      (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2-x.2)
++        (moduleCatShortComplexQuotientMap
++          (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) (Submodule.Quotient.mk g)) a)=
++    (Q.unrolledJacobianZAlgebra k φ).comp
++      (Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ y v a.val
++        (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ y.1 v.1 r (v.2-y.2)
++          (Submodule.Quotient.mk g) a))
++      (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))
++  rw [Q.ginzburgPrefixTopQuotientFamilyEquiv_quotientMap_mk,
++    Q.ginzburgPrefixTopQuotientFamilyEquiv_mk]
++  exact Q.ginzburgPrefixFixedCoefficient_leftClass k φ r f g a
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgFixedHomologyNaturality.lean
+@@ -0,0 +1,62 @@
++import work.ASGinzburgDraft.GinzburgPrefixFixedFamilyAction
++import work.ASGinzburgDraft.GinzburgPrefixTopHomologyNaturality
++import work.ASGinzburgDraft.GinzburgLayerHomologyNaturality
++
++/-! Actual prefix and associated-layer top homology comparisons with
++fixed-endpoint A(Phi) components preserve genuine algebra precomposition. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgPrefixTopFixedHomologyIso (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (r : ℤ) :
++    Q.ginzburgGeneratorPrefixHomology k φ x.1 v.1 r (v.2-x.2) r ≅
++      ModuleCat.of k (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
++          (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
++  Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ x.1 v.1 r (v.2-x.2) ≪≫
++    (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toModuleIso (g₂:=Pi.addCommGroup)
++
++theorem ginzburgPrefixTopFixedHomologyIso_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgPrefixLeftHomology k φ (v:=v) r r f ≫
++        (Q.ginzburgPrefixTopFixedHomologyIso k φ x v r).hom=
++      (Q.ginzburgPrefixTopFixedHomologyIso k φ y v r).hom ≫
++        ModuleCat.ofHom (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
++          (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))) := by
++  have he : moduleCatShortComplexQuotientMap
++        (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) ≫
++        ((Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toModuleIso (g₂:=Pi.addCommGroup)).hom=
++      ((Q.ginzburgPrefixTopFixedUnrolledEquiv k φ y v r).toModuleIso (g₂:=Pi.addCommGroup)).hom ≫
++        ModuleCat.ofHom (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
++          (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))) := by
++    apply ModuleCat.hom_ext
++    exact Q.ginzburgPrefixTopFixedUnrolledEquiv_left_naturality k φ r f
++  simp only [ginzburgPrefixTopFixedHomologyIso,Iso.trans_hom]
++  rw [← Category.assoc,Q.ginzburgPrefixTopHomologyQuotientIso_left_naturality,
++    Category.assoc,he,← Category.assoc]
++
++noncomputable def ginzburgAssociatedTopFixedHomologyIso (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (r : ℤ) :
++    Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 r (v.2-x.2) r ≅
++      ModuleCat.of k (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
++        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
++          (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
++  Q.ginzburgAssociatedGradedPrefixHomologyIso k φ x.1 v.1 r (v.2-x.2) r ≪≫
++    Q.ginzburgPrefixTopFixedHomologyIso k φ x v r
++
++theorem ginzburgAssociatedTopFixedHomologyIso_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgAssociatedLeftHomology k φ (v:=v) r r f ≫
++        (Q.ginzburgAssociatedTopFixedHomologyIso k φ x v r).hom=
++      (Q.ginzburgAssociatedTopFixedHomologyIso k φ y v r).hom ≫
++        ModuleCat.ofHom (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
++          (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))) := by
++  simp only [ginzburgAssociatedTopFixedHomologyIso,Iso.trans_hom]
++  rw [← Category.assoc,Q.ginzburgAssociatedPrefixHomologyIso_left_naturality,
++    Category.assoc,Q.ginzburgPrefixTopFixedHomologyIso_left_naturality,← Category.assoc]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/FiniteCoproductComponentNaturality.lean
+@@ -0,0 +1,22 @@
++import ASGinzburg.CoproductRadicals
++
++/-! The existing finite-coproduct component isomorphism preserves the
++actual right action, by naturality of each actual coproduct projection. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++variable {I : Type} [Fintype I] [DecidableEq I] (g : I → A.RightModule)
++
++theorem rightFiniteCoproductPiEquiv_action (i j : ℤ) (f : A.Hom i j)
++    (x : (A.rightModuleEvaluation j).obj (∐ g)) (a : I) :
++    A.rightFiniteCoproductPiEquiv g i
++        ((∐ g).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from f).op x) a=
++      (g a).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from f).op
++        (A.rightFiniteCoproductPiEquiv g j x a) := by
++  rw [A.rightFiniteCoproductPiEquiv_projection,A.rightFiniteCoproductPiEquiv_projection]
++  exact congrArg (fun h => h x)
++    ((A.rightFiniteCoproductProjection g a).naturality
++      (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from f).op)
++
++end ASGinzburg.ZAlgebra

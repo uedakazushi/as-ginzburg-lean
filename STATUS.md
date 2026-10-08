@@ -1,8 +1,8 @@
 # 現在の状況
 
-実際のlast-generator filtrationの短完全列・mathlib長完全列、F_-2とaugmentationの同型と正則性からの接続写像の同型、F_0と第0層の同型・homology集中、実際のkernelとcokernelの普遍性、3項homology chain complexと正則性からのaugmentation quasi-isomorphism、prefix top homologyのactual differential imageによる商表示まで完成。A(Φ)係数/射影項との比較・標準単純分解の微分とexactness・Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T225240Z-69d9250f：339数学モジュール・2685異なる宣言・1365 theorem、全段階終了0。
-単位1〜50の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際のsigned prefix微分の係数と境界族の一致、finite quotientPiによるtop homologyの実際のJacobian/A(Φ)成分有限族への同型、任意整数origin sheetでの比較、0/−1/−2の生成元族とincoming/outgoing/loopおよび実際のprefix終点との対応を証明。既存有限coproductの成分同型を通じ、各層homologyと実際のAS射影項の評価成分の線形同型まで完成。加群としての自然性・A線形性、接続写像と標準分解微分の照合、augmentation H⁰とradicalの比較、標準単純分解/Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T232613Z-63c7b892：346数学モジュール・2726異なる宣言・1377 theorem、全段階終了0。
+単位1〜51の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2685異なる名前、全明示的宣言・294 named instanceを含む、終了0 |
-| theorem | 1365、全件が監査対象 |
+| 個別公理監査 | 2726異なる名前、全明示的宣言・294 named instanceを含む、終了0 |
+| theorem | 1377、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T225240Z-69d9250f`、全段階終了0、1709.795740038秒。
-UTC 2026-10-08T22:52:40.734128+00:00 → 2026-10-08T23:21:10.529877+00:00。
-JST 2026-10-09T07:52:40.734128+09:00 → 2026-10-09T08:21:10.529877+09:00。
+最新ローカル検証 `20261008T232613Z-63c7b892`、全段階終了0、1734.972479912秒。
+UTC 2026-10-08T23:26:13.462276+00:00 → 2026-10-08T23:55:08.434764+00:00。
+JST 2026-10-09T08:26:13.462276+09:00 → 2026-10-09T08:55:08.434764+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -117,6 +117,8 @@ JST 2026-10-09T07:52:40.734128+09:00 → 2026-10-09T08:21:10.529877+09:00。
 | 実際の3層filtrationとprefix cochain比較 | FinsuppSupportedQuotient、GinzburgGeneratorFiltration、GinzburgGeneratorFiltrationDifferential、GinzburgGeneratorFiltrationBounds、GinzburgGeneratorLayers、GinzburgGeneratorLayerQuotients、GinzburgGeneratorFilteredComplex、GinzburgAssociatedGradedComplex、GinzburgGeneratorLayerBasis、GinzburgLastGeneratorDifferential、GinzburgGeneratorPrefixComplex、GinzburgGeneratorPrefixHomology、GinzburgGeneratorLayerCoefficients、GinzburgGeneratorLayerClasses、GinzburgGeneratorShiftAppend、GinzburgGeneratorLayerComparison、GinzburgGeneratorAppendCoefficients、GinzburgGeneratorLayerInverse、GinzburgGeneratorLayerHomology、GinzburgGeneratorLayerConcentration、GinzburgGeneratorLayerAugmentation | 実際の隣接商とfinite signed-prefix complexesのcochain同型、正則性から各層homologyの生成元次数への集中、canonical augmentationのquasi-isomorphism | A(Φ)係数比較、filtration長完全列、標準単純分解とExt表/AS対応 |
 
 | 実際のfiltration長完全列と3項homology複体 | GinzburgGeneratorFiltrationShortExact、GinzburgGeneratorFiltrationHomologySequence、GinzburgGeneratorFilteredAugmentation、GinzburgGeneratorFiltrationSyzygy、GinzburgGeneratorUpperFiltration、GinzburgGeneratorFiltrationKernel、GinzburgGeneratorFiltrationRadical、GinzburgGeneratorFiltrationCokernel、GinzburgGeneratorPrefixTopQuotient、GinzburgGeneratorHomologyComplex | 実際の短/長完全列とkernel/cokernelの普遍性、3項homology chain complexと正則性からのaugmentation quasi-isomorphism、actual prefix top homology quotient | A(Φ)係数・射影項の同定、A線形性/標準分解微分との照合、Ext表/AS対応 |
+
+| 実際の層homologyとAS射影項の評価成分 | GinzburgGeneratorPrefixDifferentialCoefficients、GinzburgGeneratorPrefixBoundaryFamily、JacobianOriginSheet、GinzburgGeneratorPrefixJacobian、GinzburgGeneratorIndices、GinzburgGeneratorCoefficientIndices、GinzburgProjectiveTermComponents | actual boundary pi quotientと全integer sheetのA(Φ)有限族の同型、生成元族/終点対応、実際のTerm₁/Term₂/representableの評価成分同型 | A線形性/自然性、接続写像・標準微分、augmentation H⁰/radical、単純分解/Ext表/AS対応 |
 
 ## 主結果の状態
 

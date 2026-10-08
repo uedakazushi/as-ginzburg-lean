@@ -356,6 +356,14 @@ import ASGinzburg.GinzburgGeneratorFiltrationCokernel
 import ASGinzburg.GinzburgGeneratorPrefixTopQuotient
 import ASGinzburg.GinzburgGeneratorHomologyComplex
 
+import ASGinzburg.GinzburgGeneratorPrefixDifferentialCoefficients
+import ASGinzburg.GinzburgGeneratorPrefixBoundaryFamily
+import ASGinzburg.JacobianOriginSheet
+import ASGinzburg.GinzburgGeneratorPrefixJacobian
+import ASGinzburg.GinzburgGeneratorIndices
+import ASGinzburg.GinzburgGeneratorCoefficientIndices
+import ASGinzburg.GinzburgProjectiveTermComponents
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

@@ -1,8 +1,8 @@
 # AS–Ginzburg対応のLean形式化：Codexクラウドでの継続
 
-実際のlast-generator filtrationの短完全列・mathlib長完全列、F_-2とaugmentationの同型と正則性からの接続写像の同型、F_0と第0層の同型・homology集中、実際のkernelとcokernelの普遍性、3項homology chain complexと正則性からのaugmentation quasi-isomorphism、prefix top homologyのactual differential imageによる商表示まで完成。A(Φ)係数/射影項との比較・標準単純分解の微分とexactness・Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T225240Z-69d9250f：339数学モジュール・2685異なる宣言・1365 theorem、全段階終了0。
-単位1〜50の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際のsigned prefix微分の係数と境界族の一致、finite quotientPiによるtop homologyの実際のJacobian/A(Φ)成分有限族への同型、任意整数origin sheetでの比較、0/−1/−2の生成元族とincoming/outgoing/loopおよび実際のprefix終点との対応を証明。既存有限coproductの成分同型を通じ、各層homologyと実際のAS射影項の評価成分の線形同型まで完成。加群としての自然性・A線形性、接続写像と標準分解微分の照合、augmentation H⁰とradicalの比較、標準単純分解/Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T232613Z-63c7b892：346数学モジュール・2726異なる宣言・1377 theorem、全段階終了0。
+単位1〜51の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 **主定理全体は未完成です。定理3.2と系5.2の形式的な文も、まだ実装していません。**
 
@@ -13,7 +13,7 @@ p≠3で零、p=3でs^left_(tau^{-1}w)に同型であることを左作用ごと
 Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjectives・実際のExtの存在も完成しました。
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。具体的局所単位付きGr(A)モデルへの圏同値・Abelian構造は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送と総ベクトル双対の自然比較・全作用適合性も完成。AS条件からの正負周期性は証明済み。主定理は未証明です。
-339数学モジュール、2685異なる明示的宣言、1365 theorem、294 named instanceを監査します。初期161宣言も含みます。
+346数学モジュール、2726異なる明示的宣言、1377 theorem、294 named instanceを監査します。初期161宣言も含みます。
 現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
 数学的な証明に使う定義・仮定は各宣言の型に明記してあります。
 独自公理、`sorry`、`admit`を使って主定理を完成扱いにすることはしていません。
@@ -111,9 +111,9 @@ GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検�
 
 **ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
 
-最新ローカル検証 `20261008T225240Z-69d9250f`、全段階終了0、1709.795740038秒。
-UTC 2026-10-08T22:52:40.734128+00:00 → 2026-10-08T23:21:10.529877+00:00。
-JST 2026-10-09T07:52:40.734128+09:00 → 2026-10-09T08:21:10.529877+09:00。
+最新ローカル検証 `20261008T232613Z-63c7b892`、全段階終了0、1734.972479912秒。
+UTC 2026-10-08T23:26:13.462276+00:00 → 2026-10-08T23:55:08.434764+00:00。
+JST 2026-10-09T08:26:13.462276+09:00 → 2026-10-09T08:55:08.434764+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 証明単位ごとのmainへの保存・Actions・実測時間はRECENT_RUN.md参照。
