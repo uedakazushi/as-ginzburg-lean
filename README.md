@@ -1,12 +1,12 @@
 # AS–Ginzburg対応のLean形式化：Codexクラウドでの継続
 
-全次数Extの直和交換と、rightRegularCoproductへのExtの次数3集中に加え、
-左右の有限台総空間関手の忠実性・exactness・exactnessの反映、成分包含との適合性を証明しました。
-次はrightRegularCoproduct上の実際の行列作用とExt交換同型の作用適合性を検査します。
-総空間への忠実exact関手だけを、Gr(A)圏同値やExt同型と扱いません。
-Gr(A)圏同値・Ext保存、有限長双対性・周期性と主定理は未証明です。
-最新ローカル検証 20261008T055147Z-c2ea98c7：58数学モジュール・602異なる宣言・245 theorem、全段階終了0。
-単位1〜6の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+有限AS分解から全次数Extと小さい直和の交換を証明し、全representableの直和へのExtを成分Extの総空間と比較しました。
+左右の総空間関手の忠実性・exactnessの保存と反映、直和上の行列作用、Ext交換同型の全A.Hom成分の左作用への適合性も証明済みです。
+ASRegularから次数3集中と正次数作用の消滅を導きました。新しいAS仮定はありません。
+次は有限台非単位的総代数・局所単位付き加群とGr(A)の圏同値・Ext保存です。
+有限長双対性・周期性・定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
+最新ローカル検証 20261008T060332Z-63c52a4c：59数学モジュール・620異なる宣言・260 theorem、全段階終了0。
+単位1〜7の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
 
 **主定理全体は未完成です。定理3.2と系5.2の形式的な文も、まだ実装していません。**
 
@@ -17,7 +17,7 @@ p≠3で零、p=3でs^left_(tau^{-1}w)に同型であることを左作用ごと
 Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjectives・実際のExtの存在も完成しました。
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。原論文のGr(A)比較、周期性と主定理は未証明です。
-58数学モジュール、602異なる明示的宣言、245 theorem、112 named instanceを監査します。初期161宣言も含みます。
+59数学モジュール、620異なる明示的宣言、260 theorem、112 named instanceを監査します。初期161宣言も含みます。
 現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
 数学的な証明に使う定義・仮定は各宣言の型に明記してあります。
 独自公理、`sorry`、`admit`を使って主定理を完成扱いにすることはしていません。
@@ -39,7 +39,9 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
   [原論文・実装・残る証明義務](docs/as_resolution_ext_bridge.md)。
 - 有限AS分解からの高次Ext消滅・全次数有限性と数値的同値、具体的左加群・左単純商・Extの左作用、
   Hom/Ext⁰の余極限交換と左側の射影性・EnoughProjectives・Extの存在。
-  [今回の接続記録](docs/as_finiteness_left_duality.md)。
+  [前回の左双対接続記録](docs/as_finiteness_left_duality.md)。
+- 全次数Extと小さい直和の交換、左右の総空間関手の忠実性とexactness、直和上の行列作用と成分左作用への適合性。
+  [今回7単位の接続記録・残る義務](docs/ext_coproduct_exchange.md)。
 - 巡回微分の回転不変性と、cut次数1での
   \(\Phi=\sum_{\rho\in C}[\rho\partial_\rho\Phi]\)。
 - 正の次数を下げるHilbert漸化式の一意性、およびquadratic型の数値解
@@ -113,22 +115,22 @@ GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検�
 
 **ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
 
-最新ローカル検証 `20261008T050918Z-e404c546`：全段階終了0、232.167668385秒。
-JST 2026-10-08T14:09:18.501217+09:00 → 2026-10-08T14:13:10.668891+09:00。
-UTC 2026-10-08T05:09:18.501217+00:00 → 2026-10-08T05:13:10.668891+00:00。
+最新ローカル検証 `20261008T060332Z-63c52a4c`：全段階終了0、326.651246818秒。
+JST 2026-10-08T15:03:32.220166+09:00 → 2026-10-08T15:08:58.871422+09:00。
+UTC 2026-10-08T06:03:32.220166+00:00 → 2026-10-08T06:08:58.871422+00:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 証明単位ごとのmainへの保存・Actions・実測時間はRECENT_RUN.md参照。
 CLI push認証エラー後は接続済みGitHub APIで検証済みtreeを通常のfast-forward保存。
-新規PRなし。数学的ソースの保存確認はverification/as_finiteness_preservation.json。
+新規PRなし。数学的ソースの保存確認はverification/ext_sums_preservation.json。
 
-前回の最終数学コミットc314180の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37722129359)はsuccess。
-369宣言・177 theoremの監査と12ファイルの最新artifact保存を確認。
+以前のradical-resolutionタスクの最終数学コミットc314180の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37722129359)はsuccess。
+369宣言・177 theoremの監査と12ファイルの当該実行artifact保存を確認。
 実行ログと実測時刻はverification/radical_resolution_github_ci.logおよびCI evidence JSONに保存。
 
-今回の最終数学コミット2863bbaの[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37727782672)はsuccess。
-505宣言・全223 theoremの新規監査、12ファイルの今回のartifact保存を確認。
+前回as-finitenessタスクの最終数学コミット2863bbaの[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37727782672)はsuccess。
+505宣言・全223 theoremの新規監査、12ファイルの当該実行artifact保存を確認。
 CI検証はUTC 2026-10-08T04:30:31.595999+00:00 → 2026-10-08T04:38:32.459227+00:00、
 単調時計で480.863225234秒、終了0。
 証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI log。
-この確認後の最終保存は文書・記録のみ。同じ数学ソースを保ち、そのpushでもCIを新規実行する。
+この以前のタスクの終了保存は文書・記録のみ。今回の数学追加の成功判定には、新しい検証と正確なheadのCIを使用する。

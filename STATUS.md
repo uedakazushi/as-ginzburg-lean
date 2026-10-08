@@ -1,12 +1,12 @@
 # 現在の状況
 
-全次数Extの直和交換と、rightRegularCoproductへのExtの次数3集中に加え、
-左右の有限台総空間関手の忠実性・exactness・exactnessの反映、成分包含との適合性を証明しました。
-次はrightRegularCoproduct上の実際の行列作用とExt交換同型の作用適合性を検査します。
-総空間への忠実exact関手だけを、Gr(A)圏同値やExt同型と扱いません。
-Gr(A)圏同値・Ext保存、有限長双対性・周期性と主定理は未証明です。
-最新ローカル検証 20261008T055147Z-c2ea98c7：58数学モジュール・602異なる宣言・245 theorem、全段階終了0。
-単位1〜6の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+有限AS分解から全次数Extと小さい直和の交換を証明し、全representableの直和へのExtを成分Extの総空間と比較しました。
+左右の総空間関手の忠実性・exactnessの保存と反映、直和上の行列作用、Ext交換同型の全A.Hom成分の左作用への適合性も証明済みです。
+ASRegularから次数3集中と正次数作用の消滅を導きました。新しいAS仮定はありません。
+次は有限台非単位的総代数・局所単位付き加群とGr(A)の圏同値・Ext保存です。
+有限長双対性・周期性・定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
+最新ローカル検証 20261008T060332Z-63c52a4c：59数学モジュール・620異なる宣言・260 theorem、全段階終了0。
+単位1〜7の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -18,23 +18,23 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。原論文のGr(A)比較、周期性と主定理は未証明です。
 
-前回までの35数学モジュールに、今回16モジュールを追加。9証明単位を検査してmainへ保存。
+開始時の51数学モジュールに今回8モジュールを追加。7証明単位を個別Leanと全体ビルド・公理監査で検査してmainへ保存。
 初期14モジュール・入力PDF・checkpoints/・recovery/は無変更。
 
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 602異なる名前、全明示的宣言・112 named instanceを含む、終了0 |
-| theorem | 245、全件が監査対象 |
+| 個別公理監査 | 620異なる名前、全明示的宣言・112 named instanceを含む、終了0 |
+| theorem | 260、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T050918Z-e404c546`：全段階終了0、232.167668385秒。
-JST 2026-10-08T14:09:18.501217+09:00 → 2026-10-08T14:13:10.668891+09:00。
-UTC 2026-10-08T05:09:18.501217+00:00 → 2026-10-08T05:13:10.668891+00:00。
+最新ローカル検証 `20261008T060332Z-63c52a4c`：全段階終了0、326.651246818秒。
+JST 2026-10-08T15:03:32.220166+09:00 → 2026-10-08T15:08:58.871422+09:00。
+UTC 2026-10-08T06:03:32.220166+00:00 → 2026-10-08T06:08:58.871422+00:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -63,18 +63,22 @@ UTC 2026-10-08T05:09:18.501217+00:00 → 2026-10-08T05:13:10.668891+00:00。
 | 一般radical・minimality | RightModuleRadical、RightModuleMinimality、RightModuleSimpleHom | 閉性・自然性、radicalを通る因子化、Hom(-,s_i)の零微分 | 有限生成projective coverの一般理論 |
 | (1.6)の具体的分解 | ASResolution、ASResolutionComplex、ASResolutionSyzygies | 有限coproductの射影性、完全最小列、mathlib ProjectiveResolution、三つの実際の短完全列 | 特定の代数について分解の存在 |
 | (1.7)の具体的条件 | RightModuleExtLinear、ASRegular | 実際Extのk作用、Ext⁰の線形同型、総Cardinal rank=1、各Extの有限次元性 | Gr(A)への明示的同値・Ext保存 |
-| 命題1.3の順方向 | ASResolutionHomComplex、ASDualityHomTerms、ASDualityHomCohomology、RightModuleExtSequence、ASDualityExt、ASDualityDimension | 実際のHom複体、線形dimension shift、実際Ext³≃k、他Ext消滅、(1.11)の数値公式と有限台 | 直和交換による原論文(1.12)、周期性、一般の自然なHom–Ext比較 |
+| 命題1.3の順方向 | ASResolutionHomComplex、ASDualityHomTerms、ASDualityHomCohomology、RightModuleExtSequence、ASDualityExt、ASDualityDimension | 実際のHom複体、線形dimension shift、実際Ext³≃k、他Ext消滅、(1.11)の数値公式と有限台 | Gr(A)比較による原論文(1.12)、周期性、一般の自然なHom–Ext比較 |
 | 有限AS分解からのExt有限性・数値的同値 | ASResolutionExtBounds、RightModuleHomFinite、ASResolutionExtFinite、ASDualityEquivalence | 任意Nへの次数4以上の消滅、Ext(s_w,P_i,p)の全次数有限性、(1.7)と(1.11)の両方向 | 原論文Gr(A)との比較 |
-| 左加群・左単純商・Ext左作用 | LeftModules、LeftModuleAbelian、LeftModuleHomology、LeftSubmodules、SimpleLeftModules、RightModuleExtLeftAction、ASDualityLeftComponents | 左Abelian圏、A-dual、左radical商、Simple、Ext成分左加群の次数集中と左単純商への同型 | 直和交換による原論文Ext(s_w,A)との比較 |
-| 余極限交換と左射影基盤 | RepresentableHomColimits、LeftModuleProjectives、LeftModuleEnoughProjectives、LeftModuleExt | Hom(P_i,-)・Ext⁰(P_i,-)の自然な交換、左線形Yoneda・射影性・EnoughProjectives・標準分解・実際Ext | 有限coproductのHom交換、高次Ext交換と二重双対 |
+| 左加群・左単純商・Ext左作用 | LeftModules、LeftModuleAbelian、LeftModuleHomology、LeftSubmodules、SimpleLeftModules、RightModuleExtLeftAction、ASDualityLeftComponents | 左Abelian圏、A-dual、左radical商、Simple、Ext成分左加群の次数集中と左単純商への同型 | 成分作用を総代数の作用に束ね、Gr(A)との圏同値・Ext保存 |
+| 余極限交換と左射影基盤 | RepresentableHomColimits、LeftModuleProjectives、LeftModuleEnoughProjectives、LeftModuleExt | Hom(P_i,-)・Ext⁰(P_i,-)の自然な交換、左線形Yoneda・射影性・EnoughProjectives・標準分解・実際Ext | 一般の二重双対・有限生成射影への拡張、Gr(A)比較 |
 | 左A-dualとrepresentableの二重双対 | LeftModuleADual | 左A-dualの実際の右作用、左右のrepresentableの二重A-dualが元に同型 | 一般の評価写像の自然性、有限生成射影・perfect complexへの拡張 |
+| 有限Homと自然なExt長完全列 | FiniteCoproductHomColimits、RightModuleExtNaturalSequence | 有限Homの交換、Extの接続写像・次元シフトの自然性と余核表示 | 一般の自然なHom複体–Ext比較 |
+| exactな余極限と核・余核の交換 | HomologicalColimitClosure、RightModuleHomKernel | 核・余核の交換の閉性、小さい直和のexactness、Homの自然な核表示 | 特定の代数で有限AS分解の存在 |
+| 全次数Extと直和の交換 | ASResolutionExtColimits | 有限AS分解だけからExt(s_w,-,n)のexactな余極限・小さい直和保存、包含射への適合性 | Gr(A)との圏同値による移送 |
+| 総空間・直和上の実際の左作用 | ASDualityRegularCoproduct、TotalModuleSpaces、RegularCoproductActions | Ext(s_w,⊕P_i,n)の成分総空間比較、ASから次数3集中、左右総空間関手の忠実性とexactness、実際の行列作用・積・局所単位・Ext交換の成分左作用適合性 | 有限台非単位的総代数と局所単位付き加群、逆関手・圏同値・Ext保存 |
 
 ## 主結果の状態
 
 | 主張 | 状態 |
 |---|---|
 | 定理3.2：一般の型QのAS–Ginzburg対応 | 未証明。形式的な定理文も未実装 |
-| 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。原論文(1.12)への直和交換・Gr(A)比較は未証明 |
+| 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数・Gr(A)比較・Ext保存は未証明 |
 | 命題1.4：AS条件からの周期性 | 未証明。coherentな区間同型を仮定した最後の貼り合わせのみ |
 | 命題5.1：三周期性 | 未証明 |
 | 系5.2：(3,3,3)型の全単射 | 未証明。形式的な定理文も未実装 |
@@ -89,7 +93,7 @@ ASRegularの条件には周期性・WindowSystem・delta型のExt表・主定理
 
 - 原論文の局所単位元付き直和加群Gr(A)と既存presheafモデルの明示的同値、Ext保存。
 - 全M,N・全次数の自然なHom複体–Abelian.Ext比較。命題1.3の3次比較は証明済み。
-- A-dualとExt成分の左作用・左単純商との同型は完成。Extと直和の交換、Gr(A)比較、原論文の(1.12)全体は未証明。
+- A-dual・左単純商の同型、全次数Extと直和の交換、成分左作用への適合性は完成。総非単位的代数・局所単位付き加群を束ね、Gr(A)圏同値とExt保存を証明する部分が残る。原論文(1.12)全体は未完成。
 - 有限長双対性、区間同型のcoherence、AS条件からの周期性。WindowSystemをAS条件に加えない。
 - 特定のJacobian代数についてAS分解の存在、Jacobian商とGinzburg dg代数、外部一般定理、主定理の同型類対応。
 
@@ -98,11 +102,11 @@ sorryAx、Lean.ofReduceBool、Lean.trustCompilerへの依存なし。
 新規数学ファイルに未解決のコンパイルエラー・lint警告なし。既存のlint警告は残存。
 161は初期成果の件数で、宣言数の固定条件ではありません。
 
-今回の証明単位はruns/as-finiteness-20261008-unit*.patchと新規verification/runs/に保存。
+今回の証明単位はruns/ext-sums-20261008-unit*.patchと新規verification/runs/に保存。
 前回のruns/radical-resolution-20261008-unit*.patchも保持。
-今回の実測時刻・終了コード・次の義務・main保存先はruns/as-finiteness-20261008.mdとRECENT_RUN.md。
+今回の実測時刻・終了コード・次の義務・main保存先はruns/ext-sums-20261008.mdとRECENT_RUN.md。
 初期14数学モジュール・入力PDFの旧SHA-256一致、recovery/とcheckpoints/の無変更を再確認。
-今回の保存確認はverification/as_finiteness_preservation.json。ルートimportと生成AxiomAuditは意図した更新。
+今回の保存確認はverification/ext_sums_preservation.json。ルートimportと生成AxiomAuditは意図した更新。
 CLI git pushの認証エラー(終了128)後、接続済みGitHub APIへ切り替えた。
 ローカル検証済みtreeのSHA一致とexpected_shaを確認し、force=falseでmainを通常のfast-forward保存。
 ローカルmainも同じAPI commit objectに同期。CLIの認証が修復されたという主張はしない。
@@ -110,16 +114,12 @@ CLI git pushの認証エラー(終了128)後、接続済みGitHub APIへ切り�
 
 ユーザーは形式化の自律的継続を明示的に指示。通常の補題について再開確認は不要。
 
-前回の最終数学コミットc314180のmain CI 37722129359はsuccess、12ファイルの最新artifact保存済み。
+以前のradical-resolutionタスクの最終数学コミットc314180のmain CI 37722129359はsuccess、12ファイルの当該実行artifact保存済み。
 CI実行の時刻と終了0はverification/radical_resolution_github_ci_evidence.json・CI logに保存。
 
-現在の優先課題は、高次Extと直和の交換・Gr(A)比較。実装の対応・利用先はdocs/as_finiteness_left_duality.md。
-9単位の差分・検査・main保存・実測時刻はRECENT_RUN.mdとruns/as-finiteness-20261008.md。
-初期14モジュール・PDF・回収記録の保存確認はverification/as_finiteness_preservation.json。
-
-今回の最終数学コミット2863bbaの[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37727782672)はsuccess。
-505宣言・全223 theoremの新規監査、12ファイルの今回のartifact保存を確認。
-CI検証はUTC 2026-10-08T04:30:31.595999+00:00 → 2026-10-08T04:38:32.459227+00:00、
-単調時計で480.863225234秒、終了0。
-証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI log。
-この確認後の最終保存は文書・記録のみ。同じ数学ソースを保ち、そのpushでもCIを新規実行する。
+現在の優先課題は総非単位的代数・局所単位付き加群の構成、Gr(A)との圏同値とExt保存。
+今回7単位の対応・仮定・利用先はdocs/ext_coproduct_exchange.md。
+差分・検査・実測時刻・main保存先はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+初期14モジュール、開始時51モジュール、PDFと歴史的な487ファイルの保存確認はverification/ext_sums_preservation.json。
+前回の数値的同値・左双対の証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI logに保持。
+今回の正確なheadに対するCI・artifact確認はRECENT_RUN.mdの終了記録に追記する。
