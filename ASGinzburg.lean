@@ -5,6 +5,7 @@ import ASGinzburg.PathAlgebra
 import ASGinzburg.ZAlgebra
 import ASGinzburg.Representables
 import ASGinzburg.RightModuleAbelian
+import ASGinzburg.RightModuleHomology
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology
 import ASGinzburg.WindowPeriodicity

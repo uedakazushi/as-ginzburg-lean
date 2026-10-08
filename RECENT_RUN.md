@@ -42,3 +42,25 @@
 - 差分：`runs/rightmodule-abelian-20261008-unit2.patch`。
 - 次の利用先と証明義務：頂点評価がホモロジーを保存すること、核・余核・homologyの成分同型、
   exactnessと線形写像の像＝核の同値、短完全列の成分判定。
+
+## 単位3：成分ホモロジー・exactnessへの接続
+
+- 完成：`rightModuleEvaluation`、評価の加法性・有限(余)極限保存・homology保存。
+  核・余核・mathlibのShortComplex.homologyの成分同型と構造射の互換性。
+  包含後のexactnessとの同値、成分wise exactness、線形写像の像＝核との同値。
+  mono/epiと成分wise mono/epi、injective/surjectiveの同値、ShortExactの成分判定。
+- 単位2のコミット：`0c7965a`、push終了0。
+- Draft PR #2：https://github.com/uedakazushi/as-ginzburg-lean/pull/2 。
+  基盤整備PR #1のブランチをbaseとする後続PR。mainは未変更、未マージ。
+- 検証：`20261008T003239Z-336ff83a`、全段階終了0、39.289198秒。
+  UTC 2026-10-08T00:32:39.439384+00:00 → 2026-10-08T00:33:18.728587+00:00。
+  lake build、公理監査202異なる宣言／96 theorem、11回帰テスト、環境、照合が成功。
+- 初期14数学モジュールとPDFの旧SHA-256一致も再確認、終了0。
+  新規数学ファイル2個、root importと生成AxiomAuditを追加更新。
+- 一時ファイルでの評価関手の有限(余)極限instanceとextの型合わせの失敗は修正済み。
+  完成モジュールのコンパイルエラー・監査エラーはなし。
+- 差分：`runs/rightmodule-abelian-20261008-unit3.patch`。
+- 利用先：`rightModule_epi_iff_surjective`とYonedaによるrepresentableの射影性、
+  `rightModule_exact_iff_range_eq_ker`による(1.6)の成分wiseな完全性の検証。
+- 残る証明義務：射影性、radicalとs_v、四項分解とminimality、実際のExt条件、
+  presheafモデルと直和・局所単位元付き加群の明示的同値。主定理は未実装・未証明。
