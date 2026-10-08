@@ -1,0 +1,743 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index efafe36..f6a0fd5 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -151,6 +151,13 @@ import ASGinzburg.FiniteDimensionalWindows
+ import ASGinzburg.FiniteDimensionalWindowSequences
+ import ASGinzburg.NakayamaWindowSupport
+ 
++import ASGinzburg.NormalizedProjectiveCovers
++import ASGinzburg.NakayamaInverseWindowSupport
++import ASGinzburg.NakayamaWindowEquivalence
++import ASGinzburg.TruncatedRepresentables
++import ASGinzburg.FiniteWindowProjectives
++import ASGinzburg.NakayamaWindowProjectives
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 40886f2..098a270 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -622,6 +622,25 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LeftVertexFiltration
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensional_hasVertexFiltration
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalVertexFiltration
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentable
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowEvaluation
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowEvaluationPreservesFiniteLimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowEvaluationPreservesFiniteColimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentableYonedaEquiv
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentableYonedaEquiv_comp
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentableProjective
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableSimpleCover
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ_simpleCover
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableSimpleCoverEpi
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableEndEquiv
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableEnd_finrank
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowSimple
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentableCover
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentableCoverEpi
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableSimpleCover_nonzero
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_cover_rigidity
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentable_cover_rigidity
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowRepresentableCover_essential
+ #print axioms ASGinzburg.exact_epi_comp_iff
+ #print axioms ASGinzburg.FourTermProjectiveResolution
+ #print axioms ASGinzburg.FourTermProjectiveResolution.term
+@@ -939,9 +958,41 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualFunctorLinear
+ #print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_isZero_iff
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaInverseAdditive
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalSimpleVectorDualIso
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalExtThreeSimpleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaInverseSimpleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaInverseSimpleHeightIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaInverseUnderlying
++#print axioms ASGinzburg.ZAlgebra.rightVertexFiltration_nakayama_inverse_window
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_nakayama_inverse_window
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctor
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaInverseFunctor
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaUnitIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaCounitIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalence
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalenceFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalenceFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayama_shortExact
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableCover
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableCoverEpi
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableProjective
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableEnd_finrank
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableCover_nonzero
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentable_cover_rigidity
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableIso
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaUnderlying
+ #print axioms ASGinzburg.ZAlgebra.rightVertexFiltration_nakayama_window
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_nakayama_window
++#print axioms ASGinzburg.endomorphism_eq_id_of_preserves_nonzero_map
++#print axioms ASGinzburg.normalizedProjectiveIso
++#print axioms ASGinzburg.normalizedProjectiveIso_hom_comp
++#print axioms ASGinzburg.normalizedProjectiveIso_hom_unique
++#print axioms ASGinzburg.epi_of_comp_epi_of_rigid_projective
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+@@ -1465,6 +1516,23 @@ import ASGinzburg
+ #print axioms ASGinzburg.triangle_same_winding_as_arrow_is_linear
+ #print axioms ASGinzburg.trianglePotential
+ #print axioms ASGinzburg.trianglePotential_cut_derivative_identity
++#print axioms ASGinzburg.ZAlgebra.rightRepresentableLowerTail
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπEpi
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_below
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_above
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_window
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_component_finite
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_finite
++#print axioms ASGinzburg.ZAlgebra.rightRepresentableLowerTail_comp_eq_zero
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableDesc
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ_desc
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableHomEquiv
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableYonedaEquiv
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ_component_isIso
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableComponentIso
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableYonedaEquiv_comp
+ #print axioms ASGinzburg.ZAlgebra.totalUnitizationComponentLinear
+ #print axioms ASGinzburg.ZAlgebra.totalUnitizationComponentLinear_apply
+ #print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentAction
+diff --git a/ASGinzburg/NormalizedProjectiveCovers.lean b/ASGinzburg/NormalizedProjectiveCovers.lean
+new file mode 100644
+index 0000000..95c1d62
+--- /dev/null
++++ b/ASGinzburg/NormalizedProjectiveCovers.lean
+@@ -0,0 +1,66 @@
++import ASGinzburg.RightModuleProjectives
++import Mathlib.LinearAlgebra.FiniteDimensional.Basic
++
++/-!
++# Rigidity and uniqueness of normalized projective covers
++
++The hypotheses below are proved for actual truncated representables and their
++Nakayama images. They are not added to the AS regularity condition.
++-/
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v w
++variable {k : Type u} [Field k] {C : Type v} [Category.{w} C] [Preadditive C] [Linear k C]
++
++theorem endomorphism_eq_id_of_preserves_nonzero_map {P S : C}
++    (hEnd : Module.finrank k (P ⟶ P) = 1) (p : P ⟶ S) (hp : p ≠ 0)
++    (t : P ⟶ P) (ht : t ≫ p = p) : t = 𝟙 P := by
++  have hId : (𝟙 P : P ⟶ P) ≠ 0 := by
++    intro h
++    apply hp
++    rw [← Category.id_comp p,h,zero_comp]
++  obtain ⟨c,hc⟩ := exists_smul_eq_of_finrank_eq_one hEnd hId t
++  rw [← hc,Linear.smul_comp,Category.id_comp] at ht
++  have hz : (c-1) • p = 0 := by rw [sub_smul,one_smul,ht,sub_self]
++  have hc1 : c = 1 := sub_eq_zero.mp ((smul_eq_zero.mp hz).resolve_right hp)
++  simpa [hc1] using hc.symm
++
++end ASGinzburg
++
++namespace ASGinzburg
++open CategoryTheory
++universe v w
++variable {C : Type v} [Category.{w} C]
++
++noncomputable def normalizedProjectiveIso {P Q S : C} [Projective P] [Projective Q]
++    (p : P ⟶ S) (q : Q ⟶ S) [Epi p] [Epi q]
++    (hP : ∀ t : P ⟶ P, t ≫ p = p → t = 𝟙 P)
++    (hQ : ∀ t : Q ⟶ Q, t ≫ q = q → t = 𝟙 Q) : P ≅ Q where
++  hom := Projective.factorThru p q
++  inv := Projective.factorThru q p
++  hom_inv_id := hP _ (by simp)
++  inv_hom_id := hQ _ (by simp)
++
++@[reassoc] theorem normalizedProjectiveIso_hom_comp {P Q S : C} [Projective P] [Projective Q]
++    (p : P ⟶ S) (q : Q ⟶ S) [Epi p] [Epi q]
++    (hP : ∀ t : P ⟶ P, t ≫ p = p → t = 𝟙 P)
++    (hQ : ∀ t : Q ⟶ Q, t ≫ q = q → t = 𝟙 Q) :
++    (normalizedProjectiveIso p q hP hQ).hom ≫ q = p := Projective.factorThru_comp _ _
++
++theorem normalizedProjectiveIso_hom_unique {P Q S : C} [Projective P] [Projective Q]
++    (p : P ⟶ S) (q : Q ⟶ S) [Epi p] [Epi q]
++    (hP : ∀ t : P ⟶ P, t ≫ p = p → t = 𝟙 P)
++    (hQ : ∀ t : Q ⟶ Q, t ≫ q = q → t = 𝟙 Q)
++    (f : P ⟶ Q) (hf : f ≫ q = p) : f = (normalizedProjectiveIso p q hP hQ).hom := by
++  let e := normalizedProjectiveIso p q hP hQ
++  have h : f ≫ e.inv = 𝟙 P := hP _ (by dsimp [e,normalizedProjectiveIso]; simp [hf])
++  apply (cancel_mono e.inv).mp
++  exact h.trans e.hom_inv_id.symm
++
++theorem epi_of_comp_epi_of_rigid_projective {P S X : C} [Projective P]
++    (p : P ⟶ S) (hP : ∀ t : P ⟶ P, t ≫ p = p → t = 𝟙 P)
++    (f : X ⟶ P) [Epi (f ≫ p)] : Epi f := by
++  have h : Projective.factorThru p (f ≫ p) ≫ f = 𝟙 P := hP _ (by simp)
++  exact epi_of_epi_fac h
++end ASGinzburg
+diff --git a/ASGinzburg/NakayamaInverseWindowSupport.lean b/ASGinzburg/NakayamaInverseWindowSupport.lean
+new file mode 100644
+index 0000000..5f771fa
+--- /dev/null
++++ b/ASGinzburg/NakayamaInverseWindowSupport.lean
+@@ -0,0 +1,98 @@
++import ASGinzburg.NakayamaWindowSupport
++
++/-!
++# Inverse Nakayama translation of simples and interval support
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem rightFiniteDimensional_isZero_iff (M : A.RightFiniteDimensional) :
++    IsZero M ↔ IsZero M.obj := by
++  rw [IsZero.iff_id_eq_zero,IsZero.iff_id_eq_zero]
++  rfl
++
++instance rightFiniteDimensionalNakayamaInverseAdditive (hAS : A.ASRegular Q) :
++    (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse.Additive := by
++  change (A.rightFiniteDimensionalVectorDualFunctor.rightOp ⋙
++    A.leftFiniteDimensionalExtThreeFunctor Q hAS).Additive
++  infer_instance
++
++noncomputable def rightFiniteDimensionalSimpleVectorDualIso (i : ℤ) :
++    A.rightFiniteDimensionalVectorDualFunctor.obj (op (A.rightFiniteDimensionalSimple i)) ≅
++      A.leftFiniteDimensionalSimple i :=
++  A.leftFiniteDimensionalProperty.isoMk (A.rightSimpleVectorDualIso i)
++
++noncomputable def leftFiniteDimensionalExtThreeSimpleIso (hAS : A.ASRegular Q) (w : Q.LiftVertex) :
++    (A.leftFiniteDimensionalExtThreeFunctor Q hAS).obj (op (A.leftFiniteDimensionalSimple (Q.height w))) ≅
++      A.rightFiniteDimensionalSimple (Q.height (Q.tau w)) :=
++  A.rightFiniteDimensionalProperty.isoMk (hAS.leftExtThreeIsoSimple A Q w)
++
++noncomputable def rightFiniteDimensionalNakayamaInverseSimpleIso (hAS : A.ASRegular Q)
++    (w : Q.LiftVertex) :
++    (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse.obj
++        (A.rightFiniteDimensionalSimple (Q.height w)) ≅
++      A.rightFiniteDimensionalSimple (Q.height (Q.tau w)) :=
++  ((A.leftFiniteDimensionalExtThreeFunctor Q hAS).mapIso
++    (A.rightFiniteDimensionalSimpleVectorDualIso (Q.height w)).op).symm ≪≫
++      A.leftFiniteDimensionalExtThreeSimpleIso Q hAS w
++
++noncomputable def rightFiniteDimensionalNakayamaInverseSimpleHeightIso (hAS : A.ASRegular Q)
++    (i : ℤ) :
++    (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse.obj (A.rightFiniteDimensionalSimple i) ≅
++      A.rightFiniteDimensionalSimple (i + Q.vertices) := by
++  let w := Q.heightEquiv.symm i
++  have hw : Q.height w = i := by
++    rw [← Q.heightEquiv_apply]
++    exact Q.heightEquiv.apply_symm_apply i
++  simpa only [Q.height_tau,hw] using A.rightFiniteDimensionalNakayamaInverseSimpleIso Q hAS w
++
++noncomputable def rightFiniteDimensionalNakayamaInverseUnderlying (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) : A.RightModule :=
++  ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse.obj ⟨M,hM⟩).obj
++
++theorem rightVertexFiltration_nakayama_inverse_window (hAS : A.ASRegular Q)
++    {M : A.RightModule} (F : A.RightVertexFiltration M) :
++    ∀ (hM : A.rightFiniteDimensionalProperty M) (l r : ℤ),
++      A.rightModuleWindowProperty l r M →
++        A.rightModuleWindowProperty (l+Q.vertices) (r+Q.vertices)
++          (A.rightFiniteDimensionalNakayamaInverseUnderlying Q hAS M hM) := by
++  induction F with
++  | @zero M hZero =>
++    intro hM l r hW i hi
++    have H := (A.rightFiniteDimensional_isZero_iff (⟨M,hM⟩ : A.RightFiniteDimensional)).mpr hZero
++    have H' := (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse.map_isZero H
++    have H'' := A.rightFiniteDimensionalProperty.ι.map_isZero H'
++    exact (A.rightModuleEvaluation i).map_isZero H''
++  | @step M i f hf tail ih =>
++    intro hM l r hW
++    letI := hf
++    let S : ShortComplex A.RightModule := ShortComplex.mk f (cokernel.π f) (cokernel.condition f)
++    have hS : S.ShortExact := { exact := ShortComplex.exact_cokernel f }
++    have hC : A.rightFiniteDimensionalProperty (cokernel f) :=
++      A.rightFiniteDimensional_of_epi (cokernel.π f) hM
++    have hCW := A.rightModuleWindow_of_epi (cokernel.π f) hW
++    obtain ⟨hli,hir⟩ := A.rightModuleWindow_vertex_of_mono hW f
++    let T := A.rightFiniteDimensionalShortComplex S (A.rightFiniteDimensional_simple i) hM hC
++    have hT : T.ShortExact := A.rightFiniteDimensionalShortComplex_shortExact hS _ _ _
++    let E := (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse
++    have H := (hT.map_of_exact E).map_of_exact A.rightFiniteDimensionalProperty.ι
++    have h₁ : A.rightModuleWindowProperty (l+Q.vertices) (r+Q.vertices)
++        (A.rightFiniteDimensionalNakayamaInverseUnderlying Q hAS (A.simpleRightModule i)
++          (A.rightFiniteDimensional_simple i)) := by
++      let e := A.rightFiniteDimensionalProperty.ι.mapIso
++        (A.rightFiniteDimensionalNakayamaInverseSimpleHeightIso Q hAS i)
++      exact A.rightModuleWindow_of_mono e.hom
++        (A.rightModuleWindow_simple _ _ _ (by omega) (by omega))
++    exact A.rightModuleWindow_of_shortExact H h₁ (ih hC l r hCW)
++
++theorem rightFiniteDimensional_nakayama_inverse_window (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) (l r : ℤ)
++    (hW : A.rightModuleWindowProperty l r M) :
++    A.rightModuleWindowProperty (l+Q.vertices) (r+Q.vertices)
++      (A.rightFiniteDimensionalNakayamaInverseUnderlying Q hAS M hM) :=
++  A.rightVertexFiltration_nakayama_inverse_window Q hAS
++    (A.rightFiniteDimensionalVertexFiltration M hM) hM l r hW
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaWindowEquivalence.lean b/ASGinzburg/NakayamaWindowEquivalence.lean
+new file mode 100644
+index 0000000..c9f69e8
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowEquivalence.lean
+@@ -0,0 +1,82 @@
++import ASGinzburg.NakayamaInverseWindowSupport
++
++/-!
++# The exact linear Nakayama equivalence restricted to finite intervals
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def rightFiniteWindowNakayamaFunctor (hAS : A.ASRegular Q) (l r : ℤ) :
++    A.RightFiniteWindow l r ⥤ A.RightFiniteWindow (l-Q.vertices) (r-Q.vertices) :=
++  (A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).lift
++    ((A.rightFiniteWindowProperty l r).ι ⋙ (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor)
++    (fun M => A.rightFiniteDimensional_nakayama_window Q hAS M.obj.obj M.obj.property l r M.property)
++
++noncomputable def rightFiniteWindowNakayamaInverseFunctor (hAS : A.ASRegular Q) (l r : ℤ) :
++    A.RightFiniteWindow (l-Q.vertices) (r-Q.vertices) ⥤ A.RightFiniteWindow l r :=
++  (A.rightFiniteWindowProperty l r).lift
++    ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι ⋙
++      (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse)
++    (fun M => by
++      have H := A.rightFiniteDimensional_nakayama_inverse_window Q hAS
++        M.obj.obj M.obj.property (l-Q.vertices) (r-Q.vertices) M.property
++      simpa only [sub_add_cancel] using H)
++
++noncomputable def rightFiniteWindowNakayamaUnitIso (hAS : A.ASRegular Q) (l r : ℤ) :
++    𝟭 (A.RightFiniteWindow l r) ≅
++      A.rightFiniteWindowNakayamaFunctor Q hAS l r ⋙ A.rightFiniteWindowNakayamaInverseFunctor Q hAS l r :=
++  NatIso.ofComponents (fun M => (A.rightFiniteWindowProperty l r).isoMk
++    (X := M) (Y := (A.rightFiniteWindowNakayamaFunctor Q hAS l r ⋙
++      A.rightFiniteWindowNakayamaInverseFunctor Q hAS l r).obj M)
++    ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).unitIso.app M.obj)) (by
++      intro M N f
++      exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).unitIso.hom.naturality
++        ((A.rightFiniteWindowProperty l r).ι.map f))
++
++noncomputable def rightFiniteWindowNakayamaCounitIso (hAS : A.ASRegular Q) (l r : ℤ) :
++    A.rightFiniteWindowNakayamaInverseFunctor Q hAS l r ⋙ A.rightFiniteWindowNakayamaFunctor Q hAS l r ≅
++      𝟭 (A.RightFiniteWindow (l-Q.vertices) (r-Q.vertices)) :=
++  NatIso.ofComponents (fun M => (A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).isoMk
++    (X := (A.rightFiniteWindowNakayamaInverseFunctor Q hAS l r ⋙
++      A.rightFiniteWindowNakayamaFunctor Q hAS l r).obj M) (Y := M)
++    ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).counitIso.app M.obj)) (by
++      intro M N f
++      exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).counitIso.hom.naturality
++        ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map f))
++
++noncomputable def rightFiniteWindowNakayamaEquivalence (hAS : A.ASRegular Q) (l r : ℤ) :
++    A.RightFiniteWindow l r ≌ A.RightFiniteWindow (l-Q.vertices) (r-Q.vertices) :=
++  CategoryTheory.Equivalence.mk (A.rightFiniteWindowNakayamaFunctor Q hAS l r)
++    (A.rightFiniteWindowNakayamaInverseFunctor Q hAS l r)
++    (A.rightFiniteWindowNakayamaUnitIso Q hAS l r) (A.rightFiniteWindowNakayamaCounitIso Q hAS l r)
++
++instance rightFiniteWindowNakayamaFunctorAdditive (hAS : A.ASRegular Q) (l r : ℤ) :
++    (A.rightFiniteWindowNakayamaFunctor Q hAS l r).Additive where
++  map_add := by
++    intro M N f g
++    exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_add
++      (f := (A.rightFiniteWindowProperty l r).ι.map f) (g := (A.rightFiniteWindowProperty l r).ι.map g)
++instance rightFiniteWindowNakayamaFunctorLinear (hAS : A.ASRegular Q) (l r : ℤ) :
++    (A.rightFiniteWindowNakayamaFunctor Q hAS l r).Linear k where
++  map_smul := by
++    intro M N f t
++    exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_smul t
++      ((A.rightFiniteWindowProperty l r).ι.map f)
++
++instance rightFiniteWindowNakayamaEquivalenceFunctorAdditive (hAS : A.ASRegular Q) (l r : ℤ) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.Additive := by
++  change (A.rightFiniteWindowNakayamaFunctor Q hAS l r).Additive
++  infer_instance
++instance rightFiniteWindowNakayamaEquivalenceFunctorLinear (hAS : A.ASRegular Q) (l r : ℤ) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.Linear k := by
++  change (A.rightFiniteWindowNakayamaFunctor Q hAS l r).Linear k
++  infer_instance
++
++theorem rightFiniteWindowNakayama_shortExact (hAS : A.ASRegular Q) (l r : ℤ)
++    {S : ShortComplex (A.RightFiniteWindow l r)} (hS : S.ShortExact) :
++    (S.map (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor).ShortExact :=
++  hS.map_of_exact _
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TruncatedRepresentables.lean b/ASGinzburg/TruncatedRepresentables.lean
+new file mode 100644
+index 0000000..5348c04
+--- /dev/null
++++ b/ASGinzburg/TruncatedRepresentables.lean
+@@ -0,0 +1,147 @@
++import ASGinzburg.FiniteDimensionalWindowSequences
++import ASGinzburg.SmallVectorDuality
++import ASGinzburg.RightSubmodules
++
++/-!
++# Actual lower-tail quotients, finite support and linear Yoneda
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++def rightRepresentableLowerTail (l i : ℤ) : RightSubmodule (A.representable i) where
++  component X := if X.unop.index < l then ⊤ else ⊥
++  map_mem := by
++    intro X Y f x hx
++    by_cases hy : Y.unop.index < l
++    · simp [hy]
++    · by_cases hx' : X.unop.index < l
++      · have hf : f.unop = 0 := A.positive (lt_of_lt_of_le hx' (le_of_not_gt hy)) f.unop
++        change A.comp x f.unop ∈ (if Y.unop.index < l then ⊤ else ⊥)
++        rw [hf,map_zero]
++        simp
++      · have hx0 : x=0 := by simpa [hx'] using hx
++        rw [hx0]
++        simp
++
++noncomputable def rightTruncatedRepresentable (l i : ℤ) : A.RightModule :=
++  (A.rightRepresentableLowerTail l i).quotient
++noncomputable def rightTruncatedRepresentableπ (l i : ℤ) :
++    A.representable i ⟶ A.rightTruncatedRepresentable l i :=
++  (A.rightRepresentableLowerTail l i).quotientπ
++noncomputable instance rightTruncatedRepresentableπEpi (l i : ℤ) :
++    Epi (A.rightTruncatedRepresentableπ l i) := (A.rightRepresentableLowerTail l i).quotientπEpi
++
++theorem rightTruncatedRepresentable_below (l i j : ℤ) (hj : j<l) :
++    IsZero ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) := by
++  haveI : Epi ((A.rightModuleEvaluation j).map (A.rightRepresentableLowerTail l i).inclusion) := by
++    apply (ModuleCat.epi_iff_surjective _).mpr
++    intro x
++    refine ⟨⟨x,?_⟩,rfl⟩
++    simp [rightRepresentableLowerTail,hj]
++  exact (isZero_cokernel_of_epi _).of_iso
++    (A.rightModuleCokernelObjIso (A.rightRepresentableLowerTail l i).inclusion j)
++
++theorem rightTruncatedRepresentable_above (l i j : ℤ) (hj : i<j) :
++    IsZero ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) := by
++  apply IsZero.of_epi ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i))
++  apply ModuleCat.isZero_iff_subsingleton.mpr
++  constructor
++  intro x y
++  change A.Hom j i at x y
++  rw [A.positive hj x,A.positive hj y]
++
++theorem rightTruncatedRepresentable_window (l r i : ℤ) (hir : i≤r) :
++    A.rightModuleWindowProperty l r (A.rightTruncatedRepresentable l i) := by
++  intro j hj
++  rcases hj with hj | hj
++  · exact A.rightTruncatedRepresentable_below l i j hj
++  · exact A.rightTruncatedRepresentable_above l i j (by omega)
++
++theorem rightTruncatedRepresentable_component_finite (l i j : ℤ) :
++    Module.Finite k ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) := by
++  letI : Module.Finite k ((A.rightModuleEvaluation j).obj (A.representable i)) :=
++    show Module.Finite k (A.Hom j i) from inferInstance
++  exact Module.Finite.of_surjective ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i)).hom
++    ((ModuleCat.epi_iff_surjective _).mp (by infer_instance))
++
++theorem rightTruncatedRepresentable_finite (l i : ℤ) :
++    A.rightFiniteDimensionalProperty (A.rightTruncatedRepresentable l i) := by
++  apply ASGinzburg.directSum_finite_of_finite_support
++    (fun j => (A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) (Finset.Icc l i)
++  · intro j hj x
++    have hji : j<l ∨ i<j := by simp only [Finset.mem_Icc] at hj; omega
++    have H : IsZero ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) :=
++      (A.rightTruncatedRepresentable_window l i i (le_refl i)) j hji
++    exact (ModuleCat.isZero_iff_subsingleton.mp H).elim x 0
++  · intro j
++    exact A.rightTruncatedRepresentable_component_finite l i j
++
++theorem rightRepresentableLowerTail_comp_eq_zero (l i : ℤ) (M : A.RightModule)
++    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M))
++    (f : A.representable i ⟶ M) : (A.rightRepresentableLowerTail l i).inclusion ≫ f = 0 := by
++  apply NatTrans.ext
++  funext X
++  by_cases hx : X.unop.index < l
++  · exact (hLow X.unop.index hx).eq_zero_of_tgt _
++  · apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    have hx0 : x.val=0 := by simpa [rightRepresentableLowerTail,hx] using x.property
++    change (f.app X).hom x.val = 0
++    rw [hx0,map_zero]
++
++noncomputable def rightTruncatedRepresentableDesc (l i : ℤ) (M : A.RightModule)
++    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M))
++    (f : A.representable i ⟶ M) : A.rightTruncatedRepresentable l i ⟶ M :=
++  cokernel.desc _ f (A.rightRepresentableLowerTail_comp_eq_zero l i M hLow f)
++
++@[reassoc] theorem rightTruncatedRepresentableπ_desc (l i : ℤ) (M : A.RightModule)
++    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M)) (f : A.representable i ⟶ M) :
++    A.rightTruncatedRepresentableπ l i ≫ A.rightTruncatedRepresentableDesc l i M hLow f = f :=
++  cokernel.π_desc _ _ _
++
++noncomputable def rightTruncatedRepresentableHomEquiv (l i : ℤ) (M : A.RightModule)
++    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M)) :
++    (A.rightTruncatedRepresentable l i ⟶ M) ≃ₗ[k] (A.representable i ⟶ M) :=
++  LinearEquiv.ofBijective (Linear.leftComp k M (A.rightTruncatedRepresentableπ l i)) (by
++    constructor
++    · intro f g h; exact (cancel_epi (A.rightTruncatedRepresentableπ l i)).mp h
++    · intro f; exact ⟨A.rightTruncatedRepresentableDesc l i M hLow f,A.rightTruncatedRepresentableπ_desc l i M hLow f⟩)
++
++noncomputable def rightTruncatedRepresentableYonedaEquiv (l i : ℤ) (M : A.RightModule)
++    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M)) :
++    (A.rightTruncatedRepresentable l i ⟶ M) ≃ₗ[k] (A.rightModuleEvaluation i).obj M :=
++  (A.rightTruncatedRepresentableHomEquiv l i M hLow).trans (A.representableYonedaEquiv i M)
++
++theorem rightTruncatedRepresentableπ_component_isIso (l i j : ℤ) (hj : l ≤ j) :
++    IsIso ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i)) := by
++  let S := (A.rightRepresentableLowerTail l i).quotientShortComplex
++  have H := ((A.rightRepresentableLowerTail l i).quotientShortExact).map_of_exact
++    (A.rightModuleEvaluation j)
++  apply H.isIso_g_iff.mpr
++  apply ModuleCat.isZero_iff_subsingleton.mpr
++  constructor
++  intro x y
++  apply Subtype.ext
++  have hx : x.val = 0 := by simpa [rightRepresentableLowerTail,not_lt.mpr hj] using x.property
++  have hy : y.val = 0 := by simpa [rightRepresentableLowerTail,not_lt.mpr hj] using y.property
++  exact hx.trans hy.symm
++
++noncomputable def rightTruncatedRepresentableComponentIso (l i j : ℤ) (hj : l ≤ j) :
++    (A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i) ≅ ModuleCat.of k (A.Hom j i) := by
++  letI := A.rightTruncatedRepresentableπ_component_isIso l i j hj
++  exact (asIso ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i))).symm
++
++theorem rightTruncatedRepresentableYonedaEquiv_comp (l i : ℤ) {M N : A.RightModule}
++    (hM : ∀ j, j < l → IsZero ((A.rightModuleEvaluation j).obj M))
++    (hN : ∀ j, j < l → IsZero ((A.rightModuleEvaluation j).obj N))
++    (f : A.rightTruncatedRepresentable l i ⟶ M) (g : M ⟶ N) :
++    A.rightTruncatedRepresentableYonedaEquiv l i N hN (f ≫ g) =
++      (A.rightModuleEvaluation i).map g (A.rightTruncatedRepresentableYonedaEquiv l i M hM f) := by
++  change A.representableYonedaEquiv i N (A.rightTruncatedRepresentableπ l i ≫ (f ≫ g)) = _
++  rw [← Category.assoc,A.representableYonedaEquiv_comp]
++  rfl
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteWindowProjectives.lean b/ASGinzburg/FiniteWindowProjectives.lean
+new file mode 100644
+index 0000000..e814d39
+--- /dev/null
++++ b/ASGinzburg/FiniteWindowProjectives.lean
+@@ -0,0 +1,116 @@
++import ASGinzburg.TruncatedRepresentables
++import ASGinzburg.FiniteDimensionalSimpleTranslation
++import ASGinzburg.NormalizedProjectiveCovers
++
++/-!
++# Truncated representables are projective covers of the vertex simples
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightFiniteWindowRepresentable (l r i : ℤ) (hir : i ≤ r) : A.RightFiniteWindow l r :=
++  ⟨⟨A.rightTruncatedRepresentable l i,A.rightTruncatedRepresentable_finite l i⟩,
++    A.rightTruncatedRepresentable_window l r i hir⟩
++
++noncomputable def rightFiniteWindowEvaluation (l r i : ℤ) : A.RightFiniteWindow l r ⥤ ModuleCat.{v} k :=
++  (A.rightFiniteWindowProperty l r).ι ⋙ A.rightFiniteDimensionalProperty.ι ⋙ A.rightModuleEvaluation i
++
++noncomputable instance rightFiniteWindowEvaluationPreservesFiniteLimits (l r i : ℤ) :
++    PreservesFiniteLimits (A.rightFiniteWindowEvaluation l r i) := by
++  dsimp [rightFiniteWindowEvaluation]; infer_instance
++noncomputable instance rightFiniteWindowEvaluationPreservesFiniteColimits (l r i : ℤ) :
++    PreservesFiniteColimits (A.rightFiniteWindowEvaluation l r i) := by
++  dsimp [rightFiniteWindowEvaluation]; infer_instance
++
++noncomputable def rightFiniteWindowRepresentableYonedaEquiv (l r i : ℤ) (hir : i ≤ r)
++    (M : A.RightFiniteWindow l r) :
++    (A.rightFiniteWindowRepresentable l r i hir ⟶ M) ≃ₗ[k]
++      (A.rightFiniteWindowEvaluation l r i).obj M :=
++  A.rightTruncatedRepresentableYonedaEquiv l i M.obj.obj (fun j hj => M.property j (Or.inl hj))
++
++theorem rightFiniteWindowRepresentableYonedaEquiv_comp (l r i : ℤ) (hir : i ≤ r)
++    {M N : A.RightFiniteWindow l r} (f : A.rightFiniteWindowRepresentable l r i hir ⟶ M)
++    (g : M ⟶ N) :
++    A.rightFiniteWindowRepresentableYonedaEquiv l r i hir N (f ≫ g) =
++      (A.rightFiniteWindowEvaluation l r i).map g
++        (A.rightFiniteWindowRepresentableYonedaEquiv l r i hir M f) :=
++  A.rightTruncatedRepresentableYonedaEquiv_comp l i _ _ f g
++
++instance rightFiniteWindowRepresentableProjective (l r i : ℤ) (hir : i ≤ r) :
++    Projective (A.rightFiniteWindowRepresentable l r i hir) where
++  factors := by
++    intro M N f e he
++    letI := he
++    have hs := (ModuleCat.epi_iff_surjective ((A.rightFiniteWindowEvaluation l r i).map e)).mp (by infer_instance)
++    obtain ⟨x,hx⟩ := hs (A.rightFiniteWindowRepresentableYonedaEquiv l r i hir N f)
++    refine ⟨(A.rightFiniteWindowRepresentableYonedaEquiv l r i hir M).symm x,?_⟩
++    apply (A.rightFiniteWindowRepresentableYonedaEquiv l r i hir N).injective
++    rw [A.rightFiniteWindowRepresentableYonedaEquiv_comp,LinearEquiv.apply_symm_apply]
++    exact hx
++
++noncomputable def rightTruncatedRepresentableSimpleCover (l i : ℤ) (hli : l ≤ i) :
++    A.rightTruncatedRepresentable l i ⟶ A.simpleRightModule i :=
++  A.rightTruncatedRepresentableDesc l i (A.simpleRightModule i)
++    (fun j hj => A.simpleRightModule_off_diagonal i j (by omega)) (A.simpleRightModuleπ i)
++
++@[reassoc] theorem rightTruncatedRepresentableπ_simpleCover (l i : ℤ) (hli : l ≤ i) :
++    A.rightTruncatedRepresentableπ l i ≫ A.rightTruncatedRepresentableSimpleCover l i hli =
++      A.simpleRightModuleπ i :=
++  A.rightTruncatedRepresentableπ_desc l i _ _ _
++
++instance rightTruncatedRepresentableSimpleCoverEpi (l i : ℤ) (hli : l ≤ i) :
++    Epi (A.rightTruncatedRepresentableSimpleCover l i hli) := by
++  apply epi_of_epi_fac (A.rightTruncatedRepresentableπ_simpleCover l i hli)
++
++noncomputable def rightTruncatedRepresentableEndEquiv (l i : ℤ) (hli : l ≤ i) :
++    (A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l i) ≃ₗ[k] k :=
++  (A.rightTruncatedRepresentableYonedaEquiv l i (A.rightTruncatedRepresentable l i)
++    (A.rightTruncatedRepresentable_below l i)).trans
++    ((A.rightTruncatedRepresentableComponentIso l i i hli).toLinearEquiv.trans (A.scalarEndEquiv i).symm)
++
++theorem rightTruncatedRepresentableEnd_finrank (l i : ℤ) (hli : l ≤ i) :
++    Module.finrank k (A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l i) = 1 := by
++  rw [(A.rightTruncatedRepresentableEndEquiv l i hli).finrank_eq]
++  exact Module.finrank_self k
++
++noncomputable def rightFiniteWindowSimple (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) : A.RightFiniteWindow l r :=
++  ⟨A.rightFiniteDimensionalSimple i,A.rightModuleWindow_simple l r i hli hir⟩
++
++noncomputable def rightFiniteWindowRepresentableCover (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    A.rightFiniteWindowRepresentable l r i hir ⟶ A.rightFiniteWindowSimple l r i hli hir :=
++  A.rightTruncatedRepresentableSimpleCover l i hli
++
++instance rightFiniteWindowRepresentableCoverEpi (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    Epi (A.rightFiniteWindowRepresentableCover l r i hli hir) := by
++  apply (A.rightFiniteWindowProperty l r).ι.epi_of_epi_map
++  apply A.rightFiniteDimensionalProperty.ι.epi_of_epi_map
++  change Epi (A.rightTruncatedRepresentableSimpleCover l i hli)
++  infer_instance
++
++theorem rightTruncatedRepresentableSimpleCover_nonzero (l i : ℤ) (hli : l ≤ i) :
++    A.rightTruncatedRepresentableSimpleCover l i hli ≠ 0 := by
++  intro h
++  exact Simple.not_isZero (A.simpleRightModule i) (IsZero.of_epi_eq_zero _ h)
++
++theorem rightTruncatedRepresentable_cover_rigidity (l i : ℤ) (hli : l ≤ i)
++    (t : A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l i)
++    (ht : t ≫ A.rightTruncatedRepresentableSimpleCover l i hli = A.rightTruncatedRepresentableSimpleCover l i hli) :
++    t = 𝟙 _ :=
++  ASGinzburg.endomorphism_eq_id_of_preserves_nonzero_map
++    (A.rightTruncatedRepresentableEnd_finrank l i hli) _
++    (A.rightTruncatedRepresentableSimpleCover_nonzero l i hli) t ht
++
++theorem rightFiniteWindowRepresentable_cover_rigidity (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
++    (t : A.rightFiniteWindowRepresentable l r i hir ⟶ A.rightFiniteWindowRepresentable l r i hir)
++    (ht : t ≫ A.rightFiniteWindowRepresentableCover l r i hli hir = A.rightFiniteWindowRepresentableCover l r i hli hir) :
++    t = 𝟙 _ := A.rightTruncatedRepresentable_cover_rigidity l i hli t ht
++
++theorem rightFiniteWindowRepresentableCover_essential (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
++    {M : A.RightFiniteWindow l r} (f : M ⟶ A.rightFiniteWindowRepresentable l r i hir)
++    [Epi (f ≫ A.rightFiniteWindowRepresentableCover l r i hli hir)] : Epi f :=
++  ASGinzburg.epi_of_comp_epi_of_rigid_projective _
++    (A.rightFiniteWindowRepresentable_cover_rigidity l r i hli hir) f
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaWindowProjectives.lean b/ASGinzburg/NakayamaWindowProjectives.lean
+new file mode 100644
+index 0000000..502f0ba
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowProjectives.lean
+@@ -0,0 +1,84 @@
++import ASGinzburg.NakayamaWindowEquivalence
++import ASGinzburg.FiniteWindowProjectives
++
++/-!
++# Normalized translation of the actual finite-window projective covers
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def rightFiniteWindowNakayamaSimpleIso (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++        (A.rightFiniteWindowSimple l r i hli hir) ≅
++      A.rightFiniteWindowSimple (l-Q.vertices) (r-Q.vertices) (i-Q.vertices) (by omega) (by omega) :=
++  (A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).isoMk
++    (A.rightFiniteDimensionalNakayamaSimpleHeightIso Q hAS i)
++
++noncomputable def rightFiniteWindowNakayamaRepresentableCover (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++        (A.rightFiniteWindowRepresentable l r i hir) ⟶
++      A.rightFiniteWindowSimple (l-Q.vertices) (r-Q.vertices) (i-Q.vertices) (by omega) (by omega) :=
++  (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.map
++    (A.rightFiniteWindowRepresentableCover l r i hli hir) ≫
++      (A.rightFiniteWindowNakayamaSimpleIso Q hAS l r i hli hir).hom
++
++instance rightFiniteWindowNakayamaRepresentableCoverEpi (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    Epi (A.rightFiniteWindowNakayamaRepresentableCover Q hAS l r i hli hir) := by
++  dsimp [rightFiniteWindowNakayamaRepresentableCover]; infer_instance
++
++instance rightFiniteWindowNakayamaRepresentableProjective (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hir : i ≤ r) :
++    Projective ((A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++      (A.rightFiniteWindowRepresentable l r i hir)) :=
++  ((A.rightFiniteWindowNakayamaEquivalence Q hAS l r).map_projective_iff _).mpr (by infer_instance)
++
++theorem rightFiniteWindowNakayamaRepresentableEnd_finrank (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    Module.finrank k
++      ((A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj (A.rightFiniteWindowRepresentable l r i hir) ⟶
++        (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj (A.rightFiniteWindowRepresentable l r i hir)) = 1 := by
++  let E := (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor
++  let e : (A.rightFiniteWindowRepresentable l r i hir ⟶ A.rightFiniteWindowRepresentable l r i hir) ≃ₗ[k]
++      (E.obj (A.rightFiniteWindowRepresentable l r i hir) ⟶ E.obj (A.rightFiniteWindowRepresentable l r i hir)) :=
++    LinearEquiv.ofBijective (E.mapLinearMap k) ⟨E.map_injective,E.map_surjective⟩
++  rw [← e.finrank_eq]
++  exact A.rightTruncatedRepresentableEnd_finrank l i hli
++
++theorem rightFiniteWindowNakayamaRepresentableCover_nonzero (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    A.rightFiniteWindowNakayamaRepresentableCover Q hAS l r i hli hir ≠ 0 := by
++  intro h
++  have H := IsZero.of_epi_eq_zero _ h
++  have H' := A.rightFiniteDimensionalProperty.ι.map_isZero
++    ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map_isZero H)
++  exact Simple.not_isZero (A.simpleRightModule (i-Q.vertices)) H'
++
++theorem rightFiniteWindowNakayamaRepresentable_cover_rigidity (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
++    (t : (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj (A.rightFiniteWindowRepresentable l r i hir) ⟶
++      (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj (A.rightFiniteWindowRepresentable l r i hir))
++    (ht : t ≫ A.rightFiniteWindowNakayamaRepresentableCover Q hAS l r i hli hir =
++      A.rightFiniteWindowNakayamaRepresentableCover Q hAS l r i hli hir) : t = 𝟙 _ :=
++  ASGinzburg.endomorphism_eq_id_of_preserves_nonzero_map
++    (A.rightFiniteWindowNakayamaRepresentableEnd_finrank Q hAS l r i hli hir) _
++    (A.rightFiniteWindowNakayamaRepresentableCover_nonzero Q hAS l r i hli hir) t ht
++
++noncomputable def rightFiniteWindowNakayamaRepresentableIso (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj (A.rightFiniteWindowRepresentable l r i hir) ≅
++      A.rightFiniteWindowRepresentable (l-Q.vertices) (r-Q.vertices) (i-Q.vertices) (by omega) :=
++  ASGinzburg.normalizedProjectiveIso
++    (A.rightFiniteWindowNakayamaRepresentableCover Q hAS l r i hli hir)
++    (A.rightFiniteWindowRepresentableCover (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++      (sub_le_sub_right hli _) (sub_le_sub_right hir _))
++    (A.rightFiniteWindowNakayamaRepresentable_cover_rigidity Q hAS l r i hli hir)
++    (A.rightFiniteWindowRepresentable_cover_rigidity (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++      (show l-Q.vertices ≤ i-Q.vertices from sub_le_sub_right hli _)
++      (show i-Q.vertices ≤ r-Q.vertices from sub_le_sub_right hir _))
++end ASGinzburg.ZAlgebra

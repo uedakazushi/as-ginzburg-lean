@@ -1,0 +1,116 @@
+import ASGinzburg.TruncatedRepresentables
+import ASGinzburg.FiniteDimensionalSimpleTranslation
+import ASGinzburg.NormalizedProjectiveCovers
+
+/-!
+# Truncated representables are projective covers of the vertex simples
+-/
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable def rightFiniteWindowRepresentable (l r i : ℤ) (hir : i ≤ r) : A.RightFiniteWindow l r :=
+  ⟨⟨A.rightTruncatedRepresentable l i,A.rightTruncatedRepresentable_finite l i⟩,
+    A.rightTruncatedRepresentable_window l r i hir⟩
+
+noncomputable def rightFiniteWindowEvaluation (l r i : ℤ) : A.RightFiniteWindow l r ⥤ ModuleCat.{v} k :=
+  (A.rightFiniteWindowProperty l r).ι ⋙ A.rightFiniteDimensionalProperty.ι ⋙ A.rightModuleEvaluation i
+
+noncomputable instance rightFiniteWindowEvaluationPreservesFiniteLimits (l r i : ℤ) :
+    PreservesFiniteLimits (A.rightFiniteWindowEvaluation l r i) := by
+  dsimp [rightFiniteWindowEvaluation]; infer_instance
+noncomputable instance rightFiniteWindowEvaluationPreservesFiniteColimits (l r i : ℤ) :
+    PreservesFiniteColimits (A.rightFiniteWindowEvaluation l r i) := by
+  dsimp [rightFiniteWindowEvaluation]; infer_instance
+
+noncomputable def rightFiniteWindowRepresentableYonedaEquiv (l r i : ℤ) (hir : i ≤ r)
+    (M : A.RightFiniteWindow l r) :
+    (A.rightFiniteWindowRepresentable l r i hir ⟶ M) ≃ₗ[k]
+      (A.rightFiniteWindowEvaluation l r i).obj M :=
+  A.rightTruncatedRepresentableYonedaEquiv l i M.obj.obj (fun j hj => M.property j (Or.inl hj))
+
+theorem rightFiniteWindowRepresentableYonedaEquiv_comp (l r i : ℤ) (hir : i ≤ r)
+    {M N : A.RightFiniteWindow l r} (f : A.rightFiniteWindowRepresentable l r i hir ⟶ M)
+    (g : M ⟶ N) :
+    A.rightFiniteWindowRepresentableYonedaEquiv l r i hir N (f ≫ g) =
+      (A.rightFiniteWindowEvaluation l r i).map g
+        (A.rightFiniteWindowRepresentableYonedaEquiv l r i hir M f) :=
+  A.rightTruncatedRepresentableYonedaEquiv_comp l i _ _ f g
+
+instance rightFiniteWindowRepresentableProjective (l r i : ℤ) (hir : i ≤ r) :
+    Projective (A.rightFiniteWindowRepresentable l r i hir) where
+  factors := by
+    intro M N f e he
+    letI := he
+    have hs := (ModuleCat.epi_iff_surjective ((A.rightFiniteWindowEvaluation l r i).map e)).mp (by infer_instance)
+    obtain ⟨x,hx⟩ := hs (A.rightFiniteWindowRepresentableYonedaEquiv l r i hir N f)
+    refine ⟨(A.rightFiniteWindowRepresentableYonedaEquiv l r i hir M).symm x,?_⟩
+    apply (A.rightFiniteWindowRepresentableYonedaEquiv l r i hir N).injective
+    rw [A.rightFiniteWindowRepresentableYonedaEquiv_comp,LinearEquiv.apply_symm_apply]
+    exact hx
+
+noncomputable def rightTruncatedRepresentableSimpleCover (l i : ℤ) (hli : l ≤ i) :
+    A.rightTruncatedRepresentable l i ⟶ A.simpleRightModule i :=
+  A.rightTruncatedRepresentableDesc l i (A.simpleRightModule i)
+    (fun j hj => A.simpleRightModule_off_diagonal i j (by omega)) (A.simpleRightModuleπ i)
+
+@[reassoc] theorem rightTruncatedRepresentableπ_simpleCover (l i : ℤ) (hli : l ≤ i) :
+    A.rightTruncatedRepresentableπ l i ≫ A.rightTruncatedRepresentableSimpleCover l i hli =
+      A.simpleRightModuleπ i :=
+  A.rightTruncatedRepresentableπ_desc l i _ _ _
+
+instance rightTruncatedRepresentableSimpleCoverEpi (l i : ℤ) (hli : l ≤ i) :
+    Epi (A.rightTruncatedRepresentableSimpleCover l i hli) := by
+  apply epi_of_epi_fac (A.rightTruncatedRepresentableπ_simpleCover l i hli)
+
+noncomputable def rightTruncatedRepresentableEndEquiv (l i : ℤ) (hli : l ≤ i) :
+    (A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l i) ≃ₗ[k] k :=
+  (A.rightTruncatedRepresentableYonedaEquiv l i (A.rightTruncatedRepresentable l i)
+    (A.rightTruncatedRepresentable_below l i)).trans
+    ((A.rightTruncatedRepresentableComponentIso l i i hli).toLinearEquiv.trans (A.scalarEndEquiv i).symm)
+
+theorem rightTruncatedRepresentableEnd_finrank (l i : ℤ) (hli : l ≤ i) :
+    Module.finrank k (A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l i) = 1 := by
+  rw [(A.rightTruncatedRepresentableEndEquiv l i hli).finrank_eq]
+  exact Module.finrank_self k
+
+noncomputable def rightFiniteWindowSimple (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) : A.RightFiniteWindow l r :=
+  ⟨A.rightFiniteDimensionalSimple i,A.rightModuleWindow_simple l r i hli hir⟩
+
+noncomputable def rightFiniteWindowRepresentableCover (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
+    A.rightFiniteWindowRepresentable l r i hir ⟶ A.rightFiniteWindowSimple l r i hli hir :=
+  A.rightTruncatedRepresentableSimpleCover l i hli
+
+instance rightFiniteWindowRepresentableCoverEpi (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
+    Epi (A.rightFiniteWindowRepresentableCover l r i hli hir) := by
+  apply (A.rightFiniteWindowProperty l r).ι.epi_of_epi_map
+  apply A.rightFiniteDimensionalProperty.ι.epi_of_epi_map
+  change Epi (A.rightTruncatedRepresentableSimpleCover l i hli)
+  infer_instance
+
+theorem rightTruncatedRepresentableSimpleCover_nonzero (l i : ℤ) (hli : l ≤ i) :
+    A.rightTruncatedRepresentableSimpleCover l i hli ≠ 0 := by
+  intro h
+  exact Simple.not_isZero (A.simpleRightModule i) (IsZero.of_epi_eq_zero _ h)
+
+theorem rightTruncatedRepresentable_cover_rigidity (l i : ℤ) (hli : l ≤ i)
+    (t : A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l i)
+    (ht : t ≫ A.rightTruncatedRepresentableSimpleCover l i hli = A.rightTruncatedRepresentableSimpleCover l i hli) :
+    t = 𝟙 _ :=
+  ASGinzburg.endomorphism_eq_id_of_preserves_nonzero_map
+    (A.rightTruncatedRepresentableEnd_finrank l i hli) _
+    (A.rightTruncatedRepresentableSimpleCover_nonzero l i hli) t ht
+
+theorem rightFiniteWindowRepresentable_cover_rigidity (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
+    (t : A.rightFiniteWindowRepresentable l r i hir ⟶ A.rightFiniteWindowRepresentable l r i hir)
+    (ht : t ≫ A.rightFiniteWindowRepresentableCover l r i hli hir = A.rightFiniteWindowRepresentableCover l r i hli hir) :
+    t = 𝟙 _ := A.rightTruncatedRepresentable_cover_rigidity l i hli t ht
+
+theorem rightFiniteWindowRepresentableCover_essential (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
+    {M : A.RightFiniteWindow l r} (f : M ⟶ A.rightFiniteWindowRepresentable l r i hir)
+    [Epi (f ≫ A.rightFiniteWindowRepresentableCover l r i hli hir)] : Epi f :=
+  ASGinzburg.epi_of_comp_epi_of_rigid_projective _
+    (A.rightFiniteWindowRepresentable_cover_rigidity l r i hli hir) f
+end ASGinzburg.ZAlgebra

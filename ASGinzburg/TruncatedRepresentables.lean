@@ -1,0 +1,147 @@
+import ASGinzburg.FiniteDimensionalWindowSequences
+import ASGinzburg.SmallVectorDuality
+import ASGinzburg.RightSubmodules
+
+/-!
+# Actual lower-tail quotients, finite support and linear Yoneda
+-/
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+def rightRepresentableLowerTail (l i : ℤ) : RightSubmodule (A.representable i) where
+  component X := if X.unop.index < l then ⊤ else ⊥
+  map_mem := by
+    intro X Y f x hx
+    by_cases hy : Y.unop.index < l
+    · simp [hy]
+    · by_cases hx' : X.unop.index < l
+      · have hf : f.unop = 0 := A.positive (lt_of_lt_of_le hx' (le_of_not_gt hy)) f.unop
+        change A.comp x f.unop ∈ (if Y.unop.index < l then ⊤ else ⊥)
+        rw [hf,map_zero]
+        simp
+      · have hx0 : x=0 := by simpa [hx'] using hx
+        rw [hx0]
+        simp
+
+noncomputable def rightTruncatedRepresentable (l i : ℤ) : A.RightModule :=
+  (A.rightRepresentableLowerTail l i).quotient
+noncomputable def rightTruncatedRepresentableπ (l i : ℤ) :
+    A.representable i ⟶ A.rightTruncatedRepresentable l i :=
+  (A.rightRepresentableLowerTail l i).quotientπ
+noncomputable instance rightTruncatedRepresentableπEpi (l i : ℤ) :
+    Epi (A.rightTruncatedRepresentableπ l i) := (A.rightRepresentableLowerTail l i).quotientπEpi
+
+theorem rightTruncatedRepresentable_below (l i j : ℤ) (hj : j<l) :
+    IsZero ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) := by
+  haveI : Epi ((A.rightModuleEvaluation j).map (A.rightRepresentableLowerTail l i).inclusion) := by
+    apply (ModuleCat.epi_iff_surjective _).mpr
+    intro x
+    refine ⟨⟨x,?_⟩,rfl⟩
+    simp [rightRepresentableLowerTail,hj]
+  exact (isZero_cokernel_of_epi _).of_iso
+    (A.rightModuleCokernelObjIso (A.rightRepresentableLowerTail l i).inclusion j)
+
+theorem rightTruncatedRepresentable_above (l i j : ℤ) (hj : i<j) :
+    IsZero ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) := by
+  apply IsZero.of_epi ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i))
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  constructor
+  intro x y
+  change A.Hom j i at x y
+  rw [A.positive hj x,A.positive hj y]
+
+theorem rightTruncatedRepresentable_window (l r i : ℤ) (hir : i≤r) :
+    A.rightModuleWindowProperty l r (A.rightTruncatedRepresentable l i) := by
+  intro j hj
+  rcases hj with hj | hj
+  · exact A.rightTruncatedRepresentable_below l i j hj
+  · exact A.rightTruncatedRepresentable_above l i j (by omega)
+
+theorem rightTruncatedRepresentable_component_finite (l i j : ℤ) :
+    Module.Finite k ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) := by
+  letI : Module.Finite k ((A.rightModuleEvaluation j).obj (A.representable i)) :=
+    show Module.Finite k (A.Hom j i) from inferInstance
+  exact Module.Finite.of_surjective ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i)).hom
+    ((ModuleCat.epi_iff_surjective _).mp (by infer_instance))
+
+theorem rightTruncatedRepresentable_finite (l i : ℤ) :
+    A.rightFiniteDimensionalProperty (A.rightTruncatedRepresentable l i) := by
+  apply ASGinzburg.directSum_finite_of_finite_support
+    (fun j => (A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) (Finset.Icc l i)
+  · intro j hj x
+    have hji : j<l ∨ i<j := by simp only [Finset.mem_Icc] at hj; omega
+    have H : IsZero ((A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i)) :=
+      (A.rightTruncatedRepresentable_window l i i (le_refl i)) j hji
+    exact (ModuleCat.isZero_iff_subsingleton.mp H).elim x 0
+  · intro j
+    exact A.rightTruncatedRepresentable_component_finite l i j
+
+theorem rightRepresentableLowerTail_comp_eq_zero (l i : ℤ) (M : A.RightModule)
+    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M))
+    (f : A.representable i ⟶ M) : (A.rightRepresentableLowerTail l i).inclusion ≫ f = 0 := by
+  apply NatTrans.ext
+  funext X
+  by_cases hx : X.unop.index < l
+  · exact (hLow X.unop.index hx).eq_zero_of_tgt _
+  · apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    have hx0 : x.val=0 := by simpa [rightRepresentableLowerTail,hx] using x.property
+    change (f.app X).hom x.val = 0
+    rw [hx0,map_zero]
+
+noncomputable def rightTruncatedRepresentableDesc (l i : ℤ) (M : A.RightModule)
+    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M))
+    (f : A.representable i ⟶ M) : A.rightTruncatedRepresentable l i ⟶ M :=
+  cokernel.desc _ f (A.rightRepresentableLowerTail_comp_eq_zero l i M hLow f)
+
+@[reassoc] theorem rightTruncatedRepresentableπ_desc (l i : ℤ) (M : A.RightModule)
+    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M)) (f : A.representable i ⟶ M) :
+    A.rightTruncatedRepresentableπ l i ≫ A.rightTruncatedRepresentableDesc l i M hLow f = f :=
+  cokernel.π_desc _ _ _
+
+noncomputable def rightTruncatedRepresentableHomEquiv (l i : ℤ) (M : A.RightModule)
+    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M)) :
+    (A.rightTruncatedRepresentable l i ⟶ M) ≃ₗ[k] (A.representable i ⟶ M) :=
+  LinearEquiv.ofBijective (Linear.leftComp k M (A.rightTruncatedRepresentableπ l i)) (by
+    constructor
+    · intro f g h; exact (cancel_epi (A.rightTruncatedRepresentableπ l i)).mp h
+    · intro f; exact ⟨A.rightTruncatedRepresentableDesc l i M hLow f,A.rightTruncatedRepresentableπ_desc l i M hLow f⟩)
+
+noncomputable def rightTruncatedRepresentableYonedaEquiv (l i : ℤ) (M : A.RightModule)
+    (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M)) :
+    (A.rightTruncatedRepresentable l i ⟶ M) ≃ₗ[k] (A.rightModuleEvaluation i).obj M :=
+  (A.rightTruncatedRepresentableHomEquiv l i M hLow).trans (A.representableYonedaEquiv i M)
+
+theorem rightTruncatedRepresentableπ_component_isIso (l i j : ℤ) (hj : l ≤ j) :
+    IsIso ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i)) := by
+  let S := (A.rightRepresentableLowerTail l i).quotientShortComplex
+  have H := ((A.rightRepresentableLowerTail l i).quotientShortExact).map_of_exact
+    (A.rightModuleEvaluation j)
+  apply H.isIso_g_iff.mpr
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  constructor
+  intro x y
+  apply Subtype.ext
+  have hx : x.val = 0 := by simpa [rightRepresentableLowerTail,not_lt.mpr hj] using x.property
+  have hy : y.val = 0 := by simpa [rightRepresentableLowerTail,not_lt.mpr hj] using y.property
+  exact hx.trans hy.symm
+
+noncomputable def rightTruncatedRepresentableComponentIso (l i j : ℤ) (hj : l ≤ j) :
+    (A.rightModuleEvaluation j).obj (A.rightTruncatedRepresentable l i) ≅ ModuleCat.of k (A.Hom j i) := by
+  letI := A.rightTruncatedRepresentableπ_component_isIso l i j hj
+  exact (asIso ((A.rightModuleEvaluation j).map (A.rightTruncatedRepresentableπ l i))).symm
+
+theorem rightTruncatedRepresentableYonedaEquiv_comp (l i : ℤ) {M N : A.RightModule}
+    (hM : ∀ j, j < l → IsZero ((A.rightModuleEvaluation j).obj M))
+    (hN : ∀ j, j < l → IsZero ((A.rightModuleEvaluation j).obj N))
+    (f : A.rightTruncatedRepresentable l i ⟶ M) (g : M ⟶ N) :
+    A.rightTruncatedRepresentableYonedaEquiv l i N hN (f ≫ g) =
+      (A.rightModuleEvaluation i).map g (A.rightTruncatedRepresentableYonedaEquiv l i M hM f) := by
+  change A.representableYonedaEquiv i N (A.rightTruncatedRepresentableπ l i ≫ (f ≫ g)) = _
+  rw [← Category.assoc,A.representableYonedaEquiv_comp]
+  rfl
+end ASGinzburg.ZAlgebra

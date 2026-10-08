@@ -151,6 +151,13 @@ import ASGinzburg.FiniteDimensionalWindows
 import ASGinzburg.FiniteDimensionalWindowSequences
 import ASGinzburg.NakayamaWindowSupport
 
+import ASGinzburg.NormalizedProjectiveCovers
+import ASGinzburg.NakayamaInverseWindowSupport
+import ASGinzburg.NakayamaWindowEquivalence
+import ASGinzburg.TruncatedRepresentables
+import ASGinzburg.FiniteWindowProjectives
+import ASGinzburg.NakayamaWindowProjectives
+
 /-!
 # AS--Ginzburg formalization checkpoint
 
