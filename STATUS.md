@@ -1,11 +1,11 @@
 # 現在の状況
 
-有限台総代数上の局所単位付き左右加群圏と、既存LeftModule・RightModuleの圏同値を証明しました。
-逆関手は実際の成分射影像、余単位は成分包含の和。全単位化作用への適合性・自然性・単位を証明済みです。
-次はAbelian構造・EnoughProjectivesの移送と、この同値による実際のAbelian.Ext保存です。
+具体的な局所単位付き左右加群圏に、証明済み圏同値からAbelian構造・EnoughProjectives・実際のExtの存在を移しました。
+総加群関手と成分復元関手の加法性・k線形性も証明済みです。既存RightModuleと原論文の仮定を保持しています。
+次は導来圏の同値を通じた、全M,N・全次数の実際のAbelian.Extのk線形保存と自然性です。
 有限長双対性・周期性・主定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T085342Z-ba9d2fb5：74数学モジュール・818異なる宣言・357 theorem、全段階終了0。
-単位1〜11の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+最新ローカル検証 20261008T090214Z-24c5aa34：75数学モジュール・836異なる宣言・357 theorem、全段階終了0。
+単位1〜12の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -23,7 +23,7 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 818異なる名前、全明示的宣言・129 named instanceを含む、終了0 |
+| 個別公理監査 | 836異なる名前、全明示的宣言・147 named instanceを含む、終了0 |
 | theorem | 357、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
@@ -31,9 +31,9 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T085342Z-ba9d2fb5`、全段階終了0、390.043190055秒。
-UTC 2026-10-08T08:53:42.771486+00:00 → 2026-10-08T09:00:12.814683+00:00。
-JST 2026-10-08T17:53:42.771486+09:00 → 2026-10-08T18:00:12.814683+09:00。
+最新ローカル検証 `20261008T090214Z-24c5aa34`、全段階終了0、398.220371555秒。
+UTC 2026-10-08T09:02:14.997132+00:00 → 2026-10-08T09:08:53.217513+00:00。
+JST 2026-10-08T18:02:14.997132+09:00 → 2026-10-08T18:08:53.217513+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -44,14 +44,14 @@ JST 2026-10-08T17:53:42.771486+09:00 → 2026-10-08T18:00:12.814683+09:00。
 | §1.1の巡回空間 | `CutPotential.lean` | 回転商の自由ベクトル空間、cut次数、唯一のcutの分割とnormal form | 閉じた可合成道の部分空間とkQ/[kQ,kQ]の同定 |
 | (3.8) | `CyclicDerivative.lean` | 巡回微分の実装、回転不変性、cut復元恒等式 | Jacobianイデアルおよび商代数との接続 |
 | 道代数 | `PathAlgebra.lean` | 成分の自由ベクトル空間、双線形積、単位元、結合則 | 関係イデアルとその商、unrolling |
-| (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 原論文のモデルとの明示的同値・AS条件の成立 |
+| (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 総代数モデルは後続単位で構成済み。特定の代数のAS条件の成立 |
 | 命題1.2の帰納法 | `ZAlgebra.lean` | 成分が生成元と短い積に分解されれば全成分を生成する | 分解条件を最小射影分解から導くこと、核が矢イデアルの二乗に入ること |
-| (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 直和・局所単位元付き加群との明示的同値 |
+| (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 局所単位付きGr(A)モデルとの圏同値は後続単位で完成。実際のExtの自然な移送 |
 | §1.2の加群圏・(1.6)の基盤 | `RightModuleAbelian.lean`、`RightModuleHomology.lean` | (余)極限の閉性、Abelian構造、核・余核・homologyの成分同型、exactness・短完全列・mono/epiの成分判定 | 一般の自然なHom複体–Ext比較 |
 | (1.5)の射影対象 | `RightModuleProjectives.lean`、`RightModuleEnoughProjectives.lean` | 全Mへの線形Yoneda同型、P_vの射影性、representableの直和による射影提示、EnoughProjectives | 有限生成のprojective coverと最小分解 |
-| (1.5)の単純商 | `RightSubmodules.lean`、`SimpleRightModules.lean` | 右作用で閉じた部分加群、商の短完全列、P_v A_{>0}との成分同定、s_vの対角1次元・他の成分零とSimple | 原論文Gr(A)との明示的同値 |
+| (1.5)の単純商 | `RightSubmodules.lean`、`SimpleRightModules.lean` | 右作用で閉じた部分加群、商の短完全列、P_v A_{>0}との成分同定、s_vの対角1次元・他の成分零とSimple | 単純商のGr(A)モデルへの移送と双対性の比較 |
 | (1.6)–(1.7)の基盤 | `RightModuleExt.lean` | 標準projective resolutionと正次数exactness、実際のderived-category Ext、Ext⁰(P_i,M)≃+M_i、高次Ext(P_i,M)=0 | 全M,N・全次数の自然なHom複体–Ext比較 |
-| 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 原論文のExt(s_w,A)版の左加群双対性とGr(A)比較（数値的両方向は完成） |
+| 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 実際のExt移送による原論文(1.12)の左作用を含む比較 |
 | 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 一般の自然な比較（今回、命題1.3の3次は接続済み） |
 | 命題1.4の貼り合わせ | `WindowPeriodicity.lean` | coherentな区間同型から積と単位元を保つ周期同型を構成 | D Ext³から区間同型を作る部分全体 |
 | 命題3.1の共役段階 | `Conjugation.lean` | 完全忠実な線形関手と対象同型から、積を保つHom線形同型を構成 | tilting、Serre functor、高次preprojectiveとの同定 |
@@ -61,25 +61,26 @@ JST 2026-10-08T17:53:42.771486+09:00 → 2026-10-08T18:00:12.814683+09:00。
 | (1.3)の次数 | `GinzburgGrading.lean` | a、a*、t_vの型と三つの次数、windingの正値性、loop項の次数 | dg代数、d²=0、コホモロジー、Ginzburg正則性 |
 | 一般radical・minimality | RightModuleRadical、RightModuleMinimality、RightModuleSimpleHom | 閉性・自然性、radicalを通る因子化、Hom(-,s_i)の零微分 | 有限生成projective coverの一般理論 |
 | (1.6)の具体的分解 | ASResolution、ASResolutionComplex、ASResolutionSyzygies | 有限coproductの射影性、完全最小列、mathlib ProjectiveResolution、三つの実際の短完全列 | 特定の代数について分解の存在 |
-| (1.7)の具体的条件 | RightModuleExtLinear、ASRegular | 実際Extのk作用、Ext⁰の線形同型、総Cardinal rank=1、各Extの有限次元性 | Gr(A)への明示的同値・Ext保存 |
+| (1.7)の具体的条件 | RightModuleExtLinear、ASRegular | 実際Extのk作用、Ext⁰の線形同型、総Cardinal rank=1、各Extの有限次元性 | 実際のExtのk線形な保存と原論文Gr(A)内のAS条件の比較 |
 | 命題1.3の順方向 | ASResolutionHomComplex、ASDualityHomTerms、ASDualityHomCohomology、RightModuleExtSequence、ASDualityExt、ASDualityDimension | 実際のHom複体、線形dimension shift、実際Ext³≃k、他Ext消滅、(1.11)の数値公式と有限台 | Gr(A)比較による原論文(1.12)、周期性、一般の自然なHom–Ext比較 |
-| 有限AS分解からのExt有限性・数値的同値 | ASResolutionExtBounds、RightModuleHomFinite、ASResolutionExtFinite、ASDualityEquivalence | 任意Nへの次数4以上の消滅、Ext(s_w,P_i,p)の全次数有限性、(1.7)と(1.11)の両方向 | 原論文Gr(A)との比較 |
-| 左加群・左単純商・Ext左作用 | LeftModules、LeftModuleAbelian、LeftModuleHomology、LeftSubmodules、SimpleLeftModules、RightModuleExtLeftAction、ASDualityLeftComponents | 左Abelian圏、A-dual、左radical商、Simple、Ext成分左加群の次数集中と左単純商への同型 | 成分作用を総代数の作用に束ね、Gr(A)との圏同値・Ext保存 |
+| 有限AS分解からのExt有限性・数値的同値 | ASResolutionExtBounds、RightModuleHomFinite、ASResolutionExtFinite、ASDualityEquivalence | 任意Nへの次数4以上の消滅、Ext(s_w,P_i,p)の全次数有限性、(1.7)と(1.11)の両方向 | 実際のExt保存によるGr(A)への移送 |
+| 左加群・左単純商・Ext左作用 | LeftModules、LeftModuleAbelian、LeftModuleHomology、LeftSubmodules、SimpleLeftModules、RightModuleExtLeftAction、ASDualityLeftComponents | 左Abelian圏、A-dual、左radical商、Simple、Ext成分左加群の次数集中と左単純商への同型 | 総作用と圏同値は完成。実際のExt保存・自然性と原論文(1.12)への移送 |
 | 余極限交換と左射影基盤 | RepresentableHomColimits、LeftModuleProjectives、LeftModuleEnoughProjectives、LeftModuleExt | Hom(P_i,-)・Ext⁰(P_i,-)の自然な交換、左線形Yoneda・射影性・EnoughProjectives・標準分解・実際Ext | 一般の二重双対・有限生成射影への拡張、Gr(A)比較 |
 | 左A-dualとrepresentableの二重双対 | LeftModuleADual | 左A-dualの実際の右作用、左右のrepresentableの二重A-dualが元に同型 | 一般の評価写像の自然性、有限生成射影・perfect complexへの拡張 |
 | 有限Homと自然なExt長完全列 | FiniteCoproductHomColimits、RightModuleExtNaturalSequence | 有限Homの交換、Extの接続写像・次元シフトの自然性と余核表示 | 一般の自然なHom複体–Ext比較 |
 | exactな余極限と核・余核の交換 | HomologicalColimitClosure、RightModuleHomKernel | 核・余核の交換の閉性、小さい直和のexactness、Homの自然な核表示 | 特定の代数で有限AS分解の存在 |
 | 全次数Extと直和の交換 | ASResolutionExtColimits | 有限AS分解だけからExt(s_w,-,n)のexactな余極限・小さい直和保存、包含射への適合性 | Gr(A)との圏同値による移送 |
-| 総空間・直和上の実際の左作用 | ASDualityRegularCoproduct、TotalModuleSpaces、RegularCoproductActions | Ext(s_w,⊕P_i,n)の成分総空間比較、ASから次数3集中、左右総空間関手の忠実性とexactness、実際の行列作用・積・局所単位・Ext交換の成分左作用適合性 | 有限台非単位的総代数と局所単位付き加群、逆関手・圏同値・Ext保存 |
-| 総代数と左右総作用 | TotalAlgebraEmbedding、TotalAlgebra、TotalAlgebraLocalUnits、TotalComponentActions、TotalAlgebraLift、TotalModuleRepresentations | 有限台の忠実正則表現、像の積の閉性、成分積と零積、冪等な共通両側局所単位、左右総空間への非単位的代数準同型 | 単位化ModuleCatの局所単位付き部分圏、射・逆関手・圏同値・Ext保存 |
-| 局所単位付き総加群 | LocallyUnitalModules | Unitization上のModuleCat対象、右には反対環、成分作用との一致、局所単位の具体的全部分圏と総加群の所属 | 射・関手・成分逆関手、単位・余単位・Gr(A)圏同値・Ext保存 |
-| 左右総加群関手 | TotalModuleFunctors | 自然変換の総空間写像、成分・全総代数作用との可換性、単位化上の射、関手の忠実性 | 充満性・任意の局所単位付き対象の成分復元・逆関手・圏同値・Ext保存 |
-| 総加群関手の充満性 | TotalModuleFullness | 誘導k作用の一致、任意の総加群射から成分射と自然変換を回収、元の射の復元、左右のFull instance | 任意の局所単位付き対象の直接和分解・essential surjectivity・逆関手・圏同値・Ext保存 |
-| 任意の単位化加群の成分作用 | UnitizationComponentActions | 元のHom成分の作用、接続積と零積、恒等成分射影の冪等性・直交性 | 射影像の成分加群・射・直接和分解・逆関手・圏同値 |
-| 射影像の成分加群 | UnitizationComponentModules | 成分射影像、元のHom作用による閉性、成分写像の恒等射・合成・加法・k線形性、既存LeftModule/RightModule対象の復元 | 射の復元関手・直接和分解・圏同値・Ext保存 |
-| 成分復元関手と直和分解 | UnitizationComponentFunctors、UnitizationComponentSums | 射の制限と自然変換、左右成分関手、和の写像・成分回収・単射性、局所単位条件からの全射性・k線形同型 | 単位化作用への適合性、自然性・圏同値・Ext保存 |
-| Gr(A)の局所単位付きモデルとの圏同値 | LocallyUnitalEquivalence | 全総代数作用との可換性、単位化上の和の加群同型・自然性、具体的成分逆関手・単位・余単位・左右圏同値 | この同値によるAbelian構造・実際のExt保存 |
-| 総空間の有限局所単位 | TotalModuleLocalUnits | 具体的有限射影の冪等性、左右の恒等成分作用との一致、任意の有限個の元の同時固定、右成分作用の包含への適合性 | 総代数・加群構造を束ね、成分逆関手・Gr(A)圏同値・Ext保存 |
+| 総空間・直和上の実際の左作用 | ASDualityRegularCoproduct、TotalModuleSpaces、RegularCoproductActions | Ext(s_w,⊕P_i,n)の成分総空間比較、ASから次数3集中、左右総空間関手の忠実性とexactness、実際の行列作用・積・局所単位・Ext交換の成分左作用適合性 | 総代数と左右圏同値は完成。実際のExt保存・自然性と原論文(1.12)への移送 |
+| 総代数と左右総作用 | TotalAlgebraEmbedding、TotalAlgebra、TotalAlgebraLocalUnits、TotalComponentActions、TotalAlgebraLift、TotalModuleRepresentations | 有限台の忠実正則表現、像の積の閉性、成分積と零積、冪等な共通両側局所単位、左右総空間への非単位的代数準同型 | 左右圏同値・Abelian構造は後続単位で完成。実際のExt保存・自然性 |
+| 局所単位付き総加群 | LocallyUnitalModules | Unitization上のModuleCat対象、右には反対環、成分作用との一致、局所単位の具体的全部分圏と総加群の所属 | 左右圏同値・Abelian構造は後続単位で完成。実際のExt保存・自然性 |
+| 左右総加群関手 | TotalModuleFunctors | 自然変換の総空間写像、成分・全総代数作用との可換性、単位化上の射、関手の忠実性 | 充満性・左右圏同値は後続単位で完成。実際のExt保存・自然性 |
+| 総加群関手の充満性 | TotalModuleFullness | 誘導k作用の一致、任意の総加群射から成分射と自然変換を回収、元の射の復元、左右のFull instance | 左右圏同値は後続単位で完成。実際のExt保存・自然性 |
+| 任意の単位化加群の成分作用 | UnitizationComponentActions | 元のHom成分の作用、接続積と零積、恒等成分射影の冪等性・直交性 | 成分復元・左右圏同値は後続単位で完成。実際のExt保存・自然性 |
+| 射影像の成分加群 | UnitizationComponentModules | 成分射影像、元のHom作用による閉性、成分写像の恒等射・合成・加法・k線形性、既存LeftModule/RightModule対象の復元 | 成分復元関手・左右圏同値は後続単位で完成。実際のExt保存・自然性 |
+| 成分復元関手と直和分解 | UnitizationComponentFunctors、UnitizationComponentSums | 射の制限と自然変換、左右成分関手、和の写像・成分回収・単射性、局所単位条件からの全射性・k線形同型 | 単位化作用への適合性・自然性・左右圏同値は後続単位で完成。実際のExt保存・自然性 |
+| Gr(A)の局所単位付きモデルとの圏同値 | LocallyUnitalEquivalence | 全総代数作用との可換性、単位化上の和の加群同型・自然性、具体的成分逆関手・単位・余単位・左右圏同値 | Abelian構造は後続単位で完成。実際のExt保存・自然性 |
+| 局所単位付き加群圏のホモロジー基盤 | LocallyUnitalAbelian | 左右関手の加法性・k線形性、圏同値による有限積・Abelian構造・EnoughProjectives・実際のHasExt | 実際のExtのk線形保存・自然性・原論文(1.12)への移送 |
+| 総空間の有限局所単位 | TotalModuleLocalUnits | 具体的有限射影の冪等性、左右の恒等成分作用との一致、任意の有限個の元の同時固定、右成分作用の包含への適合性 | 総代数と左右圏同値は後続単位で完成。実際のExt保存・自然性 |
 
 ## 主結果の状態
 
@@ -99,9 +100,9 @@ ASRegularの条件には周期性・WindowSystem・delta型のExt表・主定理
 標準無限分解だけから有限性を主張しない。
 古いleftDerived型ExtのisoExtを新しいAbelian.Extの比較定理と取り違えない。
 
-- 原論文の局所単位元付き直和加群Gr(A)と既存presheafモデルの明示的同値、Ext保存。
+- Gr(A)モデルとの左右圏同値とAbelian構造は完成。実際のExt保存・自然性と(1.12)への移送。
 - 全M,N・全次数の自然なHom複体–Abelian.Ext比較。命題1.3の3次比較は証明済み。
-- A-dual・左単純商の同型、全次数Extと直和の交換、成分左作用への適合性は完成。総非単位的代数・局所単位付き加群を束ね、Gr(A)圏同値とExt保存を証明する部分が残る。原論文(1.12)全体は未完成。
+- A-dual・左単純商の同型、全次数Extと直和の交換、成分左作用への適合性は完成。総代数・局所単位付き加群との圏同値・Abelian構造は完成。実際のExt保存と自然性が残る。原論文(1.12)全体は未完成。
 - 有限長双対性、区間同型のcoherence、AS条件からの周期性。WindowSystemをAS条件に加えない。
 - 特定のJacobian代数についてAS分解の存在、Jacobian商とGinzburg dg代数、外部一般定理、主定理の同型類対応。
 

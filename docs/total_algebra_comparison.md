@@ -28,8 +28,10 @@ UnitizationComponentActions.leanで、任意の単位化上の左右加群の成
 UnitizationComponentModules.leanで射影像の成分加群を構成し、元の作用・恒等射・合成・加法・k線形性を証明済み。
 UnitizationComponentFunctors.leanで成分射と自然変換の復元関手を構成済み。
 UnitizationComponentSums.leanで成分直和の和の写像・単射性と、局所単位条件からの全射性・k線形直和同型を証明済み。
-残る全代数作用への適合性と自然性、逆関手、有限台分解の一意性、単位・余単位の自然性と
-圏同値を証明し、その同値による実際のAbelian.Extの保存を示す必要がある。
+LocallyUnitalEquivalence.leanで和の写像の全単位化作用への適合性・加群同型・自然性、
+具体的成分逆関手と単位・余単位による左右圏同値を完成した。
+LocallyUnitalAbelian.leanで左右関手のk線形性と、局所単位付き圏のAbelian構造・EnoughProjectives・実際のHasExtを証明済み。
+実際のExtのk線形保存と自然性が次の義務である。
 忠実性とexactnessだけからExt保存を結論しない。
 
 原論文(1.12)の成分モデルでのExt直和交換と全成分左作用への適合性は前回証明済み。
