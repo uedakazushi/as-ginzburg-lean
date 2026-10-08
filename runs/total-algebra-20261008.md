@@ -1400,3 +1400,55 @@ UTC 2026-10-08T22:19:36.306338+00:00 → 2026-10-08T22:47:32.547342+00:00。
 ### 単位49公開検証の保存準備 UTC 2026-10-08T22:48:38.431469+00:00 / JST 2026-10-09T07:48:38.431469+09:00
 
 新規公開検証20261008T221936Z-0be3dec5は全6段階終了0、329数学モジュール・2625異なる宣言・1337 theorem・290 named instance。実測UTC22:19:36.306338→22:47:32.547342、1676.240996655秒。wrapper記録も実際の終了0、1676.287706512秒。初期14/基準60数学モジュール・577保護ファイル/PDFの無変更検査終了0。単位50の10モジュールは個別Lean終了0で2時点のdraft snapshot保存済み、公開全監査はこれから。単位51はactual prefix differential coefficientとboundary family quotient比較・任意origin sheetのJacobian比較が個別Lean終了0、層homologyからA(Φ)有限族への比較は検査中。主結果未証明・正式定理文未実装。main保存後も継続する。
+
+## 継続checkpoint UTC 2026-10-08T22:53:08.361447+00:00 / JST 2026-10-09T07:53:08.361447+09:00
+
+単位49は新規公開全6段階終了0のソース/監査/log/記録をexact tree627780d903e70bc528a8bbc345610f2c5f7b7692、commit f77944814e830451e15bcb2b6a51c9697c6ca371としてmainへ通常fast-forward保存。親70397c53との一致とlocal/API commit objectの一致を確認、履歴書換えなし。単位50の個別検証済み10数学モジュールを公開ソースへ移し、root importsをmodule documentation前へ追加した。新規公開全検証check50は進行中で、現時点の最新成功は単位49の20261008T221936Z-0be3dec5である。
+
+単位51ではactual top prefix differentialのcoefficient、非零な符号から境界の像が各成分のactual Ginzburg boundary familyに一致すること、finite quotientPiによる実際のtop homologyの商有限族表示、任意の整数origin sheetのJacobian quotient/unrolling同型を証明した。これらを合成し、全associated layerの生成元次数homology≅実際のA(Φ).Hom成分の有限族の線形同型を構成した。GinzburgRegularを仮定しない比較である。4モジュール最終個別Leanログprefix-differential-coefficients2、prefix-boundary-family9、jacobian-origin-sheet2、prefix-jacobian4はすべて実際の終了0・診断なし。型付き整数transport・quotient Piの加法群とModuleCatの暗黙引数、初回timeoutの失敗ログは保持した。
+
+差分`runs/total-algebra-20261008-unit51-draft-225308.patch`（14067バイト）を保存。単位51は公開全監査前のdraftである。次は生成元の0/−1/−2をincoming/outgoing矢/頂点項へ整理し、実際のA線形性と接続写像・標準分解の微分を照合し、単純分解/Ext表とAS対応を導く。正式な主結果3.2/5.2は未実装・未証明、タスク終了時刻は未確定、継続中。
+
+### 単位51の7モジュール証明snapshot UTC 2026-10-08T22:59:31.374648+00:00 / JST 2026-10-09T07:59:31.374648+09:00
+
+実際のsigned prefix微分の係数と境界族の一致、finite quotientPiによるtop homologyの実際のJacobian/A(Φ)成分有限族への同型、任意整数origin sheetでの比較、0/−1/−2の生成元族とincoming/outgoing/loopおよび実際のprefix終点との対応を証明。既存有限coproductの成分同型を通じ、各層homologyと実際のAS射影項の評価成分の線形同型まで完成。加群としての自然性・A線形性、接続写像と標準分解微分の照合、augmentation H⁰とradicalの比較、標準単純分解/Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+7モジュールは個別Lean実際の終了0・診断なし。追加最終ログgenerator-indices2、generator-coefficient-indices2、projective-term-components1。差分`runs/total-algebra-20261008-unit51-draft-225931.patch`（27113バイト）を保存、旧4モジュールsnapshot無変更。まだ公開全監査前のdraft。単位50公開全検証は進行中、直近成功は単位49の20261008T221936Z-0be3dec5。次はaugmentation H⁰/radical、A線形性・微分の照合。継続中・終了時刻未確定。
+
+## 継続checkpoint UTC 2026-10-08T23:09:35.135692+00:00 / JST 2026-10-09T08:09:35.135692+09:00
+
+単位50の新規公開検査20261008T225240Z-69d9250fはlake build終了0、UTC23:07:02.037962、860.441656秒。独立した全宣言公理監査は実行中、全体成功は未確定。最後の全体成功は49の20261008T221936Z-0be3dec5（全6段階0）、mainはf77944814e830451e15bcb2b6a51c9697c6ca371。
+
+単位52では実際の型付き道のwinding＝lift高さ差と非空道の正windingから、augmentation全次数成分が高さ増加時に元のcut成分と一致し、それ以外で零であることを証明。実際のaugmentation inclusionのcochain同型と全homology同型/零性、既存representable radical inclusionの成分同型/零性を構成し、augmentation H⁰と既存radical評価成分の線形同型を完成。GinzburgRegularを仮定しない。4モジュールの最終個別Leanログginzburg-augmentation-height5, representable-radical-components1, ginzburg-augmentation-height-homology3, ginzburg-augmentation-radical1はすべて実際の終了0・診断なし。
+
+差分runs/total-algebra-20261008-unit52-draft-230935.patch（8820バイト）を保存。単位51の7モジュールと単位52はまだ公開全監査前のdraft。次は実際のfiltration接続写像を既存射影項の評価成分へ移して平方零性とexactnessを証明し、道作用との自然性/A線形性・標準微分との一致・最小性・Ext表へ進む。成分線形同型を加群同型やAS分解の存在とは扱わない。定理3.2/系5.2は未証明、正式Lean定理文未実装。CI48 exacthead70397c53は直近照会in_progress、CI49も最後の照会in_progressで最新mainのCI成功は未確認。開始UTC07:00:38から実測58137.135692秒、タスク継続中・終了時刻未確定。
+
+### 単位52最終7モジュール証明snapshot UTC 2026-10-08T23:13:37.282272+00:00 / JST 2026-10-09T08:13:37.282272+09:00
+
+実際の道のwinding/高さ差からaugmentation全次数成分の高さ判定、全cochain/homology同型と零性、既存representable radicalの成分同型/零性、augmentation H⁰≅radical評価成分を正則性なしで証明。filtration接続写像を実際のAS射影項の評価成分へ移し、平方零性・radicalへの全射・各短複体のexactnessを証明。GinzburgRegularから左端の単射性と四項成分chain complexの全正次数exactness、実際の単純商へのaugmentation quasi-isomorphismまで完成。加群圏での自然性/A線形性・標準微分との照合・最小性・実際のAS分解とExt表/AS対応は未証明。成分ごとの四項完全列をASResolutionの存在とは扱わない。定理3.2/系5.2は未証明、正式Lean定理文未実装。
+
+全7個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit52-draft-231337.patch（26162バイト）を保存、旧4モジュールsnapshotは保持。公開全監査前のdraftである。公開50はlake build終了0・独立公理監査中、直近全体成功49を50成功とは扱わない。次の53で道作用の自然性を実装中。継続中、タスク終了時刻未確定。
+
+## 単位50：実際のfiltration長完全列と3項homology複体
+
+実際のlast-generator filtrationの短完全列・mathlib長完全列、F_-2とaugmentationの同型と正則性からの接続写像の同型、F_0と第0層の同型・homology集中、実際のkernelとcokernelの普遍性、3項homology chain complexと正則性からのaugmentation quasi-isomorphism、prefix top homologyのactual differential imageによる商表示まで完成。A(Φ)係数/射影項との比較・標準単純分解の微分とexactness・Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+実際の隣接filtration複体の短完全列を次数ごとのModuleCat exactness・単射・全射から証明し、mathlibの接続写像と長完全列を構成した。最下段F_-2≅augmentation complexを用い、GinzburgRegularからH^-2(layer_-2)→H^-1(F_-1)の同型を導いた。上段F_0≅layer_0とhomology集中からH^-1(F_-1)→H^-1(layer_-1)が単射であることを証明し、最初の接続写像との合成が次の接続写像のkernelであることを証明した。
+
+正次数Ginzburg項の零性だけでH^0(F_-1)≅H^0(augmentation)を導き、H^0(F_0)→H^0(augmentation)の全射と、H^-1(layer_-1)からの接続写像のcokernelの普遍性を証明した。これらを実際の3項mathlib chain complexへ束ね、GinzburgRegularの下で全正homology零性とaugmentation quasi-isomorphismを証明した。対象は真のhomologyであり、A(Φ)射影項との同定を仮定していない。各prefixのtop homologyを実際のincoming cochain differentialの像による商へ同定した。
+
+最終個別Leanログはfiltration-short-exact3、filtration-homology-sequence1、filtered-augmentation1、filtration-syzygy1、upper-filtration4、filtration-kernel2、filtration-radical3、filtration-cokernel1、prefix-top-quotient5、homology-complex2。10モジュールすべて実際の終了0・診断なし。初回の整数添字/依存型合成・simp・timeoutの失敗ログを保持。旧6モジュールと最終10モジュールのdraft差分も保存した。
+
+利用先はGinzburgRegularからA(Φ)の標準単純分解と実際のExt表/AS条件を導く証明。次の単位51でtop prefix境界の成分表示とA(Φ)成分の有限族への同型を構成し、A線形性・接続写像と巡回微分行列の照合へ進む。正則性・周期性・Ext同型・主結果相当の仮定は追加していない。逆方向AS→Φ、最小関係/選択・quadratic分解・標準RHom/外部結果/同型類対応は未完成。検査/main保存後も継続する。
+
+検証：`20261008T225240Z-69d9250f`、1709.795740038秒、全段階終了0。
+JST 2026-10-09T07:52:40.734128+09:00 → 2026-10-09T08:21:10.529877+09:00。
+UTC 2026-10-08T22:52:40.734128+00:00 → 2026-10-08T23:21:10.529877+00:00。
+339数学モジュール・2685異なる宣言・1365 theorem。
+差分：runs/total-algebra-20261008-unit50.patch。全theoremを監査し、許容公理3種類のみ。
+
+### 単位50公開検証保存準備 UTC 2026-10-08T23:22:32.134685+00:00
+
+公開50の全6段階は終了0、339数学モジュール・2685異なる宣言・1365 theorem、許容公理3種類のみ。検証器20261008T225240Z-69d9250fはUTC22:52:40.734128→23:21:10.529877、1709.795740038秒。wrapperも実際の終了0、1709.835153917秒。初期14/基準60数学モジュール・577保護ファイル/PDFの無変更検査終了0。
+CI48 exacthead70397c53f8aa558183165bc9f40c6fc581035cc5/Actions37852698557はsuccess、検証器20261008T221931Z-f80aa2f6、UTC2026-10-08T22:19:31.004104+00:00→2026-10-08T23:10:52.676446+00:00、3081.672340709秒、全7段階終了0。完全ログ898155bytes/SHA256318985c9afc220dc227344411700330d295e0f2af672d80dbe7a4ae9e0071549をverification/total_algebra_unit48_github_ci_part0.logとpart1.logへ2部分として無変更保存し、evidence JSONとartifact11584882176/digest7281dea93b6e01556d1317fe8895923377495003677bf8b963f358cd585eec55を保存。最新main49/f779448のCI37856162943はin_progressで、この48の成功を49の成功とは扱わない。
+単位51/52の各7モジュールは草稿の個別Lean終了0・差分snapshot保存済み、公開全監査はこれから。単位53ではfiltered/associated/prefix degree0 path chain maps、実際の短完全列の射とδ/loop→dual/dual→originalの自然性が個別Lean終了0。生成元付加比較の自然性は依存型の型照合timeoutを中間補題に分解して検証中。主結果未証明・正式定理文未実装、main保存後も継続する。

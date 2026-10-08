@@ -1,0 +1,191 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgAugmentationHeight.lean
+@@ -0,0 +1,60 @@
++import work.ASGinzburgDraft.GinzburgAugmentationRegularity
++
++/-! Genuine nonempty paths have positive height difference. Accordingly,
++the augmentation component is the whole component below its endpoint,
++and zero elsewhere, exactly as for the representable radical. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem GinzburgPath.length_pos_of_winding_pos {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) (hw : 0<p.winding) : 0<p.length := by
++  cases p with
++  | nil => simp [GinzburgPath.winding] at hw
++  | snoc p a ha => simp [GinzburgPath.length]
++
++theorem GinzburgPath.winding_eq_lift_height_difference {x y : Q.LiftVertex}
++    (p : Q.GinzburgPath x.1 y.1) (hc : p.cutDegree=y.2-x.2) :
++    p.winding=Q.height y-Q.height x := by
++  rw [p.winding_formula,hc]
++  unfold height
++  ring
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgAugmentationAtDegree_eq_cut_of_height_lt (x y : Q.LiftVertex)
++    (q : ℤ) (hxy : Q.height x<Q.height y) :
++    Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2)=
++      Q.ginzburgCutCohomologicalComponent k x.1 y.1 q (y.2-x.2) := by
++  rw [Q.ginzburgAugmentationAtDegree_eq_inf]
++  apply inf_eq_right.mpr
++  intro f hf
++  change f ∈ Finsupp.supported k k {p : Q.GinzburgPath x.1 y.1 | 0<p.length}
++  rw [Finsupp.mem_supported]
++  intro p hp
++  have hfc : f ∈ Finsupp.supported k k
++      {p : Q.GinzburgPath x.1 y.1 | p.cutDegree=y.2-x.2} := hf.2
++  have hc := (Finsupp.mem_supported k f).mp hfc hp
++  have hw : 0<p.winding := by
++    rw [p.winding_eq_lift_height_difference Q hc]
++    omega
++  exact p.length_pos_of_winding_pos Q hw
++
++theorem ginzburgAugmentationAtDegree_eq_bot_of_not_height_lt (x y : Q.LiftVertex)
++    (q : ℤ) (hxy : ¬Q.height x<Q.height y) :
++    Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2)=⊥ := by
++  apply bot_unique
++  intro f hf
++  rw [Submodule.mem_bot]
++  apply Finsupp.ext
++  intro p
++  by_contra hp
++  simp only [Finsupp.zero_apply] at hp
++  change f ∈ Finsupp.supported k k
++    {p : Q.GinzburgPath x.1 y.1 | 0<p.length ∧ p.cohomologicalDegree=q ∧ p.cutDegree=y.2-x.2} at hf
++  have hpc := (Finsupp.mem_supported k f).mp hf (Finsupp.mem_support_iff.mpr hp)
++  have hw := p.winding_pos_of_length_pos hpc.1
++  rw [p.winding_eq_lift_height_difference Q hpc.2.2] at hw
++  exact hxy (by omega)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/RepresentableRadicalComponents.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.SimpleRightModules
++
++/-! Canonical component isomorphisms for the existing representable
++radical inclusion, below its endpoint, and actual zero components elsewhere. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem representableRadicalInclusion_component_isIso (i j : ℤ) (hij : i<j) :
++    IsIso ((A.rightModuleEvaluation i).map (A.representableRadical j).inclusion) := by
++  apply (ConcreteCategory.isIso_iff_bijective _).mpr
++  refine ⟨?_,?_⟩
++  · intro f g h
++    exact Subtype.ext h
++  · intro f
++    refine ⟨⟨f,?_⟩,rfl⟩
++    simp [representableRadical,hij]
++
++noncomputable def representableRadicalBelowComponentIso (i j : ℤ) (hij : i<j) :
++    (A.rightModuleEvaluation i).obj (A.representableRadical j).object ≅
++      (A.rightModuleEvaluation i).obj (A.representable j) := by
++  letI := A.representableRadicalInclusion_component_isIso i j hij
++  exact asIso ((A.rightModuleEvaluation i).map (A.representableRadical j).inclusion)
++
++@[simp] theorem representableRadicalBelowComponentIso_hom (i j : ℤ) (hij : i<j) :
++    (A.representableRadicalBelowComponentIso i j hij).hom=
++      (A.rightModuleEvaluation i).map (A.representableRadical j).inclusion := rfl
++
++theorem representableRadicalComponent_isZero_of_not_lt (i j : ℤ) (hij : ¬i<j) :
++    IsZero ((A.rightModuleEvaluation i).obj (A.representableRadical j).object) := by
++  change IsZero (ModuleCat.of k (if i<j then ⊤ else ⊥ : Submodule k (A.Hom i j)))
++  rw [if_neg hij]
++  exact ModuleCat.isZero_of_subsingleton _
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgAugmentationHeightHomology.lean
+@@ -0,0 +1,56 @@
++import work.ASGinzburgDraft.GinzburgAugmentationHeight
++
++/-! The actual augmentation inclusion is an isomorphism at positive
++height difference; at other heights the entire augmentation complex is zero. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgAugmentationCochainInclusion_f_isIso_of_height_lt (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) (q : ℤ) :
++    IsIso ((Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2)).f q) := by
++  apply (ConcreteCategory.isIso_iff_bijective _).mpr
++  refine ⟨?_,?_⟩
++  · intro f g h
++    exact Subtype.ext (congrArg (fun z :
++      Q.ginzburgCutCohomologicalComponent k x.1 y.1 q (y.2-x.2) => z.val) h)
++  · intro f
++    refine ⟨⟨f.val,?_⟩,Subtype.ext rfl⟩
++    rw [Q.ginzburgAugmentationAtDegree_eq_cut_of_height_lt k x y q hxy]
++    exact f.property
++
++theorem ginzburgAugmentationCochainInclusion_isIso_of_height_lt (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) :
++    IsIso (Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2)) := by
++  letI (q : ℤ) : IsIso ((Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2)).f q) :=
++    Q.ginzburgAugmentationCochainInclusion_f_isIso_of_height_lt k φ x y hxy q
++  exact HomologicalComplex.Hom.isIso_of_components _
++
++noncomputable def ginzburgAugmentationHeightComplexIso (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) :
++    Q.ginzburgAugmentationCochainComplex k φ x.1 y.1 (y.2-x.2) ≅
++      Q.ginzburgCutCochainComplex k φ x.1 y.1 (y.2-x.2) := by
++  letI := Q.ginzburgAugmentationCochainInclusion_isIso_of_height_lt k φ x y hxy
++  exact asIso (Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2))
++
++noncomputable def ginzburgAugmentationHeightHomologyIso (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) (q : ℤ) :
++    Q.ginzburgAugmentationHomology k φ x.1 y.1 (y.2-x.2) q ≅
++      Q.ginzburgCutHomology k φ x.1 y.1 (y.2-x.2) q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).mapIso
++    (Q.ginzburgAugmentationHeightComplexIso k φ x y hxy)
++
++theorem ginzburgAugmentationTerm_isZero_of_not_height_lt (x y : Q.LiftVertex)
++    (q : ℤ) (hxy : ¬Q.height x<Q.height y) :
++    IsZero (ModuleCat.of k (Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2))) := by
++  rw [Q.ginzburgAugmentationAtDegree_eq_bot_of_not_height_lt k x y q hxy]
++  exact ModuleCat.isZero_of_subsingleton _
++
++theorem ginzburgAugmentationHomology_isZero_of_not_height_lt (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (q : ℤ) (hxy : ¬Q.height x<Q.height y) :
++    IsZero (Q.ginzburgAugmentationHomology k φ x.1 y.1 (y.2-x.2) q) :=
++  ((Q.ginzburgAugmentationCochainComplex k φ x.1 y.1 (y.2-x.2)).sc q).isZero_homology_of_isZero_X₂
++    (Q.ginzburgAugmentationTerm_isZero_of_not_height_lt k x y q hxy)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgAugmentationRadical.lean
+@@ -0,0 +1,27 @@
++import work.ASGinzburgDraft.GinzburgAugmentationHeightHomology
++import work.ASGinzburgDraft.RepresentableRadicalComponents
++import ASGinzburg.JacobianUnrollingQuotient
++
++/-! Actual augmentation homology identifies with the existing radical
++component. This comparison requires no Ginzburg regularity hypothesis. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgAugmentationRadicalComponentIso (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    Q.ginzburgAugmentationHomology k φ x.1 v.1 (v.2-x.2) 0 ≅
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object := by
++  by_cases h : Q.height x<Q.height v
++  · exact Q.ginzburgAugmentationHeightHomologyIso k φ x v h 0 ≪≫
++      Q.ginzburgCutHomologyZeroUnrolledIso k φ x v ≪≫
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadicalBelowComponentIso
++          (Q.height x) (Q.height v) h).symm
++  · exact (Q.ginzburgAugmentationHomology_isZero_of_not_height_lt k φ x v 0 h).isoZero ≪≫
++      ((Q.unrolledJacobianZAlgebra k φ).representableRadicalComponent_isZero_of_not_lt
++        (Q.height x) (Q.height v) h).isoZero.symm
++
++end ASGinzburg.CutQuiver

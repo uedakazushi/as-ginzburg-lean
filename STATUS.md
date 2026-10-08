@@ -1,8 +1,8 @@
 # 現在の状況
 
-実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のactual associated-graded complexを構成。実際の道の係数とLeibnizから全有限shifted-prefix complexとのcochain同型を証明し、GinzburgRegularから各層のhomologyが生成元次数だけに集中することを導いた。canonicalな層augmentationからその実際のhomologyのsingle complexへのquasi-isomorphismまで完成。生成元次数のhomologyとA(Φ)成分の比較、有限filtrationの長完全列から標準単純分解のexactness・Ext表/AS対応を導く部分は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T221936Z-0be3dec5：329数学モジュール・2625異なる宣言・1337 theorem、全段階終了0。
-単位1〜49の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際のlast-generator filtrationの短完全列・mathlib長完全列、F_-2とaugmentationの同型と正則性からの接続写像の同型、F_0と第0層の同型・homology集中、実際のkernelとcokernelの普遍性、3項homology chain complexと正則性からのaugmentation quasi-isomorphism、prefix top homologyのactual differential imageによる商表示まで完成。A(Φ)係数/射影項との比較・標準単純分解の微分とexactness・Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T225240Z-69d9250f：339数学モジュール・2685異なる宣言・1365 theorem、全段階終了0。
+単位1〜50の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2625異なる名前、全明示的宣言・290 named instanceを含む、終了0 |
-| theorem | 1337、全件が監査対象 |
+| 個別公理監査 | 2685異なる名前、全明示的宣言・294 named instanceを含む、終了0 |
+| theorem | 1365、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T221936Z-0be3dec5`、全段階終了0、1676.240996655秒。
-UTC 2026-10-08T22:19:36.306338+00:00 → 2026-10-08T22:47:32.547342+00:00。
-JST 2026-10-09T07:19:36.306338+09:00 → 2026-10-09T07:47:32.547342+09:00。
+最新ローカル検証 `20261008T225240Z-69d9250f`、全段階終了0、1709.795740038秒。
+UTC 2026-10-08T22:52:40.734128+00:00 → 2026-10-08T23:21:10.529877+00:00。
+JST 2026-10-09T07:52:40.734128+09:00 → 2026-10-09T08:21:10.529877+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -115,6 +115,8 @@ JST 2026-10-09T07:19:36.306338+09:00 → 2026-10-09T07:47:32.547342+09:00。
 | 実際のaugmentationとfree-generator complex | HomologyAugmentation、GinzburgAugmentation、GinzburgCutAugmentation、GinzburgUnrolledAugmentation、GinzburgLastGenerator、GinzburgAugmentationBasis、GinzburgAugmentationIdeal、GinzburgLastGeneratorGradings、GinzburgAugmentationGradedFree、GinzburgAugmentationComplex、GinzburgAugmentationHomology、GinzburgAugmentationRegularity | canonical augmentationのquasi-isomorphismとGinzburgRegularの同値、実際の有限free-generator表示と次数移動・signed微分閉性、augmentation complexのGinzburgRegularからの負次数homology零性 | 3層のprefix complex比較、A(Φ)上の標準単純分解のexactness、Ext表/AS対応 |
 
 | 実際の3層filtrationとprefix cochain比較 | FinsuppSupportedQuotient、GinzburgGeneratorFiltration、GinzburgGeneratorFiltrationDifferential、GinzburgGeneratorFiltrationBounds、GinzburgGeneratorLayers、GinzburgGeneratorLayerQuotients、GinzburgGeneratorFilteredComplex、GinzburgAssociatedGradedComplex、GinzburgGeneratorLayerBasis、GinzburgLastGeneratorDifferential、GinzburgGeneratorPrefixComplex、GinzburgGeneratorPrefixHomology、GinzburgGeneratorLayerCoefficients、GinzburgGeneratorLayerClasses、GinzburgGeneratorShiftAppend、GinzburgGeneratorLayerComparison、GinzburgGeneratorAppendCoefficients、GinzburgGeneratorLayerInverse、GinzburgGeneratorLayerHomology、GinzburgGeneratorLayerConcentration、GinzburgGeneratorLayerAugmentation | 実際の隣接商とfinite signed-prefix complexesのcochain同型、正則性から各層homologyの生成元次数への集中、canonical augmentationのquasi-isomorphism | A(Φ)係数比較、filtration長完全列、標準単純分解とExt表/AS対応 |
+
+| 実際のfiltration長完全列と3項homology複体 | GinzburgGeneratorFiltrationShortExact、GinzburgGeneratorFiltrationHomologySequence、GinzburgGeneratorFilteredAugmentation、GinzburgGeneratorFiltrationSyzygy、GinzburgGeneratorUpperFiltration、GinzburgGeneratorFiltrationKernel、GinzburgGeneratorFiltrationRadical、GinzburgGeneratorFiltrationCokernel、GinzburgGeneratorPrefixTopQuotient、GinzburgGeneratorHomologyComplex | 実際の短/長完全列とkernel/cokernelの普遍性、3項homology chain complexと正則性からのaugmentation quasi-isomorphism、actual prefix top homology quotient | A(Φ)係数・射影項の同定、A線形性/標準分解微分との照合、Ext表/AS対応 |
 
 ## 主結果の状態
 
