@@ -1,0 +1,140 @@
+import ASGinzburg.ModuleBidualEvaluation
+import ASGinzburg.ASResolutionHomComplex
+import ASGinzburg.ASDualityLeftComponents
+
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem rightModule_hom_extension_of_ext_one_zero {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) (N : A.RightModule)
+    (hExt : ∀ x : Abelian.Ext.{v} S.X₃ N 1, x = 0) (f : S.X₁ ⟶ N) :
+    ∃ g : S.X₂ ⟶ N, S.f ≫ g = f := by
+  obtain ⟨y,hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N
+    (Abelian.Ext.mk₀ f) (by rfl) (hExt _)
+  refine ⟨Abelian.Ext.homEquiv₀ y,?_⟩
+  apply (Abelian.Ext.homEquiv₀ (X := S.X₁) (Y := N)).symm.injective
+  change Abelian.Ext.mk₀ (S.f ≫ Abelian.Ext.homEquiv₀ y) = Abelian.Ext.mk₀ f
+  rw [← Abelian.Ext.mk₀_comp_mk₀, Abelian.Ext.mk₀_homEquiv₀_apply]
+  exact hy
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w) (N : A.RightModule)
+
+theorem homComplex_exactAt_one_of_ext_zero
+    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 1, x = 0) :
+    (R.homComplex N).ExactAt 1 := by
+  rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  intro x hx
+  change R.d₂ ≫ x = 0 at hx
+  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc'
+    R.exact_d₂_firstCover.gIsCokernel x hx
+  change R.firstCover ≫ y = x at hy
+  obtain ⟨z,hz⟩ := A.rightModule_hom_extension_of_ext_one_zero (shortExact₀ (A := A) (Q := Q) (v := w)) N hExt y
+  refine ⟨z,?_⟩
+  change R.d₁ ≫ z = x
+  rw [← R.firstCover_ι, Category.assoc, hz, hy]
+
+theorem homComplex_exactAt_two_of_ext_zero
+    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 2, x = 0) :
+    (R.homComplex N).ExactAt 2 := by
+  rw [HomologicalComplex.exactAt_iff' _ 1 2 3 (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  intro x hx
+  change R.d₃ ≫ x = 0 at hx
+  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' R.shortExact₂.gIsCokernel x hx
+  change R.secondCover ≫ y = x at hy
+  have hz : ∀ z : Abelian.Ext.{v} (kernel (A.simpleRightModuleπ (Q.height w))) N 1, z = 0 := by
+    intro z
+    let e := A.rightModuleExtDimensionShift (shortExact₀ (A := A) (Q := Q) (v := w)) N 0
+    apply e.injective
+    rw [e.map_zero]
+    exact hExt (e z)
+  obtain ⟨z,hz⟩ := A.rightModule_hom_extension_of_ext_one_zero R.shortExact₁ N hz y
+  refine ⟨z,?_⟩
+  change R.d₂ ≫ z = x
+  rw [← R.secondCover_ι, Category.assoc, hz, hy]
+theorem homDifferential_zero_kernel_of_ext_zero
+    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 0, x = 0)
+    (x : R.complexTerm 0 ⟶ N) (hx : R.d₁ ≫ x = 0) : x = 0 := by
+  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' R.exact₀.gIsCokernel x hx
+  change A.simpleRightModuleπ (Q.height w) ≫ y = x at hy
+  have hy0 : y = 0 := by
+    let e := A.rightModuleExtZeroLinearEquiv (A.simpleRightModule (Q.height w)) N
+    calc
+      y = e (e.symm y) := (e.apply_symm_apply y).symm
+      _ = 0 := by rw [hExt (e.symm y)]; exact e.map_zero
+  rw [hy0, comp_zero] at hy
+  exact hy.symm
+
+theorem homComplex_exactAt_zero_of_ext_zero
+    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 0, x = 0) :
+    (R.homComplex N).ExactAt 0 := by
+  rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  intro x hx
+  change R.d₁ ≫ x = 0 at hx
+  have hx0 := R.homDifferential_zero_kernel_of_ext_zero N hExt x hx
+  refine ⟨0,?_⟩
+  rw [hx0]
+  exact map_zero _
+
+theorem homComplex_representable_exactAt_low (h : A.ASRegular Q) (i : ℤ)
+    (n : ℕ) (hn : n < 3) : (R.homComplex (A.representable i)).ExactAt n := by
+  obtain ⟨j,rfl⟩ := Q.height_bijective.surjective i
+  have hx (p : ℕ) (hp : p < 3) :
+      ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) (A.representable (Q.height j)) p,
+        x = 0 := h.ext_other_eq_zero A Q j w p (by
+          intro H
+          have H' := congrArg Prod.fst H
+          dsimp at H'
+          omega)
+  rcases n with _ | _ | _ | n
+  · exact R.homComplex_exactAt_zero_of_ext_zero _ (hx 0 (by decide))
+  · exact R.homComplex_exactAt_one_of_ext_zero _ (hx 1 (by decide))
+  · exact R.homComplex_exactAt_two_of_ext_zero _ (hx 2 (by decide))
+  · omega
+end ASGinzburg.ZAlgebra.ASResolution
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+noncomputable def dualComplex : CochainComplex A.LeftModule ℕ :=
+  (A.rightModuleADualFunctor.mapHomologicalComplex (ComplexShape.up ℕ)).obj R.complex.op
+
+noncomputable def dualComplexEvaluationIso (i : ℤ) :
+    ((A.leftModuleEvaluation i).mapHomologicalComplex (ComplexShape.up ℕ)).obj R.dualComplex ≅
+      R.homComplex (A.representable i) :=
+  HomologicalComplex.Hom.isoOfComponents (fun _ => Iso.refl _) (by
+    intro n m hnm
+    have hm : n+1=m := hnm
+    subst m
+    simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]
+    rw [show (R.homComplex (A.representable i)).d n (n+1) =
+      R.homDifferential (A.representable i) n from CochainComplex.of_d _ _ _ n]
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change R.complexDifferential n ≫ x = R.complex.d (n+1) n ≫ x
+    rw [show R.complex.d (n+1) n = R.complexDifferential n from
+      ChainComplex.of_d _ _ _ n])
+
+theorem dualComplex_exactAt_low (h : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    R.dualComplex.ExactAt n := by
+  rw [HomologicalComplex.exactAt_iff]
+  apply (A.leftModule_exact_iff _).mpr
+  intro i
+  have he := R.homComplex_representable_exactAt_low h i n hn
+  exact (ShortComplex.exact_iff_of_iso
+    ((HomologicalComplex.shortComplexFunctor _ _ n).mapIso (R.dualComplexEvaluationIso i))).mpr he
+end ASGinzburg.ZAlgebra.ASResolution

@@ -1,10 +1,10 @@
 # Codexクラウドへの引継ぎ
 
-既存AS分解の項の有限生成射影性を証明し、微分をそのまま有限生成射影部分圏のchain complexへ持ち上げ、整数cochain複体への延長と区間[-3,0]外の零性を証明しました。
-次はAS双対複体のexactness・Ext³余核から左単純加群の有限射影分解、左Ext集中と有限長双対性です。
-標準RHomの符号・shift/derived接続、周期性、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
-最新ローカル検証 20261008T112807Z-57472da0：96数学モジュール・1025異なる宣言・425 theorem、全段階終了0。
-単位1〜24の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+AS条件の実際Ext消滅から双対複体の低次数exactnessとExt³上端余核を証明し、左単純加群の四項分解をmathlib ProjectiveResolutionとして構成しました。全項の有限生成射影性と次数4以上の零性、全左単純への分解の選択も証明済みです。
+次はcanonical二重双対から左Ext集中・次数3の右単純加群同型を公開検証し、有限長加群へ延長します。
+標準RHomの符号・shift/derived接続、有限長反変同値・周期性、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
+最新ローカル検証 20261008T114033Z-7843e93b：100数学モジュール・1064異なる宣言・446 theorem、全段階終了0。
+単位1〜25の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -24,14 +24,14 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 具体的Ext成分左加群の次数集中と左単純商との同型、左右A-dualとrepresentableの二重双対も完成。
 前回のExt直和交換と成分作用への適合性はdocs/ext_coproduct_exchange.mdとruns/ext-sums-20261008.md。
 今回の総代数・両側局所単位・左右総作用はdocs/total_algebra_comparison.md。
-開始時の60数学モジュールは無変更。具体的Gr(A)の(1.12)、canonical評価と有限生成射影・複体・有界cochainホモトピー圏の反変同値、AS分解の有界有限生成射影複体への持上げは完成。標準RHomの符号・shift/derived接続、左単純加群の射影分解・左Ext集中と有限長双対性・周期性を継続する。
+開始時の60数学モジュールは無変更。具体的Gr(A)の(1.12)、canonical評価と有限生成射影・複体・有界cochain反変同値、AS有界複体とAS条件からの左単純加群の四項ProjectiveResolutionは完成。左Ext集中・次数3の右単純加群同型と有限長双対性・周期性を継続する。標準RHomの符号/shift/derived接続は未証明。
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T112807Z-57472da0`、全段階終了0、532.554350524秒。
-UTC 2026-10-08T11:28:07.844600+00:00 → 2026-10-08T11:37:00.398959+00:00。
-JST 2026-10-08T20:28:07.844600+09:00 → 2026-10-08T20:37:00.398959+09:00。
-96数学モジュール・1025異なる明示的宣言・全425 theorem・173 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T114033Z-7843e93b`、全段階終了0、573.541191123秒。
+UTC 2026-10-08T11:40:33.414826+00:00 → 2026-10-08T11:50:06.956025+00:00。
+JST 2026-10-08T20:40:33.414826+09:00 → 2026-10-08T20:50:06.956025+09:00。
+100数学モジュール・1064異なる明示的宣言・全446 theorem・178 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。

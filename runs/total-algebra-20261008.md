@@ -594,3 +594,29 @@ UTC 2026-10-08T11:28:07.844600+00:00 → 2026-10-08T11:37:00.398959+00:00。
 差分：runs/total-algebra-20261008-unit24.patch。全theoremを監査し、許容公理3種類のみ。
 
 未公開の左AS双対性草稿current-left-duality-draft2はLean終了0・警告なし。AS条件の実際Ext消滅から左単純の四項ProjectiveResolutionを構成し、canonical二重双対でHom複体の低次数exactnessへ戻る。実際のExt長完全列から3次以外の左Ext消滅と、上端余核の一意性から右加群としてのExt³≅s_wを構成した。これは追加の双対性仮定を使わない。公開モジュールに分割して全体ビルド・公理監査を実施し、その後有限長加群への延長を進める。
+
+単位24はmain a34ac920173d9fcb5a6a61bcc0ac1d722571da11へ保存済み。単位25としてAS双対複体の低次数exactness・Ext³上端余核・左単純加群の四項ProjectiveResolutionを4モジュールの一つの証明単位として公開検査する。元のAS条件から実際Extと長完全列で証明し、左射影分解の存在や双対性を新たな仮定に加えない。次の草稿では左AS双対性のExt³右単純加群同型まで個別Lean終了0。
+
+単位25初回検査20261008T113911Z-37a37c87はbuild終了1、6.473618263秒。新しいRightModuleExtLeftSequenceが左成分のepi/exact判定のimportを欠いていた。LeftModuleHomologyの明示importを追加し、各モジュールの独立ビルドを保つ。失敗ログを保持し、新規runで再検査する。
+
+単位25第2検査20261008T113950Z-63a6ea46はbuild終了1、7.722425220秒。ASDualityTopCokernelもcomplexTermを定義するASResolutionComplexの直接importを必要としたため追加。数学的証明内容の変更はなく、分割後の独立したimport依存を補正。失敗ログを保持して新規runで再検査する。
+
+2026-10-08T11:50:15.879927+00:00 UTC途中記録：開始から17377.879927秒。終了していない。
+最後の全体成功は単位24 20261008T112807Z-57472da0、532.554350524秒・全段階0・96数学モジュール・1025宣言・全425 theorem。main a34ac920173d9fcb5a6a61bcc0ac1d722571da11へ保存済み。単位25の左単純四項分解は新規全体検査中、4新規モジュールのbuild成功。不足importによる過去2回の公開build失敗は修正済み、失敗ログ保持。
+未公開草稿current-left-duality-draft2は、一般射影分解のHom条件→実際Ext消滅、canonical二重双対複体同型、左Extの3次以外の零性・右加群としてのExt³左単純≅右単純まで個別Lean終了0。有限次元総空間から台の有限性と有界支持・部分/商の有限次元性、非零有限次元右加群の頂点単純部分加群の存在、非零射の余核の総次元の厳密減少も個別Lean終了0。これから有限回の実際の単純部分加群と余核を持つfiltrationを次元帰納法で構成し、長完全列で有限次元加群のExt集中を証明する。周期性・有限長反変同値・標準RHom/derived接続・両主定理は未完成。
+
+## 単位25：AS双対複体から左単純加群の四項射影分解
+
+ASDualityComplexExactness.lean、RightModuleExtLeftSequence.lean、ASDualityTopCokernel.lean、ASLeftResolution.leanを追加。AS条件の実際Ext消滅と長完全列のHom延長・次元シフトから、双対Hom複体の0/1/2次exactnessを証明し、成分評価で実際の左双対複体へ移した。
+接続写像・次元シフトを左加群射と自然同型へ束ね、双対上端から実際Ext³へのepi射・微分との零合成・余核のexactnessを証明した。AS条件で得た左単純商同型をaugmentationへ使い、左右双対四項を反転したchain complexの項の射影性・正次数exactness・augmentationのQuasiIsoを証明。mathlib ProjectiveResolutionとして左単純加群の四項分解を構成した。
+さらに全項の実際の有限生成射影性、次数4以上の零性、任意の左単純加群へのASRegularからの分解の選択も証明した。追加39宣言、4数学モジュール。周期性や左射影分解・Ext同型を新しいAS仮定にしていない。
+単位24はmain a34ac920173d9fcb5a6a61bcc0ac1d722571da11へ保存済み。
+初回・第2公開検査20261008T113911Z-37a37c87と20261008T113950Z-63a6ea46は、分割先のLeftModuleHomologyとASResolutionComplexの明示import不足によりbuild終了1、実測6.473618263秒・7.722425220秒。importを追加し、失敗ログを保持して新規runで再検査した。数学的証明の置換はない。
+次は一般射影分解のsyzygy・Hom複体のexactnessから実際Ext消滅を導く補題を公開し、canonical二重双対と左Ext集中へ接続。未公開草稿では、左Extの3次以外の零性・右加群としてのExt³左単純≅右単純まで個別Lean終了0。有限次元総空間から成分台の有限性と有界支持、部分・商の有限次元性も未公開個別Lean終了0。有限長双対性へ続ける。
+標準RHomの符号・shift/derived/perfectとの接続、有限長反変同値と周期性、命題5.1・両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装。
+
+検証：`20261008T114033Z-7843e93b`、573.541191123秒、全段階終了0。
+JST 2026-10-08T20:40:33.414826+09:00 → 2026-10-08T20:50:06.956025+09:00。
+UTC 2026-10-08T11:40:33.414826+00:00 → 2026-10-08T11:50:06.956025+00:00。
+100数学モジュール・1064異なる宣言・446 theorem。
+差分：runs/total-algebra-20261008-unit25.patch。全theoremを監査し、許容公理3種類のみ。

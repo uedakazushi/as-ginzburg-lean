@@ -1,0 +1,49 @@
+⚠ [3416/3444] Replayed ASGinzburg.PathAlgebra
+warning: ASGinzburg/PathAlgebra.lean:97:42: This simp argument is unused:
+  LinearMap.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp [map_add, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵ ̵ih, ih']
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [3438/3444] Built ASGinzburg.RightModuleExtLeftSequence (2.6s)
+✖ [3439/3444] Building ASGinzburg.ASDualityTopCokernel (3.0s)
+trace: .> LEAN_PATH=/workspace/as-ginzburg-lean/.lake/packages/Cli/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/batteries/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/Qq/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/aesop/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/plausible/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/build/lib/lean /workspace/.cloud-setup/lean-4.24.0-linux/bin/lean /workspace/as-ginzburg-lean/ASGinzburg/ASDualityTopCokernel.lean -o /workspace/as-ginzburg-lean/.lake/build/lib/lean/ASGinzburg/ASDualityTopCokernel.olean -i /workspace/as-ginzburg-lean/.lake/build/lib/lean/ASGinzburg/ASDualityTopCokernel.ilean -c /workspace/as-ginzburg-lean/.lake/build/ir/ASGinzburg/ASDualityTopCokernel.c --setup /workspace/as-ginzburg-lean/.lake/build/ir/ASGinzburg/ASDualityTopCokernel.setup.json --json
+error: ASGinzburg/ASDualityTopCokernel.lean:11:24: Invalid field `complexTerm`: The environment does not contain `ASGinzburg.ZAlgebra.ASResolution.complexTerm`
+  R
+has type
+  A.ASResolution Q w
+error: ASGinzburg/ASDualityTopCokernel.lean:13:32: Invalid field `complexTerm`: The environment does not contain `ASGinzburg.ZAlgebra.ASResolution.complexTerm`
+  R
+has type
+  A.ASResolution Q w
+error: ASGinzburg/ASDualityTopCokernel.lean:18:50: Invalid field notation: Function `dualTopProjection` does not have a usable parameter of type `ASResolution ...` for which to substitute `R`
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+error: ASGinzburg/ASDualityTopCokernel.lean:18:73: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+⊢ Epi (sorry ())
+error: ASGinzburg/ASDualityTopCokernel.lean:22:65: Invalid field notation: Function `dualTopProjection` does not have a usable parameter of type `ASResolution ...` for which to substitute `R`
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+error: ASGinzburg/ASDualityTopCokernel.lean:23:28: Unknown identifier `complexTerm`
+error: ASGinzburg/ASDualityTopCokernel.lean:38:50: Invalid field notation: Function `dualTopProjection` does not have a usable parameter of type `ASResolution ...` for which to substitute `R`
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+error: ASGinzburg/ASDualityTopCokernel.lean:46:56: Invalid field notation: Function `dualTopProjection` does not have a usable parameter of type `ASResolution ...` for which to substitute `R`
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+error: ASGinzburg/ASDualityTopCokernel.lean:48:36: Invalid field `complexTerm`: The environment does not contain `ASGinzburg.ZAlgebra.ASResolution.complexTerm`
+  R
+has type
+  A.ASResolution Q w
+error: ASGinzburg/ASDualityTopCokernel.lean:52:8: `simp` made no progress
+error: Lean exited with code 1
+Some required targets logged failures:
+- ASGinzburg.ASDualityTopCokernel
+error: build failed

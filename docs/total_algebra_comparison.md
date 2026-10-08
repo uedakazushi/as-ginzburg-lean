@@ -60,3 +60,5 @@ HomotopyOpposite、HomotopyEquivalence、FullSubcategoryEquivalence、FiniteProj
 単位23：整数cochain/chainの次数反転、鎖ホモトピーの対応、有界区間[a,b]↔[-b,-a]を証明し、有界cochain有限生成射影ホモトピー圏の反変同値を構成。標準RHomの符号・shift/derivedとの接続は未証明。次はAS分解の双対から左単純加群の四項射影分解と左Ext集中を構成する。
 
 単位24：零対象・representable・有限直和の有限生成射影性と部分圏の零対象、AS分解四項の有限生成射影性を証明。元の微分を部分圏のchain complexへ持ち上げ、整数cochainへの延長と区間[-3,0]外の零性から有界ホモトピー対象を構成。次はAS双対複体のexactness・Ext³余核と左単純加群の分解。
+
+単位25：AS消滅と実際Extの長完全列から双対複体の低次数exactness、Ext³上端へのepi射と余核を証明。AS条件の左単純同型をaugmentationに用い、全左単純の四項ProjectiveResolutionを構成。各項は有限生成射影で次数4以上零。次はcanonical二重双対から左Ext集中と右単純同型、その有限長加群への延長。

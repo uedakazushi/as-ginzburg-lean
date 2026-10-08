@@ -1,0 +1,554 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 05415fa..cc5976e 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -89,6 +89,11 @@ import ASGinzburg.BoundedCochainDuality
+ import ASGinzburg.FiniteProjectiveClosure
+ import ASGinzburg.ASFiniteProjectiveComplex
+ 
++import ASGinzburg.ASDualityComplexExactness
++import ASGinzburg.RightModuleExtLeftSequence
++import ASGinzburg.ASDualityTopCokernel
++import ASGinzburg.ASLeftResolution
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 827264a..dd1c031 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -1,5 +1,14 @@
+ import ASGinzburg
+ 
++#print axioms ASGinzburg.ZAlgebra.rightModule_hom_extension_of_ext_one_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_one_of_ext_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_two_of_ext_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_zero_kernel_of_ext_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_zero_of_ext_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_representable_exactAt_low
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualComplex
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualComplexEvaluationIso
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualComplex_exactAt_low
+ #print axioms ASGinzburg.cardinal_sum_one_other_zero
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extRank_other_zero
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.ext_other_eq_zero
+@@ -47,12 +56,34 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproductThreeScalarEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproductFinite
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproduct_finrank
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjectionEpi
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection_dual_d₃
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection_exact
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.complexTermFiniteProjective
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveComplex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveComplex_isZero_ge_four
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex_isZero_outside
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.boundedFiniteProjectiveCochainObject
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dualComplex_d
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionTerm
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionDifferential
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionDifferential_sq
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionComplex
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionTermProjective
++#print axioms ASGinzburg.ZAlgebra.ASResolution.dual_d₁_mono
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionComplex_exactAt_succ
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionProjection
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionProjectionEpi
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionProjection_differential
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionProjection_exact
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionAugmentation
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionAugmentationQuasiIso
++#print axioms ASGinzburg.ZAlgebra.ASResolution.toLeftProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionTermFiniteProjective
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionComplex_isZero_ge_four
++#print axioms ASGinzburg.ZAlgebra.ASRegular.leftSimpleProjectiveResolution
+ #print axioms ASGinzburg.ZAlgebra.asExtTotalRank
+ #print axioms ASGinzburg.ZAlgebra.ASRegular
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.resolution
+@@ -666,6 +697,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtLeft
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtLeft_obj
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtLeftZeroIso
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtBoundaryLeft
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtBoundaryLeftEpi
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtDimensionShiftLeftIso
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtDimensionShiftLeftIso_hom
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtPrecompLeft
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtPrecompLeft_boundary_zero
++#print axioms ASGinzburg.ZAlgebra.rightModuleADualMap_extLeftZeroIso_inv
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtBoundaryLeft_exact
+ #print axioms ASGinzburg.ZAlgebra.shiftedHomModule
+ #print axioms ASGinzburg.ZAlgebra.rightModuleDerivedLinear
+ #print axioms ASGinzburg.ZAlgebra.rightModuleDerivedQhLinear
+diff --git a/ASGinzburg/ASDualityComplexExactness.lean b/ASGinzburg/ASDualityComplexExactness.lean
+new file mode 100644
+index 0000000..9644596
+--- /dev/null
++++ b/ASGinzburg/ASDualityComplexExactness.lean
+@@ -0,0 +1,140 @@
++import ASGinzburg.ModuleBidualEvaluation
++import ASGinzburg.ASResolutionHomComplex
++import ASGinzburg.ASDualityLeftComponents
++
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModule_hom_extension_of_ext_one_zero {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) (N : A.RightModule)
++    (hExt : ∀ x : Abelian.Ext.{v} S.X₃ N 1, x = 0) (f : S.X₁ ⟶ N) :
++    ∃ g : S.X₂ ⟶ N, S.f ≫ g = f := by
++  obtain ⟨y,hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N
++    (Abelian.Ext.mk₀ f) (by rfl) (hExt _)
++  refine ⟨Abelian.Ext.homEquiv₀ y,?_⟩
++  apply (Abelian.Ext.homEquiv₀ (X := S.X₁) (Y := N)).symm.injective
++  change Abelian.Ext.mk₀ (S.f ≫ Abelian.Ext.homEquiv₀ y) = Abelian.Ext.mk₀ f
++  rw [← Abelian.Ext.mk₀_comp_mk₀, Abelian.Ext.mk₀_homEquiv₀_apply]
++  exact hy
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w) (N : A.RightModule)
++
++theorem homComplex_exactAt_one_of_ext_zero
++    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 1, x = 0) :
++    (R.homComplex N).ExactAt 1 := by
++  rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp),
++    ShortComplex.moduleCat_exact_iff]
++  intro x hx
++  change R.d₂ ≫ x = 0 at hx
++  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc'
++    R.exact_d₂_firstCover.gIsCokernel x hx
++  change R.firstCover ≫ y = x at hy
++  obtain ⟨z,hz⟩ := A.rightModule_hom_extension_of_ext_one_zero (shortExact₀ (A := A) (Q := Q) (v := w)) N hExt y
++  refine ⟨z,?_⟩
++  change R.d₁ ≫ z = x
++  rw [← R.firstCover_ι, Category.assoc, hz, hy]
++
++theorem homComplex_exactAt_two_of_ext_zero
++    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 2, x = 0) :
++    (R.homComplex N).ExactAt 2 := by
++  rw [HomologicalComplex.exactAt_iff' _ 1 2 3 (by simp) (by simp),
++    ShortComplex.moduleCat_exact_iff]
++  intro x hx
++  change R.d₃ ≫ x = 0 at hx
++  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' R.shortExact₂.gIsCokernel x hx
++  change R.secondCover ≫ y = x at hy
++  have hz : ∀ z : Abelian.Ext.{v} (kernel (A.simpleRightModuleπ (Q.height w))) N 1, z = 0 := by
++    intro z
++    let e := A.rightModuleExtDimensionShift (shortExact₀ (A := A) (Q := Q) (v := w)) N 0
++    apply e.injective
++    rw [e.map_zero]
++    exact hExt (e z)
++  obtain ⟨z,hz⟩ := A.rightModule_hom_extension_of_ext_one_zero R.shortExact₁ N hz y
++  refine ⟨z,?_⟩
++  change R.d₂ ≫ z = x
++  rw [← R.secondCover_ι, Category.assoc, hz, hy]
++theorem homDifferential_zero_kernel_of_ext_zero
++    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 0, x = 0)
++    (x : R.complexTerm 0 ⟶ N) (hx : R.d₁ ≫ x = 0) : x = 0 := by
++  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' R.exact₀.gIsCokernel x hx
++  change A.simpleRightModuleπ (Q.height w) ≫ y = x at hy
++  have hy0 : y = 0 := by
++    let e := A.rightModuleExtZeroLinearEquiv (A.simpleRightModule (Q.height w)) N
++    calc
++      y = e (e.symm y) := (e.apply_symm_apply y).symm
++      _ = 0 := by rw [hExt (e.symm y)]; exact e.map_zero
++  rw [hy0, comp_zero] at hy
++  exact hy.symm
++
++theorem homComplex_exactAt_zero_of_ext_zero
++    (hExt : ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) N 0, x = 0) :
++    (R.homComplex N).ExactAt 0 := by
++  rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp),
++    ShortComplex.moduleCat_exact_iff]
++  intro x hx
++  change R.d₁ ≫ x = 0 at hx
++  have hx0 := R.homDifferential_zero_kernel_of_ext_zero N hExt x hx
++  refine ⟨0,?_⟩
++  rw [hx0]
++  exact map_zero _
++
++theorem homComplex_representable_exactAt_low (h : A.ASRegular Q) (i : ℤ)
++    (n : ℕ) (hn : n < 3) : (R.homComplex (A.representable i)).ExactAt n := by
++  obtain ⟨j,rfl⟩ := Q.height_bijective.surjective i
++  have hx (p : ℕ) (hp : p < 3) :
++      ∀ x : Abelian.Ext.{v} (A.simpleRightModule (Q.height w)) (A.representable (Q.height j)) p,
++        x = 0 := h.ext_other_eq_zero A Q j w p (by
++          intro H
++          have H' := congrArg Prod.fst H
++          dsimp at H'
++          omega)
++  rcases n with _ | _ | _ | n
++  · exact R.homComplex_exactAt_zero_of_ext_zero _ (hx 0 (by decide))
++  · exact R.homComplex_exactAt_one_of_ext_zero _ (hx 1 (by decide))
++  · exact R.homComplex_exactAt_two_of_ext_zero _ (hx 2 (by decide))
++  · omega
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++noncomputable def dualComplex : CochainComplex A.LeftModule ℕ :=
++  (A.rightModuleADualFunctor.mapHomologicalComplex (ComplexShape.up ℕ)).obj R.complex.op
++
++noncomputable def dualComplexEvaluationIso (i : ℤ) :
++    ((A.leftModuleEvaluation i).mapHomologicalComplex (ComplexShape.up ℕ)).obj R.dualComplex ≅
++      R.homComplex (A.representable i) :=
++  HomologicalComplex.Hom.isoOfComponents (fun _ => Iso.refl _) (by
++    intro n m hnm
++    have hm : n+1=m := hnm
++    subst m
++    simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]
++    rw [show (R.homComplex (A.representable i)).d n (n+1) =
++      R.homDifferential (A.representable i) n from CochainComplex.of_d _ _ _ n]
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    change R.complexDifferential n ≫ x = R.complex.d (n+1) n ≫ x
++    rw [show R.complex.d (n+1) n = R.complexDifferential n from
++      ChainComplex.of_d _ _ _ n])
++
++theorem dualComplex_exactAt_low (h : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
++    R.dualComplex.ExactAt n := by
++  rw [HomologicalComplex.exactAt_iff]
++  apply (A.leftModule_exact_iff _).mpr
++  intro i
++  have he := R.homComplex_representable_exactAt_low h i n hn
++  exact (ShortComplex.exact_iff_of_iso
++    ((HomologicalComplex.shortComplexFunctor _ _ n).mapIso (R.dualComplexEvaluationIso i))).mpr he
++end ASGinzburg.ZAlgebra.ASResolution
+diff --git a/ASGinzburg/RightModuleExtLeftSequence.lean b/ASGinzburg/RightModuleExtLeftSequence.lean
+new file mode 100644
+index 0000000..7f9eea2
+--- /dev/null
++++ b/ASGinzburg/RightModuleExtLeftSequence.lean
+@@ -0,0 +1,59 @@
++import ASGinzburg.LeftModuleHomology
++import ASGinzburg.RightModuleExtNaturalSequence
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightModuleExtBoundaryLeft {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    A.rightModuleExtLeft S.X₁ n ⟶ A.rightModuleExtLeft S.X₃ (n+1) :=
++  CategoryTheory.Functor.whiskerLeft A.representableFunctor (A.rightModuleExtBoundaryNat hS n)
++
++noncomputable instance rightModuleExtBoundaryLeftEpi {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : Epi (A.rightModuleExtBoundaryLeft hS n) := by
++  apply (A.leftModule_epi_iff _).mpr
++  intro i
++  exact inferInstanceAs (Epi ((A.rightModuleExtBoundaryNat hS n).app (A.representable i)))
++
++noncomputable def rightModuleExtDimensionShiftLeftIso {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    A.rightModuleExtLeft S.X₁ (n+1) ≅ A.rightModuleExtLeft S.X₃ (n+2) :=
++  A.leftModuleProperty.isoMk
++    (CategoryTheory.Functor.isoWhiskerLeft A.representableFunctor
++      (A.rightModuleExtDimensionShiftNatIso hS n))
++
++theorem rightModuleExtDimensionShiftLeftIso_hom {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    (A.rightModuleExtDimensionShiftLeftIso hS n).hom = A.rightModuleExtBoundaryLeft hS (n+1) := rfl
++noncomputable def rightModuleExtPrecompLeft {M N : A.RightModule} (f : M ⟶ N) (n : ℕ) :
++    A.rightModuleExtLeft N n ⟶ A.rightModuleExtLeft M n :=
++  CategoryTheory.Functor.whiskerLeft A.representableFunctor (A.rightModuleExtPrecompNat f n)
++
++theorem rightModuleExtPrecompLeft_boundary_zero {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    A.rightModuleExtPrecompLeft S.f n ≫ A.rightModuleExtBoundaryLeft hS n = 0 := by
++  apply NatTrans.ext
++  funext X
++  exact NatTrans.congr_app (A.rightModuleExtPrecompNat_boundary_zero hS n) (A.representable X.index)
++
++theorem rightModuleADualMap_extLeftZeroIso_inv {M N : A.RightModule} (f : M ⟶ N) :
++    A.rightModuleADualMap f ≫ (A.rightModuleExtLeftZeroIso M).inv =
++      (A.rightModuleExtLeftZeroIso N).inv ≫ A.rightModuleExtPrecompLeft f 0 := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  change Abelian.Ext.mk₀ (f ≫ x) =
++    (Abelian.Ext.mk₀ f).comp (Abelian.Ext.mk₀ x) (Nat.zero_add 0)
++  exact (Abelian.Ext.mk₀_comp_mk₀ _ _).symm
++theorem rightModuleExtBoundaryLeft_exact {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    (ShortComplex.mk (A.rightModuleExtPrecompLeft S.f n) (A.rightModuleExtBoundaryLeft hS n)
++      (A.rightModuleExtPrecompLeft_boundary_zero hS n)).Exact := by
++  apply (A.leftModule_exact_iff _).mpr
++  intro i
++  exact A.rightModuleExtBoundaryShortComplex_exact_component hS (A.representable i) n
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASDualityTopCokernel.lean b/ASGinzburg/ASDualityTopCokernel.lean
+new file mode 100644
+index 0000000..547f81f
+--- /dev/null
++++ b/ASGinzburg/ASDualityTopCokernel.lean
+@@ -0,0 +1,55 @@
++import ASGinzburg.ASResolutionComplex
++import ASGinzburg.RightModuleExtLeftSequence
++import ASGinzburg.ASResolutionSyzygies
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++noncomputable def dualTopProjection :
++    A.rightModuleADual (R.complexTerm 3) ⟶
++      A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3 :=
++  (A.rightModuleExtLeftZeroIso (R.complexTerm 3)).inv ≫
++    A.rightModuleExtBoundaryLeft R.shortExact₂ 0 ≫
++      (A.rightModuleExtDimensionShiftLeftIso R.shortExact₁ 0).hom ≫
++        (A.rightModuleExtDimensionShiftLeftIso (shortExact₀ (A := A) (Q := Q) (v := w)) 1).hom
++
++noncomputable instance dualTopProjectionEpi : Epi R.dualTopProjection := by
++  dsimp [dualTopProjection]
++  infer_instance
++
++theorem dualTopProjection_dual_d₃ : A.rightModuleADualMap R.d₃ ≫ R.dualTopProjection = 0 := by
++  dsimp [dualTopProjection, complexTerm]
++  rw [← Category.assoc, A.rightModuleADualMap_extLeftZeroIso_inv R.d₃]
++  simp only [Category.assoc]
++  rw [← Category.assoc (A.rightModuleExtPrecompLeft R.d₃ 0)
++    (A.rightModuleExtBoundaryLeft R.shortExact₂ 0)]
++  rw [A.rightModuleExtPrecompLeft_boundary_zero R.shortExact₂ 0, zero_comp, comp_zero]
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem dualTopProjection_exact :
++    (ShortComplex.mk (A.rightModuleADualMap R.d₃) R.dualTopProjection R.dualTopProjection_dual_d₃).Exact := by
++  let e : A.rightModuleExtLeft (kernel R.firstCover) 1 ≅
++      A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3 :=
++    A.rightModuleExtDimensionShiftLeftIso R.shortExact₁ 0 ≪≫
++      A.rightModuleExtDimensionShiftLeftIso (shortExact₀ (A := A) (Q := Q) (v := w)) 1
++  let T := ShortComplex.mk (A.rightModuleExtPrecompLeft R.d₃ 0)
++    (A.rightModuleExtBoundaryLeft R.shortExact₂ 0)
++    (A.rightModuleExtPrecompLeft_boundary_zero R.shortExact₂ 0)
++  let eS : ShortComplex.mk (A.rightModuleADualMap R.d₃) R.dualTopProjection R.dualTopProjection_dual_d₃ ≅ T :=
++    ShortComplex.isoMk (A.rightModuleExtLeftZeroIso (A.asResolutionTerm₂ Q w)).symm
++      (A.rightModuleExtLeftZeroIso (R.complexTerm 3)).symm e.symm
++      (by exact (A.rightModuleADualMap_extLeftZeroIso_inv R.d₃).symm)
++      (by
++        dsimp [dualTopProjection,e,T]
++        simp only [Category.assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id, Category.comp_id])
++  exact (ShortComplex.exact_iff_of_iso eS).mpr (A.rightModuleExtBoundaryLeft_exact R.shortExact₂ 0)
++end ASGinzburg.ZAlgebra.ASResolution
+diff --git a/ASGinzburg/ASLeftResolution.lean b/ASGinzburg/ASLeftResolution.lean
+new file mode 100644
+index 0000000..0a9293f
+--- /dev/null
++++ b/ASGinzburg/ASLeftResolution.lean
+@@ -0,0 +1,191 @@
++import ASGinzburg.ASFiniteProjectiveComplex
++import ASGinzburg.ASDualityComplexExactness
++import ASGinzburg.ASDualityTopCokernel
++import ASGinzburg.ASDualityLeftComponents
++import ASGinzburg.LeftModuleExt
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits Opposite
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem dualComplex_d (n : ℕ) :
++    R.dualComplex.d n (n+1) = A.rightModuleADualMap (R.complexDifferential n) := by
++  change A.rightModuleADualMap (R.complex.d (n+1) n) = _
++  rw [show R.complex.d (n+1) n = R.complexDifferential n from ChainComplex.of_d _ _ _ n]
++
++noncomputable def leftResolutionTerm : ℕ → A.LeftModule
++  | 0 => A.rightModuleADual (R.complexTerm 3)
++  | 1 => A.rightModuleADual (R.complexTerm 2)
++  | 2 => A.rightModuleADual (R.complexTerm 1)
++  | 3 => A.rightModuleADual (R.complexTerm 0)
++  | _+4 => 0
++
++noncomputable def leftResolutionDifferential : ∀ n, R.leftResolutionTerm (n+1) ⟶ R.leftResolutionTerm n
++  | 0 => A.rightModuleADualMap R.d₃
++  | 1 => A.rightModuleADualMap R.d₂
++  | 2 => A.rightModuleADualMap R.d₁
++  | _+3 => 0
++
++theorem leftResolutionDifferential_sq (n : ℕ) :
++    R.leftResolutionDifferential (n+1) ≫ R.leftResolutionDifferential n = 0 := by
++  rcases n with _ | _ | _ | n
++  · change A.rightModuleADualFunctor.map R.d₂.op ≫ A.rightModuleADualFunctor.map R.d₃.op = 0
++    rw [← A.rightModuleADualFunctor.map_comp, ← op_comp, R.d₃_d₂]
++    exact A.rightModuleADualFunctor.map_zero _ _
++  · change A.rightModuleADualFunctor.map R.d₁.op ≫ A.rightModuleADualFunctor.map R.d₂.op = 0
++    rw [← A.rightModuleADualFunctor.map_comp, ← op_comp, R.d₂_d₁]
++    exact A.rightModuleADualFunctor.map_zero _ _
++  · simp [leftResolutionDifferential]
++  · simp [leftResolutionDifferential]
++
++noncomputable def leftResolutionComplex : ChainComplex A.LeftModule ℕ :=
++  ChainComplex.of R.leftResolutionTerm R.leftResolutionDifferential R.leftResolutionDifferential_sq
++
++noncomputable instance leftResolutionTermProjective (n : ℕ) : Projective (R.leftResolutionTerm n) := by
++  rcases n with _ | _ | _ | _ | n
++  · exact A.leftFiniteProjectiveProperty_projective
++      (A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 3))
++  · exact A.leftFiniteProjectiveProperty_projective
++      (A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 2))
++  · exact A.leftFiniteProjectiveProperty_projective
++      (A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 1))
++  · exact A.leftFiniteProjectiveProperty_projective
++      (A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 0))
++  · dsimp [leftResolutionTerm]; infer_instance
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem dual_d₁_mono (h : A.ASRegular Q) : Mono (A.rightModuleADualMap R.d₁) := by
++  have he := R.dualComplex_exactAt_low h 0 (by decide)
++  rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp)] at he
++  have hf : (R.dualComplex.sc' 0 0 1).f = 0 := R.dualComplex.shape 0 0 (by simp)
++  have hm : Mono (R.dualComplex.d 0 1) := (ShortComplex.exact_iff_mono _ hf).mp he
++  rw [R.dualComplex_d 0] at hm
++  exact hm
++
++theorem leftResolutionComplex_exactAt_succ (h : A.ASRegular Q) (n : ℕ) :
++    R.leftResolutionComplex.ExactAt (n+1) := by
++  rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp)]
++  rcases n with _ | _ | _ | n
++  · have he := R.dualComplex_exactAt_low h 2 (by decide)
++    rw [HomologicalComplex.exactAt_iff' _ 1 2 3 (by simp) (by simp)] at he
++    simp only [HomologicalComplex.sc'] at he
++    simpa [leftResolutionComplex, leftResolutionTerm, leftResolutionDifferential,
++      HomologicalComplex.sc', complexDifferential] using he
++  · have he := R.dualComplex_exactAt_low h 1 (by decide)
++    rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp)] at he
++    simp only [HomologicalComplex.sc'] at he
++    simpa [leftResolutionComplex, leftResolutionTerm, leftResolutionDifferential,
++      HomologicalComplex.sc', complexDifferential] using he
++  · letI := R.dual_d₁_mono h
++    apply (ShortComplex.exact_iff_mono _ ?_).mpr
++    · change Mono (R.leftResolutionComplex.d 3 2)
++      rw [show R.leftResolutionComplex.d 3 2 = A.rightModuleADualMap R.d₁ from
++        ChainComplex.of_d _ _ _ 2]
++      infer_instance
++    · change R.leftResolutionComplex.d 4 3 = 0
++      exact ChainComplex.of_d _ _ _ 3
++  · apply ShortComplex.exact_of_isZero_X₂
++    change IsZero (R.leftResolutionTerm (n+4))
++    exact isZero_zero A.LeftModule
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w) (h : A.ASRegular Q)
++
++noncomputable def leftResolutionProjection : R.leftResolutionTerm 0 ⟶
++    A.simpleLeftModule (Q.height (Q.tau.symm w)) :=
++  R.dualTopProjection ≫ (h.extLeftThreeIsoSimple A Q w).hom
++
++noncomputable instance leftResolutionProjectionEpi : Epi (R.leftResolutionProjection h) := by
++  dsimp [leftResolutionProjection]
++  infer_instance
++
++theorem leftResolutionProjection_differential :
++    R.leftResolutionDifferential 0 ≫ R.leftResolutionProjection h = 0 := by
++  change A.rightModuleADualMap R.d₃ ≫ (R.dualTopProjection ≫ _) = 0
++  rw [← Category.assoc, R.dualTopProjection_dual_d₃, zero_comp]
++
++theorem leftResolutionProjection_exact :
++    (ShortComplex.mk (R.leftResolutionDifferential 0) (R.leftResolutionProjection h)
++      (R.leftResolutionProjection_differential h)).Exact := by
++  let e := h.extLeftThreeIsoSimple A Q w
++  let T := ShortComplex.mk (A.rightModuleADualMap R.d₃) R.dualTopProjection R.dualTopProjection_dual_d₃
++  let eS : ShortComplex.mk (R.leftResolutionDifferential 0) (R.leftResolutionProjection h)
++      (R.leftResolutionProjection_differential h) ≅ T :=
++    ShortComplex.isoMk (Iso.refl _) (Iso.refl _) e.symm
++      (by simp [T,leftResolutionDifferential])
++      (by simp [T,leftResolutionProjection,e,Category.assoc])
++  exact (ShortComplex.exact_iff_of_iso eS).mpr R.dualTopProjection_exact
++
++noncomputable def leftResolutionAugmentation : R.leftResolutionComplex ⟶
++    (ChainComplex.single₀ A.LeftModule).obj (A.simpleLeftModule (Q.height (Q.tau.symm w))) :=
++  (ChainComplex.toSingle₀Equiv _ _).symm ⟨R.leftResolutionProjection h, by
++    rw [show R.leftResolutionComplex.d 1 0 = R.leftResolutionDifferential 0 from
++      ChainComplex.of_d _ _ _ 0]
++    exact R.leftResolutionProjection_differential h⟩
++
++noncomputable instance leftResolutionAugmentationQuasiIso : QuasiIso (R.leftResolutionAugmentation h) := ⟨fun n => by
++  cases n
++  · rw [ChainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros']
++    · dsimp
++      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
++        ⟨R.leftResolutionProjection_exact h, by infer_instance⟩
++      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
++        (by dsimp; exact (ChainComplex.of_d R.leftResolutionTerm R.leftResolutionDifferential
++          R.leftResolutionDifferential_sq 0).symm) (by simp [leftResolutionAugmentation])
++    all_goals rfl
++  · rw [quasiIsoAt_iff_exactAt']
++    · exact R.leftResolutionComplex_exactAt_succ h _
++    · exact ChainComplex.exactAt_succ_single_obj _ _⟩
++
++noncomputable def toLeftProjectiveResolution :
++    ProjectiveResolution (A.simpleLeftModule (Q.height (Q.tau.symm w))) where
++  complex := R.leftResolutionComplex
++  projective n := by change Projective (R.leftResolutionTerm n); infer_instance
++  π := R.leftResolutionAugmentation h
++  quasiIso := R.leftResolutionAugmentationQuasiIso h
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem leftResolutionTermFiniteProjective (n : ℕ) :
++    A.leftFiniteProjectiveProperty (R.leftResolutionTerm n) := by
++  rcases n with _ | _ | _ | _ | n
++  · exact A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 3)
++  · exact A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 2)
++  · exact A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 1)
++  · exact A.rightFiniteProjectiveProperty_dual (R.complexTermFiniteProjective 0)
++  · exact A.leftFiniteProjectiveProperty_of_isZero (isZero_zero A.LeftModule)
++
++theorem leftResolutionComplex_isZero_ge_four (n : ℕ) :
++    IsZero (R.leftResolutionComplex.X (n+4)) := by
++  change IsZero (R.leftResolutionTerm (n+4))
++  exact isZero_zero A.LeftModule
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra.ASRegular
++open CategoryTheory
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++
++noncomputable def leftSimpleProjectiveResolution (h : A.ASRegular Q) (u : Q.LiftVertex) :
++    ProjectiveResolution (A.simpleLeftModule (Q.height u)) := by
++  simpa only [Equiv.symm_apply_apply] using (h.resolution A Q (Q.tau u)).toLeftProjectiveResolution h
++end ASGinzburg.ZAlgebra.ASRegular
