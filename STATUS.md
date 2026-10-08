@@ -1,11 +1,12 @@
 # 現在の状況
 
-有限AS分解だけから、単純右加群の全次数の実際のExtとexactな余極限の交換を証明しました。
-任意の小さい直和への交換同型、具体的な有限台直和への線形同型、成分包含への適合性も完成。
-ASの総rank条件や周期性を新仮定にしていません。次は全representableの直和との比較を明示します。
-原論文のGr(A)比較・周期性と主定理は未証明です。
-最新ローカル検証 20261008T053832Z-47d072b2：56数学モジュール・564異なる宣言・234 theorem、全段階終了0。
-単位1〜4の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
+全次数Extの直和交換に加え、rightRegularCoproduct = ⊕P_i の成分を具体的な有限台直和と同定しました。
+Ext(s_w,⊕P_i,n)とExt成分左加群の総空間の線形同型、元のASRegularから次数3以外の消滅、
+次数3でkとの線形同型、全次数有限性・delta型finrankも完成。
+次は忠実・exactな総空間関手と、実際の後合成による左作用との比較。
+Gr(A)圏同値・Ext保存、有限長双対性・周期性と主定理は未証明です。
+最新ローカル検証 20261008T054503Z-eee0e716：57数学モジュール・578異なる宣言・239 theorem、全段階終了0。
+単位1〜5の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/ext-sums-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -23,8 +24,8 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 564異なる名前、全明示的宣言・102 named instanceを含む、終了0 |
-| theorem | 234、全件が監査対象 |
+| 個別公理監査 | 578異なる名前、全明示的宣言・102 named instanceを含む、終了0 |
+| theorem | 239、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |

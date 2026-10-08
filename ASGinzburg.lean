@@ -1,3 +1,4 @@
+import ASGinzburg.ASDualityRegularCoproduct
 import ASGinzburg.ASResolutionExtColimits
 import ASGinzburg.RightModuleHomKernel
 import ASGinzburg.HomologicalColimitClosure
