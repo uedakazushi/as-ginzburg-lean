@@ -697,3 +697,29 @@ JST 2026-10-08T21:27:43.307696+09:00 → 2026-10-08T21:41:00.084367+09:00。
 UTC 2026-10-08T12:27:43.307696+00:00 → 2026-10-08T12:41:00.084367+00:00。
 115数学モジュール・1234異なる宣言・547 theorem。
 差分：runs/total-algebra-20261008-unit28.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位28はmain b45e1a8bbccb409a35a977ee60c4521f96ab8211へ保存済み。単位29として左右有限次元加群の有限生成射影表示、有限生成射影の有限直和・拡大の閉性、snake lemmaを用いた被覆の貼り合わせ、実際のepi・核を3段繰り返す有限生成射影分解の存在を公開検査する。ASFiniteResolutionLength草稿2は個別Lean終了0・診断なし。次はmathlib ProjectiveResolutionへの複体構成、一般有限次元Mでの総正則Extとの比較、二重Extの自然同型。
+
+作業中チェックポイント UTC 2026-10-08T12:52:07.211764+00:00、開始から実測21089.211764秒。継続中、タスク終了時刻ではない。単位28 main b45e1a8bbccb409a35a977ee60c4521f96ab8211の公開検査20261008T122743Z-015abd8aは全6段階終了0。単位29の公開検査20261008T124407Z-3461af44はlake build終了0・423.395412秒、独立公理監査を実行中。
+一般Abelian圏の四項射影分解を実際のChainComplex・augmentation・QuasiIso・mathlib ProjectiveResolutionへ変換する草稿four-term-resolution-draft4は個別Lean終了0・診断なし。左右の長さ3の有限生成射影分解存在から、全項有限生成射影・次数4以上零の実際の四項ProjectiveResolutionを選ぶfinite-four-term-draft1も終了0・診断なし。次は有限次元加群への適用と一般四項分解の双対のexactness・上端Ext余核、二重Extの同型と自然性。
+単位26の正確なheadのGitHub CI37775280878はsuccess。実際verifier UTC 2026-10-08T12:13:19.929600+00:00 →2026-10-08T12:27:46.596554+00:00、866.666945567秒、全7段階0、artifact11550421343。全ログとevidenceを保存。単位27/28のCIは照会時点in_progressであり、単位26の成功を流用しない。
+
+## 単位29：有限生成射影の拡大閉性と有限次元加群の有限射影分解
+
+FiniteProjectivePresentations.lean、FiniteProjectiveExtensionClosure.lean、ShortExactKernels.lean、ProjectiveExtensionCovers.lean、FiniteProjectiveResolutionLength.lean、ASFiniteDimensionalResolutionLength.leanを追加。左右の有限次元加群について、有限台と各成分の有限基底から有限個のrepresentableの直和と実際の全射を構成した。この表示にはAS条件を使っていない。
+
+有限生成射影性を実際の有限直和の直和因子という既存定義のまま、有限直和・同型・直和因子・短完全列の中項について閉じることを証明。一般Abelian圏のsnake lemmaから、端の射影被覆を中項へ貼り合わせた被覆の核が短完全列に入ることと、各核の具体的同型を構成した。
+
+長さnの有限生成射影分解を、実際の有限生成射影対象からのepiとその核をn回繰り返す存在命題として定義。四項ProjectiveResolutionから長さ3の条件を導き、同型・零対象・短完全列についての閉性を証明した。AS条件と実際の頂点単純filtrationから、左右の全有限次元加群についてこの長さ3の有限生成射影分解の存在を導いた。AS条件に周期性・必要なExt同型・主定理と同等の結論を追加していない。
+
+単位28はmain b45e1a8bbccb409a35a977ee60c4521f96ab8211へ保存済み。次の草稿では、一般Abelian圏の四項射影列を実際のChainComplex・augmentation・QuasiIso・mathlib ProjectiveResolutionへ変換し、この単位の左右有限生成射影分解存在から全項有限生成射影・次数4以上零の実際の分解を構成。有限次元加群へのAS条件からの適用まで個別Lean終了0・診断なし。
+
+単位26の正確なhead c6867b482559bf7de7c0305c67e774fa0298ae8bのGitHub CI37775280878はsuccess。実際verifier UTC 2026-10-08T12:13:19.929600+00:00 →2026-10-08T12:27:46.596554+00:00、866.666945567秒、全7段階0、artifact11550421343。全jobログと実測evidenceをverification/total_algebra_unit26_github_ci*へ保存。単位27/28のCIは照会時点in_progressであり、単位26の成功をこの単位のCI成功として扱わない。
+
+次は四項複体構成の公開検査、有限生成射影Homの余極限交換と一般有限次元Mの総正則Extとの比較、双対分解のexactnessと二重Extの同型・自然性。有限長反変同値・周期性、標準RHomの符号・shift/derived/perfect接続、命題5.1・両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装。
+
+検証：`20261008T124407Z-3461af44`、843.458967108秒、全段階終了0。
+JST 2026-10-08T21:44:07.855520+09:00 → 2026-10-08T21:58:11.314494+09:00。
+UTC 2026-10-08T12:44:07.855520+00:00 → 2026-10-08T12:58:11.314494+00:00。
+121数学モジュール・1294異なる宣言・581 theorem。
+差分：runs/total-algebra-20261008-unit29.patch。全theoremを監査し、許容公理3種類のみ。

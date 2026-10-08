@@ -110,6 +110,12 @@ import ASGinzburg.ExtComponentContravariance
 import ASGinzburg.ExtComponentShortExact
 import ASGinzburg.FiniteDimensionalExtDuality
 import ASGinzburg.FiniteDimensionalProjectiveDimension
+import ASGinzburg.FiniteProjectivePresentations
+import ASGinzburg.FiniteProjectiveExtensionClosure
+import ASGinzburg.ShortExactKernels
+import ASGinzburg.ProjectiveExtensionCovers
+import ASGinzburg.FiniteProjectiveResolutionLength
+import ASGinzburg.ASFiniteDimensionalResolutionLength
 /-!
 # AS--Ginzburg formalization checkpoint
 

@@ -1,0 +1,771 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index d13a487..3c168bc 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -110,6 +110,12 @@ import ASGinzburg.ExtComponentContravariance
+ import ASGinzburg.ExtComponentShortExact
+ import ASGinzburg.FiniteDimensionalExtDuality
+ import ASGinzburg.FiniteDimensionalProjectiveDimension
++import ASGinzburg.FiniteProjectivePresentations
++import ASGinzburg.FiniteProjectiveExtensionClosure
++import ASGinzburg.ShortExactKernels
++import ASGinzburg.ProjectiveExtensionCovers
++import ASGinzburg.FiniteProjectiveResolutionLength
++import ASGinzburg.ASFiniteDimensionalResolutionLength
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 0110c6b..9a40abc 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -60,6 +60,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjectionEpi
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection_dual_d₃
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection_exact
++#print axioms ASGinzburg.ZAlgebra.rightSimple_hasFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.leftSimple_hasFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.rightVertexFiltration_hasFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.leftVertexFiltration_hasFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_hasFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensional_hasFiniteProjectiveResolutionLength
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.complexTermFiniteProjective
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveComplex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveComplex_isZero_ge_four
+@@ -423,6 +429,49 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveBidualIso
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveBidualUnit
+ #print axioms ASGinzburg.ZAlgebra.finiteProjectiveADualEquivalence
++#print axioms ASGinzburg.boolCoproductIsoBiprod
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_of_retract
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_of_iso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_finite_coproduct
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_biprod
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_of_shortExact
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_of_retract
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_of_iso
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_finite_coproduct
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_biprod
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_of_shortExact
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_component_finite
++#print axioms ASGinzburg.ZAlgebra.finiteRightModuleSupport
++#print axioms ASGinzburg.ZAlgebra.finiteRightModuleSupport_isZero
++#print axioms ASGinzburg.ZAlgebra.finiteRightModuleComponentBasis
++#print axioms ASGinzburg.ZAlgebra.finiteRightModuleGeneratorIndex
++#print axioms ASGinzburg.ZAlgebra.finiteRightModuleGeneratorIndexFintype
++#print axioms ASGinzburg.ZAlgebra.finiteFreeRightModule
++#print axioms ASGinzburg.ZAlgebra.finiteFreeRightModuleπ
++#print axioms ASGinzburg.ZAlgebra.finiteFreeRightModule_finiteProjective
++#print axioms ASGinzburg.ZAlgebra.finiteFreeRightModuleProjective
++#print axioms ASGinzburg.ZAlgebra.finiteFreeRightModuleπEpi
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensional_component_finite
++#print axioms ASGinzburg.ZAlgebra.finiteLeftModuleSupport
++#print axioms ASGinzburg.ZAlgebra.finiteLeftModuleSupport_isZero
++#print axioms ASGinzburg.ZAlgebra.finiteLeftModuleComponentBasis
++#print axioms ASGinzburg.ZAlgebra.finiteLeftModuleGeneratorIndex
++#print axioms ASGinzburg.ZAlgebra.finiteLeftModuleGeneratorIndexFintype
++#print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModule
++#print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModuleπ
++#print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModule_finiteProjective
++#print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModuleProjective
++#print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModuleπEpi
++#print axioms ASGinzburg.ZAlgebra.HasRightFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.hasRightFiniteProjectiveResolutionLength_of_iso
++#print axioms ASGinzburg.ZAlgebra.hasRightFiniteProjectiveResolutionLength_of_isZero
++#print axioms ASGinzburg.ZAlgebra.hasRightFiniteProjectiveResolutionLength_of_fourTermResolution
++#print axioms ASGinzburg.ZAlgebra.hasRightFiniteProjectiveResolutionLength_of_shortExact
++#print axioms ASGinzburg.ZAlgebra.HasLeftFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_iso
++#print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_isZero
++#print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_fourTermResolution
++#print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_shortExact
+ #print axioms ASGinzburg.ZAlgebra.rightModule_isZero_of_components
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_minimal_nonzero_component
+ #print axioms ASGinzburg.ZAlgebra.simpleRightModule_hom_of_low_support
+@@ -724,6 +773,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathComp_id
+ #print axioms ASGinzburg.CutQuiver.id_pathComp
+ #print axioms ASGinzburg.CutQuiver.pathComp_assoc
++#print axioms ASGinzburg.extensionProjectiveπ
++#print axioms ASGinzburg.extensionProjectiveπ_inl
++#print axioms ASGinzburg.extensionProjectiveπ_g
++#print axioms ASGinzburg.extensionProjectiveCoverHom
++#print axioms ASGinzburg.extensionProjectiveπEpi
++#print axioms ASGinzburg.extensionProjectiveKernel_shortExact
++#print axioms ASGinzburg.extensionProjectiveKernelLeftIso
++#print axioms ASGinzburg.extensionProjectiveKernelMiddleIso
++#print axioms ASGinzburg.extensionProjectiveKernelRightIso
+ #print axioms ASGinzburg.ext_one_eq_zero_of_hom_extension
+ #print axioms CategoryTheory.ProjectiveResolution.ext_zero_eq_zero_of_hom_exact
+ #print axioms CategoryTheory.ProjectiveResolution.ext_one_eq_zero_of_hom_exact
+@@ -982,6 +1040,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.quotientπEpi
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.quotientShortComplex
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.quotientShortExact
++#print axioms ASGinzburg.shortExactSnakeInput
++#print axioms ASGinzburg.kernel_shortExact_of_epi_first
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableRadical
+ #print axioms ASGinzburg.ZAlgebra.positiveLeftActionSpan
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableRadical_eq_positiveLeftActionSpan
+diff --git a/ASGinzburg/FiniteProjectivePresentations.lean b/ASGinzburg/FiniteProjectivePresentations.lean
+new file mode 100644
+index 0000000..de0e745
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectivePresentations.lean
+@@ -0,0 +1,175 @@
++import ASGinzburg.FiniteProjectiveClosure
++import ASGinzburg.FiniteDimensionalModules
++import ASGinzburg.LeftModuleProjectives
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightFiniteDimensional_component_finite {M : A.RightModule}
++    (hM : A.rightFiniteDimensionalProperty M) (i : ℤ) :
++    Module.Finite k ((A.rightModuleEvaluation i).obj M) := by
++  classical
++  letI : Module.Finite k (A.rightModuleTotalSpace M) := hM
++  apply FiniteDimensional.of_injective
++    (DirectSum.lof k ℤ (fun j => (A.rightModuleEvaluation j).obj M) i)
++  intro x y h
++  have H := congrArg (DirectSum.component k ℤ (fun j => (A.rightModuleEvaluation j).obj M) i) h
++  simpa only [DirectSum.component.lof_self] using H
++
++noncomputable def finiteRightModuleSupport (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : Finset ℤ :=
++  (A.rightFiniteDimensional_finite_support hM).choose
++
++theorem finiteRightModuleSupport_isZero (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) (i : ℤ) (hi : i ∉ A.finiteRightModuleSupport M hM) :
++    IsZero ((A.rightModuleEvaluation i).obj M) :=
++  (A.rightFiniteDimensional_finite_support hM).choose_spec i hi
++
++noncomputable def finiteRightModuleComponentBasis (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) (i : ℤ) :
++    Module.Basis (Fin (Module.finrank k ((A.rightModuleEvaluation i).obj M))) k
++      ((A.rightModuleEvaluation i).obj M) := by
++  letI := A.rightFiniteDimensional_component_finite hM i
++  exact Module.finBasis k _
++
++def finiteRightModuleGeneratorIndex (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) :=
++  Σ i : A.finiteRightModuleSupport M hM, Fin (Module.finrank k ((A.rightModuleEvaluation i).obj M))
++
++noncomputable instance finiteRightModuleGeneratorIndexFintype (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : Fintype (A.finiteRightModuleGeneratorIndex M hM) :=
++  inferInstanceAs (Fintype (Σ i : A.finiteRightModuleSupport M hM,
++    Fin (Module.finrank k ((A.rightModuleEvaluation i).obj M))))
++
++noncomputable def finiteFreeRightModule (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : A.RightModule :=
++  ∐ fun g : A.finiteRightModuleGeneratorIndex M hM => A.representable g.1
++
++noncomputable def finiteFreeRightModuleπ (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : A.finiteFreeRightModule M hM ⟶ M :=
++  Sigma.desc fun g : A.finiteRightModuleGeneratorIndex M hM =>
++    (A.representableYonedaEquiv g.1 M).symm (A.finiteRightModuleComponentBasis M hM g.1 g.2)
++
++theorem finiteFreeRightModule_finiteProjective (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) :
++    A.rightFiniteProjectiveProperty (A.finiteFreeRightModule M hM) :=
++  A.rightFiniteProjectiveProperty_coproduct (fun g : A.finiteRightModuleGeneratorIndex M hM => g.1)
++
++noncomputable instance finiteFreeRightModuleProjective (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : Projective (A.finiteFreeRightModule M hM) :=
++  A.rightFiniteProjectiveProperty_projective (A.finiteFreeRightModule_finiteProjective M hM)
++
++noncomputable instance finiteFreeRightModuleπEpi (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : Epi (A.finiteFreeRightModuleπ M hM) := by
++  classical
++  apply (A.rightModule_epi_iff_surjective _).mpr
++  intro i x
++  by_cases hi : i ∈ A.finiteRightModuleSupport M hM
++  · let b := A.finiteRightModuleComponentBasis M hM i
++    let y := fun j : Fin (Module.finrank k ((A.rightModuleEvaluation i).obj M)) =>
++      (A.rightModuleEvaluation i).map
++        (Sigma.ι (fun g : A.finiteRightModuleGeneratorIndex M hM => A.representable g.1)
++          (⟨⟨i,hi⟩,j⟩ : A.finiteRightModuleGeneratorIndex M hM)) (A.id i)
++    refine ⟨∑ j, (b.repr x j) • y j,?_⟩
++    have H : ∀ j, (A.rightModuleEvaluation i).map (A.finiteFreeRightModuleπ M hM) (y j) = b j := by
++      intro j
++      let g : A.finiteRightModuleGeneratorIndex M hM := ⟨⟨i,hi⟩,j⟩
++      have h := Sigma.ι_desc (fun g : A.finiteRightModuleGeneratorIndex M hM =>
++        (A.representableYonedaEquiv g.1 M).symm (A.finiteRightModuleComponentBasis M hM g.1 g.2)) g
++      have h' := congrArg (A.representableYonedaEquiv i M) h
++      rw [A.representableYonedaEquiv_comp,LinearEquiv.apply_symm_apply] at h'
++      exact h'
++    simp only [map_sum,map_smul,H]
++    exact b.sum_repr x
++  · have hx : x = 0 := (ModuleCat.isZero_iff_subsingleton.mp
++      (A.finiteRightModuleSupport_isZero M hM i hi)).elim _ _
++    exact ⟨0,by simpa only [map_zero] using hx.symm⟩
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem leftFiniteDimensional_component_finite {M : A.LeftModule}
++    (hM : A.leftFiniteDimensionalProperty M) (i : ℤ) :
++    Module.Finite k ((A.leftModuleEvaluation i).obj M) := by
++  classical
++  letI : Module.Finite k (A.leftModuleTotalSpace M) := hM
++  apply FiniteDimensional.of_injective
++    (DirectSum.lof k ℤ (fun j => (A.leftModuleEvaluation j).obj M) i)
++  intro x y h
++  have H := congrArg (DirectSum.component k ℤ (fun j => (A.leftModuleEvaluation j).obj M) i) h
++  simpa only [DirectSum.component.lof_self] using H
++
++noncomputable def finiteLeftModuleSupport (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : Finset ℤ :=
++  (A.leftFiniteDimensional_finite_support hM).choose
++
++theorem finiteLeftModuleSupport_isZero (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) (i : ℤ) (hi : i ∉ A.finiteLeftModuleSupport M hM) :
++    IsZero ((A.leftModuleEvaluation i).obj M) :=
++  (A.leftFiniteDimensional_finite_support hM).choose_spec i hi
++
++noncomputable def finiteLeftModuleComponentBasis (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) (i : ℤ) :
++    Module.Basis (Fin (Module.finrank k ((A.leftModuleEvaluation i).obj M))) k
++      ((A.leftModuleEvaluation i).obj M) := by
++  letI := A.leftFiniteDimensional_component_finite hM i
++  exact Module.finBasis k _
++
++def finiteLeftModuleGeneratorIndex (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) :=
++  Σ i : A.finiteLeftModuleSupport M hM, Fin (Module.finrank k ((A.leftModuleEvaluation i).obj M))
++
++noncomputable instance finiteLeftModuleGeneratorIndexFintype (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : Fintype (A.finiteLeftModuleGeneratorIndex M hM) :=
++  inferInstanceAs (Fintype (Σ i : A.finiteLeftModuleSupport M hM,
++    Fin (Module.finrank k ((A.leftModuleEvaluation i).obj M))))
++
++noncomputable def finiteFreeLeftModule (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : A.LeftModule :=
++  ∐ fun g : A.finiteLeftModuleGeneratorIndex M hM => A.leftRepresentable g.1
++
++noncomputable def finiteFreeLeftModuleπ (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : A.finiteFreeLeftModule M hM ⟶ M :=
++  Sigma.desc fun g : A.finiteLeftModuleGeneratorIndex M hM =>
++    (A.leftRepresentableYonedaEquiv g.1 M).symm (A.finiteLeftModuleComponentBasis M hM g.1 g.2)
++
++theorem finiteFreeLeftModule_finiteProjective (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) :
++    A.leftFiniteProjectiveProperty (A.finiteFreeLeftModule M hM) :=
++  A.leftFiniteProjectiveProperty_coproduct (fun g : A.finiteLeftModuleGeneratorIndex M hM => g.1)
++
++noncomputable instance finiteFreeLeftModuleProjective (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : Projective (A.finiteFreeLeftModule M hM) :=
++  A.leftFiniteProjectiveProperty_projective (A.finiteFreeLeftModule_finiteProjective M hM)
++
++noncomputable instance finiteFreeLeftModuleπEpi (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : Epi (A.finiteFreeLeftModuleπ M hM) := by
++  classical
++  apply (A.leftModule_epi_iff_surjective _).mpr
++  intro i x
++  by_cases hi : i ∈ A.finiteLeftModuleSupport M hM
++  · let b := A.finiteLeftModuleComponentBasis M hM i
++    let y := fun j : Fin (Module.finrank k ((A.leftModuleEvaluation i).obj M)) =>
++      (A.leftModuleEvaluation i).map
++        (Sigma.ι (fun g : A.finiteLeftModuleGeneratorIndex M hM => A.leftRepresentable g.1)
++          (⟨⟨i,hi⟩,j⟩ : A.finiteLeftModuleGeneratorIndex M hM)) (A.id i)
++    refine ⟨∑ j, (b.repr x j) • y j,?_⟩
++    have H : ∀ j, (A.leftModuleEvaluation i).map (A.finiteFreeLeftModuleπ M hM) (y j) = b j := by
++      intro j
++      let g : A.finiteLeftModuleGeneratorIndex M hM := ⟨⟨i,hi⟩,j⟩
++      have h := Sigma.ι_desc (fun g : A.finiteLeftModuleGeneratorIndex M hM =>
++        (A.leftRepresentableYonedaEquiv g.1 M).symm (A.finiteLeftModuleComponentBasis M hM g.1 g.2)) g
++      have h' := congrArg (A.leftRepresentableYonedaEquiv i M) h
++      rw [A.leftRepresentableYonedaEquiv_comp,LinearEquiv.apply_symm_apply] at h'
++      exact h'
++    simp only [map_sum,map_smul,H]
++    exact b.sum_repr x
++  · have hx : x = 0 := (ModuleCat.isZero_iff_subsingleton.mp
++      (A.finiteLeftModuleSupport_isZero M hM i hi)).elim _ _
++    exact ⟨0,by simpa only [map_zero] using hx.symm⟩
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteProjectiveExtensionClosure.lean b/ASGinzburg/FiniteProjectiveExtensionClosure.lean
+new file mode 100644
+index 0000000..f0c7f13
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveExtensionClosure.lean
+@@ -0,0 +1,116 @@
++import ASGinzburg.FiniteProjectiveClosure
++import Mathlib.Algebra.Homology.ShortComplex.ShortExact
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {C : Type u} [Category.{v} C] [Preadditive C] (P Q : C)
++  [HasBinaryBiproduct P Q] [HasCoproduct (fun b : Bool => (match b with | false => Q | true => P))]
++
++noncomputable def boolCoproductIsoBiprod : (∐ fun b : Bool => (match b with | false => Q | true => P)) ≅ P ⊞ Q where
++  hom := Sigma.desc (fun b => match b with | false => biprod.inr | true => biprod.inl)
++  inv := biprod.desc (Sigma.ι (fun b : Bool => (match b with | false => Q | true => P)) true)
++    (Sigma.ι (fun b : Bool => (match b with | false => Q | true => P)) false)
++  hom_inv_id := by
++    apply Sigma.hom_ext
++    intro b
++    cases b <;> simp
++  inv_hom_id := by
++    apply biprod.hom_ext'
++    · simp
++    · simp
++end ASGinzburg
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightFiniteProjectiveProperty_of_retract {P Q : A.RightModule} (r : Retract P Q)
++    (hQ : A.rightFiniteProjectiveProperty Q) : A.rightFiniteProjectiveProperty P := by
++  obtain ⟨n,i,⟨rQ⟩⟩ := hQ
++  exact ⟨n,i,⟨r.trans rQ⟩⟩
++
++theorem rightFiniteProjectiveProperty_of_iso {P Q : A.RightModule} (e : P ≅ Q)
++    (hQ : A.rightFiniteProjectiveProperty Q) : A.rightFiniteProjectiveProperty P :=
++  A.rightFiniteProjectiveProperty_of_retract (Retract.ofIso e) hQ
++
++theorem rightFiniteProjectiveProperty_finite_coproduct {B : Type*} [Fintype B]
++    (P : B → A.RightModule) (hP : ∀ b, A.rightFiniteProjectiveProperty (P b)) :
++    A.rightFiniteProjectiveProperty (∐ P) := by
++  classical
++  choose n i hr using hP
++  let r : Retract (∐ P) (∐ fun b => ∐ fun j : Fin (n b) => A.representable (i b j)) :=
++    { i := CategoryTheory.Limits.Sigma.map (fun b => (hr b).some.i)
++      r := CategoryTheory.Limits.Sigma.map (fun b => (hr b).some.r)
++      retract := by
++        rw [CategoryTheory.Limits.Sigma.map_comp_map]
++        simp only [Retract.retract,CategoryTheory.Limits.Sigma.map_id] }
++  let e := sigmaSigmaIso (fun b => Fin (n b)) (fun b j => A.representable (i b j))
++  apply A.rightFiniteProjectiveProperty_of_retract (r.trans (Retract.ofIso e))
++  exact A.rightFiniteProjectiveProperty_coproduct (fun p : Σ b, Fin (n b) => i p.1 p.2)
++
++theorem rightFiniteProjectiveProperty_biprod {P Q : A.RightModule}
++    (hP : A.rightFiniteProjectiveProperty P) (hQ : A.rightFiniteProjectiveProperty Q) :
++    A.rightFiniteProjectiveProperty (P ⊞ Q) := by
++  apply A.rightFiniteProjectiveProperty_of_iso (ASGinzburg.boolCoproductIsoBiprod P Q).symm
++  apply A.rightFiniteProjectiveProperty_finite_coproduct
++  intro b
++  cases b
++  · exact hQ
++  · exact hP
++
++theorem rightFiniteProjectiveProperty_of_shortExact {S : ShortComplex A.RightModule}
++    (hS : S.ShortExact) (h₁ : A.rightFiniteProjectiveProperty S.X₁)
++    (h₃ : A.rightFiniteProjectiveProperty S.X₃) : A.rightFiniteProjectiveProperty S.X₂ := by
++  letI : Projective S.X₃ := A.rightFiniteProjectiveProperty_projective h₃
++  apply A.rightFiniteProjectiveProperty_of_iso hS.splittingOfProjective.isoBinaryBiproduct
++  exact A.rightFiniteProjectiveProperty_biprod h₁ h₃
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem leftFiniteProjectiveProperty_of_retract {P Q : A.LeftModule} (r : Retract P Q)
++    (hQ : A.leftFiniteProjectiveProperty Q) : A.leftFiniteProjectiveProperty P := by
++  obtain ⟨n,i,⟨rQ⟩⟩ := hQ
++  exact ⟨n,i,⟨r.trans rQ⟩⟩
++
++theorem leftFiniteProjectiveProperty_of_iso {P Q : A.LeftModule} (e : P ≅ Q)
++    (hQ : A.leftFiniteProjectiveProperty Q) : A.leftFiniteProjectiveProperty P :=
++  A.leftFiniteProjectiveProperty_of_retract (Retract.ofIso e) hQ
++
++theorem leftFiniteProjectiveProperty_finite_coproduct {B : Type*} [Fintype B]
++    (P : B → A.LeftModule) (hP : ∀ b, A.leftFiniteProjectiveProperty (P b)) :
++    A.leftFiniteProjectiveProperty (∐ P) := by
++  classical
++  choose n i hr using hP
++  let r : Retract (∐ P) (∐ fun b => ∐ fun j : Fin (n b) => A.leftRepresentable (i b j)) :=
++    { i := CategoryTheory.Limits.Sigma.map (fun b => (hr b).some.i)
++      r := CategoryTheory.Limits.Sigma.map (fun b => (hr b).some.r)
++      retract := by
++        rw [CategoryTheory.Limits.Sigma.map_comp_map]
++        simp only [Retract.retract,CategoryTheory.Limits.Sigma.map_id] }
++  let e := sigmaSigmaIso (fun b => Fin (n b)) (fun b j => A.leftRepresentable (i b j))
++  apply A.leftFiniteProjectiveProperty_of_retract (r.trans (Retract.ofIso e))
++  exact A.leftFiniteProjectiveProperty_coproduct (fun p : Σ b, Fin (n b) => i p.1 p.2)
++
++theorem leftFiniteProjectiveProperty_biprod {P Q : A.LeftModule}
++    (hP : A.leftFiniteProjectiveProperty P) (hQ : A.leftFiniteProjectiveProperty Q) :
++    A.leftFiniteProjectiveProperty (P ⊞ Q) := by
++  apply A.leftFiniteProjectiveProperty_of_iso (ASGinzburg.boolCoproductIsoBiprod P Q).symm
++  apply A.leftFiniteProjectiveProperty_finite_coproduct
++  intro b
++  cases b
++  · exact hQ
++  · exact hP
++
++theorem leftFiniteProjectiveProperty_of_shortExact {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (h₁ : A.leftFiniteProjectiveProperty S.X₁)
++    (h₃ : A.leftFiniteProjectiveProperty S.X₃) : A.leftFiniteProjectiveProperty S.X₂ := by
++  letI : Projective S.X₃ := A.leftFiniteProjectiveProperty_projective h₃
++  apply A.leftFiniteProjectiveProperty_of_iso hS.splittingOfProjective.isoBinaryBiproduct
++  exact A.leftFiniteProjectiveProperty_biprod h₁ h₃
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ShortExactKernels.lean b/ASGinzburg/ShortExactKernels.lean
+new file mode 100644
+index 0000000..477822b
+--- /dev/null
++++ b/ASGinzburg/ShortExactKernels.lean
+@@ -0,0 +1,46 @@
++import Mathlib.Algebra.Homology.ShortComplex.ShortExact
++import Mathlib.Algebra.Homology.ShortComplex.Abelian
++import Mathlib.Algebra.Homology.ShortComplex.SnakeLemma
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {C : Type u} [Category.{v} C] [Abelian C]
++
++noncomputable def shortExactSnakeInput {S T : ShortComplex C}
++    (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T) : ShortComplex.SnakeInput C where
++  L₀ := kernel φ
++  L₁ := S
++  L₂ := T
++  L₃ := cokernel φ
++  v₀₁ := kernel.ι φ
++  v₁₂ := φ
++  v₂₃ := cokernel.π φ
++  w₀₂ := kernel.condition φ
++  w₁₃ := cokernel.condition φ
++  h₀ := kernelIsKernel φ
++  h₃ := cokernelIsCokernel φ
++  L₁_exact := hS.exact
++  epi_L₁_g := hS.epi_g
++  L₂_exact := hT.exact
++  mono_L₂_f := hT.mono_f
++
++theorem kernel_shortExact_of_epi_first {S T : ShortComplex C}
++    (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T) [Epi φ.τ₁] :
++    (kernel φ).ShortExact := by
++  let K := shortExactSnakeInput hS hT φ
++  change K.L₀.ShortExact
++  have hz : IsZero K.L₃.X₁ := by
++    letI : Epi K.v₁₂.τ₁ := inferInstanceAs (Epi φ.τ₁)
++    exact CokernelCofork.IsColimit.isZero_of_epi K.h₃τ₁
++  have hf : Mono K.L₀.f := by
++    letI : Mono K.L₁.f := hS.mono_f
++    haveI : Mono (K.v₀₁.τ₁ ≫ K.L₁.f) := inferInstance
++    haveI : Mono (K.L₀.f ≫ K.v₀₁.τ₂) := by
++      rw [← K.v₀₁.comm₁₂]
++      infer_instance
++    exact mono_of_mono K.L₀.f K.v₀₁.τ₂
++  have hg : Epi K.L₀.g :=
++    (ShortComplex.exact_iff_epi K.L₁' (hz.eq_of_tgt _ _)).mp K.L₁'_exact
++  exact { exact := K.L₀_exact, mono_f := hf, epi_g := hg }
++end ASGinzburg
+diff --git a/ASGinzburg/ProjectiveExtensionCovers.lean b/ASGinzburg/ProjectiveExtensionCovers.lean
+new file mode 100644
+index 0000000..93ade04
+--- /dev/null
++++ b/ASGinzburg/ProjectiveExtensionCovers.lean
+@@ -0,0 +1,59 @@
++import ASGinzburg.ShortExactKernels
++import Mathlib.CategoryTheory.Preadditive.Projective.Basic
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {C : Type u} [Category.{v} C] [Abelian C] {S : ShortComplex C}
++  (hS : S.ShortExact) {P₁ P₃ : C} (p₁ : P₁ ⟶ S.X₁) (p₃ : P₃ ⟶ S.X₃) [Projective P₃]
++
++noncomputable def extensionProjectiveπ : P₁ ⊞ P₃ ⟶ S.X₂ := by
++  letI := hS.epi_g
++  exact biprod.desc (p₁ ≫ S.f) (Projective.factorThru p₃ S.g)
++
++@[simp] theorem extensionProjectiveπ_inl :
++    biprod.inl ≫ extensionProjectiveπ hS p₁ p₃ = p₁ ≫ S.f := by
++  simp [extensionProjectiveπ]
++
++theorem extensionProjectiveπ_g :
++    extensionProjectiveπ hS p₁ p₃ ≫ S.g = biprod.snd ≫ p₃ := by
++  letI := hS.epi_g
++  apply biprod.hom_ext'
++  · simp [extensionProjectiveπ,Category.assoc,S.zero]
++  · simp [extensionProjectiveπ]
++
++noncomputable def extensionProjectiveCoverHom :
++    (ShortComplex.mk (biprod.inl : P₁ ⟶ P₁ ⊞ P₃) biprod.snd (by simp)) ⟶ S where
++  τ₁ := p₁
++  τ₂ := extensionProjectiveπ hS p₁ p₃
++  τ₃ := p₃
++  comm₁₂ := (extensionProjectiveπ_inl hS p₁ p₃).symm
++  comm₂₃ := extensionProjectiveπ_g hS p₁ p₃
++
++noncomputable instance extensionProjectiveπEpi [Epi p₁] [Epi p₃] :
++    Epi (extensionProjectiveπ hS p₁ p₃) := by
++  letI := hS.epi_g
++  let φ := extensionProjectiveCoverHom hS p₁ p₃
++  letI : Epi φ.τ₁ := inferInstanceAs (Epi p₁)
++  letI : Epi φ.τ₃ := inferInstanceAs (Epi p₃)
++  exact ShortComplex.epi_τ₂_of_exact_of_epi φ hS.exact
++
++theorem extensionProjectiveKernel_shortExact [Epi p₁] :
++    (kernel (extensionProjectiveCoverHom hS p₁ p₃)).ShortExact := by
++  letI : Epi (extensionProjectiveCoverHom hS p₁ p₃).τ₁ := inferInstanceAs (Epi p₁)
++  exact kernel_shortExact_of_epi_first
++    (ShortComplex.Splitting.ofHasBinaryBiproduct P₁ P₃).shortExact hS _
++
++noncomputable def extensionProjectiveKernelLeftIso :
++    (kernel (extensionProjectiveCoverHom hS p₁ p₃)).X₁ ≅ kernel p₁ :=
++  PreservesKernel.iso (ShortComplex.π₁ : ShortComplex C ⥤ C) (extensionProjectiveCoverHom hS p₁ p₃)
++
++noncomputable def extensionProjectiveKernelMiddleIso :
++    (kernel (extensionProjectiveCoverHom hS p₁ p₃)).X₂ ≅
++      kernel (extensionProjectiveπ hS p₁ p₃) :=
++  PreservesKernel.iso (ShortComplex.π₂ : ShortComplex C ⥤ C) (extensionProjectiveCoverHom hS p₁ p₃)
++
++noncomputable def extensionProjectiveKernelRightIso :
++    (kernel (extensionProjectiveCoverHom hS p₁ p₃)).X₃ ≅ kernel p₃ :=
++  PreservesKernel.iso (ShortComplex.π₃ : ShortComplex C ⥤ C) (extensionProjectiveCoverHom hS p₁ p₃)
++end ASGinzburg
+diff --git a/ASGinzburg/FiniteProjectiveResolutionLength.lean b/ASGinzburg/FiniteProjectiveResolutionLength.lean
+new file mode 100644
+index 0000000..a25de26
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveResolutionLength.lean
+@@ -0,0 +1,165 @@
++import ASGinzburg.ProjectiveExtensionCovers
++import ASGinzburg.FiniteProjectiveExtensionClosure
++import ASGinzburg.ProjectiveResolutionSyzygies
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Concrete finite projective resolutions, expressed recursively through actual
++epimorphisms and kernels. This is a derived property, not an added AS hypothesis. -/
++noncomputable def HasRightFiniteProjectiveResolutionLength (A : ZAlgebra.{u,v} k) : ℕ → A.RightModule → Prop
++  | 0, M => A.rightFiniteProjectiveProperty M
++  | n+1, M => ∃ (P : A.RightModule) (π : P ⟶ M),
++      A.rightFiniteProjectiveProperty P ∧ Epi π ∧
++        HasRightFiniteProjectiveResolutionLength A n (kernel π)
++
++theorem hasRightFiniteProjectiveResolutionLength_of_iso (n : ℕ) {M N : A.RightModule}
++    (e : M ≅ N) (hN : A.HasRightFiniteProjectiveResolutionLength n N) :
++    A.HasRightFiniteProjectiveResolutionLength n M := by
++  induction n generalizing M N with
++  | zero => exact A.rightFiniteProjectiveProperty_of_iso e hN
++  | succ n ih =>
++    obtain ⟨P,π,hP,hπ,htail⟩ := hN
++    letI := hπ
++    refine ⟨P,π ≫ e.inv,hP,inferInstance,?_⟩
++    exact ih (kernelCompMono π e.inv) htail
++
++theorem hasRightFiniteProjectiveResolutionLength_of_isZero (n : ℕ) {M : A.RightModule}
++    (hM : IsZero M) : A.HasRightFiniteProjectiveResolutionLength n M := by
++  induction n generalizing M with
++  | zero => exact A.rightFiniteProjectiveProperty_of_isZero hM
++  | succ n ih =>
++    let π : (0 : A.RightModule) ⟶ M := 0
++    letI : Epi π := epi_of_target_iso_zero π hM.isoZero
++    letI : Mono π := mono_of_source_iso_zero π (isZero_zero A.RightModule).isoZero
++    refine ⟨0,π,A.rightFiniteProjectiveProperty_of_isZero (isZero_zero _),inferInstance,?_⟩
++    exact ih (isZero_kernel_of_mono π)
++
++theorem hasRightFiniteProjectiveResolutionLength_of_fourTermResolution {M : A.RightModule}
++    (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
++    (hP : ∀ n, n < 4 → A.rightFiniteProjectiveProperty (P.complex.X n)) :
++    A.HasRightFiniteProjectiveResolutionLength 3 M := by
++  let q : P.complex.X 3 ⟶ kernel P.secondCover :=
++    kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover
++  letI : Mono (P.complex.d 3 2) := P.mono_d₃_of_isZero_four h₄
++  letI : Mono q := inferInstanceAs (Mono (kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover))
++  letI : Epi q :=
++    (ShortComplex.exact_iff_epi_kernel_lift
++      (ShortComplex.mk _ _ P.d₃_secondCover)).mp P.exact_d₃_secondCover
++  letI : IsIso q := isIso_of_mono_of_epi q
++  have hlast : A.rightFiniteProjectiveProperty (kernel P.secondCover) :=
++    A.rightFiniteProjectiveProperty_of_iso (asIso q).symm (hP 3 (by decide))
++  exact ⟨P.complex.X 0,P.π.f 0,hP 0 (by decide),inferInstance,
++    ⟨P.complex.X 1,P.firstCover,hP 1 (by decide),inferInstance,
++      ⟨P.complex.X 2,P.secondCover,hP 2 (by decide),inferInstance,hlast⟩⟩⟩
++
++theorem hasRightFiniteProjectiveResolutionLength_of_shortExact (n : ℕ)
++    {S : ShortComplex A.RightModule} (hS : S.ShortExact)
++    (h₁ : A.HasRightFiniteProjectiveResolutionLength n S.X₁)
++    (h₃ : A.HasRightFiniteProjectiveResolutionLength n S.X₃) :
++    A.HasRightFiniteProjectiveResolutionLength n S.X₂ := by
++  induction n generalizing S with
++  | zero => exact A.rightFiniteProjectiveProperty_of_shortExact hS h₁ h₃
++  | succ n ih =>
++    obtain ⟨P₁,p₁,hP₁,hp₁,ht₁⟩ := h₁
++    obtain ⟨P₃,p₃,hP₃,hp₃,ht₃⟩ := h₃
++    letI := hp₁
++    letI := hp₃
++    letI : Projective P₃ := A.rightFiniteProjectiveProperty_projective hP₃
++    let K := kernel (ASGinzburg.extensionProjectiveCoverHom hS p₁ p₃)
++    have hK : K.ShortExact := ASGinzburg.extensionProjectiveKernel_shortExact hS p₁ p₃
++    have hK₁ : A.HasRightFiniteProjectiveResolutionLength n K.X₁ :=
++      A.hasRightFiniteProjectiveResolutionLength_of_iso n
++        (ASGinzburg.extensionProjectiveKernelLeftIso hS p₁ p₃) ht₁
++    have hK₃ : A.HasRightFiniteProjectiveResolutionLength n K.X₃ :=
++      A.hasRightFiniteProjectiveResolutionLength_of_iso n
++        (ASGinzburg.extensionProjectiveKernelRightIso hS p₁ p₃) ht₃
++    refine ⟨P₁ ⊞ P₃,ASGinzburg.extensionProjectiveπ hS p₁ p₃,
++      A.rightFiniteProjectiveProperty_biprod hP₁ hP₃,inferInstance,?_⟩
++    exact A.hasRightFiniteProjectiveResolutionLength_of_iso n
++      (ASGinzburg.extensionProjectiveKernelMiddleIso hS p₁ p₃).symm (ih hK hK₁ hK₃)
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Concrete finite projective resolutions, expressed recursively through actual
++epimorphisms and kernels. This is a derived property, not an added AS hypothesis. -/
++noncomputable def HasLeftFiniteProjectiveResolutionLength (A : ZAlgebra.{u,v} k) : ℕ → A.LeftModule → Prop
++  | 0, M => A.leftFiniteProjectiveProperty M
++  | n+1, M => ∃ (P : A.LeftModule) (π : P ⟶ M),
++      A.leftFiniteProjectiveProperty P ∧ Epi π ∧
++        HasLeftFiniteProjectiveResolutionLength A n (kernel π)
++
++theorem hasLeftFiniteProjectiveResolutionLength_of_iso (n : ℕ) {M N : A.LeftModule}
++    (e : M ≅ N) (hN : A.HasLeftFiniteProjectiveResolutionLength n N) :
++    A.HasLeftFiniteProjectiveResolutionLength n M := by
++  induction n generalizing M N with
++  | zero => exact A.leftFiniteProjectiveProperty_of_iso e hN
++  | succ n ih =>
++    obtain ⟨P,π,hP,hπ,htail⟩ := hN
++    letI := hπ
++    refine ⟨P,π ≫ e.inv,hP,inferInstance,?_⟩
++    exact ih (kernelCompMono π e.inv) htail
++
++theorem hasLeftFiniteProjectiveResolutionLength_of_isZero (n : ℕ) {M : A.LeftModule}
++    (hM : IsZero M) : A.HasLeftFiniteProjectiveResolutionLength n M := by
++  induction n generalizing M with
++  | zero => exact A.leftFiniteProjectiveProperty_of_isZero hM
++  | succ n ih =>
++    let π : (0 : A.LeftModule) ⟶ M := 0
++    letI : Epi π := epi_of_target_iso_zero π hM.isoZero
++    letI : Mono π := mono_of_source_iso_zero π (isZero_zero A.LeftModule).isoZero
++    refine ⟨0,π,A.leftFiniteProjectiveProperty_of_isZero (isZero_zero _),inferInstance,?_⟩
++    exact ih (isZero_kernel_of_mono π)
++
++theorem hasLeftFiniteProjectiveResolutionLength_of_fourTermResolution {M : A.LeftModule}
++    (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
++    (hP : ∀ n, n < 4 → A.leftFiniteProjectiveProperty (P.complex.X n)) :
++    A.HasLeftFiniteProjectiveResolutionLength 3 M := by
++  let q : P.complex.X 3 ⟶ kernel P.secondCover :=
++    kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover
++  letI : Mono (P.complex.d 3 2) := P.mono_d₃_of_isZero_four h₄
++  letI : Mono q := inferInstanceAs (Mono (kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover))
++  letI : Epi q :=
++    (ShortComplex.exact_iff_epi_kernel_lift
++      (ShortComplex.mk _ _ P.d₃_secondCover)).mp P.exact_d₃_secondCover
++  letI : IsIso q := isIso_of_mono_of_epi q
++  have hlast : A.leftFiniteProjectiveProperty (kernel P.secondCover) :=
++    A.leftFiniteProjectiveProperty_of_iso (asIso q).symm (hP 3 (by decide))
++  exact ⟨P.complex.X 0,P.π.f 0,hP 0 (by decide),inferInstance,
++    ⟨P.complex.X 1,P.firstCover,hP 1 (by decide),inferInstance,
++      ⟨P.complex.X 2,P.secondCover,hP 2 (by decide),inferInstance,hlast⟩⟩⟩
++
++theorem hasLeftFiniteProjectiveResolutionLength_of_shortExact (n : ℕ)
++    {S : ShortComplex A.LeftModule} (hS : S.ShortExact)
++    (h₁ : A.HasLeftFiniteProjectiveResolutionLength n S.X₁)
++    (h₃ : A.HasLeftFiniteProjectiveResolutionLength n S.X₃) :
++    A.HasLeftFiniteProjectiveResolutionLength n S.X₂ := by
++  induction n generalizing S with
++  | zero => exact A.leftFiniteProjectiveProperty_of_shortExact hS h₁ h₃
++  | succ n ih =>
++    obtain ⟨P₁,p₁,hP₁,hp₁,ht₁⟩ := h₁
++    obtain ⟨P₃,p₃,hP₃,hp₃,ht₃⟩ := h₃
++    letI := hp₁
++    letI := hp₃
++    letI : Projective P₃ := A.leftFiniteProjectiveProperty_projective hP₃
++    let K := kernel (ASGinzburg.extensionProjectiveCoverHom hS p₁ p₃)
++    have hK : K.ShortExact := ASGinzburg.extensionProjectiveKernel_shortExact hS p₁ p₃
++    have hK₁ : A.HasLeftFiniteProjectiveResolutionLength n K.X₁ :=
++      A.hasLeftFiniteProjectiveResolutionLength_of_iso n
++        (ASGinzburg.extensionProjectiveKernelLeftIso hS p₁ p₃) ht₁
++    have hK₃ : A.HasLeftFiniteProjectiveResolutionLength n K.X₃ :=
++      A.hasLeftFiniteProjectiveResolutionLength_of_iso n
++        (ASGinzburg.extensionProjectiveKernelRightIso hS p₁ p₃) ht₃
++    refine ⟨P₁ ⊞ P₃,ASGinzburg.extensionProjectiveπ hS p₁ p₃,
++      A.leftFiniteProjectiveProperty_biprod hP₁ hP₃,inferInstance,?_⟩
++    exact A.hasLeftFiniteProjectiveResolutionLength_of_iso n
++      (ASGinzburg.extensionProjectiveKernelMiddleIso hS p₁ p₃).symm (ih hK hK₁ hK₃)
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASFiniteDimensionalResolutionLength.lean b/ASGinzburg/ASFiniteDimensionalResolutionLength.lean
+new file mode 100644
+index 0000000..2bc84b5
+--- /dev/null
++++ b/ASGinzburg/ASFiniteDimensionalResolutionLength.lean
+@@ -0,0 +1,65 @@
++import ASGinzburg.FiniteProjectiveResolutionLength
++import ASGinzburg.FiniteVertexFiltration
++import ASGinzburg.ASFiniteProjectiveComplex
++import ASGinzburg.ASLeftResolution
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem rightSimple_hasFiniteProjectiveResolutionLength (hAS : A.ASRegular Q) (i : ℤ) :
++    A.HasRightFiniteProjectiveResolutionLength 3 (A.simpleRightModule i) := by
++  obtain ⟨w,rfl⟩ := Q.height_bijective.surjective i
++  let R := hAS.resolution A Q w
++  apply A.hasRightFiniteProjectiveResolutionLength_of_fourTermResolution R.toProjectiveResolution
++    (R.complex_isZero_ge_four 0)
++  intro n _
++  exact R.complexTermFiniteProjective n
++
++theorem leftSimple_hasFiniteProjectiveResolutionLength (hAS : A.ASRegular Q) (i : ℤ) :
++    A.HasLeftFiniteProjectiveResolutionLength 3 (A.simpleLeftModule i) := by
++  obtain ⟨u,rfl⟩ := Q.height_bijective.surjective i
++  let R := hAS.resolution A Q (Q.tau u)
++  have H := A.hasLeftFiniteProjectiveResolutionLength_of_fourTermResolution
++    (R.toLeftProjectiveResolution hAS) (R.leftResolutionComplex_isZero_ge_four 0)
++    (fun n _ => R.leftResolutionTermFiniteProjective n)
++  rw [Q.tau.symm_apply_apply] at H
++  exact H
++
++theorem rightVertexFiltration_hasFiniteProjectiveResolutionLength (hAS : A.ASRegular Q)
++    {M : A.RightModule} (F : A.RightVertexFiltration M) :
++    A.HasRightFiniteProjectiveResolutionLength 3 M := by
++  induction F with
++  | zero hM => exact A.hasRightFiniteProjectiveResolutionLength_of_isZero 3 hM
++  | @step M i f hf tail ih =>
++    letI := hf
++    have hS : (ShortComplex.mk f (cokernel.π f) (cokernel.condition f)).ShortExact :=
++      { exact := ShortComplex.exact_cokernel f }
++    exact A.hasRightFiniteProjectiveResolutionLength_of_shortExact 3 hS
++      (A.rightSimple_hasFiniteProjectiveResolutionLength Q hAS i) ih
++
++theorem leftVertexFiltration_hasFiniteProjectiveResolutionLength (hAS : A.ASRegular Q)
++    {M : A.LeftModule} (F : A.LeftVertexFiltration M) :
++    A.HasLeftFiniteProjectiveResolutionLength 3 M := by
++  induction F with
++  | zero hM => exact A.hasLeftFiniteProjectiveResolutionLength_of_isZero 3 hM
++  | @step M i f hf tail ih =>
++    letI := hf
++    have hS : (ShortComplex.mk f (cokernel.π f) (cokernel.condition f)).ShortExact :=
++      { exact := ShortComplex.exact_cokernel f }
++    exact A.hasLeftFiniteProjectiveResolutionLength_of_shortExact 3 hS
++      (A.leftSimple_hasFiniteProjectiveResolutionLength Q hAS i) ih
++
++theorem rightFiniteDimensional_hasFiniteProjectiveResolutionLength (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) :
++    A.HasRightFiniteProjectiveResolutionLength 3 M :=
++  A.rightVertexFiltration_hasFiniteProjectiveResolutionLength Q hAS
++    (A.rightFiniteDimensionalVertexFiltration M hM)
++
++theorem leftFiniteDimensional_hasFiniteProjectiveResolutionLength (hAS : A.ASRegular Q)
++    (M : A.LeftModule) (hM : A.leftFiniteDimensionalProperty M) :
++    A.HasLeftFiniteProjectiveResolutionLength 3 M :=
++  A.leftVertexFiltration_hasFiniteProjectiveResolutionLength Q hAS
++    (A.leftFiniteDimensionalVertexFiltration M hM)
++end ASGinzburg.ZAlgebra
