@@ -63,6 +63,9 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.ASResolution.augmentationQuasiIso
 #print axioms ASGinzburg.ZAlgebra.ASResolution.toProjectiveResolution
 #print axioms ASGinzburg.ZAlgebra.ASResolution.complex_isZero_ge_four
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extShiftThree
+#print axioms ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_eq_zero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_rank_zero
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq
 #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex
