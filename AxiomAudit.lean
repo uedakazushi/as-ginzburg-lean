@@ -393,6 +393,16 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtAddEquiv
 #print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv
 #print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv
+#print axioms ASGinzburg.exactEquivalenceExtAddEquiv_hom
+#print axioms ASGinzburg.exactEquivalenceExtAddEquiv_precomp
+#print axioms ASGinzburg.exactEquivalenceExtAddEquiv_postcomp
+#print axioms ASGinzburg.exactEquivalenceExtLinearEquiv_toAddEquiv
+#print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv_toAddEquiv
+#print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv_precomp
+#print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv_postcomp
+#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv_toAddEquiv
+#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv_precomp
+#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv_postcomp
 #print axioms ASGinzburg.ZAlgebra.totalUnitization
 #print axioms ASGinzburg.ZAlgebra.totalUnitizationRing
 #print axioms ASGinzburg.ZAlgebra.totalUnitizationSemiring

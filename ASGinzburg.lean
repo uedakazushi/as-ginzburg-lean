@@ -16,6 +16,7 @@ import ASGinzburg.LocallyUnitalEquivalence
 import ASGinzburg.LocallyUnitalAbelian
 import ASGinzburg.ExactEquivalenceExt
 import ASGinzburg.LocallyUnitalExtComparison
+import ASGinzburg.LocallyUnitalExtNaturality
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct

@@ -33,9 +33,10 @@ LocallyUnitalEquivalence.leanで和の写像の全単位化作用への適合性
 LocallyUnitalAbelian.leanで左右関手のk線形性と、局所単位付き圏のAbelian構造・EnoughProjectives・実際のHasExtを証明済み。
 ExactEquivalenceExt.leanで一般の導来圏の同値・single complex・shiftへの適合性とExt同型を構成し、
 LocallyUnitalExtComparison.leanで全M,N・全次数の左右Extのk線形同型を証明した。
-前合成・後合成の自然性、正則総加群と総代数の同定と(1.12)への移送が次の義務である。
+LocallyUnitalExtNaturality.leanで全次数Ext比較の前合成・後合成の自然性も証明した。
+正則総加群と総代数の同定と(1.12)への移送が次の義務である。
 忠実性とexactnessだけからExt保存を結論しない。
 
 原論文(1.12)の成分モデルでのExt直和交換と全成分左作用への適合性は前回証明済み。
-圏同値と全次数のk線形Ext同型は完成したが、自然性・正則総加群の同定と左作用の移送がまだ必要であり、原論文Gr(A)内の(1.12)全体の完成とは扱わない。
+圏同値と全次数のk線形Ext同型は完成したが、自然性は完成。正則総加群の同定と左作用の移送がまだ必要であり、原論文Gr(A)内の(1.12)全体の完成とは扱わない。
 有限長双対性・周期性、定理3.2と系5.2の正式なLean定理文と証明は未完成。
