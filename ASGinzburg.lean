@@ -9,6 +9,7 @@ import ASGinzburg.LocallyUnitalModules
 import ASGinzburg.TotalModuleFunctors
 import ASGinzburg.TotalModuleFullness
 import ASGinzburg.UnitizationComponentActions
+import ASGinzburg.UnitizationComponentModules
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct
