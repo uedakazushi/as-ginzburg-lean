@@ -212,6 +212,14 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.rightModuleExt_mk₀_smul
 #print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroLinearEquiv
 #print axioms ASGinzburg.ZAlgebra.representableExtZeroLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.rightModuleDerivedShiftLinear
+#print axioms ASGinzburg.ZAlgebra.rightModuleExt_smul_comp
+#print axioms ASGinzburg.ZAlgebra.rightModuleExt_comp_smul
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtBoundary
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtBoundary_bijective
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtDimensionShift
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroBoundary_bijective
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroDimensionShift
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluation
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive
 #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits

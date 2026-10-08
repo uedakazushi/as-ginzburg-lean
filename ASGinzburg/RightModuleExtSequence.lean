@@ -1,0 +1,115 @@
+import ASGinzburg.RightModuleExtLinear
+
+/-!
+# Scalar-linear connecting maps for the actual derived-category Ext
+
+These use mathlib's long exact sequence, not an assumed comparison isomorphism.
+They are intended for the syzygy short exact sequences of the finite AS resolution.
+-/
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable instance rightModuleDerivedShiftLinear (n : ℤ) :
+    letI := HasDerivedCategory.standard A.RightModule
+    letI : Linear k (DerivedCategory A.RightModule) := A.rightModuleDerivedLinear
+    (shiftFunctor (DerivedCategory A.RightModule) n).Linear k := by
+  letI := HasDerivedCategory.standard A.RightModule
+  letI : Linear k (DerivedCategory A.RightModule) := A.rightModuleDerivedLinear
+  letI := A.rightModuleDerivedQhLinear
+  exact Shift.linear_of_localization k DerivedCategory.Qh
+    (HomotopyCategory.subcategoryAcyclic A.RightModule).trW n
+
+theorem rightModuleExt_smul_comp {X Y Z : A.RightModule} {a b c : ℕ}
+    (x : Abelian.Ext.{v} X Y a) (y : Abelian.Ext.{v} Y Z b) (h : a + b = c) (r : k) :
+    (r • x).comp y h = r • x.comp y h := by
+  letI := HasDerivedCategory.standard A.RightModule
+  letI : Linear k (DerivedCategory A.RightModule) := A.rightModuleDerivedLinear
+  apply (A.rightModuleExtHomLinearEquiv X Z c).injective
+  rw [LinearEquiv.map_smul]
+  change ((r • x).comp y h).hom = r • (x.comp y h).hom
+  rw [Abelian.Ext.comp_hom, Abelian.Ext.comp_hom]
+  have hx : (r • x).hom = r • x.hom :=
+    (A.rightModuleExtHomLinearEquiv X Y a).map_smul r x
+  rw [hx]
+  dsimp only [ShiftedHom.comp, shiftedHomModule]
+  exact Linear.smul_comp _ _ _ r x.hom _
+
+theorem rightModuleExt_comp_smul {X Y Z : A.RightModule} {a b c : ℕ}
+    (x : Abelian.Ext.{v} X Y a) (y : Abelian.Ext.{v} Y Z b) (h : a + b = c) (r : k) :
+    x.comp (r • y) h = r • x.comp y h := by
+  letI := HasDerivedCategory.standard A.RightModule
+  letI : Linear k (DerivedCategory A.RightModule) := A.rightModuleDerivedLinear
+  letI := A.rightModuleDerivedShiftLinear (a : ℤ)
+  apply (A.rightModuleExtHomLinearEquiv X Z c).injective
+  rw [LinearEquiv.map_smul]
+  change (x.comp (r • y) h).hom = r • (x.comp y h).hom
+  rw [Abelian.Ext.comp_hom, Abelian.Ext.comp_hom]
+  have hy : (r • y).hom = r • y.hom :=
+    (A.rightModuleExtHomLinearEquiv Y Z b).map_smul r y
+  rw [hy]
+  dsimp only [ShiftedHom.comp, shiftedHomModule]
+  rw [Functor.map_smul]
+  rw [Linear.smul_comp _ _ _ r
+    ((shiftFunctor (DerivedCategory A.RightModule) (a : ℤ)).map y.hom) _]
+  exact Linear.comp_smul _ _ _ x.hom r _
+
+noncomputable def rightModuleExtBoundary {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) (N : A.RightModule) (n : ℕ) :
+    Abelian.Ext.{v} S.X₁ N n →ₗ[k] Abelian.Ext.{v} S.X₃ N (n + 1) where
+  toFun x := hS.extClass.comp x (Nat.add_comm 1 n)
+  map_add' x y := Abelian.Ext.comp_add _ x y _
+  map_smul' r x := A.rightModuleExt_comp_smul _ x _ r
+
+theorem rightModuleExtBoundary_bijective {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.RightModule) (n : ℕ) :
+    Function.Bijective (A.rightModuleExtBoundary hS N (n + 1)) := by
+  constructor
+  · apply LinearMap.ker_eq_bot.mp
+    apply LinearMap.ker_eq_bot'.mpr
+    intro x hx
+    obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N x
+      (Nat.add_comm 1 (n + 1)) hx
+    rw [Abelian.Ext.eq_zero_of_projective y, Abelian.Ext.comp_zero] at hy
+    exact hy.symm
+  · intro x
+    exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
+      (Abelian.Ext.eq_zero_of_projective _) (Nat.add_comm 1 (n + 1))
+
+/-- Actual positive-degree dimension shifting, proved using exactness and projectivity. -/
+noncomputable def rightModuleExtDimensionShift {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.RightModule) (n : ℕ) :
+    Abelian.Ext.{v} S.X₁ N (n + 1) ≃ₗ[k] Abelian.Ext.{v} S.X₃ N (n + 2) :=
+  LinearEquiv.ofBijective (A.rightModuleExtBoundary hS N (n + 1))
+    (A.rightModuleExtBoundary_bijective hS N n)
+
+theorem rightModuleExtZeroBoundary_bijective {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.RightModule)
+    (hHom : ∀ f : S.X₂ ⟶ N, f = 0) :
+    Function.Bijective (A.rightModuleExtBoundary hS N 0) := by
+  constructor
+  · apply LinearMap.ker_eq_bot.mp
+    apply LinearMap.ker_eq_bot'.mpr
+    intro x hx
+    obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N x (by rfl) hx
+    have hy0 : y = 0 := by
+      apply (A.rightModuleExtZeroLinearEquiv S.X₂ N).injective
+      simpa using hHom ((A.rightModuleExtZeroLinearEquiv S.X₂ N) y)
+    rw [hy0, Abelian.Ext.comp_zero] at hy
+    exact hy.symm
+  · intro x
+    exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
+      (Abelian.Ext.eq_zero_of_projective _) (by rfl)
+
+/-- The degree-zero shift requires an actual Hom vanishing proof; for the
+AS duality calculation the higher-height projective terms provide it. -/
+noncomputable def rightModuleExtZeroDimensionShift {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.RightModule)
+    (hHom : ∀ f : S.X₂ ⟶ N, f = 0) :
+    Abelian.Ext.{v} S.X₁ N 0 ≃ₗ[k] Abelian.Ext.{v} S.X₃ N 1 :=
+  LinearEquiv.ofBijective (A.rightModuleExtBoundary hS N 0)
+    (A.rightModuleExtZeroBoundary_bijective hS N hHom)
+
+end ASGinzburg.ZAlgebra

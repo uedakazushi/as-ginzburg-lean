@@ -152,3 +152,21 @@ representableHom_vanishesと有限coproductの普遍性から証明した。
 開始UTC 2026-10-08T02:55:44.372772+00:00、終了UTC 2026-10-08T02:57:35.199626+00:00。
 328異なる宣言・149 theorem・50 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit9.patch。
+
+## 証明単位10：実際のExtの線形connecting mapと次元シフト
+
+`RightModuleExtSequence.lean`で標準導来圏のshiftのk線形性とExtのYoneda積の双線形性を証明した。
+mathlibの短完全列のextClassから実際のExtのk線形なconnecting mapを構成した。
+中間項が射影的なら正次数のconnecting mapは全単射で、実際のExtの線形なdimension shiftになる。
+0次の場合はHom(S.X₂,N)=0の証明も必要で、これを明示して線形同型を証明した。
+このHom消滅は原論文命題1.3の高い頂点の射影項にはASDualityHomTermsから導けるが、
+AS有限分解をsyzygyの短完全列に切り分けてこの同型を合成する接続はまだ未証明。
+比較同型を仮定に追加していない。任意のPropや独自axiomによる代替もない。
+次：ASResolutionのkernel/imageのsyzygy短完全列を構成し、実際のExt³(s_(tau v),P_v)をkと同定する。
+単位9のmain保存：d2b1091edb908b5df735254639ded644d56b4994。
+
+
+検証：`20261008T025935Z-9dac7919`、118.847390秒、全段階終了0。
+開始UTC 2026-10-08T02:59:35.218932+00:00、終了UTC 2026-10-08T03:01:34.066331+00:00。
+336異なる宣言・153 theorem・51 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit10.patch。
