@@ -1,8 +1,8 @@
 # Codexクラウドへの引継ぎ
 
-単位36：切詰めrepresentable間のHomによる元の代数成分回収、単位元と積の保存、下端変更の実際の全射と被覆・Homへの自然性、被覆の対角成分同型と後合成の単射性が完成。これらを正規化した区間同型のcoherenceに用いる。次はNakayamaの正規化等式の元の加群圏への移送と区間coherence・周期性。総ベクトル双対比較の自然性/作用適合性、左側総正則Ext比較・標準RHom/derived/perfectと主定理は未完成。両主定理の正式Lean定理文も未実装。
-最新ローカル検証 20261008T151847Z-f8f11ea6：160数学モジュール・1621異なる宣言・726 theorem、全段階終了0。
-単位1〜36の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+総空間の成分線形双対と通常のk値双対のcanonicalな線形同型・左右の射に対する自然性・全総代数作用への適合性まで完成。有限区間Nakayamaの包含比較、区間内部の被覆正規化等式、実際の右加群射と合成保存・正規化した被覆の右加群同型まで完成。元の右加群圏での正規化等式と区間coherenceによるAS周期性、左側総正則Ext比較、標準RHom/derived/perfect、命題5.1と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
+最新ローカル検証 20261008T155326Z-0f95e4a0：166数学モジュール・1654異なる宣言・749 theorem、全段階終了0。
+単位1〜37の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -22,14 +22,14 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 具体的Ext成分左加群の次数集中と左単純商との同型、左右A-dualとrepresentableの二重双対も完成。
 前回のExt直和交換と成分作用への適合性はdocs/ext_coproduct_exchange.mdとruns/ext-sums-20261008.md。
 今回の総代数・両側局所単位・左右総作用はdocs/total_algebra_comparison.md。
-開始時の60数学モジュールは無変更。canonical二重A-dualは有限生成射影・有界cochainホモトピー圏まで完成。左右Gr(A)圏同値・自然な全次数Ext保存、有限次元の二重Ext自然同型・Ext³反変同値・成分線形双対・exactなNakayama自己同値、両方向の台保存と有限区間制限同値、実際の射影被覆の正規化した移送同型、切詰めrepresentable間のHomによる代数成分回収と単位元/積保存、区間変更の全射とその自然性まで完成。総ベクトル双対の自然比較・作用適合性、左側総正則Ext比較、標準RHom/derived/perfect、正規化した区間移送のcoherenceと周期性は未完成。
+開始時の60数学モジュールは無変更。canonical二重双対は有限生成射影・有界cochainホモトピー圏・有限次元の実際Ext³まで完成。具体的な局所単位付きGr(A)圏と全次数Ext比較は完成。総ベクトル双対の自然比較と全作用への適合性も完成。標準RHomの符号・shift/derived/perfectと左側総正則Ext比較は未完成。
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T151847Z-f8f11ea6`、全段階終了0、1302.043897355秒。
-UTC 2026-10-08T15:18:47.534504+00:00 → 2026-10-08T15:40:29.578476+00:00。
-JST 2026-10-09T00:18:47.534504+09:00 → 2026-10-09T00:40:29.578476+09:00。
-160数学モジュール・1621異なる明示的宣言・全726 theorem・267 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T155326Z-0f95e4a0`、全段階終了0、1328.748135112秒。
+UTC 2026-10-08T15:53:26.118149+00:00 → 2026-10-08T16:15:34.866291+00:00。
+JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
+166数学モジュール・1654異なる明示的宣言・全749 theorem・267 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。

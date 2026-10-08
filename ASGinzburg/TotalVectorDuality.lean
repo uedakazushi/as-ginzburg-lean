@@ -1,0 +1,109 @@
+import ASGinzburg.DirectSumDuality
+import ASGinzburg.ModuleVectorDuality
+import ASGinzburg.TotalModuleFunctors
+
+/-! Canonical, natural total-space comparisons with the ordinary k-linear dual. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable def rightModuleVectorDualTotalLinearMap (M : A.RightModule) :
+    A.leftModuleTotalSpace (A.rightModuleVectorDual M) →ₗ[k] Module.Dual k (A.rightModuleTotalSpace M) :=
+  (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.rightModuleTotalSpace M)) (A.scalarEndEquiv 0).symm).toLinearMap.comp
+    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap (fun i => (A.rightModuleEvaluation i).obj M)
+      (ModuleCat.of k (A.Hom 0 0)))
+
+theorem rightModuleVectorDualTotalLinearMap_bijective (M : A.RightModule)
+    (hM : A.rightFiniteDimensionalProperty M) : Function.Bijective (A.rightModuleVectorDualTotalLinearMap M) := by
+  obtain ⟨S,hS⟩ := A.rightFiniteDimensional_finite_support hM
+  exact (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.rightModuleTotalSpace M))
+    (A.scalarEndEquiv 0).symm).bijective.comp
+      (ASGinzburg.moduleCatDirectSumDualIntoLinearMap_bijective _ _ S
+        (fun i hi x => (ModuleCat.isZero_iff_subsingleton.mp (hS i hi)).elim x 0))
+
+noncomputable def rightModuleVectorDualTotalLinearEquiv (M : A.RightModule)
+    (hM : A.rightFiniteDimensionalProperty M) :
+    A.leftModuleTotalSpace (A.rightModuleVectorDual M) ≃ₗ[k] Module.Dual k (A.rightModuleTotalSpace M) :=
+  LinearEquiv.ofBijective (A.rightModuleVectorDualTotalLinearMap M)
+    (A.rightModuleVectorDualTotalLinearMap_bijective M hM)
+
+noncomputable def leftModuleVectorDualTotalLinearMap (M : A.LeftModule) :
+    A.rightModuleTotalSpace (A.leftModuleVectorDual M) →ₗ[k] Module.Dual k (A.leftModuleTotalSpace M) :=
+  (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.leftModuleTotalSpace M)) (A.scalarEndEquiv 0).symm).toLinearMap.comp
+    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap (fun i => (A.leftModuleEvaluation i).obj M)
+      (ModuleCat.of k (A.Hom 0 0)))
+
+theorem leftModuleVectorDualTotalLinearMap_bijective (M : A.LeftModule)
+    (hM : A.leftFiniteDimensionalProperty M) : Function.Bijective (A.leftModuleVectorDualTotalLinearMap M) := by
+  obtain ⟨S,hS⟩ := A.leftFiniteDimensional_finite_support hM
+  exact (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.leftModuleTotalSpace M))
+    (A.scalarEndEquiv 0).symm).bijective.comp
+      (ASGinzburg.moduleCatDirectSumDualIntoLinearMap_bijective _ _ S
+        (fun i hi x => (ModuleCat.isZero_iff_subsingleton.mp (hS i hi)).elim x 0))
+
+noncomputable def leftModuleVectorDualTotalLinearEquiv (M : A.LeftModule)
+    (hM : A.leftFiniteDimensionalProperty M) :
+    A.rightModuleTotalSpace (A.leftModuleVectorDual M) ≃ₗ[k] Module.Dual k (A.leftModuleTotalSpace M) :=
+  LinearEquiv.ofBijective (A.leftModuleVectorDualTotalLinearMap M)
+    (A.leftModuleVectorDualTotalLinearMap_bijective M hM)
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem rightModuleVectorDualTotalLinearMap_eval_lof (M : A.RightModule)
+    (f : A.leftModuleTotalSpace (A.rightModuleVectorDual M)) (i : ℤ)
+    (x : (A.rightModuleEvaluation i).obj M) :
+    A.rightModuleVectorDualTotalLinearMap M f
+        (DirectSum.lof k ℤ (fun i => (A.rightModuleEvaluation i).obj M) i x) =
+      (A.scalarEndEquiv 0).symm ((f i).hom x) := by
+  change (A.scalarEndEquiv 0).symm
+    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap _ _ f (DirectSum.lof k ℤ _ i x)) = _
+  rw [ASGinzburg.moduleCatDirectSumDualIntoLinearMap_eval_lof]
+  rfl
+
+theorem leftModuleVectorDualTotalLinearMap_eval_lof (M : A.LeftModule)
+    (f : A.rightModuleTotalSpace (A.leftModuleVectorDual M)) (i : ℤ)
+    (x : (A.leftModuleEvaluation i).obj M) :
+    A.leftModuleVectorDualTotalLinearMap M f
+        (DirectSum.lof k ℤ (fun i => (A.leftModuleEvaluation i).obj M) i x) =
+      (A.scalarEndEquiv 0).symm ((f i).hom x) := by
+  change (A.scalarEndEquiv 0).symm
+    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap _ _ f (DirectSum.lof k ℤ _ i x)) = _
+  rw [ASGinzburg.moduleCatDirectSumDualIntoLinearMap_eval_lof]
+  rfl
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem rightModuleVectorDualTotalLinearMap_natural {M N : A.RightModule} (f : M ⟶ N)
+    (φ : A.leftModuleTotalSpace (A.rightModuleVectorDual N)) :
+    A.rightModuleVectorDualTotalLinearMap M (A.leftTotalLinearMap (A.rightModuleVectorDualMap f) φ) =
+      (A.rightModuleVectorDualTotalLinearMap N φ).comp (A.rightTotalLinearMap f) := by
+  apply DirectSum.linearMap_ext
+  intro i
+  apply LinearMap.ext
+  intro x
+  simp only [LinearMap.comp_apply,A.rightModuleVectorDualTotalLinearMap_eval_lof,A.rightTotalLinearMap_lof]
+  rfl
+
+theorem leftModuleVectorDualTotalLinearMap_natural {M N : A.LeftModule} (f : M ⟶ N)
+    (φ : A.rightModuleTotalSpace (A.leftModuleVectorDual N)) :
+    A.leftModuleVectorDualTotalLinearMap M (A.rightTotalLinearMap (A.leftModuleVectorDualMap f) φ) =
+      (A.leftModuleVectorDualTotalLinearMap N φ).comp (A.leftTotalLinearMap f) := by
+  apply DirectSum.linearMap_ext
+  intro i
+  apply LinearMap.ext
+  intro x
+  simp only [LinearMap.comp_apply,A.leftModuleVectorDualTotalLinearMap_eval_lof,A.leftTotalLinearMap_lof]
+  rfl
+end ASGinzburg.ZAlgebra

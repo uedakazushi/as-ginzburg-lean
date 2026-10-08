@@ -1,0 +1,559 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index c5863c0..3a03593 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -162,6 +162,13 @@ import ASGinzburg.TruncatedRepresentableHom
+ import ASGinzburg.TruncatedRepresentableRestrictions
+ import ASGinzburg.TruncatedCoverComponents
+ 
++import ASGinzburg.DirectSumDuality
++import ASGinzburg.TotalVectorDuality
++import ASGinzburg.TotalVectorDualActions
++import ASGinzburg.NakayamaWindowComparisons
++import ASGinzburg.NakayamaUnderlyingMaps
++import ASGinzburg.NakayamaRepresentableUnderlying
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index c931140..d9df797 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -294,6 +294,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.cyclicCutReconstruction_traceWord
+ #print axioms ASGinzburg.cyclicCutReconstruction_comp_trace
+ #print axioms ASGinzburg.cut_cyclic_derivative_identity
++#print axioms ASGinzburg.directSumDualInto
++#print axioms ASGinzburg.directSumDualInto_lof
++#print axioms ASGinzburg.directSumDualInto_eval_lof
++#print axioms ASGinzburg.directSumDualInto_injective
++#print axioms ASGinzburg.directSumDualInto_surjective
++#print axioms ASGinzburg.directSumDualIntoEquiv
++#print axioms ASGinzburg.moduleCatDirectSumDualIntoLinearMap
++#print axioms ASGinzburg.moduleCatDirectSumDualIntoLinearMap_eval_lof
++#print axioms ASGinzburg.moduleCatDirectSumDualIntoLinearMap_bijective
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionDualTermMap
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionDualTermMap_comm
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionDualComplexMap
+@@ -967,6 +976,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaInverseUnderlying
+ #print axioms ASGinzburg.ZAlgebra.rightVertexFiltration_nakayama_inverse_window
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_nakayama_inverse_window
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableModuleIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaRepresentableIso_hom_cover
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaUnderlyingMap
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalNakayamaUnderlyingMap_comp
++#print axioms ASGinzburg.equivalenceMk_functor_eq
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaEquivalence_functor_eq
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIsoWith
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIsoWith_underlying_hom
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaSimpleIso_underlying_hom
++#print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctor_underlying_map
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaFunctor
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaInverseFunctor
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteWindowNakayamaUnitIso
+@@ -1503,6 +1522,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModuleTotalFunctor_exact_iff
+ #print axioms ASGinzburg.ZAlgebra.leftModuleTotalFunctor_ι_objIso_hom
+ #print axioms ASGinzburg.ZAlgebra.rightModuleTotalFunctor_ι_objIso_hom
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearMap_component_action
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearMap_component_action
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearMap_total_action
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearMap_total_action
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearMap
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearMap_bijective
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearMap
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearMap_bijective
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearMap_eval_lof
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearMap_eval_lof
++#print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualTotalLinearMap_natural
++#print axioms ASGinzburg.ZAlgebra.leftModuleVectorDualTotalLinearMap_natural
+ #print axioms ASGinzburg.triangle333
+ #print axioms ASGinzburg.triangleX
+ #print axioms ASGinzburg.triangleY
+diff --git a/ASGinzburg/DirectSumDuality.lean b/ASGinzburg/DirectSumDuality.lean
+new file mode 100644
+index 0000000..3bc3347
+--- /dev/null
++++ b/ASGinzburg/DirectSumDuality.lean
+@@ -0,0 +1,100 @@
++import ASGinzburg.SmallVectorDuality
++
++/-! The canonical map from the direct sum of component duals to the dual of
++the total direct sum is bijective when the original components have finite support. -/
++namespace ASGinzburg
++open scoped DirectSum
++universe u v w
++variable {k : Type u} [Field k] {I : Type w} [DecidableEq I] (V : I → Type v)
++  [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
++variable (U : Type v) [AddCommGroup U] [Module k U]
++
++noncomputable def directSumDualInto : (⨁ i, V i →ₗ[k] U) →ₗ[k] ((⨁ i, V i) →ₗ[k] U) :=
++  DirectSum.toModule k I _ (fun i => {
++    toFun := fun f => f.comp (DirectSum.component k I V i)
++    map_add' := by intros; ext; rfl
++    map_smul' := by intros; ext; rfl })
++
++theorem directSumDualInto_lof (i : I) (f : V i →ₗ[k] U) :
++    directSumDualInto (k := k) V U (DirectSum.lof k I (fun i => V i →ₗ[k] U) i f) =
++      f.comp (DirectSum.component k I V i) := DirectSum.toModule_lof _ _ _
++
++theorem directSumDualInto_eval_lof (f : ⨁ i, V i →ₗ[k] U) (i : I) (x : V i) :
++    directSumDualInto (k := k) V U f (DirectSum.lof k I V i x) = f i x := by
++  classical
++  induction f using DirectSum.induction_on with
++  | zero => simp
++  | of j g =>
++    rw [show DirectSum.of (fun i => V i →ₗ[k] U) j g =
++      DirectSum.lof k I (fun i => V i →ₗ[k] U) j g from rfl,directSumDualInto_lof]
++    by_cases h : j=i
++    · subst j
++      simp
++    · change g (DFinsupp.single (β := V) i x j) = (DFinsupp.single (β := fun t => V t →ₗ[k] U) j g i) x
++      rw [DFinsupp.single_eq_of_ne h,DFinsupp.single_eq_of_ne (Ne.symm h)]
++      simp
++  | add f g hf hg => simp [hf,hg]
++
++theorem directSumDualInto_injective : Function.Injective (directSumDualInto (k := k) V U) := by
++  intro f g h
++  apply DFinsupp.ext
++  intro i
++  apply LinearMap.ext
++  intro x
++  simpa only [directSumDualInto_eval_lof] using congrArg (fun t => t (DirectSum.lof k I V i x)) h
++
++theorem directSumDualInto_surjective (S : Finset I)
++    (hS : ∀ i, i ∉ S → ∀ x : V i, x=0) : Function.Surjective (directSumDualInto (k := k) V U) := by
++  classical
++  intro f
++  refine ⟨∑ i ∈ S, DirectSum.lof k I (fun i => V i →ₗ[k] U) i (f.comp (DirectSum.lof k I V i)),?_⟩
++  apply DirectSum.linearMap_ext
++  intro i
++  apply LinearMap.ext
++  intro x
++  rw [LinearMap.comp_apply,LinearMap.comp_apply,directSumDualInto_eval_lof]
++  by_cases hi : i ∈ S
++  · have hEq : (∑ j ∈ S, DirectSum.lof k I (fun i => V i →ₗ[k] U) j
++        (f.comp (DirectSum.lof k I V j))) i = f.comp (DirectSum.lof k I V i) := by
++      change (∑ j ∈ S, DFinsupp.single j (f.comp (DirectSum.lof k I V j))) i = _
++      rw [DFinsupp.finset_sum_apply]
++      simp [DFinsupp.single_apply,hi]
++    rw [hEq]
++    rfl
++  · have hx : x=0 := hS i hi x
++    subst x
++    simp
++
++noncomputable def directSumDualIntoEquiv (S : Finset I)
++    (hS : ∀ i, i ∉ S → ∀ x : V i, x=0) :
++    (⨁ i, V i →ₗ[k] U) ≃ₗ[k] ((⨁ i, V i) →ₗ[k] U) :=
++  LinearEquiv.ofBijective (directSumDualInto (k := k) V U)
++    ⟨directSumDualInto_injective (k := k) V U,directSumDualInto_surjective (k := k) V U S hS⟩
++end ASGinzburg
++
++namespace ASGinzburg
++open CategoryTheory
++open scoped DirectSum
++universe u v w
++variable {k : Type u} [Field k] {I : Type w} [DecidableEq I]
++    (V : I → ModuleCat.{v} k) (U : ModuleCat.{v} k)
++
++noncomputable def moduleCatDirectSumDualIntoLinearMap :
++    (⨁ i, V i ⟶ U) →ₗ[k] ((⨁ i, V i) →ₗ[k] U) :=
++  (directSumDualInto (k := k) (fun i => V i) U).comp
++    (DFinsupp.mapRange.linearEquiv (fun i => ModuleCat.homLinearEquiv (S := k) (M := V i) (N := U))).toLinearMap
++
++theorem moduleCatDirectSumDualIntoLinearMap_eval_lof (f : ⨁ i, V i ⟶ U) (i : I) (x : V i) :
++    moduleCatDirectSumDualIntoLinearMap V U f (DirectSum.lof k I (fun i => V i) i x) = (f i).hom x := by
++  change directSumDualInto (k := k) (fun i => V i) U _ (DirectSum.lof k I (fun i => V i) i x) = _
++  rw [directSumDualInto_eval_lof]
++  rfl
++
++theorem moduleCatDirectSumDualIntoLinearMap_bijective (S : Finset I)
++    (hS : ∀ i, i ∉ S → ∀ x : V i, x=0) :
++    Function.Bijective (moduleCatDirectSumDualIntoLinearMap V U) := by
++  let e : (⨁ i, V i ⟶ U) ≃ₗ[k] (⨁ i, (V i) →ₗ[k] U) :=
++    DFinsupp.mapRange.linearEquiv (fun i => ModuleCat.homLinearEquiv (S := k) (M := V i) (N := U))
++  exact (show Function.Bijective (directSumDualInto (k := k) (fun i => V i) U) from
++    ⟨directSumDualInto_injective (k := k) _ _,directSumDualInto_surjective (k := k) _ _ S hS⟩).comp e.bijective
++end ASGinzburg
+diff --git a/ASGinzburg/TotalVectorDuality.lean b/ASGinzburg/TotalVectorDuality.lean
+new file mode 100644
+index 0000000..07fc48c
+--- /dev/null
++++ b/ASGinzburg/TotalVectorDuality.lean
+@@ -0,0 +1,109 @@
++import ASGinzburg.DirectSumDuality
++import ASGinzburg.ModuleVectorDuality
++import ASGinzburg.TotalModuleFunctors
++
++/-! Canonical, natural total-space comparisons with the ordinary k-linear dual. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightModuleVectorDualTotalLinearMap (M : A.RightModule) :
++    A.leftModuleTotalSpace (A.rightModuleVectorDual M) →ₗ[k] Module.Dual k (A.rightModuleTotalSpace M) :=
++  (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.rightModuleTotalSpace M)) (A.scalarEndEquiv 0).symm).toLinearMap.comp
++    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap (fun i => (A.rightModuleEvaluation i).obj M)
++      (ModuleCat.of k (A.Hom 0 0)))
++
++theorem rightModuleVectorDualTotalLinearMap_bijective (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) : Function.Bijective (A.rightModuleVectorDualTotalLinearMap M) := by
++  obtain ⟨S,hS⟩ := A.rightFiniteDimensional_finite_support hM
++  exact (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.rightModuleTotalSpace M))
++    (A.scalarEndEquiv 0).symm).bijective.comp
++      (ASGinzburg.moduleCatDirectSumDualIntoLinearMap_bijective _ _ S
++        (fun i hi x => (ModuleCat.isZero_iff_subsingleton.mp (hS i hi)).elim x 0))
++
++noncomputable def rightModuleVectorDualTotalLinearEquiv (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) :
++    A.leftModuleTotalSpace (A.rightModuleVectorDual M) ≃ₗ[k] Module.Dual k (A.rightModuleTotalSpace M) :=
++  LinearEquiv.ofBijective (A.rightModuleVectorDualTotalLinearMap M)
++    (A.rightModuleVectorDualTotalLinearMap_bijective M hM)
++
++noncomputable def leftModuleVectorDualTotalLinearMap (M : A.LeftModule) :
++    A.rightModuleTotalSpace (A.leftModuleVectorDual M) →ₗ[k] Module.Dual k (A.leftModuleTotalSpace M) :=
++  (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.leftModuleTotalSpace M)) (A.scalarEndEquiv 0).symm).toLinearMap.comp
++    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap (fun i => (A.leftModuleEvaluation i).obj M)
++      (ModuleCat.of k (A.Hom 0 0)))
++
++theorem leftModuleVectorDualTotalLinearMap_bijective (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) : Function.Bijective (A.leftModuleVectorDualTotalLinearMap M) := by
++  obtain ⟨S,hS⟩ := A.leftFiniteDimensional_finite_support hM
++  exact (LinearEquiv.arrowCongr (LinearEquiv.refl k (A.leftModuleTotalSpace M))
++    (A.scalarEndEquiv 0).symm).bijective.comp
++      (ASGinzburg.moduleCatDirectSumDualIntoLinearMap_bijective _ _ S
++        (fun i hi x => (ModuleCat.isZero_iff_subsingleton.mp (hS i hi)).elim x 0))
++
++noncomputable def leftModuleVectorDualTotalLinearEquiv (M : A.LeftModule)
++    (hM : A.leftFiniteDimensionalProperty M) :
++    A.rightModuleTotalSpace (A.leftModuleVectorDual M) ≃ₗ[k] Module.Dual k (A.leftModuleTotalSpace M) :=
++  LinearEquiv.ofBijective (A.leftModuleVectorDualTotalLinearMap M)
++    (A.leftModuleVectorDualTotalLinearMap_bijective M hM)
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleVectorDualTotalLinearMap_eval_lof (M : A.RightModule)
++    (f : A.leftModuleTotalSpace (A.rightModuleVectorDual M)) (i : ℤ)
++    (x : (A.rightModuleEvaluation i).obj M) :
++    A.rightModuleVectorDualTotalLinearMap M f
++        (DirectSum.lof k ℤ (fun i => (A.rightModuleEvaluation i).obj M) i x) =
++      (A.scalarEndEquiv 0).symm ((f i).hom x) := by
++  change (A.scalarEndEquiv 0).symm
++    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap _ _ f (DirectSum.lof k ℤ _ i x)) = _
++  rw [ASGinzburg.moduleCatDirectSumDualIntoLinearMap_eval_lof]
++  rfl
++
++theorem leftModuleVectorDualTotalLinearMap_eval_lof (M : A.LeftModule)
++    (f : A.rightModuleTotalSpace (A.leftModuleVectorDual M)) (i : ℤ)
++    (x : (A.leftModuleEvaluation i).obj M) :
++    A.leftModuleVectorDualTotalLinearMap M f
++        (DirectSum.lof k ℤ (fun i => (A.leftModuleEvaluation i).obj M) i x) =
++      (A.scalarEndEquiv 0).symm ((f i).hom x) := by
++  change (A.scalarEndEquiv 0).symm
++    (ASGinzburg.moduleCatDirectSumDualIntoLinearMap _ _ f (DirectSum.lof k ℤ _ i x)) = _
++  rw [ASGinzburg.moduleCatDirectSumDualIntoLinearMap_eval_lof]
++  rfl
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleVectorDualTotalLinearMap_natural {M N : A.RightModule} (f : M ⟶ N)
++    (φ : A.leftModuleTotalSpace (A.rightModuleVectorDual N)) :
++    A.rightModuleVectorDualTotalLinearMap M (A.leftTotalLinearMap (A.rightModuleVectorDualMap f) φ) =
++      (A.rightModuleVectorDualTotalLinearMap N φ).comp (A.rightTotalLinearMap f) := by
++  apply DirectSum.linearMap_ext
++  intro i
++  apply LinearMap.ext
++  intro x
++  simp only [LinearMap.comp_apply,A.rightModuleVectorDualTotalLinearMap_eval_lof,A.rightTotalLinearMap_lof]
++  rfl
++
++theorem leftModuleVectorDualTotalLinearMap_natural {M N : A.LeftModule} (f : M ⟶ N)
++    (φ : A.rightModuleTotalSpace (A.leftModuleVectorDual N)) :
++    A.leftModuleVectorDualTotalLinearMap M (A.rightTotalLinearMap (A.leftModuleVectorDualMap f) φ) =
++      (A.leftModuleVectorDualTotalLinearMap N φ).comp (A.leftTotalLinearMap f) := by
++  apply DirectSum.linearMap_ext
++  intro i
++  apply LinearMap.ext
++  intro x
++  simp only [LinearMap.comp_apply,A.leftModuleVectorDualTotalLinearMap_eval_lof,A.leftTotalLinearMap_lof]
++  rfl
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TotalVectorDualActions.lean b/ASGinzburg/TotalVectorDualActions.lean
+new file mode 100644
+index 0000000..8d9bdcc
+--- /dev/null
++++ b/ASGinzburg/TotalVectorDualActions.lean
+@@ -0,0 +1,108 @@
++import ASGinzburg.TotalVectorDuality
++import ASGinzburg.TotalModuleRepresentations
++
++/-! The total vector-dual comparison respects every component and every element
++of the actual finite-support total algebra on both sides. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleVectorDualTotalLinearMap_component_action (M : A.RightModule)
++    {i j : ℤ} (a : A.Hom i j) (φ : A.leftModuleTotalSpace (A.rightModuleVectorDual M)) :
++    A.rightModuleVectorDualTotalLinearMap M (A.leftModuleTotalAction (A.rightModuleVectorDual M) a φ) =
++      (A.rightModuleVectorDualTotalLinearMap M φ).comp (A.rightModuleTotalAction M a) := by
++  apply DirectSum.linearMap_ext
++  intro t
++  apply LinearMap.ext
++  intro x
++  simp only [LinearMap.comp_apply]
++  by_cases ht : t = j
++  · subst t
++    rw [A.rightModuleTotalAction_lof, A.rightModuleVectorDualTotalLinearMap_eval_lof,
++      A.rightModuleVectorDualTotalLinearMap_eval_lof]
++    change (A.scalarEndEquiv 0).symm
++      (((DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj (A.rightModuleVectorDual M)) j
++        (((A.rightModuleVectorDual M).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)).hom (φ i))) j).hom x) = _
++    rw [DirectSum.lof_apply]
++    rfl
++  · rw [A.rightModuleTotalAction_lof_off M a t ht, map_zero,
++      A.rightModuleVectorDualTotalLinearMap_eval_lof]
++    change (A.scalarEndEquiv 0).symm
++      (((DFinsupp.single j
++        (((A.rightModuleVectorDual M).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)).hom (φ i)) :
++          A.leftModuleTotalSpace (A.rightModuleVectorDual M)) t).hom x) = 0
++    rw [DFinsupp.single_eq_of_ne ht]
++    simp
++
++theorem leftModuleVectorDualTotalLinearMap_component_action (M : A.LeftModule)
++    {i j : ℤ} (a : A.Hom i j) (φ : A.rightModuleTotalSpace (A.leftModuleVectorDual M)) :
++    A.leftModuleVectorDualTotalLinearMap M (A.rightModuleTotalAction (A.leftModuleVectorDual M) a φ) =
++      (A.leftModuleVectorDualTotalLinearMap M φ).comp (A.leftModuleTotalAction M a) := by
++  apply DirectSum.linearMap_ext
++  intro t
++  apply LinearMap.ext
++  intro x
++  simp only [LinearMap.comp_apply]
++  by_cases ht : t = i
++  · subst t
++    rw [A.leftModuleTotalAction_lof, A.leftModuleVectorDualTotalLinearMap_eval_lof,
++      A.leftModuleVectorDualTotalLinearMap_eval_lof]
++    change (A.scalarEndEquiv 0).symm
++      (((DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj (A.leftModuleVectorDual M)) i
++        (((A.leftModuleVectorDual M).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op).hom (φ j))) i).hom x) = _
++    rw [DirectSum.lof_apply]
++    rfl
++  · rw [A.leftModuleTotalAction_lof_off M a t ht, map_zero,
++      A.leftModuleVectorDualTotalLinearMap_eval_lof]
++    change (A.scalarEndEquiv 0).symm
++      (((DFinsupp.single i
++        (((A.leftModuleVectorDual M).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op).hom (φ j)) :
++          A.rightModuleTotalSpace (A.leftModuleVectorDual M)) t).hom x) = 0
++    rw [DFinsupp.single_eq_of_ne ht]
++    simp
++
++theorem rightModuleVectorDualTotalLinearMap_total_action (M : A.RightModule)
++    (a : A.totalAlgebra) (φ : A.leftModuleTotalSpace (A.rightModuleVectorDual M))
++    (x : A.rightModuleTotalSpace M) :
++    A.rightModuleVectorDualTotalLinearMap M (A.leftTotalRepresentation (A.rightModuleVectorDual M) a φ) x =
++      A.rightModuleVectorDualTotalLinearMap M φ ((A.rightTotalRepresentation M a).unop x) := by
++  obtain ⟨a,rfl⟩ := A.totalAlgebraEquiv.surjective a
++  induction a using DFinsupp.induction with
++  | h0 => simp
++  | ha p b a _ _ ih =>
++    rw [(A.totalAlgebraEquiv).map_add,
++      (A.leftTotalRepresentation (A.rightModuleVectorDual M)).map_add,
++      (A.rightTotalRepresentation M).map_add, MulOpposite.unop_add,
++      LinearMap.add_apply, LinearMap.add_apply, map_add, LinearMap.add_apply, map_add, ih]
++    congr 1
++    rcases p with ⟨i,j⟩
++    change A.rightModuleVectorDualTotalLinearMap M
++      (A.leftTotalRepresentation (A.rightModuleVectorDual M) (A.totalAlgebraComponent b) φ) x =
++        A.rightModuleVectorDualTotalLinearMap M φ ((A.rightTotalRepresentation M (A.totalAlgebraComponent b)).unop x)
++    rw [A.leftTotalRepresentation_component, A.rightTotalRepresentation_component]
++    exact congrArg (fun f => f x) (A.rightModuleVectorDualTotalLinearMap_component_action M b φ)
++
++theorem leftModuleVectorDualTotalLinearMap_total_action (M : A.LeftModule)
++    (a : A.totalAlgebra) (φ : A.rightModuleTotalSpace (A.leftModuleVectorDual M))
++    (x : A.leftModuleTotalSpace M) :
++    A.leftModuleVectorDualTotalLinearMap M ((A.rightTotalRepresentation (A.leftModuleVectorDual M) a).unop φ) x =
++      A.leftModuleVectorDualTotalLinearMap M φ (A.leftTotalRepresentation M a x) := by
++  obtain ⟨a,rfl⟩ := A.totalAlgebraEquiv.surjective a
++  induction a using DFinsupp.induction with
++  | h0 => simp
++  | ha p b a _ _ ih =>
++    rw [(A.totalAlgebraEquiv).map_add,
++      (A.rightTotalRepresentation (A.leftModuleVectorDual M)).map_add,
++      (A.leftTotalRepresentation M).map_add, MulOpposite.unop_add,
++      LinearMap.add_apply, map_add, LinearMap.add_apply, LinearMap.add_apply, map_add, ih]
++    congr 1
++    rcases p with ⟨i,j⟩
++    change A.leftModuleVectorDualTotalLinearMap M
++      ((A.rightTotalRepresentation (A.leftModuleVectorDual M) (A.totalAlgebraComponent b)).unop φ) x =
++        A.leftModuleVectorDualTotalLinearMap M φ (A.leftTotalRepresentation M (A.totalAlgebraComponent b) x)
++    rw [A.rightTotalRepresentation_component, A.leftTotalRepresentation_component]
++    exact congrArg (fun f => f x) (A.leftModuleVectorDualTotalLinearMap_component_action M b φ)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaWindowComparisons.lean b/ASGinzburg/NakayamaWindowComparisons.lean
+new file mode 100644
+index 0000000..59b7bea
+--- /dev/null
++++ b/ASGinzburg/NakayamaWindowComparisons.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.NakayamaWindowProjectives
++
++/-! Comparison of the restricted Nakayama functor and simple isomorphisms
++with their underlying finite-dimensional module data. -/
++namespace ASGinzburg
++open CategoryTheory
++universe u v u' v'
++variable {C : Type u} [Category.{v} C] {D : Type u'} [Category.{v'} D]
++theorem equivalenceMk_functor_eq (F : C ⥤ D) (G : D ⥤ C)
++    (η : 𝟭 C ≅ F ⋙ G) (ε : G ⋙ F ≅ 𝟭 D) :
++    (CategoryTheory.Equivalence.mk F G η ε).functor = F := rfl
++end ASGinzburg
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++theorem rightFiniteWindowNakayamaEquivalence_functor_eq (hAS : A.ASRegular Q) (l r : ℤ) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor =
++      A.rightFiniteWindowNakayamaFunctor Q hAS l r :=
++  ASGinzburg.equivalenceMk_functor_eq _ _ _ _
++end ASGinzburg.ZAlgebra
++
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def rightFiniteWindowNakayamaSimpleIsoWith (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
++    (γ : (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.obj
++      (A.rightFiniteDimensionalSimple i) ≅ A.rightFiniteDimensionalSimple (i-Q.vertices)) :
++    (A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.obj
++      (A.rightFiniteWindowSimple l r i hli hir) ≅
++        A.rightFiniteWindowSimple (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++          (sub_le_sub_right hli _) (sub_le_sub_right hir _) :=
++  (A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).isoMk γ
++
++theorem rightFiniteWindowNakayamaSimpleIsoWith_underlying_hom (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r)
++    (γ : (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.obj
++      (A.rightFiniteDimensionalSimple i) ≅ A.rightFiniteDimensionalSimple (i-Q.vertices)) :
++    A.rightFiniteDimensionalProperty.ι.map
++        ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map
++          (A.rightFiniteWindowNakayamaSimpleIsoWith Q hAS l r i hli hir γ).hom) =
++      A.rightFiniteDimensionalProperty.ι.map γ.hom := rfl
++
++theorem rightFiniteWindowNakayamaSimpleIso_underlying_hom (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    A.rightFiniteDimensionalProperty.ι.map
++        ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map
++          (A.rightFiniteWindowNakayamaSimpleIso Q hAS l r i hli hir).hom) =
++      A.rightFiniteDimensionalProperty.ι.map
++        (A.rightFiniteDimensionalNakayamaSimpleHeightIso Q hAS i).hom :=
++  A.rightFiniteWindowNakayamaSimpleIsoWith_underlying_hom Q hAS l r i hli hir
++    (A.rightFiniteDimensionalNakayamaSimpleHeightIso Q hAS i)
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++theorem rightFiniteWindowNakayamaFunctor_underlying_map (hAS : A.ASRegular Q)
++    (l r : ℤ) {M N : A.RightFiniteWindow l r} (f : M ⟶ N) :
++    A.rightFiniteDimensionalProperty.ι.map
++        ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map
++          ((A.rightFiniteWindowNakayamaEquivalence Q hAS l r).functor.map f)) =
++      A.rightFiniteDimensionalProperty.ι.map
++        ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map
++          ((A.rightFiniteWindowProperty l r).ι.map f)) := by
++  dsimp only [rightFiniteWindowNakayamaEquivalence,CategoryTheory.Equivalence.mk,
++    rightFiniteWindowNakayamaFunctor]
++  rw [CategoryTheory.ObjectProperty.ι_obj_lift_map,CategoryTheory.Functor.comp_map]
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaUnderlyingMaps.lean b/ASGinzburg/NakayamaUnderlyingMaps.lean
+new file mode 100644
+index 0000000..85e6075
+--- /dev/null
++++ b/ASGinzburg/NakayamaUnderlyingMaps.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.TruncatedCoverComponents
++import ASGinzburg.NakayamaWindowProjectives
++import ASGinzburg.NakayamaWindowComparisons
++/-! Underlying Nakayama maps and the normalization equation in finite windows. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++@[reassoc] theorem rightFiniteWindowNakayamaRepresentableIso_hom_cover (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).hom ≫
++        A.rightFiniteWindowRepresentableCover (l-Q.vertices) (r-Q.vertices) (i-Q.vertices)
++          (sub_le_sub_right hli _) (sub_le_sub_right hir _) =
++      A.rightFiniteWindowNakayamaRepresentableCover Q hAS l r i hli hir :=
++  ASGinzburg.normalizedProjectiveIso_hom_comp _ _ _ _
++
++noncomputable def rightFiniteDimensionalNakayamaUnderlyingMap (hAS : A.ASRegular Q)
++    {M N : A.RightModule} (hM : A.rightFiniteDimensionalProperty M) (hN : A.rightFiniteDimensionalProperty N)
++    (f : M ⟶ N) :
++    A.rightFiniteDimensionalNakayamaUnderlying Q hAS M hM ⟶
++      A.rightFiniteDimensionalNakayamaUnderlying Q hAS N hN :=
++  (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map
++    (show (⟨M,hM⟩ : A.RightFiniteDimensional) ⟶ ⟨N,hN⟩ from f)
++
++theorem rightFiniteDimensionalNakayamaUnderlyingMap_comp (hAS : A.ASRegular Q)
++    {M N P : A.RightModule} (hM : A.rightFiniteDimensionalProperty M)
++    (hN : A.rightFiniteDimensionalProperty N) (hP : A.rightFiniteDimensionalProperty P)
++    (f : M ⟶ N) (g : N ⟶ P) :
++    A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS hM hP (f ≫ g) =
++      A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS hM hN f ≫
++        A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS hN hP g := by
++  exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_comp
++    (show (⟨M,hM⟩ : A.RightFiniteDimensional) ⟶ ⟨N,hN⟩ from f)
++    (show (⟨N,hN⟩ : A.RightFiniteDimensional) ⟶ ⟨P,hP⟩ from g)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/NakayamaRepresentableUnderlying.lean b/ASGinzburg/NakayamaRepresentableUnderlying.lean
+new file mode 100644
+index 0000000..9bd3567
+--- /dev/null
++++ b/ASGinzburg/NakayamaRepresentableUnderlying.lean
+@@ -0,0 +1,18 @@
++import ASGinzburg.NakayamaUnderlyingMaps
++/-! The normalized finite-window projective-cover isomorphism as an actual
++morphism of the original right-module category. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++noncomputable def rightFiniteWindowNakayamaRepresentableModuleIso (hAS : A.ASRegular Q)
++    (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
++    A.rightFiniteDimensionalNakayamaUnderlying Q hAS (A.rightTruncatedRepresentable l i)
++        (A.rightTruncatedRepresentable_finite l i) ≅
++      A.rightTruncatedRepresentable (l-Q.vertices) (i-Q.vertices) :=
++  { hom := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).hom
++    inv := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).inv
++    hom_inv_id := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).hom_inv_id
++    inv_hom_id := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).inv_hom_id }
++
++end ASGinzburg.ZAlgebra

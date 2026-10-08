@@ -922,3 +922,43 @@ JST 2026-10-09T00:18:47.534504+09:00 → 2026-10-09T00:40:29.578476+09:00。
 UTC 2026-10-08T15:18:47.534504+00:00 → 2026-10-08T15:40:29.578476+00:00。
 160数学モジュール・1621異なる宣言・726 theorem。
 差分：runs/total-algebra-20261008-unit36.patch。全theoremを監査し、許容公理3種類のみ。
+
+
+作業中チェックポイント UTC 2026-10-08T15:50:39.743524+00:00、開始から実測31801.743524秒。継続中、タスク終了時刻ではない。
+単位36はmain f41bf2fb12efba2db79410d87207e346e8cf3441へ保存済み。公開検証20261008T151847Z-f8f11ea6は全6段階0、UTC15:18:47.534504→15:40:29.578476、1302.043897355秒。160数学モジュール・1621異なる宣言・726 theorem・267 named instance。単位35の正確なheadのGitHub CI37799503390はin_progressと確認し、成功とは扱わない。
+direct-sum-dual-draft13とdirect-sum-dual-compiled1は個別Lean終了0・診断なし。有限台からの総双対線形同型に加え、左右の射に対する自然性まで草稿で完成。total-dual-actions1は非対角成分の不等式の向きによるrewrite不一致で終了1、修正したtotal-dual-actions2は終了0・診断なし。左右の各A.Hom成分作用への双対比較の適合性まで完成し、全総代数作用への拡張を新規検査中。公開単位36の監査には含まない。
+window-normalization-equation1はカーネル比較が長時間化・メモリ使用増加となり検査シェルを終了130で中断した。残存Leanプロセスは後で消滅を確認した（明示killは該当PIDなしで終了1）。空ログを成功とは扱わない。包含比較を成分ごとの射等式で照合するequation2を新規検査中。既に終了0の比較補題・UnderlyingMap・UnderlyingIsoは保存済み草稿から再利用する。
+次は全総代数作用との双対比較と窓正規化のcoherence、AS条件からの周期性。左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理、定理3.2と系5.2は未完成。両主定理の正式Lean定理文も未実装。チェックポイント後も自律的に継続する。
+
+
+作業中チェックポイント UTC 2026-10-08T16:11:04.481386+00:00、開始から実測33026.481386秒。継続中、タスク終了時刻ではない。
+単位36はmain f41bf2fb12efba2db79410d87207e346e8cf3441へ保存済み。最後の全体成功検査20261008T151847Z-f8f11ea6は全6段階0、160数学モジュール・1621異なる宣言・726 theorem。単位37公開検査20261008T155326Z-0f95e4a0は166数学モジュール・1654異なる宣言・749 theoremを対象とし、ビルド終了0、全宣言公理監査中で、全体成功とは扱わない。単位35の正確なhead 0505269bafee47a3f7b083904abc883a79e0bbcfのCI37799503390はsuccess、単位36のCI37803616544はin_progressと確認した。
+左側の必要な中間結果left-hom-colimits1、left-finite-ext-colimits1は個別Lean終了0・診断なし。実際のHomの核表示と余極限の交換、有限生成射影とAS条件からの長さ3分解による全次数Extの直和交換まで草稿で完成。left-regular-coproduct4、left-finite-regular-ext-comparison2も個別Lean終了0・診断なし。実際の左representableの直和と右乗法、左有限次元加群のExtへの直和比較と全成分右作用への適合性まで完成。初回の圏の向き・添字・simpの不一致を残した失敗ログは保存し、修正後の検査だけを成功と扱う。公開単位37には含めない。
+長時間化したwindow-normalization-equation2、window-normalization-direct1、window-normalization-plain1、window-module-cover-comparison1、window-simple-hom-comparison1、window-module-cover-height1は、公開監査へのメモリ競合を避けて対象の草稿Leanだけを終了143で停止した。公開検査は中断していない。window-module-cover1とwindow-cover-functor-comparison1は終了0・診断なしで、被覆への等式は通り、元の単純同型のデータ輸送を射として比較する箇所に長時間化が絞れた。
+AS条件から既に証明した単純同型の存在を用い、頂点ごとに一度選ぶClassical.choiceを全区間で共用する新しい構成window-chosen-normalization1は終了0・診断なし。元の右加群圏の正規化等式も通過し、結論と同等の仮定や独自axiomは加えていない。window-chosen-coherence1/2は成分線形同型の式のrewrite不一致などで終了1、区間商射と正規化同型の可換性はその草稿内で通過したが、全ファイルの成功とは扱わない。新規coherence3で成分移送の単位元・積保存を検査中。
+次は成分移送の区間coherenceとAS条件からの周期性、左側総正則Ext比較の全代数への拡張、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理と定理3.2・系5.2。両主定理は未証明で正式Lean定理文も未実装。チェックポイント後も自律的に継続する。
+
+## 単位37：総ベクトル双対の自然比較と全総代数作用への適合性
+
+DirectSumDuality.lean、TotalVectorDuality.lean、TotalVectorDualActions.leanを追加。直和の成分双対から総直和の通常の線形双対への標準写像を定義し、全対象で単射であることと、元の成分の有限台から全射であることを証明した。左右の実際の有限次元加群について、A.Hom(0,0)≃kを通じて総ベクトル空間のk値双対との線形同型を構成した。有限台の選択は全単射性の証明にのみ使用し、比較写像そのものはcanonicalである。
+
+左右の射に対する自然性、全てのA.Hom成分の作用との随伴関係を証明し、実際の有限台総代数の全要素について作用適合性を証明した。周期性・必要なExt同型・主定理と同等の結論を新しいAS条件として加えていない。これは有限次元Nakayama自己同値に使った成分線形双対と原論文の通常の総ベクトル双対との比較を埋める。
+
+NakayamaWindowComparisons.lean、NakayamaUnderlyingMaps.lean、NakayamaRepresentableUnderlying.leanを追加。有限区間制限関手と頂点単純同型の包含比較、区間内部の射影被覆正規化等式、元の右加群圏でのNakayama射と合成保存、正規化した射影被覆同型の実際の右加群同型を構成した。任意の単純移送同型についての一般比較補題を、AS条件から既に証明した同型へ適用している。任意の同型を新しいAS仮定としていない。
+
+草稿direct-sum-dual-draft13、direct-sum-dual-compiled1、total-dual-actions2とtotal-dual-actions4は個別Lean終了0・診断なし。total-dual-actions1は不等式の向きでrewrite不一致、終了1。total-dual-actions3は非単位代数射のmap_addの型推論でtimeout、終了1。実際の射を明示したmap_addに変更した新規検査total-dual-actions4が終了0であり、失敗ログは削除しない。
+
+単位36はmain f41bf2fb12efba2db79410d87207e346e8cf3441へ保存済み。単位35の正確なheadのGitHub CI37799503390は最後の確認時in_progress。今回のCI成功とは扱わない。
+
+元の右加群圏への正規化等式を移すwindow-normalization-equation1は長時間化・メモリ使用増加により終了130で中断した。残存プロセスは後で消滅を確認した。成分ごとの等式で照合するequation2は検査中で、空ログを成功とは扱わない。これらの草稿等式と窓coherenceは今回の公開監査対象に含めない。
+
+次は窓正規化同型と区間商射のcoherence、成分移送の積保存からAS条件による周期性。左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理、定理3.2と系5.2は未完成。両主定理の正式Lean定理文も未実装。検証・保存をチェックポイントとし、引き続き形式化を続ける。
+
+検証：`20261008T155326Z-0f95e4a0`、1328.748135112秒、全段階終了0。
+JST 2026-10-09T00:53:26.118149+09:00 → 2026-10-09T01:15:34.866291+09:00。
+UTC 2026-10-08T15:53:26.118149+00:00 → 2026-10-08T16:15:34.866291+00:00。
+166数学モジュール・1654異なる宣言・749 theorem。
+差分：runs/total-algebra-20261008-unit37.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位37公開検証20261008T155326Z-0f95e4a0は全6段階終了0。UTC15:53:26.118149→16:15:34.866291、1328.748135112秒。166数学モジュール・1654異なる宣言・749 theorem・267 named instance。保存確認は初期14/開始時60数学モジュール・歴史的577ファイルについて終了0。mainへの保存を準備し、草稿のAS周期性を継続する。
+window-chosen-normalization1、window-chosen-coherence3、window-component-coherence3、as-periodicity2は個別Lean終了0・診断なし。頂点ごとに既に証明した単純同型の存在から一度選び、全区間に同じ選択を使った。区間商射と正規化同型の可換性、成分移送の単位元・積保存と区間coherence、既存WindowSystemの貼り合わせによるAS条件からの負の周期同型まで草稿で完成した。WindowSystemや周期性をAS条件に追加していない。今回の単位37の公開監査対象には含めない。正の周期への逆同型と必要な記録・新規公開監査を続ける。

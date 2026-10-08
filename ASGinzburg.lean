@@ -162,6 +162,13 @@ import ASGinzburg.TruncatedRepresentableHom
 import ASGinzburg.TruncatedRepresentableRestrictions
 import ASGinzburg.TruncatedCoverComponents
 
+import ASGinzburg.DirectSumDuality
+import ASGinzburg.TotalVectorDuality
+import ASGinzburg.TotalVectorDualActions
+import ASGinzburg.NakayamaWindowComparisons
+import ASGinzburg.NakayamaUnderlyingMaps
+import ASGinzburg.NakayamaRepresentableUnderlying
+
 /-!
 # AS--Ginzburg formalization checkpoint
 
