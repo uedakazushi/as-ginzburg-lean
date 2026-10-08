@@ -39,6 +39,14 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.ASResolution.augmentationQuasiIso
 #print axioms ASGinzburg.ZAlgebra.ASResolution.toProjectiveResolution
 #print axioms ASGinzburg.ZAlgebra.ASResolution.complex_isZero_ge_four
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex
+#print axioms ASGinzburg.ZAlgebra.ASResolution.complexDifferential_minimal
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_simple_zero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_zero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_all_zero
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_homologyIso
 #print axioms ASGinzburg.conjugateHom
 #print axioms ASGinzburg.conjugateHom_apply
 #print axioms ASGinzburg.conjugateHom_id

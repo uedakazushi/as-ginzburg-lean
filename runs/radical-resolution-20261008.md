@@ -120,3 +120,19 @@ degree≥4のIsZeroも証明済み。
 開始UTC 2026-10-08T02:48:55.882947+00:00、終了UTC 2026-10-08T02:50:40.695946+00:00。
 315異なる宣言・140 theorem・50 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit7.patch。
+
+## 証明単位8：実際のHom複体と単純加群に対する零微分
+
+`ASResolutionHomComplex.lean`でHom(R_n,N)と実際のprecompositionのk線形写像から
+mathlib CochainComplexを構成した。合成の零、全微分のminimality、Hom(-,s_i)の全微分の零を証明した。
+そのホモロジーと各次数の実際のHom空間とのModuleCat同型も構成した。
+このホモロジーをderived-category Abelian.Extと同定する定理はまだ未証明。
+利用先：有限最小分解から単純加群間Extを計算する比較定理、および命題1.3のHom複体。
+次：実際のExtのk線形なconnecting mapとdimension shifting、AS分解のsyzygyとの接続。
+単位7のmain保存：285ab93e129538ce06d1c86dc7c0c1581f588ce2。
+
+
+検証：`20261008T025237Z-333fbf43`、107.744968秒、全段階終了0。
+開始UTC 2026-10-08T02:52:37.301336+00:00、終了UTC 2026-10-08T02:54:25.046310+00:00。
+323異なる宣言・145 theorem・50 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit8.patch。

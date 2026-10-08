@@ -1,0 +1,161 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 13c7937..bcbbfa3 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -17,6 +17,7 @@ import ASGinzburg.ASResolution
+ import ASGinzburg.RightModuleExtLinear
+ import ASGinzburg.ASResolutionComplex
+ import ASGinzburg.ASRegular
++import ASGinzburg.ASResolutionHomComplex
+ import ASGinzburg.RightModuleExt
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 3ee7a20..1b42254 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -39,6 +39,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.augmentationQuasiIso
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.toProjectiveResolution
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.complex_isZero_ge_four
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complexDifferential_minimal
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homDifferential_simple_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_all_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_homologyIso
+ #print axioms ASGinzburg.conjugateHom
+ #print axioms ASGinzburg.conjugateHom_apply
+ #print axioms ASGinzburg.conjugateHom_id
+diff --git a/GAPS.md b/GAPS.md
+index 78c44ad..4def23e 100644
+--- a/GAPS.md
++++ b/GAPS.md
+@@ -16,14 +16,17 @@
+ 
+ 主定理は未完成です。数学的な反例を見つけたわけではありません。
+ 原論文の証明には、ここで実装した組合せ・線形代数より大きなホモロジー代数の構築が必要です。
+-現時点ではAS正則性とGinzburg正則性の本体をLeanで定義しておらず、両者の同値を述べる型もありません。
++既存presheafモデル上のAS正則性は、原論文(1.6)の有限最小分解の存在と
++実際のAbelian.Extの総Module.rank=1により具体的に定義しました。
++Ginzburg正則性の本体と両者の同値を述べる型は未実装です。
+ この欠落を任意の`Prop`で置き換えたり、主定理に等しい仮定を追加したりしていません。
+ 
+ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、projective resolutionは存在します。
+ したがって「LeanにExtがない」ことは障害ではありません。
+ 既存の線形右加群圏はAbelianになり、mathlibの核・余核・ShortComplex.homologyとexactnessへ接続済みです。
+ 射影性・EnoughProjectives・標準射影分解・実際のExtの存在も接続済みです。
+-次は有限最小分解と実際のExt計算の接続が必要です。
++有限最小分解データからmathlib ProjectiveResolutionへの変換と実際Extのk線形性は完成。
++次はHom複体の高次ホモロジーと実際のExt計算の比較が必要です。
+ 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
+ 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
+ これは全宣言を意味論的に検索した不存在証明ではありません。
+@@ -37,17 +40,24 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
+    `rightModuleProperty`の加法性・k線形性は既存の定義のまま。
+ 2. **完成**：任意のMについて線形Yoneda評価同型と`representable v`の射影性。
+    `rightModule_epi_iff_surjective`を用いてdistinguished generatorを持ち上げる。
+-   representableの直和によるEnoughProjectivesも完成。有限・最小の分解は未証明。
++   representableの直和によるEnoughProjectivesも完成。任意のAについて有限・最小分解の存在は未証明。
+ 3. **完成**：正次数の右積のspanと同定したradical、商s_v、対角1次元・他の成分零、単純性、短完全列。
+ 4. **一般radicalの閉性・自然性と、微分の像がradicalに入るminimality・因子化判定は完成**。
+-   原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
+-5. 四項分解の完全性・最小性を定式化し、全高次Extのk作用と線形性、Hom複体のコホモロジーによる計算を接続する。
+-   (1.7)をExt(s_u,P_v)の実際の次元条件として定式化する。
++   原論文(1.6)の四項の有限直和・微分・完全性・左端Mono・最小性をASResolutionとして定義済み。
++   与えたASResolutionから実際のmathlib ProjectiveResolutionを構成し、augmentationのQuasiIsoを証明済み。
++5. **完成**：実際の全高次Extのk作用、0次Homとの線形同型、
++   (1.7)の全被覆頂点・全次数の総Module.rank条件によるASRegular定義。
++   各Extの有限次元性とrank≤1もAS条件から証明済み。
++   任意のAやJacobian代数でASRegularが成立することは未証明。
++   Hom複体の高次ホモロジーとderived-category Abelian.Extの比較は未証明。
+ 
+ 標準`ProjectiveResolution`と`HasExt.{v}`はEnoughProjectivesから完成しました。
+-`representableExtZeroEquiv`は実際のExt⁰(P_i,M)とM_iの加法的同型。
++`representableExtZeroLinearEquiv`は実際のExt⁰(P_i,M)とM_iの線形同型。
+ 高次Ext(P_i,M)の消滅は射影対象が第1引数にあるためで、Ext(s_u,P_v)のAS条件ではありません。
+ 標準分解は無限であり得るため、(1.6)の有限四項分解を得たと扱いません。
++ASRegularから分解を選ぶことは定義(i)の存在条件を使います。周期性やdelta型Ext表を追加していません。
++mathlibの古いleftDerived型ExtにはProjectiveResolution.isoExtがありますが、
++今回使用する新しいAbelian.Extとの比較定理ではありません。両者を取り違えません。
+ 
+ presheafモデルと`⊕_v M_v`の局所単位元付き右加群の明示的同値は未実装です。
+ 原論文§1.2との右作用の向きは照合済みですが、Extを比較する形式的同値の代わりにはしません。
+diff --git a/ASGinzburg/ASResolutionHomComplex.lean b/ASGinzburg/ASResolutionHomComplex.lean
+new file mode 100644
+index 0000000..d1b9b8f
+--- /dev/null
++++ b/ASGinzburg/ASResolutionHomComplex.lean
+@@ -0,0 +1,70 @@
++import ASGinzburg.ASResolutionComplex
++
++/-!
++# The actual k-linear Hom complex of the finite AS resolution
++
++These are morphism spaces of the existing right modules. In particular no
++Ext comparison is postulated: identifying its homology with the derived
++category's `Abelian.Ext` is a further proof obligation.
++-/
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++variable {v : Q.LiftVertex} (R : A.ASResolution Q v)
++
++noncomputable def homDifferential (N : A.RightModule) (n : ℕ) :
++    ModuleCat.of k (R.complexTerm n ⟶ N) ⟶
++      ModuleCat.of k (R.complexTerm (n + 1) ⟶ N) :=
++  ModuleCat.ofHom {
++    toFun := fun f => R.complexDifferential n ≫ f
++    map_add' := by intro f g; simp only [Preadditive.comp_add]
++    map_smul' := by intro r f; simp only [Linear.comp_smul, RingHom.id_apply] }
++
++theorem homDifferential_sq (N : A.RightModule) (n : ℕ) :
++    R.homDifferential N n ≫ R.homDifferential N (n + 1) = 0 := by
++  apply ModuleCat.hom_ext
++  ext f
++  change R.complexDifferential (n + 1) ≫ (R.complexDifferential n ≫ f) = 0
++  rw [← Category.assoc, R.complexDifferential_sq, zero_comp]
++
++noncomputable def homComplex (N : A.RightModule) : CochainComplex (ModuleCat k) ℕ :=
++  CochainComplex.of (fun n => ModuleCat.of k (R.complexTerm n ⟶ N))
++    (R.homDifferential N) (R.homDifferential_sq N)
++
++theorem complexDifferential_minimal (n : ℕ) : A.IsMinimalMorphism (R.complexDifferential n) := by
++  rcases n with _ | _ | _ | n
++  · exact R.minimal₁
++  · exact R.minimal₂
++  · exact R.minimal₃
++  · exact A.isMinimalMorphism_zero _ _
++
++/-- Every cochain differential into a simple module vanishes by actual minimality. -/
++theorem homDifferential_simple_zero (i : ℤ) (n : ℕ) :
++    R.homDifferential (A.simpleRightModule i) n = 0 := by
++  apply ModuleCat.hom_ext
++  ext f
++  exact A.minimalMorphism_comp_simple_eq_zero _ (R.complexDifferential_minimal n) i f
++
++theorem homComplex_simple_d_zero (i : ℤ) (n : ℕ) :
++    (R.homComplex (A.simpleRightModule i)).d n (n + 1) = 0 :=
++  (CochainComplex.of_d _ _ _ n).trans (R.homDifferential_simple_zero i n)
++
++theorem homComplex_simple_d_all_zero (i : ℤ) (n m : ℕ) :
++    (R.homComplex (A.simpleRightModule i)).d n m = 0 := by
++  by_cases h : n + 1 = m
++  · subst m
++    exact R.homComplex_simple_d_zero i n
++  · exact CochainComplex.of_d_ne _ _ _ h
++
++/-- Homology of Hom(-,s_i) is its actual degree-n morphism space. This does
++not yet identify this homology with derived-category Ext. -/
++noncomputable def homComplex_simple_homologyIso (i : ℤ) (n : ℕ) :
++    (R.homComplex (A.simpleRightModule i)).homology n ≅
++      ModuleCat.of k (R.complexTerm n ⟶ A.simpleRightModule i) :=
++  (ShortComplex.HomologyData.ofZeros ((R.homComplex (A.simpleRightModule i)).sc n)
++    (R.homComplex_simple_d_all_zero i _ _)
++    (R.homComplex_simple_d_all_zero i _ _)).left.homologyIso
++
++end ASGinzburg.ZAlgebra.ASResolution

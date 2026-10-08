@@ -16,14 +16,17 @@
 
 主定理は未完成です。数学的な反例を見つけたわけではありません。
 原論文の証明には、ここで実装した組合せ・線形代数より大きなホモロジー代数の構築が必要です。
-現時点ではAS正則性とGinzburg正則性の本体をLeanで定義しておらず、両者の同値を述べる型もありません。
+既存presheafモデル上のAS正則性は、原論文(1.6)の有限最小分解の存在と
+実際のAbelian.Extの総Module.rank=1により具体的に定義しました。
+Ginzburg正則性の本体と両者の同値を述べる型は未実装です。
 この欠落を任意の`Prop`で置き換えたり、主定理に等しい仮定を追加したりしていません。
 
 Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、projective resolutionは存在します。
 したがって「LeanにExtがない」ことは障害ではありません。
 既存の線形右加群圏はAbelianになり、mathlibの核・余核・ShortComplex.homologyとexactnessへ接続済みです。
 射影性・EnoughProjectives・標準射影分解・実際のExtの存在も接続済みです。
-次は有限最小分解と実際のExt計算の接続が必要です。
+有限最小分解データからmathlib ProjectiveResolutionへの変換と実際Extのk線形性は完成。
+次はHom複体の高次ホモロジーと実際のExt計算の比較が必要です。
 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
 これは全宣言を意味論的に検索した不存在証明ではありません。
@@ -37,17 +40,24 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
    `rightModuleProperty`の加法性・k線形性は既存の定義のまま。
 2. **完成**：任意のMについて線形Yoneda評価同型と`representable v`の射影性。
    `rightModule_epi_iff_surjective`を用いてdistinguished generatorを持ち上げる。
-   representableの直和によるEnoughProjectivesも完成。有限・最小の分解は未証明。
+   representableの直和によるEnoughProjectivesも完成。任意のAについて有限・最小分解の存在は未証明。
 3. **完成**：正次数の右積のspanと同定したradical、商s_v、対角1次元・他の成分零、単純性、短完全列。
 4. **一般radicalの閉性・自然性と、微分の像がradicalに入るminimality・因子化判定は完成**。
-   原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
-5. 四項分解の完全性・最小性を定式化し、全高次Extのk作用と線形性、Hom複体のコホモロジーによる計算を接続する。
-   (1.7)をExt(s_u,P_v)の実際の次元条件として定式化する。
+   原論文(1.6)の四項の有限直和・微分・完全性・左端Mono・最小性をASResolutionとして定義済み。
+   与えたASResolutionから実際のmathlib ProjectiveResolutionを構成し、augmentationのQuasiIsoを証明済み。
+5. **完成**：実際の全高次Extのk作用、0次Homとの線形同型、
+   (1.7)の全被覆頂点・全次数の総Module.rank条件によるASRegular定義。
+   各Extの有限次元性とrank≤1もAS条件から証明済み。
+   任意のAやJacobian代数でASRegularが成立することは未証明。
+   Hom複体の高次ホモロジーとderived-category Abelian.Extの比較は未証明。
 
 標準`ProjectiveResolution`と`HasExt.{v}`はEnoughProjectivesから完成しました。
-`representableExtZeroEquiv`は実際のExt⁰(P_i,M)とM_iの加法的同型。
+`representableExtZeroLinearEquiv`は実際のExt⁰(P_i,M)とM_iの線形同型。
 高次Ext(P_i,M)の消滅は射影対象が第1引数にあるためで、Ext(s_u,P_v)のAS条件ではありません。
 標準分解は無限であり得るため、(1.6)の有限四項分解を得たと扱いません。
+ASRegularから分解を選ぶことは定義(i)の存在条件を使います。周期性やdelta型Ext表を追加していません。
+mathlibの古いleftDerived型ExtにはProjectiveResolution.isoExtがありますが、
+今回使用する新しいAbelian.Extとの比較定理ではありません。両者を取り違えません。
 
 presheafモデルと`⊕_v M_v`の局所単位元付き右加群の明示的同値は未実装です。
 原論文§1.2との右作用の向きは照合済みですが、Extを比較する形式的同値の代わりにはしません。
