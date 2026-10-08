@@ -63,6 +63,7 @@ canonicalな二重双対は有限生成射影・有界cochainホモトピー圏�
 単位42で実際の閉路ポテンシャル・道を値に取る巡回微分・長さ/次数・(3.8)/交換子恒等式、unrolled Jacobianイデアルと実際の商ZAlgebraまで完成。単位42時点ではGinzburg dg微分・d²=0・正則性は未実装であった。ASRegular triangle333から正負3周期性は証明したが、§5の通常のquadratic分解との比較は未証明。
 単位43で実際の拡張道代数・生成元微分とsigned線形延長、Leibniz則・次数/cut/winding保存まで公開検証。単位44で全生成元/全道/全有限線形結合のd²=0、実際のmathlib複体・成分/全homology、実際の負次数消滅によるGinzburgRegular定義と正次数零性、真のJacobianイデアル＝境界、成分/全H⁰のJacobian商空間との線形同型まで公開検証。H⁰の積保存、cut/unrolling商比較、特定のΦの正則性とAS条件との両方向の対応は未証明。
 単位45で固定cut項とhomologyの有限次元性・具体的有界性、複体/homologyのretractと有限射影和による全正則性のcut成分判定、homogeneous Jacobianイデアルと固定cut H⁰の線形比較、unrolling/eraseの道/線形同型まで公開検証。AS条件との同値と商のunrolling交換・H⁰積保存は未証明。
+単位46で任意整数sheet差の道/線形同型・積保存、実際の巡回微分の持上げ/忘却、同次数context spanと全sheetの関係の積閉性から真のJacobianイデアルのunrolling対応、商同型とhomogeneous商積保存、固定cut H⁰≅A(Φ)成分の線形同型まで公開検証。H⁰そのものの積・全単位的環・正則性/AS対応は未証明。
 任意のAについてAS分解の存在を証明したとは扱わない。
 その後の2026-10-08のユーザーの明示的な指示により、射影性・単純加群・実際の分解とExtなど、
 残る形式化を自律的に継続する権限を得た。通常の補題・実装方針について繰り返し確認しない。

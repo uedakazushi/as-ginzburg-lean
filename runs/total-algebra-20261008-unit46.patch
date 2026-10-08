@@ -1,0 +1,1197 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 4777117..1daa58f 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -275,6 +275,24 @@ import ASGinzburg.GinzburgCycleBoundary
+ import ASGinzburg.GinzburgCutDecomposition
+ import ASGinzburg.GinzburgCutRegularity
+ 
++import ASGinzburg.UnrolledPathErasure
++import ASGinzburg.UnrolledJacobianErasure
++import ASGinzburg.PathCutUnrollingComparison
++import ASGinzburg.UnrolledErasureIdeals
++import ASGinzburg.UnrolledJacobianIdealErasure
++import ASGinzburg.PathJacobianContexts
++import ASGinzburg.PathCutProducts
++import ASGinzburg.PathJacobianHomogeneousContexts
++import ASGinzburg.PathQuotientProducts
++import ASGinzburg.PathBetweenSheets
++import ASGinzburg.BetweenSheetLinearEquiv
++import ASGinzburg.UnrolledJacobianLiftIdeal
++import ASGinzburg.UnrolledJacobianContexts
++import ASGinzburg.BetweenSheetJacobianIdeals
++import ASGinzburg.JacobianUnrollingQuotient
++import ASGinzburg.JacobianCutQuotientProducts
++import ASGinzburg.JacobianUnrollingProducts
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 3b85e7a..1a6241b 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -261,6 +261,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.shortExact₀
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.shortExact₁
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.shortExact₂
++#print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap
++#print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap_on_cut
++#print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap_on_other_cut
++#print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap_mem_liftIdeal
++#print axioms ASGinzburg.CutQuiver.betweenSheetJacobianIdeal_map
++#print axioms ASGinzburg.CutQuiver.betweenSheetLinearEquiv
++#print axioms ASGinzburg.CutQuiver.betweenSheetLinearEquiv_symm_coe
++#print axioms ASGinzburg.CutQuiver.betweenSheetLinearEquiv_erase
++#print axioms ASGinzburg.CutQuiver.pathCutCompBetween
++#print axioms ASGinzburg.CutQuiver.betweenSheetLinearEquiv_comp
+ #print axioms ASGinzburg.reverseCochainHomotopyFunctor_bounded
+ #print axioms ASGinzburg.reverseChainHomotopyFunctor_bounded
+ #print axioms ASGinzburg.boundedReverseDegreeEquivalence
+@@ -1008,6 +1018,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.homotopyOpUnitIso
+ #print axioms ASGinzburg.homotopyOpCounitIso
+ #print axioms ASGinzburg.homotopyOpEquivalence
++#print axioms ASGinzburg.CutQuiver.pathCutCompBetweenLinear
++#print axioms ASGinzburg.CutQuiver.PathCutJacobianQuotient
++#print axioms ASGinzburg.CutQuiver.cutJacobianQuotientCompRight
++#print axioms ASGinzburg.CutQuiver.cutJacobianQuotientCompRight_mk
++#print axioms ASGinzburg.CutQuiver.cutJacobianQuotientCompPre
++#print axioms ASGinzburg.CutQuiver.cutJacobianQuotientComp
++#print axioms ASGinzburg.CutQuiver.cutJacobianQuotientComp_mk
++#print axioms ASGinzburg.CutQuiver.homogeneousJacobianUnrolledEquiv_mk
++#print axioms ASGinzburg.CutQuiver.homogeneousJacobianUnrolledEquiv_comp
++#print axioms ASGinzburg.CutQuiver.betweenSheetJacobianQuotientEquiv
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal_map_height
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianLiftQuotientHeightEquiv
++#print axioms ASGinzburg.CutQuiver.homogeneousJacobianUnrolledEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroUnrolledIso
+ #print axioms ASGinzburg.ZAlgebra.leftModuleExtZeroPreservesColimits
+ #print axioms ASGinzburg.ZAlgebra.leftModuleExtSuccPreservesColimits
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveHigherExtFunctorIsZero
+@@ -1414,6 +1438,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathComp_id
+ #print axioms ASGinzburg.CutQuiver.id_pathComp
+ #print axioms ASGinzburg.CutQuiver.pathComp_assoc
++#print axioms ASGinzburg.CutQuiver.Path.unrollBetween
++#print axioms ASGinzburg.CutQuiver.Path.unrollBetween_erase
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.eraseBetween
++#print axioms ASGinzburg.CutQuiver.Path.betweenSheetEquiv
+ #print axioms ASGinzburg.CutQuiver.pathCutComponent
+ #print axioms ASGinzburg.CutQuiver.pathCutProjection
+ #print axioms ASGinzburg.CutQuiver.pathCutProjection_single
+@@ -1421,6 +1449,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathCutProjection_mem
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_cut_iff
+ #print axioms ASGinzburg.CutQuiver.pathCutComponent_finite
++#print axioms ASGinzburg.CutQuiver.pathCutComponent_comp
++#print axioms ASGinzburg.CutQuiver.pathCutProjection_on_cut
++#print axioms ASGinzburg.CutQuiver.pathCutComponentBasisEquiv_symm_single
++#print axioms ASGinzburg.CutQuiver.pathCutUnrollingEquiv_symm_coe
++#print axioms ASGinzburg.CutQuiver.pathCutUnrollingEquiv_erase
++#print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_mem_pathCut
++#print axioms ASGinzburg.CutQuiver.pathCutUnrollingEquiv_jacobianRelation
+ #print axioms ASGinzburg.CutQuiver.Path.castCutDegreeEquiv
+ #print axioms ASGinzburg.CutQuiver.pathCutComponentBasisEquiv
+ #print axioms ASGinzburg.CutQuiver.pathCutUnrollingEquiv
+@@ -1454,10 +1489,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.Path.eraseDegree_unrollDegree
+ #print axioms ASGinzburg.CutQuiver.unrollDegreeLinearMap
+ #print axioms ASGinzburg.CutQuiver.unrollDegreeLinearMap_injective
++#print axioms ASGinzburg.CutQuiver.pathJacobianContexts
++#print axioms ASGinzburg.CutQuiver.pathJacobianContext_mem_ideal
++#print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_mem_contextSpan
++#print axioms ASGinzburg.CutQuiver.pathJacobianIdeal_eq_contextSpan
+ #print axioms ASGinzburg.CutQuiver.pathCutProjection_mem_pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.pathJacobianCutIdeal
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutBoundaryLift
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutBoundaryLift_range
++#print axioms ASGinzburg.CutQuiver.pathJacobianContextDegree
++#print axioms ASGinzburg.CutQuiver.pathJacobianContext_mem_cut
++#print axioms ASGinzburg.CutQuiver.pathJacobianHomogeneousContexts
++#print axioms ASGinzburg.CutQuiver.pathCutProjection_mem_homogeneousContextSpan
++#print axioms ASGinzburg.CutQuiver.pathJacobianCut_mem_homogeneousContextSpan
+ #print axioms ASGinzburg.CutQuiver.pathJacobianRelations
+ #print axioms ASGinzburg.CutQuiver.pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_mem_pathJacobianIdeal
+@@ -1469,6 +1513,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.generatedPathIdeal
+ #print axioms ASGinzburg.CutQuiver.subset_generatedPathIdeal
+ #print axioms ASGinzburg.CutQuiver.generatedPathIdeal_le
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.QuotientComponent
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientCompRight
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientCompRight_mk
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientCompPre
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientComp
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientComp_mk
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientComp_id
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.id_quotientComp
++#print axioms ASGinzburg.CutQuiver.PathLinearIdeal.quotientComp_assoc
+ #print axioms ASGinzburg.CutQuiver.Path.transport
+ #print axioms ASGinzburg.CutQuiver.Path.length_transport
+ #print axioms ASGinzburg.CutQuiver.Path.cutDegree_transport
+@@ -2156,6 +2209,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_single
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_mem_filtration
++#print axioms ASGinzburg.CutQuiver.unrolledErasureIdeal
+ #print axioms ASGinzburg.CutQuiver.integerJacobianRelation
+ #print axioms ASGinzburg.CutQuiver.integerJacobianRelation_mem_square
+ #print axioms ASGinzburg.CutQuiver.jacobianGenerators
+@@ -2168,6 +2222,21 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap_surjective
+ #print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap_kernel
+ #print axioms ASGinzburg.CutQuiver.unrolledJacobianQuotientMap_relation_zero
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianContext_mem_liftIdeal
++#print axioms ASGinzburg.CutQuiver.Path.unrollDegree_erase
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_unrollDegree
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianRelation_erase
++#print axioms ASGinzburg.CutQuiver.unrolledEndpointEquiv_mem_erasureIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_mem_erasureIdeal
++#print axioms ASGinzburg.CutQuiver.jacobianGenerators_mem_erasureIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianIdeal_le_erasureIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledEndpointEquiv_comp
++#print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_comp
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal_comp_left
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal_comp_right
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianRelation_mem_liftIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal_erase
+ #print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_fixedCut
+ #print axioms ASGinzburg.CutQuiver.restrictedJacobianRelation
+ #print axioms ASGinzburg.CutQuiver.restrictedJacobianRelation_apply
+@@ -2185,6 +2254,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_comp
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_singleArrow
+ #print axioms ASGinzburg.ZAlgebra.unrolledPath_oneArrow_class_independent
++#print axioms ASGinzburg.CutQuiver.Path.comp_transport_target
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.erase_comp
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_single
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_injective
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_cut
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_comp
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.length_comp
+ #print axioms ASGinzburg.CutQuiver.unrolledPathFiltration
+ #print axioms ASGinzburg.CutQuiver.unrolledPathComp_mem_filtration
+diff --git a/ASGinzburg/PathBetweenSheets.lean b/ASGinzburg/PathBetweenSheets.lean
+new file mode 100644
+index 0000000..c77e5a0
+--- /dev/null
++++ b/ASGinzburg/PathBetweenSheets.lean
+@@ -0,0 +1,38 @@
++import ASGinzburg.UnrolledPathWords
++
++/-! A genuine ordinary path lifts to any prescribed endpoint sheets
++whose difference equals its actual cut degree. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++def Path.unrollBetween (u v : Q.Vertex) (m n : ℤ)
++    (p : {p : Q.Path u v // (p.cutDegree:ℤ)=n-m}) : Q.UnrolledPath (u,m) (v,n) :=
++  (p.val.unroll m).transport rfl (by
++    apply Prod.ext
++    · rfl
++    · have := p.property
++      change m+(p.val.cutDegree:ℤ)=n
++      omega)
++
++theorem Path.unrollBetween_erase (u v : Q.Vertex) (m n : ℤ)
++    (p : {p : Q.Path u v // (p.cutDegree:ℤ)=n-m}) :
++    (Path.unrollBetween u v m n p).erase=p.val := by
++  apply Path.toList_injective
++  simp [unrollBetween,Path.unroll_erase_toList]
++
++def UnrolledPath.eraseBetween {u v : Q.Vertex} {m n : ℤ}
++    (p : Q.UnrolledPath (u,m) (v,n)) : {p : Q.Path u v // (p.cutDegree:ℤ)=n-m} :=
++  ⟨p.erase,p.erase_cutDegree⟩
++
++def Path.betweenSheetEquiv (u v : Q.Vertex) (m n : ℤ) :
++    {p : Q.Path u v // (p.cutDegree:ℤ)=n-m} ≃ Q.UnrolledPath (u,m) (v,n) where
++  toFun := Path.unrollBetween u v m n
++  invFun := UnrolledPath.eraseBetween
++  left_inv p := Subtype.ext (Path.unrollBetween_erase u v m n p)
++  right_inv p := by
++    apply UnrolledPath.erase_toList_injective
++    change (Path.unrollBetween u v m n p.eraseBetween).erase.toList=p.erase.toList
++    rw [Path.unrollBetween_erase]
++    rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledJacobianContexts.lean b/ASGinzburg/UnrolledJacobianContexts.lean
+new file mode 100644
+index 0000000..e4bf260
+--- /dev/null
++++ b/ASGinzburg/UnrolledJacobianContexts.lean
+@@ -0,0 +1,61 @@
++import ASGinzburg.UnrolledJacobianLiftIdeal
++import ASGinzburg.BetweenSheetLinearEquiv
++import ASGinzburg.PathJacobianHomogeneousContexts
++
++/-! An actual homogeneous relation context lifts to the genuine
++unrolled Jacobian ideal at every compatible pair of endpoint sheets. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledJacobianContext_mem_liftIdeal (φ : Q.Potential k)
++    (u v : Q.LiftVertex) (a : Q.Arrow)
++    (l : Q.Path u.1 (Q.target a)) (r : Q.Path (Q.source a) v.1)
++    (hdeg : (Q.pathJacobianContextDegree a l r:ℤ)=v.2-u.2) :
++    Q.betweenSheetLinearEquiv k u v
++      ⟨Q.pathComp k (Finsupp.single r 1)
++        (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)),by
++          rw [←hdeg]
++          exact Q.pathJacobianContext_mem_cut k φ a l r⟩ ∈
++      Q.unrolledJacobianLiftIdeal k φ u v := by
++  let t : Q.LiftVertex := (Q.target a,u.2+(l.cutDegree:ℤ))
++  let s : Q.LiftVertex := (Q.source a,t.2+((1-Q.cutDegree a:ℕ):ℤ))
++  let pl : Q.UnrolledPath u t := Path.unrollBetween u.1 (Q.target a) u.2 t.2
++    ⟨l,by dsimp [t]; omega⟩
++  let pr : Q.UnrolledPath s v := Path.unrollBetween (Q.source a) v.1 s.2 v.2
++    ⟨r,by
++      simp only [pathJacobianContextDegree,Nat.cast_add] at hdeg
++      dsimp [s,t]
++      omega⟩
++  let rel : Q.UnrolledPathComponent k t s := Q.unrolledJacobianRelation k a φ t.2
++  let f : Q.UnrolledPathComponent k u v := Q.unrolledPathComp k (Finsupp.single pr 1)
++    (Q.unrolledPathComp k rel (Finsupp.single pl 1))
++  have hrel : rel ∈ Q.unrolledJacobianLiftIdeal k φ t s :=
++    Q.unrolledJacobianRelation_mem_liftIdeal k φ a t.2
++  have hf : f ∈ Q.unrolledJacobianLiftIdeal k φ u v :=
++    Q.unrolledJacobianLiftIdeal_comp_left k φ
++      (Q.unrolledJacobianLiftIdeal_comp_right k φ hrel (Finsupp.single pl 1))
++        (Finsupp.single pr 1)
++  have heq : Q.betweenSheetLinearEquiv k u v
++      ⟨Q.pathComp k (Finsupp.single r 1)
++        (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)),by
++          rw [←hdeg]
++          exact Q.pathJacobianContext_mem_cut k φ a l r⟩=f := by
++    apply Q.unrolledPathEraseLinearMap_injective k
++    rw [Q.betweenSheetLinearEquiv_erase]
++    change _=Q.unrolledPathEraseLinearMap k u v
++      (Q.unrolledPathComp k (Finsupp.single pr 1)
++        (Q.unrolledPathComp k rel (Finsupp.single pl 1)))
++    rw [Q.unrolledPathEraseLinearMap_comp,Q.unrolledPathEraseLinearMap_comp,
++      Q.unrolledPathEraseLinearMap_single,Q.unrolledPathEraseLinearMap_single]
++    change _=Q.pathComp k (Finsupp.single pr.erase 1)
++      (Q.pathComp k (Q.unrolledPathEraseLinearMap k t s
++        (Q.unrolledJacobianRelation k a φ t.2)) (Finsupp.single pl.erase 1))
++    rw [Q.unrolledJacobianRelation_erase]
++    have hl : pl.erase=l := Path.unrollBetween_erase _ _ _ _ _
++    have hr : pr.erase=r := Path.unrollBetween_erase _ _ _ _ _
++    rw [hl,hr]
++  rw [heq]
++  exact hf
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/JacobianCutQuotientProducts.lean b/ASGinzburg/JacobianCutQuotientProducts.lean
+new file mode 100644
+index 0000000..d566f4e
+--- /dev/null
++++ b/ASGinzburg/JacobianCutQuotientProducts.lean
+@@ -0,0 +1,86 @@
++import ASGinzburg.BetweenSheetJacobianIdeals
++
++/-! Genuine bilinear products on homogeneous Jacobian quotient
++components, indexed by arbitrary endpoint sheets. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def pathCutCompBetweenLinear {u v w : Q.LiftVertex} :
++    Q.pathCutComponent k v.1 w.1 (w.2-v.2) →ₗ[k]
++      Q.pathCutComponent k u.1 v.1 (v.2-u.2) →ₗ[k]
++        Q.pathCutComponent k u.1 w.1 (w.2-u.2) where
++  toFun g := ((Q.pathComp k g.val).comp
++    (Q.pathCutComponent k u.1 v.1 (v.2-u.2)).subtype).codRestrict
++      _ (fun f => (Q.pathCutCompBetween k g f).property)
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro f
++    apply Subtype.ext
++    exact LinearMap.congr_fun (map_add (Q.pathComp k) g.val h.val) f.val
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro f
++    apply Subtype.ext
++    exact LinearMap.congr_fun (map_smul (Q.pathComp k) a g.val) f.val
++
++abbrev PathCutJacobianQuotient (φ : Q.Potential k) (u v : Q.LiftVertex) :=
++  Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸
++    Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)
++
++noncomputable def cutJacobianQuotientCompRight (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2)) :
++    Q.PathCutJacobianQuotient k φ u v →ₗ[k] Q.PathCutJacobianQuotient k φ u w :=
++  (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).liftQ
++    ((Q.pathJacobianCutIdeal k φ u.1 w.1 (w.2-u.2)).mkQ.comp
++      (Q.pathCutCompBetweenLinear k g)) (by
++        intro f hf
++        apply (Submodule.Quotient.mk_eq_zero _).mpr
++        change Q.pathComp k g.val f.val ∈ (Q.pathJacobianIdeal k φ).hom u.1 w.1
++        exact (Q.pathJacobianIdeal k φ).comp_left hf g.val)
++
++@[simp] theorem cutJacobianQuotientCompRight_mk (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2))
++    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.cutJacobianQuotientCompRight k φ g (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.pathCutCompBetweenLinear k g f) := rfl
++
++noncomputable def cutJacobianQuotientCompPre (φ : Q.Potential k) {u v w : Q.LiftVertex} :
++    Q.pathCutComponent k v.1 w.1 (w.2-v.2) →ₗ[k]
++      Q.PathCutJacobianQuotient k φ u v →ₗ[k] Q.PathCutJacobianQuotient k φ u w where
++  toFun := Q.cutJacobianQuotientCompRight k φ
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).mkQ_surjective x
++    simp [LinearMap.add_apply]
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).mkQ_surjective x
++    simp [LinearMap.smul_apply]
++
++noncomputable def cutJacobianQuotientComp (φ : Q.Potential k) {u v w : Q.LiftVertex} :
++    Q.PathCutJacobianQuotient k φ v w →ₗ[k]
++      Q.PathCutJacobianQuotient k φ u v →ₗ[k] Q.PathCutJacobianQuotient k φ u w :=
++  (Q.pathJacobianCutIdeal k φ v.1 w.1 (w.2-v.2)).liftQ
++    (Q.cutJacobianQuotientCompPre k φ) (by
++      intro g hg
++      apply LinearMap.ext
++      intro x
++      obtain ⟨f,rfl⟩ := (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).mkQ_surjective x
++      apply (Submodule.Quotient.mk_eq_zero _).mpr
++      change Q.pathComp k g.val f.val ∈ (Q.pathJacobianIdeal k φ).hom u.1 w.1
++      exact (Q.pathJacobianIdeal k φ).comp_right hg f.val)
++
++@[simp] theorem cutJacobianQuotientComp_mk (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2))
++    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.cutJacobianQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.pathCutCompBetweenLinear k g f) := rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledPathErasure.lean b/ASGinzburg/UnrolledPathErasure.lean
+new file mode 100644
+index 0000000..cfabdaa
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathErasure.lean
+@@ -0,0 +1,68 @@
++import ASGinzburg.UnrolledPathWords
++import ASGinzburg.UnrolledPathAlgebra
++import ASGinzburg.PathCutGrading
++
++/-! Forgetting sheets preserves genuine path composition and its linear
++extension, while retaining the cut degree determined by the endpoints. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem Path.comp_transport_target {u v w w' : Q.Vertex} (h : w=w')
++    (p : Q.Path u v) (q : Q.Path v w) :
++    p.comp (q.transport rfl h)=(p.comp q).transport rfl h := by
++  subst w'
++  rfl
++
++theorem UnrolledPath.erase_comp {u v w : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (q : Q.UnrolledPath v w) :
++    (p.comp q).erase=p.erase.comp q.erase := by
++  induction q with
++  | nil => simp [comp,erase]
++  | snoc a q ih => simp [comp,erase,Path.comp_transport_target,Path.comp,ih]
++
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def unrolledPathEraseLinearMap (u v : Q.LiftVertex) :
++    Q.UnrolledPathComponent k u v →ₗ[k] Q.PathComponent k u.1 v.1 :=
++  Finsupp.lmapDomain k k UnrolledPath.erase
++
++@[simp] theorem unrolledPathEraseLinearMap_single {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (a : k) :
++    Q.unrolledPathEraseLinearMap k u v (Finsupp.single p a)=Finsupp.single p.erase a :=
++  Finsupp.mapDomain_single
++
++theorem unrolledPathEraseLinearMap_injective (u v : Q.LiftVertex) :
++    Function.Injective (Q.unrolledPathEraseLinearMap k u v) := by
++  apply Finsupp.mapDomain_injective
++  intro p q h
++  apply UnrolledPath.erase_toList_injective
++  exact congrArg Path.toList h
++
++theorem unrolledPathEraseLinearMap_cut {u v : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledPathEraseLinearMap k u v f ∈ Q.pathCutComponent k u.1 v.1 (v.2-u.2) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simpa only [map_add] using Submodule.add_mem _ hf hg
++  | single p a =>
++    rw [unrolledPathEraseLinearMap_single]
++    exact Finsupp.single_mem_supported _ _ p.erase_cutDegree
++
++theorem unrolledPathEraseLinearMap_comp {u v w : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w) :
++    Q.unrolledPathEraseLinearMap k u w (Q.unrolledPathComp k g f)=
++      Q.pathComp k (Q.unrolledPathEraseLinearMap k v w g)
++        (Q.unrolledPathEraseLinearMap k u v f) := by
++  classical
++  induction g using Finsupp.induction_linear with
++  | zero => simp
++  | add g h hg hh => simp [map_add,LinearMap.add_apply,hg,hh]
++  | single q b =>
++    induction f using Finsupp.induction_linear with
++    | zero => simp
++    | add f h hf hh => simp [map_add,hf,hh]
++    | single p a => simp [UnrolledPath.erase_comp]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathJacobianHomogeneousContexts.lean b/ASGinzburg/PathJacobianHomogeneousContexts.lean
+new file mode 100644
+index 0000000..2042a94
+--- /dev/null
++++ b/ASGinzburg/PathJacobianHomogeneousContexts.lean
+@@ -0,0 +1,58 @@
++import ASGinzburg.PathJacobianContexts
++import ASGinzburg.PathCutProducts
++import ASGinzburg.PathCutUnrollingComparison
++
++/-! Every homogeneous element of the actual Jacobian ideal is a finite
++linear combination of relation contexts of that same cut degree. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def pathJacobianContextDegree (a : Q.Arrow) {u v : Q.Vertex}
++    (l : Q.Path u (Q.target a)) (r : Q.Path (Q.source a) v) : ℕ :=
++  l.cutDegree+(1-Q.cutDegree a)+r.cutDegree
++
++theorem pathJacobianContext_mem_cut (φ : Q.Potential k) (a : Q.Arrow) {u v : Q.Vertex}
++    (l : Q.Path u (Q.target a)) (r : Q.Path (Q.source a) v) :
++    Q.pathComp k (Finsupp.single r 1)
++      (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)) ∈
++        Q.pathCutComponent k u v (Q.pathJacobianContextDegree a l r:ℤ) := by
++  have hl : Finsupp.single l (1:k) ∈ Q.pathCutComponent k u (Q.target a) l.cutDegree :=
++    Finsupp.single_mem_supported _ _ rfl
++  have hr : Finsupp.single r (1:k) ∈ Q.pathCutComponent k (Q.source a) v r.cutDegree :=
++    Finsupp.single_mem_supported _ _ rfl
++  simpa only [pathJacobianContextDegree,Nat.cast_add] using
++    Q.pathCutComponent_comp k
++      (Q.pathCutComponent_comp k hl (Q.pathCyclicDerivative_mem_pathCut k a φ)) hr
++
++def pathJacobianHomogeneousContexts (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
++    Set (Q.PathComponent k u v) :=
++  {f | ∃ a : Q.Arrow, ∃ l : Q.Path u (Q.target a), ∃ r : Q.Path (Q.source a) v,
++    (Q.pathJacobianContextDegree a l r:ℤ)=c ∧ Q.pathComp k (Finsupp.single r 1)
++      (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1))=f}
++
++theorem pathCutProjection_mem_homogeneousContextSpan (φ : Q.Potential k)
++    {u v : Q.Vertex} (c : ℤ) {f : Q.PathComponent k u v}
++    (hf : f ∈ (Q.pathJacobianIdeal k φ).hom u v) :
++    Q.pathCutProjection k u v c f ∈
++      Submodule.span k (Q.pathJacobianHomogeneousContexts k φ u v c) := by
++  rw [Q.pathJacobianIdeal_eq_contextSpan] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨a,l,r,rfl⟩ := hx
++    rw [Q.pathCutProjection_on_cut k c _ (Q.pathJacobianContext_mem_cut k φ a l r)]
++    split_ifs with h
++    · exact Submodule.subset_span ⟨a,l,r,h,rfl⟩
++    · exact Submodule.zero_mem _
++  | zero => simp
++  | add f g hf hg ihf ihg => simpa only [map_add] using Submodule.add_mem _ ihf ihg
++  | smul a f hf ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++theorem pathJacobianCut_mem_homogeneousContextSpan (φ : Q.Potential k)
++    {u v : Q.Vertex} (c : ℤ) {f : Q.PathComponent k u v}
++    (hf : f ∈ (Q.pathJacobianIdeal k φ).hom u v) (hc : f ∈ Q.pathCutComponent k u v c) :
++    f ∈ Submodule.span k (Q.pathJacobianHomogeneousContexts k φ u v c) := by
++  have h := Q.pathCutProjection_mem_homogeneousContextSpan k φ c hf
++  rwa [Q.pathCutProjection_on_cut k c c hc,if_pos rfl] at h
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledErasureIdeals.lean b/ASGinzburg/UnrolledErasureIdeals.lean
+new file mode 100644
+index 0000000..9f74420
+--- /dev/null
++++ b/ASGinzburg/UnrolledErasureIdeals.lean
+@@ -0,0 +1,29 @@
++import ASGinzburg.UnrolledPathErasure
++import ASGinzburg.UnrolledPathZAlgebra
++import ASGinzburg.PathLinearIdeals
++import ASGinzburg.ZAlgebraHomomorphisms
++
++/-! Pullback of genuine two-sided path ideals under forgetting sheets
++is a genuine linear ideal of the unrolled Z-algebra. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def unrolledErasureIdeal (I : Q.PathLinearIdeal k) :
++    (Q.unrolledPathZAlgebra k).LinearIdeal where
++  hom i j := (I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm j).1).comap
++    (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
++  comp_left := by
++    intro i j l f hf g
++    change Q.unrolledPathEraseLinearMap k _ _ (Q.unrolledPathComp k g f) ∈
++      I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm l).1
++    rw [Q.unrolledPathEraseLinearMap_comp]
++    exact I.comp_left hf _
++  comp_right := by
++    intro i j l g hg f
++    change Q.unrolledPathEraseLinearMap k _ _ (Q.unrolledPathComp k g f) ∈
++      I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm l).1
++    rw [Q.unrolledPathEraseLinearMap_comp]
++    exact I.comp_right hg _
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/JacobianUnrollingQuotient.lean b/ASGinzburg/JacobianUnrollingQuotient.lean
+new file mode 100644
+index 0000000..172b120
+--- /dev/null
++++ b/ASGinzburg/JacobianUnrollingQuotient.lean
+@@ -0,0 +1,45 @@
++import ASGinzburg.BetweenSheetJacobianIdeals
++import ASGinzburg.GinzburgCutHomologyZero
++
++/-! Taking the genuine homogeneous Jacobian quotient commutes with
++actual unrolling. Actual cut H-zero identifies with A(Phi)'s components. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def betweenSheetJacobianQuotientEquiv (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸
++      Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k]
++        (Q.UnrolledPathComponent k u v ⧸ Q.unrolledJacobianLiftIdeal k φ u v) :=
++  Submodule.Quotient.equiv _ _ (Q.betweenSheetLinearEquiv k u v)
++    (Q.betweenSheetJacobianIdeal_map k φ u v)
++
++theorem unrolledJacobianLiftIdeal_map_height (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    (Q.unrolledJacobianLiftIdeal k φ u v).map
++      (Q.unrolledComponentHeightEquiv k u v).toLinearMap=
++        (Q.unrolledJacobianIdeal k φ).hom (Q.height u) (Q.height v) :=
++  Submodule.map_comap_eq_of_surjective (Q.unrolledComponentHeightEquiv k u v).surjective _
++
++noncomputable def unrolledJacobianLiftQuotientHeightEquiv (φ : Q.Potential k)
++    (u v : Q.LiftVertex) :
++    (Q.UnrolledPathComponent k u v ⧸ Q.unrolledJacobianLiftIdeal k φ u v) ≃ₗ[k]
++      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v) :=
++  Submodule.Quotient.equiv _ _ (Q.unrolledComponentHeightEquiv k u v)
++    (Q.unrolledJacobianLiftIdeal_map_height k φ u v)
++
++noncomputable def homogeneousJacobianUnrolledEquiv (φ : Q.Potential k)
++    (u v : Q.LiftVertex) :
++    (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸
++      Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k]
++        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v) :=
++  (Q.betweenSheetJacobianQuotientEquiv k φ u v).trans
++    (Q.unrolledJacobianLiftQuotientHeightEquiv k φ u v)
++
++noncomputable def ginzburgCutHomologyZeroUnrolledIso (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0 ≅
++      ModuleCat.of k ((Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v)) :=
++  Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 v.1 (v.2-u.2) ≪≫
++    (Q.homogeneousJacobianUnrolledEquiv k φ u v).toModuleIso
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/BetweenSheetLinearEquiv.lean b/ASGinzburg/BetweenSheetLinearEquiv.lean
+new file mode 100644
+index 0000000..8804fef
+--- /dev/null
++++ b/ASGinzburg/BetweenSheetLinearEquiv.lean
+@@ -0,0 +1,56 @@
++import ASGinzburg.PathBetweenSheets
++import ASGinzburg.UnrolledPathErasure
++import ASGinzburg.PathCutProducts
++
++/-! Linear equivalences for arbitrary endpoint sheets and their
++strict compatibility with actual bilinear path multiplication. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def betweenSheetLinearEquiv (u v : Q.LiftVertex) :
++    Q.pathCutComponent k u.1 v.1 (v.2-u.2) ≃ₗ[k] Q.UnrolledPathComponent k u v :=
++  (Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
++    {p : Q.Path u.1 v.1 | (p.cutDegree:ℤ)=v.2-u.2}).trans
++      (Finsupp.domLCongr (Path.betweenSheetEquiv u.1 v.1 u.2 v.2))
++
++theorem betweenSheetLinearEquiv_symm_coe (u v : Q.LiftVertex)
++    (f : Q.UnrolledPathComponent k u v) :
++    ((Q.betweenSheetLinearEquiv k u v).symm f).val=Q.unrolledPathEraseLinearMap k u v f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p a =>
++    simp only [betweenSheetLinearEquiv,LinearEquiv.trans_symm,LinearEquiv.trans_apply,
++      Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
++    rw [Q.unrolledPathEraseLinearMap_single]
++    exact Finsupp.supportedEquivFinsupp_symm_single (R:=k) _
++      ((Path.betweenSheetEquiv u.1 v.1 u.2 v.2).symm p) a
++
++theorem betweenSheetLinearEquiv_erase (u v : Q.LiftVertex)
++    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.unrolledPathEraseLinearMap k u v (Q.betweenSheetLinearEquiv k u v f)=f.val := by
++  rw [←Q.betweenSheetLinearEquiv_symm_coe,LinearEquiv.symm_apply_apply]
++
++noncomputable def pathCutCompBetween {u v w : Q.LiftVertex}
++    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2))
++    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.pathCutComponent k u.1 w.1 (w.2-u.2) :=
++  ⟨Q.pathComp k g.val f.val,by
++    have h := Q.pathCutComponent_comp k f.property g.property
++    have hdeg : (v.2-u.2)+(w.2-v.2)=w.2-u.2 := by ring
++    rwa [hdeg] at h⟩
++
++theorem betweenSheetLinearEquiv_comp {u v w : Q.LiftVertex}
++    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2))
++    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.betweenSheetLinearEquiv k u w (Q.pathCutCompBetween k g f)=
++      Q.unrolledPathComp k (Q.betweenSheetLinearEquiv k v w g)
++        (Q.betweenSheetLinearEquiv k u v f) := by
++  apply Q.unrolledPathEraseLinearMap_injective k
++  rw [Q.betweenSheetLinearEquiv_erase,Q.unrolledPathEraseLinearMap_comp,
++    Q.betweenSheetLinearEquiv_erase,Q.betweenSheetLinearEquiv_erase]
++  rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledJacobianLiftIdeal.lean b/ASGinzburg/UnrolledJacobianLiftIdeal.lean
+new file mode 100644
+index 0000000..a77b770
+--- /dev/null
++++ b/ASGinzburg/UnrolledJacobianLiftIdeal.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.UnrolledJacobianIdealErasure
++
++/-! The genuine integer-indexed unrolled Jacobian ideal pulled back
++to actual lifted vertices, with product closure and all relations. -/
++namespace ASGinzburg.CutQuiver
++open ZAlgebra
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledEndpointEquiv_comp {u v w u' v' w' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') (hw : w=w')
++    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w) :
++    Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hu hw) (Q.unrolledPathComp k g f)=
++      Q.unrolledPathComp k (Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hv hw) g)
++        (Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hu hv) f) := by
++  subst u' v' w'
++  change Finsupp.mapDomain id (Q.unrolledPathComp k g f)=
++    Q.unrolledPathComp k (Finsupp.mapDomain id g) (Finsupp.mapDomain id f)
++  simp only [Finsupp.mapDomain_id]
++
++theorem unrolledComponentHeightEquiv_comp {u v w : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w) :
++    Q.unrolledComponentHeightEquiv k u w (Q.unrolledPathComp k g f)=
++      (Q.unrolledPathZAlgebra k).comp (Q.unrolledComponentHeightEquiv k v w g)
++        (Q.unrolledComponentHeightEquiv k u v f) :=
++  Q.unrolledEndpointEquiv_comp k (Q.heightEquiv_symm_height u).symm
++    (Q.heightEquiv_symm_height v).symm (Q.heightEquiv_symm_height w).symm f g
++
++noncomputable def unrolledJacobianLiftIdeal (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    Submodule k (Q.UnrolledPathComponent k u v) :=
++  ((Q.unrolledJacobianIdeal k φ).hom (Q.height u) (Q.height v)).comap
++    (Q.unrolledComponentHeightEquiv k u v).toLinearMap
++
++theorem unrolledJacobianLiftIdeal_comp_left (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    {f : Q.UnrolledPathComponent k u v} (hf : f ∈ Q.unrolledJacobianLiftIdeal k φ u v)
++    (g : Q.UnrolledPathComponent k v w) :
++    Q.unrolledPathComp k g f ∈ Q.unrolledJacobianLiftIdeal k φ u w := by
++  change Q.unrolledComponentHeightEquiv k u w (Q.unrolledPathComp k g f) ∈
++    (Q.unrolledJacobianIdeal k φ).hom (Q.height u) (Q.height w)
++  rw [Q.unrolledComponentHeightEquiv_comp]
++  exact (Q.unrolledJacobianIdeal k φ).comp_left hf _
++
++theorem unrolledJacobianLiftIdeal_comp_right (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    {g : Q.UnrolledPathComponent k v w} (hg : g ∈ Q.unrolledJacobianLiftIdeal k φ v w)
++    (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledPathComp k g f ∈ Q.unrolledJacobianLiftIdeal k φ u w := by
++  change Q.unrolledComponentHeightEquiv k u w (Q.unrolledPathComp k g f) ∈
++    (Q.unrolledJacobianIdeal k φ).hom (Q.height u) (Q.height w)
++  rw [Q.unrolledComponentHeightEquiv_comp]
++  exact (Q.unrolledJacobianIdeal k φ).comp_right hg _
++
++theorem unrolledJacobianRelation_mem_liftIdeal (φ : Q.Potential k) (a : Q.Arrow) (m : ℤ) :
++    Q.unrolledJacobianRelation k a φ m ∈ Q.unrolledJacobianLiftIdeal k φ
++      (Q.target a,m) (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ)) := by
++  apply LinearIdeal.subset_generated
++  exact ⟨a,m,rfl,rfl,rfl⟩
++
++theorem unrolledJacobianLiftIdeal_erase (φ : Q.Potential k) {u v : Q.LiftVertex}
++    {f : Q.UnrolledPathComponent k u v} (hf : f ∈ Q.unrolledJacobianLiftIdeal k φ u v) :
++    Q.unrolledPathEraseLinearMap k u v f ∈ (Q.pathJacobianIdeal k φ).hom u.1 v.1 := by
++  apply (Q.unrolledComponentHeightEquiv_mem_erasureIdeal k _ u v f).mp
++  exact Q.unrolledJacobianIdeal_le_erasureIdeal k φ _ _ hf
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledJacobianIdealErasure.lean b/ASGinzburg/UnrolledJacobianIdealErasure.lean
+new file mode 100644
+index 0000000..8043781
+--- /dev/null
++++ b/ASGinzburg/UnrolledJacobianIdealErasure.lean
+@@ -0,0 +1,44 @@
++import ASGinzburg.UnrolledErasureIdeals
++import ASGinzburg.UnrolledJacobianErasure
++import ASGinzburg.UnrolledJacobianAlgebra
++import ASGinzburg.PathJacobianIdeal
++
++/-! Every actual unrolled Jacobian relation and the genuine ideal it
++generates maps into the original Jacobian ideal under forgetting sheets. -/
++namespace ASGinzburg.CutQuiver
++open ZAlgebra
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledEndpointEquiv_mem_erasureIdeal (I : Q.PathLinearIdeal k)
++    {u v u' v' : Q.LiftVertex} (hu : u=u') (hv : v=v')
++    (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledPathEraseLinearMap k u' v'
++      (Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hu hv) f) ∈ I.hom u'.1 v'.1 ↔
++        Q.unrolledPathEraseLinearMap k u v f ∈ I.hom u.1 v.1 := by
++  subst u' v'
++  change Q.unrolledPathEraseLinearMap k u v (Finsupp.mapDomain id f) ∈ I.hom u.1 v.1 ↔ _
++  rw [Finsupp.mapDomain_id]
++
++theorem unrolledComponentHeightEquiv_mem_erasureIdeal (I : Q.PathLinearIdeal k)
++    (u v : Q.LiftVertex) (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledComponentHeightEquiv k u v f ∈ (Q.unrolledErasureIdeal k I).hom
++      (Q.height u) (Q.height v) ↔ Q.unrolledPathEraseLinearMap k u v f ∈ I.hom u.1 v.1 := by
++  exact Q.unrolledEndpointEquiv_mem_erasureIdeal k I
++    (Q.heightEquiv_symm_height u).symm (Q.heightEquiv_symm_height v).symm f
++
++theorem jacobianGenerators_mem_erasureIdeal (φ : Q.Potential k) (i j : ℤ) :
++    Q.jacobianGenerators k φ i j ⊆
++      (Q.unrolledErasureIdeal k (Q.pathJacobianIdeal k φ)).hom i j := by
++  rintro f ⟨a,m,hi,hj,rfl⟩
++  subst i j
++  apply (Q.unrolledComponentHeightEquiv_mem_erasureIdeal k _ _ _ _).mpr
++  rw [Q.unrolledJacobianRelation_erase]
++  exact Q.pathCyclicDerivative_mem_pathJacobianIdeal k φ a
++
++theorem unrolledJacobianIdeal_le_erasureIdeal (φ : Q.Potential k) (i j : ℤ) :
++    (Q.unrolledJacobianIdeal k φ).hom i j ≤
++      (Q.unrolledErasureIdeal k (Q.pathJacobianIdeal k φ)).hom i j :=
++  LinearIdeal.generated_le _ _ (Q.jacobianGenerators_mem_erasureIdeal k φ) i j
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathCutProducts.lean b/ASGinzburg/PathCutProducts.lean
+new file mode 100644
+index 0000000..26dc1e0
+--- /dev/null
++++ b/ASGinzburg/PathCutProducts.lean
+@@ -0,0 +1,27 @@
++import ASGinzburg.PathCutGrading
++import ASGinzburg.GinzburgSupportedProducts
++
++/-! Actual cut homogeneous ordinary path components multiply in the
++sum of the degrees; their concrete projections act diagonally. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathCutComponent_comp {u v w : Q.Vertex} {c d : ℤ}
++    {f : Q.PathComponent k u v} (hf : f ∈ Q.pathCutComponent k u v c)
++    {g : Q.PathComponent k v w} (hg : g ∈ Q.pathCutComponent k v w d) :
++    Q.pathComp k g f ∈ Q.pathCutComponent k u w (c+d) := by
++  apply (Q.originalGinzburgLinearMap_cut_iff k (c+d) _).mp
++  rw [Q.originalGinzburgLinearMap_comp]
++  exact Q.ginzburgCutComponent_comp k (Q.originalGinzburgLinearMap_cut k hf)
++    (Q.originalGinzburgLinearMap_cut k hg)
++
++theorem pathCutProjection_on_cut {u v : Q.Vertex} (c d : ℤ)
++    {f : Q.PathComponent k u v} (hf : f ∈ Q.pathCutComponent k u v d) :
++    Q.pathCutProjection k u v c f=if d=c then f else 0 := by
++  apply Q.originalGinzburgLinearMap_injective k u v
++  rw [Q.originalGinzburgLinearMap_cutProjection,
++    Q.ginzburgCutProjection_on_cut k c d (Q.originalGinzburgLinearMap_cut k hf)]
++  by_cases h : d=c <;> simp [h]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/UnrolledJacobianErasure.lean b/ASGinzburg/UnrolledJacobianErasure.lean
+new file mode 100644
+index 0000000..d0dd9fb
+--- /dev/null
++++ b/ASGinzburg/UnrolledJacobianErasure.lean
+@@ -0,0 +1,44 @@
++import ASGinzburg.UnrolledPathErasure
++import ASGinzburg.UnrolledJacobianRelations
++
++/-! Actual lifted cyclic-derivative relations recover the genuine
++original relations under forgetting sheets, with no regularity hypothesis. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem Path.unrollDegree_erase {u v : Q.Vertex} {d : ℕ} (m : ℤ)
++    (p : Path.CutDegreePath (Q:=Q) u v d) : (Path.unrollDegree m p).erase=p.val := by
++  apply Path.toList_injective
++  exact Path.unrollDegree_erase_toList m p
++
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledPathEraseLinearMap_unrollDegree (u v : Q.Vertex) (d : ℕ) (m : ℤ)
++    (f : Path.CutDegreePath (Q:=Q) u v d →₀ k) :
++    Q.unrolledPathEraseLinearMap k (u,m) (v,m+(d:ℤ))
++      (Q.unrollDegreeLinearMap k u v d m f)=
++        ((Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
++          {p : Q.Path u v | p.cutDegree=d}).symm f).val := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p a =>
++    change Q.unrolledPathEraseLinearMap k (u,m) (v,m+(d:ℤ))
++      ((Finsupp.single p a).mapDomain (Path.unrollDegree m))=_
++    rw [Finsupp.mapDomain_single,unrolledPathEraseLinearMap_single,
++      Finsupp.supportedEquivFinsupp_symm_single,Path.unrollDegree_erase]
++
++theorem unrolledJacobianRelation_erase (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    Q.unrolledPathEraseLinearMap k (Q.target a,m)
++      (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))
++        (Q.unrolledJacobianRelation k a φ m)=Q.pathCyclicDerivative k a φ := by
++  unfold unrolledJacobianRelation
++  rw [Q.unrolledPathEraseLinearMap_unrollDegree]
++  exact congrArg Subtype.val
++    ((Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
++      {p : Q.Path (Q.target a) (Q.source a) | p.cutDegree=1-Q.cutDegree a}).symm_apply_apply
++        ⟨Q.pathCyclicDerivative k a φ,Q.pathCyclicDerivative_fixedCut k a φ⟩)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathCutUnrollingComparison.lean b/ASGinzburg/PathCutUnrollingComparison.lean
+new file mode 100644
+index 0000000..cbf061a
+--- /dev/null
++++ b/ASGinzburg/PathCutUnrollingComparison.lean
+@@ -0,0 +1,54 @@
++import ASGinzburg.PathCutUnrollingEquiv
++import ASGinzburg.UnrolledJacobianErasure
++
++/-! The inverse of the actual homogeneous path unrolling equivalence
++is exactly erasure. The same comparison applies to cyclic derivatives. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathCutComponentBasisEquiv_symm_single (u v : Q.Vertex) (d : ℕ)
++    (p : Path.CutDegreePath (Q:=Q) u v d) (a : k) :
++    ((Q.pathCutComponentBasisEquiv k u v d).symm (Finsupp.single p a)).val=
++      Finsupp.single p.val a := by
++  simp only [pathCutComponentBasisEquiv,LinearEquiv.trans_symm,LinearEquiv.trans_apply,
++    Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
++  exact Finsupp.supportedEquivFinsupp_symm_single (R:=k) _
++    ((Path.castCutDegreeEquiv Q u v d).symm p) a
++
++theorem pathCutUnrollingEquiv_symm_coe (u v : Q.Vertex) (d : ℕ) (m : ℤ)
++    (f : Q.UnrolledPathComponent k (u,m) (v,m+(d:ℤ))) :
++    ((Q.pathCutUnrollingEquiv k u v d m).symm f).val=
++      Q.unrolledPathEraseLinearMap k (u,m) (v,m+(d:ℤ)) f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p a =>
++    change ((Q.pathCutComponentBasisEquiv k u v d).symm
++      ((Q.unrollDegreeLinearEquiv k u v d m).symm (Finsupp.single p a))).val=_
++    simp only [unrollDegreeLinearEquiv,Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
++    rw [Q.pathCutComponentBasisEquiv_symm_single,Q.unrolledPathEraseLinearMap_single]
++    rfl
++
++theorem pathCutUnrollingEquiv_erase (u v : Q.Vertex) (d : ℕ) (m : ℤ)
++    (f : Q.pathCutComponent k u v (d:ℤ)) :
++    Q.unrolledPathEraseLinearMap k (u,m) (v,m+(d:ℤ))
++      (Q.pathCutUnrollingEquiv k u v d m f)=f.val := by
++  rw [←Q.pathCutUnrollingEquiv_symm_coe,LinearEquiv.symm_apply_apply]
++
++theorem pathCyclicDerivative_mem_pathCut (a : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathCyclicDerivative k a φ ∈
++      Q.pathCutComponent k (Q.target a) (Q.source a) ((1-Q.cutDegree a:ℕ):ℤ) := by
++  apply Finsupp.supported_mono _ (Q.pathCyclicDerivative_fixedCut k a φ)
++  intro p hp
++  exact_mod_cast hp
++
++theorem pathCutUnrollingEquiv_jacobianRelation (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
++    Q.pathCutUnrollingEquiv k (Q.target a) (Q.source a) (1-Q.cutDegree a) m
++      ⟨Q.pathCyclicDerivative k a φ,Q.pathCyclicDerivative_mem_pathCut k a φ⟩=
++        Q.unrolledJacobianRelation k a φ m := by
++  apply Q.unrolledPathEraseLinearMap_injective k
++  rw [Q.pathCutUnrollingEquiv_erase,Q.unrolledJacobianRelation_erase]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathJacobianContexts.lean b/ASGinzburg/PathJacobianContexts.lean
+new file mode 100644
+index 0000000..ba1c973
+--- /dev/null
++++ b/ASGinzburg/PathJacobianContexts.lean
+@@ -0,0 +1,59 @@
++import ASGinzburg.GinzburgJacobianBoundaries
++
++/-! The genuine Jacobian ideal is spanned by actual cyclic derivatives
++with single ordinary paths on both sides. This explicit finite-span
++description supports comparison with lifted relation ideals. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def pathJacobianContexts (φ : Q.Potential k) (u v : Q.Vertex) :
++    Set (Q.PathComponent k u v) :=
++  {f | ∃ a : Q.Arrow, ∃ l : Q.Path u (Q.target a), ∃ r : Q.Path (Q.source a) v,
++    Q.pathComp k (Finsupp.single r 1)
++      (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1))=f}
++
++theorem pathJacobianContext_mem_ideal (φ : Q.Potential k) (u v : Q.Vertex) :
++    Q.pathJacobianContexts k φ u v ⊆ (Q.pathJacobianIdeal k φ).hom u v := by
++  rintro f ⟨a,l,r,rfl⟩
++  exact (Q.pathJacobianIdeal k φ).comp_left
++    ((Q.pathJacobianIdeal k φ).comp_right (Q.pathCyclicDerivative_mem_pathJacobianIdeal k φ a)
++      (Finsupp.single l 1)) (Finsupp.single r 1)
++
++theorem ginzburgBoundaryLift_mem_contextSpan (φ : Q.Potential k) (u v : Q.Vertex)
++    (x : Q.ginzburgCohomologicalComponent k u v (-1)) :
++    Q.ginzburgBoundaryLift k φ u v x ∈ Submodule.span k (Q.pathJacobianContexts k φ u v) := by
++  let S : Set (Q.GinzburgPath u v) := {p | p.cohomologicalDegree=-1}
++  let e := Finsupp.supportedEquivFinsupp (M:=k) (R:=k) S
++  have hall (y : S →₀ k) : Q.ginzburgBoundaryLift k φ u v (e.symm y) ∈
++      Submodule.span k (Q.pathJacobianContexts k φ u v) := by
++    classical
++    induction y using Finsupp.induction_linear with
++    | zero => simp
++    | add f g hf hg => simpa only [map_add] using Submodule.add_mem _ hf hg
++    | single p c =>
++      have hs : Finsupp.single p c=c • Finsupp.single p (1:k) := by simp
++      rw [hs,map_smul,map_smul]
++      apply Submodule.smul_mem
++      obtain ⟨a,l,r,hr⟩ := p.val.degreeNegOne_decomposition Q p.property
++      have hb : Q.ginzburgBoundaryLift k φ u v (e.symm (Finsupp.single p 1))=
++          Q.pathComp k (Finsupp.single r 1)
++            (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)) := by
++        apply Q.originalGinzburgLinearMap_injective k u v
++        rw [Q.originalGinzburgLinearMap_boundaryLift]
++        change Q.ginzburgDifferential k φ u v (e.symm (Finsupp.single p 1)).val=_
++        rw [Finsupp.supportedEquivFinsupp_symm_single,←hr]
++        exact Q.ginzburgDifferential_dualContext k φ a l r
++      rw [hb]
++      exact Submodule.subset_span ⟨a,l,r,rfl⟩
++  simpa only [LinearEquiv.symm_apply_apply] using hall (e x)
++
++theorem pathJacobianIdeal_eq_contextSpan (φ : Q.Potential k) (u v : Q.Vertex) :
++    (Q.pathJacobianIdeal k φ).hom u v=Submodule.span k (Q.pathJacobianContexts k φ u v) := by
++  apply le_antisymm
++  · rw [←Q.ginzburgBoundarySpace_eq_pathJacobianIdeal k φ u v]
++    rintro f ⟨x,rfl⟩
++    exact Q.ginzburgBoundaryLift_mem_contextSpan k φ u v x
++  · exact Submodule.span_le.mpr (Q.pathJacobianContext_mem_ideal k φ u v)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathQuotientProducts.lean b/ASGinzburg/PathQuotientProducts.lean
+new file mode 100644
+index 0000000..617a17e
+--- /dev/null
++++ b/ASGinzburg/PathQuotientProducts.lean
+@@ -0,0 +1,72 @@
++import ASGinzburg.PathLinearIdeals
++
++/-! Actual bilinear products on quotient path components of arbitrary
++genuine two-sided path ideals. -/
++namespace ASGinzburg.CutQuiver.PathLinearIdeal
++universe u
++variable {k : Type u} [Field k] {Q : CutQuiver} (I : Q.PathLinearIdeal k)
++
++abbrev QuotientComponent (i j : Q.Vertex) := Q.PathComponent k i j ⧸ I.hom i j
++
++noncomputable def quotientCompRight {i j l : Q.Vertex} (g : Q.PathComponent k j l) :
++    I.QuotientComponent i j →ₗ[k] I.QuotientComponent i l :=
++  (I.hom i j).liftQ (((I.hom i l).mkQ).comp (Q.pathComp k g)) (by
++    intro f hf
++    change (I.hom i l).mkQ (Q.pathComp k g f)=0
++    exact (Submodule.Quotient.mk_eq_zero _).mpr (I.comp_left hf g))
++
++@[simp] theorem quotientCompRight_mk {i j l : Q.Vertex} (g : Q.PathComponent k j l) (f : Q.PathComponent k i j) :
++    I.quotientCompRight g (Submodule.Quotient.mk f) =
++      Submodule.Quotient.mk (Q.pathComp k g f) := rfl
++
++noncomputable def quotientCompPre {i j l : Q.Vertex} :
++    Q.PathComponent k j l →ₗ[k] I.QuotientComponent i j →ₗ[k] I.QuotientComponent i l where
++  toFun := I.quotientCompRight
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    simp [LinearMap.add_apply]
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    simp [LinearMap.smul_apply]
++
++noncomputable def quotientComp {i j l : Q.Vertex} :
++    I.QuotientComponent j l →ₗ[k] I.QuotientComponent i j →ₗ[k]
++      I.QuotientComponent i l :=
++  (I.hom j l).liftQ I.quotientCompPre (by
++    intro g hg
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective x
++    change Submodule.Quotient.mk (Q.pathComp k g f)=0
++    exact (Submodule.Quotient.mk_eq_zero _).mpr (I.comp_right hg f))
++
++@[simp] theorem quotientComp_mk {i j l : Q.Vertex} (f : Q.PathComponent k i j) (g : Q.PathComponent k j l) :
++    I.quotientComp (Submodule.Quotient.mk g) (Submodule.Quotient.mk f) =
++      Submodule.Quotient.mk (Q.pathComp k g f) := rfl
++
++theorem quotientComp_id {u v : Q.Vertex} (x : I.QuotientComponent u v) :
++    I.quotientComp (Submodule.Quotient.mk (Q.pathId k v)) x=x := by
++  obtain ⟨f,rfl⟩ := (I.hom u v).mkQ_surjective x
++  simp [Q.pathComp_id]
++
++theorem id_quotientComp {u v : Q.Vertex} (x : I.QuotientComponent u v) :
++    I.quotientComp x (Submodule.Quotient.mk (Q.pathId k u))=x := by
++  obtain ⟨f,rfl⟩ := (I.hom u v).mkQ_surjective x
++  simp [Q.id_pathComp]
++
++theorem quotientComp_assoc {u v w x : Q.Vertex}
++    (f : I.QuotientComponent u v) (g : I.QuotientComponent v w)
++    (h : I.QuotientComponent w x) :
++    I.quotientComp h (I.quotientComp g f)=I.quotientComp (I.quotientComp h g) f := by
++  obtain ⟨f,rfl⟩ := (I.hom u v).mkQ_surjective f
++  obtain ⟨g,rfl⟩ := (I.hom v w).mkQ_surjective g
++  obtain ⟨h,rfl⟩ := (I.hom w x).mkQ_surjective h
++  simp [Q.pathComp_assoc]
++
++end ASGinzburg.CutQuiver.PathLinearIdeal
+diff --git a/ASGinzburg/JacobianUnrollingProducts.lean b/ASGinzburg/JacobianUnrollingProducts.lean
+new file mode 100644
+index 0000000..75facde
+--- /dev/null
++++ b/ASGinzburg/JacobianUnrollingProducts.lean
+@@ -0,0 +1,40 @@
++import ASGinzburg.JacobianUnrollingQuotient
++import ASGinzburg.JacobianCutQuotientProducts
++
++/-! Actual homogeneous Jacobian/unrolling quotient comparison
++preserves the bilinear products induced from genuine path products. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem homogeneousJacobianUnrolledEquiv_mk (φ : Q.Potential k) (u v : Q.LiftVertex)
++    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.homogeneousJacobianUnrolledEquiv k φ u v (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.unrolledComponentHeightEquiv k u v
++        (Q.betweenSheetLinearEquiv k u v f)) := rfl
++
++theorem homogeneousJacobianUnrolledEquiv_comp (φ : Q.Potential k)
++    {u v w : Q.LiftVertex} (f : Q.PathCutJacobianQuotient k φ u v)
++    (g : Q.PathCutJacobianQuotient k φ v w) :
++    Q.homogeneousJacobianUnrolledEquiv k φ u w (Q.cutJacobianQuotientComp k φ g f)=
++      (Q.unrolledJacobianZAlgebra k φ).comp
++        (Q.homogeneousJacobianUnrolledEquiv k φ v w g)
++          (Q.homogeneousJacobianUnrolledEquiv k φ u v f) := by
++  obtain ⟨f,rfl⟩ := (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).mkQ_surjective f
++  obtain ⟨g,rfl⟩ := (Q.pathJacobianCutIdeal k φ v.1 w.1 (w.2-v.2)).mkQ_surjective g
++  change Q.homogeneousJacobianUnrolledEquiv k φ u w
++    (Q.cutJacobianQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f))=
++      (Q.unrolledJacobianZAlgebra k φ).comp
++        (Q.homogeneousJacobianUnrolledEquiv k φ v w (Submodule.Quotient.mk g))
++        (Q.homogeneousJacobianUnrolledEquiv k φ u v (Submodule.Quotient.mk f))
++  rw [Q.cutJacobianQuotientComp_mk,Q.homogeneousJacobianUnrolledEquiv_mk,
++    Q.homogeneousJacobianUnrolledEquiv_mk,Q.homogeneousJacobianUnrolledEquiv_mk]
++  change Submodule.Quotient.mk
++    (Q.unrolledComponentHeightEquiv k u w
++      (Q.betweenSheetLinearEquiv k u w (Q.pathCutCompBetween k g f)))=
++    Submodule.Quotient.mk ((Q.unrolledPathZAlgebra k).comp
++      (Q.unrolledComponentHeightEquiv k v w (Q.betweenSheetLinearEquiv k v w g))
++      (Q.unrolledComponentHeightEquiv k u v (Q.betweenSheetLinearEquiv k u v f)))
++  rw [Q.betweenSheetLinearEquiv_comp,Q.unrolledComponentHeightEquiv_comp]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/BetweenSheetJacobianIdeals.lean b/ASGinzburg/BetweenSheetJacobianIdeals.lean
+new file mode 100644
+index 0000000..600a102
+--- /dev/null
++++ b/ASGinzburg/BetweenSheetJacobianIdeals.lean
+@@ -0,0 +1,74 @@
++import ASGinzburg.UnrolledJacobianContexts
++import ASGinzburg.PathJacobianGrading
++
++/-! The genuine homogeneous Jacobian ideal is carried into the genuine
++unrolled relation ideal; with erasure, this gives equality of the ideals. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def betweenSheetProjectionMap (u v : Q.LiftVertex) :
++    Q.PathComponent k u.1 v.1 →ₗ[k] Q.UnrolledPathComponent k u v :=
++  (Q.betweenSheetLinearEquiv k u v).toLinearMap.comp
++    ((Q.pathCutProjection k u.1 v.1 (v.2-u.2)).codRestrict _
++      (Q.pathCutProjection_mem k (v.2-u.2)))
++
++theorem betweenSheetProjectionMap_on_cut (u v : Q.LiftVertex)
++    {f : Q.PathComponent k u.1 v.1} (hf : f ∈ Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
++    Q.betweenSheetProjectionMap k u v f=Q.betweenSheetLinearEquiv k u v ⟨f,hf⟩ := by
++  change Q.betweenSheetLinearEquiv k u v
++    ⟨Q.pathCutProjection k u.1 v.1 (v.2-u.2) f,_⟩=_
++  apply congrArg (Q.betweenSheetLinearEquiv k u v)
++  apply Subtype.ext
++  exact (Q.pathCutProjection_on_cut k (v.2-u.2) (v.2-u.2) hf).trans (if_pos rfl)
++
++theorem betweenSheetProjectionMap_on_other_cut (u v : Q.LiftVertex) {c : ℤ}
++    {f : Q.PathComponent k u.1 v.1} (hf : f ∈ Q.pathCutComponent k u.1 v.1 c)
++    (hc : c≠v.2-u.2) : Q.betweenSheetProjectionMap k u v f=0 := by
++  change Q.betweenSheetLinearEquiv k u v ⟨Q.pathCutProjection k u.1 v.1 (v.2-u.2) f,_⟩=0
++  rw [←(Q.betweenSheetLinearEquiv k u v).map_zero]
++  apply congrArg (Q.betweenSheetLinearEquiv k u v)
++  apply Subtype.ext
++  exact (Q.pathCutProjection_on_cut k (v.2-u.2) c hf).trans (if_neg hc)
++
++theorem betweenSheetProjectionMap_mem_liftIdeal (φ : Q.Potential k) (u v : Q.LiftVertex)
++    {f : Q.PathComponent k u.1 v.1} (hf : f ∈ (Q.pathJacobianIdeal k φ).hom u.1 v.1) :
++    Q.betweenSheetProjectionMap k u v f ∈ Q.unrolledJacobianLiftIdeal k φ u v := by
++  rw [Q.pathJacobianIdeal_eq_contextSpan] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨a,l,r,rfl⟩ := hx
++    by_cases hd : (Q.pathJacobianContextDegree a l r:ℤ)=v.2-u.2
++    · have hc : Q.pathComp k (Finsupp.single r 1)
++          (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)) ∈
++            Q.pathCutComponent k u.1 v.1 (v.2-u.2) := by
++        rw [←hd]
++        exact Q.pathJacobianContext_mem_cut k φ a l r
++      rw [Q.betweenSheetProjectionMap_on_cut k u v hc]
++      exact Q.unrolledJacobianContext_mem_liftIdeal k φ u v a l r hd
++    · rw [Q.betweenSheetProjectionMap_on_other_cut k u v
++        (Q.pathJacobianContext_mem_cut k φ a l r) hd]
++      exact Submodule.zero_mem _
++  | zero => simp
++  | add f g hf hg ihf ihg => simpa only [map_add] using Submodule.add_mem _ ihf ihg
++  | smul a f hf ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++theorem betweenSheetJacobianIdeal_map (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).map
++      (Q.betweenSheetLinearEquiv k u v).toLinearMap=Q.unrolledJacobianLiftIdeal k φ u v := by
++  apply Submodule.ext
++  intro f
++  constructor
++  · rintro ⟨x,hx,rfl⟩
++    have h := Q.betweenSheetProjectionMap_mem_liftIdeal k φ u v hx
++    change Q.betweenSheetProjectionMap k u v x.val ∈ Q.unrolledJacobianLiftIdeal k φ u v at h
++    rwa [Q.betweenSheetProjectionMap_on_cut k u v x.property] at h
++  · intro hf
++    refine ⟨(Q.betweenSheetLinearEquiv k u v).symm f,?_,
++      (Q.betweenSheetLinearEquiv k u v).apply_symm_apply f⟩
++    change ((Q.betweenSheetLinearEquiv k u v).symm f).val ∈
++      (Q.pathJacobianIdeal k φ).hom u.1 v.1
++    rw [Q.betweenSheetLinearEquiv_symm_coe]
++    exact Q.unrolledJacobianLiftIdeal_erase k φ hf
++
++end ASGinzburg.CutQuiver

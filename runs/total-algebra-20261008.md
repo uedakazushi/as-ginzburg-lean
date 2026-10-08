@@ -1255,3 +1255,43 @@ UTC 2026-10-08T20:08:27.187272+00:00 → 2026-10-08T20:33:59.651772+00:00。
 差分：runs/total-algebra-20261008-unit45.patch。全theoremを監査し、許容公理3種類のみ。
 
 保存準備 UTC 2026-10-08T20:35:11.400190+00:00、開始から実測48873.400190秒。単位45の新規公開検査20261008T200827Z-9973e93fは全6段階0、263数学モジュール・2270異なる宣言・1118 theorem・283 named instance。UTC20:08:27.187272→20:33:59.651772、1532.464492636秒。実際のtool shellも終了0、wrapper UTC 2026-10-08T20:08:27.146613+00:00 → 2026-10-08T20:33:59.660089+00:00、1532.513480859秒。初期14/開始時60/577歴史的ファイル・入力PDFの無変更確認も0。許容公理3種類のみ、sorry/admit/独自axiom/禁止依存/宣言重複/監査漏れなし。タスク継続中、main保存後も形式化する。
+
+継続保存 UTC 2026-10-08T20:38:48.235779+00:00、開始から実測49090.235779秒。単位45はmain 61462630b006ebddd5d495b87a68f7e04f9fae27へexpected旧62c9930・force=falseの通常fast-forwardで保存済み。44ファイル・38独立blob・2379840bytesを11部分へ分け、GitHub tree cd797c9864eca21a253c2ddaa00ec5a2b061dceeがローカルtreeと一致。APIの正確なcommit objectのローカル同期終了0。タスク継続中。次の個別成功した17数学モジュールを公開ソースへ移して新規検証46を開始する。公開数学ソースを固定し、H⁰の積・次のAS接続はwork草稿で継続する。
+jacobian-cut-quotient-products2、jacobian-unrolling-products2も実際のLean終了0・診断なし。genuine homogeneous Jacobian商の双線形積が代表元の実際の道の積から降りること、その積をunrolling商同型が保つことを証明した。H⁰そのものの積との接続は別に残す。
+
+継続チェックポイント UTC 2026-10-08T20:52:52.288500+00:00、開始から実測49934.288500秒。タスク継続中、終了時刻未設定。mainは61462630b006ebddd5d495b87a68f7e04f9fae27。単位46の新規公開全検査20261008T203848Z-d7065fb7はsource/regression/environment終了0、math modules/root compile済み、lake全build/AxiomAuditが継続中。公開数学ソースを固定し、workで次の証明を継続している。
+次の9数学草稿は各実際のLean終了0・診断なし：GinzburgZeroProducts、GinzburgZeroQuotientProducts、GinzburgHomologyZeroProducts、GinzburgJacobianProducts、GinzburgCutZeroProducts（2回目）、GinzburgCutZeroQuotientProducts、GinzburgCutHomologyZeroProducts、GinzburgCutJacobianProducts（2回目）、GinzburgCutHomologyUnits。GinzburgHomologyZAlgebraも4回目の個別検査終了0・診断なし。実際のGinzburg積から境界の左右閉性と商の双線形積を導き、canonical商同型を介して実際のmathlib H⁰の積を構成。通常/固定cutのH⁰–Jacobian比較、固定cut H⁰–A(Φ)比較の積保存を証明した。ゼロ道の単位元/結合則を実際のH⁰へ降ろし、integer reindexingのhomTransportを使って実際のH⁰ ZAlgebraとA(Φ)の代数同型まで個別完成。これらはまだ新規公開全宣言監査の対象へ移していない。初回のcut次数rewrite/quotient表示/重複既存height宣言/依存型のsimpによる失敗ログは保持、成功した草稿にhole/独自axiomはない。
+単位44 exacthead62c9930のGitHub CI37837137283がsuccess。検証器run20261008T200828Z-1b420ddaはUTC20:08:28.129649→20:45:09.006324、2200.876672221秒、全7段階0。完全ジョブログ782808bytes・SHA256 c0f5cd0a9666f3ba1c8441c67418abe4b4bede2618c2095c88fd296bf34074d1を2つの無変更部分としてverification/total_algebra_unit44_github_ci_part*.logへ保存し、証拠JSONとartifact11577059432も記録。latestmain45のCI37840925747はin_progress、旧head44の成功をlatestmain成功と扱わない。
+次は整数添字H⁰同型の新規監査保存、有限箙の全単位的Jacobian環と実際のaugmentation/free-generator分解、標準双加群/単純分解からGinzburgRegularとAS条件の両方向対応。最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応も残る。定理3.2・系5.2は未証明で正式Lean定理文も未実装。チェックポイント後も形式化する。
+
+継続チェックポイント UTC 2026-10-08T21:05:28.363255+00:00、開始から実測50690.363255秒。タスク継続中。単位46のlake buildは終了0（823.946092946秒）、全宣言#print axiomsが継続中、2346異なる宣言/1169 theorem/283 named instanceを新規監査している。mainは6146263、公開数学ソースは引き続き固定。
+単位47はworkの16数学モジュールすべて個別Lean終了0・最終診断なし。有限成分の実際のsum合成による全単位的道環/Jacobian環、真の成分イデアルの全環kernel判定/実際の全環商AlgEquiv、実際のH⁰成分の環とJacobian環のAlgEquivまで完成した。全Ginzburg複体のmathlib H⁰についてcoproduct/有限DirectSum–Pi/curryによる加群表示も構成。数学草稿差分58008bytes（16 files）をwork/total-algebra/unit47-draft.patchへ保存し、単位ごとの実装/利用先/残る義務をunit47.md/checkpoint47.txtへ保存した。新規公開全監査は単位46保存後に行う。
+さらに次の単位48のHomologyAugmentation（7回目）、GinzburgAugmentation（2回目）は実際の個別Lean終了0・診断なし。一般のAbelian圏の実際のcomplexのoutgoing differential=0を使ったcanonical H⁰ augmentationと、その実際のhomology mapが0次で同型になることを証明した。quasi-isomorphismと他の全次数homology零性の同値も証明し、実際のGinzburg複体→H⁰→Jacobian成分のsingle complexのaugmentationへ適用した。全成分augmentationのquasi-isomorphismがGinzburgRegularと同値であることを証明した。これらはまだwork草稿であり、新しい独自公理や未証明のExt同型/AS条件を仮定していない。固定cut/unrolled augmentation、実際のfree-generator/augmentation分解と標準分解のexactness、AS対応/主定理は次に残る。チェックポイント後も継続する。
+
+## 単位46：真のJacobian商とunrollingの交換・積保存・固定cut H⁰とA(Φ)
+
+sheetを忘れる実際の道/線形写像の単射性・cut保存・積保存を証明した。固定cut次数の道の持上げを忘却すると元の道となること、実際に持ち上げた全巡回微分が元の巡回微分へ厳密に戻ること、既存の固定cut線形同型による関係の持上げが既存unrolledJacobianRelationに一致することを導いた。
+
+元の真の二側PathLinearIdealの忘却による引き戻しが、実際のunrolledPathZAlgebraの真のLinearIdealとなることを証明した。height添字への輸送のmembership比較を明示し、全生成関係が含まれることから、実際のunrolledJacobianIdealが元のJacobianイデアルの引き戻しへ入ることを導いた。独自axiomや関係の追加はない。
+
+実際の−1次Ginzburg境界の道分解を使い、元のJacobianイデアルは巡回微分に1本ずつの通常の道を左右から掛けたものの有限線形spanであることを証明した。各contextの真のcut次数を求め、cut射影が同次数のcontextだけを選ぶことを導いた。したがって各homogeneous Jacobian元は同じcut次数のcontextのspanに入る。
+
+任意の始点/終点sheetと、その整数差に一致するcut次数について、実際の道のbetweenSheetEquivと自由線形同型を構成した。逆は正確にsheet忘却であり、実際の双線形積を保つことを証明した。自然数の次数だけに制限した比較の整数への拡張で、負差の場合も空の実際の道の集合として扱う。
+
+実際の整数添字Jacobianイデアルをlift頂点へ移し、積閉性・全持上げ関係の所属・忘却のJacobian所属を証明した。同次数のcontextについて、その左右の道の真のcut次数から中間sheetを定め、実際の関係をそのsheetで挟んだ積が所属することを導いた。忘却の単射性で、それが通常のcontextの線形持上げに一致すると示した。有限spanへの線形延長により逆包含も証明し、homogeneous Jacobianイデアルが実際のunrolled Jacobianイデアルへ厳密に写る等式を完成した。
+
+Submodule.Quotient.equivとheight線形輸送により、homogeneous Jacobian商と実際のunrolledJacobianZAlgebraの対応するHom成分の線形同型を構成した。単位45の実際の固定cut H⁰の商表示と合成し、固定cut H⁰≅A(Φ)のHom成分まで構成した。正則性は仮定していない。
+
+真の二側PathLinearIdealによる通常の商の双線形積・単位元/結合則を構成した。任意sheet差のhomogeneous Jacobian商の双線形積も代表元の実際の道の積から降ろし、unrollingの商同型がその積を保つことを証明した。H⁰そのものの積との接続は、この単位とは別の次の義務である。
+
+個別unrolled-path-erasure2、unrolled-jacobian-erasure3、path-cut-unrolling-comparison3、unrolled-erasure-ideals3、unrolled-jacobian-ideal-erasure4、path-jacobian-contexts1、path-cut-products1、path-jacobian-homogeneous-contexts1、path-quotient-products1、path-between-sheets1、between-sheet-linear-equiv1、unrolled-jacobian-lift-ideal2、unrolled-jacobian-contexts2、between-sheet-jacobian-ideals2、jacobian-unrolling-quotient1、jacobian-cut-quotient-products2、jacobian-unrolling-products2は実際のLean終了0・診断なし。初回の import名、field構文、Setのcoercionによるrewrite、height/endpointの輸送、membershipの型推論、proof引数の明示、mkQとQuotient.mkの表示の修正による失敗ログは保持。
+
+次はGinzburg次数0の実際の積とboundary商の積をmathlib H⁰へ接続し、Jacobian/H⁰同型の積保存を証明する。有限箙の全単位的Jacobian環を束ねる部分、標準双加群/単純分解とGinzburgRegularからAS条件への順方向・逆方向、最小関係/選択の独立性・quadratic分解の橋・標準RHom/外部一般定理/同型類対応も未完成。特定Φの正則性・Jacobian代数のAS分解の存在を新仮定にしていない。定理3.2・系5.2は未証明で正式Lean定理文も未実装。新規公開ビルド・全宣言公理監査・main保存後も形式化を継続する。
+
+検証：`20261008T203848Z-d7065fb7`、1602.223390104秒、全段階終了0。
+JST 2026-10-09T05:38:48.294271+09:00 → 2026-10-09T06:05:30.517667+09:00。
+UTC 2026-10-08T20:38:48.294271+00:00 → 2026-10-08T21:05:30.517667+00:00。
+280数学モジュール・2346異なる宣言・1169 theorem。
+差分：runs/total-algebra-20261008-unit46.patch。全theoremを監査し、許容公理3種類のみ。
+
+保存準備 UTC 2026-10-08T21:06:33.518025+00:00、開始から実測50755.518025秒。単位46の新規検査20261008T203848Z-d7065fb7は全6段階0・280数学モジュール/2346異なる宣言/1169 theorem/283 named instance。UTC20:38:48.294271→21:05:30.517667、1602.223390104秒。実際のtool shellも終了0、wrapper UTC20:38:48.263537→21:05:30.527039、1602.263506358秒。初期14/開始時60/577歴史的ファイル・入力PDFの無変更確認も0。許容公理3種類のみ、hole/独自axiom/禁止依存/宣言重複/監査漏れなし。17数学モジュールの差分・完全ログ・単位44の完全CI証拠を保存する。タスク継続中、main保存後も形式化する。

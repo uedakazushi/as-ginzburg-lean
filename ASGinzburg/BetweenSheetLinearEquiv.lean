@@ -1,0 +1,56 @@
+import ASGinzburg.PathBetweenSheets
+import ASGinzburg.UnrolledPathErasure
+import ASGinzburg.PathCutProducts
+
+/-! Linear equivalences for arbitrary endpoint sheets and their
+strict compatibility with actual bilinear path multiplication. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def betweenSheetLinearEquiv (u v : Q.LiftVertex) :
+    Q.pathCutComponent k u.1 v.1 (v.2-u.2) ≃ₗ[k] Q.UnrolledPathComponent k u v :=
+  (Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
+    {p : Q.Path u.1 v.1 | (p.cutDegree:ℤ)=v.2-u.2}).trans
+      (Finsupp.domLCongr (Path.betweenSheetEquiv u.1 v.1 u.2 v.2))
+
+theorem betweenSheetLinearEquiv_symm_coe (u v : Q.LiftVertex)
+    (f : Q.UnrolledPathComponent k u v) :
+    ((Q.betweenSheetLinearEquiv k u v).symm f).val=Q.unrolledPathEraseLinearMap k u v f := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp [map_add,hf,hg]
+  | single p a =>
+    simp only [betweenSheetLinearEquiv,LinearEquiv.trans_symm,LinearEquiv.trans_apply,
+      Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
+    rw [Q.unrolledPathEraseLinearMap_single]
+    exact Finsupp.supportedEquivFinsupp_symm_single (R:=k) _
+      ((Path.betweenSheetEquiv u.1 v.1 u.2 v.2).symm p) a
+
+theorem betweenSheetLinearEquiv_erase (u v : Q.LiftVertex)
+    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
+    Q.unrolledPathEraseLinearMap k u v (Q.betweenSheetLinearEquiv k u v f)=f.val := by
+  rw [←Q.betweenSheetLinearEquiv_symm_coe,LinearEquiv.symm_apply_apply]
+
+noncomputable def pathCutCompBetween {u v w : Q.LiftVertex}
+    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2))
+    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
+    Q.pathCutComponent k u.1 w.1 (w.2-u.2) :=
+  ⟨Q.pathComp k g.val f.val,by
+    have h := Q.pathCutComponent_comp k f.property g.property
+    have hdeg : (v.2-u.2)+(w.2-v.2)=w.2-u.2 := by ring
+    rwa [hdeg] at h⟩
+
+theorem betweenSheetLinearEquiv_comp {u v w : Q.LiftVertex}
+    (g : Q.pathCutComponent k v.1 w.1 (w.2-v.2))
+    (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
+    Q.betweenSheetLinearEquiv k u w (Q.pathCutCompBetween k g f)=
+      Q.unrolledPathComp k (Q.betweenSheetLinearEquiv k v w g)
+        (Q.betweenSheetLinearEquiv k u v f) := by
+  apply Q.unrolledPathEraseLinearMap_injective k
+  rw [Q.betweenSheetLinearEquiv_erase,Q.unrolledPathEraseLinearMap_comp,
+    Q.betweenSheetLinearEquiv_erase,Q.betweenSheetLinearEquiv_erase]
+  rfl
+
+end ASGinzburg.CutQuiver

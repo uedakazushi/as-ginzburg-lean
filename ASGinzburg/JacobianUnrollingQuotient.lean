@@ -1,0 +1,45 @@
+import ASGinzburg.BetweenSheetJacobianIdeals
+import ASGinzburg.GinzburgCutHomologyZero
+
+/-! Taking the genuine homogeneous Jacobian quotient commutes with
+actual unrolling. Actual cut H-zero identifies with A(Phi)'s components. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def betweenSheetJacobianQuotientEquiv (φ : Q.Potential k) (u v : Q.LiftVertex) :
+    (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸
+      Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k]
+        (Q.UnrolledPathComponent k u v ⧸ Q.unrolledJacobianLiftIdeal k φ u v) :=
+  Submodule.Quotient.equiv _ _ (Q.betweenSheetLinearEquiv k u v)
+    (Q.betweenSheetJacobianIdeal_map k φ u v)
+
+theorem unrolledJacobianLiftIdeal_map_height (φ : Q.Potential k) (u v : Q.LiftVertex) :
+    (Q.unrolledJacobianLiftIdeal k φ u v).map
+      (Q.unrolledComponentHeightEquiv k u v).toLinearMap=
+        (Q.unrolledJacobianIdeal k φ).hom (Q.height u) (Q.height v) :=
+  Submodule.map_comap_eq_of_surjective (Q.unrolledComponentHeightEquiv k u v).surjective _
+
+noncomputable def unrolledJacobianLiftQuotientHeightEquiv (φ : Q.Potential k)
+    (u v : Q.LiftVertex) :
+    (Q.UnrolledPathComponent k u v ⧸ Q.unrolledJacobianLiftIdeal k φ u v) ≃ₗ[k]
+      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v) :=
+  Submodule.Quotient.equiv _ _ (Q.unrolledComponentHeightEquiv k u v)
+    (Q.unrolledJacobianLiftIdeal_map_height k φ u v)
+
+noncomputable def homogeneousJacobianUnrolledEquiv (φ : Q.Potential k)
+    (u v : Q.LiftVertex) :
+    (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸
+      Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k]
+        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v) :=
+  (Q.betweenSheetJacobianQuotientEquiv k φ u v).trans
+    (Q.unrolledJacobianLiftQuotientHeightEquiv k φ u v)
+
+noncomputable def ginzburgCutHomologyZeroUnrolledIso (φ : Q.Potential k) (u v : Q.LiftVertex) :
+    Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0 ≅
+      ModuleCat.of k ((Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v)) :=
+  Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 v.1 (v.2-u.2) ≪≫
+    (Q.homogeneousJacobianUnrolledEquiv k φ u v).toModuleIso
+
+end ASGinzburg.CutQuiver

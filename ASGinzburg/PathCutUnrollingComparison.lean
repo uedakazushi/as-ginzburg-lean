@@ -1,0 +1,54 @@
+import ASGinzburg.PathCutUnrollingEquiv
+import ASGinzburg.UnrolledJacobianErasure
+
+/-! The inverse of the actual homogeneous path unrolling equivalence
+is exactly erasure. The same comparison applies to cyclic derivatives. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem pathCutComponentBasisEquiv_symm_single (u v : Q.Vertex) (d : ℕ)
+    (p : Path.CutDegreePath (Q:=Q) u v d) (a : k) :
+    ((Q.pathCutComponentBasisEquiv k u v d).symm (Finsupp.single p a)).val=
+      Finsupp.single p.val a := by
+  simp only [pathCutComponentBasisEquiv,LinearEquiv.trans_symm,LinearEquiv.trans_apply,
+    Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
+  exact Finsupp.supportedEquivFinsupp_symm_single (R:=k) _
+    ((Path.castCutDegreeEquiv Q u v d).symm p) a
+
+theorem pathCutUnrollingEquiv_symm_coe (u v : Q.Vertex) (d : ℕ) (m : ℤ)
+    (f : Q.UnrolledPathComponent k (u,m) (v,m+(d:ℤ))) :
+    ((Q.pathCutUnrollingEquiv k u v d m).symm f).val=
+      Q.unrolledPathEraseLinearMap k (u,m) (v,m+(d:ℤ)) f := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp [map_add,hf,hg]
+  | single p a =>
+    change ((Q.pathCutComponentBasisEquiv k u v d).symm
+      ((Q.unrollDegreeLinearEquiv k u v d m).symm (Finsupp.single p a))).val=_
+    simp only [unrollDegreeLinearEquiv,Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
+    rw [Q.pathCutComponentBasisEquiv_symm_single,Q.unrolledPathEraseLinearMap_single]
+    rfl
+
+theorem pathCutUnrollingEquiv_erase (u v : Q.Vertex) (d : ℕ) (m : ℤ)
+    (f : Q.pathCutComponent k u v (d:ℤ)) :
+    Q.unrolledPathEraseLinearMap k (u,m) (v,m+(d:ℤ))
+      (Q.pathCutUnrollingEquiv k u v d m f)=f.val := by
+  rw [←Q.pathCutUnrollingEquiv_symm_coe,LinearEquiv.symm_apply_apply]
+
+theorem pathCyclicDerivative_mem_pathCut (a : Q.Arrow) (φ : Q.Potential k) :
+    Q.pathCyclicDerivative k a φ ∈
+      Q.pathCutComponent k (Q.target a) (Q.source a) ((1-Q.cutDegree a:ℕ):ℤ) := by
+  apply Finsupp.supported_mono _ (Q.pathCyclicDerivative_fixedCut k a φ)
+  intro p hp
+  exact_mod_cast hp
+
+theorem pathCutUnrollingEquiv_jacobianRelation (a : Q.Arrow) (φ : Q.Potential k) (m : ℤ) :
+    Q.pathCutUnrollingEquiv k (Q.target a) (Q.source a) (1-Q.cutDegree a) m
+      ⟨Q.pathCyclicDerivative k a φ,Q.pathCyclicDerivative_mem_pathCut k a φ⟩=
+        Q.unrolledJacobianRelation k a φ m := by
+  apply Q.unrolledPathEraseLinearMap_injective k
+  rw [Q.pathCutUnrollingEquiv_erase,Q.unrolledJacobianRelation_erase]
+
+end ASGinzburg.CutQuiver
