@@ -1,5 +1,10 @@
 import ASGinzburg
 
+#print axioms ASGinzburg.CutQuiver.tau_incomingSource_height_gt
+#print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₀_zero
+#print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₁_zero
+#print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₂_zero
+#print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₃Equiv
 #print axioms ASGinzburg.ZAlgebra.asExtTotalRank
 #print axioms ASGinzburg.ZAlgebra.ASRegular
 #print axioms ASGinzburg.ZAlgebra.ASRegular.resolution

@@ -18,6 +18,7 @@ import ASGinzburg.RightModuleExtLinear
 import ASGinzburg.ASResolutionComplex
 import ASGinzburg.ASRegular
 import ASGinzburg.ASResolutionHomComplex
+import ASGinzburg.ASDualityHomTerms
 import ASGinzburg.RightModuleExt
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology

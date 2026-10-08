@@ -136,3 +136,19 @@ mathlib CochainComplexを構成した。合成の零、全微分のminimality、
 開始UTC 2026-10-08T02:52:37.301336+00:00、終了UTC 2026-10-08T02:54:25.046310+00:00。
 323異なる宣言・145 theorem・50 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit8.patch。
+
+## 証明単位9：命題1.3の実際のHom項
+
+`ASDualityHomTerms.lean`でincoming sourceの高さがvより大きいことをwinding<periodから証明した。
+s_(tau v)の分解の最初の三つの射影項からP_vへのHomが零であることを、
+representableHom_vanishesと有限coproductの普遍性から証明した。
+最左項のHom(P_v,P_v)とkの線形同型も既存のconnected条件から構成した。
+利用先：命題1.3のHom複体0→0→0→kの実際の計算。
+残る義務：そのホモロジーと実際のExtの比較、delta型Ext表・左加群作用・周期性。
+単位8のmain保存：62d49b86e80d5e7b5c61c23fcb2ff97ecb9f1497。
+
+
+検証：`20261008T025544Z-34a6fcc8`、110.826843秒、全段階終了0。
+開始UTC 2026-10-08T02:55:44.372772+00:00、終了UTC 2026-10-08T02:57:35.199626+00:00。
+328異なる宣言・149 theorem・50 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit9.patch。

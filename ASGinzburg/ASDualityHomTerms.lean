@@ -1,0 +1,60 @@
+import ASGinzburg.ASResolution
+
+/-!
+# The actual Hom terms used in Proposition 1.3
+
+For the sequence of s_(tau v), the first three projective terms have no
+morphisms to P_v. The last term has its actual scalar endomorphism space.
+The conversion of the resulting Hom cohomology to derived Ext is separate.
+-/
+
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+theorem tau_incomingSource_height_gt (v : Q.LiftVertex) (a : Q.incomingArrows (Q.tau v)) :
+    Q.height v < Q.height (Q.incomingSource (Q.tau v) a) := by
+  have hd := Q.lifted_height_difference a.val ((Q.tau v).2 - Q.cutDegree a.val)
+  rw [Q.incoming_liftedTarget] at hd
+  change Q.height (Q.tau v) - Q.height (Q.incomingSource (Q.tau v) a) =
+    Q.winding a.val at hd
+  rw [Q.height_tau] at hd
+  have hw := Q.winding_lt_period a.val
+  omega
+
+end ASGinzburg.CutQuiver
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem asDualityHomTerm₀_zero (v : Q.LiftVertex)
+    (f : A.representable (Q.height (Q.tau v)) ⟶ A.representable (Q.height v)) : f = 0 := by
+  apply A.representableHom_vanishes _ f
+  rw [Q.height_tau]
+  have := Q.at_least_three
+  omega
+
+theorem asDualityHomTerm₁_zero (v : Q.LiftVertex)
+    (f : A.asResolutionTerm₁ Q (Q.tau v) ⟶ A.representable (Q.height v)) : f = 0 := by
+  apply Sigma.hom_ext
+  intro a
+  simp only [comp_zero]
+  exact A.representableHom_vanishes (Q.tau_incomingSource_height_gt v a) _
+
+theorem asDualityHomTerm₂_zero (v : Q.LiftVertex)
+    (f : A.asResolutionTerm₂ Q (Q.tau v) ⟶ A.representable (Q.height v)) : f = 0 := by
+  apply Sigma.hom_ext
+  intro a
+  simp only [comp_zero]
+  apply A.representableHom_vanishes _ _
+  simpa using Q.outgoingTarget_height_gt (Q.tau.symm (Q.tau v)) a
+
+noncomputable def asDualityHomTerm₃Equiv (v : Q.LiftVertex) :
+    (A.representable (Q.height (Q.tau.symm (Q.tau v))) ⟶
+      A.representable (Q.height v)) ≃ₗ[k] k := by
+  rw [Q.tau.symm_apply_apply]
+  exact ((A.scalarEndEquiv (Q.height v)).trans
+    (A.representableHomEquiv (Q.height v) (Q.height v))).symm
+
+end ASGinzburg.ZAlgebra
