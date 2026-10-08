@@ -1,0 +1,598 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 4a6680d..a7811fc 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -99,6 +99,10 @@ import ASGinzburg.ProjectiveResolutionHomComplex
+ import ASGinzburg.ASLeftBidualComplex
+ import ASGinzburg.ASLeftExtConcentration
+ 
++import ASGinzburg.LeftModuleExtSequence
++import ASGinzburg.LeftModuleExtNaturalSequence
++import ASGinzburg.LeftModuleExtRightSequence
++import ASGinzburg.ASLeftExtReciprocity
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 393ff27..eae1231 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -81,6 +81,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftExt_low_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftExt_ge_four_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftExt_other_eq_zero
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtTopProjection
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtTopProjectionEpi
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtTopProjection_dual_d₃
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtTopProjection_exact
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjection
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjectionEpi
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftBidualTopDifferential_comm
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjection_differential
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjection_exact
++#print axioms ASGinzburg.ZAlgebra.ASResolution.leftExtThreeIsoSimple
++#print axioms ASGinzburg.ZAlgebra.ASRegular.leftExtThreeIsoSimple
++#print axioms ASGinzburg.ZAlgebra.ASRegular.leftExt_other_eq_zero
++#print axioms ASGinzburg.ZAlgebra.ASRegular.leftExt_other_isZero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualComplex_d
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionTerm
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionDifferential
+@@ -425,6 +438,42 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModuleHasExt
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableExtZeroEquiv
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentable_higher_ext_eq_zero
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtPrecomp
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtPrecompNat
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryNat
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtDimensionShiftNatIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtPrecompNat_boundary_zero
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryShortComplex
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryShortComplex_exact_component
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryNatAppEpi
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryNatEpi
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryCoforkIsColimit
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtCokernelNatIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtCokernelNatIso_π_hom
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtRight
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtRight_obj
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtRightZeroIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryRight
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryRightEpi
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtDimensionShiftRightIso
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtDimensionShiftRightIso_hom
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtPrecompRight
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtPrecompRight_boundary_zero
++#print axioms ASGinzburg.ZAlgebra.leftModuleADualMap_extRightZeroIso_inv
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryRight_exact
++#print axioms ASGinzburg.ZAlgebra.leftModuleExt_mk₀_smul
++#print axioms ASGinzburg.ZAlgebra.leftModuleExt_smul_comp
++#print axioms ASGinzburg.ZAlgebra.leftModuleExt_comp_smul
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtZeroLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundary
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundary_bijective
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtDimensionShift
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtZeroBoundary_bijective
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtZeroDimensionShift
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtPostcomp
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtCovariant
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtCovariantAdditive
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtCovariantLinear
+ #print axioms ASGinzburg.ZAlgebra.leftModuleEvaluation
+ #print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteLimits
+diff --git a/ASGinzburg/LeftModuleExtSequence.lean b/ASGinzburg/LeftModuleExtSequence.lean
+new file mode 100644
+index 0000000..c953fec
+--- /dev/null
++++ b/ASGinzburg/LeftModuleExtSequence.lean
+@@ -0,0 +1,144 @@
++import ASGinzburg.LocallyUnitalExtComparison
++import ASGinzburg.LinearExtTransport
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem leftModuleExt_mk₀_smul {M N : A.LeftModule} (r : k) (f : M ⟶ N) :
++    Abelian.Ext.mk₀ (r • f) = r • (Abelian.Ext.mk₀ f : Abelian.Ext.{v} M N 0) := by
++  letI := HasDerivedCategory.standard A.LeftModule
++  exact ASGinzburg.exactExt_mk₀_smul k r f
++
++theorem leftModuleExt_smul_comp {X Y Z : A.LeftModule} {a b c : ℕ}
++    (x : Abelian.Ext.{v} X Y a) (y : Abelian.Ext.{v} Y Z b) (h : a+b=c) (r : k) :
++    (r • x).comp y h = r • x.comp y h := by
++  letI := HasDerivedCategory.standard A.LeftModule
++  exact ASGinzburg.exactExt_smul_comp k x y h r
++
++theorem leftModuleExt_comp_smul {X Y Z : A.LeftModule} {a b c : ℕ}
++    (x : Abelian.Ext.{v} X Y a) (y : Abelian.Ext.{v} Y Z b) (h : a+b=c) (r : k) :
++    x.comp (r • y) h = r • x.comp y h := by
++  letI := HasDerivedCategory.standard A.LeftModule
++  exact ASGinzburg.exactExt_comp_smul k x y h r
++
++noncomputable def leftModuleExtZeroLinearEquiv (M N : A.LeftModule) :
++    Abelian.Ext.{v} M N 0 ≃ₗ[k] (M ⟶ N) where
++  toAddEquiv := Abelian.Ext.addEquiv₀
++  map_smul' r x := by
++    apply (Abelian.Ext.addEquiv₀ (X := M) (Y := N)).symm.injective
++    change Abelian.Ext.mk₀ (Abelian.Ext.homEquiv₀ (r • x)) =
++      Abelian.Ext.mk₀ (r • Abelian.Ext.homEquiv₀ x)
++    rw [Abelian.Ext.mk₀_homEquiv₀_apply, A.leftModuleExt_mk₀_smul,
++      Abelian.Ext.mk₀_homEquiv₀_apply]
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++noncomputable def leftModuleExtBoundary {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (N : A.LeftModule) (n : ℕ) :
++    Abelian.Ext.{v} S.X₁ N n →ₗ[k] Abelian.Ext.{v} S.X₃ N (n + 1) where
++  toFun x := hS.extClass.comp x (Nat.add_comm 1 n)
++  map_add' x y := Abelian.Ext.comp_add _ x y _
++  map_smul' r x := A.leftModuleExt_comp_smul _ x _ r
++
++theorem leftModuleExtBoundary_bijective {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule) (n : ℕ) :
++    Function.Bijective (A.leftModuleExtBoundary hS N (n + 1)) := by
++  constructor
++  · apply LinearMap.ker_eq_bot.mp
++    apply LinearMap.ker_eq_bot'.mpr
++    intro x hx
++    obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N x
++      (Nat.add_comm 1 (n + 1)) hx
++    rw [Abelian.Ext.eq_zero_of_projective y, Abelian.Ext.comp_zero] at hy
++    exact hy.symm
++  · intro x
++    exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
++      (Abelian.Ext.eq_zero_of_projective _) (Nat.add_comm 1 (n + 1))
++
++/-- Actual positive-degree dimension shifting, proved using exactness and projectivity. -/
++noncomputable def leftModuleExtDimensionShift {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule) (n : ℕ) :
++    Abelian.Ext.{v} S.X₁ N (n + 1) ≃ₗ[k] Abelian.Ext.{v} S.X₃ N (n + 2) :=
++  LinearEquiv.ofBijective (A.leftModuleExtBoundary hS N (n + 1))
++    (A.leftModuleExtBoundary_bijective hS N n)
++
++theorem leftModuleExtZeroBoundary_bijective {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule)
++    (hHom : ∀ f : S.X₂ ⟶ N, f = 0) :
++    Function.Bijective (A.leftModuleExtBoundary hS N 0) := by
++  constructor
++  · apply LinearMap.ker_eq_bot.mp
++    apply LinearMap.ker_eq_bot'.mpr
++    intro x hx
++    obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N x (by rfl) hx
++    have hy0 : y = 0 := by
++      apply (A.leftModuleExtZeroLinearEquiv S.X₂ N).injective
++      simpa using hHom ((A.leftModuleExtZeroLinearEquiv S.X₂ N) y)
++    rw [hy0, Abelian.Ext.comp_zero] at hy
++    exact hy.symm
++  · intro x
++    exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
++      (Abelian.Ext.eq_zero_of_projective _) (by rfl)
++
++/-- The degree-zero shift requires an actual Hom vanishing proof; for the
++AS duality calculation the higher-height projective terms provide it. -/
++noncomputable def leftModuleExtZeroDimensionShift {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule)
++    (hHom : ∀ f : S.X₂ ⟶ N, f = 0) :
++    Abelian.Ext.{v} S.X₁ N 0 ≃ₗ[k] Abelian.Ext.{v} S.X₃ N 1 :=
++  LinearEquiv.ofBijective (A.leftModuleExtBoundary hS N 0)
++    (A.leftModuleExtZeroBoundary_bijective hS N hHom)
++
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++noncomputable def leftModuleExtPostcomp {M N P : A.LeftModule} (f : N ⟶ P) (n : ℕ) :
++    Abelian.Ext.{v} M N n →ₗ[k] Abelian.Ext.{v} M P n where
++  toFun x := x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
++  map_add' x y := Abelian.Ext.add_comp x y _ _
++  map_smul' r x := A.leftModuleExt_smul_comp x _ _ r
++
++/-- Actual Ext is a k-linear functor in the second argument. -/
++noncomputable def leftModuleExtCovariant (M : A.LeftModule) (n : ℕ) :
++    A.LeftModule ⥤ ModuleCat.{v} k where
++  obj N := ModuleCat.of k (Abelian.Ext.{v} M N n)
++  map f := ModuleCat.ofHom (A.leftModuleExtPostcomp f n)
++  map_id N := by ext x; exact Abelian.Ext.comp_mk₀_id x
++  map_comp f g := by
++    ext x
++    change x.comp (Abelian.Ext.mk₀ (f ≫ g)) (Nat.add_zero n) =
++      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp
++        (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    rw [← Abelian.Ext.mk₀_comp_mk₀]
++    symm
++    apply Abelian.Ext.comp_assoc
++    omega
++
++instance leftModuleExtCovariantAdditive (M : A.LeftModule) (n : ℕ) :
++    (A.leftModuleExtCovariant M n).Additive where
++  map_add := by
++    intro X Y f g
++    ext x
++    change x.comp (Abelian.Ext.mk₀ (f + g)) (Nat.add_zero n) =
++      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n) + x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    rw [Abelian.Ext.mk₀_add, Abelian.Ext.comp_add]
++
++instance leftModuleExtCovariantLinear (M : A.LeftModule) (n : ℕ) :
++    (A.leftModuleExtCovariant M n).Linear k where
++  map_smul := by
++    intro X Y f r
++    ext x
++    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n) =
++      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
++    rw [A.leftModuleExt_mk₀_smul]
++    exact A.leftModuleExt_comp_smul x _ _ r
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LeftModuleExtNaturalSequence.lean b/ASGinzburg/LeftModuleExtNaturalSequence.lean
+new file mode 100644
+index 0000000..c9146b8
+--- /dev/null
++++ b/ASGinzburg/LeftModuleExtNaturalSequence.lean
+@@ -0,0 +1,117 @@
++import ASGinzburg.LeftModuleExtSequence
++
++/-! Natural connecting maps and shifts for the actual derived-category Ext. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def leftModuleExtPrecomp {M N : A.LeftModule} (f : M ⟶ N)
++    (P : A.LeftModule) (n : ℕ) :
++    Abelian.Ext.{v} N P n →ₗ[k] Abelian.Ext.{v} M P n where
++  toFun x := (Abelian.Ext.mk₀ f).comp x (Nat.zero_add n)
++  map_add' x y := Abelian.Ext.comp_add _ x y _
++  map_smul' r x := A.leftModuleExt_comp_smul _ x _ r
++
++noncomputable def leftModuleExtPrecompNat {M N : A.LeftModule} (f : M ⟶ N)
++    (n : ℕ) : A.leftModuleExtCovariant N n ⟶ A.leftModuleExtCovariant M n where
++  app P := ModuleCat.ofHom (A.leftModuleExtPrecomp f P n)
++  naturality := by
++    intro X Y g
++    apply ModuleCat.hom_ext
++    ext x
++    change (Abelian.Ext.mk₀ f).comp (x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n))
++      (Nat.zero_add n) = ((Abelian.Ext.mk₀ f).comp x (Nat.zero_add n)).comp
++        (Abelian.Ext.mk₀ g) (Nat.add_zero n)
++    symm
++    apply Abelian.Ext.comp_assoc
++    omega
++
++noncomputable def leftModuleExtBoundaryNat {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    A.leftModuleExtCovariant S.X₁ n ⟶ A.leftModuleExtCovariant S.X₃ (n + 1) where
++  app N := ModuleCat.ofHom (A.leftModuleExtBoundary hS N n)
++  naturality := by
++    intro X Y f
++    apply ModuleCat.hom_ext
++    ext x
++    change hS.extClass.comp (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n))
++      (Nat.add_comm 1 n) = (hS.extClass.comp x (Nat.add_comm 1 n)).comp
++        (Abelian.Ext.mk₀ f) (Nat.add_zero (n + 1))
++    symm
++    apply Abelian.Ext.comp_assoc
++    omega
++
++noncomputable def leftModuleExtDimensionShiftNatIso {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    A.leftModuleExtCovariant S.X₁ (n + 1) ≅ A.leftModuleExtCovariant S.X₃ (n + 2) :=
++  NatIso.ofComponents (fun N => (A.leftModuleExtDimensionShift hS N n).toModuleIso)
++    (by intro X Y f; exact (A.leftModuleExtBoundaryNat hS (n + 1)).naturality f)
++
++theorem leftModuleExtPrecompNat_boundary_zero {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    A.leftModuleExtPrecompNat S.f n ≫ A.leftModuleExtBoundaryNat hS n = 0 := by
++  apply NatTrans.ext
++  funext N
++  apply ModuleCat.hom_ext
++  ext x
++  change hS.extClass.comp ((Abelian.Ext.mk₀ S.f).comp x (Nat.zero_add n))
++    (Nat.add_comm 1 n) = 0
++  rw [← Abelian.Ext.comp_assoc_of_second_deg_zero, hS.extClass_comp, Abelian.Ext.zero_comp]
++
++noncomputable def leftModuleExtBoundaryShortComplex {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (n : ℕ) : ShortComplex (A.LeftModule ⥤ ModuleCat.{v} k) :=
++  ShortComplex.mk (A.leftModuleExtPrecompNat S.f n) (A.leftModuleExtBoundaryNat hS n)
++    (A.leftModuleExtPrecompNat_boundary_zero hS n)
++
++theorem leftModuleExtBoundaryShortComplex_exact_component {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (N : A.LeftModule) (n : ℕ) :
++    ((A.leftModuleExtBoundaryShortComplex hS n).map
++      ((evaluation A.LeftModule (ModuleCat.{v} k)).obj N)).Exact := by
++  rw [ShortComplex.moduleCat_exact_iff]
++  intro x hx
++  exact Abelian.Ext.contravariant_sequence_exact₁ hS N x (Nat.add_comm 1 n) hx
++
++noncomputable instance leftModuleExtBoundaryNatAppEpi {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule) (n : ℕ) :
++    Epi ((A.leftModuleExtBoundaryNat hS n).app N) := by
++  apply (ModuleCat.epi_iff_surjective _).mpr
++  intro x
++  exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
++    (Abelian.Ext.eq_zero_of_projective _) (Nat.add_comm 1 n)
++
++noncomputable instance leftModuleExtBoundaryNatEpi {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    Epi (A.leftModuleExtBoundaryNat hS n) := NatTrans.epi_of_epi_app _
++
++/-- A functor-category cokernel is obtained from the actual long exact sequence. -/
++noncomputable def leftModuleExtBoundaryCoforkIsColimit {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    IsColimit (CokernelCofork.ofπ (A.leftModuleExtBoundaryNat hS n)
++      (A.leftModuleExtPrecompNat_boundary_zero hS n)) := by
++  apply evaluationJointlyReflectsColimits
++  intro N
++  refine (isColimitMapCoconeCoforkEquiv'
++    ((evaluation A.LeftModule (ModuleCat.{v} k)).obj N)
++    (A.leftModuleExtPrecompNat_boundary_zero hS n)).symm ?_
++  letI : Epi ((A.leftModuleExtBoundaryShortComplex hS n).map
++      ((evaluation A.LeftModule (ModuleCat.{v} k)).obj N)).g := by
++    change Epi ((A.leftModuleExtBoundaryNat hS n).app N)
++    infer_instance
++  exact (A.leftModuleExtBoundaryShortComplex_exact_component hS N n).gIsCokernel
++
++/-- Natural presentation of actual Ext by a cokernel, without Hom vanishing. -/
++noncomputable def leftModuleExtCokernelNatIso {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    cokernel (A.leftModuleExtPrecompNat S.f n) ≅ A.leftModuleExtCovariant S.X₃ (n + 1) :=
++  IsColimit.coconePointUniqueUpToIso (cokernelIsCokernel _)
++    (A.leftModuleExtBoundaryCoforkIsColimit hS n)
++
++@[reassoc] theorem leftModuleExtCokernelNatIso_π_hom {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    cokernel.π (A.leftModuleExtPrecompNat S.f n) ≫
++        (A.leftModuleExtCokernelNatIso hS n).hom = A.leftModuleExtBoundaryNat hS n :=
++  IsColimit.comp_coconePointUniqueUpToIso_hom (cokernelIsCokernel _)
++    (A.leftModuleExtBoundaryCoforkIsColimit hS n) .one
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/LeftModuleExtRightSequence.lean b/ASGinzburg/LeftModuleExtRightSequence.lean
+new file mode 100644
+index 0000000..7b1e130
+--- /dev/null
++++ b/ASGinzburg/LeftModuleExtRightSequence.lean
+@@ -0,0 +1,101 @@
++import ASGinzburg.LeftModuleExtNaturalSequence
++import ASGinzburg.LeftModuleADual
++import ASGinzburg.RightModuleHomology
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++/-- A genuine right module of actual Ext components, with no added duality assumption. -/
++noncomputable def leftModuleExtRight (M : A.LeftModule) (n : ℕ) : A.RightModule :=
++  ⟨A.leftRepresentableFunctor ⋙ A.leftModuleExtCovariant M n, ⟨inferInstance, inferInstance⟩⟩
++
++@[simp] theorem leftModuleExtRight_obj (M : A.LeftModule) (n : ℕ) (i : ℤ) :
++    (A.leftModuleExtRight M n).obj.obj (op ⟨i⟩) =
++      ModuleCat.of k (Abelian.Ext.{v} M (A.leftRepresentable i) n) := rfl
++
++/-- Degree zero is naturally the previously constructed A-dual, including its right action. -/
++noncomputable def leftModuleExtRightZeroIso (M : A.LeftModule) :
++    A.leftModuleExtRight M 0 ≅ A.leftModuleADual M := by
++  let e : (A.leftModuleExtRight M 0).obj ≅ (A.leftModuleADual M).obj :=
++    NatIso.ofComponents (fun X =>
++      (A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable X.unop.index)).toModuleIso) (by
++        intro X Y f
++        apply ModuleCat.hom_ext
++        ext x
++        apply (A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable Y.unop.index)).symm.injective
++        change (A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable Y.unop.index)).symm
++          ((A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable Y.unop.index))
++            (x.comp (Abelian.Ext.mk₀ (A.leftRepresentableFunctor.map f)) (by rfl))) =
++          (A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable Y.unop.index)).symm
++            (A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable X.unop.index) x ≫
++              A.leftRepresentableFunctor.map f)
++        simp only [LinearEquiv.symm_apply_apply]
++        change x.comp (Abelian.Ext.mk₀ (A.leftRepresentableFunctor.map f)) (by rfl) =
++          Abelian.Ext.mk₀
++            (A.leftModuleExtZeroLinearEquiv M (A.leftRepresentable X.unop.index) x ≫
++              A.leftRepresentableFunctor.map f)
++        rw [← Abelian.Ext.mk₀_comp_mk₀]
++        congr 1
++        exact (Abelian.Ext.mk₀_addEquiv₀_apply x).symm)
++  exact ⟨e.hom, e.inv, e.hom_inv_id, e.inv_hom_id⟩
++
++
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def leftModuleExtBoundaryRight {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    A.leftModuleExtRight S.X₁ n ⟶ A.leftModuleExtRight S.X₃ (n+1) :=
++  CategoryTheory.Functor.whiskerLeft A.leftRepresentableFunctor (A.leftModuleExtBoundaryNat hS n)
++
++noncomputable instance leftModuleExtBoundaryRightEpi {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : Epi (A.leftModuleExtBoundaryRight hS n) := by
++  apply (A.rightModule_epi_iff _).mpr
++  intro i
++  exact inferInstanceAs (Epi ((A.leftModuleExtBoundaryNat hS n).app (A.leftRepresentable i)))
++
++noncomputable def leftModuleExtDimensionShiftRightIso {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    A.leftModuleExtRight S.X₁ (n+1) ≅ A.leftModuleExtRight S.X₃ (n+2) :=
++  A.rightModuleProperty.isoMk
++    (CategoryTheory.Functor.isoWhiskerLeft A.leftRepresentableFunctor
++      (A.leftModuleExtDimensionShiftNatIso hS n))
++
++theorem leftModuleExtDimensionShiftRightIso_hom {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) :
++    (A.leftModuleExtDimensionShiftRightIso hS n).hom = A.leftModuleExtBoundaryRight hS (n+1) := rfl
++noncomputable def leftModuleExtPrecompRight {M N : A.LeftModule} (f : M ⟶ N) (n : ℕ) :
++    A.leftModuleExtRight N n ⟶ A.leftModuleExtRight M n :=
++  CategoryTheory.Functor.whiskerLeft A.leftRepresentableFunctor (A.leftModuleExtPrecompNat f n)
++
++theorem leftModuleExtPrecompRight_boundary_zero {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    A.leftModuleExtPrecompRight S.f n ≫ A.leftModuleExtBoundaryRight hS n = 0 := by
++  apply NatTrans.ext
++  funext X
++  exact NatTrans.congr_app (A.leftModuleExtPrecompNat_boundary_zero hS n) (A.leftRepresentable X.unop.index)
++
++theorem leftModuleADualMap_extRightZeroIso_inv {M N : A.LeftModule} (f : M ⟶ N) :
++    A.leftModuleADualMap f ≫ (A.leftModuleExtRightZeroIso M).inv =
++      (A.leftModuleExtRightZeroIso N).inv ≫ A.leftModuleExtPrecompRight f 0 := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  change Abelian.Ext.mk₀ (f ≫ x) =
++    (Abelian.Ext.mk₀ f).comp (Abelian.Ext.mk₀ x) (Nat.zero_add 0)
++  exact (Abelian.Ext.mk₀_comp_mk₀ _ _).symm
++theorem leftModuleExtBoundaryRight_exact {S : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (n : ℕ) :
++    (ShortComplex.mk (A.leftModuleExtPrecompRight S.f n) (A.leftModuleExtBoundaryRight hS n)
++      (A.leftModuleExtPrecompRight_boundary_zero hS n)).Exact := by
++  apply (A.rightModule_exact_iff _).mpr
++  intro i
++  exact A.leftModuleExtBoundaryShortComplex_exact_component hS (A.leftRepresentable i) n
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASLeftExtReciprocity.lean b/ASGinzburg/ASLeftExtReciprocity.lean
+new file mode 100644
+index 0000000..39304d7
+--- /dev/null
++++ b/ASGinzburg/ASLeftExtReciprocity.lean
+@@ -0,0 +1,130 @@
++import ASGinzburg.ASLeftExtConcentration
++import ASGinzburg.LeftModuleExtRightSequence
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++  {X : A.LeftModule} (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4))
++
++noncomputable def leftResolutionExtTopProjection :
++    A.leftModuleADual (P.complex.X 3) ⟶ A.leftModuleExtRight X 3 :=
++  (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫
++    A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0 ≫
++      (A.leftModuleExtDimensionShiftRightIso P.shortExact₁ 0).hom ≫
++        (A.leftModuleExtDimensionShiftRightIso P.shortExact₀ 1).hom
++
++noncomputable instance leftResolutionExtTopProjectionEpi : Epi (A.leftResolutionExtTopProjection P h₄) := by
++  dsimp [leftResolutionExtTopProjection]
++  infer_instance
++
++theorem leftResolutionExtTopProjection_dual_d₃ :
++    A.leftModuleADualMap (P.complex.d 3 2) ≫ A.leftResolutionExtTopProjection P h₄ = 0 := by
++  dsimp [leftResolutionExtTopProjection]
++  rw [← Category.assoc, A.leftModuleADualMap_extRightZeroIso_inv]
++  simp only [Category.assoc]
++  rw [← Category.assoc (A.leftModuleExtPrecompRight (P.complex.d 3 2) 0)
++    (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0)]
++  rw [A.leftModuleExtPrecompRight_boundary_zero (P.shortExact₂ h₄) 0,
++    zero_comp, comp_zero]
++
++theorem leftResolutionExtTopProjection_exact :
++    (ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2))
++      (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄)).Exact := by
++  let e : A.leftModuleExtRight (kernel P.firstCover) 1 ≅ A.leftModuleExtRight X 3 :=
++    A.leftModuleExtDimensionShiftRightIso P.shortExact₁ 0 ≪≫
++      A.leftModuleExtDimensionShiftRightIso P.shortExact₀ 1
++  let T := ShortComplex.mk (A.leftModuleExtPrecompRight (P.complex.d 3 2) 0)
++    (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0)
++    (A.leftModuleExtPrecompRight_boundary_zero (P.shortExact₂ h₄) 0)
++  let eS : ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2))
++      (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄) ≅ T :=
++    ShortComplex.isoMk (A.leftModuleExtRightZeroIso (P.complex.X 2)).symm
++      (A.leftModuleExtRightZeroIso (P.complex.X 3)).symm e.symm
++      (by exact (A.leftModuleADualMap_extRightZeroIso_inv (P.complex.d 3 2)).symm)
++      (by
++        dsimp [leftResolutionExtTopProjection,e,T]
++        simp only [Category.assoc,Iso.hom_inv_id_assoc,Iso.hom_inv_id,Category.comp_id])
++  exact (ShortComplex.exact_iff_of_iso eS).mpr
++    (A.leftModuleExtBoundaryRight_exact (P.shortExact₂ h₄) 0)
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++noncomputable def leftBidualTopProjection :
++    A.leftModuleADual (R.leftResolutionComplex.X 3) ⟶ A.simpleRightModule (Q.height w) :=
++  (R.leftResolutionBidualTermIso 3).hom ≫ A.simpleRightModuleπ (Q.height w)
++
++noncomputable instance leftBidualTopProjectionEpi : Epi R.leftBidualTopProjection := by
++  dsimp [leftBidualTopProjection]
++  infer_instance
++
++theorem leftBidualTopDifferential_comm :
++    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom =
++      (R.leftResolutionBidualTermIso 2).hom ≫ R.d₁ := by
++  have H := R.leftResolutionBidualComplexIso.hom.comm 2 3
++  change (R.leftResolutionBidualTermIso 2).hom ≫ R.reversedRightComplex.d 2 3 =
++    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom at H
++  rw [show R.reversedRightComplex.d 2 3 = R.d₁ from CochainComplex.of_d _ _ _ 2] at H
++  exact H.symm
++
++theorem leftBidualTopProjection_differential :
++    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ R.leftBidualTopProjection = 0 := by
++  dsimp [leftBidualTopProjection]
++  rw [← Category.assoc,R.leftBidualTopDifferential_comm,Category.assoc,R.d₁_π,comp_zero]
++
++theorem leftBidualTopProjection_exact :
++    (ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2))
++      R.leftBidualTopProjection R.leftBidualTopProjection_differential).Exact := by
++  let T := ShortComplex.mk R.d₁ (A.simpleRightModuleπ (Q.height w)) R.d₁_π
++  let e : ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2))
++      R.leftBidualTopProjection R.leftBidualTopProjection_differential ≅ T :=
++    ShortComplex.isoMk (R.leftResolutionBidualTermIso 2) (R.leftResolutionBidualTermIso 3) (Iso.refl _)
++      (by exact R.leftBidualTopDifferential_comm.symm)
++      (by simp [T,leftBidualTopProjection])
++  exact (ShortComplex.exact_iff_of_iso e).mpr R.exact₀
++
++noncomputable def leftExtThreeIsoSimple (h : A.ASRegular Q) :
++    A.leftModuleExtRight (A.simpleLeftModule (Q.height (Q.tau.symm w))) 3 ≅
++      A.simpleRightModule (Q.height w) :=
++  IsColimit.coconePointUniqueUpToIso
++    (A.leftResolutionExtTopProjection_exact (R.toLeftProjectiveResolution h)
++      (R.leftResolutionComplex_isZero_ge_four 0)).gIsCokernel
++    R.leftBidualTopProjection_exact.gIsCokernel
++end ASGinzburg.ZAlgebra.ASResolution
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.leftExtThreeIsoSimple (h : A.ASRegular Q) (u : Q.LiftVertex) :
++    A.leftModuleExtRight (A.simpleLeftModule (Q.height u)) 3 ≅
++      A.simpleRightModule (Q.height (Q.tau u)) := by
++  simpa only [Equiv.symm_apply_apply] using
++    (h.resolution A Q (Q.tau u)).leftExtThreeIsoSimple h
++
++theorem ASRegular.leftExt_other_eq_zero (h : A.ASRegular Q) (u : Q.LiftVertex)
++    (i : ℤ) (n : ℕ) (hn : n ≠ 3)
++    (e : Abelian.Ext.{v} (A.simpleLeftModule (Q.height u)) (A.leftRepresentable i) n) :
++    e = 0 := by
++  have H := (h.resolution A Q (Q.tau u)).leftExt_other_eq_zero h i n hn
++  rw [Q.tau.symm_apply_apply] at H
++  exact H e
++
++theorem ASRegular.leftExt_other_isZero (h : A.ASRegular Q) (u : Q.LiftVertex)
++    (n : ℕ) (hn : n ≠ 3) :
++    IsZero (A.leftModuleExtRight (A.simpleLeftModule (Q.height u)) n) := by
++  rw [IsZero.iff_id_eq_zero]
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro e
++  change e = 0
++  exact h.leftExt_other_eq_zero A Q u X.unop.index n hn e
++end ASGinzburg.ZAlgebra
