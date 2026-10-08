@@ -44,3 +44,18 @@ ASResolutionの存在とZAlgebraの局所有限性だけを使い、総rank=1や
 UTC 2026-10-08T03:44:23.495487+00:00 → 2026-10-08T03:47:10.529682+00:00。
 384異なる宣言・189 theorem・53 named instance。
 差分：runs/as-finiteness-20261008-unit2.patch。
+
+単位2のmain保存：b8e21f0ffb13da7373384234c7fe9280785e0d3d。
+
+## 単位3：命題1.3の数値条件の両方向
+
+有限AS分解の存在（原論文定義(i)）の下でASRegularと実際のExtのdelta型finrank条件(1.11)の同値を証明した。
+逆方向では単位2で得たModule.Finiteを使ってfinrankをCardinal rankへ移し、二重のCardinal.sumが1と証明する。
+ASRegularの定義にdelta条件を追加していない。元の定義(ii)との同値を定理として証明した。
+原論文Gr(A)との比較、左加群(1.12)、周期性、主定理はまだ未証明。
+次：A-dualの実際の左作用、左表現可能加群との同型、Extの左作用の接続。
+
+検証：`20261008T034836Z-7169530c`、167.695902秒、全段階終了0。
+UTC 2026-10-08T03:48:36.666276+00:00 → 2026-10-08T03:51:24.362182+00:00。
+387異なる宣言・192 theorem・53 named instance。
+差分：runs/as-finiteness-20261008-unit3.patch。

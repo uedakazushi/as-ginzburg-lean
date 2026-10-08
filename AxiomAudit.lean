@@ -9,6 +9,9 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_apply
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_eq_single
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_total
+#print axioms ASGinzburg.cardinal_sum_eq_one_of_single
+#print axioms ASGinzburg.ZAlgebra.asExtTotalRank_eq_one_of_finrank
+#print axioms ASGinzburg.ZAlgebra.asRegular_iff_ext_finrank
 #print axioms ASGinzburg.ZAlgebra.ASResolution.asDualityExtThreeEquiv
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extThreeEquiv
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extThree_finrank

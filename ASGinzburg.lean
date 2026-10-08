@@ -1,3 +1,4 @@
+import ASGinzburg.ASDualityEquivalence
 import ASGinzburg.RightModuleHomFinite
 import ASGinzburg.ASResolutionExtFinite
 import ASGinzburg.ASResolutionExtBounds
