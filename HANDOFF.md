@@ -1,8 +1,8 @@
 # Codexクラウドへの引継ぎ
 
-実際の可合成拡張道の次数付き代数、元の道代数と次数0部分の同型、原論文(1.3)の生成元微分と有限道への符号付き線形延長、全道のコホモロジー次数+1・cut/winding保存、全線形結合のsigned Leibniz則を証明。符号作用素との反可換性・involution、d²のunsigned導分則、次数0での微分の零性と元/逆矢のd²=0まで完成。loopのd²・全道のsquare-zero・実際のコホモロジー/正則性は未証明。Jacobian商との比較・最小関係/選択の独立性・quadratic分解の橋・標準RHom/外部一般定理と同型類対応も未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T190529Z-618b1d98：232数学モジュール・2105異なる宣言・1020 theorem、全段階終了0。
-単位1〜43の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の全Ginzburg微分のd²=0を、頂点ごとの道を値に取る交換子恒等式とsigned Leibnizから証明。mathlibの整数cochain複体・実際の全/成分コホモロジーと有限直和比較、負次数homologyの零性によるGinzburgRegularの具体的定義、正次数homology零性と0次集中の同値まで完成。実際の二側PathLinearIdeal・Jacobianイデアルと次数0境界の一致、各成分と全H⁰のJacobian商空間の有限直和との線形同型まで完成。H⁰の積保存とcut grading/unrolling比較、特定のΦの正則性とAS条件との両方向の対応、最小関係/選択の独立性・quadratic分解の橋・標準RHom/外部一般定理/同型類対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T193658Z-2618c966：248数学モジュール・2188異なる宣言・1074 theorem、全段階終了0。
+単位1〜44の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -26,10 +26,10 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T190529Z-618b1d98`、全段階終了0、1500.924975873秒。
-UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00。
-JST 2026-10-09T04:05:29.675889+09:00 → 2026-10-09T04:30:30.600869+09:00。
-232数学モジュール・2105異なる明示的宣言・全1020 theorem・276 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T193658Z-2618c966`、全段階終了0、1561.835610764秒。
+UTC 2026-10-08T19:36:58.234279+00:00 → 2026-10-08T20:03:00.069897+00:00。
+JST 2026-10-09T04:36:58.234279+09:00 → 2026-10-09T05:03:00.069897+09:00。
+248数学モジュール・2188異なる明示的宣言・全1074 theorem・276 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -46,6 +46,8 @@ GitHub APIでローカルtree SHAとexpected_shaを照合し、force=falseで直
 各正確なheadのCI状況はRECENT_RUN.md参照。単位1 main d9ef672のCI 37742548753はsuccess。
 その全jobログ・実測645.683223858秒・全7段階0・artifact 11535012308はverification/total_algebra_unit1_github_ci*。
 以前の成功は新しい数学headの成功判定に使わない。
+単位42 main 9541c0cd8866345663bf7c215a086ee12c293082のCI 37827670317は全7段階0・success。検証器のUTC18:53:08.371822→19:37:03.136589、monotonic2634.764763527秒、完全ジョブログ/証拠はverification/total_algebra_unit42_github_ci*。この旧headの成功を最新headの成功として扱わない。
+
 
 ```bash
 AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/check.sh
@@ -59,7 +61,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。前合成・後合成の自然性も完成。正則総加群と総代数の同定と(1.12)への移送も完成。
 3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。有限生成射影の反変同値まで完成。有界cochainホモトピー圏まで完成。左単純分解とExtの相互計算も完成。二重Ext自然同型・有限次元Ext³反変同値・成分線形双対の反変同値・exactな自己同値と頂点単純の移送は完成。総ベクトル双対比較・全作用適合性とAS条件からの周期性まで完成。次は左側総正則Ext比較も完成。次はd₁からの道代数提示と標準RHom/derived接続。
 4. D Ext³の区間制限・projective cover・正規化同型、代数成分回収と区間coherence、AS条件からの正負周期性は完成。道代数全射・最小生成元の基底と成分分解は完成。核の矢イデアル平方への包含と実際の道代数商同型も完成。任意の基底の持上げ・選択の独立性と最小関係を続ける。
-5. 単位43でsigned微分とLeibnizは公開検証済み。次の草稿のloop/全道のd²=0・実際のコホモロジー/正則性・H⁰とJacobian商比較を新規公開監査する。cut grading/unrolling比較・AS条件との対応・外部一般定理・主定理の同型類対応を続ける。
+5. 単位44で全d²=0、実際のcochain複体/homology・GinzburgRegular定義、Jacobianイデアル＝境界とH⁰の線形比較は公開検証済み。次は固定cut成分の有限性・有界複体とsplit射影、homogeneous Jacobian/H⁰比較、unrolling商比較とH⁰積保存。AS条件との両方向の対応・外部一般定理・主定理の同型類対応を続ける。次の未公開草稿の検査状態はRECENT_RUN.mdに記録する。
 
 一般の全M,N・全次数の自然なHom複体–Abelian.Ext比較も未証明。直和交換には長完全列の自然性を使用した。
 古いleftDerived型ProjectiveResolution.isoExtを新しいAbelian.Extの比較と取り違えない。

@@ -1,8 +1,8 @@
 # 現在の状況
 
-実際の可合成拡張道の次数付き代数、元の道代数と次数0部分の同型、原論文(1.3)の生成元微分と有限道への符号付き線形延長、全道のコホモロジー次数+1・cut/winding保存、全線形結合のsigned Leibniz則を証明。符号作用素との反可換性・involution、d²のunsigned導分則、次数0での微分の零性と元/逆矢のd²=0まで完成。loopのd²・全道のsquare-zero・実際のコホモロジー/正則性は未証明。Jacobian商との比較・最小関係/選択の独立性・quadratic分解の橋・標準RHom/外部一般定理と同型類対応も未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T190529Z-618b1d98：232数学モジュール・2105異なる宣言・1020 theorem、全段階終了0。
-単位1〜43の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の全Ginzburg微分のd²=0を、頂点ごとの道を値に取る交換子恒等式とsigned Leibnizから証明。mathlibの整数cochain複体・実際の全/成分コホモロジーと有限直和比較、負次数homologyの零性によるGinzburgRegularの具体的定義、正次数homology零性と0次集中の同値まで完成。実際の二側PathLinearIdeal・Jacobianイデアルと次数0境界の一致、各成分と全H⁰のJacobian商空間の有限直和との線形同型まで完成。H⁰の積保存とcut grading/unrolling比較、特定のΦの正則性とAS条件との両方向の対応、最小関係/選択の独立性・quadratic分解の橋・標準RHom/外部一般定理/同型類対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T193658Z-2618c966：248数学モジュール・2188異なる宣言・1074 theorem、全段階終了0。
+単位1〜44の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2105異なる名前、全明示的宣言・276 named instanceを含む、終了0 |
-| theorem | 1020、全件が監査対象 |
+| 個別公理監査 | 2188異なる名前、全明示的宣言・276 named instanceを含む、終了0 |
+| theorem | 1074、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T190529Z-618b1d98`、全段階終了0、1500.924975873秒。
-UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00。
-JST 2026-10-09T04:05:29.675889+09:00 → 2026-10-09T04:30:30.600869+09:00。
+最新ローカル検証 `20261008T193658Z-2618c966`、全段階終了0、1561.835610764秒。
+UTC 2026-10-08T19:36:58.234279+00:00 → 2026-10-08T20:03:00.069897+00:00。
+JST 2026-10-09T04:36:58.234279+09:00 → 2026-10-09T05:03:00.069897+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -58,7 +58,7 @@ JST 2026-10-09T04:05:29.675889+09:00 → 2026-10-09T04:30:30.600869+09:00。
 | §4、§5の数値計算 | `Hilbert.lean` | 一般の正のlagの漸化式の一意性、quadratic Hilbert値、増大上界 | exact resolutionからのEuler式、del Pezzo模型との幾何的比較 |
 | 系5.2の線形表示 | `Tensor333.lean` | 実際の三重テンソル積、係数表示、cut関係への同型、27次元、基底変更 | tensor・potential・Jacobian代数の完全な比較 |
 | 系5.2の箙 | `Triangle333.lean` | 三角形箙、全矢のwinding=1、cut次数1閉路の長さ3、明示的potentialのcut恒等式 | 箙自己同型とGL(X)×GL(Y)×GL(Z)の群・商の同定 |
-| (1.3)の実際の拡張道と微分 | GinzburgGrading、GinzburgPaths、GinzburgPathAlgebra、GinzburgPathWords、GinzburgDegreeZeroAlgebra、GinzburgGeneratorDifferentials、GinzburgGeneratorGradings、GinzburgPathDifferential、GinzburgSupportedProducts、GinzburgDifferentialGradings、GinzburgLeibniz、GinzburgDifferentialSign、GinzburgDegreeZeroDifferential、GinzburgSquareProducts | 実際の道の三次数と道代数、次数0部分との同型、原論文符号の生成元微分・signed線形延長とLeibniz則・次数/cut/winding保存、符号作用素とd²導分則、元/逆矢のsquare-zero | loop/全道のd²=0・実際のコホモロジー/正則性/H⁰比較は次の個別草稿で完成、新規公開全宣言監査が必要。AS条件との対応は未証明 |
+| (1.3)の実際の拡張道と微分 | GinzburgGrading、GinzburgPaths、GinzburgPathAlgebra、GinzburgPathWords、GinzburgDegreeZeroAlgebra、GinzburgGeneratorDifferentials、GinzburgGeneratorGradings、GinzburgPathDifferential、GinzburgSupportedProducts、GinzburgDifferentialGradings、GinzburgLeibniz、GinzburgDifferentialSign、GinzburgDegreeZeroDifferential、GinzburgSquareProducts | 実際の道の三次数と道代数、次数0部分との同型、原論文符号の生成元微分・signed線形延長とLeibniz則・次数/cut/winding保存、符号作用素とd²導分則、元/逆矢のsquare-zero | 全square-zero・実際のmathlib複体/homology・GinzburgRegular定義とH⁰の線形比較は単位44で公開検証。積保存・cut/unrolling比較・AS条件との対応は未証明 |
 | 一般radical・minimality | RightModuleRadical、RightModuleMinimality、RightModuleSimpleHom | 閉性・自然性、radicalを通る因子化、Hom(-,s_i)の零微分 | 有限生成projective coverの一般理論 |
 | (1.6)の具体的分解 | ASResolution、ASResolutionComplex、ASResolutionSyzygies | 有限coproductの射影性、完全最小列、mathlib ProjectiveResolution、三つの実際の短完全列 | 特定の代数について分解の存在 |
 | (1.7)の具体的条件 | RightModuleExtLinear、ASRegular | 実際Extのk作用、Ext⁰の線形同型、総Cardinal rank=1、各Extの有限次元性 | 実際のExtのk線形な保存と原論文Gr(A)内のAS条件の比較 |
@@ -102,7 +102,9 @@ JST 2026-10-09T04:05:29.675889+09:00 → 2026-10-09T04:30:30.600869+09:00。
 
 | 道代数提示の核・平方と実際の商 | UnrolledPathArrowClasses、FreeLinearKernelSupport、UnrolledPathKernelSquare、LinearIdealProducts、UnrolledPathFiltration、UnrolledPathIdeals、ASPresentationKernel、QuotientZAlgebra、ZAlgebraIsomorphisms、ASPresentationQuotient | 長さ1の類の独立性・核の長さ2以上支持性、実際の矢イデアル平方との一致、ASRegularから(1.9)、実際の商代数・商射・第一同型定理とAS代数の商同型 | 任意の基底の持上げ・最小関係・選択の独立性 |
 
-| 閉路ポテンシャル・巡回微分とJacobian商 | ClosedPathPotentials、PathWordEmbeddings、PathCyclicDerivativeSupport、PathCyclicDerivatives、CyclicDerivativeDegrees、PathCyclicDerivativeDegrees、CyclicDerivativeCommutators、PathUnrolling、PathDegreeUnrolling、GeneratedLinearIdeals、UnrolledJacobianRelations、UnrolledComponentHeights、UnrolledJacobianAlgebra | 実際の閉路/cut1/長さ≥3ポテンシャル、道を値に取る巡回微分と長さ/次数・(3.8)/交換子恒等式、unrolled Jacobianイデアル・平方包含と実際の商ZAlgebra・関係の零性 | signed微分とLeibnizは単位43で完成。全d²=0/コホモロジー/H⁰は次の未公開草稿で完成。別のgraded Jacobianモデル/unrolling比較とAS対応は未証明 |
+| 閉路ポテンシャル・巡回微分とJacobian商 | ClosedPathPotentials、PathWordEmbeddings、PathCyclicDerivativeSupport、PathCyclicDerivatives、CyclicDerivativeDegrees、PathCyclicDerivativeDegrees、CyclicDerivativeCommutators、PathUnrolling、PathDegreeUnrolling、GeneratedLinearIdeals、UnrolledJacobianRelations、UnrolledComponentHeights、UnrolledJacobianAlgebra | 実際の閉路/cut1/長さ≥3ポテンシャル、道を値に取る巡回微分と長さ/次数・(3.8)/交換子恒等式、unrolled Jacobianイデアル・平方包含と実際の商ZAlgebra・関係の零性 | signed微分とLeibnizは単位43で完成。全d²=0・実際のコホモロジー/正則性定義・H⁰の線形Jacobian商比較は単位44で公開検証。積保存・graded Jacobian/unrolling比較・AS対応は未証明 |
+
+| 全Ginzburg複体・実際のH⁰と正則性 | VertexCyclicCommutators、PathCyclicCommutators、GinzburgLoopSquare、GinzburgSquareZero、GinzburgCochainComplex、GinzburgRegularity、PathLinearIdeals、GinzburgDegreeNegOnePaths、GinzburgBoundarySpaces、GinzburgBoundaryProducts、PathJacobianIdeal、GinzburgDualContexts、GinzburgJacobianBoundaries、GinzburgHomologyZero、GinzburgTotalHomologyZero、GinzburgPositiveHomology | 全d²=0、mathlib成分/全cochain複体とhomology、有限直和比較、実際の負次数消滅によるGinzburgRegular、正次数零性、真のJacobianイデアル＝境界、成分/全H⁰のJacobian商空間との線形比較 | H⁰積保存、cut/unrolling商比較、特定Φの正則性とAS条件との両方向対応、標準双加群分解・3-CY |
 
 ## 主結果の状態
 

@@ -1,0 +1,48 @@
+import ASGinzburg.PathAlgebra
+
+/-! Genuine two-sided linear ideals of the finite quiver path category. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+structure PathLinearIdeal where
+  hom : (u v : Q.Vertex) → Submodule k (Q.PathComponent k u v)
+  comp_left : ∀ {u v w : Q.Vertex} {f : Q.PathComponent k u v}, f ∈ hom u v →
+    ∀ g : Q.PathComponent k v w, Q.pathComp k g f ∈ hom u w
+  comp_right : ∀ {u v w : Q.Vertex} {g : Q.PathComponent k v w}, g ∈ hom v w →
+    ∀ f : Q.PathComponent k u v, Q.pathComp k g f ∈ hom u w
+
+def PathLinearIdeal.top : Q.PathLinearIdeal k where
+  hom _ _ := ⊤
+  comp_left := by intros; trivial
+  comp_right := by intros; trivial
+
+def generatedPathIdeal (S : (u v : Q.Vertex) → Set (Q.PathComponent k u v)) : Q.PathLinearIdeal k where
+  hom u v := ⨅ I : {I : Q.PathLinearIdeal k // ∀ u v, S u v ⊆ I.hom u v}, I.val.hom u v
+  comp_left := by
+    intro u v w f hf g
+    rw [Submodule.mem_iInf] at hf ⊢
+    intro I
+    exact I.val.comp_left (hf I) g
+  comp_right := by
+    intro u v w g hg f
+    rw [Submodule.mem_iInf] at hg ⊢
+    intro I
+    exact I.val.comp_right (hg I) f
+
+theorem subset_generatedPathIdeal (S : (u v : Q.Vertex) → Set (Q.PathComponent k u v))
+    (u v : Q.Vertex) : S u v ⊆ (Q.generatedPathIdeal k S).hom u v := by
+  intro f hf
+  change f ∈ ⨅ I : {I : Q.PathLinearIdeal k // ∀ u v, S u v ⊆ I.hom u v}, I.val.hom u v
+  rw [Submodule.mem_iInf]
+  intro I
+  exact I.property u v hf
+
+theorem generatedPathIdeal_le (S : (u v : Q.Vertex) → Set (Q.PathComponent k u v))
+    (I : Q.PathLinearIdeal k) (hI : ∀ u v, S u v ⊆ I.hom u v) (u v : Q.Vertex) :
+    (Q.generatedPathIdeal k S).hom u v ≤ I.hom u v := by
+  change (⨅ J : {J : Q.PathLinearIdeal k // ∀ u v, S u v ⊆ J.hom u v}, J.val.hom u v) ≤ I.hom u v
+  exact iInf_le (fun J : {J : Q.PathLinearIdeal k // ∀ u v, S u v ⊆ J.hom u v} => J.val.hom u v)
+    (⟨I,hI⟩ : {J : Q.PathLinearIdeal k // ∀ u v, S u v ⊆ J.hom u v})
+
+end ASGinzburg.CutQuiver

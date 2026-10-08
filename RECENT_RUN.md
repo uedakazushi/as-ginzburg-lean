@@ -1185,3 +1185,40 @@ UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00。
 差分：runs/total-algebra-20261008-unit43.patch。全theoremを監査し、許容公理3種類のみ。
 
 作業中保存 UTC 2026-10-08T19:32:43.049140+00:00、開始から実測45125.049140秒。タスク継続中。単位43の新規公開検査20261008T190529Z-618b1d98は全6段階0、232数学モジュール・2105異なる宣言・1020 theorem・276 named instance。UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00、1500.924975873秒。実際のシェルも終了0、wrapper UTC 2026-10-08T19:05:29.639678+00:00 → 2026-10-08T19:30:30.610626+00:00、1500.970951776秒。初期14/開始時60/歴史的577ファイルの無変更確認も終了0。修正前の失敗ログは無変更で保持。単位43をmain保存後、次の16数学モジュールの新規公開検査へ進み、固定cutの有限性/複体を別の草稿で継続する。
+
+作業中保存 UTC 2026-10-08T19:36:57.928953+00:00、開始から実測45379.928953秒。タスク継続中、終了ではない。単位43はmain 5d4640f27c333ea43949237a3641fb2f17feba59へforce=false・expected旧9541c0cの通常fast-forwardで保存済み。47ファイル・39独立blob・1887163bytesを11部分へ分け、GitHub tree bf595926631f5d885565e1a26398818f3e63177fがローカルtreeと一致。正確なAPI commit objectのローカル同期終了0。次の個別成功した16数学モジュールを公開ソースへコピーし、別の新規全宣言監査44を開始する。数学ソースを検査中は固定する。
+ginzburg-path-finiteness3も個別Lean終了0・診断なし。実際の拡張矢の有限性、正windingによる道長の上界、固定winding/cut次数の実際の道の有限性と固定cut空間のModule.Finiteまで証明した。この45の草稿は44の公開検査に含めない。
+
+継続チェックポイント UTC 2026-10-08T19:49:39.454676+00:00、タスク開始から実測46141.454676秒。継続中、タスク終了ではない。公開検査44は20261008T193658Z-2618c966で248数学モジュールを対象に固定して実行中。16数学モジュールとrootのLakeコンパイルは成功表示、AxiomAuditのLake build段階は継続中で、全体終了をまだ宣言しない。最後の完全成功は単位43・main 5d4640f27c333ea43949237a3641fb2f17feba59。
+次の草稿のginzburg-path-finiteness3、ginzburg-cut-cochain-complex1、ginzburg-cut-projections1、ginzburg-cut-retracts4、ginzburg-cut-bounds1、path-cut-grading2は実際の個別Lean終了0・診断なし。固定cut項の有限次元性・具体的な有界範囲・実際の複体包含/射影とhomologyのretract、GinzburgRegularから各固定cutの負次数消滅、元の道のcut射影と一致まで証明した。差分の作業中保存はwork/total-algebra/unit45-draft-1950.patch。これら45の個別検査を44の固定公開検査の証拠にはしない。初回のFunctor名/record構文・冗長な既存宣言・olean出力先・Lean root環境変数の欠落による失敗ログは保持。次は真のJacobianイデアルのhomogeneous閉性とfixed-cut H⁰/unrolling比較。
+単位42の正確なmain head 9541c0cd8866345663bf7c215a086ee12c293082のGitHub Actions 37827670317はcompleted/success。検証器の実際のUTC 2026-10-08T18:53:08.371822+00:00 → 2026-10-08T19:37:03.136589+00:00、monotonic 2634.764763527秒、全7段階0。723125bytesの完全ジョブログをverification/total_algebra_unit42_github_ci.logと証拠JSONへ保存した。SHA-256 02c4cbe85a0370bc6833ced04cadf9fed7da205434c121db115f19a41e8944f4、artifact 11574238136。CI43は直前照会ではin_progressであり、単位42の成功とは区別する。
+
+継続チェックポイント UTC 2026-10-08T20:03:53.332733+00:00、開始から実測46995.332733秒。タスク継続中。新規公開検査44のlake buildは終了0、UTC 2026-10-08T19:36:59.263644+00:00 → 2026-10-08T19:50:23.080070+00:00、803.816452988秒。独立#print axiomsも20:03:00までに完了しており、最新run.jsonの全体終了0をこの照会で確認した。公開ソースは固定したままであった。
+次の個別path-jacobian-grading3、ginzburg-cut-degree-zero2、ginzburg-cut-homology-finite1、ginzburg-cut-homology-zero2、unrolled-path-words2、path-cut-unrolling-equiv2、ginzburg-cycle-boundary5、ginzburg-cut-decomposition3はLean終了0・診断なし。真のJacobianイデアルのcut射影閉性・固定次数の境界像との一致、実際の固定cut H⁰とhomogeneous Jacobian商の線形同型、各固定cutの全homology有限次元性、sheetを忘れる道の単射性とfixed-degree unrolling/eraseの互いに逆の同型、実際のcycle/boundary判定と有限次数射影和まで証明した。いずれも45の未公開草稿であり44の検査には含めない。次は有限cut射影和による負次数消滅の逆方向と商のunrolling比較。記録補助スクリプトのstep keyをnameではなく実際のstageへ修正して保存した。
+
+## 単位44：全Ginzburg微分のsquare-zero・実際のコホモロジー/正則性・H⁰とJacobian商
+
+単位42の全巡回微分の交換子恒等式を、先頭の矢の始点による実際の有限語の線形射影で頂点ごとに分解した。実際の巡回微分は非空の逆向きの道に支持されることを使い、可合成な道代数でも頂点ごとの交換子和が零であることを証明した。
+
+原論文(1.3)のsourceにおける正のa* aとtargetにおける負のa a*の符号を保ち、loop微分の二乗をこの実際の交換子和の元の道の持上げと厳密に同定し、零性を導いた。元/逆矢の二乗の零性と合わせ、全生成元の二乗の零性、d²のunsigned導分則による道の帰納法、有限線形延長により、全道・全有限多項式でd²=0を証明した。square-zeroや正則性を新しい仮定には追加していない。
+
+実際の次数付き部分空間へ微分を制限し、整数次数のmathlib CochainComplexとhomologyを構成した。全始点/終点についてその複体の有限coproductを構成し、項を実際のDirectSumと同定した。mathlibのhomology関手の加法性から、全homologyと成分homologyの有限coproductとの自然な同型・零性の成分判定を構成した。GinzburgRegularは、この実際の全複体の負次数homologyのIsZeroとして定義した。任意のPropを穴として入力する定義ではない。正次数の項・homologyが常に零であること、正則性と0次集中の同値も証明した。特定のポテンシャルについて正則性を導いたとは扱わない。
+
+実際の有限箙の二側PathLinearIdealと生成イデアルを定義した。微分の−1次から0次への実際の像を、元の道代数との次数0同型の逆で移した境界空間を定義し、signed Leibnizと次数0の微分の零性から左右積の閉性を証明した。全巡回微分の真の生成イデアルを構成し、各巡回微分が逆矢の微分であることから境界への包含を証明した。
+
+実際のコホモロジー次数−1の道は通常のprefix・逆矢1本・通常のsuffixへ分解されることを証明した。その微分は逆矢を実際の巡回微分へ置き換えた積であることを証明し、supported空間の自由線形同型と有限線形帰納法から境界がJacobianイデアルへ入ることを導いた。したがって両部分空間は等しい。原論文以外のExt表やacyclicityを仮定していない。
+
+mathlibの実際のhomologyとcokernel coforkの一意性、次数0の元の道空間との同型が境界をJacobianイデアルへ写すことを使い、各成分の実際H⁰と道空間/Jacobianイデアルの線形同型、全H⁰とその有限DirectSumの加群同型を構成した。H⁰同型の積の保存とcut grading/unrolling商の比較は別の未証明義務として残す。
+
+個別vertex-cyclic-commutators2、path-cyclic-commutators1、ginzburg-loop-square1、ginzburg-square-zero2、ginzburg-cochain-complex1、ginzburg-regularity1、path-linear-ideals3、ginzburg-degree-neg-one-paths1、ginzburg-boundary-spaces1、ginzburg-boundary-products1、path-jacobian-ideal1、ginzburg-dual-contexts2、ginzburg-jacobian-boundaries1、ginzburg-homology-zero2、ginzburg-total-homology-zero1、ginzburg-positive-homology1は実際のLean終了0・診断なし。初回のSet membershipの算術展開・生成イデアルのiInfの型推論・Finsuppへのext・積の結合則の向き・(-1)+1の型推論とカテゴリ名の修正による失敗ログは保持。
+
+次は固定cut成分の有限性・実際のcut cochain複体とsplit射影・graded Jacobian/unrolling比較、H⁰積保存、AS条件との両方向の対応、最小関係/選択の独立性、quadratic分解の橋、標準RHom/derived/perfect・外部引用一般定理と同型類対応。定理3.2・系5.2は未証明で正式Lean定理文も未実装。公開全体ビルド・全宣言公理監査・main保存後も形式化を継続する。
+
+検証：`20261008T193658Z-2618c966`、1561.835610764秒、全段階終了0。
+JST 2026-10-09T04:36:58.234279+09:00 → 2026-10-09T05:03:00.069897+09:00。
+UTC 2026-10-08T19:36:58.234279+00:00 → 2026-10-08T20:03:00.069897+00:00。
+248数学モジュール・2188異なる宣言・1074 theorem。
+差分：runs/total-algebra-20261008-unit44.patch。全theoremを監査し、許容公理3種類のみ。
+
+保存準備 UTC 2026-10-08T20:04:51.728579+00:00。単位44の新規公開検査20261008T193658Z-2618c966は全6段階0、248数学モジュール・2188異なる宣言・1074 theorem・276 named instance。UTC19:36:58.234279→20:03:00.069897、1561.835610764秒。wrapperが実際のcheck.sh subprocess終了0を保存しており、UTC 2026-10-08T19:36:58.194323+00:00 → 2026-10-08T20:03:00.077813+00:00、1561.883492821秒。後のtool session 71406はUnknown process idで再取得できなかったが、wrapperの実際の終了記録と全stage/runの0を照合した。初期14/開始時60/577歴史的ファイル・入力PDFの無変更確認も0。許容公理3種類のみ、sorry/admit/独自axiom/禁止依存/宣言重複/監査漏れなし。タスク継続中、main保存後も形式化する。
+次の個別ginzburg-cut-regularity1もLean終了0・診断なし。実際の全GinzburgRegularと全固定cut負次数homology零性の両方向の同値を有限射影和・cycle/boundary判定から導いた。これをAS条件との同値と混同しない。次はJacobian商とunrollingの交換・H⁰積保存、AS条件との対応。
