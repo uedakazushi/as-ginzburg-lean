@@ -185,3 +185,18 @@ AS有限分解をsyzygyの短完全列に切り分けてこの同型を合成す
 開始UTC 2026-10-08T03:03:08.873014+00:00、終了UTC 2026-10-08T03:05:10.081482+00:00。
 342異なる宣言・158 theorem・51 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit11.patch。
+
+## 証明単位12：具体的なsyzygy短完全列
+
+`ASResolutionSyzygies.lean`で最小分解のd₁をkernel(s_vへの射)へ、d₂をそのcoverのkernelへ
+持ち上げる実際のmodule mapを構成した。元のexactnessから両coverのEpiと持ち上げ後のexactnessを証明した。
+これにより三つのmathlib ShortComplex.ShortExactを構成した。
+利用先：単位10の線形dimension shiftの三段合成によりExt³(s_(tau v),P_v)を計算する。
+ASResolutionの存在以外の新しいAS仮定は追加していない。
+単位11のmain保存：28fb8bbc90f35385301a06ec7588a69dfa291ef6。
+
+
+検証：`20261008T030649Z-8b35b460`、126.194093秒、全段階終了0。
+開始UTC 2026-10-08T03:06:49.133793+00:00、終了UTC 2026-10-08T03:08:55.327889+00:00。
+356異なる宣言・168 theorem・53 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit12.patch。
