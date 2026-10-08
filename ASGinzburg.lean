@@ -2,6 +2,9 @@ import ASGinzburg.TotalModuleLocalUnits
 import ASGinzburg.TotalAlgebraEmbedding
 import ASGinzburg.TotalAlgebra
 import ASGinzburg.TotalAlgebraLocalUnits
+import ASGinzburg.TotalComponentActions
+import ASGinzburg.TotalAlgebraLift
+import ASGinzburg.TotalModuleRepresentations
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct

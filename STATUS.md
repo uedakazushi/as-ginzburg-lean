@@ -1,11 +1,11 @@
 # 現在の状況
 
-実際の有限台非単位的総代数を構成し、恒等成分の有限和が冪等な両側局所単位になることを証明しました。
-任意の有限個の代数元に共通の局所単位も、元の成分の有限台から構成済み。原論文の仮定と既存RightModuleを保持しています。
-次は左右総空間作用の全総代数への延長、その後、局所単位付き加群圏・成分逆関手・Gr(A)圏同値と実際のExt保存です。
+有限台非単位的総代数と両側局所単位を構成し、既存左右加群の総空間へ実際の総代数作用を載せました。
+成分作用の線形性・積の適合性・非接続積の零性を証明し、左はEnd、右は反対Endへの非単位的代数準同型として延長済みです。
+次は単位化ModuleCatの局所単位付き部分圏への接続、射の対応、成分逆関手、Gr(A)圏同値と実際のExt保存です。
 有限長双対性・周期性・主定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T072451Z-0a2f0016：63数学モジュール・668異なる宣言・292 theorem、全段階終了0。
-単位1〜3の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+最新ローカル検証 20261008T074542Z-a7c88731：66数学モジュール・688異なる宣言・304 theorem、全段階終了0。
+単位1〜4の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -17,23 +17,23 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。原論文のGr(A)比較、周期性と主定理は未証明です。
 
-開始時の51数学モジュールに今回9モジュールを追加。8証明単位を個別Leanと全体ビルド・公理監査で検査してmainへ保存。
+前回ext-sumsでは開始時51数学モジュールに9モジュールを追加。8証明単位を個別Leanと全体ビルド・公理監査で検査してmainへ保存。
 初期14モジュール・入力PDF・checkpoints/・recovery/は無変更。
 
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 668異なる名前、全明示的宣言・116 named instanceを含む、終了0 |
-| theorem | 292、全件が監査対象 |
+| 個別公理監査 | 688異なる名前、全明示的宣言・117 named instanceを含む、終了0 |
+| theorem | 304、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T062041Z-c4ef97ab`：全段階終了0、320.816787115秒。
-JST 2026-10-08T15:20:41.062310+09:00 → 2026-10-08T15:26:01.879105+09:00。
-UTC 2026-10-08T06:20:41.062310+00:00 → 2026-10-08T06:26:01.879105+00:00。
+最新ローカル検証 `20261008T074542Z-a7c88731`、全段階終了0、339.487067819秒。
+UTC 2026-10-08T07:45:42.741225+00:00 → 2026-10-08T07:51:22.228362+00:00。
+JST 2026-10-08T16:45:42.741225+09:00 → 2026-10-08T16:51:22.228362+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -71,6 +71,7 @@ UTC 2026-10-08T06:20:41.062310+00:00 → 2026-10-08T06:26:01.879105+00:00。
 | exactな余極限と核・余核の交換 | HomologicalColimitClosure、RightModuleHomKernel | 核・余核の交換の閉性、小さい直和のexactness、Homの自然な核表示 | 特定の代数で有限AS分解の存在 |
 | 全次数Extと直和の交換 | ASResolutionExtColimits | 有限AS分解だけからExt(s_w,-,n)のexactな余極限・小さい直和保存、包含射への適合性 | Gr(A)との圏同値による移送 |
 | 総空間・直和上の実際の左作用 | ASDualityRegularCoproduct、TotalModuleSpaces、RegularCoproductActions | Ext(s_w,⊕P_i,n)の成分総空間比較、ASから次数3集中、左右総空間関手の忠実性とexactness、実際の行列作用・積・局所単位・Ext交換の成分左作用適合性 | 有限台非単位的総代数と局所単位付き加群、逆関手・圏同値・Ext保存 |
+| 総代数と左右総作用 | TotalAlgebraEmbedding、TotalAlgebra、TotalAlgebraLocalUnits、TotalComponentActions、TotalAlgebraLift、TotalModuleRepresentations | 有限台の忠実正則表現、像の積の閉性、成分積と零積、冪等な共通両側局所単位、左右総空間への非単位的代数準同型 | 単位化ModuleCatの局所単位付き部分圏、射・逆関手・圏同値・Ext保存 |
 | 総空間の有限局所単位 | TotalModuleLocalUnits | 具体的有限射影の冪等性、左右の恒等成分作用との一致、任意の有限個の元の同時固定、右成分作用の包含への適合性 | 総代数・加群構造を束ね、成分逆関手・Gr(A)圏同値・Ext保存 |
 
 ## 主結果の状態
@@ -78,7 +79,7 @@ UTC 2026-10-08T06:20:41.062310+00:00 → 2026-10-08T06:26:01.879105+00:00。
 | 主張 | 状態 |
 |---|---|
 | 定理3.2：一般の型QのAS–Ginzburg対応 | 未証明。形式的な定理文も未実装 |
-| 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数・Gr(A)比較・Ext保存は未証明 |
+| 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数と左右総作用は完成。Gr(A)圏同値・Ext保存は未証明 |
 | 命題1.4：AS条件からの周期性 | 未証明。coherentな区間同型を仮定した最後の貼り合わせのみ |
 | 命題5.1：三周期性 | 未証明 |
 | 系5.2：(3,3,3)型の全単射 | 未証明。形式的な定理文も未実装 |
@@ -124,7 +125,7 @@ CI実行の時刻と終了0はverification/radical_resolution_github_ci_evidence
 前回の数値的同値・左双対の証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI logに保持。
 今回の正確な数学headのCI・artifact成功を確認済み。RECENT_RUN.mdとverification/ext_sums_github_ci_evidence.json参照。
 
-最終数学コミット6666e09の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37737755500)はsuccess。
+前回ext-sumsの数学コミット6666e09の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37737755500)はsuccess。
 636異なる宣言・全274 theoremの新規監査、全7段階終了0、12ファイルのartifact 11532667814保存を確認。
 CI検証UTC 2026-10-08T06:28:37.911543+00:00 → 2026-10-08T06:36:04.010329+00:00、単調時計446.098779473秒、終了0。
 証拠はverification/ext_sums_github_ci_evidence.jsonと同名のCI log。

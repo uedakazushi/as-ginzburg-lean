@@ -1,0 +1,319 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index b6c2651..21bf2f2 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -2,6 +2,9 @@ import ASGinzburg.TotalModuleLocalUnits
+ import ASGinzburg.TotalAlgebraEmbedding
+ import ASGinzburg.TotalAlgebra
+ import ASGinzburg.TotalAlgebraLocalUnits
++import ASGinzburg.TotalComponentActions
++import ASGinzburg.TotalAlgebraLift
++import ASGinzburg.TotalModuleRepresentations
+ import ASGinzburg.RegularCoproductActions
+ import ASGinzburg.TotalModuleSpaces
+ import ASGinzburg.ASDualityRegularCoproduct
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 167d41d..716b0d3 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -591,6 +591,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraEntry
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraEntry_representation
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraRepresentation_injective
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraAddZeroClass
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLiftLinear
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLiftLinear_component
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLiftLinear_mul
++#print axioms ASGinzburg.ZAlgebra.totalAlgebraLift
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_id_mul
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraComponent_mul_id
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit
+@@ -602,6 +607,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit_mul_eq_self
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebraLocalUnit_right_eq_self
+ #print axioms ASGinzburg.ZAlgebra.totalAlgebra_common_local_unit
++#print axioms ASGinzburg.ZAlgebra.leftModuleTotalAction_add
++#print axioms ASGinzburg.ZAlgebra.leftModuleTotalAction_smul
++#print axioms ASGinzburg.ZAlgebra.leftModuleTotalAction_comp
++#print axioms ASGinzburg.ZAlgebra.leftModuleTotalAction_comp_off
++#print axioms ASGinzburg.ZAlgebra.rightModuleTotalAction_add
++#print axioms ASGinzburg.ZAlgebra.rightModuleTotalAction_smul
++#print axioms ASGinzburg.ZAlgebra.rightModuleTotalAction_comp
++#print axioms ASGinzburg.ZAlgebra.rightModuleTotalAction_comp_off
++#print axioms ASGinzburg.ZAlgebra.leftTotalComponentRepresentation
++#print axioms ASGinzburg.ZAlgebra.rightTotalComponentRepresentation
+ #print axioms ASGinzburg.finiteTotalProjection
+ #print axioms ASGinzburg.finiteTotalProjection_apply
+ #print axioms ASGinzburg.finiteTotalProjection_apply_component
+@@ -618,6 +633,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleTotalSpace_common_local_unit
+ #print axioms ASGinzburg.ZAlgebra.rightModuleTotalAction_lof
+ #print axioms ASGinzburg.ZAlgebra.rightModuleTotalAction_lof_off
++#print axioms ASGinzburg.ZAlgebra.leftTotalRepresentation
++#print axioms ASGinzburg.ZAlgebra.leftTotalRepresentation_component
++#print axioms ASGinzburg.ZAlgebra.rightTotalComponentOppositeRepresentation
++#print axioms ASGinzburg.ZAlgebra.rightTotalRepresentation
++#print axioms ASGinzburg.ZAlgebra.rightTotalRepresentation_component
+ #print axioms ASGinzburg.discreteColimitFaithful
+ #print axioms ASGinzburg.ZAlgebra.rightModuleComponents
+ #print axioms ASGinzburg.ZAlgebra.leftModuleComponents
+diff --git a/ASGinzburg/TotalComponentActions.lean b/ASGinzburg/TotalComponentActions.lean
+new file mode 100644
+index 0000000..94f54b3
+--- /dev/null
++++ b/ASGinzburg/TotalComponentActions.lean
+@@ -0,0 +1,125 @@
++import ASGinzburg.TotalAlgebra
++
++/-! The concrete left and right total-space actions respect addition, scalars,
++connected composition, and the zero product of disconnected components. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem leftModuleTotalAction_add (M : A.LeftModule) {i j : ℤ} (a b : A.Hom i j) :
++    A.leftModuleTotalAction M (a + b) =
++      A.leftModuleTotalAction M a + A.leftModuleTotalAction M b := by
++  letI := M.property.1
++  have hm := M.obj.map_add
++    (f := (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a))
++    (g := (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from b))
++  dsimp [leftModuleTotalAction]
++  erw [hm]
++  rw [ModuleCat.hom_add, LinearMap.add_comp, LinearMap.comp_add]
++
++theorem leftModuleTotalAction_smul (M : A.LeftModule) {i j : ℤ} (r : k) (a : A.Hom i j) :
++    A.leftModuleTotalAction M (r • a) = r • A.leftModuleTotalAction M a := by
++  letI := M.property.2
++  have hm := M.obj.map_smul r (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)
++  dsimp [leftModuleTotalAction]
++  erw [hm]
++  rw [ModuleCat.hom_smul, LinearMap.smul_comp, LinearMap.comp_smul]
++
++theorem leftModuleTotalAction_comp (M : A.LeftModule) {i j l : ℤ}
++    (a : A.Hom i j) (b : A.Hom j l) :
++    (A.leftModuleTotalAction M b).comp (A.leftModuleTotalAction M a) =
++      A.leftModuleTotalAction M (A.comp b a) := by
++  apply DFinsupp.lhom_ext
++  intro p x
++  change A.leftModuleTotalAction M b
++    (A.leftModuleTotalAction M a (DirectSum.lof k ℤ _ p x)) =
++      A.leftModuleTotalAction M (A.comp b a) (DirectSum.lof k ℤ _ p x)
++  by_cases hp : p = i
++  · subst p
++    rw [A.leftModuleTotalAction_lof, A.leftModuleTotalAction_lof,
++      A.leftModuleTotalAction_lof]
++    have hmap := M.obj.map_comp (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)
++      (show (⟨j⟩ : A.Obj) ⟶ ⟨l⟩ from b)
++    erw [hmap]
++    rfl
++  · rw [A.leftModuleTotalAction_lof_off M a p hp, map_zero,
++      A.leftModuleTotalAction_lof_off M (A.comp b a) p hp]
++
++theorem leftModuleTotalAction_comp_off (M : A.LeftModule) {i j p q : ℤ}
++    (a : A.Hom i j) (b : A.Hom p q) (hjp : j ≠ p) :
++    (A.leftModuleTotalAction M b).comp (A.leftModuleTotalAction M a) = 0 := by
++  apply DFinsupp.lhom_ext
++  intro l x
++  change A.leftModuleTotalAction M b
++    (A.leftModuleTotalAction M a (DirectSum.lof k ℤ _ l x)) = 0
++  by_cases hli : l = i
++  · subst l
++    rw [A.leftModuleTotalAction_lof, A.leftModuleTotalAction_lof_off M b j hjp]
++  · rw [A.leftModuleTotalAction_lof_off M a l hli, map_zero]
++
++theorem rightModuleTotalAction_add (M : A.RightModule) {i j : ℤ} (a b : A.Hom i j) :
++    A.rightModuleTotalAction M (a + b) =
++      A.rightModuleTotalAction M a + A.rightModuleTotalAction M b := by
++  letI := M.property.1
++  have hm := M.obj.map_add
++    (f := (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op)
++    (g := (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from b).op)
++  dsimp [rightModuleTotalAction]
++  erw [hm]
++  rw [ModuleCat.hom_add, LinearMap.add_comp, LinearMap.comp_add]
++
++theorem rightModuleTotalAction_smul (M : A.RightModule) {i j : ℤ} (r : k) (a : A.Hom i j) :
++    A.rightModuleTotalAction M (r • a) = r • A.rightModuleTotalAction M a := by
++  letI := M.property.2
++  have hm := M.obj.map_smul r (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op
++  dsimp [rightModuleTotalAction]
++  erw [hm]
++  rw [ModuleCat.hom_smul, LinearMap.smul_comp, LinearMap.comp_smul]
++
++theorem rightModuleTotalAction_comp (M : A.RightModule) {i j l : ℤ}
++    (a : A.Hom i j) (b : A.Hom j l) :
++    (A.rightModuleTotalAction M a).comp (A.rightModuleTotalAction M b) =
++      A.rightModuleTotalAction M (A.comp b a) := by
++  apply DFinsupp.lhom_ext
++  intro p x
++  change A.rightModuleTotalAction M a
++    (A.rightModuleTotalAction M b (DirectSum.lof k ℤ _ p x)) =
++      A.rightModuleTotalAction M (A.comp b a) (DirectSum.lof k ℤ _ p x)
++  by_cases hp : p = l
++  · subst p
++    rw [A.rightModuleTotalAction_lof, A.rightModuleTotalAction_lof,
++      A.rightModuleTotalAction_lof]
++    have hmap := M.obj.map_comp (show (⟨j⟩ : A.Obj) ⟶ ⟨l⟩ from b).op
++      (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op
++    erw [hmap]
++    rfl
++  · rw [A.rightModuleTotalAction_lof_off M b p hp, map_zero,
++      A.rightModuleTotalAction_lof_off M (A.comp b a) p hp]
++
++theorem rightModuleTotalAction_comp_off (M : A.RightModule) {i j p q : ℤ}
++    (a : A.Hom i j) (b : A.Hom p q) (hjp : j ≠ p) :
++    (A.rightModuleTotalAction M a).comp (A.rightModuleTotalAction M b) = 0 := by
++  apply DFinsupp.lhom_ext
++  intro l x
++  change A.rightModuleTotalAction M a
++    (A.rightModuleTotalAction M b (DirectSum.lof k ℤ _ l x)) = 0
++  by_cases hlq : l = q
++  · subst l
++    rw [A.rightModuleTotalAction_lof, A.rightModuleTotalAction_lof_off M a p (Ne.symm hjp)]
++  · rw [A.rightModuleTotalAction_lof_off M b l hlq, map_zero]
++
++noncomputable def leftTotalComponentRepresentation (M : A.LeftModule) (i j : ℤ) :
++    A.Hom i j →ₗ[k] Module.End k (A.leftModuleTotalSpace M) where
++  toFun := A.leftModuleTotalAction M
++  map_add' := A.leftModuleTotalAction_add M
++  map_smul' r a := A.leftModuleTotalAction_smul M r a
++
++noncomputable def rightTotalComponentRepresentation (M : A.RightModule) (i j : ℤ) :
++    A.Hom i j →ₗ[k] Module.End k (A.rightModuleTotalSpace M) where
++  toFun := A.rightModuleTotalAction M
++  map_add' := A.rightModuleTotalAction_add M
++  map_smul' r a := A.rightModuleTotalAction_smul M r a
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TotalAlgebraLift.lean b/ASGinzburg/TotalAlgebraLift.lean
+new file mode 100644
+index 0000000..edee878
+--- /dev/null
++++ b/ASGinzburg/TotalAlgebraLift.lean
+@@ -0,0 +1,75 @@
++import ASGinzburg.TotalAlgebraLocalUnits
++
++/-! Componentwise linear maps respecting the original product extend to
++non-unital algebra homomorphisms from the actual total algebra. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped DirectSum
++universe u v w
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++variable {B : Type w} [NonUnitalRing B] [Module k B]
++
++noncomputable instance totalAlgebraAddZeroClass : AddZeroClass A.totalAlgebra :=
++  A.totalAlgebraAddCommMonoid.toAddZeroClass
++
++/-- Extend componentwise linear maps to the genuine finite-support total algebra. -/
++noncomputable def totalAlgebraLiftLinear (F : ∀ i j, A.Hom i j →ₗ[k] B) :
++    A.totalAlgebra →ₗ[k] B :=
++  (DFinsupp.lsum k (fun p : ℤ × ℤ => F p.1 p.2)).comp A.totalAlgebraEquiv.symm.toLinearMap
++
++@[simp] theorem totalAlgebraLiftLinear_component (F : ∀ i j, A.Hom i j →ₗ[k] B)
++    {i j : ℤ} (a : A.Hom i j) :
++    A.totalAlgebraLiftLinear F (A.totalAlgebraComponent a) = F i j a := by
++  change DFinsupp.lsum k _ (A.totalAlgebraEquiv.symm
++    (A.totalAlgebraEquiv (DFinsupp.single (i,j) a))) = _
++  rw [LinearEquiv.symm_apply_apply, DFinsupp.lsum_single]
++
++/-- Connected multiplication and zero off the connecting index suffice; there is
++no additional relation or assumed conclusion about AS regularity. -/
++theorem totalAlgebraLiftLinear_mul (F : ∀ i j, A.Hom i j →ₗ[k] B)
++    (hcomp : ∀ i j l (a : A.Hom i j) (b : A.Hom j l),
++      F i l (A.comp b a) = F j l b * F i j a)
++    (hoff : ∀ i j p q (a : A.Hom i j) (b : A.Hom p q),
++      j ≠ p → F p q b * F i j a = 0) (x y : A.totalAlgebra) :
++    A.totalAlgebraLiftLinear F (x * y) =
++      A.totalAlgebraLiftLinear F x * A.totalAlgebraLiftLinear F y := by
++  obtain ⟨x,rfl⟩ := A.totalAlgebraEquiv.surjective x
++  obtain ⟨y,rfl⟩ := A.totalAlgebraEquiv.surjective y
++  induction x using DFinsupp.induction with
++  | h0 => simp
++  | ha p a x _ _ ih =>
++    rw [map_add, add_mul, map_add, map_add, add_mul, ih]
++    congr 1
++    clear ih
++    induction y using DFinsupp.induction with
++    | h0 => simp
++    | ha q b y _ _ ih =>
++      rw [map_add, mul_add, map_add, map_add, mul_add, ih]
++      congr 1
++      rcases p with ⟨i,j⟩
++      rcases q with ⟨l,m⟩
++      change A.totalAlgebraLiftLinear F
++        (A.totalAlgebraComponent a * A.totalAlgebraComponent b) =
++          A.totalAlgebraLiftLinear F (A.totalAlgebraComponent a) *
++            A.totalAlgebraLiftLinear F (A.totalAlgebraComponent b)
++      by_cases h : m = i
++      · subst m
++        rw [A.totalAlgebraComponent_mul, A.totalAlgebraLiftLinear_component,
++          A.totalAlgebraLiftLinear_component, A.totalAlgebraLiftLinear_component]
++        exact hcomp l i j b a
++      · rw [A.totalAlgebraComponent_mul_off b a h, map_zero,
++          A.totalAlgebraLiftLinear_component, A.totalAlgebraLiftLinear_component]
++        exact (hoff l m i j b a h).symm
++
++noncomputable def totalAlgebraLift (F : ∀ i j, A.Hom i j →ₗ[k] B)
++    (hcomp : ∀ i j l (a : A.Hom i j) (b : A.Hom j l),
++      F i l (A.comp b a) = F j l b * F i j a)
++    (hoff : ∀ i j p q (a : A.Hom i j) (b : A.Hom p q),
++      j ≠ p → F p q b * F i j a = 0) : A.totalAlgebra →ₙₐ[k] B where
++  toFun := A.totalAlgebraLiftLinear F
++  map_zero' := (A.totalAlgebraLiftLinear F).map_zero
++  map_add' := map_add _
++  map_smul' := map_smul _
++  map_mul' := A.totalAlgebraLiftLinear_mul F hcomp hoff
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TotalModuleRepresentations.lean b/ASGinzburg/TotalModuleRepresentations.lean
+new file mode 100644
+index 0000000..092217b
+--- /dev/null
++++ b/ASGinzburg/TotalModuleRepresentations.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.TotalAlgebraLift
++import ASGinzburg.TotalComponentActions
++import Mathlib.Algebra.Algebra.Opposite
++
++/-! Honest algebra representations on the left and right total spaces. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Genuine left action of the full total algebra on a concrete left-module total space. -/
++noncomputable def leftTotalRepresentation (M : A.LeftModule) :
++    A.totalAlgebra →ₙₐ[k] Module.End k (A.leftModuleTotalSpace M) :=
++  A.totalAlgebraLift (A.leftTotalComponentRepresentation M)
++    (fun _ _ _ a b => (A.leftModuleTotalAction_comp M a b).symm)
++    (fun _ _ _ _ a b h => A.leftModuleTotalAction_comp_off M a b h)
++
++@[simp] theorem leftTotalRepresentation_component (M : A.LeftModule) {i j : ℤ}
++    (a : A.Hom i j) :
++    A.leftTotalRepresentation M (A.totalAlgebraComponent a) = A.leftModuleTotalAction M a :=
++  A.totalAlgebraLiftLinear_component _ a
++
++/-- A right action is a homomorphism into the opposite endomorphism algebra. -/
++noncomputable def rightTotalComponentOppositeRepresentation (M : A.RightModule) (i j : ℤ) :
++    A.Hom i j →ₗ[k] (Module.End k (A.rightModuleTotalSpace M))ᵐᵒᵖ :=
++  (MulOpposite.opLinearEquiv k).toLinearMap.comp (A.rightTotalComponentRepresentation M i j)
++
++noncomputable def rightTotalRepresentation (M : A.RightModule) :
++    A.totalAlgebra →ₙₐ[k] (Module.End k (A.rightModuleTotalSpace M))ᵐᵒᵖ :=
++  A.totalAlgebraLift (A.rightTotalComponentOppositeRepresentation M)
++    (fun _ _ _ a b => MulOpposite.unop_injective (A.rightModuleTotalAction_comp M a b).symm)
++    (fun _ _ _ _ a b h => MulOpposite.unop_injective
++      (A.rightModuleTotalAction_comp_off M a b h))
++
++@[simp] theorem rightTotalRepresentation_component (M : A.RightModule) {i j : ℤ}
++    (a : A.Hom i j) :
++    (A.rightTotalRepresentation M (A.totalAlgebraComponent a)).unop =
++      A.rightModuleTotalAction M a :=
++  congrArg MulOpposite.unop (A.totalAlgebraLiftLinear_component _ a)
++
++end ASGinzburg.ZAlgebra
