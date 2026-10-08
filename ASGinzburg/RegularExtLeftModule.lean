@@ -1,0 +1,86 @@
+import ASGinzburg.RegularExtComparison
+
+/-!
+The concrete Gr(A) Ext into the actual total algebra is a locally unital left
+module. Its complete unitized action is scalar action plus postcomposition by
+actual left multiplication. ASRegular implies the paper's equation (1.12),
+as a left-module isomorphism in degree three and zero in every other degree.
+-/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+namespace ASResolution
+variable {A} {Q : CutQuiver} {w : Q.LiftVertex} (S : A.ASResolution Q w)
+
+noncomputable def extTotalAlgebraUnitizationModule (n : ℕ) :
+    Module A.totalUnitization
+      (Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w)))
+        A.totalAlgebraRightLocallyUnitalModule n) := by
+  letI := A.leftTotalUnitizationModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)
+  exact (S.extTotalAlgebraLinearEquiv n).toAddEquiv.module A.totalUnitization
+
+noncomputable def extTotalAlgebraLeftModule (n : ℕ) : ModuleCat.{v} A.totalUnitization := by
+  letI := S.extTotalAlgebraUnitizationModule n
+  exact ModuleCat.of A.totalUnitization
+    (Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w)))
+      A.totalAlgebraRightLocallyUnitalModule n)
+
+theorem extTotalAlgebraLeftModule_smul (n : ℕ) (r : A.totalUnitization)
+    (x : Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w)))
+      A.totalAlgebraRightLocallyUnitalModule n) :
+    letI := S.extTotalAlgebraUnitizationModule n
+    r • x = r.fst • x + x.comp (Abelian.Ext.mk₀ (A.totalAlgebraLeftMap r.snd)) (Nat.add_zero n) := by
+  letI := S.extTotalAlgebraUnitizationModule n
+  change (S.extTotalAlgebraLinearEquiv n).symm
+    (r.fst • S.extTotalAlgebraLinearEquiv n x +
+      A.leftTotalRepresentation (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) r.snd
+        (S.extTotalAlgebraLinearEquiv n x)) = _
+  apply (S.extTotalAlgebraLinearEquiv n).injective
+  rw [LinearEquiv.apply_symm_apply, map_add, map_smul, S.extTotalAlgebraLinearEquiv_representation]
+
+noncomputable def extTotalAlgebraLeftModuleIso (n : ℕ) :
+    S.extTotalAlgebraLeftModule n ≅
+      A.leftTotalModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) := by
+  letI := S.extTotalAlgebraUnitizationModule n
+  letI := A.leftTotalUnitizationModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)
+  let e := ASGinzburg.additiveModuleTransportEquiv A.totalUnitization
+    (S.extTotalAlgebraLinearEquiv n).toAddEquiv
+  exact e.toModuleIso
+
+theorem extTotalAlgebraLeftModule_locally_unital (n : ℕ) :
+    A.leftLocallyUnitalProperty (S.extTotalAlgebraLeftModule n) := by
+  letI := S.extTotalAlgebraUnitizationModule n
+  letI := A.leftTotalUnitizationModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)
+  intro x
+  obtain ⟨s,hs⟩ := A.leftTotalModule_locally_unital
+    (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)
+    (S.extTotalAlgebraLinearEquiv n x)
+  refine ⟨s,?_⟩
+  change (S.extTotalAlgebraLinearEquiv n).symm
+    ((A.totalAlgebraLocalUnit s : A.totalUnitization) • S.extTotalAlgebraLinearEquiv n x) = x
+  rw [hs, LinearEquiv.symm_apply_apply]
+
+noncomputable def extTotalAlgebraLeftLocallyUnitalModule (n : ℕ) : A.LeftLocallyUnitalModule :=
+  ⟨S.extTotalAlgebraLeftModule n, S.extTotalAlgebraLeftModule_locally_unital n⟩
+
+noncomputable def extTotalAlgebraLeftLocallyUnitalIso (n : ℕ) :
+    S.extTotalAlgebraLeftLocallyUnitalModule n ≅
+      A.leftTotalLocallyUnitalModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) :=
+  A.leftLocallyUnitalProperty.isoMk (S.extTotalAlgebraLeftModuleIso n)
+
+end ASResolution
+
+noncomputable def ASRegular.extTotalAlgebraThreeIsoSimple {Q : CutQuiver} (h : A.ASRegular Q) (w : Q.LiftVertex) :
+    (h.resolution A Q w).extTotalAlgebraLeftLocallyUnitalModule 3 ≅
+      A.leftTotalLocallyUnitalModule (A.simpleLeftModule (Q.height (Q.tau.symm w))) :=
+  (h.resolution A Q w).extTotalAlgebraLeftLocallyUnitalIso 3 ≪≫
+    A.leftTotalLocallyUnitalFunctor.mapIso (h.extLeftThreeIsoSimple A Q w)
+
+theorem ASRegular.extTotalAlgebra_off_three_isZero {Q : CutQuiver} (h : A.ASRegular Q)
+    (w : Q.LiftVertex) (n : ℕ) (hn : n ≠ 3) :
+    IsZero ((h.resolution A Q w).extTotalAlgebraLeftLocallyUnitalModule n) := by
+  let S := h.resolution A Q w
+  exact (Functor.map_isZero A.leftTotalLocallyUnitalFunctor
+    (h.extLeft_off_degree_three A Q w n hn)).of_iso (S.extTotalAlgebraLeftLocallyUnitalIso n)
+end ASGinzburg.ZAlgebra

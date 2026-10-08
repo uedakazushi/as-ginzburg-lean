@@ -474,6 +474,15 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLinearEquiv
 #print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLinearEquiv_action
 #print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLinearEquiv_representation
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraUnitizationModule
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModule
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModule_smul
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModuleIso
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModule_locally_unital
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftLocallyUnitalModule
+#print axioms ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftLocallyUnitalIso
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extTotalAlgebraThreeIsoSimple
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extTotalAlgebra_off_three_isZero
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap_component
 #print axioms ASGinzburg.ZAlgebra.totalAlgebraLeftMap_add
