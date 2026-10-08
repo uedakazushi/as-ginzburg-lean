@@ -1,15 +1,14 @@
-# 今回のRightModuleのAbelian構造・ホモロジー接続
+# 現在までに完成したAS側の基盤
 
-2026年10月8日。ユーザーの再開指示により、AS側の最初の課題を既存のpresheafモデル上で完成。
-極限・余極限の閉性、核・余核・有限積、Abelian構造、成分homology、exactnessの像＝核判定、
-短完全列・mono/epi・injective/surjectiveの成分判定を実装しました。
-Lean 4.24.0と固定mathlibで全202宣言の監査・ビルドは終了0。未解決の実装エラーはありません。
-原論文との対応とmathlibの利用先は`docs/rightmodule_homological_bridge.md`を参照。
-今回の補題には原論文から導出する未証明のAS仮定を追加していません。
-
-以下の未完了課題を進めるには別の明示的な指示が必要です。
+2026年10月8日。既存の線形RightModuleのAbelian構造と成分ホモロジーに加え、
+全Mに対するYoneda評価・P_vの射影性・EnoughProjectivesを完成。
+正次数の右積のspanと同定したradical、単純商s_v、短完全列を具体的に構成し、
+標準射影分解と実際のderived-category Extにも接続しました。
+21数学モジュール、245異なる明示的宣言、108 theorem、37 named instanceのビルド・公理監査は終了0。
+未解決の実装エラーはありません。新たな未証明のAS仮定を追加していません。
+ユーザーの最新指示は、自律的に継続し、検証済み単位を直接mainへpushすることです。
 原論文を否定する反例や矛盾を発見したという記録はありません。
-旧回収記録はcheckpoints/とrecovery/に無変更で保存しています。
+旧版・入力PDF・回収記録は保存しています。
 
 # 未完了部分と、主定理を完成させるための証明義務
 
@@ -23,7 +22,8 @@ Lean 4.24.0と固定mathlibで全202宣言の監査・ビルドは終了0。未�
 Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、projective resolutionは存在します。
 したがって「LeanにExtがない」ことは障害ではありません。
 既存の線形右加群圏はAbelianになり、mathlibの核・余核・ShortComplex.homologyとexactnessへ接続済みです。
-次は射影対象・実際の分解とExt計算の接続が必要です。
+射影性・EnoughProjectives・標準射影分解・実際のExtの存在も接続済みです。
+次は有限最小分解と実際のExt計算の接続が必要です。
 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
 これは全宣言を意味論的に検索した不存在証明ではありません。
@@ -39,8 +39,15 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
    `rightModule_epi_iff_surjective`を用いてdistinguished generatorを持ち上げる。
    representableの直和によるEnoughProjectivesも完成。有限・最小の分解は未証明。
 3. **完成**：正次数の右積のspanと同定したradical、商s_v、対角1次元・他の成分零、単純性、短完全列。
-4. 原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
-5. 完全性と最小性を定義し、(1.7)を本物のExtの次元で定式化する。
+4. 一般のMの正次数radicalが右作用で閉じることを証明し、微分の像がradicalに入るminimalityを定義する。
+   原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
+5. 四項分解の完全性・最小性を定式化し、全高次Extのk作用と線形性、Hom複体のコホモロジーによる計算を接続する。
+   (1.7)をExt(s_u,P_v)の実際の次元条件として定式化する。
+
+標準`ProjectiveResolution`と`HasExt.{v}`はEnoughProjectivesから完成しました。
+`representableExtZeroEquiv`は実際のExt⁰(P_i,M)とM_iの加法的同型。
+高次Ext(P_i,M)の消滅は射影対象が第1引数にあるためで、Ext(s_u,P_v)のAS条件ではありません。
+標準分解は無限であり得るため、(1.6)の有限四項分解を得たと扱いません。
 
 presheafモデルと`⊕_v M_v`の局所単位元付き右加群の明示的同値は未実装です。
 原論文§1.2との右作用の向きは照合済みですが、Extを比較する形式的同値の代わりにはしません。

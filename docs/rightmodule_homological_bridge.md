@@ -45,11 +45,11 @@
 `rightModuleKernelObjIso`、`rightModuleCokernelObjIso`、`rightModuleHomologyObjIso`は
 mathlibの普遍構成との実際の同型を与える。
 
-- `representable v` がprojectiveであること。成分ごとのepi判定とYonedaによる持ち上げが利用先。
-- radical部分加群と単純加群 `s_v` の実際の構成。
-- 原論文(1.6)の有限直和・微分・exactness・minimality。
-- 実際のprojective resolution、ExtとHom複体の同定、および(1.7)の次元条件。
-- presheafモデルと直和・局所単位元付き右加群の明示的同値。
+2026-10-08の継続でrepresentableの射影性、EnoughProjectives、radical・単純商s_v、
+標準projective resolutionと実際のExtの存在も完成した。
+[対応と次の義務](rightmodule_projective_simple_bridge.md)参照。
+残るのは(1.6)の有限最小分解、全Extのk線形性・Hom複体との比較、(1.7)の次元条件、
+presheafモデルと直和・局所単位元付き右加群の明示的同値である。
 
 今回の閉性の形状仮定はmathlibのModuleCatの有限(余)極限で満たされる。
 原論文から新たに導出すべき数学的仮定を追加した条件付きAS補題は作らない。

@@ -3,8 +3,11 @@
 **主定理全体は未完成です。定理3.2と系5.2の形式的な文も、まだ実装していません。**
 
 添付論文を読み、具体的な代数・道・巡回微分・テンソル積の定義と補助定理を実装しました。
-数学的ソースは16モジュール、96補助定理です。既存の線形右加群圏にAbelian構造と
-成分ホモロジー・exactnessの判定を追加しました。初期161宣言を含む202異なる宣言を監査します。現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
+数学的ソースは21モジュール、108補助定理です。既存の線形右加群圏にAbelian構造、
+成分ホモロジー・exactness、射影性・EnoughProjectives、正次数radical・単純商s_v、
+標準射影分解と実際のExtへの接続を追加しました。
+初期161宣言を含む245異なる宣言を監査します。
+現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
 数学的な証明に使う定義・仮定は各宣言の型に明記してあります。
 独自公理、`sorry`、`admit`を使って主定理を完成扱いにすることはしていません。
 
@@ -17,6 +20,11 @@
 - 既存`RightModule`の(余)極限の閉性、核・余核・有限積とAbelian圏構造。
 - 頂点評価による核・余核・mathlibのhomologyの同型、exactnessの像＝核による成分判定、
   短完全列・単射・全射の成分判定。原論文との対応は[接続記録](docs/rightmodule_homological_bridge.md)。
+- 任意のMへの線形Yoneda同型、表現可能加群の射影性と直和による射影提示。
+- 正次数の右積のspanとradicalの一致、s_vの対角成分1次元・他の成分零、単純性と短完全列。
+- 標準射影分解、実際のExtの存在、Ext⁰(P_i,M)の加法的なYoneda同型と高次Ext(P_i,M)の消滅。
+  有限最小分解、全Extのk線形性・Hom複体による計算、Ext(s_u,P_v)のAS次元条件は残ります。
+  [原論文と実装の対応](docs/rightmodule_projective_simple_bridge.md)。
 - 巡回微分の回転不変性と、cut次数1での
   \(\Phi=\sum_{\rho\in C}[\rho\partial_\rho\Phi]\)。
 - 正の次数を下げるHilbert漸化式の一意性、およびquadratic型の数値解
@@ -86,11 +94,12 @@ GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検�
 - `checkpoints/20261007/{AxiomAudit.lean,preservation.json,recovered_docs/}`：旧監査ソース・保存確認・改訂前の文書。
 - `recovery/`と`docs/source.pdf`：過去の回収記録と入力論文。無変更。
 - `RECENT_RUN.md`と`runs/`：タスクの目的・差分・実測時間・検査・残ったエラー。
-- `AGENTS.md`：継続作業の規約。今回のRightModuleの目標を超える数学的形式化には別の明示的な指示が必要です。
+- `AGENTS.md`：継続作業の規約。最新の指示により、自律的に形式化を継続して検証済み単位を直接mainへpushします。
 
 **ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
 
-最新ローカル検証は202宣言の監査を含む全段階が終了0。PR・Actions・実測時間は`RECENT_RUN.md`を参照してください。
+最新ローカル検証は245宣言の監査を含む全段階が終了0。
+証明単位ごとのmainへのpush・Actions・実測時間は`RECENT_RUN.md`を参照してください。
 
-数学的実装コミットf8e7ce0のpush・pull_request CIは双方success、各12ファイルのartifact保存を確認。
-詳細はRECENT_RUN.mdとverification/rightmodule_github_ci_evidence.json。
+数学的コミット`2ac9d17`のmain Actionsはsuccess、12ファイルの最新artifact保存を確認。
+証拠は`verification/projective_simple_github_ci_evidence.json`とRECENT_RUN.md。
