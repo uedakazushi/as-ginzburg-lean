@@ -19,6 +19,9 @@
 | 命題1.3のHom項 | ASDualityHomTerms | s_(tau v)の分解の最初の三項からP_vへのHomが零、最後の項のHomがk |
 | 同じHom複体のcohomology | ASDualityHomCohomology | H³とkの線形同型、他の次数のIsZero、top finrank=1 |
 | 実際のExtの長完全列 | RightModuleExtSequence | shift線形性、Yoneda積双線形性、connecting map、射影的中間項による正次数のdimension shift |
+| syzygy短完全列 | ASResolutionSyzygies | 二つの実際のkernelへのcover、Epi、三つのShortExact |
+| 命題1.3の非零Ext | ASDualityExt | 三段のdimension shiftから実際のExt³(s_(tau v),P_v)≃ₗ[k]k、rank=finrank=1 |
+| (1.11)の数値的順方向 | ASDualityDimension | 他の全Extの消滅、実際のfinrankのdelta公式、証明した有限台のFinsupp表 |
 
 ## 仮定を追加していないこと
 
@@ -44,16 +47,21 @@ mathlibには古いleftDerived型のExtと新しいderived-category Abelian.Ext�
 ProjectiveResolution.isoExtは前者の計算定理であり、後者の比較としてそのまま使わない。
 今回定義したModule構造とAS条件は後者のAbelian.Extを使う。
 
-実装した有限分解からHom複体0→0→0→kと、そのH³=kは得た。
-これをExt³(s_(tau v),P_v)=kと同定する比較はまだ未証明であり、命題1.3を完成扱いにしない。
-次の具体的な証明義務は次の通り。
+実装した有限分解からHom複体0→0→0→kと、そのH³=kを得た。
+さらに実際のkernelを使う三つのsyzygy短完全列を構成し、線形dimension shiftを合成して
+実際のExt³(s_(tau v),P_v)≃kを証明した。0次shiftのHom消滅も高い頂点の射影項から導いた。
+この二つのkとの同型を合成したdegree-three比較もある。全M,N・全次数の自然な一般比較は未証明。
 
-1. ASResolutionの微分のkernel/imageをsyzygyとして構成し、三つの短完全列を得る。
-2. 各短完全列の中間項の射影性を使い、RightModuleExtSequenceの線形同型を合成する。
-   0次のshiftにはHom(S.X₂,N)=0が必要。命題1.3では高い頂点の射影項のHom消滅から導く。
-3. この合成をHom複体のH³と比較し、実際の非零Extの位置(3,tau v)を特定する。
-4. 総rank=1から他の全Extの消滅を導き、既存の有限台数値表との接続を証明する。
-5. 左加群作用、有限生成分解による直和との交換、AS双対性、区間同型のcoherenceへ進む。
+ASの総Cardinal rank=1と、この実際の非零項から他の全Extが零であることを導いた。
+実際のfinrankの関数が有限台を持つことを証明してFinsupp表を構成した。
+その表の関数はExtのfinrankそのものであり、結論を定義に置き換えていない。
+これは既存presheafモデルのASRegularからの(1.11)の数値的順方向である。
+以下が未証明で、命題1.3全体を完成扱いにはしない。
+
+1. (1.11)から(1.7)への逆方向のLean証明。
+2. 左加群作用、有限生成分解による直和との交換、(1.12)の左加群AS双対性。
+3. 原論文Gr(A)との明示的同値と、その同値がExtを保つこと。
+4. 有限長双対性、区間同型とcoherence、AS条件からの周期性。
 
 原論文からこれらを導く部分はSTATUS.mdとGAPS.mdに未証明として記録する。
 定理3.2・系5.2は未証明で、形式的な定理文も未実装のままである。

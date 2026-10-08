@@ -1,5 +1,14 @@
 import ASGinzburg
 
+#print axioms ASGinzburg.cardinal_sum_one_other_zero
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extRank_other_zero
+#print axioms ASGinzburg.ZAlgebra.ASRegular.ext_other_eq_zero
+#print axioms ASGinzburg.ZAlgebra.ASRegular.ext_finrank
+#print axioms ASGinzburg.ZAlgebra.ASResolution.homologyExtThreeEquiv
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_apply
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_eq_single
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_total
 #print axioms ASGinzburg.ZAlgebra.ASResolution.asDualityExtThreeEquiv
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extThreeEquiv
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extThree_finrank

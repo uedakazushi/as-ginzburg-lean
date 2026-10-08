@@ -1,0 +1,133 @@
+import ASGinzburg.ASDualityExt
+import ASGinzburg.ASDualityHomCohomology
+import ASGinzburg.ExtDimension
+import Mathlib.SetTheory.Cardinal.Basic
+
+/-!
+# Forward numerical AS duality for the actual derived-category Ext
+
+The supplied finite minimal resolutions give the nonzero degree-three
+position. The total cardinal rank condition then kills every other Ext.
+The actual finranks have proved finite support and define a Finsupp table.
+Left-module AS duality, periodicity, and the main correspondence are not
+asserted by these numerical results.
+-/
+
+namespace ASGinzburg
+
+/-- A cardinal sum of one has no other nonzero term once a distinguished
+term is known to be one. Unlike finrank arithmetic this also excludes
+infinite-dimensional terms. -/
+theorem cardinal_sum_one_other_zero {ι : Type*} (r : ι → Cardinal)
+    (i₀ : ι) (hs : Cardinal.sum r = 1) (hi₀ : r i₀ = 1) (i : ι) (hi : i ≠ i₀) :
+    r i = 0 := by
+  classical
+  have hSigma : Cardinal.mk (Σ j, (r j).out) ≤ 1 := hs.le
+  letI : Subsingleton (Σ j, (r j).out) := Cardinal.le_one_iff_subsingleton.mp hSigma
+  have h₀ : Nonempty (r i₀).out := Cardinal.mk_ne_zero_iff.mp (by
+    rw [Cardinal.mk_out, hi₀]
+    exact one_ne_zero)
+  obtain ⟨x₀⟩ := h₀
+  apply Classical.byContradiction
+  intro hn
+  have h₁ : Nonempty (r i).out := Cardinal.mk_ne_zero_iff.mp (by
+    rw [Cardinal.mk_out]
+    exact hn)
+  obtain ⟨x⟩ := h₁
+  exact hi (congrArg Sigma.fst (Subsingleton.elim
+    (⟨i, x⟩ : Σ j, (r j).out) ⟨i₀, x₀⟩))
+
+end ASGinzburg
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+/-- The total dimension condition kills every actual Ext outside (3,tau v). -/
+theorem ASRegular.extRank_other_zero (h : A.ASRegular Q) (v u : Q.LiftVertex) (p : ℕ)
+    (hne : (p, u) ≠ (3, Q.tau v)) :
+    Module.rank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
+      (A.representable (Q.height v)) p) = 0 := by
+  classical
+  let r : ℕ → Q.LiftVertex → Cardinal := fun n t =>
+    Module.rank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height t))
+      (A.representable (Q.height v)) n)
+  have htotal : Cardinal.sum (fun n => Cardinal.sum (r n)) = 1 := h.2 v
+  have hr₃ : r 3 (Q.tau v) = 1 := h.extThree_rank A Q v
+  have hsum₃ : Cardinal.sum (r 3) = 1 := by
+    apply le_antisymm ((Cardinal.le_sum (fun n => Cardinal.sum (r n)) 3).trans_eq htotal)
+    have hb := Cardinal.le_sum (r 3) (Q.tau v)
+    rw [hr₃] at hb
+    exact hb
+  by_cases hp : p = 3
+  · subst p
+    have hu : u ≠ Q.tau v := by intro hu; exact hne (by rw [hu])
+    exact ASGinzburg.cardinal_sum_one_other_zero (r 3) (Q.tau v) hsum₃ hr₃ u hu
+  · have hs := ASGinzburg.cardinal_sum_one_other_zero
+      (fun n => Cardinal.sum (r n)) 3 htotal hsum₃ p hp
+    exact le_antisymm ((Cardinal.le_sum (r p) u).trans_eq hs) (zero_le _)
+
+theorem ASRegular.ext_other_eq_zero (h : A.ASRegular Q) (v u : Q.LiftVertex) (p : ℕ)
+    (hne : (p, u) ≠ (3, Q.tau v))
+    (e : Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
+      (A.representable (Q.height v)) p) : e = 0 :=
+  (A.asExtRank_zero_iff Q v u p).mp (h.extRank_other_zero A Q v u p hne) e
+
+/-- Forward numerical AS duality (1.11), for the actual Ext of the existing category. -/
+theorem ASRegular.ext_finrank (h : A.ASRegular Q) (v u : Q.LiftVertex) (p : ℕ) :
+    Module.finrank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
+      (A.representable (Q.height v)) p) = if (p, u) = (3, Q.tau v) then 1 else 0 := by
+  classical
+  split_ifs with he
+  · obtain ⟨rfl, rfl⟩ := Prod.mk.inj he
+    exact h.extThree_finrank A Q v
+  · letI : Subsingleton (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
+      (A.representable (Q.height v)) p) :=
+      ⟨fun x y => by rw [h.ext_other_eq_zero A Q v u p he x, h.ext_other_eq_zero A Q v u p he y]⟩
+    exact Module.finrank_zero_of_subsingleton
+
+/-- A comparison for the distinguished degree-three calculation, obtained
+by composing the two proved identifications with k. General natural
+projective-resolution comparisons are not asserted here. -/
+noncomputable def ASResolution.homologyExtThreeEquiv (v : Q.LiftVertex)
+    (R : A.ASResolution Q (Q.tau v)) :
+    (R.homComplex (A.representable (Q.height v))).homology 3 ≃ₗ[k]
+      Abelian.Ext.{v} (A.simpleRightModule (Q.height (Q.tau v)))
+        (A.representable (Q.height v)) 3 :=
+  (R.homComplex_tau_representable_top_homologyLinearEquiv v).trans
+    (R.asDualityExtThreeEquiv A Q v).symm
+
+/-- The finite table retains the actual Ext finrank as its function. Its
+finite support is proved from AS conditions, not given as an assumption. -/
+noncomputable def ASRegular.extDimensionTable (h : A.ASRegular Q) (v : Q.LiftVertex) :
+    (ℕ × Q.LiftVertex) →₀ ℕ :=
+  Finsupp.ofSupportFinite (fun i => Module.finrank k
+    (Abelian.Ext.{v} (A.simpleRightModule (Q.height i.2))
+      (A.representable (Q.height v)) i.1)) (by
+    apply (Set.finite_singleton (3, Q.tau v)).subset
+    intro i hi
+    apply Set.mem_singleton_iff.mpr
+    by_contra hne
+    have hz := h.ext_finrank A Q v i.2 i.1
+    rw [if_neg (by simpa using hne)] at hz
+    exact hi hz)
+
+@[simp] theorem ASRegular.extDimensionTable_apply (h : A.ASRegular Q)
+    (v u : Q.LiftVertex) (p : ℕ) :
+    h.extDimensionTable A Q v (p, u) =
+      Module.finrank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
+        (A.representable (Q.height v)) p) := rfl
+
+theorem ASRegular.extDimensionTable_eq_single (h : A.ASRegular Q) (v : Q.LiftVertex) :
+    h.extDimensionTable A Q v = Finsupp.single (3, Q.tau v) 1 := by
+  ext ⟨p, u⟩
+  rw [h.extDimensionTable_apply A Q, h.ext_finrank A Q, Finsupp.single_apply]
+  simp only [eq_comm]
+
+theorem ASRegular.extDimensionTable_total (h : A.ASRegular Q) (v : Q.LiftVertex) :
+    ASGinzburg.totalDimension (h.extDimensionTable A Q v) = 1 := by
+  rw [h.extDimensionTable_eq_single A Q v]
+  exact ASGinzburg.total_dimension_single _
+
+end ASGinzburg.ZAlgebra

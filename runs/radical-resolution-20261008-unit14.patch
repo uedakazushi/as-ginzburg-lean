@@ -1,0 +1,317 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index e76acb1..fc396cd 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -33,7 +33,11 @@
+ 2026-10-08のユーザーの明示的な指示により、既存`ZAlgebra.RightModule`の
+ Abelian圏構造とmathlibのホモロジー代数への接続を実装する数学的形式化を再開し、
+ 既存のpresheafモデル上で完成した。さらに射影性・EnoughProjectives・radical・s_v・
+-標準射影分解と実際のExtの存在まで完成した。次は有限最小分解とExt計算である。
++標準射影分解と実際のExtの存在まで完成した。その後、一般radical・minimality、
++有限AS分解のmathlib ProjectiveResolutionへの変換、実際Extの線形性・次元シフト、
++具体的ASRegular定義と数値的AS双対性の順方向まで完成した。
++次は左加群としてのAS双対性、有限長双対性とAS条件からの周期性である。
++任意のAについてAS分解の存在を証明したとは扱わない。
+ その後の2026-10-08のユーザーの明示的な指示により、射影性・単純加群・実際の分解とExtなど、
+ 残る形式化を自律的に継続する権限を得た。通常の補題・実装方針について繰り返し確認しない。
+ 再開の指示を受けても、原論文の仮定を弱めたり、結論と同等の仮定を追加したりしない。
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 1cd34e2..adc5a86 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -23,6 +23,7 @@ import ASGinzburg.RightModuleExtSequence
+ import ASGinzburg.ASDualityHomCohomology
+ import ASGinzburg.ASResolutionSyzygies
+ import ASGinzburg.ASDualityExt
++import ASGinzburg.ASDualityDimension
+ import ASGinzburg.RightModuleExt
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+diff --git a/ASGinzburg/ASDualityHomCohomology.lean b/ASGinzburg/ASDualityHomCohomology.lean
+index ff247e1..21a7db4 100644
+--- a/ASGinzburg/ASDualityHomCohomology.lean
++++ b/ASGinzburg/ASDualityHomCohomology.lean
+@@ -5,8 +5,9 @@ import ASGinzburg.ASDualityHomTerms
+ # Hom cohomology in the nonzero position used in Proposition 1.3
+ 
+ The actual Hom complex for the supplied resolution of s_(tau v) into P_v
+-has terms 0,0,0,k and zero afterwards. The resulting H^3 is k. Its
+-identification with actual derived-category Ext^3 is still to be proved.
++has terms 0,0,0,k and zero afterwards. The resulting H^3 is k. The actual
++derived Ext^3 calculation and its degree-three comparison are constructed
++separately in ASDualityExt and ASDualityDimension.
+ -/
+ 
+ namespace ASGinzburg.ZAlgebra.ASResolution
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 75ccddc..26bb369 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -1,5 +1,14 @@
+ import ASGinzburg
+ 
++#print axioms ASGinzburg.cardinal_sum_one_other_zero
++#print axioms ASGinzburg.ZAlgebra.ASRegular.extRank_other_zero
++#print axioms ASGinzburg.ZAlgebra.ASRegular.ext_other_eq_zero
++#print axioms ASGinzburg.ZAlgebra.ASRegular.ext_finrank
++#print axioms ASGinzburg.ZAlgebra.ASResolution.homologyExtThreeEquiv
++#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable
++#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_apply
++#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_eq_single
++#print axioms ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_total
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.asDualityExtThreeEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extThreeEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extThree_finrank
+diff --git a/GAPS.md b/GAPS.md
+index 4def23e..5398b12 100644
+--- a/GAPS.md
++++ b/GAPS.md
+@@ -1,14 +1,17 @@
+ # 現在までに完成したAS側の基盤
+ 
+-2026年10月8日。既存の線形RightModuleのAbelian構造と成分ホモロジーに加え、
+-全Mに対するYoneda評価・P_vの射影性・EnoughProjectivesを完成。
+-正次数の右積のspanと同定したradical、単純商s_v、短完全列を具体的に構成し、
+-標準射影分解と実際のderived-category Extにも接続しました。
+-21数学モジュール、245異なる明示的宣言、108 theorem、37 named instanceのビルド・公理監査は終了0。
+-未解決の実装エラーはありません。新たな未証明のAS仮定を追加していません。
+-ユーザーの最新指示は、自律的に継続し、検証済み単位を直接mainへpushすることです。
+-原論文を否定する反例や矛盾を発見したという記録はありません。
+-旧版・入力PDF・回収記録は保存しています。
++2026年10月8日。既存の線形RightModuleの定義を保ち、一般radical・minimality、有限AS分解、
++実際のExtのk線形性と次元シフト、原論文のAS条件を具体化しました。
++既存presheafモデルのASRegularから実際のExt³(s_(tau v),P_v)≃ₗ[k]kと、
++他の全Extの消滅・delta型の次元公式・有限台の表まで証明しました。
++これは命題1.3の数値的順方向です。左加群としてのAS双対性や周期性、主定理の完成ではありません。
++
++35数学モジュール、369異なる明示的宣言、177 theorem、53 named instanceのビルド・公理監査は終了0。
++定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
++任意のAでAS分解の存在を証明したとは扱わない。原論文Gr(A)との明示的同値も未実装。
++未解決のコンパイルエラーなし。原論文に反例・矛盾を発見したという記録なし。
++最新ユーザー指示により自律的に継続し、検証済み単位を直接mainへ保存する。
++旧版・入力PDF・回収記録は無変更。
+ 
+ # 未完了部分と、主定理を完成させるための証明義務
+ 
+@@ -26,7 +29,8 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
+ 既存の線形右加群圏はAbelianになり、mathlibの核・余核・ShortComplex.homologyとexactnessへ接続済みです。
+ 射影性・EnoughProjectives・標準射影分解・実際のExtの存在も接続済みです。
+ 有限最小分解データからmathlib ProjectiveResolutionへの変換と実際Extのk線形性は完成。
+-次はHom複体の高次ホモロジーと実際のExt計算の比較が必要です。
++実際のsyzygy短完全列からExt³(s_(tau v),P_v)≃kと、AS条件による他の全Extの消滅まで完成。
++全M,N・全次数の自然なHom複体–Ext比較と、左加群としてのAS双対性が必要です。
+ 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
+ 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
+ これは全宣言を意味論的に検索した不存在証明ではありません。
+@@ -49,7 +53,8 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
+    (1.7)の全被覆頂点・全次数の総Module.rank条件によるASRegular定義。
+    各Extの有限次元性とrank≤1もAS条件から証明済み。
+    任意のAやJacobian代数でASRegularが成立することは未証明。
+-   Hom複体の高次ホモロジーとderived-category Abelian.Extの比較は未証明。
++   命題1.3のdegree-three比較と、実際のExtのdelta型次元公式は証明済み。
++   全M,N・全次数の自然なHom複体–Ext比較、AS双対性の左加群構造は未証明。
+ 
+ 標準`ProjectiveResolution`と`HasExt.{v}`はEnoughProjectivesから完成しました。
+ `representableExtZeroLinearEquiv`は実際のExt⁰(P_i,M)とM_iの線形同型。
+@@ -71,10 +76,13 @@ locally unitalな加群を埋め込むことが考えられます。
+ 
+ ## 2. Ext双対性から周期性
+ 
+-1. 有限生成のprojective resolutionにHom(-,P_v)を適用する。
+-2. `representableHom_vanishes`を使い、s_(τv)について0→0→0→kの複体を得る。
+-3. そのtop cohomologyを実際のExt³と同定する。
+-4. Ext次元の台が有限であることを示し、`dimension_table_eq_single`を適用する。
++1. **完成**：有限AS分解に実際のHom(-,P_v)を適用する複体。
++2. **完成**：高い頂点のHom消滅からs_(τv)の0→0→0→kを得る。
++3. **完成**：syzygy短完全列・実際の線形dimension shiftからExt³≃k。
++   Hom cohomologyとのdegree-three線形同型も完成。一般の自然な比較は未証明。
++4. **完成**：総Cardinal rank=1から他の全Extの消滅、実際のfinrank関数の有限台とFinsupp表。
++   既存presheafモデルのASRegularから(1.11)の数値的順方向まで。
++   逆方向(1.11)→(1.7)のLean証明は未実装。
+ 5. 有限生成projectiveのA-dual、perfect complexの二重双対を構成する。
+ 6. 有限長加群に対しExtの次数3への集中と完全反変同値を証明する。
+ 7. N=D Ext³(-,A)の有限区間への制限と、projective coverを保つことを証明する。
+diff --git a/docs/as_resolution_ext_bridge.md b/docs/as_resolution_ext_bridge.md
+index 8c5051d..3384d64 100644
+--- a/docs/as_resolution_ext_bridge.md
++++ b/docs/as_resolution_ext_bridge.md
+@@ -19,6 +19,9 @@
+ | 命題1.3のHom項 | ASDualityHomTerms | s_(tau v)の分解の最初の三項からP_vへのHomが零、最後の項のHomがk |
+ | 同じHom複体のcohomology | ASDualityHomCohomology | H³とkの線形同型、他の次数のIsZero、top finrank=1 |
+ | 実際のExtの長完全列 | RightModuleExtSequence | shift線形性、Yoneda積双線形性、connecting map、射影的中間項による正次数のdimension shift |
++| syzygy短完全列 | ASResolutionSyzygies | 二つの実際のkernelへのcover、Epi、三つのShortExact |
++| 命題1.3の非零Ext | ASDualityExt | 三段のdimension shiftから実際のExt³(s_(tau v),P_v)≃ₗ[k]k、rank=finrank=1 |
++| (1.11)の数値的順方向 | ASDualityDimension | 他の全Extの消滅、実際のfinrankのdelta公式、証明した有限台のFinsupp表 |
+ 
+ ## 仮定を追加していないこと
+ 
+@@ -44,16 +47,21 @@ mathlibには古いleftDerived型のExtと新しいderived-category Abelian.Ext
+ ProjectiveResolution.isoExtは前者の計算定理であり、後者の比較としてそのまま使わない。
+ 今回定義したModule構造とAS条件は後者のAbelian.Extを使う。
+ 
+-実装した有限分解からHom複体0→0→0→kと、そのH³=kは得た。
+-これをExt³(s_(tau v),P_v)=kと同定する比較はまだ未証明であり、命題1.3を完成扱いにしない。
+-次の具体的な証明義務は次の通り。
++実装した有限分解からHom複体0→0→0→kと、そのH³=kを得た。
++さらに実際のkernelを使う三つのsyzygy短完全列を構成し、線形dimension shiftを合成して
++実際のExt³(s_(tau v),P_v)≃kを証明した。0次shiftのHom消滅も高い頂点の射影項から導いた。
++この二つのkとの同型を合成したdegree-three比較もある。全M,N・全次数の自然な一般比較は未証明。
+ 
+-1. ASResolutionの微分のkernel/imageをsyzygyとして構成し、三つの短完全列を得る。
+-2. 各短完全列の中間項の射影性を使い、RightModuleExtSequenceの線形同型を合成する。
+-   0次のshiftにはHom(S.X₂,N)=0が必要。命題1.3では高い頂点の射影項のHom消滅から導く。
+-3. この合成をHom複体のH³と比較し、実際の非零Extの位置(3,tau v)を特定する。
+-4. 総rank=1から他の全Extの消滅を導き、既存の有限台数値表との接続を証明する。
+-5. 左加群作用、有限生成分解による直和との交換、AS双対性、区間同型のcoherenceへ進む。
++ASの総Cardinal rank=1と、この実際の非零項から他の全Extが零であることを導いた。
++実際のfinrankの関数が有限台を持つことを証明してFinsupp表を構成した。
++その表の関数はExtのfinrankそのものであり、結論を定義に置き換えていない。
++これは既存presheafモデルのASRegularからの(1.11)の数値的順方向である。
++以下が未証明で、命題1.3全体を完成扱いにはしない。
++
++1. (1.11)から(1.7)への逆方向のLean証明。
++2. 左加群作用、有限生成分解による直和との交換、(1.12)の左加群AS双対性。
++3. 原論文Gr(A)との明示的同値と、その同値がExtを保つこと。
++4. 有限長双対性、区間同型とcoherence、AS条件からの周期性。
+ 
+ 原論文からこれらを導く部分はSTATUS.mdとGAPS.mdに未証明として記録する。
+ 定理3.2・系5.2は未証明で、形式的な定理文も未実装のままである。
+diff --git a/ASGinzburg/ASDualityDimension.lean b/ASGinzburg/ASDualityDimension.lean
+new file mode 100644
+index 0000000..f54e7a6
+--- /dev/null
++++ b/ASGinzburg/ASDualityDimension.lean
+@@ -0,0 +1,133 @@
++import ASGinzburg.ASDualityExt
++import ASGinzburg.ASDualityHomCohomology
++import ASGinzburg.ExtDimension
++import Mathlib.SetTheory.Cardinal.Basic
++
++/-!
++# Forward numerical AS duality for the actual derived-category Ext
++
++The supplied finite minimal resolutions give the nonzero degree-three
++position. The total cardinal rank condition then kills every other Ext.
++The actual finranks have proved finite support and define a Finsupp table.
++Left-module AS duality, periodicity, and the main correspondence are not
++asserted by these numerical results.
++-/
++
++namespace ASGinzburg
++
++/-- A cardinal sum of one has no other nonzero term once a distinguished
++term is known to be one. Unlike finrank arithmetic this also excludes
++infinite-dimensional terms. -/
++theorem cardinal_sum_one_other_zero {ι : Type*} (r : ι → Cardinal)
++    (i₀ : ι) (hs : Cardinal.sum r = 1) (hi₀ : r i₀ = 1) (i : ι) (hi : i ≠ i₀) :
++    r i = 0 := by
++  classical
++  have hSigma : Cardinal.mk (Σ j, (r j).out) ≤ 1 := hs.le
++  letI : Subsingleton (Σ j, (r j).out) := Cardinal.le_one_iff_subsingleton.mp hSigma
++  have h₀ : Nonempty (r i₀).out := Cardinal.mk_ne_zero_iff.mp (by
++    rw [Cardinal.mk_out, hi₀]
++    exact one_ne_zero)
++  obtain ⟨x₀⟩ := h₀
++  apply Classical.byContradiction
++  intro hn
++  have h₁ : Nonempty (r i).out := Cardinal.mk_ne_zero_iff.mp (by
++    rw [Cardinal.mk_out]
++    exact hn)
++  obtain ⟨x⟩ := h₁
++  exact hi (congrArg Sigma.fst (Subsingleton.elim
++    (⟨i, x⟩ : Σ j, (r j).out) ⟨i₀, x₀⟩))
++
++end ASGinzburg
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++/-- The total dimension condition kills every actual Ext outside (3,tau v). -/
++theorem ASRegular.extRank_other_zero (h : A.ASRegular Q) (v u : Q.LiftVertex) (p : ℕ)
++    (hne : (p, u) ≠ (3, Q.tau v)) :
++    Module.rank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
++      (A.representable (Q.height v)) p) = 0 := by
++  classical
++  let r : ℕ → Q.LiftVertex → Cardinal := fun n t =>
++    Module.rank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height t))
++      (A.representable (Q.height v)) n)
++  have htotal : Cardinal.sum (fun n => Cardinal.sum (r n)) = 1 := h.2 v
++  have hr₃ : r 3 (Q.tau v) = 1 := h.extThree_rank A Q v
++  have hsum₃ : Cardinal.sum (r 3) = 1 := by
++    apply le_antisymm ((Cardinal.le_sum (fun n => Cardinal.sum (r n)) 3).trans_eq htotal)
++    have hb := Cardinal.le_sum (r 3) (Q.tau v)
++    rw [hr₃] at hb
++    exact hb
++  by_cases hp : p = 3
++  · subst p
++    have hu : u ≠ Q.tau v := by intro hu; exact hne (by rw [hu])
++    exact ASGinzburg.cardinal_sum_one_other_zero (r 3) (Q.tau v) hsum₃ hr₃ u hu
++  · have hs := ASGinzburg.cardinal_sum_one_other_zero
++      (fun n => Cardinal.sum (r n)) 3 htotal hsum₃ p hp
++    exact le_antisymm ((Cardinal.le_sum (r p) u).trans_eq hs) (zero_le _)
++
++theorem ASRegular.ext_other_eq_zero (h : A.ASRegular Q) (v u : Q.LiftVertex) (p : ℕ)
++    (hne : (p, u) ≠ (3, Q.tau v))
++    (e : Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
++      (A.representable (Q.height v)) p) : e = 0 :=
++  (A.asExtRank_zero_iff Q v u p).mp (h.extRank_other_zero A Q v u p hne) e
++
++/-- Forward numerical AS duality (1.11), for the actual Ext of the existing category. -/
++theorem ASRegular.ext_finrank (h : A.ASRegular Q) (v u : Q.LiftVertex) (p : ℕ) :
++    Module.finrank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
++      (A.representable (Q.height v)) p) = if (p, u) = (3, Q.tau v) then 1 else 0 := by
++  classical
++  split_ifs with he
++  · obtain ⟨rfl, rfl⟩ := Prod.mk.inj he
++    exact h.extThree_finrank A Q v
++  · letI : Subsingleton (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
++      (A.representable (Q.height v)) p) :=
++      ⟨fun x y => by rw [h.ext_other_eq_zero A Q v u p he x, h.ext_other_eq_zero A Q v u p he y]⟩
++    exact Module.finrank_zero_of_subsingleton
++
++/-- A comparison for the distinguished degree-three calculation, obtained
++by composing the two proved identifications with k. General natural
++projective-resolution comparisons are not asserted here. -/
++noncomputable def ASResolution.homologyExtThreeEquiv (v : Q.LiftVertex)
++    (R : A.ASResolution Q (Q.tau v)) :
++    (R.homComplex (A.representable (Q.height v))).homology 3 ≃ₗ[k]
++      Abelian.Ext.{v} (A.simpleRightModule (Q.height (Q.tau v)))
++        (A.representable (Q.height v)) 3 :=
++  (R.homComplex_tau_representable_top_homologyLinearEquiv v).trans
++    (R.asDualityExtThreeEquiv A Q v).symm
++
++/-- The finite table retains the actual Ext finrank as its function. Its
++finite support is proved from AS conditions, not given as an assumption. -/
++noncomputable def ASRegular.extDimensionTable (h : A.ASRegular Q) (v : Q.LiftVertex) :
++    (ℕ × Q.LiftVertex) →₀ ℕ :=
++  Finsupp.ofSupportFinite (fun i => Module.finrank k
++    (Abelian.Ext.{v} (A.simpleRightModule (Q.height i.2))
++      (A.representable (Q.height v)) i.1)) (by
++    apply (Set.finite_singleton (3, Q.tau v)).subset
++    intro i hi
++    apply Set.mem_singleton_iff.mpr
++    by_contra hne
++    have hz := h.ext_finrank A Q v i.2 i.1
++    rw [if_neg (by simpa using hne)] at hz
++    exact hi hz)
++
++@[simp] theorem ASRegular.extDimensionTable_apply (h : A.ASRegular Q)
++    (v u : Q.LiftVertex) (p : ℕ) :
++    h.extDimensionTable A Q v (p, u) =
++      Module.finrank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height u))
++        (A.representable (Q.height v)) p) := rfl
++
++theorem ASRegular.extDimensionTable_eq_single (h : A.ASRegular Q) (v : Q.LiftVertex) :
++    h.extDimensionTable A Q v = Finsupp.single (3, Q.tau v) 1 := by
++  ext ⟨p, u⟩
++  rw [h.extDimensionTable_apply A Q, h.ext_finrank A Q, Finsupp.single_apply]
++  simp only [eq_comm]
++
++theorem ASRegular.extDimensionTable_total (h : A.ASRegular Q) (v : Q.LiftVertex) :
++    ASGinzburg.totalDimension (h.extDimensionTable A Q v) = 1 := by
++  rw [h.extDimensionTable_eq_single A Q v]
++  exact ASGinzburg.total_dimension_single _
++
++end ASGinzburg.ZAlgebra

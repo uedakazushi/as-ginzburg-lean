@@ -2,11 +2,11 @@
 
 **主定理全体は未完成です。定理3.2と系5.2の形式的な文も、まだ実装していません。**
 
-添付論文を読み、具体的な代数・道・巡回微分・テンソル積の定義と補助定理を実装しました。
-数学的ソースは21モジュール、108補助定理です。既存の線形右加群圏にAbelian構造、
-成分ホモロジー・exactness、射影性・EnoughProjectives、正次数radical・単純商s_v、
-標準射影分解と実際のExtへの接続を追加しました。
-初期161宣言を含む245異なる宣言を監査します。
+既存の線形右加群の定義を保ち、Abelian構造・射影性・単純加群に加えて、
+一般radical・minimality、有限AS分解、実際Extの線形性・次元シフト・具体的ASRegularを実装しました。
+既存presheafモデルのASRegularから実際Ext³≃k、他の全Ext消滅、delta型次元公式と有限台を証明済み。
+命題1.3の数値的順方向までで、左加群双対性・周期性・主定理全体は未証明です。
+35数学モジュール、369異なる明示的宣言、177 theorem、53 named instanceを監査します。初期161宣言も含みます。
 現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
 数学的な証明に使う定義・仮定は各宣言の型に明記してあります。
 独自公理、`sorry`、`admit`を使って主定理を完成扱いにすることはしていません。
@@ -22,9 +22,10 @@
   短完全列・単射・全射の成分判定。原論文との対応は[接続記録](docs/rightmodule_homological_bridge.md)。
 - 任意のMへの線形Yoneda同型、表現可能加群の射影性と直和による射影提示。
 - 正次数の右積のspanとradicalの一致、s_vの対角成分1次元・他の成分零、単純性と短完全列。
-- 標準射影分解、実際のExtの存在、Ext⁰(P_i,M)の加法的なYoneda同型と高次Ext(P_i,M)の消滅。
-  有限最小分解、全Extのk線形性・Hom複体による計算、Ext(s_u,P_v)のAS次元条件は残ります。
-  [原論文と実装の対応](docs/rightmodule_projective_simple_bridge.md)。
+- 標準射影分解、実際のExtの存在とk線形性、Ext⁰の線形Yoneda同型と高次Ext(P_i,M)の消滅。
+- 一般radical・minimality、有限AS分解からmathlib ProjectiveResolutionへの変換、実際のsyzygy短完全列。
+- 具体的ASRegular、実際のExt³(s_(tau v),P_v)≃k、他Ext消滅、数値的AS双対性の順方向と有限台の表。
+  [原論文・実装・残る証明義務](docs/as_resolution_ext_bridge.md)。
 - 巡回微分の回転不変性と、cut次数1での
   \(\Phi=\sum_{\rho\in C}[\rho\partial_\rho\Phi]\)。
 - 正の次数を下げるHilbert漸化式の一意性、およびquadratic型の数値解
@@ -35,7 +36,7 @@
 次の結果は**条件付きの中間補題**です。
 
 - 正次数成分の分解が与えられた場合の生成の帰納法。
-- Extの次元表が有限台を持ち、指定の一項が1である場合の数値条件の帰結。
+- 任意の有限台次元表についての数値補題。今回、実際のExtから有限台表と非零項を導く順方向も接続済み。
 - coherentな有限区間同型が与えられた場合の大域的な周期同型の構成。
 - 完全忠実な線形関手と対象同型が与えられた場合の、Homの積を保つ共役。
 
@@ -98,8 +99,10 @@ GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検�
 
 **ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
 
-最新ローカル検証は245宣言の監査を含む全段階が終了0。
-証明単位ごとのmainへのpush・Actions・実測時間は`RECENT_RUN.md`を参照してください。
+最新ローカル検証 `20261008T031342Z-13ba299c`：全段階終了0、161.737727秒。
+UTC 2026-10-08T03:13:42.658554+00:00 → 2026-10-08T03:16:24.396290+00:00。
+11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
-数学的コミット`2ac9d17`のmain Actionsはsuccess、12ファイルの最新artifact保存を確認。
-証拠は`verification/projective_simple_github_ci_evidence.json`とRECENT_RUN.md。
+証明単位ごとのmainへの保存・Actions・実測時間はRECENT_RUN.md参照。
+CLI push認証エラー後は接続済みGitHub APIで検証済みtreeを通常のfast-forward保存。
+新規PRなし。数学的ソースの保存確認はverification/radical_resolution_preservation.json。

@@ -217,3 +217,22 @@ Abelian.Ext³(s_(tau v),P_v)とkの線形同型を構成した。ASRegularから
 開始UTC 2026-10-08T03:09:58.505756+00:00、終了UTC 2026-10-08T03:12:13.009546+00:00。
 360異なる宣言・170 theorem・53 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit13.patch。
+
+## 証明単位14：実際のExtのdelta型次元公式と有限台
+
+`ASDualityDimension.lean`でCardinal.sum=1の他の非零項が存在しないことをsigma型のSubsingletonから証明した。
+実際のExt³のrank=1と原論文(1.7)の総rank=1から、(3,tau v)以外の全Abelian.Extが零であることを証明した。
+ASRegular.ext_finrankは原論文(1.11)の数値的な順方向で、実際のExtに対するdelta型の公式である。
+その有限台を証明し、関数が実際のExtのfinrankであるFinsupp表を構成、既存の数値単位へ接続した。
+Hom cohomologyとExt³の二つのkとの証明済み線形同型を合成したdegree-three比較も構成した。
+一般のM,Nと全次数の自然なHom複体–Ext比較とは別である。
+ここでは左加群AS双対性(1.12)、同値の逆方向、AS条件からの周期性、Gr(A)との明示的同値は未証明。
+定理3.2・系5.2も未証明で、形式的な文も未実装。
+次：有限生成分解のA-dual・左作用・直和との交換から(1.12)、有限長双対性と区間同型を導く。
+単位13のmain保存：cb51f14ee4f68785d58f1b9846c6688706e8535e。
+
+
+検証：`20261008T031342Z-13ba299c`、161.737727秒、全段階終了0。
+開始UTC 2026-10-08T03:13:42.658554+00:00、終了UTC 2026-10-08T03:16:24.396290+00:00。
+369異なる宣言・177 theorem・53 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit14.patch。

@@ -5,8 +5,9 @@ import ASGinzburg.ASDualityHomTerms
 # Hom cohomology in the nonzero position used in Proposition 1.3
 
 The actual Hom complex for the supplied resolution of s_(tau v) into P_v
-has terms 0,0,0,k and zero afterwards. The resulting H^3 is k. Its
-identification with actual derived-category Ext^3 is still to be proved.
+has terms 0,0,0,k and zero afterwards. The resulting H^3 is k. The actual
+derived Ext^3 calculation and its degree-three comparison are constructed
+separately in ASDualityExt and ASDualityDimension.
 -/
 
 namespace ASGinzburg.ZAlgebra.ASResolution

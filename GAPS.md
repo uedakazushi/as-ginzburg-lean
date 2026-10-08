@@ -1,14 +1,17 @@
 # 現在までに完成したAS側の基盤
 
-2026年10月8日。既存の線形RightModuleのAbelian構造と成分ホモロジーに加え、
-全Mに対するYoneda評価・P_vの射影性・EnoughProjectivesを完成。
-正次数の右積のspanと同定したradical、単純商s_v、短完全列を具体的に構成し、
-標準射影分解と実際のderived-category Extにも接続しました。
-21数学モジュール、245異なる明示的宣言、108 theorem、37 named instanceのビルド・公理監査は終了0。
-未解決の実装エラーはありません。新たな未証明のAS仮定を追加していません。
-ユーザーの最新指示は、自律的に継続し、検証済み単位を直接mainへpushすることです。
-原論文を否定する反例や矛盾を発見したという記録はありません。
-旧版・入力PDF・回収記録は保存しています。
+2026年10月8日。既存の線形RightModuleの定義を保ち、一般radical・minimality、有限AS分解、
+実際のExtのk線形性と次元シフト、原論文のAS条件を具体化しました。
+既存presheafモデルのASRegularから実際のExt³(s_(tau v),P_v)≃ₗ[k]kと、
+他の全Extの消滅・delta型の次元公式・有限台の表まで証明しました。
+これは命題1.3の数値的順方向です。左加群としてのAS双対性や周期性、主定理の完成ではありません。
+
+35数学モジュール、369異なる明示的宣言、177 theorem、53 named instanceのビルド・公理監査は終了0。
+定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
+任意のAでAS分解の存在を証明したとは扱わない。原論文Gr(A)との明示的同値も未実装。
+未解決のコンパイルエラーなし。原論文に反例・矛盾を発見したという記録なし。
+最新ユーザー指示により自律的に継続し、検証済み単位を直接mainへ保存する。
+旧版・入力PDF・回収記録は無変更。
 
 # 未完了部分と、主定理を完成させるための証明義務
 
@@ -26,7 +29,8 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
 既存の線形右加群圏はAbelianになり、mathlibの核・余核・ShortComplex.homologyとexactnessへ接続済みです。
 射影性・EnoughProjectives・標準射影分解・実際のExtの存在も接続済みです。
 有限最小分解データからmathlib ProjectiveResolutionへの変換と実際Extのk線形性は完成。
-次はHom複体の高次ホモロジーと実際のExt計算の比較が必要です。
+実際のsyzygy短完全列からExt³(s_(tau v),P_v)≃kと、AS条件による他の全Extの消滅まで完成。
+全M,N・全次数の自然なHom複体–Ext比較と、左加群としてのAS双対性が必要です。
 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
 これは全宣言を意味論的に検索した不存在証明ではありません。
@@ -49,7 +53,8 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
    (1.7)の全被覆頂点・全次数の総Module.rank条件によるASRegular定義。
    各Extの有限次元性とrank≤1もAS条件から証明済み。
    任意のAやJacobian代数でASRegularが成立することは未証明。
-   Hom複体の高次ホモロジーとderived-category Abelian.Extの比較は未証明。
+   命題1.3のdegree-three比較と、実際のExtのdelta型次元公式は証明済み。
+   全M,N・全次数の自然なHom複体–Ext比較、AS双対性の左加群構造は未証明。
 
 標準`ProjectiveResolution`と`HasExt.{v}`はEnoughProjectivesから完成しました。
 `representableExtZeroLinearEquiv`は実際のExt⁰(P_i,M)とM_iの線形同型。
@@ -71,10 +76,13 @@ locally unitalな加群を埋め込むことが考えられます。
 
 ## 2. Ext双対性から周期性
 
-1. 有限生成のprojective resolutionにHom(-,P_v)を適用する。
-2. `representableHom_vanishes`を使い、s_(τv)について0→0→0→kの複体を得る。
-3. そのtop cohomologyを実際のExt³と同定する。
-4. Ext次元の台が有限であることを示し、`dimension_table_eq_single`を適用する。
+1. **完成**：有限AS分解に実際のHom(-,P_v)を適用する複体。
+2. **完成**：高い頂点のHom消滅からs_(τv)の0→0→0→kを得る。
+3. **完成**：syzygy短完全列・実際の線形dimension shiftからExt³≃k。
+   Hom cohomologyとのdegree-three線形同型も完成。一般の自然な比較は未証明。
+4. **完成**：総Cardinal rank=1から他の全Extの消滅、実際のfinrank関数の有限台とFinsupp表。
+   既存presheafモデルのASRegularから(1.11)の数値的順方向まで。
+   逆方向(1.11)→(1.7)のLean証明は未実装。
 5. 有限生成projectiveのA-dual、perfect complexの二重双対を構成する。
 6. 有限長加群に対しExtの次数3への集中と完全反変同値を証明する。
 7. N=D Ext³(-,A)の有限区間への制限と、projective coverを保つことを証明する。

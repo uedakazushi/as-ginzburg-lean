@@ -1,72 +1,83 @@
 # Codexクラウドへの引継ぎ
 
-2026年10月8日。既存の線形RightModuleの定義を保ち、射影性・単純加群と実際のExtへの接続を進めました。
-**定理3.2・系5.2は未証明、形式的な定理文も未実装**です。
+2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
-## 現在の場所と権限
+既存の線形RightModuleの定義を保ち、一般radical・minimality、有限AS分解、
+実際のExtのk線形性と次元シフト、原論文のAS条件を具体化しました。
+既存presheafモデルのASRegularから実際のExt³(s_(tau v),P_v)≃ₗ[k]kと、
+他の全Extの消滅・delta型の次元公式・有限台の表まで証明しました。
+これは命題1.3の数値的順方向です。左加群としてのAS双対性や周期性、主定理の完成ではありません。
+
+## 場所・固定環境・権限
 
 - リポジトリ：https://github.com/uedakazushi/as-ginzburg-lean 。作業場所：`/workspace/as-ginzburg-lean`。
-- ブランチ：`main`。最新の明示的なユーザー指示は、PRを新規作成せず、検証済み単位を直接mainへcommit・pushすること。
-- 前回の検証済みAbelian・homologyブランチ`4547b79`を通常のmerge `5780346`で統合。
-  以前のmainへマージしない制約は、今回のユーザー指示で置き換えられました。force pushなし。
-- 通常の補題・継続方針について再度の許可確認は不要。原論文の仮定を弱めず、周期性・Ext同型・主定理相当の結論を仮定に追加しない。
-- Lean：`leanprover/lean4:v4.24.0`。
-- mathlib：`f897ebcf72cd16f89ab4577d0c826cd14afaafc7`。manifestの全依存を固定。
+- ブランチmain。最新の明示的な指示は自律的な継続と、検証済み単位の直接mainへの保存。新規PRなし。
+- 前回までのmain d928bafから継続。旧「mainへマージしない」制約はユーザーの明示的な指示で置き換え済み。
+- Lean：leanprover/lean4:v4.24.0。mathlib：f897ebcf72cd16f89ab4577d0c826cd14afaafc7。manifest全依存を固定。
+- 原論文の仮定を弱めず、周期性・必要なExt同型・主定理相当の結論を追加仮定にしない。
 
-## 今回完成した証明単位
+## 今回完成した14単位
 
-1. `RightModuleProjectives.lean`：線形Yoneda評価`(P_i ⟶ M) ≃ₗ[k] M_i`、自然性・逆写像の公式、P_iのProjective。`2e87d63`。
-2. `RightModuleEnoughProjectives.lean`：全成分の全要素を添字とするrepresentableの直和からMへのepi、EnoughProjectives。`22c4b6c`。
-3. `RightSubmodules.lean`：右作用で閉じた成分submoduleから線形presheaf、包含mono、商cokernel、短完全列。`dc17b2b`。
-4. `SimpleRightModules.lean`：radicalと正次数の右積のspanの一致、s_iの対角1次元・他の成分零、Simple、短完全列。`86853a5`。
-5. `RightModuleExt.lean`：標準projective resolutionと正次数exactness、EnoughProjectivesからHasExt、実際のExt⁰(P_i,M)≃+M_i、高次Ext(P_i,M)の消滅。`2ac9d17`。
+1. 一般radicalの右作用閉性・自然性・線形functor。
+2. 像のradical包含としてのminimality、因子化との同値、合成の閉性。
+3. s_iのradicalが零、最小微分にHom(-,s_i)を適用すると零。
+4. (1.6)の四項・有限coproduct・微分・exactness・Mono・minimalityの具体的ASResolution。
+5. 標準導来圏の線形性、実際のAbelian.Extのk作用、0次Homの元の作用との一致。
+6. 有限ASResolutionからmathlib ProjectiveResolution、augmentationのQuasiIso、degree≥4の零。
+7. 分解の存在と全Extの総Cardinal rank=1による具体的ASRegular。各Extの有限次元性。
+8. 実際のHom複体、Hom(-,s_i)の零微分とホモロジーの同定。
+9. s_(tau v)の分解へのHom(-,P_v)の各項0,0,0,k。
+10. 実際のExtのYoneda積双線形性、長完全列の線形connecting map・dimension shift。
+11. このHom複体のH³≃k、他の次数のIsZero。
+12. AS分解の二つのkernelへのepi coverと三つのsyzygy短完全列。
+13. 三段のdimension shiftから実際のExt³(s_(tau v),P_v)≃k。
+14. 総rank=1から他のExt消滅、(1.11)の数値的順方向、実際のfinrankの有限台表。
 
-原論文§1.2の`A_vu=e_vAe_u`・右作用`M_v×A_vu→M_u`は既存の反変関手と一致。
-単純商は既存presheafモデル上で(1.5)を構成しています。
-[原論文・mathlib・利用先の対応](docs/rightmodule_projective_simple_bridge.md)参照。
-今回の一般の体で成立する補題は、主定理の代数閉・標数0の仮定を弱める変更ではありません。
+原論文との対応・mathlib API・利用先はdocs/as_resolution_ext_bridge.md。
+ASResolutionの存在は原論文定義(i)の条件であり、任意のAで成立するという定理は未証明。
+ASRegularは任意Propの入力でなく実際の分解と実際のExtから定義した条件。
+周期性・delta型のExt表をAS定義に追加していない。tauは頂点置換のまま。
+基盤補題が一般の体で成立しても、主定理の代数閉・標数0を弱めたとは扱わない。
 
-## 実行結果と保存
+## 現在の検査
 
-最新ローカル検証 `20261008T020142Z-06538c59`：全段階終了0、61.239278秒。
-UTC 2026-10-08T02:01:42.423333+00:00 → 2026-10-08T02:02:43.662622+00:00。
+最新ローカル検証 `20261008T031342Z-13ba299c`：全段階終了0、161.737727秒。
+UTC 2026-10-08T03:13:42.658554+00:00 → 2026-10-08T03:16:24.396290+00:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
-21数学モジュール、245異なる明示的宣言、108 theorem、37 named instanceを監査しました。
-ソースにsorry/admit/独自axiomなし。標準公理propext、Classical.choice、Quot.soundのみ。
+35数学モジュール、369異なる明示的宣言、177 theorem、53 named instanceを監査。
+ソースにsorry/admit/独自axiomなし。公理依存はpropext、Classical.choice、Quot.soundのみ。
 sorryAx、Lean.ofReduceBool、Lean.trustCompilerへの依存なし。
 新規数学ファイルに未解決のコンパイルエラー・lint警告なし。既存のlint警告は残存。
+161は初期成果の件数で、宣言数の固定条件ではありません。
 
-各単位の差分は`runs/projective-simple-20261008-unit*.patch`、
-時刻・終了コード・次の補題は`runs/projective-simple-20261008.md`。
-新規runディレクトリにログを保存し、旧成功記録だけで判定していません。
-初期14数学モジュールとPDFは旧SHA-256一致。recovery/とcheckpoints/も無変更。
-ルートimport追加と生成AxiomAuditは全現行宣言への意図した更新です。
-保存確認は`verification/projective_simple_preservation.json`。
+## 保存と次の検証
 
-## 次の検証
+各証明単位はruns/radical-resolution-20261008-unit*.patchと新規verification/runs/に保存。
+実測時刻・終了コード・次の義務・main保存先はruns/radical-resolution-20261008.mdとRECENT_RUN.md。
+初期14数学モジュール・入力PDFの旧SHA-256一致、recovery/とcheckpoints/の無変更を再確認。
+保存確認はverification/radical_resolution_preservation.json。ルートimportと生成AxiomAuditは意図した更新。
+CLI git pushの認証エラー(終了128)後、接続済みGitHub APIへ切り替えた。
+ローカル検証済みtreeのSHA一致とexpected_shaを確認し、force=falseでmainを通常のfast-forward保存。
+ローカルmainも同じAPI commit objectに同期。CLIの認証が修復されたという主張はしない。
+新規PRなし。mainへのpush・最新Actionsとartifactの確認はRECENT_RUN.md参照。
 
 ```bash
 USE_FRO_CACHE=1 AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux \
   bash scripts/check.sh --prepare-cache
 ```
 
-キャッシュがあれば`--prepare-cache`を省略。通常の再現にlake updateは不要。
-CIはpush/pull_requestで固定版の同じビルド・監査を実行し、今回のログをartifactに保存します。
-mainへの保存・Actionsの確認・タスク全体の実測時間はRECENT_RUN.md参照。
+キャッシュがあれば--prepare-cacheを省略。通常の再現でlake updateは不要。
+CIはpush/pull_requestごとに同じ固定環境の検証を実行し、今回のログをartifactに保存する。
 
-## 次に必要な数学的義務
+## 次に必要な証明義務
 
-- 一般のMの正次数radicalの閉性と、微分の像がradicalに入るminimality。
-- (1.6)の実際の有限四項分解、完全性・最小性。標準分解の存在は有限性・長さ3を保証しません。
-- 全高次Extのk作用・線形性、射影分解のHom複体とExtの比較、(1.7)のExt(s_u,P_v)の次元条件。
-- presheafモデルと直和・局所単位元付きGr(A)との明示的な同値。
-- AS正則性の本体、Ext双対性からの区間同型・coherence、AS条件からの周期性。
-- Jacobian商、Ginzburg dg代数、外部一般定理、主定理の同型類対応。
+- 原論文の局所単位元付き直和加群Gr(A)と既存presheafモデルの明示的同値、Ext保存。
+- 全M,N・全次数の自然なHom複体–Abelian.Ext比較。命題1.3の3次比較は証明済み。
+- (1.11)→(1.7)の逆方向。finrankだけでは無限次元を排除できないので有限性を省かない。
+- A-dualの左加群作用、有限生成分解と直和の交換、(1.12)の左加群AS双対性。
+- 有限長双対性、区間同型のcoherence、AS条件からの周期性。WindowSystemをAS条件に加えない。
+- 特定のJacobian代数についてAS分解の存在、Jacobian商とGinzburg dg代数、外部一般定理、主定理の同型類対応。
 
-Ext(P_i,M)の消滅をExt(s_u,P_v)の計算として扱わない。
 命題1.4は区間同型を仮定した貼り合わせのみ、命題5.1も未証明。
-過去の稼働時間は不明。今回の実測時間はタスク記録に保存します。
-
-数学的コミット`2ac9d17`のmain Actionsはsuccess、12ファイルの最新artifact保存を確認。
-証拠は`verification/projective_simple_github_ci_evidence.json`とRECENT_RUN.md。
+過去の稼働時間は不明。今回の実測区間・開始終了・所要時間はタスク記録参照。

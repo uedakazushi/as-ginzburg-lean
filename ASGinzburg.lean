@@ -23,6 +23,7 @@ import ASGinzburg.RightModuleExtSequence
 import ASGinzburg.ASDualityHomCohomology
 import ASGinzburg.ASResolutionSyzygies
 import ASGinzburg.ASDualityExt
+import ASGinzburg.ASDualityDimension
 import ASGinzburg.RightModuleExt
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology

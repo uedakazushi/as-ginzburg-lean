@@ -1,23 +1,29 @@
 # 現在の状況
 
-2026年10月8日。既存RightModuleの定義を保ち、Abelian構造・ホモロジー接続に加えて、
-射影対象、十分な射影対象、正次数radical、単純商、標準射影分解と実際のExtへの接続を完成。
-今回追加した5数学モジュールは、各証明単位で検査して直接mainへcommit・pushしました。
-初期14モジュールと入力PDFは旧SHA-256一致、checkpoints/・recovery/は無変更。
+2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
+
+既存の線形RightModuleの定義を保ち、一般radical・minimality、有限AS分解、
+実際のExtのk線形性と次元シフト、原論文のAS条件を具体化しました。
+既存presheafモデルのASRegularから実際のExt³(s_(tau v),P_v)≃ₗ[k]kと、
+他の全Extの消滅・delta型の次元公式・有限台の表まで証明しました。
+これは命題1.3の数値的順方向です。左加群としてのAS双対性や周期性、主定理の完成ではありません。
+
+今回の14数学モジュールは証明単位ごとに検査してmainへ保存。
+初期14モジュール・入力PDF・checkpoints/・recovery/は無変更。
 
 | 項目 | 現在の結論 |
 |---|---|
-| lake build | 成功、終了0、3321 jobs |
-| 個別公理監査 | 245異なる名前、終了0。全明示的宣言・37 named instanceを含む |
-| 補助定理 | 108 theorem。全件が監査対象 |
-| sorry / admit / 独自axiom | ソース内0件 |
-| 許容公理 | propext、Classical.choice、Quot.soundだけ |
-| 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerはなし |
-| 主結果 | 定理3.2・系5.2は未証明、形式的な文も未実装 |
-| 保存方針 | ユーザーの最新指示により直接mainへpush。新規PRなし |
+| lake build | 成功、終了0 |
+| 個別公理監査 | 369異なる名前、全明示的宣言・53 named instanceを含む、終了0 |
+| theorem | 177、全件が監査対象 |
+| sorry / admit / 独自axiom | ソース0件 |
+| 許容公理 | propext、Classical.choice、Quot.soundのみ |
+| 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
+| 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
+| 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T020142Z-06538c59`：全段階終了0、61.239278秒。
-UTC 2026-10-08T02:01:42.423333+00:00 → 2026-10-08T02:02:43.662622+00:00。
+最新ローカル検証 `20261008T031342Z-13ba299c`：全段階終了0、161.737727秒。
+UTC 2026-10-08T03:13:42.658554+00:00 → 2026-10-08T03:16:24.396290+00:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -28,56 +34,64 @@ UTC 2026-10-08T02:01:42.423333+00:00 → 2026-10-08T02:02:43.662622+00:00。
 | §1.1の巡回空間 | `CutPotential.lean` | 回転商の自由ベクトル空間、cut次数、唯一のcutの分割とnormal form | 閉じた可合成道の部分空間とkQ/[kQ,kQ]の同定 |
 | (3.8) | `CyclicDerivative.lean` | 巡回微分の実装、回転不変性、cut復元恒等式 | Jacobianイデアルおよび商代数との接続 |
 | 道代数 | `PathAlgebra.lean` | 成分の自由ベクトル空間、双線形積、単位元、結合則 | 関係イデアルとその商、unrolling |
-| (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 原論文のAS正則性の定義 |
+| (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 原論文のモデルとの明示的同値・AS条件の成立 |
 | 命題1.2の帰納法 | `ZAlgebra.lean` | 成分が生成元と短い積に分解されれば全成分を生成する | 分解条件を最小射影分解から導くこと、核が矢イデアルの二乗に入ること |
 | (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 直和・局所単位元付き加群との明示的同値 |
-| §1.2の加群圏・(1.6)の基盤 | `RightModuleAbelian.lean`、`RightModuleHomology.lean` | (余)極限の閉性、Abelian構造、核・余核・homologyの成分同型、exactness・短完全列・mono/epiの成分判定 | 実際の射影分解・minimality・Extとの比較 |
+| §1.2の加群圏・(1.6)の基盤 | `RightModuleAbelian.lean`、`RightModuleHomology.lean` | (余)極限の閉性、Abelian構造、核・余核・homologyの成分同型、exactness・短完全列・mono/epiの成分判定 | 一般の自然なHom複体–Ext比較 |
 | (1.5)の射影対象 | `RightModuleProjectives.lean`、`RightModuleEnoughProjectives.lean` | 全Mへの線形Yoneda同型、P_vの射影性、representableの直和による射影提示、EnoughProjectives | 有限生成のprojective coverと最小分解 |
-| (1.5)の単純商 | `RightSubmodules.lean`、`SimpleRightModules.lean` | 右作用で閉じた部分加群、商の短完全列、P_v A_{>0}との成分同定、s_vの対角1次元・他の成分零とSimple | 一般Mの正次数radicalの閉性、minimality |
-| (1.6)–(1.7)の基盤 | `RightModuleExt.lean` | 標準projective resolutionと正次数exactness、実際のderived-category Ext、Ext⁰(P_i,M)≃+M_i、高次Ext(P_i,M)=0 | 四項有限最小分解、全Extのk線形性、Hom複体による計算、Ext(s_u,P_v)の次元条件 |
-| 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 表と実際のExtの同定、有限台、非零項の導出 |
-| 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 実際のHom複体とExtへの同定 |
+| (1.5)の単純商 | `RightSubmodules.lean`、`SimpleRightModules.lean` | 右作用で閉じた部分加群、商の短完全列、P_v A_{>0}との成分同定、s_vの対角1次元・他の成分零とSimple | 原論文Gr(A)との明示的同値 |
+| (1.6)–(1.7)の基盤 | `RightModuleExt.lean` | 標準projective resolutionと正次数exactness、実際のderived-category Ext、Ext⁰(P_i,M)≃+M_i、高次Ext(P_i,M)=0 | 全M,N・全次数の自然なHom複体–Ext比較 |
+| 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 逆方向・左加群AS双対性（今回、実際Extへの順方向接続は完成） |
+| 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 一般の自然な比較（今回、命題1.3の3次は接続済み） |
 | 命題1.4の貼り合わせ | `WindowPeriodicity.lean` | coherentな区間同型から積と単位元を保つ周期同型を構成 | D Ext³から区間同型を作る部分全体 |
 | 命題3.1の共役段階 | `Conjugation.lean` | 完全忠実な線形関手と対象同型から、積を保つHom線形同型を構成 | tilting、Serre functor、高次preprojectiveとの同定 |
 | §4、§5の数値計算 | `Hilbert.lean` | 一般の正のlagの漸化式の一意性、quadratic Hilbert値、増大上界 | exact resolutionからのEuler式、del Pezzo模型との幾何的比較 |
 | 系5.2の線形表示 | `Tensor333.lean` | 実際の三重テンソル積、係数表示、cut関係への同型、27次元、基底変更 | tensor・potential・Jacobian代数の完全な比較 |
 | 系5.2の箙 | `Triangle333.lean` | 三角形箙、全矢のwinding=1、cut次数1閉路の長さ3、明示的potentialのcut恒等式 | 箙自己同型とGL(X)×GL(Y)×GL(Z)の群・商の同定 |
 | (1.3)の次数 | `GinzburgGrading.lean` | a、a*、t_vの型と三つの次数、windingの正値性、loop項の次数 | dg代数、d²=0、コホモロジー、Ginzburg正則性 |
+| 一般radical・minimality | RightModuleRadical、RightModuleMinimality、RightModuleSimpleHom | 閉性・自然性、radicalを通る因子化、Hom(-,s_i)の零微分 | 有限生成projective coverの一般理論 |
+| (1.6)の具体的分解 | ASResolution、ASResolutionComplex、ASResolutionSyzygies | 有限coproductの射影性、完全最小列、mathlib ProjectiveResolution、三つの実際の短完全列 | 特定の代数について分解の存在 |
+| (1.7)の具体的条件 | RightModuleExtLinear、ASRegular | 実際Extのk作用、Ext⁰の線形同型、総Cardinal rank=1、各Extの有限次元性 | Gr(A)への明示的同値・Ext保存 |
+| 命題1.3の順方向 | ASResolutionHomComplex、ASDualityHomTerms、ASDualityHomCohomology、RightModuleExtSequence、ASDualityExt、ASDualityDimension | 実際のHom複体、線形dimension shift、実際Ext³≃k、他Ext消滅、(1.11)の数値公式と有限台 | 逆方向、左加群双対性(1.12)、周期性、一般の自然なHom–Ext比較 |
 
 
 ## 主結果の状態
 
 | 主張 | 状態 |
 |---|---|
-| 定理3.2：一般の型QのAS–Ginzburg対応 | **未証明。Leanの形式的な文も未実装。** |
-| 命題1.4：AS条件からの周期性 | **未証明。区間同型を仮定した最後の貼り合わせのみ証明。** |
-| 命題5.1：quadratic AS正則Z-代数の三周期性 | **未証明。** |
-| 系5.2：(3,3,3)型の全単射 | **未証明。Leanの形式的な文も未実装。** |
+| 定理3.2：一般の型QのAS–Ginzburg対応 | 未証明。形式的な定理文も未実装 |
+| 命題1.3 | 既存presheafモデルのASRegularから(1.11)の数値的順方向は証明済み。逆方向・(1.12)の左加群双対性・Gr(A)比較は未証明 |
+| 命題1.4：AS条件からの周期性 | 未証明。coherentな区間同型を仮定した最後の貼り合わせのみ |
+| 命題5.1：三周期性 | 未証明 |
+| 系5.2：(3,3,3)型の全単射 | 未証明。形式的な定理文も未実装 |
 
+## 条件付き結果と残る義務
 
-初期161宣言を含む全245監査対象を`verification/declarations.json`に列挙。
-161は歴史的な件数であり、将来の追加を妨げる固定条件ではありません。
-`InWindow.mono`の完全名と監査一覧・コマンド・ログの重複／漏れを検査します。
+ASResolutionの存在は原論文定義(i)の条件をモデル化したもの。任意のAで導いたとは扱わない。
+ASRegularの条件には周期性・WindowSystem・delta型のExt表・主定理相当の結論を含めない。
+既存の数値表・共役・WindowSystemの補題の入力を原論文から導く未証明部分も残る。
+標準無限分解だけから有限性を主張しない。
+古いleftDerived型ExtのisoExtを新しいAbelian.Extの比較定理と取り違えない。
 
-今回の5単位は、既存の体・ZAlgebraの条件から証明しました。
-周期性、必要なExt同型、AS条件と同等の結論を仮定に追加していません。
-一般の体で成立する補題であり、原論文の主定理の代数閉・標数0の仮定を弱めていません。
-`Simple`、`EnoughProjectives`、`HasExt`はmathlibの標準定義を実際の構成から証明したものです。
+- 原論文の局所単位元付き直和加群Gr(A)と既存presheafモデルの明示的同値、Ext保存。
+- 全M,N・全次数の自然なHom複体–Abelian.Ext比較。命題1.3の3次比較は証明済み。
+- (1.11)→(1.7)の逆方向。finrankだけでは無限次元を排除できないので有限性を省かない。
+- A-dualの左加群作用、有限生成分解と直和の交換、(1.12)の左加群AS双対性。
+- 有限長双対性、区間同型のcoherence、AS条件からの周期性。WindowSystemをAS条件に加えない。
+- 特定のJacobian代数についてAS分解の存在、Jacobian商とGinzburg dg代数、外部一般定理、主定理の同型類対応。
 
-## 残る範囲と検査記録
+ソースにsorry/admit/独自axiomなし。公理依存はpropext、Classical.choice、Quot.soundのみ。
+sorryAx、Lean.ofReduceBool、Lean.trustCompilerへの依存なし。
+新規数学ファイルに未解決のコンパイルエラー・lint警告なし。既存のlint警告は残存。
+161は初期成果の件数で、宣言数の固定条件ではありません。
 
-- `s_v`は既存の線形presheafモデルで構成済み。局所単位元付き直和加群`Gr(A)`との明示的同値は未実装。
-- 標準projective resolutionは一般に無限で、有限性・最小性・長さ3を証明していません。
-- Ext⁰の接続は加法的同型。全高次Extのk作用・線形性とHom複体による計算は未実装。
-- Extⁿ(P_i,M)=0は第1引数が射影対象の場合。論文(1.7)のExtⁿ(s_u,P_v)を計算した結果ではありません。
-- AS正則性・Ginzburg正則性の本体と主定理文は未実装。
-- 以前の次元表・WindowSystem・共役などの条件付き補題では、原論文から入力を導く部分が未証明。
-- 新規数学ファイルに未解決のコンパイルエラー・lint警告はありません。既存のlint警告は残存。
-- 原ファイルの保存確認は`verification/projective_simple_preservation.json`。
-- 証明単位ごとの差分・実測時刻・終了コード・次の義務は`runs/projective-simple-20261008.md`と各unit patch。
-- 最新のActions・リモート保存・タスク全体の実測時間は`RECENT_RUN.md`参照。
+各証明単位はruns/radical-resolution-20261008-unit*.patchと新規verification/runs/に保存。
+実測時刻・終了コード・次の義務・main保存先はruns/radical-resolution-20261008.mdとRECENT_RUN.md。
+初期14数学モジュール・入力PDFの旧SHA-256一致、recovery/とcheckpoints/の無変更を再確認。
+保存確認はverification/radical_resolution_preservation.json。ルートimportと生成AxiomAuditは意図した更新。
+CLI git pushの認証エラー(終了128)後、接続済みGitHub APIへ切り替えた。
+ローカル検証済みtreeのSHA一致とexpected_shaを確認し、force=falseでmainを通常のfast-forward保存。
+ローカルmainも同じAPI commit objectに同期。CLIの認証が修復されたという主張はしない。
+新規PRなし。mainへのpush・最新Actionsとartifactの確認はRECENT_RUN.md参照。
 
-ユーザーは形式化の自律的継続を明示的に指示しています。通常の次の補題のために再開確認は不要です。
-
-数学的コミット`2ac9d17`のmain Actionsはsuccess、12ファイルの最新artifact保存を確認。
-証拠は`verification/projective_simple_github_ci_evidence.json`とRECENT_RUN.md。
+ユーザーは形式化の自律的継続を明示的に指示。通常の補題について再開確認は不要。
