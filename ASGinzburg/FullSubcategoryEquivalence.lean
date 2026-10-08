@@ -1,0 +1,44 @@
+import Mathlib.CategoryTheory.ObjectProperty.Opposite
+import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+import Mathlib.CategoryTheory.Equivalence
+namespace ASGinzburg
+open CategoryTheory Opposite
+universe u v
+variable {C : Type u} [Category.{v} C]
+
+def fullSubcategoryOpFunctor (P : ObjectProperty C) :
+    P.FullSubcategoryᵒᵖ ⥤ P.op.FullSubcategory where
+  obj X := ⟨op X.unop.obj, X.unop.property⟩
+  map {X Y} f := (show Y.unop.obj ⟶ X.unop.obj from f.unop).op
+
+def fullSubcategoryOpInverse (P : ObjectProperty C) :
+    P.op.FullSubcategory ⥤ P.FullSubcategoryᵒᵖ where
+  obj X := op ⟨X.obj.unop, X.property⟩
+  map {X Y} f :=
+    (show (⟨Y.obj.unop,Y.property⟩ : P.FullSubcategory) ⟶ ⟨X.obj.unop,X.property⟩ from f.unop).op
+
+def fullSubcategoryOpEquivalence (P : ObjectProperty C) :
+    P.FullSubcategoryᵒᵖ ≌ P.op.FullSubcategory :=
+  CategoryTheory.Equivalence.mk (fullSubcategoryOpFunctor P) (fullSubcategoryOpInverse P)
+    (NatIso.ofComponents (fun X => Iso.refl X)
+      (by intro X Y f; simp [fullSubcategoryOpFunctor, fullSubcategoryOpInverse]))
+    (NatIso.ofComponents (fun X => Iso.refl X)
+      (by intro X Y f; simp [fullSubcategoryOpFunctor, fullSubcategoryOpInverse]))
+end ASGinzburg
+
+namespace ASGinzburg
+open CategoryTheory
+universe u v u' v'
+variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
+
+def restrictEquivalence (e : C ≌ D) (P : ObjectProperty C) (Q : ObjectProperty D)
+    (hF : ∀ X, P X → Q (e.functor.obj X))
+    (hG : ∀ Y, Q Y → P (e.inverse.obj Y)) : P.FullSubcategory ≌ Q.FullSubcategory :=
+  CategoryTheory.Equivalence.mk
+    (Q.lift (P.ι ⋙ e.functor) (fun X => hF X.obj X.property))
+    (P.lift (Q.ι ⋙ e.inverse) (fun Y => hG Y.obj Y.property))
+    (NatIso.ofComponents (fun X => P.isoMk (e.unitIso.app X.obj))
+      (by intro X Y f; exact e.unitIso.hom.naturality (show X.obj ⟶ Y.obj from f)))
+    (NatIso.ofComponents (fun Y => Q.isoMk (e.counitIso.app Y.obj))
+      (by intro X Y f; exact e.counitIso.hom.naturality (show X.obj ⟶ Y.obj from f)))
+end ASGinzburg

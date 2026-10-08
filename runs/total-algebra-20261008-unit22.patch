@@ -1,0 +1,327 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 24092b8..fc47c3f 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -80,6 +80,7 @@ import ASGinzburg.GinzburgGrading
+ import ASGinzburg.ModuleBidualEvaluation
+ import ASGinzburg.FiniteProjectiveBidual
+ import ASGinzburg.FiniteProjectiveDuality
++import ASGinzburg.FiniteProjectiveComplexDuality
+ 
+ /-!
+ # AS--Ginzburg formalization checkpoint
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index e62e64c..12c5a1e 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -247,6 +247,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_bidual
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_bidual
++#print axioms ASGinzburg.ZAlgebra.finiteProjectiveComplexADualEquivalence
++#print axioms ASGinzburg.ZAlgebra.finiteProjectiveHomotopyADualEquivalence
++#print axioms ASGinzburg.boundedHomotopyProperty
++#print axioms ASGinzburg.BoundedHomotopyCategory
++#print axioms ASGinzburg.ZAlgebra.finiteProjectiveHomotopyADualEquivalence_bounded
++#print axioms ASGinzburg.ZAlgebra.finiteProjectiveHomotopyADualEquivalence_inverse_bounded
++#print axioms ASGinzburg.ZAlgebra.boundedFiniteProjectiveADualEquivalence
+ #print axioms ASGinzburg.projective_of_retract
+ #print axioms ASGinzburg.coproduct_projective
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteSumADualIso
+@@ -267,6 +274,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveBidualIso
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveBidualUnit
+ #print axioms ASGinzburg.ZAlgebra.finiteProjectiveADualEquivalence
++#print axioms ASGinzburg.fullSubcategoryOpFunctor
++#print axioms ASGinzburg.fullSubcategoryOpInverse
++#print axioms ASGinzburg.fullSubcategoryOpEquivalence
++#print axioms ASGinzburg.restrictEquivalence
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
+@@ -292,6 +303,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.kernelFunctorPreservesExactColimits
+ #print axioms ASGinzburg.cokernelFunctorPreservesColimits
+ #print axioms ASGinzburg.moduleCatExactCoproducts
++#print axioms ASGinzburg.homotopyMapUnitIso
++#print axioms ASGinzburg.homotopyMapCounitIso
++#print axioms ASGinzburg.homotopyMapEquivalence
++#print axioms ASGinzburg.homotopyMapAdditive
++#print axioms ASGinzburg.homotopy_op
++#print axioms ASGinzburg.homotopy_unop_symm
++#print axioms ASGinzburg.homotopyOpFunctor
++#print axioms ASGinzburg.homotopyOpInverse
++#print axioms ASGinzburg.homotopyOpUnitIso
++#print axioms ASGinzburg.homotopyOpCounitIso
++#print axioms ASGinzburg.homotopyOpEquivalence
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableFunctor
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftRepresentableFunctorLinear
+diff --git a/ASGinzburg/HomotopyOpposite.lean b/ASGinzburg/HomotopyOpposite.lean
+new file mode 100644
+index 0000000..ccbc2e6
+--- /dev/null
++++ b/ASGinzburg/HomotopyOpposite.lean
+@@ -0,0 +1,93 @@
++import Mathlib.Algebra.Homology.Opposite
++import Mathlib.Algebra.Homology.HomotopyCategory
++namespace ASGinzburg
++open CategoryTheory HomologicalComplex Opposite
++universe u v
++variable {C : Type u} [Category.{v} C] [Preadditive C]
++  {I : Type*} {c : ComplexShape I} {X Y : HomologicalComplex C c}
++
++def homotopy_op {f g : X ⟶ Y} (h : Homotopy f g) :
++    Homotopy ((HomologicalComplex.opFunctor C c).map f.op)
++      ((HomologicalComplex.opFunctor C c).map g.op) where
++  hom i j := (h.hom j i).op
++  zero i j hij := by
++    change (h.hom j i).op = 0
++    rw [h.zero j i hij]
++    rfl
++  comm i := by
++    change (f.f i).op =
++      (Y.d (c.prev i) i).op ≫ (h.hom i (c.prev i)).op +
++        (h.hom (c.next i) i).op ≫ (X.d i (c.next i)).op + (g.f i).op
++    have H := congrArg Quiver.Hom.op (h.comm i)
++    dsimp [dNext, prevD] at H
++    simpa only [op_add, op_comp, add_comm, add_left_comm, add_assoc] using H
++def homotopy_unop_symm {X Y : HomologicalComplex Cᵒᵖ c.symm}
++    {f g : X ⟶ Y} (h : Homotopy f g) :
++    Homotopy ((HomologicalComplex.opInverse C c).map f).unop
++      ((HomologicalComplex.opInverse C c).map g).unop where
++  hom i j := (h.hom j i).unop
++  zero i j hij := by
++    change (h.hom j i).unop = 0
++    rw [h.zero j i hij]
++    rfl
++  comm i := by
++    change (f.f i).unop =
++      (Y.d (c.next i) i).unop ≫ (h.hom i (c.next i)).unop +
++        (h.hom (c.prev i) i).unop ≫ (X.d i (c.prev i)).unop + (g.f i).unop
++    have H := congrArg Quiver.Hom.unop (h.comm i)
++    dsimp [dNext, prevD] at H
++    simpa only [unop_add, unop_comp, add_comm, add_left_comm, add_assoc] using H
++
++def homotopyOpFunctor (C : Type u) [Category.{v} C] [Preadditive C]
++    (c : ComplexShape I) : (HomotopyCategory C c)ᵒᵖ ⥤ HomotopyCategory Cᵒᵖ c.symm :=
++  (CategoryTheory.Quotient.lift (homotopic C c)
++    ((HomologicalComplex.opFunctor C c ⋙ HomotopyCategory.quotient Cᵒᵖ c.symm).rightOp)
++    (by
++      intro X Y f g h
++      obtain ⟨h⟩ := h
++      exact congrArg Quiver.Hom.op (HomotopyCategory.eq_of_homotopy _ _ (homotopy_op h)))).leftOp
++
++def homotopyOpInverse (C : Type u) [Category.{v} C] [Preadditive C]
++    (c : ComplexShape I) : HomotopyCategory Cᵒᵖ c.symm ⥤ (HomotopyCategory C c)ᵒᵖ :=
++  CategoryTheory.Quotient.lift (homotopic Cᵒᵖ c.symm)
++    (HomologicalComplex.opInverse C c ⋙ (HomotopyCategory.quotient C c).op)
++    (by
++      intro X Y f g h
++      obtain ⟨h⟩ := h
++      exact congrArg Quiver.Hom.op (HomotopyCategory.eq_of_homotopy _ _ (homotopy_unop_symm h)))
++def homotopyOpUnitIso (C : Type u) [Category.{v} C] [Preadditive C]
++    (c : ComplexShape I) :
++    𝟭 (HomotopyCategory C c)ᵒᵖ ≅ homotopyOpFunctor C c ⋙ homotopyOpInverse C c :=
++  NatIso.ofComponents (fun X => by
++    let e := ((HomologicalComplex.opUnitIso C c).app (op X.unop.as)).unop
++    exact ((HomotopyCategory.quotient C c).mapIso e).op)
++    (by
++      intro X Y f
++      apply Quiver.Hom.unop_inj
++      change _ = _
++      obtain ⟨g, hg⟩ := (HomotopyCategory.quotient C c).map_surjective f.unop
++      have H := (HomologicalComplex.opUnitIso C c).hom.naturality g.op
++      have H' := congrArg (fun t => (HomotopyCategory.quotient C c).map t.unop) H
++      have hf : f = ((HomotopyCategory.quotient C c).map g).op :=
++        Quiver.Hom.unop_inj hg.symm
++      rw [hf]
++      simpa [homotopyOpFunctor, homotopyOpInverse] using H')
++
++def homotopyOpCounitIso (C : Type u) [Category.{v} C] [Preadditive C]
++    (c : ComplexShape I) :
++    homotopyOpInverse C c ⋙ homotopyOpFunctor C c ≅ 𝟭 (HomotopyCategory Cᵒᵖ c.symm) :=
++  NatIso.ofComponents (fun X =>
++    (HomotopyCategory.quotient Cᵒᵖ c.symm).mapIso ((HomologicalComplex.opCounitIso C c).app X.as))
++    (by
++      intro X Y f
++      obtain ⟨g, hg⟩ := (HomotopyCategory.quotient Cᵒᵖ c.symm).map_surjective f
++      have H := (HomologicalComplex.opCounitIso C c).hom.naturality g
++      have H' := congrArg (fun t => (HomotopyCategory.quotient Cᵒᵖ c.symm).map t) H
++      rw [← hg]
++      simpa [homotopyOpFunctor, homotopyOpInverse] using H')
++
++def homotopyOpEquivalence (C : Type u) [Category.{v} C] [Preadditive C]
++    (c : ComplexShape I) : (HomotopyCategory C c)ᵒᵖ ≌ HomotopyCategory Cᵒᵖ c.symm :=
++  CategoryTheory.Equivalence.mk (homotopyOpFunctor C c) (homotopyOpInverse C c)
++    (homotopyOpUnitIso C c) (homotopyOpCounitIso C c)
++end ASGinzburg
+diff --git a/ASGinzburg/HomotopyEquivalence.lean b/ASGinzburg/HomotopyEquivalence.lean
+new file mode 100644
+index 0000000..733cb8a
+--- /dev/null
++++ b/ASGinzburg/HomotopyEquivalence.lean
+@@ -0,0 +1,34 @@
++import Mathlib.Algebra.Homology.HomotopyCategory
++import Mathlib.CategoryTheory.Whiskering
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Functor
++universe u v u' v'
++variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
++  [Preadditive C] [Preadditive D] {I : Type*}
++
++def homotopyMapUnitIso (e : C ≌ D) [e.functor.Additive] (c : ComplexShape I) :
++    𝟭 (HomotopyCategory C c) ≅ e.functor.mapHomotopyCategory c ⋙ e.inverse.mapHomotopyCategory c :=
++  CategoryTheory.Quotient.natIsoLift (homotopic C c)
++    (isoWhiskerRight (e.mapHomologicalComplex c).unitIso (HomotopyCategory.quotient C c))
++
++def homotopyMapCounitIso (e : C ≌ D) [e.functor.Additive] (c : ComplexShape I) :
++    e.inverse.mapHomotopyCategory c ⋙ e.functor.mapHomotopyCategory c ≅ 𝟭 (HomotopyCategory D c) :=
++  CategoryTheory.Quotient.natIsoLift (homotopic D c)
++    (isoWhiskerRight (e.mapHomologicalComplex c).counitIso (HomotopyCategory.quotient D c))
++
++def homotopyMapEquivalence (e : C ≌ D) [e.functor.Additive] (c : ComplexShape I) :
++    HomotopyCategory C c ≌ HomotopyCategory D c :=
++  CategoryTheory.Equivalence.mk (e.functor.mapHomotopyCategory c)
++    (e.inverse.mapHomotopyCategory c) (homotopyMapUnitIso e c) (homotopyMapCounitIso e c)
++
++instance homotopyMapAdditive (F : C ⥤ D) [F.Additive] (c : ComplexShape I) :
++    (F.mapHomotopyCategory c).Additive where
++  map_add := by
++    intro X Y f g
++    obtain ⟨f',hf⟩ := (HomotopyCategory.quotient C c).map_surjective f
++    obtain ⟨g',hg⟩ := (HomotopyCategory.quotient C c).map_surjective g
++    rw [← hf, ← hg, ← (HomotopyCategory.quotient C c).map_add]
++    rw [Functor.mapHomotopyCategory_map]
++    rw [(F.mapHomologicalComplex c).map_add, (HomotopyCategory.quotient D c).map_add]
++    rw [Functor.mapHomotopyCategory_map, Functor.mapHomotopyCategory_map]
++end ASGinzburg
+diff --git a/ASGinzburg/FullSubcategoryEquivalence.lean b/ASGinzburg/FullSubcategoryEquivalence.lean
+new file mode 100644
+index 0000000..50230c5
+--- /dev/null
++++ b/ASGinzburg/FullSubcategoryEquivalence.lean
+@@ -0,0 +1,44 @@
++import Mathlib.CategoryTheory.ObjectProperty.Opposite
++import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
++import Mathlib.CategoryTheory.Equivalence
++namespace ASGinzburg
++open CategoryTheory Opposite
++universe u v
++variable {C : Type u} [Category.{v} C]
++
++def fullSubcategoryOpFunctor (P : ObjectProperty C) :
++    P.FullSubcategoryᵒᵖ ⥤ P.op.FullSubcategory where
++  obj X := ⟨op X.unop.obj, X.unop.property⟩
++  map {X Y} f := (show Y.unop.obj ⟶ X.unop.obj from f.unop).op
++
++def fullSubcategoryOpInverse (P : ObjectProperty C) :
++    P.op.FullSubcategory ⥤ P.FullSubcategoryᵒᵖ where
++  obj X := op ⟨X.obj.unop, X.property⟩
++  map {X Y} f :=
++    (show (⟨Y.obj.unop,Y.property⟩ : P.FullSubcategory) ⟶ ⟨X.obj.unop,X.property⟩ from f.unop).op
++
++def fullSubcategoryOpEquivalence (P : ObjectProperty C) :
++    P.FullSubcategoryᵒᵖ ≌ P.op.FullSubcategory :=
++  CategoryTheory.Equivalence.mk (fullSubcategoryOpFunctor P) (fullSubcategoryOpInverse P)
++    (NatIso.ofComponents (fun X => Iso.refl X)
++      (by intro X Y f; simp [fullSubcategoryOpFunctor, fullSubcategoryOpInverse]))
++    (NatIso.ofComponents (fun X => Iso.refl X)
++      (by intro X Y f; simp [fullSubcategoryOpFunctor, fullSubcategoryOpInverse]))
++end ASGinzburg
++
++namespace ASGinzburg
++open CategoryTheory
++universe u v u' v'
++variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
++
++def restrictEquivalence (e : C ≌ D) (P : ObjectProperty C) (Q : ObjectProperty D)
++    (hF : ∀ X, P X → Q (e.functor.obj X))
++    (hG : ∀ Y, Q Y → P (e.inverse.obj Y)) : P.FullSubcategory ≌ Q.FullSubcategory :=
++  CategoryTheory.Equivalence.mk
++    (Q.lift (P.ι ⋙ e.functor) (fun X => hF X.obj X.property))
++    (P.lift (Q.ι ⋙ e.inverse) (fun Y => hG Y.obj Y.property))
++    (NatIso.ofComponents (fun X => P.isoMk (e.unitIso.app X.obj))
++      (by intro X Y f; exact e.unitIso.hom.naturality (show X.obj ⟶ Y.obj from f)))
++    (NatIso.ofComponents (fun Y => Q.isoMk (e.counitIso.app Y.obj))
++      (by intro X Y f; exact e.counitIso.hom.naturality (show X.obj ⟶ Y.obj from f)))
++end ASGinzburg
+diff --git a/ASGinzburg/FiniteProjectiveComplexDuality.lean b/ASGinzburg/FiniteProjectiveComplexDuality.lean
+new file mode 100644
+index 0000000..5de9b70
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveComplexDuality.lean
+@@ -0,0 +1,73 @@
++import ASGinzburg.FiniteProjectiveDuality
++import ASGinzburg.HomotopyOpposite
++import ASGinzburg.HomotopyEquivalence
++import ASGinzburg.FullSubcategoryEquivalence
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {I : Type*}
++
++noncomputable def finiteProjectiveComplexADualEquivalence (c : ComplexShape I) :
++    (HomologicalComplex A.RightFiniteProjective c)ᵒᵖ ≌
++      HomologicalComplex A.LeftFiniteProjective c.symm := by
++  letI : A.finiteProjectiveADualEquivalence.functor.Additive :=
++    A.rightFiniteProjectiveADualFunctorAdditive
++  exact (HomologicalComplex.opEquivalence A.RightFiniteProjective c).trans
++    (A.finiteProjectiveADualEquivalence.mapHomologicalComplex c.symm)
++
++noncomputable def finiteProjectiveHomotopyADualEquivalence (c : ComplexShape I) :
++    (HomotopyCategory A.RightFiniteProjective c)ᵒᵖ ≌
++      HomotopyCategory A.LeftFiniteProjective c.symm := by
++  letI : A.finiteProjectiveADualEquivalence.functor.Additive :=
++    A.rightFiniteProjectiveADualFunctorAdditive
++  exact (ASGinzburg.homotopyOpEquivalence A.RightFiniteProjective c).trans
++    (ASGinzburg.homotopyMapEquivalence A.finiteProjectiveADualEquivalence c.symm)
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable (C : Type u) [Category.{v} C] [Preadditive C] (c : ComplexShape ℤ)
++
++/-- Actual complexes which are zero outside a finite interval of degrees. -/
++def boundedHomotopyProperty : ObjectProperty (HomotopyCategory C c) :=
++  fun X => ∃ a b : ℤ, ∀ n, n < a ∨ b < n → IsZero (X.as.X n)
++
++abbrev BoundedHomotopyCategory := (boundedHomotopyProperty C c).FullSubcategory
++end ASGinzburg
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (c : ComplexShape ℤ)
++
++theorem finiteProjectiveHomotopyADualEquivalence_bounded
++    {X : (HomotopyCategory A.RightFiniteProjective c)ᵒᵖ}
++    (h : ASGinzburg.boundedHomotopyProperty A.RightFiniteProjective c X.unop) :
++    ASGinzburg.boundedHomotopyProperty A.LeftFiniteProjective c.symm
++      ((A.finiteProjectiveHomotopyADualEquivalence c).functor.obj X) := by
++  obtain ⟨a,b,h⟩ := h
++  refine ⟨a,b,?_⟩
++  intro n hn
++  exact A.rightFiniteProjectiveADualFunctor.map_isZero ((h n hn).op)
++
++theorem finiteProjectiveHomotopyADualEquivalence_inverse_bounded
++    {X : HomotopyCategory A.LeftFiniteProjective c.symm}
++    (h : ASGinzburg.boundedHomotopyProperty A.LeftFiniteProjective c.symm X) :
++    ASGinzburg.boundedHomotopyProperty A.RightFiniteProjective c
++      ((A.finiteProjectiveHomotopyADualEquivalence c).inverse.obj X).unop := by
++  obtain ⟨a,b,h⟩ := h
++  refine ⟨a,b,?_⟩
++  intro n hn
++  exact (A.leftFiniteProjectiveADualFunctor.rightOp.map_isZero (h n hn)).unop
++noncomputable def boundedFiniteProjectiveADualEquivalence :
++    (ASGinzburg.BoundedHomotopyCategory A.RightFiniteProjective c)ᵒᵖ ≌
++      ASGinzburg.BoundedHomotopyCategory A.LeftFiniteProjective c.symm :=
++  (ASGinzburg.fullSubcategoryOpEquivalence
++    (ASGinzburg.boundedHomotopyProperty A.RightFiniteProjective c)).trans
++    (ASGinzburg.restrictEquivalence (A.finiteProjectiveHomotopyADualEquivalence c)
++      (ASGinzburg.boundedHomotopyProperty A.RightFiniteProjective c).op
++      (ASGinzburg.boundedHomotopyProperty A.LeftFiniteProjective c.symm)
++      (fun _ h => A.finiteProjectiveHomotopyADualEquivalence_bounded c h)
++      (fun _ h => A.finiteProjectiveHomotopyADualEquivalence_inverse_bounded c h))
++end ASGinzburg.ZAlgebra

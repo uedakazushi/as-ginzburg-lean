@@ -80,6 +80,7 @@ import ASGinzburg.GinzburgGrading
 import ASGinzburg.ModuleBidualEvaluation
 import ASGinzburg.FiniteProjectiveBidual
 import ASGinzburg.FiniteProjectiveDuality
+import ASGinzburg.FiniteProjectiveComplexDuality
 
 /-!
 # AS--Ginzburg formalization checkpoint
