@@ -8,7 +8,8 @@
 開始main：a3debe134d372c9b2d47d9fd601a5ea64a332993。
 開始時点の同コミットActions 37722967530：success。
 AGENTS/HANDOFF/STATUS/GAPS・現行/回収results・最新runを読み、原論文§1.2–1.3を照合済み。
-終了時刻・全体経過時間は終了時に実測して記録する。
+終了記録時の実測UTC：2026-10-08T04:40:14+00:00。開始から4091秒（秒精度UTC観測値の差）。
+範囲は9単位の実装・検査・数学コミット保存・そのCI確認・文書整備まで。最終記録コミットの保存と後続CIは範囲外。
 
 保存は接続済みGitHub APIで直接main、通常のfast-forward、force=false、新規PRなし。
 CLI git pushの前回認証不具合を修復したという主張はしない。
@@ -22,7 +23,7 @@ ASResolutionの存在は原論文(i)の条件であり、総rank=1の(ii)は使�
 次：有限coproductのHomとkernelのHomの有限性、低次Extの長完全列による有限性。
 
 初回全体run 20261008T033924Z-3e8fa100はルートimportの配置ミスでbuild終了1。
-importを冒頭へ移して新規runで再検証する。失敗ログは削除しない。
+importを冒頭へ移し、下記の新規runで全段階終了0を確認した。失敗ログも保持。
 
 検証：`20261008T034026Z-887b3beb`、155.891924秒、全段階終了0。
 UTC 2026-10-08T03:40:26.273705+00:00 → 2026-10-08T03:43:02.165634+00:00。
@@ -161,9 +162,44 @@ AS条件・周期性・Ext同型の仮定なし。標準公理だけの定義と
 次：この自然性と有限coproductのHom交換、高次Extの直和交換。
 
 初回全体run 20261008T042349Z-64f44e21はscalar mapのsimp未解決でbuild終了1。
-個別処理の完了前に成功と述べた点を訂正し、明示的Linear.smul_compへ修正して再検証する。失敗ログも保持。
+個別処理の完了前に成功と述べた点を訂正し、明示的Linear.smul_compへ修正した。下記の新規runで全段階終了0を確認し、失敗ログも保持。
 
 検証：`20261008T042452Z-24160755`、219.485639秒、全段階終了0。
 UTC 2026-10-08T04:24:52.677086+00:00 → 2026-10-08T04:28:32.162732+00:00。
 505異なる宣言・223 theorem・91 named instance。
 差分：runs/as-finiteness-20261008-unit9.patch。
+
+単位9のmain保存：2863bba9507cd638c09d4d885347abdb42d821fa。
+
+## 最終検査・CI・引継ぎ
+
+9証明単位をそれぞれ新規の全体検査と差分で保存し、直接mainへ通常のfast-forwardで公開した。
+開始時35→51数学モジュール、369→505異なる宣言、177→223 theorem、53→91 named instance。
+16モジュール・136宣言・46 theorem・38 named instanceを追加。ASRegularの数学的定義は無変更。
+最新ローカル検証20261008T042452Z-24160755は219.485638902秒。
+11回帰テスト、ソース監査、固定環境、lake build、全宣言#print axioms、照合はすべて終了0。
+全223 theoremを含み、重複・漏れ・sorry/admit/独自axiom・禁止依存は零。標準公理はpropext/Classical.choice/Quot.soundのみ。
+9回の成功検査の各開始終了・単調時計の実測秒・現在のソースSHA一致はverification/as_finiteness_final_state.json。
+初期14モジュール・PDFと19個の歴史的回収/checkpointファイルは無変更、保存確認終了0。git diff --checkも終了0。
+
+今回の最終数学コミット2863bbaの[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37727782672)はsuccess。
+505宣言・全223 theoremの新規監査、12ファイルの今回のartifact保存を確認。
+CI検証はUTC 2026-10-08T04:30:31.595999+00:00 → 2026-10-08T04:38:32.459227+00:00、
+単調時計で480.863225234秒、終了0。
+証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI log。
+この確認後の最終保存は文書・記録のみ。同じ数学ソースを保ち、そのpushでもCIを新規実行する。
+
+初回の単位1・9のbuild終了1は修正済み。両失敗runも削除しない。
+未解決のコンパイル・公理監査エラーなし。既存PathAlgebraのunusedSimpArgs警告は残存。
+Actionsでは固定checkout/upload-artifactのNode.js 20をrunnerのNode.js 24で実行する非致命的な警告も残存。
+前回からのCLI認証エラーは修復していないが、接続済みAPIで検証済みtreeをSHA照合し、expected_sha/force=falseで保存できた。
+新規PRなし。HANDOFF/STATUS/GAPS/README/AGENTSとdocs/as_finiteness_left_duality.mdを現状に更新。
+
+次：有限coproductの射影項のHomと直和の交換、高次Extの自然な交換、Gr(A)との明示的同値とExt保存。
+一般のbidual評価の自然性、有限生成射影/perfect complexへの拡張、有限長双対性、AS条件からの周期性は未証明。
+Jacobian商・Ginzburg dg代数の本体と外部一般定理も必要。定理3.2・系5.2は未証明で、形式的な定理文も未実装。
+Ext成分の左単純商への同型を原論文Ext(s_w,A)版(1.12)全体の完成とは扱わない。
+
+実測開始UTC：2026-10-08T03:32:03+00:00。終了記録UTC：2026-10-08T04:40:14+00:00。経過4091秒。
+秒精度UTC観測時刻の差であり、各check.shの単調時計実測と区別する。最終記録のAPI保存と後続CIはこの測定範囲外。
+詳細はverification/as_finiteness_task_timing.json。未測定の過去の稼働時間を推測していない。

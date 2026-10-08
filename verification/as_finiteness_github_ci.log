@@ -1,0 +1,1510 @@
+﻿2026-10-08T04:30:14.3809098Z Current runner version: '2.337.0'
+2026-10-08T04:30:14.3886787Z ##[group]Runner Image Provisioner
+2026-10-08T04:30:14.3888163Z Hosted Compute Agent
+2026-10-08T04:30:14.3889371Z Version: 20260901.588
+2026-10-08T04:30:14.3890693Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-08T04:30:14.3891989Z Build Date: 2026-09-01T19:56:44Z
+2026-10-08T04:30:14.3903850Z Worker ID: {550b2495-8803-4d9e-a666-250de1b7eade}
+2026-10-08T04:30:14.3905268Z Azure Region: westcentralus
+2026-10-08T04:30:14.3906515Z ##[endgroup]
+2026-10-08T04:30:14.3909187Z ##[group]Operating System
+2026-10-08T04:30:14.3910328Z Ubuntu
+2026-10-08T04:30:14.3911438Z 24.04.5
+2026-10-08T04:30:14.3912405Z LTS
+2026-10-08T04:30:14.3913658Z ##[endgroup]
+2026-10-08T04:30:14.3914937Z ##[group]Runner Image
+2026-10-08T04:30:14.3916000Z Image: ubuntu-24.04
+2026-10-08T04:30:14.3917113Z Version: 20260927.320.1
+2026-10-08T04:30:14.3919318Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-08T04:30:14.3922201Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-08T04:30:14.3944547Z ##[endgroup]
+2026-10-08T04:30:14.3946662Z ##[group]GITHUB_TOKEN Permissions
+2026-10-08T04:30:14.3954653Z Contents: read
+2026-10-08T04:30:14.3956313Z Metadata: read
+2026-10-08T04:30:14.3957317Z ##[endgroup]
+2026-10-08T04:30:14.3960181Z Secret source: Actions
+2026-10-08T04:30:14.3961891Z Cache mode: write
+2026-10-08T04:30:14.3965935Z Prepare workflow directory
+2026-10-08T04:30:14.4550071Z Prepare all required actions
+2026-10-08T04:30:14.4703877Z Getting action download info
+2026-10-08T04:30:14.7522328Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-10-08T04:30:14.8832313Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-08T04:30:15.1039537Z Complete job name: verify
+2026-10-08T04:30:15.1759824Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-10-08T04:30:15.1760888Z with:
+2026-10-08T04:30:15.1761374Z   repository: uedakazushi/as-ginzburg-lean
+2026-10-08T04:30:15.1765210Z   token: ***
+2026-10-08T04:30:15.1765657Z   ssh-strict: true
+2026-10-08T04:30:15.1766093Z   ssh-user: git
+2026-10-08T04:30:15.1766544Z   persist-credentials: true
+2026-10-08T04:30:15.1767023Z   clean: true
+2026-10-08T04:30:15.1767473Z   sparse-checkout-cone-mode: true
+2026-10-08T04:30:15.1767988Z   fetch-depth: 1
+2026-10-08T04:30:15.1768415Z   fetch-tags: false
+2026-10-08T04:30:15.1768857Z   show-progress: true
+2026-10-08T04:30:15.1769304Z   lfs: false
+2026-10-08T04:30:15.1769719Z   submodules: false
+2026-10-08T04:30:15.1770171Z   set-safe-directory: true
+2026-10-08T04:30:15.1770911Z ##[endgroup]
+2026-10-08T04:30:15.2871612Z Syncing repository: uedakazushi/as-ginzburg-lean
+2026-10-08T04:30:15.2877641Z ##[group]Getting Git version info
+2026-10-08T04:30:15.2879496Z Working directory is '/home/runner/work/as-ginzburg-lean/as-ginzburg-lean'
+2026-10-08T04:30:15.2893794Z [command]/usr/bin/git version
+2026-10-08T04:30:15.3034032Z git version 2.55.0
+2026-10-08T04:30:15.3080396Z ##[endgroup]
+2026-10-08T04:30:15.3093015Z Temporarily overriding HOME='/home/runner/work/_temp/52d4499e-1174-4a3b-97bd-039f6bf7f6f3' before making global git config changes
+2026-10-08T04:30:15.3096191Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-08T04:30:15.3098857Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/as-ginzburg-lean/as-ginzburg-lean
+2026-10-08T04:30:15.3181887Z Deleting the contents of '/home/runner/work/as-ginzburg-lean/as-ginzburg-lean'
+2026-10-08T04:30:15.3184652Z ##[group]Initializing the repository
+2026-10-08T04:30:15.3186272Z [command]/usr/bin/git init /home/runner/work/as-ginzburg-lean/as-ginzburg-lean
+2026-10-08T04:30:15.3360913Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-08T04:30:15.3375519Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-08T04:30:15.3377504Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-08T04:30:15.3379003Z hint: call:
+2026-10-08T04:30:15.3381013Z hint:
+2026-10-08T04:30:15.3382537Z hint: 	git config --global init.defaultBranch <name>
+2026-10-08T04:30:15.3384267Z hint:
+2026-10-08T04:30:15.3385476Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-08T04:30:15.3387254Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-08T04:30:15.3388665Z hint:
+2026-10-08T04:30:15.3404035Z hint: 	git branch -m <name>
+2026-10-08T04:30:15.3409455Z hint:
+2026-10-08T04:30:15.3410697Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-08T04:30:15.3414559Z Initialized empty Git repository in /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/.git/
+2026-10-08T04:30:15.3418597Z [command]/usr/bin/git remote add origin https://github.com/uedakazushi/as-ginzburg-lean
+2026-10-08T04:30:15.3463000Z ##[endgroup]
+2026-10-08T04:30:15.3464843Z ##[group]Disabling automatic garbage collection
+2026-10-08T04:30:15.3466405Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-08T04:30:15.3531186Z ##[endgroup]
+2026-10-08T04:30:15.3532553Z ##[group]Setting up auth
+2026-10-08T04:30:15.3534229Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-08T04:30:15.3587563Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-08T04:30:15.4836780Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-08T04:30:15.4841813Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-08T04:30:15.4911905Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-08T04:30:15.4964979Z ##[endgroup]
+2026-10-08T04:30:15.4966967Z ##[group]Fetching the repository
+2026-10-08T04:30:15.4972103Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2863bba9507cd638c09d4d885347abdb42d821fa:refs/remotes/origin/main
+2026-10-08T04:30:16.3334389Z From https://github.com/uedakazushi/as-ginzburg-lean
+2026-10-08T04:30:16.3339106Z  * [new ref]         2863bba9507cd638c09d4d885347abdb42d821fa -> origin/main
+2026-10-08T04:30:16.3365221Z ##[endgroup]
+2026-10-08T04:30:16.3367091Z ##[group]Determining the checkout info
+2026-10-08T04:30:16.3369262Z ##[endgroup]
+2026-10-08T04:30:16.3370696Z [command]/usr/bin/git sparse-checkout disable
+2026-10-08T04:30:16.3477072Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-08T04:30:16.3504959Z ##[group]Checking out the ref
+2026-10-08T04:30:16.3507273Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-08T04:30:16.4108365Z Switched to a new branch 'main'
+2026-10-08T04:30:16.4115266Z branch 'main' set up to track 'origin/main'.
+2026-10-08T04:30:16.4130175Z ##[endgroup]
+2026-10-08T04:30:16.4179928Z [command]/usr/bin/git log -1 --format=%H
+2026-10-08T04:30:16.4221528Z 2863bba9507cd638c09d4d885347abdb42d821fa
+2026-10-08T04:30:16.4496332Z ##[group]Run set -euo pipefail
+2026-10-08T04:30:16.4497822Z [36;1mset -euo pipefail[0m
+2026-10-08T04:30:16.4499085Z [36;1mmkdir -p work[0m
+2026-10-08T04:30:16.4500440Z [36;1mexec > >(tee work/toolchain-setup.log) 2>&1[0m
+2026-10-08T04:30:16.4502051Z [36;1mstarted=$(date --utc --iso-8601=ns)[0m
+2026-10-08T04:30:16.4504345Z [36;1msetup_start_tick=$(python3 -c 'import time; print(time.monotonic_ns())')[0m
+2026-10-08T04:30:16.4506532Z [36;1mprintf 'started_at_utc=%s\n' "$started"[0m
+2026-10-08T04:30:16.4508070Z [36;1mfinish_setup() {[0m
+2026-10-08T04:30:16.4509550Z [36;1m  setup_exit_code=$?[0m
+2026-10-08T04:30:16.4511426Z [36;1m  printf 'ended_at_utc=%s\nexit_code=%s\n' "$(date --utc --iso-8601=ns)" "$setup_exit_code"[0m
+2026-10-08T04:30:16.4515011Z [36;1m  python3 -c 'import sys,time; print("elapsed_seconds=%.9f" % ((time.monotonic_ns()-int(sys.argv[1]))/1e9))' "$setup_start_tick"[0m
+2026-10-08T04:30:16.4517554Z [36;1m}[0m
+2026-10-08T04:30:16.4518643Z [36;1mtrap finish_setup EXIT[0m
+2026-10-08T04:30:16.4521339Z [36;1mcurl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/leanprover/elan/v4.1.2/elan-init.sh -o work/elan-init.sh[0m
+2026-10-08T04:30:16.4524632Z [36;1mbash work/elan-init.sh -y --no-modify-path --default-toolchain none[0m
+2026-10-08T04:30:16.4526509Z [36;1mexport PATH="$HOME/.elan/bin:$PATH"[0m
+2026-10-08T04:30:16.4528010Z [36;1mecho "$HOME/.elan/bin" >> "$GITHUB_PATH"[0m
+2026-10-08T04:30:16.4529610Z [36;1melan toolchain install leanprover/lean4:v4.24.0[0m
+2026-10-08T04:30:16.4531099Z [36;1mlean --version[0m
+2026-10-08T04:30:16.4804132Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-08T04:30:16.4805756Z ##[endgroup]
+2026-10-08T04:30:16.5125483Z started_at_utc=2026-10-08T04:30:16,494965535+00:00
+2026-10-08T04:30:16.6736146Z info: downloading installer
+2026-10-08T04:30:18.2884713Z info: downloading https://releases.lean-lang.org/lean4/v4.24.0/lean-4.24.0-linux.tar.zst
+2026-10-08T04:30:21.9526524Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.24.0
+2026-10-08T04:30:30.9054557Z 
+2026-10-08T04:30:30.9589802Z leanprover/lean4:v4.24.0 installed - Lean (version 4.24.0, x86_64-unknown-linux-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)
+2026-10-08T04:30:30.9591859Z 
+2026-10-08T04:30:31.3587769Z Lean (version 4.24.0, x86_64-unknown-linux-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)
+2026-10-08T04:30:31.3638942Z ended_at_utc=2026-10-08T04:30:31,363270762+00:00
+2026-10-08T04:30:31.3640229Z exit_code=0
+2026-10-08T04:30:31.3794157Z elapsed_seconds=14.869968295
+2026-10-08T04:30:31.5025638Z ##[group]Run bash scripts/check.sh --prepare-cache
+2026-10-08T04:30:31.5026339Z [36;1mbash scripts/check.sh --prepare-cache[0m
+2026-10-08T04:30:31.5096092Z shell: /usr/bin/bash -e {0}
+2026-10-08T04:30:31.5096364Z ##[endgroup]
+2026-10-08T04:30:31.6012551Z [2026-10-08T04:30:31.600949+00:00] regression_tests: /usr/bin/python3 -m unittest discover -s tests -v
+2026-10-08T04:30:32.1195272Z test_aggregate_placeholder_rejected (test_audit.AuditTests.test_aggregate_placeholder_rejected) ... ok
+2026-10-08T04:30:32.1214591Z test_allowed_and_forbidden_axioms (test_audit.AuditTests.test_allowed_and_forbidden_axioms) ... ok
+2026-10-08T04:30:32.1224365Z test_completed_run_cannot_be_reused (test_audit.AuditTests.test_completed_run_cannot_be_reused) ... ok
+2026-10-08T04:30:32.1237482Z test_dotted_name_comments_scopes_and_future_addition (test_audit.AuditTests.test_dotted_name_comments_scopes_and_future_addition) ... ok
+2026-10-08T04:30:32.1244843Z test_duplicate_inventory_and_logs_rejected (test_audit.AuditTests.test_duplicate_inventory_and_logs_rejected) ... ok
+2026-10-08T04:30:32.1249104Z test_duplicate_sources_rejected (test_audit.AuditTests.test_duplicate_sources_rejected) ... ok
+2026-10-08T04:30:33.4495339Z test_failed_build_exit_propagates_despite_success_text (test_audit.AuditTests.test_failed_build_exit_propagates_despite_success_text) ... ok
+2026-10-08T04:30:33.4497200Z test_missing_extra_and_malformed_log_rejected (test_audit.AuditTests.test_missing_extra_and_malformed_log_rejected) ... ok
+2026-10-08T04:30:33.4524504Z test_nested_comments_strings_and_placeholders (test_audit.AuditTests.test_nested_comments_strings_and_placeholders) ... ok
+2026-10-08T04:30:33.4534078Z test_unsupported_theorem_rejected (test_audit.AuditTests.test_unsupported_theorem_rejected) ... ok
+2026-10-08T04:30:33.4536643Z test_wrapped_axiom_lists_preserve_strict_coverage (test_audit.AuditTests.test_wrapped_axiom_lists_preserve_strict_coverage) ... ok
+2026-10-08T04:30:33.4537746Z 
+2026-10-08T04:30:33.4538743Z ----------------------------------------------------------------------
+2026-10-08T04:30:33.4539492Z Ran 11 tests in 1.333s
+2026-10-08T04:30:33.4539923Z 
+2026-10-08T04:30:33.4540269Z OK
+2026-10-08T04:30:33.4607510Z [2026-10-08T04:30:33.460227+00:00] regression_tests: exit=0, elapsed=1.859294s
+2026-10-08T04:30:33.5082324Z [2026-10-08T04:30:33.460562+00:00] source_audit: /usr/bin/python3 scripts/audit_sources.py --output-dir /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/verification/runs/20261008T043031Z-b909f4f8
+2026-10-08T04:30:33.6406622Z {
+2026-10-08T04:30:33.6408194Z   "declarations": 505,
+2026-10-08T04:30:33.6408800Z   "unique_names": 505,
+2026-10-08T04:30:33.6409388Z   "definitions_theorems_and_types": 414,
+2026-10-08T04:30:33.6410028Z   "by_kind": {
+2026-10-08T04:30:33.6410542Z     "theorem": 223,
+2026-10-08T04:30:33.6411068Z     "def": 161,
+2026-10-08T04:30:33.6411583Z     "abbrev": 19,
+2026-10-08T04:30:33.6412105Z     "instance": 91,
+2026-10-08T04:30:33.6412629Z     "structure": 9,
+2026-10-08T04:30:33.6413442Z     "inductive": 2
+2026-10-08T04:30:33.6413985Z   }
+2026-10-08T04:30:33.6414448Z }
+2026-10-08T04:30:33.6497323Z [2026-10-08T04:30:33.645259+00:00] source_audit: exit=0, elapsed=0.184710s
+2026-10-08T04:30:33.6625914Z [2026-10-08T04:30:33.649629+00:00] cache: bash /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/scripts/with_lean.sh lake exe cache get Mathlib.Algebra.Category.ModuleCat.Abelian Mathlib.Algebra.Category.ModuleCat.Simple Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives Mathlib.Algebra.Homology.DerivedCategory.Linear Mathlib.Algebra.Homology.ShortComplex.ModuleCat Mathlib.Algebra.Homology.ShortComplex.ShortExact Mathlib.Algebra.Module.TransferInstance Mathlib.CategoryTheory.Abelian.Exact Mathlib.CategoryTheory.Abelian.FunctorCategory Mathlib.CategoryTheory.Abelian.Projective.Resolution Mathlib.CategoryTheory.Limits.FullSubcategory Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono Mathlib.CategoryTheory.Limits.Preserves.Shapes.AbelianImages Mathlib.CategoryTheory.Linear.FunctorCategory Mathlib.CategoryTheory.Linear.LinearFunctor Mathlib.CategoryTheory.Linear.Yoneda Mathlib.CategoryTheory.Preadditive.Opposite Mathlib.CategoryTheory.Preadditive.Projective.Basic Mathlib.Data.Finsupp.Order Mathlib.Data.List.Rotate Mathlib.Data.Nat.Choose.Basic Mathlib.LinearAlgebra.Dimension.Constructions Mathlib.LinearAlgebra.Dimension.Finite Mathlib.LinearAlgebra.Dimension.Free Mathlib.LinearAlgebra.FiniteDimensional.Defs Mathlib.LinearAlgebra.Finsupp.LinearCombination Mathlib.LinearAlgebra.Finsupp.Pi Mathlib.LinearAlgebra.Quotient.Basic Mathlib.LinearAlgebra.TensorProduct.Basis Mathlib.Logic.Equiv.Fin.Basic Mathlib.SetTheory.Cardinal.Basic Mathlib.Tactic
+2026-10-08T04:30:34.0995850Z info: mathlib: cloning https://github.com/leanprover-community/mathlib4.git
+2026-10-08T04:31:19.1333628Z info: mathlib: checking out revision 'f897ebcf72cd16f89ab4577d0c826cd14afaafc7'
+2026-10-08T04:31:20.7902375Z info: plausible: cloning https://github.com/leanprover-community/plausible
+2026-10-08T04:31:21.2662191Z info: plausible: checking out revision 'dfd06ebfe8d0e8fa7faba9cb5e5a2e74e7bd2805'
+2026-10-08T04:31:21.2779981Z info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+2026-10-08T04:31:21.7589017Z info: LeanSearchClient: checking out revision '99657ad92e23804e279f77ea6dbdeebaa1317b98'
+2026-10-08T04:31:21.7689614Z info: importGraph: cloning https://github.com/leanprover-community/import-graph
+2026-10-08T04:31:22.8877957Z info: importGraph: checking out revision 'd768126816be17600904726ca7976b185786e6b9'
+2026-10-08T04:31:22.9034904Z info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+2026-10-08T04:31:23.9694680Z info: proofwidgets: checking out revision '556caed0eadb7901e068131d1be208dd907d07a2'
+2026-10-08T04:31:24.6674633Z info: aesop: cloning https://github.com/leanprover-community/aesop
+2026-10-08T04:31:25.8328115Z info: aesop: checking out revision '725ac8cd67acd70a7beaf47c3725e23484c1ef50'
+2026-10-08T04:31:25.8637406Z info: Qq: cloning https://github.com/leanprover-community/quote4
+2026-10-08T04:31:26.4691361Z info: Qq: checking out revision 'dea6a3361fa36d5a13f87333dc506ada582e025c'
+2026-10-08T04:31:26.4812097Z info: batteries: cloning https://github.com/leanprover-community/batteries
+2026-10-08T04:31:30.0856849Z info: batteries: checking out revision '8da40b72fece29b7d3fe3d768bac4c8910ce9bee'
+2026-10-08T04:31:30.1227523Z info: Cli: cloning https://github.com/leanprover/lean4-cli
+2026-10-08T04:31:30.6549432Z info: Cli: checking out revision '91c18fa62838ad0ab7384c03c9684d99d306e1da'
+2026-10-08T04:31:31.0665805Z ✔ [2/20] Built Cache.Lean (345ms)
+2026-10-08T04:31:31.1663844Z ✔ [3/20] Built Cache.Lean:c.o (144ms)
+2026-10-08T04:31:32.9725091Z ✔ [4/20] Built Cache.IO (1.8s)
+2026-10-08T04:31:35.6818596Z ✔ [5/20] Built Cache.Hashing (2.0s)
+2026-10-08T04:31:36.1817230Z ✔ [6/20] Built Cache.IO:c.o (3.1s)
+2026-10-08T04:31:36.9838847Z ✔ [7/20] Built Cache.Hashing:c.o (825ms)
+2026-10-08T04:31:37.2848731Z ✔ [13/20] Built Batteries.Data.String.Basic:c.o (158ms)
+2026-10-08T04:31:37.5904691Z ✔ [14/20] Built Batteries.Data.Array.Match:c.o (446ms)
+2026-10-08T04:31:37.6889034Z ✔ [15/20] Built Batteries.Data.String.Matcher:c.o (425ms)
+2026-10-08T04:31:39.2954653Z ✔ [16/20] Built Cache.Requests (1.7s)
+2026-10-08T04:31:40.3977394Z ✔ [17/20] Built Cache.Main (1.2s)
+2026-10-08T04:31:41.5005137Z ✔ [18/20] Built Cache.Main:c.o (1.1s)
+2026-10-08T04:31:41.7001701Z ✔ [19/20] Built Cache.Requests:c.o (2.5s)
+2026-10-08T04:31:42.3024558Z ✔ [20/20] Built cache:exe (514ms)
+2026-10-08T04:31:44.8399233Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-10-08T04:31:44.8401358Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-10-08T04:31:44.8402105Z 
+2026-10-08T04:31:44.8402618Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-08T04:31:44.8403734Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-08T04:31:44.8404295Z 
+2026-10-08T04:31:44.8405070Z 100 1075k  100 1075k    0     0  2784k      0 --:--:-- --:--:-- --:--:-- 2784k
+2026-10-08T04:31:44.8405805Z 
+2026-10-08T04:31:46.3488864Z installing leantar 0.1.15
+2026-10-08T04:31:46.3490235Z Fetching ProofWidgets cloud release... done!
+2026-10-08T04:31:46.3491042Z Current branch: HEAD
+2026-10-08T04:31:46.3491797Z Using cache (Azure) from origin: leanprover-community/mathlib4
+2026-10-08T04:31:46.3492779Z Attempting to download 3287 file(s) from leanprover-community/mathlib4 cache
+2026-10-08T04:31:47.5313784Z 
+2026-10-08T04:31:47.6315328Z Downloaded: 1 file(s) [attempted 1/3287 = 0%, 20 KB/s]
+2026-10-08T04:31:47.7320372Z Downloaded: 147 file(s) [attempted 147/3287 = 4%, 1376 KB/s]
+2026-10-08T04:31:47.8364340Z Downloaded: 343 file(s) [attempted 343/3287 = 10%, 412 KB/s]
+2026-10-08T04:31:47.9369364Z Downloaded: 514 file(s) [attempted 514/3287 = 15%, 1149 KB/s]
+2026-10-08T04:31:48.0384314Z Downloaded: 708 file(s) [attempted 708/3287 = 21%, 692 KB/s]
+2026-10-08T04:31:48.1394565Z Downloaded: 877 file(s) [attempted 877/3287 = 26%, 1269 KB/s]
+2026-10-08T04:31:48.2390979Z Downloaded: 1080 file(s) [attempted 1080/3287 = 32%, 1545 KB/s]
+2026-10-08T04:31:48.3387722Z Downloaded: 1294 file(s) [attempted 1294/3287 = 39%, 176 KB/s]
+2026-10-08T04:31:48.4404599Z Downloaded: 1459 file(s) [attempted 1459/3287 = 44%, 617 KB/s]
+2026-10-08T04:31:48.5404839Z Downloaded: 1664 file(s) [attempted 1664/3287 = 50%, 4584 KB/s]
+2026-10-08T04:31:48.6402610Z Downloaded: 1842 file(s) [attempted 1842/3287 = 56%, 578 KB/s]
+2026-10-08T04:31:48.7397431Z Downloaded: 2057 file(s) [attempted 2057/3287 = 62%, 596 KB/s]
+2026-10-08T04:31:48.8478337Z Downloaded: 2239 file(s) [attempted 2239/3287 = 68%, 709 KB/s]
+2026-10-08T04:31:48.9476274Z Downloaded: 2438 file(s) [attempted 2438/3287 = 74%, 2646 KB/s]
+2026-10-08T04:31:49.0542421Z Downloaded: 2632 file(s) [attempted 2632/3287 = 80%, 629 KB/s]
+2026-10-08T04:31:49.1544357Z Downloaded: 2814 file(s) [attempted 2814/3287 = 85%, 976 KB/s]
+2026-10-08T04:31:49.2544160Z Downloaded: 2988 file(s) [attempted 2988/3287 = 90%, 1862 KB/s]
+2026-10-08T04:31:49.3704611Z Downloaded: 3179 file(s) [attempted 3179/3287 = 96%, 319 KB/s]
+2026-10-08T04:31:49.3728685Z Downloaded: 3287 file(s) [attempted 3287/3287 = 100%, 3895 KB/s]
+2026-10-08T04:31:49.3743996Z Downloaded: 3287 file(s) [attempted 3287/3287 = 100%, 3895 KB/s]
+2026-10-08T04:32:03.0895267Z Decompressing 3287 file(s)
+2026-10-08T04:32:03.0913841Z Unpacked in 13703 ms
+2026-10-08T04:32:03.0933678Z Completed successfully!
+2026-10-08T04:32:03.1309710Z [2026-10-08T04:32:03.130198+00:00] cache: exit=0, elapsed=89.480590s
+2026-10-08T04:32:03.1313529Z [2026-10-08T04:32:03.130797+00:00] environment: /usr/bin/python3 scripts/check_environment.py --output-dir /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/verification/runs/20261008T043031Z-b909f4f8
+2026-10-08T04:32:03.4508031Z {
+2026-10-08T04:32:03.4508857Z   "lean_toolchain": "leanprover/lean4:v4.24.0",
+2026-10-08T04:32:03.4509763Z   "mathlib_revision": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
+2026-10-08T04:32:03.4510707Z   "executable_versions": {
+2026-10-08T04:32:03.4511796Z     "lean": "Lean (version 4.24.0, x86_64-unknown-linux-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)",
+2026-10-08T04:32:03.4513177Z     "lake": "Lake version 5.0.0-src+797c613 (Lean version 4.24.0)"
+2026-10-08T04:32:03.4514292Z   },
+2026-10-08T04:32:03.4514859Z   "dependency_revisions": {
+2026-10-08T04:32:03.4515685Z     "plausible": "dfd06ebfe8d0e8fa7faba9cb5e5a2e74e7bd2805",
+2026-10-08T04:32:03.4516754Z     "LeanSearchClient": "99657ad92e23804e279f77ea6dbdeebaa1317b98",
+2026-10-08T04:32:03.4517839Z     "importGraph": "d768126816be17600904726ca7976b185786e6b9",
+2026-10-08T04:32:03.4518841Z     "proofwidgets": "556caed0eadb7901e068131d1be208dd907d07a2",
+2026-10-08T04:32:03.4519569Z     "aesop": "725ac8cd67acd70a7beaf47c3725e23484c1ef50",
+2026-10-08T04:32:03.4520480Z     "Qq": "dea6a3361fa36d5a13f87333dc506ada582e025c",
+2026-10-08T04:32:03.4521447Z     "batteries": "8da40b72fece29b7d3fe3d768bac4c8910ce9bee",
+2026-10-08T04:32:03.4522680Z     "Cli": "91c18fa62838ad0ab7384c03c9684d99d306e1da",
+2026-10-08T04:32:03.4523849Z     "mathlib": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7"
+2026-10-08T04:32:03.4524401Z   }
+2026-10-08T04:32:03.4525071Z }
+2026-10-08T04:32:03.4572046Z [2026-10-08T04:32:03.456636+00:00] environment: exit=0, elapsed=0.325855s
+2026-10-08T04:32:03.4576947Z [2026-10-08T04:32:03.457121+00:00] build: bash /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/scripts/with_lean.sh lake build
+2026-10-08T04:32:12.2522874Z ✔ [3302/3357] Built ASGinzburg.ZAlgebra (7.1s)
+2026-10-08T04:32:12.3753656Z ✔ [3303/3357] Built ASGinzburg.CutQuiver (7.1s)
+2026-10-08T04:32:15.8594387Z ✔ [3304/3357] Built ASGinzburg.ExtDimension (3.6s)
+2026-10-08T04:32:16.6597195Z ✔ [3305/3357] Built ASGinzburg.TopCohomology (4.3s)
+2026-10-08T04:32:19.4682886Z ✔ [3306/3357] Built ASGinzburg.Conjugation (3.6s)
+2026-10-08T04:32:22.0724178Z ✔ [3308/3357] Built ASGinzburg.Hilbert (5.4s)
+2026-10-08T04:32:23.9742876Z ✔ [3309/3357] Built ASGinzburg.Tensor333 (4.5s)
+2026-10-08T04:32:25.8936125Z ✔ [3310/3357] Built ASGinzburg.WindowPeriodicity (3.8s)
+2026-10-08T04:32:29.7874474Z ✔ [3311/3357] Built ASGinzburg.GinzburgGrading (3.9s)
+2026-10-08T04:32:30.8924441Z ✔ [3312/3357] Built ASGinzburg.Representables (6.9s)
+2026-10-08T04:32:34.1968605Z ✔ [3313/3357] Built ASGinzburg.CutPotential (4.4s)
+2026-10-08T04:32:41.8194469Z ⚠ [3314/3357] Built ASGinzburg.PathAlgebra (7.6s)
+2026-10-08T04:32:41.8213915Z warning: ASGinzburg/PathAlgebra.lean:97:42: This simp argument is unused:
+2026-10-08T04:32:41.8214676Z   LinearMap.add_apply
+2026-10-08T04:32:41.8253429Z 
+2026-10-08T04:32:41.8273757Z Hint: Omit it from the simp argument list.
+2026-10-08T04:32:41.8296796Z   simp [map_add, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵ ̵ih, ih']
+2026-10-08T04:32:41.8323434Z 
+2026-10-08T04:32:41.8323937Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-08T04:32:47.4285170Z ✔ [3315/3357] Built ASGinzburg.CyclicDerivative (5.6s)
+2026-10-08T04:32:52.1389596Z ✔ [3316/3357] Built ASGinzburg.Triangle333 (4.7s)
+2026-10-08T04:32:52.9399923Z ✔ [3317/3357] Built ASGinzburg.RightModuleAbelian (22s)
+2026-10-08T04:32:56.3446326Z ✔ [3318/3357] Built ASGinzburg.RightModuleHomology (3.4s)
+2026-10-08T04:32:59.3490643Z ✔ [3319/3357] Built ASGinzburg.RightModuleProjectives (3.1s)
+2026-10-08T04:33:04.0591365Z ✔ [3320/3357] Built ASGinzburg.RightModuleEnoughProjectives (4.7s)
+2026-10-08T04:33:05.9650445Z ✔ [3321/3357] Built ASGinzburg.LeftModules (6.6s)
+2026-10-08T04:33:09.5751464Z ✔ [3322/3357] Built ASGinzburg.RightSubmodules (5.6s)
+2026-10-08T04:33:10.1757334Z ✔ [3323/3357] Built ASGinzburg.RightModuleExt (4.2s)
+2026-10-08T04:33:16.8915895Z ✔ [3324/3357] Built ASGinzburg.SimpleRightModules (6.6s)
+2026-10-08T04:33:22.9990621Z ✔ [3325/3357] Built ASGinzburg.RightModuleExtLinear (6.2s)
+2026-10-08T04:33:29.1184309Z ✔ [3326/3357] Built ASGinzburg.RightModuleRadical (6.1s)
+2026-10-08T04:33:32.8254568Z ✔ [3327/3357] Built ASGinzburg.LeftModuleAbelian (23s)
+2026-10-08T04:33:36.6326475Z ✔ [3328/3357] Built ASGinzburg.RightModuleExtSequence (7.5s)
+2026-10-08T04:33:38.1391009Z ✔ [3329/3357] Built ASGinzburg.RightModuleMinimality (5.3s)
+2026-10-08T04:33:42.1459355Z ✔ [3330/3357] Built ASGinzburg.LeftModuleHomology (5.6s)
+2026-10-08T04:33:43.6477388Z ✔ [3331/3357] Built ASGinzburg.RightModuleExtLeftAction (5.6s)
+2026-10-08T04:33:46.1543970Z ✔ [3332/3357] Built ASGinzburg.RightModuleSimpleHom (3.0s)
+2026-10-08T04:33:49.2569433Z ✔ [3333/3357] Built ASGinzburg.LeftSubmodules (5.5s)
+2026-10-08T04:33:51.0620258Z ✔ [3334/3357] Built ASGinzburg.LeftModuleProjectives (4.0s)
+2026-10-08T04:33:54.0641980Z ✔ [3335/3357] Built ASGinzburg.RepresentableHomColimits (4.8s)
+2026-10-08T04:33:56.1684360Z ✔ [3336/3357] Built ASGinzburg.ASResolution (5.1s)
+2026-10-08T04:33:59.8764335Z ✔ [3337/3357] Built ASGinzburg.SimpleLeftModules (5.8s)
+2026-10-08T04:34:00.9794495Z ✔ [3338/3357] Built ASGinzburg.LeftModuleEnoughProjectives (4.8s)
+2026-10-08T04:34:06.2894447Z ✔ [3339/3357] Built ASGinzburg.RightModuleHomFinite (5.4s)
+2026-10-08T04:34:06.5914866Z ✔ [3340/3357] Built ASGinzburg.LeftModuleADual (6.8s)
+2026-10-08T04:34:10.6995714Z ✔ [3341/3357] Built ASGinzburg.ASDualityHomTerms (4.1s)
+2026-10-08T04:34:12.7056055Z ✔ [3342/3357] Built ASGinzburg.ASResolutionComplex (6.3s)
+2026-10-08T04:34:16.1101873Z ✔ [3343/3357] Built ASGinzburg.ASResolutionSyzygies (5.4s)
+2026-10-08T04:34:16.6125067Z ✔ [3344/3357] Built ASGinzburg.LeftModuleExt (3.9s)
+2026-10-08T04:34:21.3264354Z ✔ [3345/3357] Built ASGinzburg.ASRegular (4.7s)
+2026-10-08T04:34:21.6264497Z ✔ [3346/3357] Built ASGinzburg.ASResolutionHomComplex (5.5s)
+2026-10-08T04:34:25.6335775Z ✔ [3347/3357] Built ASGinzburg.ASResolutionExtBounds (4.3s)
+2026-10-08T04:34:26.6354396Z ✔ [3348/3357] Built ASGinzburg.ASDualityExt (4.0s)
+2026-10-08T04:34:30.0417293Z ✔ [3349/3357] Built ASGinzburg.ASDualityHomCohomology (4.4s)
+2026-10-08T04:34:33.6494572Z ✔ [3350/3357] Built ASGinzburg.ASResolutionExtFinite (7.1s)
+2026-10-08T04:34:34.1496935Z ✔ [3351/3357] Built ASGinzburg.ASDualityDimension (4.2s)
+2026-10-08T04:34:36.4554929Z ✔ [3352/3357] Built ASGinzburg.ASDualityEquivalence (2.3s)
+2026-10-08T04:34:39.9597808Z ✔ [3353/3357] Built ASGinzburg.ASDualityLeftComponents (3.5s)
+2026-10-08T04:34:41.9654555Z ✔ [3354/3357] Built ASGinzburg (1.0s)
+2026-10-08T04:36:36.9751139Z ℹ [3356/3357] Built AxiomAudit (114s)
+2026-10-08T04:36:36.9795723Z info: AxiomAudit.lean:3:0: 'ASGinzburg.cardinal_sum_one_other_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9797280Z info: AxiomAudit.lean:4:0: 'ASGinzburg.ZAlgebra.ASRegular.extRank_other_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9813958Z info: AxiomAudit.lean:5:0: 'ASGinzburg.ZAlgebra.ASRegular.ext_other_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9833999Z info: AxiomAudit.lean:6:0: 'ASGinzburg.ZAlgebra.ASRegular.ext_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9845656Z info: AxiomAudit.lean:7:0: 'ASGinzburg.ZAlgebra.ASResolution.homologyExtThreeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9847855Z info: AxiomAudit.lean:8:0: 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9849378Z info: AxiomAudit.lean:9:0: 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9860747Z info: AxiomAudit.lean:10:0: 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_eq_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9862376Z info: AxiomAudit.lean:11:0: 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_total' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9864061Z info: AxiomAudit.lean:12:0: 'ASGinzburg.cardinal_sum_eq_one_of_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9865456Z info: AxiomAudit.lean:13:0: 'ASGinzburg.ZAlgebra.asExtTotalRank_eq_one_of_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9866861Z info: AxiomAudit.lean:14:0: 'ASGinzburg.ZAlgebra.asRegular_iff_ext_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9868307Z info: AxiomAudit.lean:15:0: 'ASGinzburg.ZAlgebra.ASResolution.asDualityExtThreeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9869802Z info: AxiomAudit.lean:16:0: 'ASGinzburg.ZAlgebra.ASRegular.extThreeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9871181Z info: AxiomAudit.lean:17:0: 'ASGinzburg.ZAlgebra.ASRegular.extThree_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9872536Z info: AxiomAudit.lean:18:0: 'ASGinzburg.ZAlgebra.ASRegular.extThree_rank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9874542Z info: AxiomAudit.lean:19:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_isZero_ge_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9876066Z info: AxiomAudit.lean:20:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_terms_isZero' depends on axioms: [propext,
+2026-10-08T04:36:36.9877054Z  Classical.choice,
+2026-10-08T04:36:36.9877482Z  Quot.sound]
+2026-10-08T04:36:36.9882411Z info: AxiomAudit.lean:21:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homologyLinearEquiv' depends on axioms: [propext,
+2026-10-08T04:36:36.9883683Z  Classical.choice,
+2026-10-08T04:36:36.9883954Z  Quot.sound]
+2026-10-08T04:36:36.9885382Z info: AxiomAudit.lean:22:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_homology_isZero' depends on axioms: [propext,
+2026-10-08T04:36:36.9886835Z  Classical.choice,
+2026-10-08T04:36:36.9887322Z  Quot.sound]
+2026-10-08T04:36:36.9888272Z info: AxiomAudit.lean:23:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_high_homology_isZero' depends on axioms: [propext,
+2026-10-08T04:36:36.9889338Z  Classical.choice,
+2026-10-08T04:36:36.9889804Z  Quot.sound]
+2026-10-08T04:36:36.9890736Z info: AxiomAudit.lean:24:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homology_finrank' depends on axioms: [propext,
+2026-10-08T04:36:36.9891764Z  Classical.choice,
+2026-10-08T04:36:36.9892220Z  Quot.sound]
+2026-10-08T04:36:36.9893322Z info: AxiomAudit.lean:25:0: 'ASGinzburg.CutQuiver.tau_incomingSource_height_gt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9895134Z info: AxiomAudit.lean:26:0: 'ASGinzburg.ZAlgebra.asDualityHomTerm₀_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9896851Z info: AxiomAudit.lean:27:0: 'ASGinzburg.ZAlgebra.asDualityHomTerm₁_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9898561Z info: AxiomAudit.lean:28:0: 'ASGinzburg.ZAlgebra.asDualityHomTerm₂_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9900542Z info: AxiomAudit.lean:29:0: 'ASGinzburg.ZAlgebra.asDualityHomTerm₃Equiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9901999Z info: AxiomAudit.lean:30:0: 'ASGinzburg.ZAlgebra.leftModule_isZero_of_components' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9903902Z info: AxiomAudit.lean:31:0: 'ASGinzburg.ZAlgebra.leftModuleIsoOfSingleSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9905441Z info: AxiomAudit.lean:32:0: 'ASGinzburg.ZAlgebra.ASRegular.extLeft_off_degree_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9906945Z info: AxiomAudit.lean:33:0: 'ASGinzburg.ZAlgebra.ASRegular.extLeftThree_off_vertex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9908450Z info: AxiomAudit.lean:34:0: 'ASGinzburg.ZAlgebra.ASRegular.extLeftThreeIsoSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9909898Z info: AxiomAudit.lean:35:0: 'ASGinzburg.ZAlgebra.ASRegular.extLeftThree_positive_action_zero' depends on axioms: [propext,
+2026-10-08T04:36:36.9910859Z  Classical.choice,
+2026-10-08T04:36:36.9911321Z  Quot.sound]
+2026-10-08T04:36:36.9912165Z info: AxiomAudit.lean:36:0: 'ASGinzburg.ZAlgebra.asExtTotalRank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9913663Z info: AxiomAudit.lean:37:0: 'ASGinzburg.ZAlgebra.ASRegular' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9915005Z info: AxiomAudit.lean:38:0: 'ASGinzburg.ZAlgebra.ASRegular.resolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9916454Z info: AxiomAudit.lean:39:0: 'ASGinzburg.ZAlgebra.ASRegular.projectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9917901Z info: AxiomAudit.lean:40:0: 'ASGinzburg.ZAlgebra.ASRegular.projectiveResolution_isZero_ge_four' depends on axioms: [propext,
+2026-10-08T04:36:36.9919052Z  Classical.choice,
+2026-10-08T04:36:36.9919549Z  Quot.sound]
+2026-10-08T04:36:36.9920398Z info: AxiomAudit.lean:41:0: 'ASGinzburg.ZAlgebra.asExtRank_le_total' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9921758Z info: AxiomAudit.lean:42:0: 'ASGinzburg.ZAlgebra.ASRegular.extRank_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9923387Z info: AxiomAudit.lean:43:0: 'ASGinzburg.ZAlgebra.ASRegular.extFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9924820Z info: AxiomAudit.lean:44:0: 'ASGinzburg.ZAlgebra.ASRegular.extFinrank_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9926198Z info: AxiomAudit.lean:45:0: 'ASGinzburg.ZAlgebra.asExtRank_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9927382Z info: AxiomAudit.lean:46:0: 'ASGinzburg.CutQuiver.incomingArrows' does not depend on any axioms
+2026-10-08T04:36:36.9928439Z info: AxiomAudit.lean:47:0: 'ASGinzburg.CutQuiver.outgoingArrows' does not depend on any axioms
+2026-10-08T04:36:36.9929663Z info: AxiomAudit.lean:48:0: 'ASGinzburg.CutQuiver.incomingArrowsFintype' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9931075Z info: AxiomAudit.lean:49:0: 'ASGinzburg.CutQuiver.outgoingArrowsFintype' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9932290Z info: AxiomAudit.lean:50:0: 'ASGinzburg.CutQuiver.incomingSource' does not depend on any axioms
+2026-10-08T04:36:36.9933574Z info: AxiomAudit.lean:51:0: 'ASGinzburg.CutQuiver.outgoingTarget' does not depend on any axioms
+2026-10-08T04:36:36.9934675Z info: AxiomAudit.lean:52:0: 'ASGinzburg.CutQuiver.incoming_liftedTarget' depends on axioms: [propext]
+2026-10-08T04:36:36.9935828Z info: AxiomAudit.lean:53:0: 'ASGinzburg.CutQuiver.outgoing_liftedSource' does not depend on any axioms
+2026-10-08T04:36:36.9937171Z info: AxiomAudit.lean:54:0: 'ASGinzburg.CutQuiver.incomingSource_height_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9938792Z info: AxiomAudit.lean:55:0: 'ASGinzburg.CutQuiver.outgoingTarget_height_gt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9940245Z info: AxiomAudit.lean:56:0: 'ASGinzburg.ZAlgebra.rightModule_coproduct_projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9941840Z info: AxiomAudit.lean:57:0: 'ASGinzburg.ZAlgebra.asResolutionTerm₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9943548Z info: AxiomAudit.lean:58:0: 'ASGinzburg.ZAlgebra.asResolutionTerm₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9945139Z info: AxiomAudit.lean:59:0: 'ASGinzburg.ZAlgebra.asResolutionTerm₁Projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9946760Z info: AxiomAudit.lean:60:0: 'ASGinzburg.ZAlgebra.asResolutionTerm₂Projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9948151Z info: AxiomAudit.lean:61:0: 'ASGinzburg.ZAlgebra.ASResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9949663Z info: AxiomAudit.lean:62:0: 'ASGinzburg.ZAlgebra.ASResolution.hom_d₁_simple_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9951398Z info: AxiomAudit.lean:63:0: 'ASGinzburg.ZAlgebra.ASResolution.hom_d₂_simple_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9953893Z info: AxiomAudit.lean:64:0: 'ASGinzburg.ZAlgebra.ASResolution.hom_d₃_simple_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9955538Z info: AxiomAudit.lean:65:0: 'ASGinzburg.ZAlgebra.ASResolution.complexTerm' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9957158Z info: AxiomAudit.lean:66:0: 'ASGinzburg.ZAlgebra.ASResolution.complexDifferential' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9959071Z info: AxiomAudit.lean:67:0: 'ASGinzburg.ZAlgebra.ASResolution.complexDifferential_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9960999Z info: AxiomAudit.lean:68:0: 'ASGinzburg.ZAlgebra.ASResolution.complex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9962911Z info: AxiomAudit.lean:69:0: 'ASGinzburg.ZAlgebra.ASResolution.complexTermProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9965195Z info: AxiomAudit.lean:70:0: 'ASGinzburg.ZAlgebra.ASResolution.complex_exactAt_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9967041Z info: AxiomAudit.lean:71:0: 'ASGinzburg.ZAlgebra.ASResolution.augmentation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9968827Z info: AxiomAudit.lean:72:0: 'ASGinzburg.ZAlgebra.ASResolution.augmentationQuasiIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9970722Z info: AxiomAudit.lean:73:0: 'ASGinzburg.ZAlgebra.ASResolution.toProjectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9972574Z info: AxiomAudit.lean:74:0: 'ASGinzburg.ZAlgebra.ASResolution.complex_isZero_ge_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9974572Z info: AxiomAudit.lean:75:0: 'ASGinzburg.ZAlgebra.ASResolution.extShiftThree' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9976462Z info: AxiomAudit.lean:76:0: 'ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9978377Z info: AxiomAudit.lean:77:0: 'ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_rank_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9980511Z info: AxiomAudit.lean:78:0: 'ASGinzburg.ZAlgebra.rightModuleExtZeroFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9982800Z info: AxiomAudit.lean:79:0: 'ASGinzburg.ZAlgebra.rightModuleExtOneFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9984956Z info: AxiomAudit.lean:80:0: 'ASGinzburg.ZAlgebra.ASResolution.extFinite_representable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9986861Z info: AxiomAudit.lean:81:0: 'ASGinzburg.ZAlgebra.ASResolution.homDifferential' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9988720Z info: AxiomAudit.lean:82:0: 'ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9990532Z info: AxiomAudit.lean:83:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9992244Z info: AxiomAudit.lean:84:0: 'ASGinzburg.ZAlgebra.ASResolution.complexDifferential_minimal' depends on axioms: [propext,
+2026-10-08T04:36:36.9993567Z  Classical.choice,
+2026-10-08T04:36:36.9994117Z  Quot.sound]
+2026-10-08T04:36:36.9995138Z info: AxiomAudit.lean:85:0: 'ASGinzburg.ZAlgebra.ASResolution.homDifferential_simple_zero' depends on axioms: [propext,
+2026-10-08T04:36:36.9996334Z  Classical.choice,
+2026-10-08T04:36:36.9996833Z  Quot.sound]
+2026-10-08T04:36:36.9998007Z info: AxiomAudit.lean:86:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:36.9999823Z info: AxiomAudit.lean:87:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_all_zero' depends on axioms: [propext,
+2026-10-08T04:36:37.0000940Z  Classical.choice,
+2026-10-08T04:36:37.0001444Z  Quot.sound]
+2026-10-08T04:36:37.0002444Z info: AxiomAudit.lean:88:0: 'ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_homologyIso' depends on axioms: [propext,
+2026-10-08T04:36:37.0003767Z  Classical.choice,
+2026-10-08T04:36:37.0004279Z  Quot.sound]
+2026-10-08T04:36:37.0005590Z info: AxiomAudit.lean:89:0: 'ASGinzburg.ZAlgebra.rightModule_exact_comp_mono_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0007400Z info: AxiomAudit.lean:90:0: 'ASGinzburg.ZAlgebra.ASResolution.firstCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0009467Z info: AxiomAudit.lean:91:0: 'ASGinzburg.ZAlgebra.ASResolution.firstCover_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0011449Z info: AxiomAudit.lean:92:0: 'ASGinzburg.ZAlgebra.ASResolution.firstCoverEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0013643Z info: AxiomAudit.lean:93:0: 'ASGinzburg.ZAlgebra.ASResolution.d₂_firstCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0015711Z info: AxiomAudit.lean:94:0: 'ASGinzburg.ZAlgebra.ASResolution.exact_d₂_firstCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0017572Z info: AxiomAudit.lean:95:0: 'ASGinzburg.ZAlgebra.ASResolution.secondCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0019549Z info: AxiomAudit.lean:96:0: 'ASGinzburg.ZAlgebra.ASResolution.secondCover_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0021375Z info: AxiomAudit.lean:97:0: 'ASGinzburg.ZAlgebra.ASResolution.secondCoverEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0023579Z info: AxiomAudit.lean:98:0: 'ASGinzburg.ZAlgebra.ASResolution.d₃_secondCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0025653Z info: AxiomAudit.lean:99:0: 'ASGinzburg.ZAlgebra.ASResolution.exact_d₃_secondCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0027687Z info: AxiomAudit.lean:100:0: 'ASGinzburg.ZAlgebra.ASResolution.shortExact₀' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0029750Z info: AxiomAudit.lean:101:0: 'ASGinzburg.ZAlgebra.ASResolution.shortExact₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0031990Z info: AxiomAudit.lean:102:0: 'ASGinzburg.ZAlgebra.ASResolution.shortExact₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0033847Z info: AxiomAudit.lean:103:0: 'ASGinzburg.conjugateHom' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0035394Z info: AxiomAudit.lean:104:0: 'ASGinzburg.conjugateHom_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0036940Z info: AxiomAudit.lean:105:0: 'ASGinzburg.conjugateHom_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0038466Z info: AxiomAudit.lean:106:0: 'ASGinzburg.conjugateHom_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0039850Z info: AxiomAudit.lean:107:0: 'ASGinzburg.CyclicWord' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0041248Z info: AxiomAudit.lean:108:0: 'ASGinzburg.WordPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0042795Z info: AxiomAudit.lean:109:0: 'ASGinzburg.CyclicPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0044355Z info: AxiomAudit.lean:110:0: 'ASGinzburg.wordClass' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0045695Z info: AxiomAudit.lean:111:0: 'ASGinzburg.traceWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0047130Z info: AxiomAudit.lean:112:0: 'ASGinzburg.wordClass_append_swap' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0048652Z info: AxiomAudit.lean:113:0: 'ASGinzburg.traceWord_append_swap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0050017Z info: AxiomAudit.lean:114:0: 'ASGinzburg.wordCutDegree' does not depend on any axioms
+2026-10-08T04:36:37.0051179Z info: AxiomAudit.lean:115:0: 'ASGinzburg.wordCutDegree_append' depends on axioms: [propext]
+2026-10-08T04:36:37.0052603Z info: AxiomAudit.lean:116:0: 'ASGinzburg.unique_cut_split' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0054226Z info: AxiomAudit.lean:117:0: 'ASGinzburg.reconstructAux' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0055762Z info: AxiomAudit.lean:118:0: 'ASGinzburg.reconstructAux_euler' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0057278Z info: AxiomAudit.lean:119:0: 'ASGinzburg.cyclicTrace' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0058805Z info: AxiomAudit.lean:120:0: 'ASGinzburg.cutReconstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0060350Z info: AxiomAudit.lean:121:0: 'ASGinzburg.cut_euler_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0061733Z info: AxiomAudit.lean:122:0: 'ASGinzburg.cut_normal_form' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0062942Z info: AxiomAudit.lean:123:0: 'ASGinzburg.path_word_cutDegree' depends on axioms: [propext]
+2026-10-08T04:36:37.0064246Z info: AxiomAudit.lean:124:0: 'ASGinzburg.CutQuiver' does not depend on any axioms
+2026-10-08T04:36:37.0065359Z info: AxiomAudit.lean:125:0: 'ASGinzburg.CutQuiver.Arrow' does not depend on any axioms
+2026-10-08T04:36:37.0066590Z info: AxiomAudit.lean:126:0: 'ASGinzburg.CutQuiver.Vertex' does not depend on any axioms
+2026-10-08T04:36:37.0067886Z info: AxiomAudit.lean:127:0: 'ASGinzburg.CutQuiver.LiftVertex' does not depend on any axioms
+2026-10-08T04:36:37.0069100Z info: AxiomAudit.lean:128:0: 'ASGinzburg.CutQuiver.cutDegree' does not depend on any axioms
+2026-10-08T04:36:37.0070298Z info: AxiomAudit.lean:129:0: 'ASGinzburg.CutQuiver.winding' does not depend on any axioms
+2026-10-08T04:36:37.0071474Z info: AxiomAudit.lean:130:0: 'ASGinzburg.CutQuiver.height' does not depend on any axioms
+2026-10-08T04:36:37.0072775Z info: AxiomAudit.lean:131:0: 'ASGinzburg.CutQuiver.periodNeZero' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0074485Z info: AxiomAudit.lean:132:0: 'ASGinzburg.CutQuiver.heightEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0076332Z info: AxiomAudit.lean:133:0: 'ASGinzburg.CutQuiver.heightEquiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0078016Z info: AxiomAudit.lean:134:0: 'ASGinzburg.CutQuiver.height_bijective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0079551Z info: AxiomAudit.lean:135:0: 'ASGinzburg.CutQuiver.shift' does not depend on any axioms
+2026-10-08T04:36:37.0080744Z info: AxiomAudit.lean:136:0: 'ASGinzburg.CutQuiver.tau' depends on axioms: [propext]
+2026-10-08T04:36:37.0081917Z info: AxiomAudit.lean:137:0: 'ASGinzburg.CutQuiver.liftedSource' does not depend on any axioms
+2026-10-08T04:36:37.0083456Z info: AxiomAudit.lean:138:0: 'ASGinzburg.CutQuiver.liftedTarget' does not depend on any axioms
+2026-10-08T04:36:37.0084852Z info: AxiomAudit.lean:139:0: 'ASGinzburg.CutQuiver.cutDegree_false' depends on axioms: [propext]
+2026-10-08T04:36:37.0086164Z info: AxiomAudit.lean:140:0: 'ASGinzburg.CutQuiver.cutDegree_true' depends on axioms: [propext]
+2026-10-08T04:36:37.0087586Z info: AxiomAudit.lean:141:0: 'ASGinzburg.CutQuiver.winding_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0089226Z info: AxiomAudit.lean:142:0: 'ASGinzburg.CutQuiver.winding_lt_period' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0090688Z info: AxiomAudit.lean:143:0: 'ASGinzburg.CutQuiver.height_shift' depends on axioms: [propext]
+2026-10-08T04:36:37.0091989Z info: AxiomAudit.lean:144:0: 'ASGinzburg.CutQuiver.height_tau' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0093609Z info: AxiomAudit.lean:145:0: 'ASGinzburg.CutQuiver.lifted_height_difference' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0095311Z info: AxiomAudit.lean:146:0: 'ASGinzburg.CutQuiver.lifted_arrow_increases_height' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0097397Z info: AxiomAudit.lean:147:0: 'ASGinzburg.CutQuiver.intermediate_in_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0098866Z info: AxiomAudit.lean:148:0: 'ASGinzburg.CutQuiver.Path' does not depend on any axioms
+2026-10-08T04:36:37.0100060Z info: AxiomAudit.lean:149:0: 'ASGinzburg.CutQuiver.Path.length' does not depend on any axioms
+2026-10-08T04:36:37.0101397Z info: AxiomAudit.lean:150:0: 'ASGinzburg.CutQuiver.Path.cutDegree' does not depend on any axioms
+2026-10-08T04:36:37.0102695Z info: AxiomAudit.lean:151:0: 'ASGinzburg.CutQuiver.Path.winding' does not depend on any axioms
+2026-10-08T04:36:37.0104147Z info: AxiomAudit.lean:152:0: 'ASGinzburg.CutQuiver.Path.toList' does not depend on any axioms
+2026-10-08T04:36:37.0105437Z info: AxiomAudit.lean:153:0: 'ASGinzburg.CutQuiver.Path.length_toList' depends on axioms: [propext]
+2026-10-08T04:36:37.0106913Z info: AxiomAudit.lean:154:0: 'ASGinzburg.CutQuiver.Path.winding_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0108599Z info: AxiomAudit.lean:155:0: 'ASGinzburg.CutQuiver.Path.winding_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0110377Z info: AxiomAudit.lean:156:0: 'ASGinzburg.CutQuiver.Path.winding_pos_of_length_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0112206Z info: AxiomAudit.lean:157:0: 'ASGinzburg.CutQuiver.Path.zero_cut_increases_vertex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0114249Z info: AxiomAudit.lean:158:0: 'ASGinzburg.CutQuiver.Path.zero_cut_has_no_nonempty_cycle' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0116075Z info: AxiomAudit.lean:159:0: 'ASGinzburg.CutQuiver.Path.cut_one_cycle_winding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0117701Z info: AxiomAudit.lean:160:0: 'ASGinzburg.derivativeAux' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0119449Z info: AxiomAudit.lean:161:0: 'ASGinzburg.derivativeWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0121027Z info: AxiomAudit.lean:162:0: 'ASGinzburg.derivativeAux_append' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0122656Z info: AxiomAudit.lean:163:0: 'ASGinzburg.derivativeWord_append_swap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0124532Z info: AxiomAudit.lean:164:0: 'ASGinzburg.derivativeWord_rotate' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0126156Z info: AxiomAudit.lean:165:0: 'ASGinzburg.derivativeCyclicWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0127795Z info: AxiomAudit.lean:166:0: 'ASGinzburg.derivativeCyclicWord_mk' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0129398Z info: AxiomAudit.lean:167:0: 'ASGinzburg.cyclicDerivative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0130929Z info: AxiomAudit.lean:168:0: 'ASGinzburg.prependTrace' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0132464Z info: AxiomAudit.lean:169:0: 'ASGinzburg.prependTrace_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0134281Z info: AxiomAudit.lean:170:0: 'ASGinzburg.cyclicDerivative_traceWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0135980Z info: AxiomAudit.lean:171:0: 'ASGinzburg.derivativeAux_reconstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0137748Z info: AxiomAudit.lean:172:0: 'ASGinzburg.cyclicCutReconstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0139220Z info: AxiomAudit.lean:173:0: 'ASGinzburg.ite_linearMap_apply' depends on axioms: [propext]
+2026-10-08T04:36:37.0140931Z info: AxiomAudit.lean:174:0: 'ASGinzburg.cyclicCutReconstruction_traceWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0142761Z info: AxiomAudit.lean:175:0: 'ASGinzburg.cyclicCutReconstruction_comp_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0144706Z info: AxiomAudit.lean:176:0: 'ASGinzburg.cut_cyclic_derivative_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0146223Z info: AxiomAudit.lean:177:0: 'ASGinzburg.totalDimension' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0147690Z info: AxiomAudit.lean:178:0: 'ASGinzburg.dimension_table_eq_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0149292Z info: AxiomAudit.lean:179:0: 'ASGinzburg.total_dimension_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0150891Z info: AxiomAudit.lean:180:0: 'ASGinzburg.total_one_iff_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0152443Z info: AxiomAudit.lean:181:0: 'ASGinzburg.ext_dimension_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0154054Z info: AxiomAudit.lean:182:0: 'ASGinzburg.CutQuiver.GinzburgArrow' does not depend on any axioms
+2026-10-08T04:36:37.0155447Z info: AxiomAudit.lean:183:0: 'ASGinzburg.CutQuiver.GinzburgArrow.source' does not depend on any axioms
+2026-10-08T04:36:37.0156837Z info: AxiomAudit.lean:184:0: 'ASGinzburg.CutQuiver.GinzburgArrow.target' does not depend on any axioms
+2026-10-08T04:36:37.0158283Z info: AxiomAudit.lean:185:0: 'ASGinzburg.CutQuiver.GinzburgArrow.cohomologicalDegree' does not depend on any axioms
+2026-10-08T04:36:37.0159763Z info: AxiomAudit.lean:186:0: 'ASGinzburg.CutQuiver.GinzburgArrow.cutDegree' does not depend on any axioms
+2026-10-08T04:36:37.0161175Z info: AxiomAudit.lean:187:0: 'ASGinzburg.CutQuiver.GinzburgArrow.winding' does not depend on any axioms
+2026-10-08T04:36:37.0162768Z info: AxiomAudit.lean:188:0: 'ASGinzburg.CutQuiver.GinzburgArrow.winding_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0164906Z info: AxiomAudit.lean:189:0: 'ASGinzburg.CutQuiver.GinzburgArrow.winding_formula' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0166578Z info: AxiomAudit.lean:190:0: 'ASGinzburg.CutQuiver.GinzburgArrow.original_dual_winding_sum' depends on axioms: [propext]
+2026-10-08T04:36:37.0168175Z info: AxiomAudit.lean:191:0: 'ASGinzburg.CutQuiver.GinzburgArrow.original_dual_cut_sum' depends on axioms: [propext]
+2026-10-08T04:36:37.0169860Z info: AxiomAudit.lean:192:0: 'ASGinzburg.CutQuiver.GinzburgArrow.loop_differential_cohomological_degree' does not depend on any axioms
+2026-10-08T04:36:37.0171533Z info: AxiomAudit.lean:193:0: 'ASGinzburg.positive_recurrence_unique' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0172866Z info: AxiomAudit.lean:194:0: 'ASGinzburg.quadraticHilbert' does not depend on any axioms
+2026-10-08T04:36:37.0174367Z info: AxiomAudit.lean:195:0: 'ASGinzburg.quadraticHilbert_closed' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.0175743Z info: AxiomAudit.lean:196:0: 'ASGinzburg.quadraticHilbert_double' depends on axioms: [propext]
+2026-10-08T04:36:37.0177266Z info: AxiomAudit.lean:197:0: 'ASGinzburg.quadraticHilbert_third_difference' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0178971Z info: AxiomAudit.lean:198:0: 'ASGinzburg.quadraticHilbert_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0180748Z info: AxiomAudit.lean:199:0: 'ASGinzburg.quadraticHilbert_polynomial_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0182686Z info: AxiomAudit.lean:200:0: 'ASGinzburg.ZAlgebra.leftRepresentableFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0185007Z info: AxiomAudit.lean:201:0: 'ASGinzburg.ZAlgebra.leftRepresentableFunctorAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0187140Z info: AxiomAudit.lean:202:0: 'ASGinzburg.ZAlgebra.leftRepresentableFunctorLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0189069Z info: AxiomAudit.lean:203:0: 'ASGinzburg.ZAlgebra.leftModuleCoyonedaLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0191046Z info: AxiomAudit.lean:204:0: 'ASGinzburg.ZAlgebra.leftModuleADual' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0192872Z info: AxiomAudit.lean:205:0: 'ASGinzburg.ZAlgebra.leftModuleADual_obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0194878Z info: AxiomAudit.lean:206:0: 'ASGinzburg.ZAlgebra.leftModuleADualMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0200946Z info: AxiomAudit.lean:207:0: 'ASGinzburg.ZAlgebra.leftModuleADualFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0202808Z info: AxiomAudit.lean:208:0: 'ASGinzburg.ZAlgebra.leftRepresentableADualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0204991Z info: AxiomAudit.lean:209:0: 'ASGinzburg.ZAlgebra.representableBidualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0206840Z info: AxiomAudit.lean:210:0: 'ASGinzburg.ZAlgebra.leftRepresentableBidualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0208812Z info: AxiomAudit.lean:211:0: 'ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderLimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0210812Z info: AxiomAudit.lean:212:0: 'ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderColimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0212716Z info: AxiomAudit.lean:213:0: 'ASGinzburg.ZAlgebra.leftModuleHasLimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0214779Z info: AxiomAudit.lean:214:0: 'ASGinzburg.ZAlgebra.leftModuleHasColimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0217015Z info: AxiomAudit.lean:215:0: 'ASGinzburg.ZAlgebra.leftModuleInclusionCreatesLimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0218945Z info: AxiomAudit.lean:216:0: 'ASGinzburg.ZAlgebra.leftModuleInclusionCreatesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:36:37.0220128Z  Classical.choice,
+2026-10-08T04:36:37.0220638Z  Quot.sound]
+2026-10-08T04:36:37.0221781Z info: AxiomAudit.lean:217:0: 'ASGinzburg.ZAlgebra.leftModuleHasFiniteProducts' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0224004Z info: AxiomAudit.lean:218:0: 'ASGinzburg.ZAlgebra.leftModuleCoimageImageComparisonIsIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0225948Z info: AxiomAudit.lean:219:0: 'ASGinzburg.ZAlgebra.leftModuleAbelian' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0227700Z info: AxiomAudit.lean:220:0: 'ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:36:37.0228893Z  Classical.choice,
+2026-10-08T04:36:37.0229402Z  Quot.sound]
+2026-10-08T04:36:37.0230438Z info: AxiomAudit.lean:221:0: 'ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:36:37.0231609Z  Classical.choice,
+2026-10-08T04:36:37.0232112Z  Quot.sound]
+2026-10-08T04:36:37.0233356Z info: AxiomAudit.lean:222:0: 'ASGinzburg.ZAlgebra.leftModuleGenerators' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0235143Z info: AxiomAudit.lean:223:0: 'ASGinzburg.ZAlgebra.freeLeftModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0237140Z info: AxiomAudit.lean:224:0: 'ASGinzburg.ZAlgebra.freeLeftModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0238952Z info: AxiomAudit.lean:225:0: 'ASGinzburg.ZAlgebra.freeLeftModuleProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0241138Z info: AxiomAudit.lean:226:0: 'ASGinzburg.ZAlgebra.freeLeftModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0243020Z info: AxiomAudit.lean:227:0: 'ASGinzburg.ZAlgebra.leftModuleEnoughProjectives' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0245220Z info: AxiomAudit.lean:228:0: 'ASGinzburg.ZAlgebra.leftModuleProjectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0247082Z info: AxiomAudit.lean:229:0: 'ASGinzburg.ZAlgebra.leftModuleProjectiveResolution_exactAt_succ' depends on axioms: [propext,
+2026-10-08T04:36:37.0248274Z  Classical.choice,
+2026-10-08T04:36:37.0248781Z  Quot.sound]
+2026-10-08T04:36:37.0249808Z info: AxiomAudit.lean:230:0: 'ASGinzburg.ZAlgebra.leftModuleHasExt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0251636Z info: AxiomAudit.lean:231:0: 'ASGinzburg.ZAlgebra.leftRepresentableExtZeroEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0253734Z info: AxiomAudit.lean:232:0: 'ASGinzburg.ZAlgebra.leftRepresentable_higher_ext_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0255609Z info: AxiomAudit.lean:233:0: 'ASGinzburg.ZAlgebra.leftModuleEvaluation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0257453Z info: AxiomAudit.lean:234:0: 'ASGinzburg.ZAlgebra.leftModuleEvaluationAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0259285Z info: AxiomAudit.lean:235:0: 'ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:36:37.0260544Z  Classical.choice,
+2026-10-08T04:36:37.0261067Z  Quot.sound]
+2026-10-08T04:36:37.0262154Z info: AxiomAudit.lean:236:0: 'ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:36:37.0263524Z  Classical.choice,
+2026-10-08T04:36:37.0264225Z  Quot.sound]
+2026-10-08T04:36:37.0265433Z info: AxiomAudit.lean:237:0: 'ASGinzburg.ZAlgebra.leftModuleInclusionPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0267501Z info: AxiomAudit.lean:238:0: 'ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0269377Z info: AxiomAudit.lean:239:0: 'ASGinzburg.ZAlgebra.leftModuleKernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0271195Z info: AxiomAudit.lean:240:0: 'ASGinzburg.ZAlgebra.leftModuleCokernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0273262Z info: AxiomAudit.lean:241:0: 'ASGinzburg.ZAlgebra.leftModuleHomologyObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0275169Z info: AxiomAudit.lean:242:0: 'ASGinzburg.ZAlgebra.leftModule_exact_iff_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0277085Z info: AxiomAudit.lean:243:0: 'ASGinzburg.ZAlgebra.leftModuleKernelObjIso_inv_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0279022Z info: AxiomAudit.lean:244:0: 'ASGinzburg.ZAlgebra.leftModuleCokernelObjIso_π_hom' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0280676Z info: AxiomAudit.lean:245:0: 'ASGinzburg.ZAlgebra.leftModule_mono_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0282219Z info: AxiomAudit.lean:246:0: 'ASGinzburg.ZAlgebra.leftModule_epi_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0284051Z info: AxiomAudit.lean:247:0: 'ASGinzburg.ZAlgebra.leftModule_mono_iff_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0285734Z info: AxiomAudit.lean:248:0: 'ASGinzburg.ZAlgebra.leftModule_epi_iff_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0287539Z info: AxiomAudit.lean:249:0: 'ASGinzburg.ZAlgebra.leftModule_exact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0289201Z info: AxiomAudit.lean:250:0: 'ASGinzburg.ZAlgebra.leftModule_exact_iff_range_eq_ker' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0290876Z info: AxiomAudit.lean:251:0: 'ASGinzburg.ZAlgebra.leftModule_shortExact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0292512Z info: AxiomAudit.lean:252:0: 'ASGinzburg.ZAlgebra.leftRepresentableToElement' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0295017Z info: AxiomAudit.lean:253:0: 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0296968Z info: AxiomAudit.lean:254:0: 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0298801Z info: AxiomAudit.lean:255:0: 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0300662Z info: AxiomAudit.lean:256:0: 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_symm_app' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0302466Z info: AxiomAudit.lean:257:0: 'ASGinzburg.ZAlgebra.leftRepresentableProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0304522Z info: AxiomAudit.lean:258:0: 'ASGinzburg.ZAlgebra.leftModuleProperty' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0306089Z info: AxiomAudit.lean:259:0: 'ASGinzburg.ZAlgebra.LeftModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0307700Z info: AxiomAudit.lean:260:0: 'ASGinzburg.ZAlgebra.leftRepresentableLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0309366Z info: AxiomAudit.lean:261:0: 'ASGinzburg.ZAlgebra.leftRepresentable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0311222Z info: AxiomAudit.lean:262:0: 'ASGinzburg.ZAlgebra.representableFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0312969Z info: AxiomAudit.lean:263:0: 'ASGinzburg.ZAlgebra.representableFunctorAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0314936Z info: AxiomAudit.lean:264:0: 'ASGinzburg.ZAlgebra.representableFunctorLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0316641Z info: AxiomAudit.lean:265:0: 'ASGinzburg.ZAlgebra.rightModuleCoyonedaLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0318287Z info: AxiomAudit.lean:266:0: 'ASGinzburg.ZAlgebra.rightModuleADual' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0319891Z info: AxiomAudit.lean:267:0: 'ASGinzburg.ZAlgebra.rightModuleADual_obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0321565Z info: AxiomAudit.lean:268:0: 'ASGinzburg.ZAlgebra.rightModuleADualMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0323451Z info: AxiomAudit.lean:269:0: 'ASGinzburg.ZAlgebra.rightModuleADualFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0325223Z info: AxiomAudit.lean:270:0: 'ASGinzburg.ZAlgebra.representableADualComponentEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0327053Z info: AxiomAudit.lean:271:0: 'ASGinzburg.ZAlgebra.representableADualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0328603Z info: AxiomAudit.lean:272:0: 'ASGinzburg.ZAlgebra.LeftSubmodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0330144Z info: AxiomAudit.lean:273:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.presheaf' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0331986Z info: AxiomAudit.lean:274:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.presheafAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0333964Z info: AxiomAudit.lean:275:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.presheafLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0335795Z info: AxiomAudit.lean:276:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.object' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0337432Z info: AxiomAudit.lean:277:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0339103Z info: AxiomAudit.lean:278:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.inclusionMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0340752Z info: AxiomAudit.lean:279:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0342686Z info: AxiomAudit.lean:280:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0344876Z info: AxiomAudit.lean:281:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0346663Z info: AxiomAudit.lean:282:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0348439Z info: AxiomAudit.lean:283:0: 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0349873Z info: AxiomAudit.lean:284:0: 'ASGinzburg.CutQuiver.Path.comp' does not depend on any axioms
+2026-10-08T04:36:37.0351014Z info: AxiomAudit.lean:285:0: 'ASGinzburg.CutQuiver.Path.comp_nil' does not depend on any axioms
+2026-10-08T04:36:37.0352165Z info: AxiomAudit.lean:286:0: 'ASGinzburg.CutQuiver.Path.nil_comp' depends on axioms: [propext]
+2026-10-08T04:36:37.0353526Z info: AxiomAudit.lean:287:0: 'ASGinzburg.CutQuiver.Path.comp_assoc' depends on axioms: [propext]
+2026-10-08T04:36:37.0354949Z info: AxiomAudit.lean:288:0: 'ASGinzburg.CutQuiver.Path.cutDegree_comp' depends on axioms: [propext]
+2026-10-08T04:36:37.0356167Z info: AxiomAudit.lean:289:0: 'ASGinzburg.CutQuiver.Path.winding_comp' depends on axioms: [propext]
+2026-10-08T04:36:37.0357578Z info: AxiomAudit.lean:290:0: 'ASGinzburg.CutQuiver.PathComponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0359072Z info: AxiomAudit.lean:291:0: 'ASGinzburg.CutQuiver.pathComp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0360496Z info: AxiomAudit.lean:292:0: 'ASGinzburg.CutQuiver.pathId' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0361952Z info: AxiomAudit.lean:293:0: 'ASGinzburg.CutQuiver.pathComp_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0363692Z info: AxiomAudit.lean:294:0: 'ASGinzburg.CutQuiver.pathComp_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0365181Z info: AxiomAudit.lean:295:0: 'ASGinzburg.CutQuiver.id_pathComp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0366675Z info: AxiomAudit.lean:296:0: 'ASGinzburg.CutQuiver.pathComp_assoc' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0368309Z info: AxiomAudit.lean:297:0: 'ASGinzburg.ZAlgebra.representableHomEvaluationIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0370013Z info: AxiomAudit.lean:298:0: 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:36:37.0371132Z  Classical.choice,
+2026-10-08T04:36:37.0371595Z  Quot.sound]
+2026-10-08T04:36:37.0372546Z info: AxiomAudit.lean:299:0: 'ASGinzburg.ZAlgebra.representableHomPreservesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:36:37.0373956Z  Classical.choice,
+2026-10-08T04:36:37.0374441Z  Quot.sound]
+2026-10-08T04:36:37.0410135Z info: AxiomAudit.lean:300:0: 'ASGinzburg.ZAlgebra.representableHomColimitIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0412125Z info: AxiomAudit.lean:301:0: 'ASGinzburg.ZAlgebra.rightModuleExtZeroFunctorIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0414293Z info: AxiomAudit.lean:302:0: 'ASGinzburg.ZAlgebra.representableExtZeroPreservesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:36:37.0415532Z  Classical.choice,
+2026-10-08T04:36:37.0416061Z  Quot.sound]
+2026-10-08T04:36:37.0417235Z info: AxiomAudit.lean:303:0: 'ASGinzburg.ZAlgebra.representableExtZeroColimitIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0418976Z info: AxiomAudit.lean:304:0: 'ASGinzburg.ZAlgebra.Obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0420542Z info: AxiomAudit.lean:305:0: 'ASGinzburg.ZAlgebra.objCategory' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0422003Z info: AxiomAudit.lean:306:0: 'ASGinzburg.ZAlgebra.objHomAdd' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0423949Z info: AxiomAudit.lean:307:0: 'ASGinzburg.ZAlgebra.objHomModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0425798Z info: AxiomAudit.lean:308:0: 'ASGinzburg.ZAlgebra.objPreadditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0427479Z info: AxiomAudit.lean:309:0: 'ASGinzburg.ZAlgebra.objLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0429241Z info: AxiomAudit.lean:310:0: 'ASGinzburg.ZAlgebra.objOppositeHomModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0431133Z info: AxiomAudit.lean:311:0: 'ASGinzburg.ZAlgebra.objOppositeLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0432878Z info: AxiomAudit.lean:312:0: 'ASGinzburg.ZAlgebra.representableLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0435164Z info: AxiomAudit.lean:313:0: 'ASGinzburg.ZAlgebra.linearYonedaAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0436976Z info: AxiomAudit.lean:314:0: 'ASGinzburg.ZAlgebra.linearYonedaLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0438649Z info: AxiomAudit.lean:315:0: 'ASGinzburg.ZAlgebra.rightModuleProperty' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0440341Z info: AxiomAudit.lean:316:0: 'ASGinzburg.ZAlgebra.RightModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0441947Z info: AxiomAudit.lean:317:0: 'ASGinzburg.ZAlgebra.representable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0443950Z info: AxiomAudit.lean:318:0: 'ASGinzburg.ZAlgebra.representableHomEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0445769Z info: AxiomAudit.lean:319:0: 'ASGinzburg.ZAlgebra.representableHom_vanishes' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0447484Z info: AxiomAudit.lean:320:0: 'ASGinzburg.ZAlgebra.scalarEndEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0449239Z info: AxiomAudit.lean:321:0: 'ASGinzburg.ZAlgebra.representableEnd_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0451082Z info: AxiomAudit.lean:322:0: 'ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0453061Z info: AxiomAudit.lean:323:0: 'ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0455251Z info: AxiomAudit.lean:324:0: 'ASGinzburg.ZAlgebra.rightModuleHasLimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0457346Z info: AxiomAudit.lean:325:0: 'ASGinzburg.ZAlgebra.rightModuleHasColimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0459206Z info: AxiomAudit.lean:326:0: 'ASGinzburg.ZAlgebra.rightModuleInclusionCreatesLimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:36:37.0460397Z  Classical.choice,
+2026-10-08T04:36:37.0460996Z  Quot.sound]
+2026-10-08T04:36:37.0462061Z info: AxiomAudit.lean:327:0: 'ASGinzburg.ZAlgebra.rightModuleInclusionCreatesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:36:37.0463572Z  Classical.choice,
+2026-10-08T04:36:37.0464134Z  Quot.sound]
+2026-10-08T04:36:37.0465267Z info: AxiomAudit.lean:328:0: 'ASGinzburg.ZAlgebra.rightModuleHasFiniteProducts' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0467210Z info: AxiomAudit.lean:329:0: 'ASGinzburg.ZAlgebra.rightModuleCoimageImageComparisonIsIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0469071Z info: AxiomAudit.lean:330:0: 'ASGinzburg.ZAlgebra.rightModuleAbelian' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0470722Z info: AxiomAudit.lean:331:0: 'ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:36:37.0471956Z  Classical.choice,
+2026-10-08T04:36:37.0472526Z  Quot.sound]
+2026-10-08T04:36:37.0473794Z info: AxiomAudit.lean:332:0: 'ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:36:37.0474968Z  Classical.choice,
+2026-10-08T04:36:37.0475298Z  Quot.sound]
+2026-10-08T04:36:37.0475915Z info: AxiomAudit.lean:333:0: 'ASGinzburg.ZAlgebra.rightModuleGenerators' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0477447Z info: AxiomAudit.lean:334:0: 'ASGinzburg.ZAlgebra.freeRightModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0479483Z info: AxiomAudit.lean:335:0: 'ASGinzburg.ZAlgebra.freeRightModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0481596Z info: AxiomAudit.lean:336:0: 'ASGinzburg.ZAlgebra.freeRightModuleProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0483973Z info: AxiomAudit.lean:337:0: 'ASGinzburg.ZAlgebra.freeRightModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0485868Z info: AxiomAudit.lean:338:0: 'ASGinzburg.ZAlgebra.rightModuleEnoughProjectives' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0487689Z info: AxiomAudit.lean:339:0: 'ASGinzburg.ZAlgebra.rightModuleProjectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0489464Z info: AxiomAudit.lean:340:0: 'ASGinzburg.ZAlgebra.rightModuleProjectiveResolution_exactAt_succ' depends on axioms: [propext,
+2026-10-08T04:36:37.0490547Z  Classical.choice,
+2026-10-08T04:36:37.0491046Z  Quot.sound]
+2026-10-08T04:36:37.0492047Z info: AxiomAudit.lean:341:0: 'ASGinzburg.ZAlgebra.rightModuleHasExt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0494043Z info: AxiomAudit.lean:342:0: 'ASGinzburg.ZAlgebra.representableExtZeroEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0562935Z info: AxiomAudit.lean:343:0: 'ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0575068Z info: AxiomAudit.lean:344:0: 'ASGinzburg.ZAlgebra.rightModuleExtPostcomp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0584403Z info: AxiomAudit.lean:345:0: 'ASGinzburg.ZAlgebra.rightModuleExtCovariant' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0604936Z info: AxiomAudit.lean:346:0: 'ASGinzburg.ZAlgebra.rightModuleExtCovariantAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0625054Z info: AxiomAudit.lean:347:0: 'ASGinzburg.ZAlgebra.rightModuleExtCovariantLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0644225Z info: AxiomAudit.lean:348:0: 'ASGinzburg.ZAlgebra.rightModuleExtLeft' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0653611Z info: AxiomAudit.lean:349:0: 'ASGinzburg.ZAlgebra.rightModuleExtLeft_obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0662071Z info: AxiomAudit.lean:350:0: 'ASGinzburg.ZAlgebra.rightModuleExtLeftZeroIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0689517Z info: AxiomAudit.lean:351:0: 'ASGinzburg.ZAlgebra.shiftedHomModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0718638Z info: AxiomAudit.lean:352:0: 'ASGinzburg.ZAlgebra.rightModuleDerivedLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0744178Z info: AxiomAudit.lean:353:0: 'ASGinzburg.ZAlgebra.rightModuleDerivedQhLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0746424Z info: AxiomAudit.lean:354:0: 'ASGinzburg.ZAlgebra.rightModuleDerivedSingleLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0764213Z info: AxiomAudit.lean:355:0: 'ASGinzburg.ZAlgebra.rightModuleExtHomAddEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0784173Z info: AxiomAudit.lean:356:0: 'ASGinzburg.ZAlgebra.rightModuleExtModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0786080Z info: AxiomAudit.lean:357:0: 'ASGinzburg.ZAlgebra.rightModuleExtHomLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0814706Z info: AxiomAudit.lean:358:0: 'ASGinzburg.ZAlgebra.rightModuleExt_mk₀_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0834270Z info: AxiomAudit.lean:359:0: 'ASGinzburg.ZAlgebra.rightModuleExtZeroLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0854299Z info: AxiomAudit.lean:360:0: 'ASGinzburg.ZAlgebra.representableExtZeroLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0874306Z info: AxiomAudit.lean:361:0: 'ASGinzburg.ZAlgebra.rightModuleDerivedShiftLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0876342Z info: AxiomAudit.lean:362:0: 'ASGinzburg.ZAlgebra.rightModuleExt_smul_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0894252Z info: AxiomAudit.lean:363:0: 'ASGinzburg.ZAlgebra.rightModuleExt_comp_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0914289Z info: AxiomAudit.lean:364:0: 'ASGinzburg.ZAlgebra.rightModuleExtBoundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0934245Z info: AxiomAudit.lean:365:0: 'ASGinzburg.ZAlgebra.rightModuleExtBoundary_bijective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0954334Z info: AxiomAudit.lean:366:0: 'ASGinzburg.ZAlgebra.rightModuleExtDimensionShift' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0956197Z info: AxiomAudit.lean:367:0: 'ASGinzburg.ZAlgebra.rightModuleExtZeroBoundary_bijective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0974431Z info: AxiomAudit.lean:368:0: 'ASGinzburg.ZAlgebra.rightModuleExtZeroDimensionShift' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0994209Z info: AxiomAudit.lean:369:0: 'ASGinzburg.ZAlgebra.rightModuleHomPrecomp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.0995949Z info: AxiomAudit.lean:370:0: 'ASGinzburg.ZAlgebra.rightModuleHomPrecomp_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1017467Z info: AxiomAudit.lean:371:0: 'ASGinzburg.ZAlgebra.rightModuleHomFinite_of_epi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1029948Z info: AxiomAudit.lean:372:0: 'ASGinzburg.ZAlgebra.rightModuleCoproductHomLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1053665Z info: AxiomAudit.lean:373:0: 'ASGinzburg.ZAlgebra.rightModuleCoproductHomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1074305Z info: AxiomAudit.lean:374:0: 'ASGinzburg.ZAlgebra.representableHomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1094331Z info: AxiomAudit.lean:375:0: 'ASGinzburg.ZAlgebra.representableHomRepresentableFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1096895Z info: AxiomAudit.lean:376:0: 'ASGinzburg.ZAlgebra.asResolutionTerm₁HomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1114535Z info: AxiomAudit.lean:377:0: 'ASGinzburg.ZAlgebra.asResolutionTerm₂HomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1116282Z info: AxiomAudit.lean:378:0: 'ASGinzburg.ZAlgebra.rightModuleEvaluation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1154219Z info: AxiomAudit.lean:379:0: 'ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1156299Z info: AxiomAudit.lean:380:0: 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:36:37.1173639Z  Classical.choice,
+2026-10-08T04:36:37.1174015Z  Quot.sound]
+2026-10-08T04:36:37.1214235Z info: AxiomAudit.lean:381:0: 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:36:37.1215372Z  Classical.choice,
+2026-10-08T04:36:37.1215703Z  Quot.sound]
+2026-10-08T04:36:37.1216756Z info: AxiomAudit.lean:382:0: 'ASGinzburg.ZAlgebra.rightModuleInclusionPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1218628Z info: AxiomAudit.lean:383:0: 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1220731Z info: AxiomAudit.lean:384:0: 'ASGinzburg.ZAlgebra.rightModuleKernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1222350Z info: AxiomAudit.lean:385:0: 'ASGinzburg.ZAlgebra.rightModuleCokernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1234422Z info: AxiomAudit.lean:386:0: 'ASGinzburg.ZAlgebra.rightModuleHomologyObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1236136Z info: AxiomAudit.lean:387:0: 'ASGinzburg.ZAlgebra.rightModule_exact_iff_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1238109Z info: AxiomAudit.lean:388:0: 'ASGinzburg.ZAlgebra.rightModuleKernelObjIso_inv_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1240077Z info: AxiomAudit.lean:389:0: 'ASGinzburg.ZAlgebra.rightModuleCokernelObjIso_π_hom' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1241720Z info: AxiomAudit.lean:390:0: 'ASGinzburg.ZAlgebra.rightModule_mono_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1253577Z info: AxiomAudit.lean:391:0: 'ASGinzburg.ZAlgebra.rightModule_epi_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1255236Z info: AxiomAudit.lean:392:0: 'ASGinzburg.ZAlgebra.rightModule_mono_iff_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1256927Z info: AxiomAudit.lean:393:0: 'ASGinzburg.ZAlgebra.rightModule_epi_iff_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1258602Z info: AxiomAudit.lean:394:0: 'ASGinzburg.ZAlgebra.rightModule_exact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1260546Z info: AxiomAudit.lean:395:0: 'ASGinzburg.ZAlgebra.rightModule_exact_iff_range_eq_ker' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1262221Z info: AxiomAudit.lean:396:0: 'ASGinzburg.ZAlgebra.rightModule_shortExact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1264073Z info: AxiomAudit.lean:397:0: 'ASGinzburg.ZAlgebra.IsMinimalMorphism' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1265674Z info: AxiomAudit.lean:398:0: 'ASGinzburg.ZAlgebra.isMinimalMorphism_iff_range_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1267271Z info: AxiomAudit.lean:399:0: 'ASGinzburg.ZAlgebra.minimalMorphismLift' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1268878Z info: AxiomAudit.lean:400:0: 'ASGinzburg.ZAlgebra.minimalMorphismLift_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1270521Z info: AxiomAudit.lean:401:0: 'ASGinzburg.ZAlgebra.isMinimalMorphism_of_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1272155Z info: AxiomAudit.lean:402:0: 'ASGinzburg.ZAlgebra.isMinimalMorphism_iff_factors' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1276740Z info: AxiomAudit.lean:403:0: 'ASGinzburg.ZAlgebra.isMinimalMorphism_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1278411Z info: AxiomAudit.lean:404:0: 'ASGinzburg.ZAlgebra.isMinimalMorphism_comp_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1280097Z info: AxiomAudit.lean:405:0: 'ASGinzburg.ZAlgebra.isMinimalMorphism_comp_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1281762Z info: AxiomAudit.lean:406:0: 'ASGinzburg.ZAlgebra.representableToElement' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1283715Z info: AxiomAudit.lean:407:0: 'ASGinzburg.ZAlgebra.representableYonedaEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1285582Z info: AxiomAudit.lean:408:0: 'ASGinzburg.ZAlgebra.representableYonedaEquiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1287299Z info: AxiomAudit.lean:409:0: 'ASGinzburg.ZAlgebra.representableYonedaEquiv_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1289009Z info: AxiomAudit.lean:410:0: 'ASGinzburg.ZAlgebra.representableYonedaEquiv_symm_app' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1290729Z info: AxiomAudit.lean:411:0: 'ASGinzburg.ZAlgebra.representableProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1292362Z info: AxiomAudit.lean:412:0: 'ASGinzburg.ZAlgebra.positiveActionSpan_action_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1314872Z info: AxiomAudit.lean:413:0: 'ASGinzburg.ZAlgebra.rightModuleRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1316518Z info: AxiomAudit.lean:414:0: 'ASGinzburg.ZAlgebra.positiveActionSpan_map_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1318136Z info: AxiomAudit.lean:415:0: 'ASGinzburg.ZAlgebra.rightModuleRadicalMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1319782Z info: AxiomAudit.lean:416:0: 'ASGinzburg.ZAlgebra.rightModuleRadicalMap_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1321493Z info: AxiomAudit.lean:417:0: 'ASGinzburg.ZAlgebra.rightModuleRadicalFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1323472Z info: AxiomAudit.lean:418:0: 'ASGinzburg.ZAlgebra.rightModuleRadicalFunctorAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1342350Z info: AxiomAudit.lean:419:0: 'ASGinzburg.ZAlgebra.rightModuleRadicalFunctorLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1344608Z info: AxiomAudit.lean:420:0: 'ASGinzburg.ZAlgebra.rightModuleRadical_representable_component' depends on axioms: [propext,
+2026-10-08T04:36:37.1345654Z  Classical.choice,
+2026-10-08T04:36:37.1346006Z  Quot.sound]
+2026-10-08T04:36:37.1346984Z info: AxiomAudit.lean:421:0: 'ASGinzburg.ZAlgebra.positiveActionSpan_simple_eq_bot' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1348576Z info: AxiomAudit.lean:422:0: 'ASGinzburg.ZAlgebra.radical_inclusion_comp_simple_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1350264Z info: AxiomAudit.lean:423:0: 'ASGinzburg.ZAlgebra.minimalMorphism_comp_simple_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1351868Z info: AxiomAudit.lean:424:0: 'ASGinzburg.ZAlgebra.RightSubmodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1353825Z info: AxiomAudit.lean:425:0: 'ASGinzburg.ZAlgebra.RightSubmodule.presheaf' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1355548Z info: AxiomAudit.lean:426:0: 'ASGinzburg.ZAlgebra.RightSubmodule.presheafAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1357308Z info: AxiomAudit.lean:427:0: 'ASGinzburg.ZAlgebra.RightSubmodule.presheafLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1358983Z info: AxiomAudit.lean:428:0: 'ASGinzburg.ZAlgebra.RightSubmodule.object' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1360602Z info: AxiomAudit.lean:429:0: 'ASGinzburg.ZAlgebra.RightSubmodule.inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1362283Z info: AxiomAudit.lean:430:0: 'ASGinzburg.ZAlgebra.RightSubmodule.inclusionMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1367284Z info: AxiomAudit.lean:431:0: 'ASGinzburg.ZAlgebra.RightSubmodule.quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1371734Z info: AxiomAudit.lean:432:0: 'ASGinzburg.ZAlgebra.RightSubmodule.quotientπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1384304Z info: AxiomAudit.lean:433:0: 'ASGinzburg.ZAlgebra.RightSubmodule.quotientπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1386179Z info: AxiomAudit.lean:434:0: 'ASGinzburg.ZAlgebra.RightSubmodule.quotientShortComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1388049Z info: AxiomAudit.lean:435:0: 'ASGinzburg.ZAlgebra.RightSubmodule.quotientShortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1389813Z info: AxiomAudit.lean:436:0: 'ASGinzburg.ZAlgebra.leftRepresentableRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1391499Z info: AxiomAudit.lean:437:0: 'ASGinzburg.ZAlgebra.positiveLeftActionSpan' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1393363Z info: AxiomAudit.lean:438:0: 'ASGinzburg.ZAlgebra.leftRepresentableRadical_eq_positiveLeftActionSpan' depends on axioms: [propext,
+2026-10-08T04:36:37.1394438Z  Classical.choice,
+2026-10-08T04:36:37.1394786Z  Quot.sound]
+2026-10-08T04:36:37.1395787Z info: AxiomAudit.lean:439:0: 'ASGinzburg.ZAlgebra.simpleLeftModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1397666Z info: AxiomAudit.lean:440:0: 'ASGinzburg.ZAlgebra.simpleLeftModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1399459Z info: AxiomAudit.lean:441:0: 'ASGinzburg.ZAlgebra.simpleLeftModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1401189Z info: AxiomAudit.lean:442:0: 'ASGinzburg.ZAlgebra.leftRepresentableRadical_diagonal_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1402997Z info: AxiomAudit.lean:443:0: 'ASGinzburg.ZAlgebra.simpleLeftModuleDiagonalIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1427806Z info: AxiomAudit.lean:444:0: 'ASGinzburg.ZAlgebra.simpleLeftModule_off_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1430022Z info: AxiomAudit.lean:445:0: 'ASGinzburg.ZAlgebra.simpleLeftModule_diagonal_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1432474Z info: AxiomAudit.lean:446:0: 'ASGinzburg.ZAlgebra.simpleLeftModuleDiagonalSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1435062Z info: AxiomAudit.lean:447:0: 'ASGinzburg.ZAlgebra.simpleLeftModule_hom_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1436838Z info: AxiomAudit.lean:448:0: 'ASGinzburg.ZAlgebra.simpleLeftModuleSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1438455Z info: AxiomAudit.lean:449:0: 'ASGinzburg.ZAlgebra.simpleLeftModule_shortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1440064Z info: AxiomAudit.lean:450:0: 'ASGinzburg.ZAlgebra.representableRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1441608Z info: AxiomAudit.lean:451:0: 'ASGinzburg.ZAlgebra.positiveActionSpan' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1453469Z info: AxiomAudit.lean:452:0: 'ASGinzburg.ZAlgebra.representableRadical_eq_positiveActionSpan' depends on axioms: [propext,
+2026-10-08T04:36:37.1454499Z  Classical.choice,
+2026-10-08T04:36:37.1454829Z  Quot.sound]
+2026-10-08T04:36:37.1455694Z info: AxiomAudit.lean:453:0: 'ASGinzburg.ZAlgebra.simpleRightModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1457493Z info: AxiomAudit.lean:454:0: 'ASGinzburg.ZAlgebra.simpleRightModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1459288Z info: AxiomAudit.lean:455:0: 'ASGinzburg.ZAlgebra.simpleRightModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1461208Z info: AxiomAudit.lean:456:0: 'ASGinzburg.ZAlgebra.representableRadical_diagonal_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1462928Z info: AxiomAudit.lean:457:0: 'ASGinzburg.ZAlgebra.simpleRightModuleDiagonalIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1464839Z info: AxiomAudit.lean:458:0: 'ASGinzburg.ZAlgebra.simpleRightModule_off_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1466550Z info: AxiomAudit.lean:459:0: 'ASGinzburg.ZAlgebra.simpleRightModule_diagonal_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1468284Z info: AxiomAudit.lean:460:0: 'ASGinzburg.ZAlgebra.simpleRightModuleDiagonalSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1469993Z info: AxiomAudit.lean:461:0: 'ASGinzburg.ZAlgebra.simpleRightModule_hom_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1471672Z info: AxiomAudit.lean:462:0: 'ASGinzburg.ZAlgebra.simpleRightModuleSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1493628Z info: AxiomAudit.lean:463:0: 'ASGinzburg.ZAlgebra.simpleRightModule_shortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1495002Z info: AxiomAudit.lean:464:0: 'ASGinzburg.ArrowSpace333' does not depend on any axioms
+2026-10-08T04:36:37.1496158Z info: AxiomAudit.lean:465:0: 'ASGinzburg.CubicTensor333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1497334Z info: AxiomAudit.lean:466:0: 'ASGinzburg.Triple333' does not depend on any axioms
+2026-10-08T04:36:37.1498283Z info: AxiomAudit.lean:467:0: 'ASGinzburg.CubicCoefficients333' does not depend on any axioms
+2026-10-08T04:36:37.1499275Z info: AxiomAudit.lean:468:0: 'ASGinzburg.CutRelations333' does not depend on any axioms
+2026-10-08T04:36:37.1500597Z info: AxiomAudit.lean:469:0: 'ASGinzburg.cubicBasis333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1501994Z info: AxiomAudit.lean:470:0: 'ASGinzburg.cubicCoordinates333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1523804Z info: AxiomAudit.lean:471:0: 'ASGinzburg.cutRelationCoordinates333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1525364Z info: AxiomAudit.lean:472:0: 'ASGinzburg.tensorToCutRelations333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1527227Z info: AxiomAudit.lean:473:0: 'ASGinzburg.tensor_recovered_from_cut_relations333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1528760Z info: AxiomAudit.lean:474:0: 'ASGinzburg.cubicTensor333_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1530175Z info: AxiomAudit.lean:475:0: 'ASGinzburg.arrowBasisChange333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1531612Z info: AxiomAudit.lean:476:0: 'ASGinzburg.arrowBasisChange333_tmul' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1533001Z info: AxiomAudit.lean:477:0: 'ASGinzburg.TopCohomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1534831Z info: AxiomAudit.lean:478:0: 'ASGinzburg.map_from_zero_domain_eq_zero' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1536186Z info: AxiomAudit.lean:479:0: 'ASGinzburg.topCohomologyEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1537604Z info: AxiomAudit.lean:480:0: 'ASGinzburg.topCohomology_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1539065Z info: AxiomAudit.lean:481:0: 'ASGinzburg.topCohomology_field_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1540342Z info: AxiomAudit.lean:482:0: 'ASGinzburg.triangle333' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1541391Z info: AxiomAudit.lean:483:0: 'ASGinzburg.triangleX' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1542619Z info: AxiomAudit.lean:484:0: 'ASGinzburg.triangleY' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1543838Z info: AxiomAudit.lean:485:0: 'ASGinzburg.triangleZ' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1544877Z info: AxiomAudit.lean:486:0: 'ASGinzburg.triangleX_cut' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1545947Z info: AxiomAudit.lean:487:0: 'ASGinzburg.triangleY_cut' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:36:37.1547132Z info: AxiomAudit.lean:488:0: 'ASGinzburg.triangleZ_cut' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1548499Z info: AxiomAudit.lean:489:0: 'ASGinzburg.triangle_arrow_winding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1549913Z info: AxiomAudit.lean:490:0: 'ASGinzburg.triangle_path_winding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1551377Z info: AxiomAudit.lean:491:0: 'ASGinzburg.triangle_cut_one_cycle_is_cubic' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1552946Z info: AxiomAudit.lean:492:0: 'ASGinzburg.triangle_same_winding_as_arrow_is_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1575638Z info: AxiomAudit.lean:493:0: 'ASGinzburg.trianglePotential' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1577231Z info: AxiomAudit.lean:494:0: 'ASGinzburg.trianglePotential_cut_derivative_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1578593Z info: AxiomAudit.lean:495:0: 'ASGinzburg.ZAlgebra.InWindow' does not depend on any axioms
+2026-10-08T04:36:37.1579472Z info: AxiomAudit.lean:496:0: 'ASGinzburg.ZAlgebra.InWindow.mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1580501Z info: AxiomAudit.lean:497:0: 'ASGinzburg.ZAlgebra.WindowSystem' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1581368Z info: AxiomAudit.lean:498:0: 'ASGinzburg.ZAlgebra.WindowSystem.globalMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1582303Z info: AxiomAudit.lean:499:0: 'ASGinzburg.ZAlgebra.WindowSystem.globalMap_eq_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1583679Z info: AxiomAudit.lean:500:0: 'ASGinzburg.ZAlgebra.WindowSystem.periodIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1584654Z info: AxiomAudit.lean:501:0: 'ASGinzburg.ZAlgebra.WindowSystem.isPeriodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1585483Z info: AxiomAudit.lean:502:0: 'ASGinzburg.ZAlgebra' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1586243Z info: AxiomAudit.lean:503:0: 'ASGinzburg.ZAlgebra.PeriodIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1587034Z info: AxiomAudit.lean:504:0: 'ASGinzburg.ZAlgebra.IsPeriodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1587850Z info: AxiomAudit.lean:505:0: 'ASGinzburg.ZAlgebra.LinearSubcategory' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1588665Z info: AxiomAudit.lean:506:0: 'ASGinzburg.ZAlgebra.products' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1589534Z info: AxiomAudit.lean:507:0: 'ASGinzburg.ZAlgebra.generated_of_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:36:37.1590144Z Build completed successfully (3357 jobs).
+2026-10-08T04:36:37.1590491Z [2026-10-08T04:36:37.037666+00:00] build: exit=0, elapsed=273.580568s
+2026-10-08T04:36:37.1591179Z [2026-10-08T04:36:37.038444+00:00] axioms: bash /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/scripts/with_lean.sh lake env lean AxiomAudit.lean
+2026-10-08T04:37:06.3558059Z 'ASGinzburg.cardinal_sum_one_other_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3576112Z 'ASGinzburg.ZAlgebra.ASRegular.extRank_other_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3601546Z 'ASGinzburg.ZAlgebra.ASRegular.ext_other_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3603970Z 'ASGinzburg.ZAlgebra.ASRegular.ext_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3605338Z 'ASGinzburg.ZAlgebra.ASResolution.homologyExtThreeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3606750Z 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3608158Z 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3609624Z 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_eq_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3611112Z 'ASGinzburg.ZAlgebra.ASRegular.extDimensionTable_total' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3612389Z 'ASGinzburg.cardinal_sum_eq_one_of_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3613939Z 'ASGinzburg.ZAlgebra.asExtTotalRank_eq_one_of_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3615252Z 'ASGinzburg.ZAlgebra.asRegular_iff_ext_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3616606Z 'ASGinzburg.ZAlgebra.ASResolution.asDualityExtThreeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3618024Z 'ASGinzburg.ZAlgebra.ASRegular.extThreeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3624495Z 'ASGinzburg.ZAlgebra.ASRegular.extThree_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3626282Z 'ASGinzburg.ZAlgebra.ASRegular.extThree_rank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3627934Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_isZero_ge_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3629619Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_terms_isZero' depends on axioms: [propext,
+2026-10-08T04:37:06.3630738Z  Classical.choice,
+2026-10-08T04:37:06.3631267Z  Quot.sound]
+2026-10-08T04:37:06.3632297Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homologyLinearEquiv' depends on axioms: [propext,
+2026-10-08T04:37:06.3633669Z  Classical.choice,
+2026-10-08T04:37:06.3634183Z  Quot.sound]
+2026-10-08T04:37:06.3635176Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_low_homology_isZero' depends on axioms: [propext,
+2026-10-08T04:37:06.3636283Z  Classical.choice,
+2026-10-08T04:37:06.3636791Z  Quot.sound]
+2026-10-08T04:37:06.3637797Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_high_homology_isZero' depends on axioms: [propext,
+2026-10-08T04:37:06.3638925Z  Classical.choice,
+2026-10-08T04:37:06.3639444Z  Quot.sound]
+2026-10-08T04:37:06.3640423Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_tau_representable_top_homology_finrank' depends on axioms: [propext,
+2026-10-08T04:37:06.3641548Z  Classical.choice,
+2026-10-08T04:37:06.3642059Z  Quot.sound]
+2026-10-08T04:37:06.3642995Z 'ASGinzburg.CutQuiver.tau_incomingSource_height_gt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3645098Z 'ASGinzburg.ZAlgebra.asDualityHomTerm₀_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3646733Z 'ASGinzburg.ZAlgebra.asDualityHomTerm₁_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3648312Z 'ASGinzburg.ZAlgebra.asDualityHomTerm₂_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3649905Z 'ASGinzburg.ZAlgebra.asDualityHomTerm₃Equiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3651639Z 'ASGinzburg.ZAlgebra.leftModule_isZero_of_components' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3653369Z 'ASGinzburg.ZAlgebra.leftModuleIsoOfSingleSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3654960Z 'ASGinzburg.ZAlgebra.ASRegular.extLeft_off_degree_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3656532Z 'ASGinzburg.ZAlgebra.ASRegular.extLeftThree_off_vertex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3658155Z 'ASGinzburg.ZAlgebra.ASRegular.extLeftThreeIsoSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3659649Z 'ASGinzburg.ZAlgebra.ASRegular.extLeftThree_positive_action_zero' depends on axioms: [propext,
+2026-10-08T04:37:06.3660734Z  Classical.choice,
+2026-10-08T04:37:06.3661239Z  Quot.sound]
+2026-10-08T04:37:06.3662097Z 'ASGinzburg.ZAlgebra.asExtTotalRank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:06.3663575Z 'ASGinzburg.ZAlgebra.ASRegular' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7058165Z 'ASGinzburg.ZAlgebra.ASRegular.resolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7074355Z 'ASGinzburg.ZAlgebra.ASRegular.projectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7084714Z 'ASGinzburg.ZAlgebra.ASRegular.projectiveResolution_isZero_ge_four' depends on axioms: [propext,
+2026-10-08T04:37:20.7085851Z  Classical.choice,
+2026-10-08T04:37:20.7086396Z  Quot.sound]
+2026-10-08T04:37:20.7087298Z 'ASGinzburg.ZAlgebra.asExtRank_le_total' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7088743Z 'ASGinzburg.ZAlgebra.ASRegular.extRank_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7090563Z 'ASGinzburg.ZAlgebra.ASRegular.extFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7092096Z 'ASGinzburg.ZAlgebra.ASRegular.extFinrank_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7093730Z 'ASGinzburg.ZAlgebra.asExtRank_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7094938Z 'ASGinzburg.CutQuiver.incomingArrows' does not depend on any axioms
+2026-10-08T04:37:20.7095944Z 'ASGinzburg.CutQuiver.outgoingArrows' does not depend on any axioms
+2026-10-08T04:37:20.7097206Z 'ASGinzburg.CutQuiver.incomingArrowsFintype' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7098692Z 'ASGinzburg.CutQuiver.outgoingArrowsFintype' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7099924Z 'ASGinzburg.CutQuiver.incomingSource' does not depend on any axioms
+2026-10-08T04:37:20.7100904Z 'ASGinzburg.CutQuiver.outgoingTarget' does not depend on any axioms
+2026-10-08T04:37:20.7101951Z 'ASGinzburg.CutQuiver.incoming_liftedTarget' depends on axioms: [propext]
+2026-10-08T04:37:20.7103019Z 'ASGinzburg.CutQuiver.outgoing_liftedSource' does not depend on any axioms
+2026-10-08T04:37:20.7104489Z 'ASGinzburg.CutQuiver.incomingSource_height_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7105963Z 'ASGinzburg.CutQuiver.outgoingTarget_height_gt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7107480Z 'ASGinzburg.ZAlgebra.rightModule_coproduct_projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7109320Z 'ASGinzburg.ZAlgebra.asResolutionTerm₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7110910Z 'ASGinzburg.ZAlgebra.asResolutionTerm₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7112577Z 'ASGinzburg.ZAlgebra.asResolutionTerm₁Projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7114530Z 'ASGinzburg.ZAlgebra.asResolutionTerm₂Projective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7116287Z 'ASGinzburg.ZAlgebra.ASResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7117915Z 'ASGinzburg.ZAlgebra.ASResolution.hom_d₁_simple_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7119609Z 'ASGinzburg.ZAlgebra.ASResolution.hom_d₂_simple_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7121340Z 'ASGinzburg.ZAlgebra.ASResolution.hom_d₃_simple_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7122877Z 'ASGinzburg.ZAlgebra.ASResolution.complexTerm' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7124680Z 'ASGinzburg.ZAlgebra.ASResolution.complexDifferential' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7126332Z 'ASGinzburg.ZAlgebra.ASResolution.complexDifferential_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7127905Z 'ASGinzburg.ZAlgebra.ASResolution.complex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7129468Z 'ASGinzburg.ZAlgebra.ASResolution.complexTermProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7131108Z 'ASGinzburg.ZAlgebra.ASResolution.complex_exactAt_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7132658Z 'ASGinzburg.ZAlgebra.ASResolution.augmentation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7134397Z 'ASGinzburg.ZAlgebra.ASResolution.augmentationQuasiIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7136035Z 'ASGinzburg.ZAlgebra.ASResolution.toProjectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7137654Z 'ASGinzburg.ZAlgebra.ASResolution.complex_isZero_ge_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7139417Z 'ASGinzburg.ZAlgebra.ASResolution.extShiftThree' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7141058Z 'ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:20.7142666Z 'ASGinzburg.ZAlgebra.ASResolution.ext_ge_four_rank_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2681882Z 'ASGinzburg.ZAlgebra.rightModuleExtZeroFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2704261Z 'ASGinzburg.ZAlgebra.rightModuleExtOneFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2706126Z 'ASGinzburg.ZAlgebra.ASResolution.extFinite_representable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2711194Z 'ASGinzburg.ZAlgebra.ASResolution.homDifferential' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2712918Z 'ASGinzburg.ZAlgebra.ASResolution.homDifferential_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2714775Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2716239Z 'ASGinzburg.ZAlgebra.ASResolution.complexDifferential_minimal' depends on axioms: [propext,
+2026-10-08T04:37:28.2717281Z  Classical.choice,
+2026-10-08T04:37:28.2717820Z  Quot.sound]
+2026-10-08T04:37:28.2718699Z 'ASGinzburg.ZAlgebra.ASResolution.homDifferential_simple_zero' depends on axioms: [propext,
+2026-10-08T04:37:28.2719725Z  Classical.choice,
+2026-10-08T04:37:28.2720255Z  Quot.sound]
+2026-10-08T04:37:28.2721261Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2722796Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_d_all_zero' depends on axioms: [propext,
+2026-10-08T04:37:28.2723992Z  Classical.choice,
+2026-10-08T04:37:28.2724532Z  Quot.sound]
+2026-10-08T04:37:28.2725763Z 'ASGinzburg.ZAlgebra.ASResolution.homComplex_simple_homologyIso' depends on axioms: [propext,
+2026-10-08T04:37:28.2726794Z  Classical.choice,
+2026-10-08T04:37:28.2727314Z  Quot.sound]
+2026-10-08T04:37:28.2728295Z 'ASGinzburg.ZAlgebra.rightModule_exact_comp_mono_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2729830Z 'ASGinzburg.ZAlgebra.ASResolution.firstCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2731681Z 'ASGinzburg.ZAlgebra.ASResolution.firstCover_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2733461Z 'ASGinzburg.ZAlgebra.ASResolution.firstCoverEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2735242Z 'ASGinzburg.ZAlgebra.ASResolution.d₂_firstCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2737086Z 'ASGinzburg.ZAlgebra.ASResolution.exact_d₂_firstCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2738692Z 'ASGinzburg.ZAlgebra.ASResolution.secondCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2740388Z 'ASGinzburg.ZAlgebra.ASResolution.secondCover_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2741952Z 'ASGinzburg.ZAlgebra.ASResolution.secondCoverEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2743871Z 'ASGinzburg.ZAlgebra.ASResolution.d₃_secondCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2745658Z 'ASGinzburg.ZAlgebra.ASResolution.exact_d₃_secondCover' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2747372Z 'ASGinzburg.ZAlgebra.ASResolution.shortExact₀' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2749048Z 'ASGinzburg.ZAlgebra.ASResolution.shortExact₁' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2750966Z 'ASGinzburg.ZAlgebra.ASResolution.shortExact₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2752381Z 'ASGinzburg.conjugateHom' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2753831Z 'ASGinzburg.conjugateHom_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2755181Z 'ASGinzburg.conjugateHom_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2756435Z 'ASGinzburg.conjugateHom_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2757562Z 'ASGinzburg.CyclicWord' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:28.2758644Z 'ASGinzburg.WordPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2759897Z 'ASGinzburg.CyclicPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2761020Z 'ASGinzburg.wordClass' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:28.2762072Z 'ASGinzburg.traceWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2763390Z 'ASGinzburg.wordClass_append_swap' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:28.2764605Z 'ASGinzburg.traceWord_append_swap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2765722Z 'ASGinzburg.wordCutDegree' does not depend on any axioms
+2026-10-08T04:37:28.2766640Z 'ASGinzburg.wordCutDegree_append' depends on axioms: [propext]
+2026-10-08T04:37:28.2767618Z 'ASGinzburg.unique_cut_split' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:28.2768724Z 'ASGinzburg.reconstructAux' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:28.2769983Z 'ASGinzburg.reconstructAux_euler' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0638566Z 'ASGinzburg.cyclicTrace' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0664147Z 'ASGinzburg.cutReconstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0665886Z 'ASGinzburg.cut_euler_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0669772Z 'ASGinzburg.cut_normal_form' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:31.0670791Z 'ASGinzburg.path_word_cutDegree' depends on axioms: [propext]
+2026-10-08T04:37:31.0671675Z 'ASGinzburg.CutQuiver' does not depend on any axioms
+2026-10-08T04:37:31.0672533Z 'ASGinzburg.CutQuiver.Arrow' does not depend on any axioms
+2026-10-08T04:37:31.0673690Z 'ASGinzburg.CutQuiver.Vertex' does not depend on any axioms
+2026-10-08T04:37:31.0674647Z 'ASGinzburg.CutQuiver.LiftVertex' does not depend on any axioms
+2026-10-08T04:37:31.0675591Z 'ASGinzburg.CutQuiver.cutDegree' does not depend on any axioms
+2026-10-08T04:37:31.0676534Z 'ASGinzburg.CutQuiver.winding' does not depend on any axioms
+2026-10-08T04:37:31.0677455Z 'ASGinzburg.CutQuiver.height' does not depend on any axioms
+2026-10-08T04:37:31.0678481Z 'ASGinzburg.CutQuiver.periodNeZero' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:31.0679745Z 'ASGinzburg.CutQuiver.heightEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0681152Z 'ASGinzburg.CutQuiver.heightEquiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0682558Z 'ASGinzburg.CutQuiver.height_bijective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0683917Z 'ASGinzburg.CutQuiver.shift' does not depend on any axioms
+2026-10-08T04:37:31.0684786Z 'ASGinzburg.CutQuiver.tau' depends on axioms: [propext]
+2026-10-08T04:37:31.0685721Z 'ASGinzburg.CutQuiver.liftedSource' does not depend on any axioms
+2026-10-08T04:37:31.0686687Z 'ASGinzburg.CutQuiver.liftedTarget' does not depend on any axioms
+2026-10-08T04:37:31.0687671Z 'ASGinzburg.CutQuiver.cutDegree_false' depends on axioms: [propext]
+2026-10-08T04:37:31.0688666Z 'ASGinzburg.CutQuiver.cutDegree_true' depends on axioms: [propext]
+2026-10-08T04:37:31.0690035Z 'ASGinzburg.CutQuiver.winding_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0691402Z 'ASGinzburg.CutQuiver.winding_lt_period' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0692583Z 'ASGinzburg.CutQuiver.height_shift' depends on axioms: [propext]
+2026-10-08T04:37:31.0693802Z 'ASGinzburg.CutQuiver.height_tau' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:31.0694985Z 'ASGinzburg.CutQuiver.lifted_height_difference' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:31.0696393Z 'ASGinzburg.CutQuiver.lifted_arrow_increases_height' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0697924Z 'ASGinzburg.CutQuiver.intermediate_in_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0699146Z 'ASGinzburg.CutQuiver.Path' does not depend on any axioms
+2026-10-08T04:37:31.0700078Z 'ASGinzburg.CutQuiver.Path.length' does not depend on any axioms
+2026-10-08T04:37:31.0701054Z 'ASGinzburg.CutQuiver.Path.cutDegree' does not depend on any axioms
+2026-10-08T04:37:31.0702066Z 'ASGinzburg.CutQuiver.Path.winding' does not depend on any axioms
+2026-10-08T04:37:31.0703051Z 'ASGinzburg.CutQuiver.Path.toList' does not depend on any axioms
+2026-10-08T04:37:31.0704250Z 'ASGinzburg.CutQuiver.Path.length_toList' depends on axioms: [propext]
+2026-10-08T04:37:31.0705447Z 'ASGinzburg.CutQuiver.Path.winding_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0706825Z 'ASGinzburg.CutQuiver.Path.winding_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0708303Z 'ASGinzburg.CutQuiver.Path.winding_pos_of_length_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0709857Z 'ASGinzburg.CutQuiver.Path.zero_cut_increases_vertex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0711439Z 'ASGinzburg.CutQuiver.Path.zero_cut_has_no_nonempty_cycle' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0713391Z 'ASGinzburg.CutQuiver.Path.cut_one_cycle_winding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0714760Z 'ASGinzburg.derivativeAux' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0715981Z 'ASGinzburg.derivativeWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0717233Z 'ASGinzburg.derivativeAux_append' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0718589Z 'ASGinzburg.derivativeWord_append_swap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0719912Z 'ASGinzburg.derivativeWord_rotate' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0721225Z 'ASGinzburg.derivativeCyclicWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0722568Z 'ASGinzburg.derivativeCyclicWord_mk' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0724281Z 'ASGinzburg.cyclicDerivative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:31.0725530Z 'ASGinzburg.prependTrace' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4426793Z 'ASGinzburg.prependTrace_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4444195Z 'ASGinzburg.cyclicDerivative_traceWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4445764Z 'ASGinzburg.derivativeAux_reconstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4458402Z 'ASGinzburg.cyclicCutReconstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4459637Z 'ASGinzburg.ite_linearMap_apply' depends on axioms: [propext]
+2026-10-08T04:37:33.4460878Z 'ASGinzburg.cyclicCutReconstruction_traceWord' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4462291Z 'ASGinzburg.cyclicCutReconstruction_comp_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4464256Z 'ASGinzburg.cut_cyclic_derivative_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4465552Z 'ASGinzburg.totalDimension' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:33.4466725Z 'ASGinzburg.dimension_table_eq_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4468046Z 'ASGinzburg.total_dimension_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4469333Z 'ASGinzburg.total_one_iff_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4470680Z 'ASGinzburg.ext_dimension_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4471825Z 'ASGinzburg.CutQuiver.GinzburgArrow' does not depend on any axioms
+2026-10-08T04:37:33.4472861Z 'ASGinzburg.CutQuiver.GinzburgArrow.source' does not depend on any axioms
+2026-10-08T04:37:33.4474161Z 'ASGinzburg.CutQuiver.GinzburgArrow.target' does not depend on any axioms
+2026-10-08T04:37:33.4475373Z 'ASGinzburg.CutQuiver.GinzburgArrow.cohomologicalDegree' does not depend on any axioms
+2026-10-08T04:37:33.4476610Z 'ASGinzburg.CutQuiver.GinzburgArrow.cutDegree' does not depend on any axioms
+2026-10-08T04:37:33.4477730Z 'ASGinzburg.CutQuiver.GinzburgArrow.winding' does not depend on any axioms
+2026-10-08T04:37:33.4479050Z 'ASGinzburg.CutQuiver.GinzburgArrow.winding_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4480503Z 'ASGinzburg.CutQuiver.GinzburgArrow.winding_formula' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:33.4481841Z 'ASGinzburg.CutQuiver.GinzburgArrow.original_dual_winding_sum' depends on axioms: [propext]
+2026-10-08T04:37:33.4483313Z 'ASGinzburg.CutQuiver.GinzburgArrow.original_dual_cut_sum' depends on axioms: [propext]
+2026-10-08T04:37:33.4484735Z 'ASGinzburg.CutQuiver.GinzburgArrow.loop_differential_cohomological_degree' does not depend on any axioms
+2026-10-08T04:37:33.4486076Z 'ASGinzburg.positive_recurrence_unique' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:33.4487346Z 'ASGinzburg.quadraticHilbert' does not depend on any axioms
+2026-10-08T04:37:33.4488365Z 'ASGinzburg.quadraticHilbert_closed' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:37:33.4489438Z 'ASGinzburg.quadraticHilbert_double' depends on axioms: [propext]
+2026-10-08T04:37:33.4490676Z 'ASGinzburg.quadraticHilbert_third_difference' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4492090Z 'ASGinzburg.quadraticHilbert_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4493678Z 'ASGinzburg.quadraticHilbert_polynomial_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4495191Z 'ASGinzburg.ZAlgebra.leftRepresentableFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4496770Z 'ASGinzburg.ZAlgebra.leftRepresentableFunctorAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4498442Z 'ASGinzburg.ZAlgebra.leftRepresentableFunctorLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4500012Z 'ASGinzburg.ZAlgebra.leftModuleCoyonedaLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4501458Z 'ASGinzburg.ZAlgebra.leftModuleADual' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4502832Z 'ASGinzburg.ZAlgebra.leftModuleADual_obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4504435Z 'ASGinzburg.ZAlgebra.leftModuleADualMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4509943Z 'ASGinzburg.ZAlgebra.leftModuleADualFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4511626Z 'ASGinzburg.ZAlgebra.leftRepresentableADualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4513620Z 'ASGinzburg.ZAlgebra.representableBidualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4515257Z 'ASGinzburg.ZAlgebra.leftRepresentableBidualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4516888Z 'ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderLimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:33.4518667Z 'ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderColimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4019320Z 'ASGinzburg.ZAlgebra.leftModuleHasLimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4044549Z 'ASGinzburg.ZAlgebra.leftModuleHasColimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4046360Z 'ASGinzburg.ZAlgebra.leftModuleInclusionCreatesLimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4061265Z 'ASGinzburg.ZAlgebra.leftModuleInclusionCreatesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:37:42.4062391Z  Classical.choice,
+2026-10-08T04:37:42.4062904Z  Quot.sound]
+2026-10-08T04:37:42.4064115Z 'ASGinzburg.ZAlgebra.leftModuleHasFiniteProducts' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4065753Z 'ASGinzburg.ZAlgebra.leftModuleCoimageImageComparisonIsIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4067293Z 'ASGinzburg.ZAlgebra.leftModuleAbelian' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4068682Z 'ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:37:42.4069706Z  Classical.choice,
+2026-10-08T04:37:42.4070195Z  Quot.sound]
+2026-10-08T04:37:42.4071083Z 'ASGinzburg.ZAlgebra.leftModuleInclusionPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:37:42.4072192Z  Classical.choice,
+2026-10-08T04:37:42.4072678Z  Quot.sound]
+2026-10-08T04:37:42.4073750Z 'ASGinzburg.ZAlgebra.leftModuleGenerators' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4084782Z 'ASGinzburg.ZAlgebra.freeLeftModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4086746Z 'ASGinzburg.ZAlgebra.freeLeftModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4088588Z 'ASGinzburg.ZAlgebra.freeLeftModuleProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4090718Z 'ASGinzburg.ZAlgebra.freeLeftModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4092642Z 'ASGinzburg.ZAlgebra.leftModuleEnoughProjectives' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4094538Z 'ASGinzburg.ZAlgebra.leftModuleProjectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4096441Z 'ASGinzburg.ZAlgebra.leftModuleProjectiveResolution_exactAt_succ' depends on axioms: [propext,
+2026-10-08T04:37:42.4120497Z  Classical.choice,
+2026-10-08T04:37:42.4133539Z  Quot.sound]
+2026-10-08T04:37:42.4153964Z 'ASGinzburg.ZAlgebra.leftModuleHasExt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4172366Z 'ASGinzburg.ZAlgebra.leftRepresentableExtZeroEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4174245Z 'ASGinzburg.ZAlgebra.leftRepresentable_higher_ext_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4175753Z 'ASGinzburg.ZAlgebra.leftModuleEvaluation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4177249Z 'ASGinzburg.ZAlgebra.leftModuleEvaluationAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4178729Z 'ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:37:42.4179744Z  Classical.choice,
+2026-10-08T04:37:42.4180248Z  Quot.sound]
+2026-10-08T04:37:42.4181133Z 'ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:37:42.4182543Z  Classical.choice,
+2026-10-08T04:37:42.4183065Z  Quot.sound]
+2026-10-08T04:37:42.4184303Z 'ASGinzburg.ZAlgebra.leftModuleInclusionPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4186023Z 'ASGinzburg.ZAlgebra.leftModuleEvaluationPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4187627Z 'ASGinzburg.ZAlgebra.leftModuleKernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4189084Z 'ASGinzburg.ZAlgebra.leftModuleCokernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4190567Z 'ASGinzburg.ZAlgebra.leftModuleHomologyObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4192064Z 'ASGinzburg.ZAlgebra.leftModule_exact_iff_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4194000Z 'ASGinzburg.ZAlgebra.leftModuleKernelObjIso_inv_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4195762Z 'ASGinzburg.ZAlgebra.leftModuleCokernelObjIso_π_hom' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4197230Z 'ASGinzburg.ZAlgebra.leftModule_mono_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4198601Z 'ASGinzburg.ZAlgebra.leftModule_epi_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4200073Z 'ASGinzburg.ZAlgebra.leftModule_mono_iff_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4201600Z 'ASGinzburg.ZAlgebra.leftModule_epi_iff_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:42.4203299Z 'ASGinzburg.ZAlgebra.leftModule_exact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6885253Z 'ASGinzburg.ZAlgebra.leftModule_exact_iff_range_eq_ker' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6904350Z 'ASGinzburg.ZAlgebra.leftModule_shortExact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6911272Z 'ASGinzburg.ZAlgebra.leftRepresentableToElement' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6912968Z 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6914889Z 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6916573Z 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6918273Z 'ASGinzburg.ZAlgebra.leftRepresentableYonedaEquiv_symm_app' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6919988Z 'ASGinzburg.ZAlgebra.leftRepresentableProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6921542Z 'ASGinzburg.ZAlgebra.leftModuleProperty' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6922933Z 'ASGinzburg.ZAlgebra.LeftModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6924560Z 'ASGinzburg.ZAlgebra.leftRepresentableLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6926029Z 'ASGinzburg.ZAlgebra.leftRepresentable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6927475Z 'ASGinzburg.ZAlgebra.representableFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6929016Z 'ASGinzburg.ZAlgebra.representableFunctorAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6930613Z 'ASGinzburg.ZAlgebra.representableFunctorLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6932174Z 'ASGinzburg.ZAlgebra.rightModuleCoyonedaLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6934090Z 'ASGinzburg.ZAlgebra.rightModuleADual' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6935537Z 'ASGinzburg.ZAlgebra.rightModuleADual_obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6936984Z 'ASGinzburg.ZAlgebra.rightModuleADualMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6938465Z 'ASGinzburg.ZAlgebra.rightModuleADualFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6940054Z 'ASGinzburg.ZAlgebra.representableADualComponentEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6941649Z 'ASGinzburg.ZAlgebra.representableADualIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6943265Z 'ASGinzburg.ZAlgebra.LeftSubmodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6944702Z 'ASGinzburg.ZAlgebra.LeftSubmodule.presheaf' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6946289Z 'ASGinzburg.ZAlgebra.LeftSubmodule.presheafAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6947915Z 'ASGinzburg.ZAlgebra.LeftSubmodule.presheafLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6949437Z 'ASGinzburg.ZAlgebra.LeftSubmodule.object' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6950916Z 'ASGinzburg.ZAlgebra.LeftSubmodule.inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6952448Z 'ASGinzburg.ZAlgebra.LeftSubmodule.inclusionMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6954245Z 'ASGinzburg.ZAlgebra.LeftSubmodule.quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6956110Z 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6957850Z 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6959687Z 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6961372Z 'ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:45.6962702Z 'ASGinzburg.CutQuiver.Path.comp' does not depend on any axioms
+2026-10-08T04:37:45.6963898Z 'ASGinzburg.CutQuiver.Path.comp_nil' does not depend on any axioms
+2026-10-08T04:37:45.6964911Z 'ASGinzburg.CutQuiver.Path.nil_comp' depends on axioms: [propext]
+2026-10-08T04:37:45.6965923Z 'ASGinzburg.CutQuiver.Path.comp_assoc' depends on axioms: [propext]
+2026-10-08T04:37:45.6966930Z 'ASGinzburg.CutQuiver.Path.cutDegree_comp' depends on axioms: [propext]
+2026-10-08T04:37:45.6967954Z 'ASGinzburg.CutQuiver.Path.winding_comp' depends on axioms: [propext]
+2026-10-08T04:37:50.4841466Z 'ASGinzburg.CutQuiver.PathComponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4864365Z 'ASGinzburg.CutQuiver.pathComp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4883684Z 'ASGinzburg.CutQuiver.pathId' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4885138Z 'ASGinzburg.CutQuiver.pathComp_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4886668Z 'ASGinzburg.CutQuiver.pathComp_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4887975Z 'ASGinzburg.CutQuiver.id_pathComp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4889282Z 'ASGinzburg.CutQuiver.pathComp_assoc' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4890757Z 'ASGinzburg.ZAlgebra.representableHomEvaluationIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4892333Z 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:37:50.4893951Z  Classical.choice,
+2026-10-08T04:37:50.4894508Z  Quot.sound]
+2026-10-08T04:37:50.4895418Z 'ASGinzburg.ZAlgebra.representableHomPreservesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:37:50.4896442Z  Classical.choice,
+2026-10-08T04:37:50.4896965Z  Quot.sound]
+2026-10-08T04:37:50.4897941Z 'ASGinzburg.ZAlgebra.representableHomColimitIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4899515Z 'ASGinzburg.ZAlgebra.rightModuleExtZeroFunctorIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4901044Z 'ASGinzburg.ZAlgebra.representableExtZeroPreservesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:37:50.4902116Z  Classical.choice,
+2026-10-08T04:37:50.4902628Z  Quot.sound]
+2026-10-08T04:37:50.4903812Z 'ASGinzburg.ZAlgebra.representableExtZeroColimitIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4905238Z 'ASGinzburg.ZAlgebra.Obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4906469Z 'ASGinzburg.ZAlgebra.objCategory' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4907739Z 'ASGinzburg.ZAlgebra.objHomAdd' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4909198Z 'ASGinzburg.ZAlgebra.objHomModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4910652Z 'ASGinzburg.ZAlgebra.objPreadditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4912096Z 'ASGinzburg.ZAlgebra.objLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4914224Z 'ASGinzburg.ZAlgebra.objOppositeHomModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4915962Z 'ASGinzburg.ZAlgebra.objOppositeLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4917582Z 'ASGinzburg.ZAlgebra.representableLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4984685Z 'ASGinzburg.ZAlgebra.linearYonedaAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4987115Z 'ASGinzburg.ZAlgebra.linearYonedaLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4988589Z 'ASGinzburg.ZAlgebra.rightModuleProperty' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4989999Z 'ASGinzburg.ZAlgebra.RightModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4991342Z 'ASGinzburg.ZAlgebra.representable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4992747Z 'ASGinzburg.ZAlgebra.representableHomEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4994531Z 'ASGinzburg.ZAlgebra.representableHom_vanishes' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4995950Z 'ASGinzburg.ZAlgebra.scalarEndEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4997381Z 'ASGinzburg.ZAlgebra.representableEnd_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.4998953Z 'ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.5000612Z 'ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.5002241Z 'ASGinzburg.ZAlgebra.rightModuleHasLimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.5004047Z 'ASGinzburg.ZAlgebra.rightModuleHasColimitsOfShape' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:37:50.5005579Z 'ASGinzburg.ZAlgebra.rightModuleInclusionCreatesLimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:37:50.5006616Z  Classical.choice,
+2026-10-08T04:37:50.5007136Z  Quot.sound]
+2026-10-08T04:37:50.5008278Z 'ASGinzburg.ZAlgebra.rightModuleInclusionCreatesColimitsOfShape' depends on axioms: [propext,
+2026-10-08T04:37:50.5009364Z  Classical.choice,
+2026-10-08T04:37:50.5009880Z  Quot.sound]
+2026-10-08T04:37:50.5010865Z 'ASGinzburg.ZAlgebra.rightModuleHasFiniteProducts' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4968646Z 'ASGinzburg.ZAlgebra.rightModuleCoimageImageComparisonIsIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4984560Z 'ASGinzburg.ZAlgebra.rightModuleAbelian' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4986461Z 'ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:38:11.4987542Z  Classical.choice,
+2026-10-08T04:38:11.4988072Z  Quot.sound]
+2026-10-08T04:38:11.4988994Z 'ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:38:11.4990060Z  Classical.choice,
+2026-10-08T04:38:11.4990589Z  Quot.sound]
+2026-10-08T04:38:11.4991531Z 'ASGinzburg.ZAlgebra.rightModuleGenerators' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4992967Z 'ASGinzburg.ZAlgebra.freeRightModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4994914Z 'ASGinzburg.ZAlgebra.freeRightModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4996422Z 'ASGinzburg.ZAlgebra.freeRightModuleProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4998053Z 'ASGinzburg.ZAlgebra.freeRightModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.4999609Z 'ASGinzburg.ZAlgebra.rightModuleEnoughProjectives' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5001228Z 'ASGinzburg.ZAlgebra.rightModuleProjectiveResolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5002782Z 'ASGinzburg.ZAlgebra.rightModuleProjectiveResolution_exactAt_succ' depends on axioms: [propext,
+2026-10-08T04:38:11.5004443Z  Classical.choice,
+2026-10-08T04:38:11.5004966Z  Quot.sound]
+2026-10-08T04:38:11.5005851Z 'ASGinzburg.ZAlgebra.rightModuleHasExt' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5007315Z 'ASGinzburg.ZAlgebra.representableExtZeroEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5008859Z 'ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5010373Z 'ASGinzburg.ZAlgebra.rightModuleExtPostcomp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5011857Z 'ASGinzburg.ZAlgebra.rightModuleExtCovariant' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5013610Z 'ASGinzburg.ZAlgebra.rightModuleExtCovariantAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5015258Z 'ASGinzburg.ZAlgebra.rightModuleExtCovariantLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5016779Z 'ASGinzburg.ZAlgebra.rightModuleExtLeft' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5018207Z 'ASGinzburg.ZAlgebra.rightModuleExtLeft_obj' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5019695Z 'ASGinzburg.ZAlgebra.rightModuleExtLeftZeroIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5021142Z 'ASGinzburg.ZAlgebra.shiftedHomModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5022587Z 'ASGinzburg.ZAlgebra.rightModuleDerivedLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5024302Z 'ASGinzburg.ZAlgebra.rightModuleDerivedQhLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5025886Z 'ASGinzburg.ZAlgebra.rightModuleDerivedSingleLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5027703Z 'ASGinzburg.ZAlgebra.rightModuleExtHomAddEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5029235Z 'ASGinzburg.ZAlgebra.rightModuleExtModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5030748Z 'ASGinzburg.ZAlgebra.rightModuleExtHomLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5032464Z 'ASGinzburg.ZAlgebra.rightModuleExt_mk₀_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5034224Z 'ASGinzburg.ZAlgebra.rightModuleExtZeroLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5035844Z 'ASGinzburg.ZAlgebra.representableExtZeroLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5037462Z 'ASGinzburg.ZAlgebra.rightModuleDerivedShiftLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5039008Z 'ASGinzburg.ZAlgebra.rightModuleExt_smul_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5040489Z 'ASGinzburg.ZAlgebra.rightModuleExt_comp_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5041969Z 'ASGinzburg.ZAlgebra.rightModuleExtBoundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5043691Z 'ASGinzburg.ZAlgebra.rightModuleExtBoundary_bijective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:11.5045441Z 'ASGinzburg.ZAlgebra.rightModuleExtDimensionShift' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2348840Z 'ASGinzburg.ZAlgebra.rightModuleExtZeroBoundary_bijective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2374328Z 'ASGinzburg.ZAlgebra.rightModuleExtZeroDimensionShift' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2376081Z 'ASGinzburg.ZAlgebra.rightModuleHomPrecomp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2388877Z 'ASGinzburg.ZAlgebra.rightModuleHomPrecomp_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2390897Z 'ASGinzburg.ZAlgebra.rightModuleHomFinite_of_epi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2392511Z 'ASGinzburg.ZAlgebra.rightModuleCoproductHomLinearEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2394426Z 'ASGinzburg.ZAlgebra.rightModuleCoproductHomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2396050Z 'ASGinzburg.ZAlgebra.representableHomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2397645Z 'ASGinzburg.ZAlgebra.representableHomRepresentableFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2399629Z 'ASGinzburg.ZAlgebra.asResolutionTerm₁HomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2401376Z 'ASGinzburg.ZAlgebra.asResolutionTerm₂HomFinite' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2402901Z 'ASGinzburg.ZAlgebra.rightModuleEvaluation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2404645Z 'ASGinzburg.ZAlgebra.rightModuleEvaluationAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2406152Z 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteLimits' depends on axioms: [propext,
+2026-10-08T04:38:18.2407205Z  Classical.choice,
+2026-10-08T04:38:18.2407722Z  Quot.sound]
+2026-10-08T04:38:18.2408656Z 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesFiniteColimits' depends on axioms: [propext,
+2026-10-08T04:38:18.2409719Z  Classical.choice,
+2026-10-08T04:38:18.2410235Z  Quot.sound]
+2026-10-08T04:38:18.2411298Z 'ASGinzburg.ZAlgebra.rightModuleInclusionPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2413038Z 'ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesHomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2415135Z 'ASGinzburg.ZAlgebra.rightModuleKernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2416685Z 'ASGinzburg.ZAlgebra.rightModuleCokernelObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2418228Z 'ASGinzburg.ZAlgebra.rightModuleHomologyObjIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2419761Z 'ASGinzburg.ZAlgebra.rightModule_exact_iff_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2421488Z 'ASGinzburg.ZAlgebra.rightModuleKernelObjIso_inv_ι' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2423424Z 'ASGinzburg.ZAlgebra.rightModuleCokernelObjIso_π_hom' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2424969Z 'ASGinzburg.ZAlgebra.rightModule_mono_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2426374Z 'ASGinzburg.ZAlgebra.rightModule_epi_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2427850Z 'ASGinzburg.ZAlgebra.rightModule_mono_iff_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2429382Z 'ASGinzburg.ZAlgebra.rightModule_epi_iff_surjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2430872Z 'ASGinzburg.ZAlgebra.rightModule_exact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2432386Z 'ASGinzburg.ZAlgebra.rightModule_exact_iff_range_eq_ker' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2434125Z 'ASGinzburg.ZAlgebra.rightModule_shortExact_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2435555Z 'ASGinzburg.ZAlgebra.IsMinimalMorphism' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2437006Z 'ASGinzburg.ZAlgebra.isMinimalMorphism_iff_range_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2438671Z 'ASGinzburg.ZAlgebra.minimalMorphismLift' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2440134Z 'ASGinzburg.ZAlgebra.minimalMorphismLift_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2441632Z 'ASGinzburg.ZAlgebra.isMinimalMorphism_of_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2443336Z 'ASGinzburg.ZAlgebra.isMinimalMorphism_iff_factors' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:18.2445185Z 'ASGinzburg.ZAlgebra.isMinimalMorphism_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8136560Z 'ASGinzburg.ZAlgebra.isMinimalMorphism_comp_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8154469Z 'ASGinzburg.ZAlgebra.isMinimalMorphism_comp_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8172160Z 'ASGinzburg.ZAlgebra.representableToElement' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8174269Z 'ASGinzburg.ZAlgebra.representableYonedaEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8175876Z 'ASGinzburg.ZAlgebra.representableYonedaEquiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8177488Z 'ASGinzburg.ZAlgebra.representableYonedaEquiv_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8179104Z 'ASGinzburg.ZAlgebra.representableYonedaEquiv_symm_app' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8180710Z 'ASGinzburg.ZAlgebra.representableProjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8182263Z 'ASGinzburg.ZAlgebra.positiveActionSpan_action_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8183990Z 'ASGinzburg.ZAlgebra.rightModuleRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8185771Z 'ASGinzburg.ZAlgebra.positiveActionSpan_map_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8187286Z 'ASGinzburg.ZAlgebra.rightModuleRadicalMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8188817Z 'ASGinzburg.ZAlgebra.rightModuleRadicalMap_inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8190391Z 'ASGinzburg.ZAlgebra.rightModuleRadicalFunctor' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8192006Z 'ASGinzburg.ZAlgebra.rightModuleRadicalFunctorAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8193872Z 'ASGinzburg.ZAlgebra.rightModuleRadicalFunctorLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8195421Z 'ASGinzburg.ZAlgebra.rightModuleRadical_representable_component' depends on axioms: [propext,
+2026-10-08T04:38:22.8196436Z  Classical.choice,
+2026-10-08T04:38:22.8196973Z  Quot.sound]
+2026-10-08T04:38:22.8197951Z 'ASGinzburg.ZAlgebra.positiveActionSpan_simple_eq_bot' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8199543Z 'ASGinzburg.ZAlgebra.radical_inclusion_comp_simple_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8201157Z 'ASGinzburg.ZAlgebra.minimalMorphism_comp_simple_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8202655Z 'ASGinzburg.ZAlgebra.RightSubmodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8204267Z 'ASGinzburg.ZAlgebra.RightSubmodule.presheaf' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8205818Z 'ASGinzburg.ZAlgebra.RightSubmodule.presheafAdditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8207441Z 'ASGinzburg.ZAlgebra.RightSubmodule.presheafLinear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8209207Z 'ASGinzburg.ZAlgebra.RightSubmodule.object' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8210707Z 'ASGinzburg.ZAlgebra.RightSubmodule.inclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8212241Z 'ASGinzburg.ZAlgebra.RightSubmodule.inclusionMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8214689Z 'ASGinzburg.ZAlgebra.RightSubmodule.quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8216572Z 'ASGinzburg.ZAlgebra.RightSubmodule.quotientπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8218287Z 'ASGinzburg.ZAlgebra.RightSubmodule.quotientπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8219912Z 'ASGinzburg.ZAlgebra.RightSubmodule.quotientShortComplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8221619Z 'ASGinzburg.ZAlgebra.RightSubmodule.quotientShortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8223433Z 'ASGinzburg.ZAlgebra.leftRepresentableRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8224980Z 'ASGinzburg.ZAlgebra.positiveLeftActionSpan' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8226495Z 'ASGinzburg.ZAlgebra.leftRepresentableRadical_eq_positiveLeftActionSpan' depends on axioms: [propext,
+2026-10-08T04:38:22.8227570Z  Classical.choice,
+2026-10-08T04:38:22.8228096Z  Quot.sound]
+2026-10-08T04:38:22.8228990Z 'ASGinzburg.ZAlgebra.simpleLeftModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8230630Z 'ASGinzburg.ZAlgebra.simpleLeftModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:22.8232452Z 'ASGinzburg.ZAlgebra.simpleLeftModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7266450Z 'ASGinzburg.ZAlgebra.leftRepresentableRadical_diagonal_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7284347Z 'ASGinzburg.ZAlgebra.simpleLeftModuleDiagonalIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7301056Z 'ASGinzburg.ZAlgebra.simpleLeftModule_off_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7302897Z 'ASGinzburg.ZAlgebra.simpleLeftModule_diagonal_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7304784Z 'ASGinzburg.ZAlgebra.simpleLeftModuleDiagonalSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7306390Z 'ASGinzburg.ZAlgebra.simpleLeftModule_hom_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7307905Z 'ASGinzburg.ZAlgebra.simpleLeftModuleSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7309434Z 'ASGinzburg.ZAlgebra.simpleLeftModule_shortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7310931Z 'ASGinzburg.ZAlgebra.representableRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7312347Z 'ASGinzburg.ZAlgebra.positiveActionSpan' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7313939Z 'ASGinzburg.ZAlgebra.representableRadical_eq_positiveActionSpan' depends on axioms: [propext,
+2026-10-08T04:38:30.7314948Z  Classical.choice,
+2026-10-08T04:38:30.7315465Z  Quot.sound]
+2026-10-08T04:38:30.7316350Z 'ASGinzburg.ZAlgebra.simpleRightModule' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7318118Z 'ASGinzburg.ZAlgebra.simpleRightModuleπ' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7319769Z 'ASGinzburg.ZAlgebra.simpleRightModuleπEpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7321352Z 'ASGinzburg.ZAlgebra.representableRadical_diagonal_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7323482Z 'ASGinzburg.ZAlgebra.simpleRightModuleDiagonalIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7325094Z 'ASGinzburg.ZAlgebra.simpleRightModule_off_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7326696Z 'ASGinzburg.ZAlgebra.simpleRightModule_diagonal_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7328332Z 'ASGinzburg.ZAlgebra.simpleRightModuleDiagonalSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7329956Z 'ASGinzburg.ZAlgebra.simpleRightModule_hom_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7331502Z 'ASGinzburg.ZAlgebra.simpleRightModuleSimple' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7333028Z 'ASGinzburg.ZAlgebra.simpleRightModule_shortExact' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7334445Z 'ASGinzburg.ArrowSpace333' does not depend on any axioms
+2026-10-08T04:38:30.7335467Z 'ASGinzburg.CubicTensor333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7336478Z 'ASGinzburg.Triple333' does not depend on any axioms
+2026-10-08T04:38:30.7337347Z 'ASGinzburg.CubicCoefficients333' does not depend on any axioms
+2026-10-08T04:38:30.7338253Z 'ASGinzburg.CutRelations333' does not depend on any axioms
+2026-10-08T04:38:30.7339281Z 'ASGinzburg.cubicBasis333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7340523Z 'ASGinzburg.cubicCoordinates333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7341860Z 'ASGinzburg.cutRelationCoordinates333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7343402Z 'ASGinzburg.tensorToCutRelations333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7345068Z 'ASGinzburg.tensor_recovered_from_cut_relations333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7346519Z 'ASGinzburg.cubicTensor333_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7347833Z 'ASGinzburg.arrowBasisChange333' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7349158Z 'ASGinzburg.arrowBasisChange333_tmul' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7350521Z 'ASGinzburg.TopCohomology' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7351679Z 'ASGinzburg.map_from_zero_domain_eq_zero' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:30.7352881Z 'ASGinzburg.topCohomologyEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7354361Z 'ASGinzburg.topCohomology_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7355682Z 'ASGinzburg.topCohomology_field_finrank' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:30.7356866Z 'ASGinzburg.triangle333' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:30.7357809Z 'ASGinzburg.triangleX' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:32.2175560Z 'ASGinzburg.triangleY' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:32.2177751Z 'ASGinzburg.triangleZ' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:32.2178688Z 'ASGinzburg.triangleX_cut' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:32.2179517Z 'ASGinzburg.triangleY_cut' depends on axioms: [propext, Quot.sound]
+2026-10-08T04:38:32.2180413Z 'ASGinzburg.triangleZ_cut' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2181454Z 'ASGinzburg.triangle_arrow_winding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2182631Z 'ASGinzburg.triangle_path_winding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2184213Z 'ASGinzburg.triangle_cut_one_cycle_is_cubic' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2185993Z 'ASGinzburg.triangle_same_winding_as_arrow_is_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2187356Z 'ASGinzburg.trianglePotential' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2188764Z 'ASGinzburg.trianglePotential_cut_derivative_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2190012Z 'ASGinzburg.ZAlgebra.InWindow' does not depend on any axioms
+2026-10-08T04:38:32.2191107Z 'ASGinzburg.ZAlgebra.InWindow.mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2192407Z 'ASGinzburg.ZAlgebra.WindowSystem' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2193967Z 'ASGinzburg.ZAlgebra.WindowSystem.globalMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2195470Z 'ASGinzburg.ZAlgebra.WindowSystem.globalMap_eq_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2196990Z 'ASGinzburg.ZAlgebra.WindowSystem.periodIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2198451Z 'ASGinzburg.ZAlgebra.WindowSystem.isPeriodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2199765Z 'ASGinzburg.ZAlgebra' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2201041Z 'ASGinzburg.ZAlgebra.PeriodIso' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2202332Z 'ASGinzburg.ZAlgebra.IsPeriodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2203811Z 'ASGinzburg.ZAlgebra.LinearSubcategory' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2205119Z 'ASGinzburg.ZAlgebra.products' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.2206484Z 'ASGinzburg.ZAlgebra.generated_of_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-08T04:38:32.3105631Z [2026-10-08T04:38:32.309714+00:00] axioms: exit=0, elapsed=115.271288s
+2026-10-08T04:38:32.3109023Z [2026-10-08T04:38:32.310295+00:00] report: /usr/bin/python3 scripts/report_verification.py --run-dir /home/runner/work/as-ginzburg-lean/as-ginzburg-lean/verification/runs/20261008T043031Z-b909f4f8
+2026-10-08T04:38:32.4516445Z Kernel axiom audit passed for 505 distinct declarations including all 223 theorems; main results remain incomplete.
+2026-10-08T04:38:32.4606669Z [2026-10-08T04:38:32.458614+00:00] report: exit=0, elapsed=0.148333s
+2026-10-08T04:38:32.4624983Z {
+2026-10-08T04:38:32.4625501Z   "run_id": "20261008T043031Z-b909f4f8",
+2026-10-08T04:38:32.4626136Z   "exit_code": 0,
+2026-10-08T04:38:32.4626748Z   "started_at_utc": "2026-10-08T04:30:31.595999+00:00",
+2026-10-08T04:38:32.4627472Z   "ended_at_utc": "2026-10-08T04:38:32.459227+00:00",
+2026-10-08T04:38:32.4628121Z   "elapsed_seconds": 480.86322523399997
+2026-10-08T04:38:32.4628683Z }
+2026-10-08T04:38:32.4805861Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-10-08T04:38:32.4806298Z with:
+2026-10-08T04:38:32.4806506Z   name: lean-verification-37727782672-1
+2026-10-08T04:38:32.4806925Z   path: verification/runs/20261008T043031Z-b909f4f8
+work/toolchain-setup.log
+
+2026-10-08T04:38:32.4807333Z   if-no-files-found: error
+2026-10-08T04:38:32.4807565Z   retention-days: 30
+2026-10-08T04:38:32.4807778Z   compression-level: 6
+2026-10-08T04:38:32.4807992Z   overwrite: false
+2026-10-08T04:38:32.4808203Z   include-hidden-files: false
+2026-10-08T04:38:32.4808435Z ##[endgroup]
+2026-10-08T04:38:32.8050324Z (node:3084) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-08T04:38:32.8051949Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-08T04:38:32.8240728Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-08T04:38:32.8251933Z The least common ancestor is /home/runner/work/as-ginzburg-lean/as-ginzburg-lean. This will be the root directory of the artifact
+2026-10-08T04:38:32.8268556Z With the provided path, there will be 12 files uploaded
+2026-10-08T04:38:32.8284532Z Artifact name is valid!
+2026-10-08T04:38:32.8286267Z Root directory input is valid!
+2026-10-08T04:38:33.2001479Z Beginning upload of artifact content to blob storage
+2026-10-08T04:38:33.2794971Z (node:3084) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-08T04:38:33.5304338Z Uploaded bytes 29147
+2026-10-08T04:38:33.5903482Z Finished uploading artifact content to blob storage!
+2026-10-08T04:38:33.5904562Z SHA256 digest of uploaded artifact zip is 9707951edef2310e5f07e8edcebf225cefe096e184e7da432e773354a8f1bb6c
+2026-10-08T04:38:33.5905439Z Finalizing artifact upload
+2026-10-08T04:38:33.8644211Z Artifact lean-verification-37727782672-1.zip successfully finalized. Artifact ID 11528299308
+2026-10-08T04:38:33.8654326Z Artifact lean-verification-37727782672-1 has been successfully uploaded! Final size is 29147 bytes. Artifact ID is 11528299308
+2026-10-08T04:38:33.8655980Z Artifact download URL: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37727782672/artifacts/11528299308
+2026-10-08T04:38:33.8899523Z Post job cleanup.
+2026-10-08T04:38:33.9923993Z [command]/usr/bin/git version
+2026-10-08T04:38:33.9984004Z git version 2.55.0
+2026-10-08T04:38:34.0037835Z Temporarily overriding HOME='/home/runner/work/_temp/86967cf4-323d-4de2-a9a5-f646f5e00278' before making global git config changes
+2026-10-08T04:38:34.0039123Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-08T04:38:34.0040256Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/as-ginzburg-lean/as-ginzburg-lean
+2026-10-08T04:38:34.0132628Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-08T04:38:34.0155297Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-08T04:38:34.0594903Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-08T04:38:34.0639033Z http.https://github.com/.extraheader
+2026-10-08T04:38:34.0674127Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-08T04:38:34.0705925Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-08T04:38:34.1724575Z Cleaning up orphan processes
+2026-10-08T04:38:34.2156131Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

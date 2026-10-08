@@ -1,12 +1,14 @@
 # 現在までに完成したAS側の基盤
 
-2026年10月8日。既存の線形RightModuleの定義を保ち、一般radical・minimality、有限AS分解、
-実際のExtのk線形性と次元シフト、原論文のAS条件を具体化しました。
-既存presheafモデルのASRegularから実際のExt³(s_(tau v),P_v)≃ₗ[k]kと、
-他の全Extの消滅・delta型の次元公式・有限台の表まで証明しました。
-これは命題1.3の数値的順方向です。左加群としてのAS双対性や周期性、主定理の完成ではありません。
+2026年10月8日。既存の線形RightModuleを保ち、有限AS分解だけから全次数のExt(s_w,P_i)の有限性と次数4以上の消滅を証明しました。
+有限AS分解の存在の下で、元のASRegularと式(1.11)の数値条件の両方向の同値が証明済みです。
+具体的な左加群・A-dual・左単純商を構成し、実際のExt(s_w,P_i,p)の成分左加群が
+p≠3で零、p=3でs^left_(tau^{-1}w)に同型であることを左作用ごと証明しました。
+Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjectives・実際のExtの存在も完成しました。
+左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
+原論文のExt(s_w,A)への直和交換、Gr(A)比較、周期性と主定理は未証明です。
 
-35数学モジュール、369異なる明示的宣言、177 theorem、53 named instanceのビルド・公理監査は終了0。
+51数学モジュール、505異なる明示的宣言、223 theorem、91 named instanceのビルド・公理監査は終了0。
 定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 任意のAでAS分解の存在を証明したとは扱わない。原論文Gr(A)との明示的同値も未実装。
 未解決のコンパイルエラーなし。原論文に反例・矛盾を発見したという記録なし。
@@ -30,14 +32,14 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
 射影性・EnoughProjectives・標準射影分解・実際のExtの存在も接続済みです。
 有限最小分解データからmathlib ProjectiveResolutionへの変換と実際Extのk線形性は完成。
 実際のsyzygy短完全列からExt³(s_(tau v),P_v)≃kと、AS条件による他の全Extの消滅まで完成。
-全M,N・全次数の自然なHom複体–Ext比較と、左加群としてのAS双対性が必要です。
+Ext成分の左加群同型は完成。全次数の自然なHom複体–Ext比較、直和交換とGr(A)比較が必要です。
 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
 これは全宣言を意味論的に検索した不存在証明ではありません。
 
 ## 1. AS側の定義と最小射影分解
 
-次の作業を最優先にします。
+1〜5は基盤として完成。次の優先課題は以下の6と§2の直和交換・双対性です。
 
 1. **完成**：`ZAlgebra.RightModule`のAbelian構造、核・余核の閉性と成分同型、
    mathlibのhomologyとexactness・短完全列の成分判定。
@@ -54,7 +56,11 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
    各Extの有限次元性とrank≤1もAS条件から証明済み。
    任意のAやJacobian代数でASRegularが成立することは未証明。
    命題1.3のdegree-three比較と、実際のExtのdelta型次元公式は証明済み。
-   全M,N・全次数の自然なHom複体–Ext比較、AS双対性の左加群構造は未証明。
+   Ext成分の左作用と左単純商への同型は完成。全次数の自然な比較、直和交換とGr(A)比較は未証明。
+
+6. **次の実装単位**：有限coproductの射影項のHomと直和の交換。
+   全次数の自然なHom複体–Ext比較、または長完全列の自然性から高次Extの交換へ移す。
+   Hom(P_i,-)・Ext⁰(P_i,-)の交換は完成済み。
 
 標準`ProjectiveResolution`と`HasExt.{v}`はEnoughProjectivesから完成しました。
 `representableExtZeroLinearEquiv`は実際のExt⁰(P_i,M)とM_iの線形同型。
@@ -82,8 +88,9 @@ locally unitalな加群を埋め込むことが考えられます。
    Hom cohomologyとのdegree-three線形同型も完成。一般の自然な比較は未証明。
 4. **完成**：総Cardinal rank=1から他の全Extの消滅、実際のfinrank関数の有限台とFinsupp表。
    既存presheafモデルのASRegularから(1.11)の数値的順方向まで。
-   逆方向(1.11)→(1.7)のLean証明は未実装。
-5. 有限生成projectiveのA-dual、perfect complexの二重双対を構成する。
+   逆方向も有限AS分解だけからExtの有限性を導いて証明済み。
+5. 左右のA-dualとrepresentableの二重双対の対象同型は完成。
+   一般の評価写像の自然性、有限生成projectiveへの拡張と有限射影性、perfect complexの二重双対は未証明。
 6. 有限長加群に対しExtの次数3への集中と完全反変同値を証明する。
 7. N=D Ext³(-,A)の有限区間への制限と、projective coverを保つことを証明する。
 8. coverから正規化した区間同型を作り、区間包含に対するcoherenceを証明する。
@@ -144,3 +151,6 @@ exact resolutionから(4.2)を導き、del Pezzo模型の多項式増大を証�
 三角形箙のcut閉路がcubicに限られること、三重テンソル積の係数表示は証明済みです。
 しかし周期性とAS–Ginzburg対応が未証明なので、命題5.1と系5.2は導けません。
 同じ次数の矢の像が長さ1に限られる補題から、自己同型群が三つのGLの積であることも仕上げる必要があります。
+
+今回の9単位はdocs/as_finiteness_left_duality.mdに原論文との対応・仮定・利用先を記載。
+51数学モジュール・505宣言の最新検査とmain保存先はRECENT_RUN.md参照。
