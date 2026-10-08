@@ -1,0 +1,173 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index d581e9c..8db6367 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -10,6 +10,7 @@ import ASGinzburg.RightModuleProjectives
+ import ASGinzburg.RightModuleEnoughProjectives
+ import ASGinzburg.RightSubmodules
+ import ASGinzburg.SimpleRightModules
++import ASGinzburg.RightModuleRadical
+ import ASGinzburg.RightModuleExt
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index ca41fd0..3778cdc 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -175,6 +175,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_comp
+ #print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_symm_app
+ #print axioms ASGinzburg.ZAlgebra.representableProjective
++#print axioms ASGinzburg.ZAlgebra.positiveActionSpan_action_mem
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadical
++#print axioms ASGinzburg.ZAlgebra.positiveActionSpan_map_mem
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalMap
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalMap_inclusion
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctor
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightModuleRadical_representable_component
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheaf
+ #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheafAdditive
+diff --git a/ASGinzburg/RightModuleRadical.lean b/ASGinzburg/RightModuleRadical.lean
+new file mode 100644
+index 0000000..4dea460
+--- /dev/null
++++ b/ASGinzburg/RightModuleRadical.lean
+@@ -0,0 +1,135 @@
++import ASGinzburg.SimpleRightModules
++
++/-!
++# Positive-degree radicals in the existing right module category
++
++The span of positive-degree right products is closed under right actions and
++preserved by every module morphism. Its restrictions give a linear radical
++functor. This supplies the actual target submodules needed for minimality.
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++/-- Positive-degree right products form a right submodule in every existing linear module. -/
++theorem positiveActionSpan_action_mem (M : A.RightModule) {X Y : A.Objᵒᵖ}
++    (f : X ⟶ Y) {x : M.obj.obj X}
++    (hx : x ∈ A.positiveActionSpan M X.unop.index) :
++    M.obj.map f x ∈ A.positiveActionSpan M Y.unop.index := by
++  by_cases h : X.unop.index < Y.unop.index
++  · have hf : f = 0 := Quiver.Hom.unop_inj (A.positive h f.unop)
++    letI := M.property.1
++    rw [hf, Functor.map_zero]
++    exact (A.positiveActionSpan M Y.unop.index).zero_mem
++  · induction hx using Submodule.span_induction with
++    | mem y hy =>
++      rcases hy with ⟨l, hl, z, a, rfl⟩
++      apply Submodule.subset_span
++      refine ⟨l, lt_of_le_of_lt (le_of_not_gt h) hl, z, A.comp a f.unop, ?_⟩
++      change M.obj.map (f.unop ≫ (show X.unop ⟶ (⟨l⟩ : A.Obj) from a)).op z =
++        M.obj.map f (M.obj.map (show X.unop ⟶ (⟨l⟩ : A.Obj) from a).op z)
++      rw [op_comp, CategoryTheory.Functor.map_comp]
++      rfl
++    | zero =>
++      rw [map_zero]
++      exact (A.positiveActionSpan M Y.unop.index).zero_mem
++    | add y z hy hz ihy ihz =>
++      rw [map_add]
++      exact (A.positiveActionSpan M Y.unop.index).add_mem ihy ihz
++    | smul r y hy ih =>
++      rw [map_smul]
++      exact (A.positiveActionSpan M Y.unop.index).smul_mem r ih
++
++/-- The actual submodule `M A_{>0}`, retaining its component spaces and right action. -/
++def rightModuleRadical (M : A.RightModule) : RightSubmodule M where
++  component X := A.positiveActionSpan M X.unop.index
++  map_mem := by
++    intro X Y f x hx
++    exact A.positiveActionSpan_action_mem M f hx
++
++/-- Every module morphism carries positive-degree products into positive-degree products. -/
++theorem positiveActionSpan_map_mem {M N : A.RightModule} (f : M ⟶ N) (j : ℤ)
++    {x : (A.rightModuleEvaluation j).obj M} (hx : x ∈ A.positiveActionSpan M j) :
++    f.app (op ⟨j⟩) x ∈ A.positiveActionSpan N j := by
++  induction hx using Submodule.span_induction with
++  | mem y hy =>
++    rcases hy with ⟨l, hl, z, a, rfl⟩
++    apply Submodule.subset_span
++    refine ⟨l, hl, f.app (op ⟨l⟩) z, a, ?_⟩
++    exact congrArg (fun g => g z) (f.naturality
++      (show (⟨j⟩ : A.Obj) ⟶ ⟨l⟩ from a).op).symm
++  | zero =>
++    rw [map_zero]
++    exact (A.positiveActionSpan N j).zero_mem
++  | add y z hy hz ihy ihz =>
++    rw [map_add]
++    exact (A.positiveActionSpan N j).add_mem ihy ihz
++  | smul r y hy ih =>
++    rw [map_smul]
++    exact (A.positiveActionSpan N j).smul_mem r ih
++
++/-- Restrict a module morphism to its positive-degree radical. -/
++def rightModuleRadicalMap {M N : A.RightModule} (f : M ⟶ N) :
++    (A.rightModuleRadical M).object ⟶ (A.rightModuleRadical N).object where
++  app X := ModuleCat.ofHom {
++    toFun x := ⟨f.app X x, A.positiveActionSpan_map_mem f X.unop.index x.property⟩
++    map_add' x y := Subtype.ext (map_add (f.app X).hom x.val y.val)
++    map_smul' r x := Subtype.ext (map_smul (f.app X).hom r x.val) }
++  naturality := by
++    intro X Y a
++    apply ModuleCat.hom_ext
++    ext x
++    apply Subtype.ext
++    exact congrArg (fun g => g x.val) (f.naturality a)
++
++@[simp] theorem rightModuleRadicalMap_inclusion {M N : A.RightModule} (f : M ⟶ N) :
++    A.rightModuleRadicalMap f ≫ (A.rightModuleRadical N).inclusion =
++      (A.rightModuleRadical M).inclusion ≫ f := by
++  apply NatTrans.ext
++  funext X
++  rfl
++
++/-- Positive-degree radicals define a genuine endofunctor of the existing module category. -/
++def rightModuleRadicalFunctor : A.RightModule ⥤ A.RightModule where
++  obj M := (A.rightModuleRadical M).object
++  map f := A.rightModuleRadicalMap f
++  map_id M := by
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    ext x
++    rfl
++  map_comp f g := by
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    ext x
++    rfl
++
++instance rightModuleRadicalFunctorAdditive : A.rightModuleRadicalFunctor.Additive where
++  map_add := by
++    intro M N f g
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    ext x
++    rfl
++
++instance rightModuleRadicalFunctorLinear : A.rightModuleRadicalFunctor.Linear k where
++  map_smul := by
++    intro M N f r
++    apply NatTrans.ext
++    funext X
++    apply ModuleCat.hom_ext
++    ext x
++    rfl
++
++/-- General radicals recover the previously constructed radical of a representable. -/
++theorem rightModuleRadical_representable_component (i j : ℤ) :
++    (A.rightModuleRadical (A.representable i)).component (op ⟨j⟩) =
++      (A.representableRadical i).component (op ⟨j⟩) :=
++  (A.representableRadical_eq_positiveActionSpan i j).symm
++
++end ASGinzburg.ZAlgebra

@@ -175,6 +175,15 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_comp
 #print axioms ASGinzburg.ZAlgebra.representableYonedaEquiv_symm_app
 #print axioms ASGinzburg.ZAlgebra.representableProjective
+#print axioms ASGinzburg.ZAlgebra.positiveActionSpan_action_mem
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadical
+#print axioms ASGinzburg.ZAlgebra.positiveActionSpan_map_mem
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalMap
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalMap_inclusion
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctor
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctorAdditive
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadicalFunctorLinear
+#print axioms ASGinzburg.ZAlgebra.rightModuleRadical_representable_component
 #print axioms ASGinzburg.ZAlgebra.RightSubmodule
 #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheaf
 #print axioms ASGinzburg.ZAlgebra.RightSubmodule.presheafAdditive
