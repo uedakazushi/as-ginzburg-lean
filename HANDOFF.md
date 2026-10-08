@@ -1,10 +1,10 @@
 # Codexクラウドへの引継ぎ
 
-整数cochain/chainの次数反転を複体・ホモトピー圏・有界性の圏同値として実装し、左右の有界cochain有限生成射影ホモトピー圏のA-dual反変同値を構成しました。
-次はAS双対複体のexactnessと左単純加群の有限射影分解・左Ext集中・有限長双対性です。
-標準RHomの符号・shift/derived/perfectとの接続、周期性、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
-最新ローカル検証 20261008T111722Z-11ef9f09：94数学モジュール・1011異なる宣言・416 theorem、全段階終了0。
-単位1〜23の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+既存AS分解の項の有限生成射影性を証明し、微分をそのまま有限生成射影部分圏のchain complexへ持ち上げ、整数cochain複体への延長と区間[-3,0]外の零性を証明しました。
+次はAS双対複体のexactness・Ext³余核から左単純加群の有限射影分解、左Ext集中と有限長双対性です。
+標準RHomの符号・shift/derived接続、周期性、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
+最新ローカル検証 20261008T112807Z-57472da0：96数学モジュール・1025異なる宣言・425 theorem、全段階終了0。
+単位1〜24の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -24,14 +24,14 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 具体的Ext成分左加群の次数集中と左単純商との同型、左右A-dualとrepresentableの二重双対も完成。
 前回のExt直和交換と成分作用への適合性はdocs/ext_coproduct_exchange.mdとruns/ext-sums-20261008.md。
 今回の総代数・両側局所単位・左右総作用はdocs/total_algebra_comparison.md。
-開始時の60数学モジュールは無変更。具体的Gr(A)の(1.12)、canonical評価と有限生成射影・複体・有界cochainホモトピー圏の反変同値は完成。標準RHomの符号・shift/derived接続、左単純加群の射影分解と有限長双対性・周期性を継続する。
+開始時の60数学モジュールは無変更。具体的Gr(A)の(1.12)、canonical評価と有限生成射影・複体・有界cochainホモトピー圏の反変同値、AS分解の有界有限生成射影複体への持上げは完成。標準RHomの符号・shift/derived接続、左単純加群の射影分解・左Ext集中と有限長双対性・周期性を継続する。
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T111722Z-11ef9f09`、全段階終了0、516.249384990秒。
-UTC 2026-10-08T11:17:22.597923+00:00 → 2026-10-08T11:25:58.847314+00:00。
-JST 2026-10-08T20:17:22.597923+09:00 → 2026-10-08T20:25:58.847314+09:00。
-94数学モジュール・1011異なる明示的宣言・全416 theorem・171 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T112807Z-57472da0`、全段階終了0、532.554350524秒。
+UTC 2026-10-08T11:28:07.844600+00:00 → 2026-10-08T11:37:00.398959+00:00。
+JST 2026-10-08T20:28:07.844600+09:00 → 2026-10-08T20:37:00.398959+09:00。
+96数学モジュール・1025異なる明示的宣言・全425 theorem・173 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。

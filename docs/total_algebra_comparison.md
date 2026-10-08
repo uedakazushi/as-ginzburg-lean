@@ -58,3 +58,5 @@ FiniteProjectiveDuality.leanで、有限直和のA-dualの同型、分裂写像�
 HomotopyOpposite、HomotopyEquivalence、FullSubcategoryEquivalence、FiniteProjectiveComplexDualityで、実際のホモトピーの移送と商上の単位・余単位から、有限生成射影複体と有界ホモトピー圏の反変同値を証明した。有界性は実際の複体の有限区間外の各項の零性である。標準RHom/derived・shiftの適合性は別の残る義務。
 
 単位23：整数cochain/chainの次数反転、鎖ホモトピーの対応、有界区間[a,b]↔[-b,-a]を証明し、有界cochain有限生成射影ホモトピー圏の反変同値を構成。標準RHomの符号・shift/derivedとの接続は未証明。次はAS分解の双対から左単純加群の四項射影分解と左Ext集中を構成する。
+
+単位24：零対象・representable・有限直和の有限生成射影性と部分圏の零対象、AS分解四項の有限生成射影性を証明。元の微分を部分圏のchain complexへ持ち上げ、整数cochainへの延長と区間[-3,0]外の零性から有界ホモトピー対象を構成。次はAS双対複体のexactness・Ext³余核と左単純加群の分解。

@@ -47,6 +47,12 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproductThreeScalarEquiv
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproductFinite
 #print axioms ASGinzburg.ZAlgebra.ASRegular.extRegularCoproduct_finrank
+#print axioms ASGinzburg.ZAlgebra.ASResolution.complexTermFiniteProjective
+#print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveComplex
+#print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveComplex_isZero_ge_four
+#print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex
+#print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex_isZero_outside
+#print axioms ASGinzburg.ZAlgebra.ASResolution.boundedFiniteProjectiveCochainObject
 #print axioms ASGinzburg.ZAlgebra.asExtTotalRank
 #print axioms ASGinzburg.ZAlgebra.ASRegular
 #print axioms ASGinzburg.ZAlgebra.ASRegular.resolution
@@ -258,6 +264,14 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty
 #print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_bidual
 #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_bidual
+#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_of_isZero
+#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_of_isZero
+#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_representable
+#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_representable
+#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_coproduct
+#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_coproduct
+#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveHasZeroObject
+#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveHasZeroObject
 #print axioms ASGinzburg.ZAlgebra.finiteProjectiveComplexADualEquivalence
 #print axioms ASGinzburg.ZAlgebra.finiteProjectiveHomotopyADualEquivalence
 #print axioms ASGinzburg.boundedHomotopyProperty
