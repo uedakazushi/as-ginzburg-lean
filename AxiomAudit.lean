@@ -266,6 +266,13 @@ import ASGinzburg
 #print axioms ASGinzburg.CutQuiver.pathComp_id
 #print axioms ASGinzburg.CutQuiver.id_pathComp
 #print axioms ASGinzburg.CutQuiver.pathComp_assoc
+#print axioms ASGinzburg.ZAlgebra.representableHomEvaluationIso
+#print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesColimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.representableHomPreservesColimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.representableHomColimitIso
+#print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroFunctorIso
+#print axioms ASGinzburg.ZAlgebra.representableExtZeroPreservesColimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.representableExtZeroColimitIso
 #print axioms ASGinzburg.ZAlgebra.Obj
 #print axioms ASGinzburg.ZAlgebra.objCategory
 #print axioms ASGinzburg.ZAlgebra.objHomAdd
