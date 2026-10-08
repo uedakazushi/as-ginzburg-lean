@@ -62,7 +62,7 @@ ASGinzburg.leanは9モジュールのimport追加、AxiomAudit.leanは全新規�
 
 接続済みGitHub APIで、ローカル検証済みtreeのSHAとexpected_shaを照合し、force=falseの通常fast-forwardでmainへ保存。
 ローカルmainも同じAPI commit objectに同期。過去のCLI push認証エラーが修復されたという主張はしない。
-今回の正確なheadのActions・artifact確認はRECENT_RUN.mdの終了記録に追記する。
+今回の正確な数学headのActions・artifact成功を確認済み。RECENT_RUN.mdとverification/ext_sums_github_ci_evidence.json参照。
 以前のCI証拠はverification/radical_resolution_github_ci_evidence.jsonとverification/as_finiteness_github_ci_evidence.jsonに保持。
 
 ```bash
@@ -86,3 +86,9 @@ CIはpush/pull_requestごとに固定環境で新規検証し、最新ログをa
 命題1.4は区間同型を仮定した貼り合わせのみ、命題5.1も未証明。
 定理3.2と系5.2は未証明で、形式的定理文も未実装。
 実測開始・終了・タスク所要時間と検証所要時間はRECENT_RUN.mdを参照。未測定の過去時間は不明。
+
+最終数学コミット6666e09の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37737755500)はsuccess。
+636異なる宣言・全274 theoremの新規監査、全7段階終了0、12ファイルのartifact 11532667814保存を確認。
+CI検証UTC 2026-10-08T06:28:37.911543+00:00 → 2026-10-08T06:36:04.010329+00:00、単調時計446.098779473秒、終了0。
+証拠はverification/ext_sums_github_ci_evidence.jsonと同名のCI log。
+この確認後の終了記録の保存は文書・ログのみ。同じ数学ソースを保持し、そのpushも新規CIを開始する。

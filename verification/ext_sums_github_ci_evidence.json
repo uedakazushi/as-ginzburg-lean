@@ -1,0 +1,139 @@
+{
+  "head_sha": "6666e0998b9e80b63db4e08f83de4c0a1b4a6eb6",
+  "workflow_run_id": 37737755500,
+  "job_id": 113181099354,
+  "job_started_at": "2026-10-08T06:28:06Z",
+  "job_ended_at": "2026-10-08T06:36:07Z",
+  "status": "completed",
+  "conclusion": "success",
+  "verification": {
+    "run_id": "20261008T062837Z-9a53356b",
+    "started_at_utc": "2026-10-08T06:28:37.911543+00:00",
+    "ended_at_utc": "2026-10-08T06:36:04.010329+00:00",
+    "elapsed_seconds": 446.098779473,
+    "exit_code": 0,
+    "stage_results": [
+      {
+        "stage": "regression_tests",
+        "exit_code": 0,
+        "elapsed_seconds": 1.862615
+      },
+      {
+        "stage": "source_audit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.262388
+      },
+      {
+        "stage": "cache",
+        "exit_code": 0,
+        "elapsed_seconds": 74.665053
+      },
+      {
+        "stage": "environment",
+        "exit_code": 0,
+        "elapsed_seconds": 2.686425
+      },
+      {
+        "stage": "build",
+        "exit_code": 0,
+        "elapsed_seconds": 249.401075
+      },
+      {
+        "stage": "axioms",
+        "exit_code": 0,
+        "elapsed_seconds": 116.671416
+      },
+      {
+        "stage": "report",
+        "exit_code": 0,
+        "elapsed_seconds": 0.096207
+      }
+    ],
+    "declaration_count": 636,
+    "theorem_count": 274
+  },
+  "artifact": {
+    "id": 11532667814,
+    "name": "lean-verification-37737755500-1",
+    "size_in_bytes": 33926,
+    "url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11532667814",
+    "archive_download_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11532667814/zip",
+    "expired": false,
+    "created_at": "2026-10-08T06:36:05Z",
+    "expires_at": "2026-11-07T06:36:04Z",
+    "updated_at": "2026-10-08T06:36:05Z",
+    "digest": "sha256:f9c170b6e700a6c05ee6200913339446fbc82c1387880466d5c4e6c612a98426",
+    "workflow_run": {
+      "id": 37737755500,
+      "repository_id": 1409469011,
+      "head_repository_id": 1409469011,
+      "head_branch": "main",
+      "head_sha": "6666e0998b9e80b63db4e08f83de4c0a1b4a6eb6"
+    }
+  },
+  "job_steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-10-08T06:28:06Z",
+      "completed_at": "2026-10-08T06:28:09Z"
+    },
+    {
+      "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-10-08T06:28:09Z",
+      "completed_at": "2026-10-08T06:28:10Z"
+    },
+    {
+      "name": "Install elan and pinned Lean",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-10-08T06:28:10Z",
+      "completed_at": "2026-10-08T06:28:37Z"
+    },
+    {
+      "name": "Fresh build and exhaustive axiom audit",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-10-08T06:28:37Z",
+      "completed_at": "2026-10-08T06:36:04Z"
+    },
+    {
+      "name": "Save this run's logs, even on failure",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-10-08T06:36:04Z",
+      "completed_at": "2026-10-08T06:36:05Z"
+    },
+    {
+      "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-10-08T06:36:05Z",
+      "completed_at": "2026-10-08T06:36:05Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11,
+      "started_at": "2026-10-08T06:36:05Z",
+      "completed_at": "2026-10-08T06:36:05Z"
+    }
+  ],
+  "lean_toolchain": "leanprover/lean4:v4.24.0",
+  "mathlib_revision": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
+  "notes": [
+    "Fresh CI at exact final mathematical head, checked out by Actions; old successful records are not used.",
+    "Existing PathAlgebra linter and pinned Actions Node.js warnings remain.",
+    "Source unchanged in subsequent closing record publication."
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "head_sha": "3fbb82acfa530f1945fdb922a8a681cdf37420a6",
+  "workflow_run_id": 37736635336,
+  "job_id": 113177544109,
+  "job_started_at": "2026-10-08T06:15:44Z",
+  "job_ended_at": "2026-10-08T06:26:40Z",
+  "status": "completed",
+  "conclusion": "success",
+  "verification": {
+    "run_id": "20261008T061602Z-784aa784",
+    "started_at_utc": "2026-10-08T06:16:02.870847+00:00",
+    "ended_at_utc": "2026-10-08T06:26:36.313236+00:00",
+    "elapsed_seconds": 633.442386214,
+    "exit_code": 0,
+    "stage_results": [
+      {
+        "stage": "regression_tests",
+        "exit_code": 0,
+        "elapsed_seconds": 1.415914
+      },
+      {
+        "stage": "source_audit",
+        "exit_code": 0,
+        "elapsed_seconds": 0.355642
+      },
+      {
+        "stage": "cache",
+        "exit_code": 0,
+        "elapsed_seconds": 87.970695
+      },
+      {
+        "stage": "environment",
+        "exit_code": 0,
+        "elapsed_seconds": 0.336981
+      },
+      {
+        "stage": "build",
+        "exit_code": 0,
+        "elapsed_seconds": 375.000835
+      },
+      {
+        "stage": "axioms",
+        "exit_code": 0,
+        "elapsed_seconds": 167.988603
+      },
+      {
+        "stage": "report",
+        "exit_code": 0,
+        "elapsed_seconds": 0.18086
+      }
+    ],
+    "declaration_count": 620,
+    "theorem_count": 260
+  },
+  "artifact": {
+    "id": 11531959829,
+    "name": "lean-verification-37736635336-1",
+    "size_in_bytes": 33416,
+    "url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11531959829",
+    "archive_download_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11531959829/zip",
+    "expired": false,
+    "created_at": "2026-10-08T06:26:37Z",
+    "expires_at": "2026-11-07T06:26:36Z",
+    "updated_at": "2026-10-08T06:26:37Z",
+    "digest": "sha256:539090185c4655778b541eb727ebff348f79f048f45c2ec9c15de61b3e06208c",
+    "workflow_run": {
+      "id": 37736635336,
+      "repository_id": 1409469011,
+      "head_repository_id": 1409469011,
+      "head_branch": "main",
+      "head_sha": "3fbb82acfa530f1945fdb922a8a681cdf37420a6"
+    }
+  },
+  "job_steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-10-08T06:15:45Z",
+      "completed_at": "2026-10-08T06:15:46Z"
+    },
+    {
+      "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-10-08T06:15:46Z",
+      "completed_at": "2026-10-08T06:15:47Z"
+    },
+    {
+      "name": "Install elan and pinned Lean",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-10-08T06:15:47Z",
+      "completed_at": "2026-10-08T06:16:02Z"
+    },
+    {
+      "name": "Fresh build and exhaustive axiom audit",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-10-08T06:16:02Z",
+      "completed_at": "2026-10-08T06:26:36Z"
+    },
+    {
+      "name": "Save this run's logs, even on failure",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-10-08T06:26:36Z",
+      "completed_at": "2026-10-08T06:26:37Z"
+    },
+    {
+      "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-10-08T06:26:37Z",
+      "completed_at": "2026-10-08T06:26:37Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 11,
+      "started_at": "2026-10-08T06:26:37Z",
+      "completed_at": "2026-10-08T06:26:37Z"
+    }
+  ],
+  "notes": [
+    "Fresh CI at exact unit 7 head; older successful records are not used.",
+    "Existing PathAlgebra linter and pinned Actions Node.js warnings remain."
+  ]
+}

@@ -176,3 +176,9 @@ exact resolutionから(4.2)を導き、del Pezzo模型の多項式増大を証�
 今回8単位はdocs/ext_coproduct_exchange.mdに原論文との対応・仮定・利用先を記載。
 60数学モジュール・636宣言・全274 theoremの最新検査とmain保存先はRECENT_RUN.md参照。
 前回9単位の記録docs/as_finiteness_left_duality.mdと歴史的検証ログは保持。
+
+最終数学コミット6666e09の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37737755500)はsuccess。
+636異なる宣言・全274 theoremの新規監査、全7段階終了0、12ファイルのartifact 11532667814保存を確認。
+CI検証UTC 2026-10-08T06:28:37.911543+00:00 → 2026-10-08T06:36:04.010329+00:00、単調時計446.098779473秒、終了0。
+証拠はverification/ext_sums_github_ci_evidence.jsonと同名のCI log。
+この確認後の終了記録の保存は文書・ログのみ。同じ数学ソースを保持し、そのpushも新規CIを開始する。

@@ -134,3 +134,9 @@ CI検証はUTC 2026-10-08T04:30:31.595999+00:00 → 2026-10-08T04:38:32.459227+0
 単調時計で480.863225234秒、終了0。
 証拠はverification/as_finiteness_github_ci_evidence.jsonと同名のCI log。
 この以前のタスクの終了保存は文書・記録のみ。今回の数学追加の成功判定には、新しい検証と正確なheadのCIを使用する。
+
+最終数学コミット6666e09の[main CI](https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37737755500)はsuccess。
+636異なる宣言・全274 theoremの新規監査、全7段階終了0、12ファイルのartifact 11532667814保存を確認。
+CI検証UTC 2026-10-08T06:28:37.911543+00:00 → 2026-10-08T06:36:04.010329+00:00、単調時計446.098779473秒、終了0。
+証拠はverification/ext_sums_github_ci_evidence.jsonと同名のCI log。
+この確認後の終了記録の保存は文書・ログのみ。同じ数学ソースを保持し、そのpushも新規CIを開始する。
