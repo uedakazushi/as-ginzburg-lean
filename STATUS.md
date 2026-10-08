@@ -1,8 +1,8 @@
 # 現在の状況
 
-単位35：AS条件から逆Nakayama関手の台保存と線形exactな有限区間制限同値を構成。実際の下端部分加群の余核による切詰めrepresentableの有限性・Yoneda・射影性、頂点単純への本質的な射影被覆、End=kによるrigidityと正規化同型の一意性、Nakayama像と移送先の射影被覆の同型まで完成。次は代数成分回収と区間変更のcoherenceからの周期性。総ベクトル双対比較・左側総正則Ext比較・標準RHom/derived/perfectと主定理は未完成。定理3.2と系5.2の正式Lean定理文も未実装。
-最新ローカル検証 20261008T145304Z-b9c0e93d：157数学モジュール・1606異なる宣言・714 theorem、全段階終了0。
-単位1〜35の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位36：切詰めrepresentable間のHomによる元の代数成分回収、単位元と積の保存、下端変更の実際の全射と被覆・Homへの自然性、被覆の対角成分同型と後合成の単射性が完成。これらを正規化した区間同型のcoherenceに用いる。次はNakayamaの正規化等式の元の加群圏への移送と区間coherence・周期性。総ベクトル双対比較の自然性/作用適合性、左側総正則Ext比較・標準RHom/derived/perfectと主定理は未完成。両主定理の正式Lean定理文も未実装。
+最新ローカル検証 20261008T151847Z-f8f11ea6：160数学モジュール・1621異なる宣言・726 theorem、全段階終了0。
+単位1〜36の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1606異なる名前、全明示的宣言・266 named instanceを含む、終了0 |
-| theorem | 714、全件が監査対象 |
+| 個別公理監査 | 1621異なる名前、全明示的宣言・267 named instanceを含む、終了0 |
+| theorem | 726、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T145304Z-b9c0e93d`、全段階終了0、1240.186504504秒。
-UTC 2026-10-08T14:53:04.975027+00:00 → 2026-10-08T15:13:45.161539+00:00。
-JST 2026-10-08T23:53:04.975027+09:00 → 2026-10-09T00:13:45.161539+09:00。
+最新ローカル検証 `20261008T151847Z-f8f11ea6`、全段階終了0、1302.043897355秒。
+UTC 2026-10-08T15:18:47.534504+00:00 → 2026-10-08T15:40:29.578476+00:00。
+JST 2026-10-09T00:18:47.534504+09:00 → 2026-10-09T00:40:29.578476+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -50,6 +50,7 @@ JST 2026-10-08T23:53:04.975027+09:00 → 2026-10-09T00:13:45.161539+09:00。
 | (1.6)–(1.7)の基盤 | `RightModuleExt.lean` | 標準projective resolutionと正次数exactness、実際のderived-category Ext、Ext⁰(P_i,M)≃+M_i、高次Ext(P_i,M)=0 | 全M,N・全次数の自然なHom複体–Ext比較 |
 | 命題1.3の数値段階 | `ExtDimension.lean` | 有限台の自然数次元表の総和1と非零項1からdelta形を導く | 実際のExt移送による原論文(1.12)の左作用を含む比較 |
 | 命題1.3のtop Hom計算 | `TopCohomology.lean` | 前の空間が零ならtop cokernelはそのまま、値域kなら次元1 | 一般の自然な比較（今回、命題1.3の3次は接続済み） |
+| 有限区間の代数回収と商射 | TruncatedRepresentableHom、TruncatedRepresentableRestrictions、TruncatedCoverComponents | 元の全代数成分とHomの線形同型、単位元/積保存、下端変更の全射と被覆・Homへの自然性、対角被覆同型と後合成単射性 | 正規化したNakayama同型の区間商射への適合性、成分移送のcoherenceと周期性 |
 | 有限区間の射影被覆と移送 | NakayamaInverseWindowSupport、NakayamaWindowEquivalence、TruncatedRepresentables、NormalizedProjectiveCovers、FiniteWindowProjectives、NakayamaWindowProjectives | 逆関手の台保存、線形exactな区間同値、実際の切詰めrepresentableの有限性・Yoneda・射影被覆の本質性、End=kと正規化した移送同型 | 代数成分回収と区間変更のcoherence、ASからの周期性 |
 | 有限区間と単純の移送 | RightSingleSupportIsomorphism、SimpleVectorDuality、FiniteDimensionalSimpleTranslation、FiniteDimensionalWindows、FiniteDimensionalWindowSequences、NakayamaWindowSupport | 双対の頂点単純同型、ASからNakayamaのτ⁻¹移送、有限区間Abelian構造と包含のexactness、組成列による区間台の負方向シフト | 逆像の台保存・区間同値・射影被覆と正規化は単位35で完成。coherenceと周期性 |
 | 命題1.4の貼り合わせ | `WindowPeriodicity.lean` | coherentな区間同型から積と単位元を保つ周期同型を構成 | 頂点単純移送と区間台の順方向保存は完成。逆方向保存・区間同値・射影被覆とcoherence |

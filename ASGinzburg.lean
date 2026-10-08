@@ -158,6 +158,10 @@ import ASGinzburg.TruncatedRepresentables
 import ASGinzburg.FiniteWindowProjectives
 import ASGinzburg.NakayamaWindowProjectives
 
+import ASGinzburg.TruncatedRepresentableHom
+import ASGinzburg.TruncatedRepresentableRestrictions
+import ASGinzburg.TruncatedCoverComponents
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

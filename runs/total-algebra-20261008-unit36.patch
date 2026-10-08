@@ -1,0 +1,223 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index f6a0fd5..c5863c0 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -158,6 +158,10 @@ import ASGinzburg.TruncatedRepresentables
+ import ASGinzburg.FiniteWindowProjectives
+ import ASGinzburg.NakayamaWindowProjectives
+ 
++import ASGinzburg.TruncatedRepresentableHom
++import ASGinzburg.TruncatedRepresentableRestrictions
++import ASGinzburg.TruncatedCoverComponents
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 098a270..c931140 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -1516,6 +1516,21 @@ import ASGinzburg
+ #print axioms ASGinzburg.triangle_same_winding_as_arrow_is_linear
+ #print axioms ASGinzburg.trianglePotential
+ #print axioms ASGinzburg.trianglePotential_cut_derivative_identity
++#print axioms ASGinzburg.ZAlgebra.simpleRightModuleπ_component_isIso
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableSimpleCover_component_isIso
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable_postcomp_injective
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableHomComponentEquiv
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableHomComponentEquiv_yoneda
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableHomComponentEquiv_π
++#print axioms ASGinzburg.ZAlgebra.representableToElement_identity
++#print axioms ASGinzburg.ZAlgebra.representableToElement_composition
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableHomComponentEquiv_id
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableHomComponentEquiv_comp
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableRestriction
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ_restriction
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableRestrictionEpi
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableRestriction_cover
++#print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableRestriction_hom
+ #print axioms ASGinzburg.ZAlgebra.rightRepresentableLowerTail
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentable
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ
+diff --git a/ASGinzburg/TruncatedRepresentableHom.lean b/ASGinzburg/TruncatedRepresentableHom.lean
+new file mode 100644
+index 0000000..214bf2a
+--- /dev/null
++++ b/ASGinzburg/TruncatedRepresentableHom.lean
+@@ -0,0 +1,70 @@
++import ASGinzburg.TruncatedRepresentables
++
++/-!
++# Recover algebra components, identity and product from actual truncated representables
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightTruncatedRepresentableHomComponentEquiv (l i j : ℤ) (hli : l ≤ i) :
++    A.Hom i j ≃ₗ[k] (A.rightTruncatedRepresentable l i ⟶ A.rightTruncatedRepresentable l j) :=
++  (A.rightTruncatedRepresentableComponentIso l j i hli).toLinearEquiv.symm.trans
++    (A.rightTruncatedRepresentableYonedaEquiv l i (A.rightTruncatedRepresentable l j)
++      (A.rightTruncatedRepresentable_below l j)).symm
++
++theorem rightTruncatedRepresentableHomComponentEquiv_yoneda (l i j : ℤ) (hli : l ≤ i)
++    (x : A.Hom i j) :
++    A.rightTruncatedRepresentableYonedaEquiv l i (A.rightTruncatedRepresentable l j)
++        (A.rightTruncatedRepresentable_below l j)
++        (A.rightTruncatedRepresentableHomComponentEquiv l i j hli x) =
++      (A.rightModuleEvaluation i).map (A.rightTruncatedRepresentableπ l j) x := by
++  unfold rightTruncatedRepresentableHomComponentEquiv
++  rw [LinearEquiv.trans_apply,LinearEquiv.apply_symm_apply]
++  rfl
++
++@[reassoc] theorem rightTruncatedRepresentableHomComponentEquiv_π (l i j : ℤ) (hli : l ≤ i)
++    (x : A.Hom i j) :
++    A.rightTruncatedRepresentableπ l i ≫ A.rightTruncatedRepresentableHomComponentEquiv l i j hli x =
++      A.representableToElement i (A.representable j) x ≫ A.rightTruncatedRepresentableπ l j := by
++  apply (A.representableYonedaEquiv i (A.rightTruncatedRepresentable l j)).injective
++  change A.rightTruncatedRepresentableYonedaEquiv l i (A.rightTruncatedRepresentable l j)
++    (A.rightTruncatedRepresentable_below l j) (A.rightTruncatedRepresentableHomComponentEquiv l i j hli x) = _
++  rw [A.rightTruncatedRepresentableHomComponentEquiv_yoneda,A.representableYonedaEquiv_comp]
++  exact congrArg ((A.rightModuleEvaluation i).map (A.rightTruncatedRepresentableπ l j))
++    ((A.representableYonedaEquiv i (A.representable j)).apply_symm_apply x).symm
++
++theorem representableToElement_identity (i : ℤ) :
++    A.representableToElement i (A.representable i) (A.id i) = 𝟙 (A.representable i) := by
++  apply (A.representableYonedaEquiv i (A.representable i)).injective
++  exact (A.representableYonedaEquiv i (A.representable i)).apply_symm_apply _
++
++theorem representableToElement_composition (i j m : ℤ) (f : A.Hom i j) (g : A.Hom j m) :
++    A.representableToElement i (A.representable m) (A.comp g f) =
++      A.representableToElement i (A.representable j) f ≫ A.representableToElement j (A.representable m) g := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  exact (A.comp_assoc x f g).symm
++
++theorem rightTruncatedRepresentableHomComponentEquiv_id (l i : ℤ) (hli : l ≤ i) :
++    A.rightTruncatedRepresentableHomComponentEquiv l i i hli (A.id i) = 𝟙 _ := by
++  apply (cancel_epi (A.rightTruncatedRepresentableπ l i)).mp
++  rw [A.rightTruncatedRepresentableHomComponentEquiv_π,A.representableToElement_identity]
++  simp
++
++theorem rightTruncatedRepresentableHomComponentEquiv_comp (l i j m : ℤ)
++    (hli : l ≤ i) (hlj : l ≤ j) (f : A.Hom i j) (g : A.Hom j m) :
++    A.rightTruncatedRepresentableHomComponentEquiv l i m hli (A.comp g f) =
++      A.rightTruncatedRepresentableHomComponentEquiv l i j hli f ≫
++        A.rightTruncatedRepresentableHomComponentEquiv l j m hlj g := by
++  apply (cancel_epi (A.rightTruncatedRepresentableπ l i)).mp
++  rw [A.rightTruncatedRepresentableHomComponentEquiv_π,← Category.assoc,
++    A.rightTruncatedRepresentableHomComponentEquiv_π,Category.assoc,
++    A.rightTruncatedRepresentableHomComponentEquiv_π,A.representableToElement_composition]
++  exact Category.assoc _ _ _
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TruncatedRepresentableRestrictions.lean b/ASGinzburg/TruncatedRepresentableRestrictions.lean
+new file mode 100644
+index 0000000..6d7e23c
+--- /dev/null
++++ b/ASGinzburg/TruncatedRepresentableRestrictions.lean
+@@ -0,0 +1,45 @@
++import ASGinzburg.TruncatedRepresentableHom
++import ASGinzburg.FiniteWindowProjectives
++
++/-!
++# Canonical epimorphisms on changing the lower interval endpoint
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightTruncatedRepresentableRestriction (l' l i : ℤ) (hl : l' ≤ l) :
++    A.rightTruncatedRepresentable l' i ⟶ A.rightTruncatedRepresentable l i :=
++  A.rightTruncatedRepresentableDesc l' i (A.rightTruncatedRepresentable l i)
++    (fun j hj => A.rightTruncatedRepresentable_below l i j (lt_of_lt_of_le hj hl))
++    (A.rightTruncatedRepresentableπ l i)
++
++@[reassoc] theorem rightTruncatedRepresentableπ_restriction (l' l i : ℤ) (hl : l' ≤ l) :
++    A.rightTruncatedRepresentableπ l' i ≫ A.rightTruncatedRepresentableRestriction l' l i hl =
++      A.rightTruncatedRepresentableπ l i := A.rightTruncatedRepresentableπ_desc _ _ _ _ _
++
++instance rightTruncatedRepresentableRestrictionEpi (l' l i : ℤ) (hl : l' ≤ l) :
++    Epi (A.rightTruncatedRepresentableRestriction l' l i hl) :=
++  epi_of_epi_fac (A.rightTruncatedRepresentableπ_restriction l' l i hl)
++
++@[reassoc] theorem rightTruncatedRepresentableRestriction_cover (l' l i : ℤ) (hl : l' ≤ l)
++    (hli : l ≤ i) :
++    A.rightTruncatedRepresentableRestriction l' l i hl ≫ A.rightTruncatedRepresentableSimpleCover l i hli =
++      A.rightTruncatedRepresentableSimpleCover l' i (hl.trans hli) := by
++  apply (cancel_epi (A.rightTruncatedRepresentableπ l' i)).mp
++  rw [← Category.assoc,A.rightTruncatedRepresentableπ_restriction,
++    A.rightTruncatedRepresentableπ_simpleCover,A.rightTruncatedRepresentableπ_simpleCover]
++
++@[reassoc] theorem rightTruncatedRepresentableRestriction_hom (l' l i j : ℤ) (hl : l' ≤ l)
++    (hli : l ≤ i) (x : A.Hom i j) :
++    A.rightTruncatedRepresentableHomComponentEquiv l' i j (hl.trans hli) x ≫
++        A.rightTruncatedRepresentableRestriction l' l j hl =
++      A.rightTruncatedRepresentableRestriction l' l i hl ≫
++        A.rightTruncatedRepresentableHomComponentEquiv l i j hli x := by
++  apply (cancel_epi (A.rightTruncatedRepresentableπ l' i)).mp
++  rw [← Category.assoc,A.rightTruncatedRepresentableHomComponentEquiv_π,Category.assoc,
++    A.rightTruncatedRepresentableπ_restriction,← Category.assoc,
++    A.rightTruncatedRepresentableπ_restriction,A.rightTruncatedRepresentableHomComponentEquiv_π]
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TruncatedCoverComponents.lean b/ASGinzburg/TruncatedCoverComponents.lean
+new file mode 100644
+index 0000000..c3f0a36
+--- /dev/null
++++ b/ASGinzburg/TruncatedCoverComponents.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.TruncatedRepresentableRestrictions
++
++/-!
++# The diagonal cover is an isomorphism and postcomposition is injective
++-/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem simpleRightModuleπ_component_isIso (i : ℤ) :
++    IsIso ((A.rightModuleEvaluation i).map (A.simpleRightModuleπ i)) := by
++  have H := ((A.representableRadical i).quotientShortExact).map_of_exact (A.rightModuleEvaluation i)
++  apply H.isIso_g_iff.mpr
++  apply ModuleCat.isZero_iff_subsingleton.mpr
++  constructor
++  intro x y
++  apply Subtype.ext
++  have hx : x.val = 0 := by simpa [representableRadical] using x.property
++  have hy : y.val = 0 := by simpa [representableRadical] using y.property
++  exact hx.trans hy.symm
++
++theorem rightTruncatedRepresentableSimpleCover_component_isIso (l i : ℤ) (hli : l ≤ i) :
++    IsIso ((A.rightModuleEvaluation i).map (A.rightTruncatedRepresentableSimpleCover l i hli)) := by
++  let E := A.rightModuleEvaluation i
++  letI := A.rightTruncatedRepresentableπ_component_isIso l i i hli
++  letI := A.simpleRightModuleπ_component_isIso i
++  have h : E.map (A.rightTruncatedRepresentableπ l i) ≫ E.map (A.rightTruncatedRepresentableSimpleCover l i hli) =
++      E.map (A.simpleRightModuleπ i) := by
++    rw [← E.map_comp,A.rightTruncatedRepresentableπ_simpleCover]
++  have heq : E.map (A.rightTruncatedRepresentableSimpleCover l i hli) =
++      inv (E.map (A.rightTruncatedRepresentableπ l i)) ≫ E.map (A.simpleRightModuleπ i) := by
++    apply (cancel_epi (E.map (A.rightTruncatedRepresentableπ l i))).mp
++    simpa using h
++  rw [heq]
++  infer_instance
++
++theorem rightTruncatedRepresentable_postcomp_injective (l i : ℤ) {M N : A.RightModule}
++    (hM : ∀ j, j < l → IsZero ((A.rightModuleEvaluation j).obj M))
++    (hN : ∀ j, j < l → IsZero ((A.rightModuleEvaluation j).obj N))
++    (g : M ⟶ N) [Mono ((A.rightModuleEvaluation i).map g)] :
++    Function.Injective (fun f : A.rightTruncatedRepresentable l i ⟶ M => f ≫ g) := by
++  intro f f' h
++  apply (A.rightTruncatedRepresentableYonedaEquiv l i M hM).injective
++  apply (ModuleCat.mono_iff_injective ((A.rightModuleEvaluation i).map g)).mp (by infer_instance)
++  simpa only [A.rightTruncatedRepresentableYonedaEquiv_comp l i hM hN] using
++    congrArg (A.rightTruncatedRepresentableYonedaEquiv l i N hN) h
++end ASGinzburg.ZAlgebra
