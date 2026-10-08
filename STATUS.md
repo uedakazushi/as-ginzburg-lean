@@ -1,10 +1,10 @@
 # 現在の状況
 
-左右有限次元加群の全項有限生成射影な実際の四項ProjectiveResolutionと次数4以上零性をAS条件から構成。実際Ext消滅から一般Hom複体の低次数exactness、有限生成射影Homの余極限交換、有限射影分解から全次数Extのexactな余極限・小さい直和との交換を証明しました。
-次は一般有限次元Mの総正則Ext比較と全左作用適合性、双対分解と二重Ext対象同型の公開検査、射に関する自然性と有限長反変同値です。
-有限長反変同値と周期性、標準RHomの符号・shift/derived/perfect、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
-最新ローカル検証 20261008T130053Z-e0b99f15：127数学モジュール・1342異なる宣言・604 theorem、全段階終了0。
-単位1〜30の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+一般四項有限生成射影分解の双対分解とcanonical評価から、左右有限次元加群の二重Ext³対象同型をAS条件から構成。一般有限次元右加群の成分Ext直和と総正則右加群への実際Extの線形同型、全成分左作用・全総代数左表現への適合性を証明しました。
+次は二重Ext自然同型と有限長反変同値の公開検査、有限次元部分圏のAbelian構造とベクトル空間双対との合成、有限区間からの周期性です。
+有限長反変同値と周期性、左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
+最新ローカル検証 20261008T131843Z-95e93d4e：133数学モジュール・1382異なる宣言・624 theorem、全段階終了0。
+単位1〜31の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -22,17 +22,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1342異なる名前、全明示的宣言・208 named instanceを含む、終了0 |
-| theorem | 604、全件が監査対象 |
+| 個別公理監査 | 1382異なる名前、全明示的宣言・211 named instanceを含む、終了0 |
+| theorem | 624、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T130053Z-e0b99f15`、全段階終了0、886.393155674秒。
-UTC 2026-10-08T13:00:53.735554+00:00 → 2026-10-08T13:15:40.128719+00:00。
-JST 2026-10-08T22:00:53.735554+09:00 → 2026-10-08T22:15:40.128719+09:00。
+最新ローカル検証 `20261008T131843Z-95e93d4e`、全段階終了0、983.940208454秒。
+UTC 2026-10-08T13:18:43.867359+00:00 → 2026-10-08T13:35:07.807576+00:00。
+JST 2026-10-08T22:18:43.867359+09:00 → 2026-10-08T22:35:07.807576+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -88,6 +88,8 @@ JST 2026-10-08T22:00:53.735554+09:00 → 2026-10-08T22:15:40.128719+09:00。
 | 有限生成射影分解の貼り合わせ | FiniteProjectivePresentations、FiniteProjectiveExtensionClosure、ShortExactKernels、ProjectiveExtensionCovers、FiniteProjectiveResolutionLength、ASFiniteDimensionalResolutionLength | 有限生成射影表示・有限直和と拡大の閉性・snake lemmaによる核の短完全列・実際epiと核を3段繰り返す有限射影分解存在 | 四項複体は後続単位で完成。一般有限次元Mの総正則Ext比較・二重Ext自然同型 |
 
 | 有限次元加群の四項複体とExt交換 | FourTermProjectiveResolution、FiniteProjectiveFourTermResolution、ASFiniteDimensionalProjectiveResolution、ProjectiveResolutionHomExactness、FiniteProjectiveHomColimits、FiniteProjectiveResolutionExtColimits | 全項有限生成射影の実際の四項ProjectiveResolution・次数4以上零性・Hom複体のexactness・右有限次元加群の全次数Extの余極限/直和交換 | 総正則Extへの左作用適合比較・二重Ext自然同型 |
+
+| 総正則Extと二重Ext対象同型 | RightResolutionDuality、LeftResolutionDuality、RightResolutionExtBidual、LeftResolutionExtBidual、FiniteDimensionalExtBidual、FiniteDimensionalRegularExtComparison | 一般四項分解の双対分解・canonical二重Ext対象同型、右有限次元加群の総正則Ext比較と全左作用適合性 | 二重Ext自然性・有限長反変同値の公開検証、左側総正則Ext比較、周期性 |
 
 ## 主結果の状態
 

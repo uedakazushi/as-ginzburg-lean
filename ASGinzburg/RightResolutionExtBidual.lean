@@ -1,0 +1,76 @@
+import ASGinzburg.RightResolutionDuality
+import ASGinzburg.ASLeftExtReciprocity
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
+  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
+  (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+
+noncomputable def rightResolutionBidualTermIso (n : ℕ) (hn : n<4) :
+    A.leftModuleADual (A.rightModuleADual (P.complex.X n)) ≅ P.complex.X n := by
+  letI := A.rightFiniteProjectiveProperty_bidual (hP n hn)
+  exact (asIso (A.rightModuleBidualEvaluation (P.complex.X n))).symm
+
+noncomputable def rightResolutionBidualTopProjection :
+    A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).term 3) ⟶ M :=
+  (A.rightResolutionBidualTermIso P hP 0 (by decide)).hom ≫ P.π.f 0
+
+noncomputable instance rightResolutionBidualTopProjectionEpi :
+    Epi (A.rightResolutionBidualTopProjection P h₄ hP hExt) := by
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 0 (by decide))
+  dsimp [rightResolutionBidualTopProjection]
+  infer_instance
+
+theorem rightResolutionBidualTopDifferential_comm :
+    A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫
+      (A.rightResolutionBidualTermIso P hP 0 (by decide)).hom =
+    (A.rightResolutionBidualTermIso P hP 1 (by decide)).hom ≫ P.complex.d 1 0 := by
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 0 (by decide))
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 1 (by decide))
+  rw [show (A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2 =
+    A.rightModuleADualMap (P.complex.d 1 0) from ChainComplex.of_d _ _ _ 2]
+  change A.leftModuleADualMap (A.rightModuleADualMap (P.complex.d 1 0)) ≫
+    inv (A.rightModuleBidualEvaluation (P.complex.X 0)) =
+    inv (A.rightModuleBidualEvaluation (P.complex.X 1)) ≫ P.complex.d 1 0
+  have H := A.rightModuleBidualEvaluation_natural (P.complex.d 1 0)
+  apply Eq.symm
+  rw [IsIso.inv_comp_eq,← Category.assoc,← H]
+  simp only [Category.assoc,IsIso.hom_inv_id,Category.comp_id]
+
+theorem rightResolutionBidualTopProjection_differential :
+    A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫
+      A.rightResolutionBidualTopProjection P h₄ hP hExt = 0 := by
+  dsimp only [rightResolutionBidualTopProjection]
+  rw [← Category.assoc,A.rightResolutionBidualTopDifferential_comm,
+    Category.assoc,P.complex_d_comp_π_f_zero,comp_zero]
+
+theorem rightResolutionBidualTopProjection_exact :
+    (ShortComplex.mk
+      (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))
+      (A.rightResolutionBidualTopProjection P h₄ hP hExt)
+      (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact := by
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 0 (by decide))
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 1 (by decide))
+  let T := ShortComplex.mk (P.complex.d 1 0) (P.π.f 0) P.complex_d_comp_π_f_zero
+  let e : ShortComplex.mk
+      (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))
+      (A.rightResolutionBidualTopProjection P h₄ hP hExt)
+      (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt) ≅ T :=
+    ShortComplex.isoMk (A.rightResolutionBidualTermIso P hP 1 (by decide))
+      (A.rightResolutionBidualTermIso P hP 0 (by decide)) (Iso.refl _)
+      (by exact (A.rightResolutionBidualTopDifferential_comm P h₄ hP hExt).symm)
+      (by simp [T,rightResolutionBidualTopProjection])
+  exact (ShortComplex.exact_iff_of_iso e).mpr P.exact₀
+
+/-- Actual degree-three Ext twice recovers M by the canonical finite-projective evaluation. -/
+noncomputable def rightResolutionExtBidualIso :
+    A.leftModuleExtRight (A.rightModuleExtLeft M 3) 3 ≅ M :=
+  IsColimit.coconePointUniqueUpToIso
+    (A.leftResolutionExtTopProjection_exact
+      (A.rightResolutionDualFourTerm P h₄ hP hExt).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex_isZero_ge_four 0)).gIsCokernel
+    (A.rightResolutionBidualTopProjection_exact P h₄ hP hExt).gIsCokernel
+end ASGinzburg.ZAlgebra

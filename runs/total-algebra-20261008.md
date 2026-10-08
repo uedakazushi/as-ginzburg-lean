@@ -747,3 +747,29 @@ JST 2026-10-08T22:00:53.735554+09:00 → 2026-10-08T22:15:40.128719+09:00。
 UTC 2026-10-08T13:00:53.735554+00:00 → 2026-10-08T13:15:40.128719+00:00。
 127数学モジュール・1342異なる宣言・604 theorem。
 差分：runs/total-algebra-20261008-unit30.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位30はmain 68541c2783dce6bccf4da2984e0d62e64d8f494bへ保存済み。単位31として一般有限次元右加群の総正則Ext比較・全左作用の適合性、一般四項分解の双対分解と左右有限次元加群の二重Ext対象同型を公開検査。草稿finite-total-ext-draft2とfinite-ext-bidual-draft1は個別Lean終了0・診断なし。接続写像の自然性はext-class-naturality-draft8で終了0、射影分解のsyzygy射と上端Ext余核の自然性を個別検査中。二重Ext自然同型と有限長反変同値はまだ未証明。
+
+作業中チェックポイント UTC 2026-10-08T13:26:51.871159+00:00、開始から実測23173.871159秒。継続中、タスク終了時刻ではない。単位30 main 68541c2783dce6bccf4da2984e0d62e64d8f494bへ保存済み。公開検査20261008T130053Z-e0b99f15はUTC 13:00:53.735554 →13:15:40.128719、886.393155674秒、127数学モジュール・1342異なる宣言・604 theorem・全6段階0。
+単位31公開検査20261008T131843Z-95e93d4eはソース監査1382異なる宣言・624 theorem、新規6数学モジュールのコンパイル終了0、全体buildと独立公理監査を進行中。数学ソースは実行中に固定。
+草稿finite-ext-equivalence-draft2は個別Lean終了0・診断なし。mapping coneから実際Ext classと接続写像の自然性、射影分解のsyzygy比較射、Ext³上端射影の自然性、双対四項分解の比較射、canonical二重双対から二重Ext対象同型の自然性を左右とも証明。実際Ext³の左右有限次元full部分圏の反変同値を構成した。次の公開単位32で全宣言監査する。ベクトル空間双対との合成・有限区間の射影被覆・周期性はまだ未証明。標準RHomの符号・shift/derived/perfect接続、命題5.1、定理3.2・系5.2と外部一般定理の形式化も未完成。両主定理の正式Lean定理文は未実装。
+
+## 単位31：一般有限次元加群の総正則Ext比較とcanonical二重Ext対象同型
+
+RightResolutionDuality.lean、LeftResolutionDuality.lean、RightResolutionExtBidual.lean、LeftResolutionExtBidual.lean、FiniteDimensionalExtBidual.lean、FiniteDimensionalRegularExtComparison.leanを追加。一般の実際の四項有限生成射影分解と0/1/2次Ext消滅から、双対四項分解の低次数exactness・上端Ext³余核・左端Mono・全項有限生成射影性を証明し、実際の反対側ProjectiveResolutionへ変換した。
+
+canonicalな有限生成射影評価写像の逆射と元のaugmentationを合成した上端射影を構成。評価の自然性で微分への適合性とexactnessを証明し、上端余核の一意性から二重Ext³の対象同型を左右とも構成した。AS条件から全有限次元加群の四項分解とExt集中を用い、左右の実際Ext³を二度適用すると元の加群と同型であることを証明。低次数Ext消滅や必要な同型をASRegularへ仮定として追加していない。この単位の対象同型だけを自然な反変同値と扱わない。
+
+全次数Extの直和交換を一般有限次元右加群に適用し、成分Ext直和と総正則右加群へのExtの線形同型を構成。各代数成分の左作用との適合性を証明し、既存Gr(A)圏同値と総正則加群の同定を通じて、総代数への実際Extと成分Ext左加群総空間の線形同型・全総代数の左表現への適合性を証明した。左有限次元加群の総正則左加群への直和交換・比較はこの単位の範囲に含めない。
+
+追加40宣言・6数学モジュール。単位30 main 68541c2783dce6bccf4da2984e0d62e64d8f494bへ保存済み。単位28 main b45e1a8bbccb409a35a977ee60c4521f96ab8211のCI37778905921と単位29 main 92a215de793ef0dbc4f55b7eb875e25dfc5ce74dのCI37780977940は正確なheadでsuccess。単位30 CI37783216492は照会時点in_progress。古いCI成功をこの単位の成功に流用しない。
+
+次の草稿finite-ext-equivalence-draft2は個別Lean終了0・診断なし。mapping coneから実際Ext classと接続写像の自然性、射影分解のsyzygy比較射、上端Ext射影の自然性、双対分解比較射、二重Ext対象同型の自然性を左右とも証明し、実際Ext³の左右有限次元full部分圏の反変同値を構成済み。次の公開単位32で全宣言監査する。
+
+次は有限次元full部分圏のAbelian構造、ベクトル空間双対との合成、有限区間と射影被覆・coherenceを通じた周期性。標準RHomの符号・shift/derived/perfect接続、左側総正則Ext比較、命題5.1、外部一般定理、定理3.2・系5.2は未完成。両主定理の正式Lean定理文も未実装。
+
+検証：`20261008T131843Z-95e93d4e`、983.940208454秒、全段階終了0。
+JST 2026-10-08T22:18:43.867359+09:00 → 2026-10-08T22:35:07.807576+09:00。
+UTC 2026-10-08T13:18:43.867359+00:00 → 2026-10-08T13:35:07.807576+00:00。
+133数学モジュール・1382異なる宣言・624 theorem。
+差分：runs/total-algebra-20261008-unit31.patch。全theoremを監査し、許容公理3種類のみ。
