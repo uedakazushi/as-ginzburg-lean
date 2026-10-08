@@ -101,3 +101,22 @@ degree n+4のIsZeroも証明済み。ASResolutionの存在は任意のAについ
 開始UTC 2026-10-08T02:44:07.074024+00:00、終了UTC 2026-10-08T02:45:33.618552+00:00。
 305異なる宣言・134 theorem・50 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit6.patch。
+
+## 証明単位7：原論文AS定義(i)(ii)の具体化
+
+`ASRegular.lean`で有限最小分解の存在と実際の`Abelian.Ext(s_u,P_v)`の全次数・全被覆頂点の
+総Module.rank=1を定義した。第二引数P_vを固定しており、periodicityやdelta型のExt表は仮定していない。
+無限次元のfinrankが0になる問題を避け、Cardinal値のrankを使った。
+AS条件から各Extのrank≤1、Module.Finite、finrank≤1を証明した。
+rank=0と実際のExtの全要素が零である条件の同値、AS分解を選んだ実際のProjectiveResolution、
+degree≥4のIsZeroも証明済み。
+任意のAやJacobian代数についてAS条件の成立は未証明。
+既存presheafモデルと原論文の局所単位元付きGr(A)の明示的同値も未証明である。
+次：Hom複体との実際の比較、(3,tau v)の非零Extの特定、命題1.3のdelta形と左加群同型。
+単位6のmain保存：4072a79452b2705726ca34dc4cadba10ebe27594。
+
+
+検証：`20261008T024855Z-af8ca59e`、104.812992秒、全段階終了0。
+開始UTC 2026-10-08T02:48:55.882947+00:00、終了UTC 2026-10-08T02:50:40.695946+00:00。
+315異なる宣言・140 theorem・50 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit7.patch。

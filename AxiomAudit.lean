@@ -1,5 +1,15 @@
 import ASGinzburg
 
+#print axioms ASGinzburg.ZAlgebra.asExtTotalRank
+#print axioms ASGinzburg.ZAlgebra.ASRegular
+#print axioms ASGinzburg.ZAlgebra.ASRegular.resolution
+#print axioms ASGinzburg.ZAlgebra.ASRegular.projectiveResolution
+#print axioms ASGinzburg.ZAlgebra.ASRegular.projectiveResolution_isZero_ge_four
+#print axioms ASGinzburg.ZAlgebra.asExtRank_le_total
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extRank_le_one
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extFinite
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extFinrank_le_one
+#print axioms ASGinzburg.ZAlgebra.asExtRank_zero_iff
 #print axioms ASGinzburg.CutQuiver.incomingArrows
 #print axioms ASGinzburg.CutQuiver.outgoingArrows
 #print axioms ASGinzburg.CutQuiver.incomingArrowsFintype
