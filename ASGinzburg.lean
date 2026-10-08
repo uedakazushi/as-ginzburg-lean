@@ -1,3 +1,4 @@
+import ASGinzburg.ASDualityLeftComponents
 import ASGinzburg.SimpleLeftModules
 import ASGinzburg.LeftModules
 import ASGinzburg.RightModuleExtLeftAction

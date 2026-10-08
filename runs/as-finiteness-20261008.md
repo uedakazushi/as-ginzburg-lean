@@ -93,3 +93,22 @@ A e_iの正次数部分をpositiveLeftActionSpanと同定し、商simpleLeftModu
 UTC 2026-10-08T03:59:08.990186+00:00 → 2026-10-08T04:02:43.289558+00:00。
 464異なる宣言・213 theorem・80 named instance。
 差分：runs/as-finiteness-20261008-unit5.patch。
+
+単位5のmain保存：de586c2f70b42e0da84b83050c10a133936e1d7d。
+次の単位ではLeftSubmodulesのコメントのcontravariantをcovariantへ修正する（数学的定義は共変で正しかった）。
+
+## 単位6：実際Extの成分左加群と左単純商の同型
+
+ASRegularからExt(s_w,P_i,p)の左加群はp≠3でIsZeroであることを証明した。
+次数3では唯一の頂点tau^{-1}wに台をもち、その対角成分の線形同型を左作用を保つ同型へ延長した。
+従ってExt成分左加群は実際のsimpleLeftModule(height(tau^{-1}w))に同型で、正次数の左作用は零。
+対角作用がスカラーであることはZAlgebra.connectedから証明し、必要な同型を仮定していない。
+利用先：原論文(1.12)の左加群構造と有限長双対性。
+残る義務：Ext(-,⊕P_i)と⊕Ext(-,P_i)の交換、原論文Gr(A)との明示的同値。
+この二つを省いて原論文のExt(s_w,A)版(1.12)が完成したとは扱わない。
+次：有限生成射影のHomと直和の交換、比較の自然性と高次Extへの移送。
+
+検証：`20261008T040440Z-db90cc85`、210.410472秒、全段階終了0。
+UTC 2026-10-08T04:04:40.274552+00:00 → 2026-10-08T04:08:10.685032+00:00。
+470異なる宣言・217 theorem・80 named instance。
+差分：runs/as-finiteness-20261008-unit6.patch。

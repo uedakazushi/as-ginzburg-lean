@@ -14,7 +14,7 @@ open CategoryTheory CategoryTheory.Limits Opposite
 universe u v
 variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
 
-/-- Component subspaces closed under the existing contravariant left action. -/
+/-- Component subspaces closed under the existing covariant left action. -/
 structure LeftSubmodule (M : A.LeftModule) where
   component : ∀ X : A.Obj, Submodule k (M.obj.obj X)
   map_mem : ∀ {X Y : A.Obj} (f : X ⟶ Y) {x : M.obj.obj X},

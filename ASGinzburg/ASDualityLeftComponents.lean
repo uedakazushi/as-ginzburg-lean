@@ -1,0 +1,118 @@
+import ASGinzburg.SimpleLeftModules
+import ASGinzburg.RightModuleExtLeftAction
+import ASGinzburg.ASDualityEquivalence
+
+/-!
+# AS duality as an isomorphism of concrete Ext-component left modules
+
+The left module here has actual components Ext(s_u,P_i,n) and the proved
+postcomposition action. A further theorem exchanging Ext with the sum of
+P_i is required before asserting the paper's Ext(s_u,A) version.
+-/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- A left module is zero if each of its actual vertex components is zero. -/
+theorem leftModule_isZero_of_components (M : A.LeftModule)
+    (h : ∀ i : ℤ, IsZero ((A.leftModuleEvaluation i).obj M)) : IsZero M := by
+  rw [IsZero.iff_id_eq_zero]
+  apply NatTrans.ext
+  funext X
+  exact (h X.index).eq_of_src _ _
+
+/-- Isomorphisms of the single surviving component extend to left-module
+isomorphisms. Connectedness ensures that diagonal actions are scalar. -/
+noncomputable def leftModuleIsoOfSingleSupport (M N : A.LeftModule) (i : ℤ)
+    (hM : ∀ j : ℤ, j ≠ i → IsZero ((A.leftModuleEvaluation j).obj M))
+    (hN : ∀ j : ℤ, j ≠ i → IsZero ((A.leftModuleEvaluation j).obj N))
+    (e : (A.leftModuleEvaluation i).obj M ≅ (A.leftModuleEvaluation i).obj N) : M ≅ N := by
+  let es : ∀ X : A.Obj, M.obj.obj X ≅ N.obj.obj X := fun X => by
+    rcases X with ⟨j⟩
+    by_cases hj : j = i
+    · subst j; exact e
+    · exact (hM j hj).isoZero ≪≫ (hN j hj).isoZero.symm
+  let en : M.obj ≅ N.obj := NatIso.ofComponents es (by
+    intro X Y f
+    rcases X with ⟨j⟩
+    rcases Y with ⟨l⟩
+    by_cases hj : j = i
+    · by_cases hl : l = i
+      · subst j; subst l
+        obtain ⟨r,hr⟩ := A.connected i f
+        have hf : f = r • 𝟙 (⟨i⟩ : A.Obj) := hr
+        letI := M.property.2
+        letI := N.property.2
+        rw [hf, Functor.map_smul, Functor.map_smul, CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
+        simp only [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id]
+      · exact (hN l hl).eq_of_tgt _ _
+    · exact (hM j hj).eq_of_src _ _)
+  exact ⟨en.hom,en.inv,en.hom_inv_id,en.inv_hom_id⟩
+
+variable (Q : CutQuiver)
+
+theorem ASRegular.extLeft_off_degree_three (h : A.ASRegular Q) (w : Q.LiftVertex)
+    (p : ℕ) (hp : p ≠ 3) :
+    IsZero (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) p) := by
+  apply A.leftModule_isZero_of_components
+  intro j
+  obtain ⟨t,ht⟩ := Q.height_bijective.surjective j
+  subst j
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  refine ⟨fun x y => ?_⟩
+  have hne : (p,w) ≠ (3,Q.tau t) := by intro he; exact hp (Prod.mk.inj he).1
+  rw [h.ext_other_eq_zero A Q t w p hne x, h.ext_other_eq_zero A Q t w p hne y]
+
+theorem ASRegular.extLeftThree_off_vertex (h : A.ASRegular Q) (w : Q.LiftVertex)
+    (j : ℤ) (hj : j ≠ Q.height (Q.tau.symm w)) :
+    IsZero ((A.leftModuleEvaluation j).obj
+      (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3)) := by
+  obtain ⟨t,ht⟩ := Q.height_bijective.surjective j
+  subst j
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  refine ⟨fun x y => ?_⟩
+  have hne : (3,w) ≠ (3,Q.tau t) := by
+    intro he
+    have hw := (Prod.mk.inj he).2
+    apply hj
+    rw [hw, Q.tau.symm_apply_apply]
+  rw [h.ext_other_eq_zero A Q t w 3 hne x, h.ext_other_eq_zero A Q t w 3 hne y]
+
+/-- Noncanonical as in the paper: a choice of a scalar generator gives the
+left-module isomorphism. No Ext isomorphism is supplied as an assumption. -/
+noncomputable def ASRegular.extLeftThreeIsoSimple (h : A.ASRegular Q) (w : Q.LiftVertex) :
+    A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3 ≅
+      A.simpleLeftModule (Q.height (Q.tau.symm w)) := by
+  let i := Q.height (Q.tau.symm w)
+  let M := A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3
+  let N := A.simpleLeftModule i
+  have hdimM : Module.finrank k ((A.leftModuleEvaluation i).obj M) = 1 := by
+    change Module.finrank k (Abelian.Ext.{v} (A.simpleRightModule (Q.height w))
+      (A.representable (Q.height (Q.tau.symm w))) 3) = 1
+    have hd := h.extThree_finrank A Q (Q.tau.symm w)
+    rw [Q.tau.apply_symm_apply] at hd
+    exact hd
+  letI : Module.Finite k ((A.leftModuleEvaluation i).obj M) :=
+    Module.finite_of_finrank_pos (by rw [hdimM]; omega)
+  letI : Module.Finite k ((A.leftModuleEvaluation i).obj N) :=
+    Module.finite_of_finrank_pos (by rw [A.simpleLeftModule_diagonal_finrank]; omega)
+  let e := LinearEquiv.ofFinrankEq
+    (M := ((A.leftModuleEvaluation i).obj M))
+    (M' := ((A.leftModuleEvaluation i).obj N))
+    (hdimM.trans (A.simpleLeftModule_diagonal_finrank i).symm)
+  exact A.leftModuleIsoOfSingleSupport M N i
+    (h.extLeftThree_off_vertex A Q w)
+    (A.simpleLeftModule_off_diagonal i) e.toModuleIso
+
+/-- Positive-degree algebra elements act by zero on the degree-three Ext left module. -/
+theorem ASRegular.extLeftThree_positive_action_zero (h : A.ASRegular Q) (w : Q.LiftVertex)
+    {i j : ℤ} (hij : i < j) (a : A.Hom i j) :
+    (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3).obj.map
+      (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a) = 0 := by
+  by_cases hi : i = Q.height (Q.tau.symm w)
+  · have hj : j ≠ Q.height (Q.tau.symm w) := by omega
+    exact (h.extLeftThree_off_vertex A Q w j hj).eq_zero_of_tgt _
+  · exact (h.extLeftThree_off_vertex A Q w i hi).eq_zero_of_src _
+
+end ASGinzburg.ZAlgebra

@@ -27,6 +27,12 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₁_zero
 #print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₂_zero
 #print axioms ASGinzburg.ZAlgebra.asDualityHomTerm₃Equiv
+#print axioms ASGinzburg.ZAlgebra.leftModule_isZero_of_components
+#print axioms ASGinzburg.ZAlgebra.leftModuleIsoOfSingleSupport
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extLeft_off_degree_three
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extLeftThree_off_vertex
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extLeftThreeIsoSimple
+#print axioms ASGinzburg.ZAlgebra.ASRegular.extLeftThree_positive_action_zero
 #print axioms ASGinzburg.ZAlgebra.asExtTotalRank
 #print axioms ASGinzburg.ZAlgebra.ASRegular
 #print axioms ASGinzburg.ZAlgebra.ASRegular.resolution
