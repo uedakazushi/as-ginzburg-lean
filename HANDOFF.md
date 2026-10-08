@@ -1,11 +1,11 @@
 # Codexクラウドへの引継ぎ
 
-左右の成分復元関手と、局所単位条件からの成分直和のk線形同型を証明しました。
-成分射を自然変換へ復元し、和の写像の単射性・全射性を確認。既存RightModuleと原論文の仮定を保持しています。
-次は直和同型の単位化作用への適合性と自然性、単位・余単位とGr(A)圏同値・実際のExt保存です。
+有限台総代数上の局所単位付き左右加群圏と、既存LeftModule・RightModuleの圏同値を証明しました。
+逆関手は実際の成分射影像、余単位は成分包含の和。全単位化作用への適合性・自然性・単位を証明済みです。
+次はAbelian構造・EnoughProjectivesの移送と、この同値による実際のAbelian.Ext保存です。
 有限長双対性・周期性・主定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T084518Z-316d2558：73数学モジュール・798異なる宣言・349 theorem、全段階終了0。
-単位1〜10の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+最新ローカル検証 20261008T085342Z-ba9d2fb5：74数学モジュール・818異なる宣言・357 theorem、全段階終了0。
+単位1〜11の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -25,14 +25,14 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 具体的Ext成分左加群の次数集中と左単純商との同型、左右A-dualとrepresentableの二重双対も完成。
 前回のExt直和交換と成分作用への適合性はdocs/ext_coproduct_exchange.mdとruns/ext-sums-20261008.md。
 今回の総代数・両側局所単位・左右総作用はdocs/total_algebra_comparison.md。
-開始時の60数学モジュールは無変更。一般のcanonicalな二重双対とGr(A)比較は未完成。
+開始時の60数学モジュールは無変更。具体的局所単位付きGr(A)モデルへの左右圏同値も完成。実際のExt保存と一般のcanonicalな二重双対は未完成。
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T084518Z-316d2558`、全段階終了0、401.058859280秒。
-UTC 2026-10-08T08:45:18.405008+00:00 → 2026-10-08T08:51:59.463877+00:00。
-JST 2026-10-08T17:45:18.405008+09:00 → 2026-10-08T17:51:59.463877+09:00。
-73数学モジュール・798異なる明示的宣言・全349 theorem・127 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T085342Z-ba9d2fb5`、全段階終了0、390.043190055秒。
+UTC 2026-10-08T08:53:42.771486+00:00 → 2026-10-08T09:00:12.814683+00:00。
+JST 2026-10-08T17:53:42.771486+09:00 → 2026-10-08T18:00:12.814683+09:00。
+74数学モジュール・818異なる明示的宣言・全357 theorem・129 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -58,8 +58,8 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 
 ## 次に必要な証明義務
 
-1. 左右総加群関手は充満忠実。任意の単位化加群の直交成分射影を証明済み。その像からの左右成分加群の対象復元も完成。成分射の関手化と局所単位付き対象のk線形直和分解も完成。全代数作用への適合性と自然性を実装する。
-2. 成分を取る逆関手、単位・余単位を持つ原論文Gr(A)との圏同値、実際のExt保存を証明する。
+1. 具体的な成分復元関手と単位・余単位による左右圏同値は完成。
+2. この圏同値でAbelian構造・EnoughProjectivesと実際のAbelian.Extの保存を移す。
 3. canonicalな二重A-dualの評価と自然性、有限生成射影・perfect complex・有限長双対性。
 4. D Ext³から区間制限・projective cover・区間同型のcoherenceを構成し、AS条件から周期性を導く。
 5. Jacobian商・Ginzburg dg代数・d²=0・外部一般定理・主定理の同型類対応。

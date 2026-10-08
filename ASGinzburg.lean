@@ -12,6 +12,7 @@ import ASGinzburg.UnitizationComponentActions
 import ASGinzburg.UnitizationComponentModules
 import ASGinzburg.UnitizationComponentFunctors
 import ASGinzburg.UnitizationComponentSums
+import ASGinzburg.LocallyUnitalEquivalence
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct
