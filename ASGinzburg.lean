@@ -293,6 +293,23 @@ import ASGinzburg.JacobianUnrollingQuotient
 import ASGinzburg.JacobianCutQuotientProducts
 import ASGinzburg.JacobianUnrollingProducts
 
+import ASGinzburg.GinzburgZeroProducts
+import ASGinzburg.GinzburgZeroQuotientProducts
+import ASGinzburg.GinzburgHomologyZeroProducts
+import ASGinzburg.GinzburgJacobianProducts
+import ASGinzburg.GinzburgCutZeroProducts
+import ASGinzburg.GinzburgCutZeroQuotientProducts
+import ASGinzburg.GinzburgCutHomologyZeroProducts
+import ASGinzburg.GinzburgCutJacobianProducts
+import ASGinzburg.GinzburgCutHomologyUnits
+import ASGinzburg.GinzburgHomologyZAlgebra
+import ASGinzburg.FiniteComponentAlgebra
+import ASGinzburg.PathJacobianRing
+import ASGinzburg.FiniteComponentAlgebraEquiv
+import ASGinzburg.GinzburgHomologyUnits
+import ASGinzburg.GinzburgHomologyRing
+import ASGinzburg.PathJacobianRingQuotient
+
 /-!
 # AS--Ginzburg formalization checkpoint
 
@@ -300,3 +317,4 @@ All imports contain checked definitions and proofs. This checkpoint does
 not yet contain a formal statement or proof of Theorem 3.2 or Corollary
 5.2. See STATUS.md and GAPS.md for the exact scope and unresolved bridges.
 -/
+

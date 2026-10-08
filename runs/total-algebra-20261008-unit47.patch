@@ -1,0 +1,1405 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 1daa58f..1f0ed82 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -293,6 +293,23 @@ import ASGinzburg.JacobianUnrollingQuotient
+ import ASGinzburg.JacobianCutQuotientProducts
+ import ASGinzburg.JacobianUnrollingProducts
+ 
++import ASGinzburg.GinzburgZeroProducts
++import ASGinzburg.GinzburgZeroQuotientProducts
++import ASGinzburg.GinzburgHomologyZeroProducts
++import ASGinzburg.GinzburgJacobianProducts
++import ASGinzburg.GinzburgCutZeroProducts
++import ASGinzburg.GinzburgCutZeroQuotientProducts
++import ASGinzburg.GinzburgCutHomologyZeroProducts
++import ASGinzburg.GinzburgCutJacobianProducts
++import ASGinzburg.GinzburgCutHomologyUnits
++import ASGinzburg.GinzburgHomologyZAlgebra
++import ASGinzburg.FiniteComponentAlgebra
++import ASGinzburg.PathJacobianRing
++import ASGinzburg.FiniteComponentAlgebraEquiv
++import ASGinzburg.GinzburgHomologyUnits
++import ASGinzburg.GinzburgHomologyRing
++import ASGinzburg.PathJacobianRingQuotient
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+@@ -300,3 +317,4 @@ All imports contain checked definitions and proofs. This checkpoint does
+ not yet contain a formal statement or proof of Theorem 3.2 or Corollary
+ 5.2. See STATUS.md and GAPS.md for the exact scope and unresolved bridges.
+ -/
++
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 1a6241b..004d551 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -443,6 +443,26 @@ import ASGinzburg
+ #print axioms ASGinzburg.total_dimension_single
+ #print axioms ASGinzburg.total_one_iff_single
+ #print axioms ASGinzburg.ext_dimension_delta
++#print axioms ASGinzburg.LinearComponentAlgebra
++#print axioms ASGinzburg.LinearComponentAlgebra.Total
++#print axioms ASGinzburg.LinearComponentAlgebra.totalMul
++#print axioms ASGinzburg.LinearComponentAlgebra.totalOne
++#print axioms ASGinzburg.LinearComponentAlgebra.totalOne_diag
++#print axioms ASGinzburg.LinearComponentAlgebra.totalOne_offdiag
++#print axioms ASGinzburg.LinearComponentAlgebra.totalOne_mul
++#print axioms ASGinzburg.LinearComponentAlgebra.totalMul_one
++#print axioms ASGinzburg.LinearComponentAlgebra.totalMul_assoc
++#print axioms ASGinzburg.LinearComponentAlgebra.totalMul_add
++#print axioms ASGinzburg.LinearComponentAlgebra.totalAdd_mul
++#print axioms ASGinzburg.LinearComponentAlgebra.totalMulInst
++#print axioms ASGinzburg.LinearComponentAlgebra.totalOneInst
++#print axioms ASGinzburg.LinearComponentAlgebra.totalRing
++#print axioms ASGinzburg.LinearComponentAlgebra.totalAlgebra
++#print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism
++#print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv
++#print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_one
++#print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_mul
++#print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalAlgEquiv
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHomDiagram
+ #print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso
+ #print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso_hom_π
+@@ -801,6 +821,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_coe
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_symm_coe
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_finite
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroId
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroId_val
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_id
++#print axioms ASGinzburg.CutQuiver.id_ginzburgCutZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_assoc
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroId
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroComp_id
++#print axioms ASGinzburg.CutQuiver.id_ginzburgCutHomologyZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroComp_assoc
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroUnrolledIso_id
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutGradedDifferential_zero
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutNegativeOneDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroShortComplex
+@@ -810,6 +840,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutGradedBoundary_map
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientJacobianEquiv
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroJacobianIso
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroHomologyClass
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroQuotientIso_class
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroHomologyClass_surjective
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroComp_class
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroQuotientIso_comp
++#print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_symm_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientJacobianEquiv_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientJacobianEquiv_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroJacobianIso_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroUnrolledIso_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_single
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_on_cut
+@@ -826,6 +867,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyProjection
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyInclusion_projection
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.cutHomology_isZero
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_boundary_left
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_boundary_right
++#print axioms ASGinzburg.CutQuiver.GinzburgCutZeroQuotient
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientCompRight
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientCompRight_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientCompPre
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientComp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientComp_mk
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.degreeNegOne_decomposition
+@@ -883,6 +933,29 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.original_dual_winding_sum
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.original_dual_cut_sum
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.loop_differential_cohomological_degree
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyComponentAlgebra
++#print axioms ASGinzburg.CutQuiver.GinzburgHomologyRing
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyJacobianComponentIsomorphism
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyJacobianAlgEquiv
++#print axioms ASGinzburg.CutQuiver.finiteComponentCurryEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgTotalHomologyZeroComponentRingIso
++#print axioms ASGinzburg.CutQuiver.ginzburgTotalHomologyZeroJacobianRingIso
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroId
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroId_val
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroComp_id
++#print axioms ASGinzburg.CutQuiver.id_ginzburgZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroComp_assoc
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroId
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroComp_id
++#print axioms ASGinzburg.CutQuiver.id_ginzburgHomologyZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroComp_assoc
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroJacobianIso_id
++#print axioms ASGinzburg.CutQuiver.GinzburgHomologyComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyComponentJacobianEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyComponentJacobianEquiv_id
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyComponentJacobianEquiv_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZAlgebra
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyJacobianIsomorphism
+ #print axioms ASGinzburg.CutQuiver.ginzburgGradedDifferential_zero
+ #print axioms ASGinzburg.CutQuiver.ginzburgNegativeOneDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroShortComplex
+@@ -892,9 +965,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgGradedBoundary_map
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientJacobianEquiv
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroJacobianIso
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroHomologyClass
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroQuotientIso_class
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroHomologyClass_surjective
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroComp_class
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroQuotientIso_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_mem_pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_le_pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_eq_pathJacobianIdeal
++#print axioms ASGinzburg.CutQuiver.originalGinzburgDegreeZeroEquiv_comp
++#print axioms ASGinzburg.CutQuiver.originalGinzburgDegreeZeroEquiv_symm_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientJacobianEquiv_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientJacobianEquiv_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroJacobianIso_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap_single
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_comp
+@@ -986,6 +1070,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCohomologicalComponent_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalHomologyZeroJacobianIso
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroComp
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroComp_boundary_left
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroComp_boundary_right
++#print axioms ASGinzburg.CutQuiver.GinzburgZeroQuotient
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientCompRight
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientCompRight_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientCompPre
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientComp
++#print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientComp_mk
+ #print axioms ASGinzburg.positive_recurrence_unique
+ #print axioms ASGinzburg.quadraticHilbert
+ #print axioms ASGinzburg.quadraticHilbert_closed
+@@ -1508,6 +1601,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryIdeal
+ #print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_mem_boundary
+ #print axioms ASGinzburg.CutQuiver.pathJacobianIdeal_le_boundary
++#print axioms ASGinzburg.CutQuiver.pathComponentAlgebra
++#print axioms ASGinzburg.CutQuiver.pathQuotientComponentAlgebra
++#print axioms ASGinzburg.CutQuiver.PathRing
++#print axioms ASGinzburg.CutQuiver.PathQuotientRing
++#print axioms ASGinzburg.CutQuiver.PathJacobianRing
++#print axioms ASGinzburg.CutQuiver.pathQuotientRingMap
++#print axioms ASGinzburg.CutQuiver.pathQuotientRingMap_surjective
++#print axioms ASGinzburg.CutQuiver.pathJacobianRingMap
++#print axioms ASGinzburg.CutQuiver.pathJacobianRingMap_surjective
++#print axioms ASGinzburg.CutQuiver.pathQuotientRingMap_eq_zero_iff
++#print axioms ASGinzburg.CutQuiver.pathQuotientRingKernelAlgEquiv
++#print axioms ASGinzburg.CutQuiver.pathJacobianRingMap_eq_zero_iff
++#print axioms ASGinzburg.CutQuiver.pathJacobianRingKernelAlgEquiv
+ #print axioms ASGinzburg.CutQuiver.PathLinearIdeal
+ #print axioms ASGinzburg.CutQuiver.PathLinearIdeal.top
+ #print axioms ASGinzburg.CutQuiver.generatedPathIdeal
+diff --git a/ASGinzburg/GinzburgZeroProducts.lean b/ASGinzburg/GinzburgZeroProducts.lean
+new file mode 100644
+index 0000000..d632303
+--- /dev/null
++++ b/ASGinzburg/GinzburgZeroProducts.lean
+@@ -0,0 +1,61 @@
++import ASGinzburg.GinzburgHomologyZero
++import ASGinzburg.GinzburgSupportedProducts
++
++/-! Genuine bilinear degree-zero Ginzburg products and closure of the
++actual differential boundary ranges, before any Jacobian comparison. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgZeroComp {u v w : Q.Vertex} :
++    Q.ginzburgCohomologicalComponent k v w 0 →ₗ[k]
++      Q.ginzburgCohomologicalComponent k u v 0 →ₗ[k]
++        Q.ginzburgCohomologicalComponent k u w 0 where
++  toFun g := ((Q.ginzburgPathComp k g.val).comp
++    (Q.ginzburgCohomologicalComponent k u v 0).subtype).codRestrict _ (fun f => by
++      simpa only [zero_add] using Q.ginzburgCohomologicalComponent_comp k f.property g.property)
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro f
++    apply Subtype.ext
++    exact LinearMap.congr_fun (map_add (Q.ginzburgPathComp k) g.val h.val) f.val
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro f
++    apply Subtype.ext
++    exact LinearMap.congr_fun (map_smul (Q.ginzburgPathComp k) a g.val) f.val
++
++theorem ginzburgZeroComp_boundary_left (φ : Q.Potential k) {u v w : Q.Vertex}
++    {f : Q.ginzburgCohomologicalComponent k u v 0}
++    (hf : f ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v))
++    (g : Q.ginzburgCohomologicalComponent k v w 0) :
++    Q.ginzburgZeroComp k g f ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u w) := by
++  obtain ⟨x,rfl⟩ := hf
++  have hx : Q.ginzburgPathComp k g.val x.val ∈ Q.ginzburgCohomologicalComponent k u w (-1) := by
++    simpa only [add_zero] using Q.ginzburgCohomologicalComponent_comp k x.property g.property
++  refine ⟨⟨Q.ginzburgPathComp k g.val x.val,hx⟩,?_⟩
++  apply Subtype.ext
++  change Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k g.val x.val)=
++    Q.ginzburgPathComp k g.val (Q.ginzburgDifferential k φ u v x.val)
++  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ g.property,
++    Q.ginzburgSignMap_homogeneous k g.property,ginzburgSign_zero,one_smul]
++  simp
++
++theorem ginzburgZeroComp_boundary_right (φ : Q.Potential k) {u v w : Q.Vertex}
++    {g : Q.ginzburgCohomologicalComponent k v w 0}
++    (hg : g ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ v w))
++    (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgZeroComp k g f ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u w) := by
++  obtain ⟨x,rfl⟩ := hg
++  have hx : Q.ginzburgPathComp k x.val f.val ∈ Q.ginzburgCohomologicalComponent k u w (-1) := by
++    simpa only [zero_add] using Q.ginzburgCohomologicalComponent_comp k f.property x.property
++  refine ⟨⟨Q.ginzburgPathComp k x.val f.val,hx⟩,?_⟩
++  apply Subtype.ext
++  change Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k x.val f.val)=
++    Q.ginzburgPathComp k (Q.ginzburgDifferential k φ v w x.val) f.val
++  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property]
++  simp
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgZeroQuotientProducts.lean b/ASGinzburg/GinzburgZeroQuotientProducts.lean
+new file mode 100644
+index 0000000..2d3abd5
+--- /dev/null
++++ b/ASGinzburg/GinzburgZeroQuotientProducts.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.GinzburgZeroProducts
++
++/-! Actual products on degree-zero cycles modulo the actual image of
++the degree negative-one differential. No Jacobian multiplication is used. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++abbrev GinzburgZeroQuotient (φ : Q.Potential k) (u v : Q.Vertex) :=
++  Q.ginzburgCohomologicalComponent k u v 0 ⧸
++    LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)
++
++noncomputable def ginzburgZeroQuotientCompRight (φ : Q.Potential k) {u v w : Q.Vertex}
++    (g : Q.ginzburgCohomologicalComponent k v w 0) :
++    Q.GinzburgZeroQuotient k φ u v →ₗ[k] Q.GinzburgZeroQuotient k φ u w :=
++  (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).liftQ
++    ((LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u w)).mkQ.comp
++      (Q.ginzburgZeroComp k g)) (by
++        intro f hf
++        apply (Submodule.Quotient.mk_eq_zero _).mpr
++        exact Q.ginzburgZeroComp_boundary_left k φ hf g)
++
++@[simp] theorem ginzburgZeroQuotientCompRight_mk (φ : Q.Potential k) {u v w : Q.Vertex}
++    (g : Q.ginzburgCohomologicalComponent k v w 0)
++    (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgZeroQuotientCompRight k φ g (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.ginzburgZeroComp k g f) := rfl
++
++noncomputable def ginzburgZeroQuotientCompPre (φ : Q.Potential k) {u v w : Q.Vertex} :
++    Q.ginzburgCohomologicalComponent k v w 0 →ₗ[k]
++      Q.GinzburgZeroQuotient k φ u v →ₗ[k] Q.GinzburgZeroQuotient k φ u w where
++  toFun := Q.ginzburgZeroQuotientCompRight k φ
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective x
++    simp [LinearMap.add_apply]
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective x
++    simp [LinearMap.smul_apply]
++
++noncomputable def ginzburgZeroQuotientComp (φ : Q.Potential k) {u v w : Q.Vertex} :
++    Q.GinzburgZeroQuotient k φ v w →ₗ[k]
++      Q.GinzburgZeroQuotient k φ u v →ₗ[k] Q.GinzburgZeroQuotient k φ u w :=
++  (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ v w)).liftQ
++    (Q.ginzburgZeroQuotientCompPre k φ) (by
++      intro g hg
++      apply LinearMap.ext
++      intro x
++      obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective x
++      apply (Submodule.Quotient.mk_eq_zero _).mpr
++      exact Q.ginzburgZeroComp_boundary_right k φ hg f)
++
++@[simp] theorem ginzburgZeroQuotientComp_mk (φ : Q.Potential k) {u v w : Q.Vertex}
++    (g : Q.ginzburgCohomologicalComponent k v w 0)
++    (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgZeroQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.ginzburgZeroComp k g f) := rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgHomologyZeroProducts.lean b/ASGinzburg/GinzburgHomologyZeroProducts.lean
+new file mode 100644
+index 0000000..cb57e45
+--- /dev/null
++++ b/ASGinzburg/GinzburgHomologyZeroProducts.lean
+@@ -0,0 +1,55 @@
++import ASGinzburg.GinzburgZeroQuotientProducts
++
++/-! Products on actual mathlib H-zero induced by the genuine Ginzburg
++cycle product and differential boundaries, without a Jacobian definition. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgHomologyZeroComp (φ : Q.Potential k) {u v w : Q.Vertex} :
++    Q.ginzburgHomology k φ v w 0 →ₗ[k]
++      Q.ginzburgHomology k φ u v 0 →ₗ[k] Q.ginzburgHomology k φ u w 0 :=
++  ((Q.ginzburgZeroQuotientComp k φ).compl₁₂
++    (Q.ginzburgHomologyZeroQuotientIso k φ v w).hom.hom
++    (Q.ginzburgHomologyZeroQuotientIso k φ u v).hom.hom).compr₂
++      (Q.ginzburgHomologyZeroQuotientIso k φ u w).inv.hom
++
++noncomputable def ginzburgZeroHomologyClass (φ : Q.Potential k) (u v : Q.Vertex) :
++    Q.ginzburgCohomologicalComponent k u v 0 →ₗ[k] Q.ginzburgHomology k φ u v 0 :=
++  (Q.ginzburgHomologyZeroQuotientIso k φ u v).inv.hom.comp
++    (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ
++
++@[simp] theorem ginzburgHomologyZeroQuotientIso_class (φ : Q.Potential k)
++    {u v : Q.Vertex} (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    (Q.ginzburgHomologyZeroQuotientIso k φ u v).hom
++      (Q.ginzburgZeroHomologyClass k φ u v f)=Submodule.Quotient.mk f := by
++  change (Q.ginzburgHomologyZeroQuotientIso k φ u v).hom
++    ((Q.ginzburgHomologyZeroQuotientIso k φ u v).inv (Submodule.Quotient.mk f))=_
++  simp
++
++theorem ginzburgZeroHomologyClass_surjective (φ : Q.Potential k) (u v : Q.Vertex) :
++    Function.Surjective (Q.ginzburgZeroHomologyClass k φ u v) :=
++  (ModuleCat.epi_iff_surjective _).mp (inferInstance :
++    CategoryTheory.Epi (Q.ginzburgHomologyZeroQuotientIso k φ u v).inv) |>.comp
++      (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective
++
++theorem ginzburgHomologyZeroComp_class (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.ginzburgCohomologicalComponent k u v 0)
++    (g : Q.ginzburgCohomologicalComponent k v w 0) :
++    Q.ginzburgHomologyZeroComp k φ (Q.ginzburgZeroHomologyClass k φ v w g)
++      (Q.ginzburgZeroHomologyClass k φ u v f)=
++        Q.ginzburgZeroHomologyClass k φ u w (Q.ginzburgZeroComp k g f) := by
++  simp [ginzburgHomologyZeroComp,LinearMap.compl₁₂_apply,LinearMap.compr₂_apply,
++    ginzburgZeroHomologyClass,LinearMap.comp_apply]
++
++theorem ginzburgHomologyZeroQuotientIso_comp (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.ginzburgHomology k φ u v 0) (g : Q.ginzburgHomology k φ v w 0) :
++    (Q.ginzburgHomologyZeroQuotientIso k φ u w).hom (Q.ginzburgHomologyZeroComp k φ g f)=
++      Q.ginzburgZeroQuotientComp k φ
++        ((Q.ginzburgHomologyZeroQuotientIso k φ v w).hom g)
++        ((Q.ginzburgHomologyZeroQuotientIso k φ u v).hom f) := by
++  change (Q.ginzburgHomologyZeroQuotientIso k φ u w).hom
++    ((Q.ginzburgHomologyZeroQuotientIso k φ u w).inv _) = _
++  simp
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgJacobianProducts.lean b/ASGinzburg/GinzburgJacobianProducts.lean
+new file mode 100644
+index 0000000..3cf5a74
+--- /dev/null
++++ b/ASGinzburg/GinzburgJacobianProducts.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.GinzburgHomologyZeroProducts
++import ASGinzburg.PathQuotientProducts
++
++/-! Multiplicativity of the actual H-zero/Jacobian comparison. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem originalGinzburgDegreeZeroEquiv_comp {u v w : Q.Vertex}
++    (f : Q.PathComponent k u v) (g : Q.PathComponent k v w) :
++    Q.originalGinzburgDegreeZeroEquiv k u w (Q.pathComp k g f)=
++      Q.ginzburgZeroComp k (Q.originalGinzburgDegreeZeroEquiv k v w g)
++        (Q.originalGinzburgDegreeZeroEquiv k u v f) := by
++  apply Subtype.ext
++  exact Q.originalGinzburgLinearMap_comp k f g
++
++theorem originalGinzburgDegreeZeroEquiv_symm_comp {u v w : Q.Vertex}
++    (f : Q.ginzburgCohomologicalComponent k u v 0)
++    (g : Q.ginzburgCohomologicalComponent k v w 0) :
++    (Q.originalGinzburgDegreeZeroEquiv k u w).symm (Q.ginzburgZeroComp k g f)=
++      Q.pathComp k ((Q.originalGinzburgDegreeZeroEquiv k v w).symm g)
++        ((Q.originalGinzburgDegreeZeroEquiv k u v).symm f) := by
++  apply (Q.originalGinzburgDegreeZeroEquiv k u w).injective
++  simp [Q.originalGinzburgDegreeZeroEquiv_comp k]
++
++@[simp] theorem ginzburgZeroQuotientJacobianEquiv_mk (φ : Q.Potential k)
++    {u v : Q.Vertex} (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgZeroQuotientJacobianEquiv k φ u v (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk ((Q.originalGinzburgDegreeZeroEquiv k u v).symm f) := rfl
++
++theorem ginzburgZeroQuotientJacobianEquiv_comp (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.GinzburgZeroQuotient k φ u v) (g : Q.GinzburgZeroQuotient k φ v w) :
++    Q.ginzburgZeroQuotientJacobianEquiv k φ u w (Q.ginzburgZeroQuotientComp k φ g f)=
++      (Q.pathJacobianIdeal k φ).quotientComp
++        (Q.ginzburgZeroQuotientJacobianEquiv k φ v w g)
++        (Q.ginzburgZeroQuotientJacobianEquiv k φ u v f) := by
++  obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective f
++  obtain ⟨g,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ v w)).mkQ_surjective g
++  simp [Q.originalGinzburgDegreeZeroEquiv_symm_comp k]
++
++theorem ginzburgHomologyZeroJacobianIso_comp (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.ginzburgHomology k φ u v 0) (g : Q.ginzburgHomology k φ v w 0) :
++    (Q.ginzburgHomologyZeroJacobianIso k φ u w).hom (Q.ginzburgHomologyZeroComp k φ g f)=
++      (Q.pathJacobianIdeal k φ).quotientComp
++        ((Q.ginzburgHomologyZeroJacobianIso k φ v w).hom g)
++        ((Q.ginzburgHomologyZeroJacobianIso k φ u v).hom f) := by
++  change Q.ginzburgZeroQuotientJacobianEquiv k φ u w
++    ((Q.ginzburgHomologyZeroQuotientIso k φ u w).hom (Q.ginzburgHomologyZeroComp k φ g f))=_
++  rw [Q.ginzburgHomologyZeroQuotientIso_comp k φ]
++  exact Q.ginzburgZeroQuotientJacobianEquiv_comp k φ _ _
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutZeroProducts.lean b/ASGinzburg/GinzburgCutZeroProducts.lean
+new file mode 100644
+index 0000000..cf32c83
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutZeroProducts.lean
+@@ -0,0 +1,77 @@
++import ASGinzburg.GinzburgZeroProducts
++import ASGinzburg.GinzburgCutHomologyZero
++
++/-! Genuine degree-zero products at fixed endpoint sheets and stability
++of the actual fixed-cut differential boundary images. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutZeroComp {u v w : Q.LiftVertex} :
++    Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2) →ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2) →ₗ[k]
++        Q.ginzburgCutCohomologicalComponent k u.1 w.1 0 (w.2-u.2) where
++  toFun g := ((Q.ginzburgPathComp k g.val).comp
++    (Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)).subtype).codRestrict _ (fun f => by
++      constructor
++      · simpa only [zero_add] using
++          Q.ginzburgCohomologicalComponent_comp k f.property.1 g.property.1
++      · have h := Q.ginzburgCutComponent_comp k f.property.2 g.property.2
++        simpa only [show v.2-u.2+(w.2-v.2)=w.2-u.2 by omega] using h)
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro f
++    apply Subtype.ext
++    exact LinearMap.congr_fun (map_add (Q.ginzburgPathComp k) g.val h.val) f.val
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro f
++    apply Subtype.ext
++    exact LinearMap.congr_fun (map_smul (Q.ginzburgPathComp k) a g.val) f.val
++
++theorem ginzburgCutZeroComp_boundary_left (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    {f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)}
++    (hf : f ∈ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2)))
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2)) :
++    Q.ginzburgCutZeroComp k g f ∈ LinearMap.range
++      (Q.ginzburgCutNegativeOneDifferential k φ u.1 w.1 (w.2-u.2)) := by
++  obtain ⟨x,rfl⟩ := hf
++  have hx : Q.ginzburgPathComp k g.val x.val ∈
++      Q.ginzburgCutCohomologicalComponent k u.1 w.1 (-1) (w.2-u.2) := by
++    constructor
++    · simpa only [add_zero] using
++        Q.ginzburgCohomologicalComponent_comp k x.property.1 g.property.1
++    · have h := Q.ginzburgCutComponent_comp k x.property.2 g.property.2
++      simpa only [show v.2-u.2+(w.2-v.2)=w.2-u.2 by omega] using h
++  refine ⟨⟨Q.ginzburgPathComp k g.val x.val,hx⟩,?_⟩
++  apply Subtype.ext
++  change Q.ginzburgDifferential k φ u.1 w.1 (Q.ginzburgPathComp k g.val x.val)=
++    Q.ginzburgPathComp k g.val (Q.ginzburgDifferential k φ u.1 v.1 x.val)
++  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ g.property.1,
++    Q.ginzburgSignMap_homogeneous k g.property.1,ginzburgSign_zero,one_smul]
++  simp
++
++theorem ginzburgCutZeroComp_boundary_right (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    {g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2)}
++    (hg : g ∈ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ v.1 w.1 (w.2-v.2)))
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    Q.ginzburgCutZeroComp k g f ∈ LinearMap.range
++      (Q.ginzburgCutNegativeOneDifferential k φ u.1 w.1 (w.2-u.2)) := by
++  obtain ⟨x,rfl⟩ := hg
++  have hx : Q.ginzburgPathComp k x.val f.val ∈
++      Q.ginzburgCutCohomologicalComponent k u.1 w.1 (-1) (w.2-u.2) := by
++    constructor
++    · simpa only [zero_add] using
++        Q.ginzburgCohomologicalComponent_comp k f.property.1 x.property.1
++    · have h := Q.ginzburgCutComponent_comp k f.property.2 x.property.2
++      simpa only [show v.2-u.2+(w.2-v.2)=w.2-u.2 by omega] using h
++  refine ⟨⟨Q.ginzburgPathComp k x.val f.val,hx⟩,?_⟩
++  apply Subtype.ext
++  change Q.ginzburgDifferential k φ u.1 w.1 (Q.ginzburgPathComp k x.val f.val)=
++    Q.ginzburgPathComp k (Q.ginzburgDifferential k φ v.1 w.1 x.val) f.val
++  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property.1]
++  simp
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutZeroQuotientProducts.lean b/ASGinzburg/GinzburgCutZeroQuotientProducts.lean
+new file mode 100644
+index 0000000..243d233
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutZeroQuotientProducts.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.GinzburgCutZeroProducts
++
++/-! Actual products on degree-zero cycles modulo the actual image of
++the degree negative-one differential. No Jacobian multiplication is used. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++abbrev GinzburgCutZeroQuotient (φ : Q.Potential k) (u v : Q.LiftVertex) :=
++  Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2) ⧸
++    LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))
++
++noncomputable def ginzburgCutZeroQuotientCompRight (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2)) :
++    Q.GinzburgCutZeroQuotient k φ u v →ₗ[k] Q.GinzburgCutZeroQuotient k φ u w :=
++  (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).liftQ
++    ((LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 w.1 (w.2-u.2))).mkQ.comp
++      (Q.ginzburgCutZeroComp k g)) (by
++        intro f hf
++        apply (Submodule.Quotient.mk_eq_zero _).mpr
++        exact Q.ginzburgCutZeroComp_boundary_left k φ hf g)
++
++@[simp] theorem ginzburgCutZeroQuotientCompRight_mk (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2))
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    Q.ginzburgCutZeroQuotientCompRight k φ g (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.ginzburgCutZeroComp k g f) := rfl
++
++noncomputable def ginzburgCutZeroQuotientCompPre (φ : Q.Potential k) {u v w : Q.LiftVertex} :
++    Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2) →ₗ[k]
++      Q.GinzburgCutZeroQuotient k φ u v →ₗ[k] Q.GinzburgCutZeroQuotient k φ u w where
++  toFun := Q.ginzburgCutZeroQuotientCompRight k φ
++  map_add' := by
++    intro g h
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ_surjective x
++    simp [LinearMap.add_apply]
++  map_smul' := by
++    intro a g
++    apply LinearMap.ext
++    intro x
++    obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ_surjective x
++    simp [LinearMap.smul_apply]
++
++noncomputable def ginzburgCutZeroQuotientComp (φ : Q.Potential k) {u v w : Q.LiftVertex} :
++    Q.GinzburgCutZeroQuotient k φ v w →ₗ[k]
++      Q.GinzburgCutZeroQuotient k φ u v →ₗ[k] Q.GinzburgCutZeroQuotient k φ u w :=
++  (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ v.1 w.1 (w.2-v.2))).liftQ
++    (Q.ginzburgCutZeroQuotientCompPre k φ) (by
++      intro g hg
++      apply LinearMap.ext
++      intro x
++      obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ_surjective x
++      apply (Submodule.Quotient.mk_eq_zero _).mpr
++      exact Q.ginzburgCutZeroComp_boundary_right k φ hg f)
++
++@[simp] theorem ginzburgCutZeroQuotientComp_mk (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2))
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    Q.ginzburgCutZeroQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (Q.ginzburgCutZeroComp k g f) := rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutHomologyZeroProducts.lean b/ASGinzburg/GinzburgCutHomologyZeroProducts.lean
+new file mode 100644
+index 0000000..4e924c2
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutHomologyZeroProducts.lean
+@@ -0,0 +1,55 @@
++import ASGinzburg.GinzburgCutZeroQuotientProducts
++
++/-! Products on actual mathlib H-zero induced by the genuine Ginzburg
++cycle product and differential boundaries, without a Jacobian definition. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutHomologyZeroComp (φ : Q.Potential k) {u v w : Q.LiftVertex} :
++    Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0 →ₗ[k]
++      Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0 →ₗ[k] Q.ginzburgCutHomology k φ u.1 w.1 (w.2-u.2) 0 :=
++  ((Q.ginzburgCutZeroQuotientComp k φ).compl₁₂
++    (Q.ginzburgCutHomologyZeroQuotientIso k φ v.1 w.1 (w.2-v.2)).hom.hom
++    (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).hom.hom).compr₂
++      (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 w.1 (w.2-u.2)).inv.hom
++
++noncomputable def ginzburgCutZeroHomologyClass (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2) →ₗ[k] Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0 :=
++  (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).inv.hom.comp
++    (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ
++
++@[simp] theorem ginzburgCutHomologyZeroQuotientIso_class (φ : Q.Potential k)
++    {u v : Q.LiftVertex} (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).hom
++      (Q.ginzburgCutZeroHomologyClass k φ u v f)=Submodule.Quotient.mk f := by
++  change (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).hom
++    ((Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).inv (Submodule.Quotient.mk f))=_
++  simp
++
++theorem ginzburgCutZeroHomologyClass_surjective (φ : Q.Potential k) (u v : Q.LiftVertex) :
++    Function.Surjective (Q.ginzburgCutZeroHomologyClass k φ u v) :=
++  (ModuleCat.epi_iff_surjective _).mp (inferInstance :
++    CategoryTheory.Epi (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).inv) |>.comp
++      (LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ_surjective
++
++theorem ginzburgCutHomologyZeroComp_class (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2))
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2)) :
++    Q.ginzburgCutHomologyZeroComp k φ (Q.ginzburgCutZeroHomologyClass k φ v w g)
++      (Q.ginzburgCutZeroHomologyClass k φ u v f)=
++        Q.ginzburgCutZeroHomologyClass k φ u w (Q.ginzburgCutZeroComp k g f) := by
++  simp [ginzburgCutHomologyZeroComp,LinearMap.compl₁₂_apply,LinearMap.compr₂_apply,
++    ginzburgCutZeroHomologyClass,LinearMap.comp_apply]
++
++theorem ginzburgCutHomologyZeroQuotientIso_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0) (g : Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0) :
++    (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 w.1 (w.2-u.2)).hom (Q.ginzburgCutHomologyZeroComp k φ g f)=
++      Q.ginzburgCutZeroQuotientComp k φ
++        ((Q.ginzburgCutHomologyZeroQuotientIso k φ v.1 w.1 (w.2-v.2)).hom g)
++        ((Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 v.1 (v.2-u.2)).hom f) := by
++  change (Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 w.1 (w.2-u.2)).hom
++    ((Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 w.1 (w.2-u.2)).inv _) = _
++  simp
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutJacobianProducts.lean b/ASGinzburg/GinzburgCutJacobianProducts.lean
+new file mode 100644
+index 0000000..5c3fc17
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutJacobianProducts.lean
+@@ -0,0 +1,82 @@
++import ASGinzburg.GinzburgCutHomologyZeroProducts
++import ASGinzburg.JacobianUnrollingProducts
++
++/-! Multiplicativity of actual fixed-cut mathlib H-zero, the genuine
++homogeneous Jacobian quotient, and the existing algebra A(Phi). -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem originalGinzburgCutDegreeZeroEquiv_symm_comp {u v w : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2))
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2)) :
++    (Q.originalGinzburgCutDegreeZeroEquiv k u.1 w.1 (w.2-u.2)).symm
++      (Q.ginzburgCutZeroComp k g f)=
++        Q.pathCutCompBetweenLinear k
++          ((Q.originalGinzburgCutDegreeZeroEquiv k v.1 w.1 (w.2-v.2)).symm g)
++          ((Q.originalGinzburgCutDegreeZeroEquiv k u.1 v.1 (v.2-u.2)).symm f) := by
++  apply Subtype.ext
++  apply Q.originalGinzburgLinearMap_injective k u.1 w.1
++  rw [Q.originalGinzburgCutDegreeZeroEquiv_symm_coe]
++  change Q.ginzburgPathComp k g.val f.val=
++    Q.originalGinzburgLinearMap k u.1 w.1 (Q.pathComp k _ _)
++  rw [Q.originalGinzburgLinearMap_comp,Q.originalGinzburgCutDegreeZeroEquiv_symm_coe]
++  exact congrArg (Q.ginzburgPathComp k g.val)
++    (Q.originalGinzburgCutDegreeZeroEquiv_symm_coe k u.1 v.1 (v.2-u.2) f).symm
++
++@[simp] theorem ginzburgCutZeroQuotientJacobianEquiv_mk (φ : Q.Potential k)
++    {u v : Q.LiftVertex} (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 v.1 (v.2-u.2) (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk
++        ((Q.originalGinzburgCutDegreeZeroEquiv k u.1 v.1 (v.2-u.2)).symm f) := rfl
++
++theorem ginzburgCutZeroQuotientJacobianEquiv_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (f : Q.GinzburgCutZeroQuotient k φ u v) (g : Q.GinzburgCutZeroQuotient k φ v w) :
++    Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 w.1 (w.2-u.2)
++      (Q.ginzburgCutZeroQuotientComp k φ g f)=
++        Q.cutJacobianQuotientComp k φ
++          (Q.ginzburgCutZeroQuotientJacobianEquiv k φ v.1 w.1 (w.2-v.2) g)
++          (Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 v.1 (v.2-u.2) f) := by
++  obtain ⟨f,rfl⟩ := (LinearMap.range
++    (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ_surjective f
++  obtain ⟨g,rfl⟩ := (LinearMap.range
++    (Q.ginzburgCutNegativeOneDifferential k φ v.1 w.1 (w.2-v.2))).mkQ_surjective g
++  change Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 w.1 (w.2-u.2)
++    (Q.ginzburgCutZeroQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f))=
++      Q.cutJacobianQuotientComp k φ
++        (Q.ginzburgCutZeroQuotientJacobianEquiv k φ v.1 w.1 (w.2-v.2) (Submodule.Quotient.mk g))
++        (Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 v.1 (v.2-u.2) (Submodule.Quotient.mk f))
++  rw [Q.ginzburgCutZeroQuotientComp_mk,
++    Q.ginzburgCutZeroQuotientJacobianEquiv_mk,
++    Q.ginzburgCutZeroQuotientJacobianEquiv_mk,
++    Q.ginzburgCutZeroQuotientJacobianEquiv_mk,Q.cutJacobianQuotientComp_mk]
++  rw [Q.originalGinzburgCutDegreeZeroEquiv_symm_comp k]
++
++theorem ginzburgCutHomologyZeroJacobianIso_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0)
++    (g : Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0) :
++    (Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 w.1 (w.2-u.2)).hom
++      (Q.ginzburgCutHomologyZeroComp k φ g f)=
++        Q.cutJacobianQuotientComp k φ
++          ((Q.ginzburgCutHomologyZeroJacobianIso k φ v.1 w.1 (w.2-v.2)).hom g)
++          ((Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 v.1 (v.2-u.2)).hom f) := by
++  change Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 w.1 (w.2-u.2)
++    ((Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 w.1 (w.2-u.2)).hom
++      (Q.ginzburgCutHomologyZeroComp k φ g f))=_
++  rw [Q.ginzburgCutHomologyZeroQuotientIso_comp k φ]
++  exact Q.ginzburgCutZeroQuotientJacobianEquiv_comp k φ _ _
++
++theorem ginzburgCutHomologyZeroUnrolledIso_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
++    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0)
++    (g : Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0) :
++    (Q.ginzburgCutHomologyZeroUnrolledIso k φ u w).hom (Q.ginzburgCutHomologyZeroComp k φ g f)=
++      (Q.unrolledJacobianZAlgebra k φ).comp
++        ((Q.ginzburgCutHomologyZeroUnrolledIso k φ v w).hom g)
++        ((Q.ginzburgCutHomologyZeroUnrolledIso k φ u v).hom f) := by
++  change Q.homogeneousJacobianUnrolledEquiv k φ u w
++    ((Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 w.1 (w.2-u.2)).hom
++      (Q.ginzburgCutHomologyZeroComp k φ g f))=_
++  rw [Q.ginzburgCutHomologyZeroJacobianIso_comp k φ]
++  exact Q.homogeneousJacobianUnrolledEquiv_comp k φ _ _
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgCutHomologyUnits.lean b/ASGinzburg/GinzburgCutHomologyUnits.lean
+new file mode 100644
+index 0000000..52097ce
+--- /dev/null
++++ b/ASGinzburg/GinzburgCutHomologyUnits.lean
+@@ -0,0 +1,86 @@
++import ASGinzburg.GinzburgCutJacobianProducts
++
++/-! Actual zero-path units and associativity on fixed-cut mathlib H-zero. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgCutZeroId (u : Q.LiftVertex) :
++    Q.ginzburgCutCohomologicalComponent k u.1 u.1 0 (u.2-u.2) :=
++  Q.originalGinzburgCutDegreeZeroEquiv k u.1 u.1 (u.2-u.2)
++    ⟨Q.pathId k u.1,by
++      change Finsupp.single (Path.nil u.1) 1 ∈ Finsupp.supported k k _
++      apply Finsupp.single_mem_supported
++      simp [Path.cutDegree]⟩
++
++theorem ginzburgCutZeroId_val (u : Q.LiftVertex) :
++    (Q.ginzburgCutZeroId k u).val=Q.ginzburgPathId k u.1 :=
++  Q.originalGinzburgLinearMap_id k u.1
++
++theorem ginzburgCutZeroComp_id {u v : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    Q.ginzburgCutZeroComp k (Q.ginzburgCutZeroId k v) f=f := by
++  apply Subtype.ext
++  change Q.ginzburgPathComp k (Q.ginzburgCutZeroId k v).val f.val=f.val
++  rw [Q.ginzburgCutZeroId_val,Q.ginzburgPathComp_id]
++
++theorem id_ginzburgCutZeroComp {u v : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
++    Q.ginzburgCutZeroComp k f (Q.ginzburgCutZeroId k u)=f := by
++  apply Subtype.ext
++  change Q.ginzburgPathComp k f.val (Q.ginzburgCutZeroId k u).val=f.val
++  rw [Q.ginzburgCutZeroId_val,Q.id_ginzburgPathComp]
++
++theorem ginzburgCutZeroComp_assoc {u v w x : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2))
++    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2))
++    (h : Q.ginzburgCutCohomologicalComponent k w.1 x.1 0 (x.2-w.2)) :
++    Q.ginzburgCutZeroComp k h (Q.ginzburgCutZeroComp k g f)=
++      Q.ginzburgCutZeroComp k (Q.ginzburgCutZeroComp k h g) f := by
++  apply Subtype.ext
++  exact Q.ginzburgPathComp_assoc k f.val g.val h.val
++
++noncomputable def ginzburgCutHomologyZeroId (φ : Q.Potential k) (u : Q.LiftVertex) :
++    Q.ginzburgCutHomology k φ u.1 u.1 (u.2-u.2) 0 :=
++  Q.ginzburgCutZeroHomologyClass k φ u u (Q.ginzburgCutZeroId k u)
++
++theorem ginzburgCutHomologyZeroComp_id (φ : Q.Potential k) {u v : Q.LiftVertex}
++    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0) :
++    Q.ginzburgCutHomologyZeroComp k φ (Q.ginzburgCutHomologyZeroId k φ v) f=f := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgCutZeroHomologyClass_surjective k φ u v f
++  rw [ginzburgCutHomologyZeroId,Q.ginzburgCutHomologyZeroComp_class,Q.ginzburgCutZeroComp_id]
++
++theorem id_ginzburgCutHomologyZeroComp (φ : Q.Potential k) {u v : Q.LiftVertex}
++    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0) :
++    Q.ginzburgCutHomologyZeroComp k φ f (Q.ginzburgCutHomologyZeroId k φ u)=f := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgCutZeroHomologyClass_surjective k φ u v f
++  rw [ginzburgCutHomologyZeroId,Q.ginzburgCutHomologyZeroComp_class,Q.id_ginzburgCutZeroComp]
++
++theorem ginzburgCutHomologyZeroComp_assoc (φ : Q.Potential k) {u v w x : Q.LiftVertex}
++    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0)
++    (g : Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0)
++    (h : Q.ginzburgCutHomology k φ w.1 x.1 (x.2-w.2) 0) :
++    Q.ginzburgCutHomologyZeroComp k φ h (Q.ginzburgCutHomologyZeroComp k φ g f)=
++      Q.ginzburgCutHomologyZeroComp k φ (Q.ginzburgCutHomologyZeroComp k φ h g) f := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgCutZeroHomologyClass_surjective k φ u v f
++  obtain ⟨g,rfl⟩ := Q.ginzburgCutZeroHomologyClass_surjective k φ v w g
++  obtain ⟨h,rfl⟩ := Q.ginzburgCutZeroHomologyClass_surjective k φ w x h
++  rw [Q.ginzburgCutHomologyZeroComp_class,Q.ginzburgCutHomologyZeroComp_class,
++    Q.ginzburgCutHomologyZeroComp_class,Q.ginzburgCutHomologyZeroComp_class,
++    Q.ginzburgCutZeroComp_assoc]
++
++theorem ginzburgCutHomologyZeroUnrolledIso_id (φ : Q.Potential k) (u : Q.LiftVertex) :
++    (Q.ginzburgCutHomologyZeroUnrolledIso k φ u u).hom (Q.ginzburgCutHomologyZeroId k φ u)=
++      (Q.unrolledJacobianZAlgebra k φ).id (Q.height u) := by
++  let e := Q.ginzburgCutHomologyZeroUnrolledIso k φ u u
++  let x := e.inv ((Q.unrolledJacobianZAlgebra k φ).id (Q.height u))
++  have hx : e.hom x=(Q.unrolledJacobianZAlgebra k φ).id (Q.height u) := by
++    dsimp [x]
++    simp
++  have h := Q.ginzburgCutHomologyZeroUnrolledIso_comp k φ x (Q.ginzburgCutHomologyZeroId k φ u)
++  rw [Q.ginzburgCutHomologyZeroComp_id] at h
++  change e.hom x=(Q.unrolledJacobianZAlgebra k φ).comp (e.hom _) (e.hom x) at h
++  rw [hx,(Q.unrolledJacobianZAlgebra k φ).id_comp] at h
++  exact h.symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgHomologyZAlgebra.lean b/ASGinzburg/GinzburgHomologyZAlgebra.lean
+new file mode 100644
+index 0000000..42ebc2b
+--- /dev/null
++++ b/ASGinzburg/GinzburgHomologyZAlgebra.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.GinzburgCutHomologyUnits
++import ASGinzburg.GinzburgCutHomologyFinite
++import ASGinzburg.ZAlgebraIsomorphisms
++
++/-! The actual fixed-cut mathlib H-zero forms a locally finite directed
++Z-algebra, with its genuine induced multiplication, isomorphic to A(Phi). -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable abbrev GinzburgHomologyComponent (φ : Q.Potential k) (i j : ℤ) : Type u :=
++  Q.ginzburgCutHomology k φ (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm j).1
++    ((Q.heightEquiv.symm j).2-(Q.heightEquiv.symm i).2) 0
++
++noncomputable def ginzburgHomologyComponentJacobianEquiv (φ : Q.Potential k) (i j : ℤ) :
++    Q.GinzburgHomologyComponent k φ i j ≃ₗ[k] (Q.unrolledJacobianZAlgebra k φ).Hom i j :=
++    (Q.ginzburgCutHomologyZeroUnrolledIso k φ (Q.heightEquiv.symm i)
++      (Q.heightEquiv.symm j)).toLinearEquiv.trans
++        ((Q.unrolledJacobianZAlgebra k φ).homTransport _ _ i j
++          (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j))
++
++theorem ginzburgHomologyComponentJacobianEquiv_id (φ : Q.Potential k) (i : ℤ) :
++    Q.ginzburgHomologyComponentJacobianEquiv k φ i i
++      (Q.ginzburgCutHomologyZeroId k φ (Q.heightEquiv.symm i))=
++        (Q.unrolledJacobianZAlgebra k φ).id i := by
++  change (Q.unrolledJacobianZAlgebra k φ).homTransport _ _ i i _ _
++    ((Q.ginzburgCutHomologyZeroUnrolledIso k φ _ _).hom
++      (Q.ginzburgCutHomologyZeroId k φ _))=_
++  rw [Q.ginzburgCutHomologyZeroUnrolledIso_id,ZAlgebra.homTransport_id]
++
++theorem ginzburgHomologyComponentJacobianEquiv_comp (φ : Q.Potential k) {i j l : ℤ}
++    (f : Q.GinzburgHomologyComponent k φ i j) (g : Q.GinzburgHomologyComponent k φ j l) :
++    Q.ginzburgHomologyComponentJacobianEquiv k φ i l (Q.ginzburgCutHomologyZeroComp k φ g f)=
++      (Q.unrolledJacobianZAlgebra k φ).comp
++        (Q.ginzburgHomologyComponentJacobianEquiv k φ j l g)
++        (Q.ginzburgHomologyComponentJacobianEquiv k φ i j f) := by
++  change (Q.unrolledJacobianZAlgebra k φ).homTransport _ _ i l _ _
++    ((Q.ginzburgCutHomologyZeroUnrolledIso k φ _ _).hom
++      (Q.ginzburgCutHomologyZeroComp k φ g f))=_
++  rw [Q.ginzburgCutHomologyZeroUnrolledIso_comp,ZAlgebra.homTransport_comp]
++  rfl
++
++noncomputable def ginzburgHomologyZAlgebra (φ : Q.Potential k) : ZAlgebra.{u,u} k where
++  Hom := Q.GinzburgHomologyComponent k φ
++  id i := Q.ginzburgCutHomologyZeroId k φ (Q.heightEquiv.symm i)
++  comp := Q.ginzburgCutHomologyZeroComp k φ
++  comp_id := Q.ginzburgCutHomologyZeroComp_id k φ
++  id_comp := Q.id_ginzburgCutHomologyZeroComp k φ
++  comp_assoc := Q.ginzburgCutHomologyZeroComp_assoc k φ
++  positive := by
++    intro i j hij f
++    apply (Q.ginzburgHomologyComponentJacobianEquiv k φ i j).injective
++    rw [map_zero]
++    exact (Q.unrolledJacobianZAlgebra k φ).positive hij _
++  connected := by
++    intro i f
++    obtain ⟨a,ha⟩ := (Q.unrolledJacobianZAlgebra k φ).connected i
++      (Q.ginzburgHomologyComponentJacobianEquiv k φ i i f)
++    refine ⟨a,?_⟩
++    apply (Q.ginzburgHomologyComponentJacobianEquiv k φ i i).injective
++    rw [map_smul,Q.ginzburgHomologyComponentJacobianEquiv_id]
++    exact ha
++  id_nonzero := by
++    intro i h
++    have he := congrArg (Q.ginzburgHomologyComponentJacobianEquiv k φ i i) h
++    rw [Q.ginzburgHomologyComponentJacobianEquiv_id,map_zero] at he
++    exact (Q.unrolledJacobianZAlgebra k φ).id_nonzero i he
++  finite := by intro i j; infer_instance
++
++noncomputable def ginzburgHomologyJacobianIsomorphism (φ : Q.Potential k) :
++    ZAlgebra.Isomorphism (Q.ginzburgHomologyZAlgebra k φ) (Q.unrolledJacobianZAlgebra k φ) where
++  map := Q.ginzburgHomologyComponentJacobianEquiv k φ
++  map_id := Q.ginzburgHomologyComponentJacobianEquiv_id k φ
++  map_comp := Q.ginzburgHomologyComponentJacobianEquiv_comp k φ
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/FiniteComponentAlgebra.lean b/ASGinzburg/FiniteComponentAlgebra.lean
+new file mode 100644
+index 0000000..a8f1b52
+--- /dev/null
++++ b/ASGinzburg/FiniteComponentAlgebra.lean
+@@ -0,0 +1,112 @@
++import ASGinzburg.PathQuotientProducts
++import Mathlib.Algebra.Algebra.Basic
++
++/-! Finite families of actual linear morphism spaces form a unital ring
++by genuine component composition and finite matrix convolution. -/
++namespace ASGinzburg
++universe u v
++
++structure LinearComponentAlgebra (k : Type u) [Field k] (ι : Type v) where
++  Hom : ι → ι → Type u
++  [homAdd : ∀ i j, AddCommGroup (Hom i j)]
++  [homModule : ∀ i j, Module k (Hom i j)]
++  id : ∀ i, Hom i i
++  comp : ∀ {i j l}, Hom j l →ₗ[k] Hom i j →ₗ[k] Hom i l
++  comp_id : ∀ {i j} (f : Hom i j), comp (id j) f=f
++  id_comp : ∀ {i j} (f : Hom i j), comp f (id i)=f
++  comp_assoc : ∀ {i j l m} (f : Hom i j) (g : Hom j l) (h : Hom l m),
++    comp h (comp g f)=comp (comp h g) f
++
++attribute [instance] LinearComponentAlgebra.homAdd LinearComponentAlgebra.homModule
++
++namespace LinearComponentAlgebra
++variable {k : Type u} [Field k] {ι : Type v} [Fintype ι] (B : LinearComponentAlgebra k ι)
++
++abbrev Total := ∀ i j, B.Hom i j
++
++noncomputable def totalMul (x y : B.Total) : B.Total :=
++  fun i l => ∑ j, B.comp (x j l) (y i j)
++
++noncomputable def totalOne : B.Total := by
++  classical
++  exact fun i j => if h : i=j then h ▸ B.id i else 0
++
++omit [Fintype ι] in
++@[simp] theorem totalOne_diag (i : ι) : B.totalOne i i=B.id i := by
++  classical
++  simp [totalOne]
++
++omit [Fintype ι] in
++theorem totalOne_offdiag {i j : ι} (h : i≠j) : B.totalOne i j=0 := by
++  classical
++  simp [totalOne,h]
++
++theorem totalOne_mul (x : B.Total) : B.totalMul B.totalOne x=x := by
++  classical
++  funext i l
++  change (∑ j, B.comp (B.totalOne j l) (x i j))=x i l
++  rw [Finset.sum_eq_single l]
++  · rw [B.totalOne_diag,B.comp_id]
++  · intro j hj h
++    rw [B.totalOne_offdiag h]
++    simp
++  · simp
++
++theorem totalMul_one (x : B.Total) : B.totalMul x B.totalOne=x := by
++  classical
++  funext i l
++  change (∑ j, B.comp (x j l) (B.totalOne i j))=x i l
++  rw [Finset.sum_eq_single i]
++  · rw [B.totalOne_diag,B.id_comp]
++  · intro j hj h
++    rw [B.totalOne_offdiag (Ne.symm h),map_zero]
++  · simp
++
++theorem totalMul_assoc (x y z : B.Total) :
++    B.totalMul (B.totalMul x y) z=B.totalMul x (B.totalMul y z) := by
++  funext i l
++  simp only [totalMul,map_sum,LinearMap.sum_apply]
++  rw [Finset.sum_comm]
++  apply Finset.sum_congr rfl
++  intro j hj
++  apply Finset.sum_congr rfl
++  intro h hh
++  exact (B.comp_assoc _ _ _).symm
++
++theorem totalMul_add (x y z : B.Total) : B.totalMul x (y+z)=B.totalMul x y+B.totalMul x z := by
++  funext i l
++  simp [totalMul,map_add,Finset.sum_add_distrib]
++
++theorem totalAdd_mul (x y z : B.Total) : B.totalMul (x+y) z=B.totalMul x z+B.totalMul y z := by
++  funext i l
++  simp [totalMul,map_add,LinearMap.add_apply,Finset.sum_add_distrib]
++
++noncomputable instance totalMulInst : Mul B.Total := ⟨B.totalMul⟩
++
++noncomputable instance totalOneInst : One B.Total := ⟨B.totalOne⟩
++
++noncomputable instance totalRing : Ring B.Total where
++  toAddCommGroup := inferInstance
++  mul := B.totalMul
++  one := B.totalOne
++  one_mul := B.totalOne_mul
++  mul_one := B.totalMul_one
++  mul_assoc := B.totalMul_assoc
++  left_distrib := B.totalMul_add
++  right_distrib := B.totalAdd_mul
++  zero_mul := by intro x; funext i l; change B.totalMul 0 x i l=0; simp [totalMul]
++  mul_zero := by intro x; funext i l; change B.totalMul x 0 i l=0; simp [totalMul]
++  npow := npowRec
++
++noncomputable instance totalAlgebra : Algebra k B.Total :=
++  Algebra.ofModule (fun a x y => by
++    funext i l
++    change B.totalMul (a • x) y i l=(a • B.totalMul x y) i l
++    simp [totalMul,map_smul,LinearMap.smul_apply,Finset.smul_sum])
++      (fun a x y => by
++        funext i l
++        change B.totalMul x (a • y) i l=(a • B.totalMul x y) i l
++        simp [totalMul,map_smul,Finset.smul_sum])
++
++end LinearComponentAlgebra
++end ASGinzburg
+diff --git a/ASGinzburg/PathJacobianRing.lean b/ASGinzburg/PathJacobianRing.lean
+new file mode 100644
+index 0000000..02a8905
+--- /dev/null
++++ b/ASGinzburg/PathJacobianRing.lean
+@@ -0,0 +1,100 @@
++import ASGinzburg.FiniteComponentAlgebra
++import ASGinzburg.PathJacobianIdeal
++
++/-! The full finite-quiver path and genuine Jacobian algebras as unital
++rings over k, using all actual component quotients and matrix convolution. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def pathComponentAlgebra : LinearComponentAlgebra k Q.Vertex where
++  Hom := Q.PathComponent k
++  id := Q.pathId k
++  comp := Q.pathComp k
++  comp_id := Q.pathComp_id k
++  id_comp := Q.id_pathComp k
++  comp_assoc := Q.pathComp_assoc k
++
++noncomputable def pathQuotientComponentAlgebra (I : Q.PathLinearIdeal k) :
++    LinearComponentAlgebra k Q.Vertex where
++  Hom := I.QuotientComponent
++  id v := Submodule.Quotient.mk (Q.pathId k v)
++  comp := I.quotientComp
++  comp_id := I.quotientComp_id
++  id_comp := I.id_quotientComp
++  comp_assoc := I.quotientComp_assoc
++
++noncomputable abbrev PathRing := (Q.pathComponentAlgebra k).Total
++
++noncomputable abbrev PathQuotientRing (I : Q.PathLinearIdeal k) :=
++  (Q.pathQuotientComponentAlgebra k I).Total
++
++noncomputable abbrev PathJacobianRing (φ : Q.Potential k) :=
++  Q.PathQuotientRing k (Q.pathJacobianIdeal k φ)
++
++noncomputable def pathQuotientRingMap (I : Q.PathLinearIdeal k) :
++    Q.PathRing k →ₐ[k] Q.PathQuotientRing k I where
++  toFun x i j := (I.hom i j).mkQ (x i j)
++  map_zero' := by funext i j; simp
++  map_add' := by intro x y; funext i j; simp
++  map_one' := by
++    classical
++    funext i j
++    by_cases h : i=j
++    · subst j
++      change (I.hom i i).mkQ ((Q.pathComponentAlgebra k).totalOne i i)=
++        (Q.pathQuotientComponentAlgebra k I).totalOne i i
++      rw [LinearComponentAlgebra.totalOne_diag,LinearComponentAlgebra.totalOne_diag]
++      rfl
++    · change (I.hom i j).mkQ ((Q.pathComponentAlgebra k).totalOne i j)=
++        (Q.pathQuotientComponentAlgebra k I).totalOne i j
++      rw [LinearComponentAlgebra.totalOne_offdiag _ h,LinearComponentAlgebra.totalOne_offdiag _ h,map_zero]
++  map_mul' := by
++    intro x y
++    funext i l
++    change (I.hom i l).mkQ (∑ j, Q.pathComp k (x j l) (y i j))=
++      ∑ j, I.quotientComp ((I.hom j l).mkQ (x j l)) ((I.hom i j).mkQ (y i j))
++    rw [map_sum]
++    apply Finset.sum_congr rfl
++    intro j hj
++    rfl
++  commutes' := by
++    intro a
++    funext i j
++    change (I.hom i j).mkQ ((a • (1 : Q.PathRing k)) i j)=
++      (a • (1 : Q.PathQuotientRing k I)) i j
++    change (I.hom i j).mkQ (a • (1 : Q.PathRing k) i j)=
++      a • (1 : Q.PathQuotientRing k I) i j
++    rw [map_smul]
++    have h := congrFun (congrFun (show
++      (fun i j => (I.hom i j).mkQ ((1 : Q.PathRing k) i j))=
++        (1 : Q.PathQuotientRing k I) from by
++          classical
++          funext i j
++          by_cases h : i=j
++          · subst j
++            change (I.hom i i).mkQ ((Q.pathComponentAlgebra k).totalOne i i)=
++              (Q.pathQuotientComponentAlgebra k I).totalOne i i
++            rw [LinearComponentAlgebra.totalOne_diag,LinearComponentAlgebra.totalOne_diag]
++            rfl
++          · change (I.hom i j).mkQ ((Q.pathComponentAlgebra k).totalOne i j)=
++              (Q.pathQuotientComponentAlgebra k I).totalOne i j
++            rw [LinearComponentAlgebra.totalOne_offdiag _ h,
++              LinearComponentAlgebra.totalOne_offdiag _ h,map_zero]) i) j
++    rw [h]
++
++theorem pathQuotientRingMap_surjective (I : Q.PathLinearIdeal k) :
++    Function.Surjective (Q.pathQuotientRingMap k I) := by
++  intro x
++  choose y hy using fun i j => (I.hom i j).mkQ_surjective (x i j)
++  exact ⟨y,funext fun i => funext fun j => hy i j⟩
++
++noncomputable def pathJacobianRingMap (φ : Q.Potential k) :
++    Q.PathRing k →ₐ[k] Q.PathJacobianRing k φ :=
++  Q.pathQuotientRingMap k (Q.pathJacobianIdeal k φ)
++
++theorem pathJacobianRingMap_surjective (φ : Q.Potential k) :
++    Function.Surjective (Q.pathJacobianRingMap k φ) :=
++  Q.pathQuotientRingMap_surjective k _
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/FiniteComponentAlgebraEquiv.lean b/ASGinzburg/FiniteComponentAlgebraEquiv.lean
+new file mode 100644
+index 0000000..9267392
+--- /dev/null
++++ b/ASGinzburg/FiniteComponentAlgebraEquiv.lean
+@@ -0,0 +1,48 @@
++import ASGinzburg.FiniteComponentAlgebra
++import Mathlib.LinearAlgebra.Pi
++import Mathlib.Algebra.Algebra.Equiv
++
++/-! Actual component isomorphisms induce isomorphisms of the finite
++unital convolution algebras. -/
++namespace ASGinzburg.LinearComponentAlgebra
++universe u v
++variable {k : Type u} [Field k] {ι : Type v} [Fintype ι]
++variable (B C : LinearComponentAlgebra k ι)
++
++structure Isomorphism where
++  map : ∀ i j, B.Hom i j ≃ₗ[k] C.Hom i j
++  map_id : ∀ i, map i i (B.id i)=C.id i
++  map_comp : ∀ {i j l} (f : B.Hom i j) (g : B.Hom j l),
++    map i l (B.comp g f)=C.comp (map j l g) (map i j f)
++
++namespace Isomorphism
++variable {B C} (E : B.Isomorphism C)
++
++noncomputable def totalLinearEquiv : B.Total ≃ₗ[k] C.Total :=
++  LinearEquiv.piCongrRight fun i => LinearEquiv.piCongrRight fun j => E.map i j
++
++omit [Fintype ι] in
++theorem totalLinearEquiv_one : E.totalLinearEquiv (1 : B.Total)=(1 : C.Total) := by
++  classical
++  funext i j
++  change E.map i j (B.totalOne i j)=C.totalOne i j
++  by_cases h : i=j
++  · subst j
++    rw [B.totalOne_diag,C.totalOne_diag,E.map_id]
++  · rw [B.totalOne_offdiag h,C.totalOne_offdiag h,map_zero]
++
++theorem totalLinearEquiv_mul (x y : B.Total) :
++    E.totalLinearEquiv (x*y)=E.totalLinearEquiv x*E.totalLinearEquiv y := by
++  funext i l
++  change E.map i l (∑ j, B.comp (x j l) (y i j))=
++    ∑ j, C.comp (E.map j l (x j l)) (E.map i j (y i j))
++  rw [map_sum]
++  apply Finset.sum_congr rfl
++  intro j hj
++  exact E.map_comp _ _
++
++noncomputable def totalAlgEquiv : B.Total ≃ₐ[k] C.Total :=
++  AlgEquiv.ofLinearEquiv E.totalLinearEquiv E.totalLinearEquiv_one E.totalLinearEquiv_mul
++
++end Isomorphism
++end ASGinzburg.LinearComponentAlgebra
+diff --git a/ASGinzburg/GinzburgHomologyUnits.lean b/ASGinzburg/GinzburgHomologyUnits.lean
+new file mode 100644
+index 0000000..d995e2c
+--- /dev/null
++++ b/ASGinzburg/GinzburgHomologyUnits.lean
+@@ -0,0 +1,82 @@
++import ASGinzburg.GinzburgJacobianProducts
++
++/-! Actual zero-path units and associativity on mathlib H-zero. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgZeroId (u : Q.Vertex) :
++    Q.ginzburgCohomologicalComponent k u u 0 :=
++  Q.originalGinzburgDegreeZeroEquiv k u u (Q.pathId k u)
++
++theorem ginzburgZeroId_val (u : Q.Vertex) :
++    (Q.ginzburgZeroId k u).val=Q.ginzburgPathId k u :=
++  Q.originalGinzburgLinearMap_id k u
++
++theorem ginzburgZeroComp_id {u v : Q.Vertex}
++    (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgZeroComp k (Q.ginzburgZeroId k v) f=f := by
++  apply Subtype.ext
++  change Q.ginzburgPathComp k (Q.ginzburgZeroId k v).val f.val=f.val
++  rw [Q.ginzburgZeroId_val,Q.ginzburgPathComp_id]
++
++theorem id_ginzburgZeroComp {u v : Q.Vertex}
++    (f : Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgZeroComp k f (Q.ginzburgZeroId k u)=f := by
++  apply Subtype.ext
++  change Q.ginzburgPathComp k f.val (Q.ginzburgZeroId k u).val=f.val
++  rw [Q.ginzburgZeroId_val,Q.id_ginzburgPathComp]
++
++theorem ginzburgZeroComp_assoc {u v w x : Q.Vertex}
++    (f : Q.ginzburgCohomologicalComponent k u v 0)
++    (g : Q.ginzburgCohomologicalComponent k v w 0)
++    (h : Q.ginzburgCohomologicalComponent k w x 0) :
++    Q.ginzburgZeroComp k h (Q.ginzburgZeroComp k g f)=
++      Q.ginzburgZeroComp k (Q.ginzburgZeroComp k h g) f := by
++  apply Subtype.ext
++  exact Q.ginzburgPathComp_assoc k f.val g.val h.val
++
++noncomputable def ginzburgHomologyZeroId (φ : Q.Potential k) (u : Q.Vertex) :
++    Q.ginzburgHomology k φ u u 0 :=
++  Q.ginzburgZeroHomologyClass k φ u u (Q.ginzburgZeroId k u)
++
++theorem ginzburgHomologyZeroComp_id (φ : Q.Potential k) {u v : Q.Vertex}
++    (f : Q.ginzburgHomology k φ u v 0) :
++    Q.ginzburgHomologyZeroComp k φ (Q.ginzburgHomologyZeroId k φ v) f=f := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgZeroHomologyClass_surjective k φ u v f
++  rw [ginzburgHomologyZeroId,Q.ginzburgHomologyZeroComp_class,Q.ginzburgZeroComp_id]
++
++theorem id_ginzburgHomologyZeroComp (φ : Q.Potential k) {u v : Q.Vertex}
++    (f : Q.ginzburgHomology k φ u v 0) :
++    Q.ginzburgHomologyZeroComp k φ f (Q.ginzburgHomologyZeroId k φ u)=f := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgZeroHomologyClass_surjective k φ u v f
++  rw [ginzburgHomologyZeroId,Q.ginzburgHomologyZeroComp_class,Q.id_ginzburgZeroComp]
++
++theorem ginzburgHomologyZeroComp_assoc (φ : Q.Potential k) {u v w x : Q.Vertex}
++    (f : Q.ginzburgHomology k φ u v 0)
++    (g : Q.ginzburgHomology k φ v w 0)
++    (h : Q.ginzburgHomology k φ w x 0) :
++    Q.ginzburgHomologyZeroComp k φ h (Q.ginzburgHomologyZeroComp k φ g f)=
++      Q.ginzburgHomologyZeroComp k φ (Q.ginzburgHomologyZeroComp k φ h g) f := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgZeroHomologyClass_surjective k φ u v f
++  obtain ⟨g,rfl⟩ := Q.ginzburgZeroHomologyClass_surjective k φ v w g
++  obtain ⟨h,rfl⟩ := Q.ginzburgZeroHomologyClass_surjective k φ w x h
++  rw [Q.ginzburgHomologyZeroComp_class,Q.ginzburgHomologyZeroComp_class,
++    Q.ginzburgHomologyZeroComp_class,Q.ginzburgHomologyZeroComp_class,
++    Q.ginzburgZeroComp_assoc]
++
++theorem ginzburgHomologyZeroJacobianIso_id (φ : Q.Potential k) (u : Q.Vertex) :
++    (Q.ginzburgHomologyZeroJacobianIso k φ u u).hom (Q.ginzburgHomologyZeroId k φ u)=
++      Submodule.Quotient.mk (Q.pathId k u) := by
++  let e := Q.ginzburgHomologyZeroJacobianIso k φ u u
++  let x := e.inv (Submodule.Quotient.mk (Q.pathId k u))
++  have hx : e.hom x=Submodule.Quotient.mk (Q.pathId k u) := by
++    dsimp [x]
++    simp
++  have h := Q.ginzburgHomologyZeroJacobianIso_comp k φ x (Q.ginzburgHomologyZeroId k φ u)
++  rw [Q.ginzburgHomologyZeroComp_id] at h
++  change e.hom x=(Q.pathJacobianIdeal k φ).quotientComp (e.hom _) (e.hom x) at h
++  rw [hx,(Q.pathJacobianIdeal k φ).id_quotientComp] at h
++  exact h.symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgHomologyRing.lean b/ASGinzburg/GinzburgHomologyRing.lean
+new file mode 100644
+index 0000000..a728c30
+--- /dev/null
++++ b/ASGinzburg/GinzburgHomologyRing.lean
+@@ -0,0 +1,59 @@
++import ASGinzburg.GinzburgHomologyUnits
++import ASGinzburg.PathJacobianRing
++import ASGinzburg.FiniteComponentAlgebraEquiv
++import ASGinzburg.GinzburgTotalHomologyZero
++
++/-! The genuine component H-zero products form the full unital finite
++quiver algebra, isomorphic to the actual Jacobian quotient algebra. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++open scoped DirectSum
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgHomologyComponentAlgebra (φ : Q.Potential k) :
++    LinearComponentAlgebra k Q.Vertex where
++  Hom i j := Q.ginzburgHomology k φ i j 0
++  id := Q.ginzburgHomologyZeroId k φ
++  comp := Q.ginzburgHomologyZeroComp k φ
++  comp_id := Q.ginzburgHomologyZeroComp_id k φ
++  id_comp := Q.id_ginzburgHomologyZeroComp k φ
++  comp_assoc := Q.ginzburgHomologyZeroComp_assoc k φ
++
++noncomputable abbrev GinzburgHomologyRing (φ : Q.Potential k) :=
++  (Q.ginzburgHomologyComponentAlgebra k φ).Total
++
++noncomputable def ginzburgHomologyJacobianComponentIsomorphism (φ : Q.Potential k) :
++    LinearComponentAlgebra.Isomorphism (Q.ginzburgHomologyComponentAlgebra k φ)
++      (Q.pathQuotientComponentAlgebra k (Q.pathJacobianIdeal k φ)) where
++  map i j := (Q.ginzburgHomologyZeroJacobianIso k φ i j).toLinearEquiv
++  map_id := Q.ginzburgHomologyZeroJacobianIso_id k φ
++  map_comp := Q.ginzburgHomologyZeroJacobianIso_comp k φ
++
++noncomputable def ginzburgHomologyJacobianAlgEquiv (φ : Q.Potential k) :
++    Q.GinzburgHomologyRing k φ ≃ₐ[k] Q.PathJacobianRing k φ :=
++  (Q.ginzburgHomologyJacobianComponentIsomorphism k φ).totalAlgEquiv
++
++noncomputable def finiteComponentCurryEquiv (B : LinearComponentAlgebra k Q.Vertex) :
++    (∀ uv : Q.Vertex×Q.Vertex, B.Hom uv.1 uv.2) ≃ₗ[k] B.Total where
++  toFun f i j := f (i,j)
++  invFun f uv := f uv.1 uv.2
++  left_inv := by intro f; funext uv; rfl
++  right_inv := by intro f; rfl
++  map_add' := by intro f g; rfl
++  map_smul' := by intro a f; rfl
++
++noncomputable def ginzburgTotalHomologyZeroComponentRingIso (φ : Q.Potential k) :
++    Q.ginzburgTotalHomology k φ 0 ≅ ModuleCat.of k (Q.GinzburgHomologyRing k φ) :=
++  Q.ginzburgTotalHomologyComponentIso k φ 0 ≪≫
++    ModuleCat.coprodIsoDirectSum _ ≪≫
++      ((DirectSum.linearEquivFunOnFintype k (Q.Vertex×Q.Vertex)
++        (fun uv => Q.ginzburgHomology k φ uv.1 uv.2 0)).trans
++          (Q.finiteComponentCurryEquiv k (Q.ginzburgHomologyComponentAlgebra k φ))).toModuleIso
++
++noncomputable def ginzburgTotalHomologyZeroJacobianRingIso (φ : Q.Potential k) :
++    Q.ginzburgTotalHomology k φ 0 ≅ ModuleCat.of k (Q.PathJacobianRing k φ) :=
++  Q.ginzburgTotalHomologyZeroComponentRingIso k φ ≪≫
++    (Q.ginzburgHomologyJacobianAlgEquiv k φ).toLinearEquiv.toModuleIso
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/PathJacobianRingQuotient.lean b/ASGinzburg/PathJacobianRingQuotient.lean
+new file mode 100644
+index 0000000..93a81fd
+--- /dev/null
++++ b/ASGinzburg/PathJacobianRingQuotient.lean
+@@ -0,0 +1,34 @@
++import ASGinzburg.PathJacobianRing
++import Mathlib.RingTheory.Ideal.Quotient.Operations
++
++/-! The finite component Jacobian algebra is an actual quotient of
++the full path ring by precisely the genuine component Jacobian ideal. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathQuotientRingMap_eq_zero_iff (I : Q.PathLinearIdeal k) (x : Q.PathRing k) :
++    Q.pathQuotientRingMap k I x=0 ↔ ∀ i j, x i j ∈ I.hom i j := by
++  constructor
++  · intro h i j
++    apply (Submodule.Quotient.mk_eq_zero _).mp
++    exact congrFun (congrFun h i) j
++  · intro h
++    funext i j
++    exact (Submodule.Quotient.mk_eq_zero _).mpr (h i j)
++
++noncomputable def pathQuotientRingKernelAlgEquiv (I : Q.PathLinearIdeal k) :
++    (Q.PathRing k ⧸ RingHom.ker (Q.pathQuotientRingMap k I).toRingHom) ≃ₐ[k]
++      Q.PathQuotientRing k I :=
++  Ideal.quotientKerAlgEquivOfSurjective (Q.pathQuotientRingMap_surjective k I)
++
++theorem pathJacobianRingMap_eq_zero_iff (φ : Q.Potential k) (x : Q.PathRing k) :
++    Q.pathJacobianRingMap k φ x=0 ↔ ∀ i j, x i j ∈ (Q.pathJacobianIdeal k φ).hom i j :=
++  Q.pathQuotientRingMap_eq_zero_iff k _ x
++
++noncomputable def pathJacobianRingKernelAlgEquiv (φ : Q.Potential k) :
++    (Q.PathRing k ⧸ RingHom.ker (Q.pathJacobianRingMap k φ).toRingHom) ≃ₐ[k]
++      Q.PathJacobianRing k φ :=
++  Q.pathQuotientRingKernelAlgEquiv k _
++
++end ASGinzburg.CutQuiver

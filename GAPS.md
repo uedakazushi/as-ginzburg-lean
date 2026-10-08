@@ -1,8 +1,8 @@
 # 現在までに完成したAS側の基盤
 
-真のhomogeneous Jacobianイデアルと実際のunrolled Jacobianイデアルの対応を、道の忘却/持上げ・同次数のcontext span・全sheetの関係の積閉性から両方向に証明した。任意整数sheet差の道/線形同型と積保存、Jacobian商とunrollingの交換・homogeneous商の双線形積の保存、固定cutの実際H⁰とA(Φ)成分の線形同型まで完成。H⁰の積との接続・有限箙の全単位的Jacobian環・GinzburgRegularとAS条件の両方向対応・最小関係/選択・quadratic分解の橋・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T203848Z-d7065fb7：280数学モジュール・2346異なる宣言・1169 theorem、全段階終了0。
-単位1〜46の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際のGinzburg積・Leibnizから境界の左右閉性、boundary商の双線形積とmathlib H⁰の積を構成した。通常/固定cut H⁰–Jacobian同型、固定cut H⁰–A(Φ)同型の積/ゼロ道単位元保存、H⁰の結合則を証明。実際の固定cut H⁰ ZAlgebraとA(Φ)の同型、有限成分の全単位的道環/Jacobian環と実際の全環商同型、実際のH⁰成分環とJacobian環のAlgEquiv、全mathlib H⁰の加群表示まで完成。canonical augmentation/quasi-isomorphism・genuine標準双加群/単純分解・GinzburgRegularとAS条件の両方向対応・最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T211149Z-34625f48：296数学モジュール・2452異なる宣言・1226 theorem、全段階終了0。
+単位1〜47の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。既存の線形RightModuleを保ち、有限AS分解だけから全次数のExt(s_w,P_i)の有限性と次数4以上の消滅を証明しました。
 有限AS分解の存在の下で、元のASRegularと式(1.11)の数値条件の両方向の同値が証明済みです。
@@ -12,7 +12,7 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。具体的局所単位付きGr(A)モデルへの圏同値・Abelian構造は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送も完成。有限次元加群の実際Ext³反変同値と成分線形双対の反変同値は完成。AS条件からの正負周期性は証明済み。主定理は未証明です。
 
-280数学モジュール、2346異なる明示的宣言、1169 theorem、283 named instanceのビルド・公理監査は終了0。
+296数学モジュール、2452異なる明示的宣言、1226 theorem、287 named instanceのビルド・公理監査は終了0。
 定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 任意のAでAS分解の存在を証明したとは扱わない。具体的な局所単位付きGr(A)モデルとの左右圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送は完成。
 未解決のコンパイルエラーなし。原論文に反例・矛盾を発見したという記録なし。
@@ -138,9 +138,10 @@ presheafモデルと局所単位付き総加群の左右圏同値はLocallyUnita
 3. **unrolled Jacobian商の実際の構成は完成**：通常の道のsheetへのunrolling、固定cut次数の道/線形unrolling同型とeraseの逆操作、長さfiltration保存、全sheetの実際の巡回微分が生成する二側線形イデアル、矢イデアル平方への包含と対角零性、正に有向・connected・locally finiteな商ZAlgebra、商射の全射性・核・全関係の零性を証明した。有限cut graded Jacobian商の別の構成と、商を取る操作とunrollingの比較は未証明。
 4. **完成**：実際の可合成拡張道の三つの次数・合成、自由線形道代数の積/単位元/結合則とhomogeneous成分の積閉性、元の道代数と次数0部分の線形同型・積保存。
 5. **全square-zeroまで完成**：原論文(1.3)の生成元微分・signed Leibniz延長、次数+1とcut/winding保存、符号作用素とd²導分則を単位43で公開検証。単位44で実際の道の頂点ごとの巡回微分の交換子恒等式、loop/全生成元/全有限道/全有限線形結合でのd²=0を公開検証した。square-zeroを追加仮定にはしていない。
-6. **実際の複体とH⁰の線形比較まで完成**：整数次数のmathlib CochainComplexと成分/全homology、全有限coproductとの比較を構成した。GinzburgRegularはその実際の全負次数homologyのIsZeroと定義し、正次数homologyの常時零性と0次集中との同値も証明した。真の二側Jacobianイデアルと0次境界が等しいこと、成分H⁰とJacobian商空間の線形同型、全H⁰とそれらの有限DirectSumとの加群同型も公開検証済み。cut grading/unrolling商の比較は単位45/46で完成。H⁰そのものの積との接続、特定のΦの負次数acyclicity・AS条件との両方向の対応は未証明。有限箙の全Jacobian商を単位的な環として束ねることも別の義務であり、現在の成分商空間との線形比較をその完成とは扱わない。
-7. **固定cut複体まで完成**：単位45で拡張道の固定cut空間・複体の全項と全homologyの有限次元性、具体的な有限cohomological区間外の零性、実際の複体/homologyの包含と射影のretractを証明。有限台のcut射影和と真のcycle/boundary判定から、GinzburgRegularと全固定cut複体の負次数消滅の両方向を導いた。真のJacobianイデアルのcut射影閉性・固定cut境界との一致、固定cut H⁰とhomogeneous Jacobian商との線形同型、fixed-degree道/線形空間のunrolling/eraseの同型も公開検証済み。AS条件との同値は未証明。商とunrollingの交換は単位46で完成、H⁰そのものの積との接続は次の未公開草稿。
-8. **商とunrollingの交換まで完成**：単位46で任意整数sheet差の道/線形同型・忘却の単射性と積保存、実際の巡回微分の持上げ/忘却、真のJacobianイデアルの同次数context spanを証明した。全sheetの関係の左右積閉性とspan延長からhomogeneous Jacobianイデアルと実際のunrolled Jacobianイデアルの一致を両方向に証明。実際のhomogeneous商≅A(Φ)のHom成分、固定cut mathlib H⁰≅A(Φ)の線形同型、homogeneous商同型の積保存まで公開検証済み。正則性やAS分解の存在は仮定していない。H⁰そのものの積の接続と有限箙の全単位的Jacobian環は次の義務。
+6. **実際の複体とH⁰の線形比較まで完成**：整数次数のmathlib CochainComplexと成分/全homology、全有限coproductとの比較を構成した。GinzburgRegularはその実際の全負次数homologyのIsZeroと定義し、正次数homologyの常時零性と0次集中との同値も証明した。真の二側Jacobianイデアルと0次境界が等しいこと、成分H⁰とJacobian商空間の線形同型、全H⁰とそれらの有限DirectSumとの加群同型も公開検証済み。cut grading/unrolling商の比較は単位45/46で完成。H⁰そのものの積との接続と全単位的Jacobian/H⁰成分環は単位47で公開検証。特定のΦの負次数acyclicity・AS条件との両方向の対応は未証明。有限箙の全Jacobian商の単位的な環、実際の道環からの商とそのkernel判定も単位47で完成。実際のH⁰成分環とのAlgEquivと全mathlib H⁰の加群表示を明示した。
+7. **固定cut複体まで完成**：単位45で拡張道の固定cut空間・複体の全項と全homologyの有限次元性、具体的な有限cohomological区間外の零性、実際の複体/homologyの包含と射影のretractを証明。有限台のcut射影和と真のcycle/boundary判定から、GinzburgRegularと全固定cut複体の負次数消滅の両方向を導いた。真のJacobianイデアルのcut射影閉性・固定cut境界との一致、固定cut H⁰とhomogeneous Jacobian商との線形同型、fixed-degree道/線形空間のunrolling/eraseの同型も公開検証済み。AS条件との同値は未証明。商とunrollingの交換は単位46で完成、H⁰そのものの積との接続は単位47で公開検証済み。
+8. **商とunrollingの交換まで完成**：単位46で任意整数sheet差の道/線形同型・忘却の単射性と積保存、実際の巡回微分の持上げ/忘却、真のJacobianイデアルの同次数context spanを証明した。全sheetの関係の左右積閉性とspan延長からhomogeneous Jacobianイデアルと実際のunrolled Jacobianイデアルの一致を両方向に証明。実際のhomogeneous商≅A(Φ)のHom成分、固定cut mathlib H⁰≅A(Φ)の線形同型、homogeneous商同型の積保存まで公開検証済み。正則性やAS分解の存在は仮定していない。H⁰そのものの積の接続と有限箙の全単位的Jacobian環は単位47で公開検証済み。
+9. **実際のH⁰の代数構造まで完成**：単位47でsigned Leibnizから実際の境界の左右積閉性を証明し、実際のboundary商から通常/固定cutのmathlib H⁰の積を構成した。元の道からのゼロ道単位元/結合則、H⁰–Jacobian比較と固定cut H⁰–A(Φ)比較の積/単位元保存、整数添字H⁰ ZAlgebraとA(Φ)の同型まで完成。有限成分の中間頂点sumによる全単位的道環/Jacobian環・全環商同型、実際のH⁰成分環とのAlgEquiv・全mathlib H⁰の加群表示も公開検証済み。正則性からの実際の標準双加群/単純分解とAS条件との両方向対応は未証明。
 
 Jacobian商で全巡回微分が零となることと、最小関係の基底を与えることは別の証明義務。Ginzburg正則性から最小分解やAS条件を導く部分は未証明。これを入力仮定に追加しない。
 

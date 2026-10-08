@@ -1,0 +1,52 @@
+import ASGinzburg.GinzburgHomologyZeroProducts
+import ASGinzburg.PathQuotientProducts
+
+/-! Multiplicativity of the actual H-zero/Jacobian comparison. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem originalGinzburgDegreeZeroEquiv_comp {u v w : Q.Vertex}
+    (f : Q.PathComponent k u v) (g : Q.PathComponent k v w) :
+    Q.originalGinzburgDegreeZeroEquiv k u w (Q.pathComp k g f)=
+      Q.ginzburgZeroComp k (Q.originalGinzburgDegreeZeroEquiv k v w g)
+        (Q.originalGinzburgDegreeZeroEquiv k u v f) := by
+  apply Subtype.ext
+  exact Q.originalGinzburgLinearMap_comp k f g
+
+theorem originalGinzburgDegreeZeroEquiv_symm_comp {u v w : Q.Vertex}
+    (f : Q.ginzburgCohomologicalComponent k u v 0)
+    (g : Q.ginzburgCohomologicalComponent k v w 0) :
+    (Q.originalGinzburgDegreeZeroEquiv k u w).symm (Q.ginzburgZeroComp k g f)=
+      Q.pathComp k ((Q.originalGinzburgDegreeZeroEquiv k v w).symm g)
+        ((Q.originalGinzburgDegreeZeroEquiv k u v).symm f) := by
+  apply (Q.originalGinzburgDegreeZeroEquiv k u w).injective
+  simp [Q.originalGinzburgDegreeZeroEquiv_comp k]
+
+@[simp] theorem ginzburgZeroQuotientJacobianEquiv_mk (φ : Q.Potential k)
+    {u v : Q.Vertex} (f : Q.ginzburgCohomologicalComponent k u v 0) :
+    Q.ginzburgZeroQuotientJacobianEquiv k φ u v (Submodule.Quotient.mk f)=
+      Submodule.Quotient.mk ((Q.originalGinzburgDegreeZeroEquiv k u v).symm f) := rfl
+
+theorem ginzburgZeroQuotientJacobianEquiv_comp (φ : Q.Potential k) {u v w : Q.Vertex}
+    (f : Q.GinzburgZeroQuotient k φ u v) (g : Q.GinzburgZeroQuotient k φ v w) :
+    Q.ginzburgZeroQuotientJacobianEquiv k φ u w (Q.ginzburgZeroQuotientComp k φ g f)=
+      (Q.pathJacobianIdeal k φ).quotientComp
+        (Q.ginzburgZeroQuotientJacobianEquiv k φ v w g)
+        (Q.ginzburgZeroQuotientJacobianEquiv k φ u v f) := by
+  obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective f
+  obtain ⟨g,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ v w)).mkQ_surjective g
+  simp [Q.originalGinzburgDegreeZeroEquiv_symm_comp k]
+
+theorem ginzburgHomologyZeroJacobianIso_comp (φ : Q.Potential k) {u v w : Q.Vertex}
+    (f : Q.ginzburgHomology k φ u v 0) (g : Q.ginzburgHomology k φ v w 0) :
+    (Q.ginzburgHomologyZeroJacobianIso k φ u w).hom (Q.ginzburgHomologyZeroComp k φ g f)=
+      (Q.pathJacobianIdeal k φ).quotientComp
+        ((Q.ginzburgHomologyZeroJacobianIso k φ v w).hom g)
+        ((Q.ginzburgHomologyZeroJacobianIso k φ u v).hom f) := by
+  change Q.ginzburgZeroQuotientJacobianEquiv k φ u w
+    ((Q.ginzburgHomologyZeroQuotientIso k φ u w).hom (Q.ginzburgHomologyZeroComp k φ g f))=_
+  rw [Q.ginzburgHomologyZeroQuotientIso_comp k φ]
+  exact Q.ginzburgZeroQuotientJacobianEquiv_comp k φ _ _
+
+end ASGinzburg.CutQuiver

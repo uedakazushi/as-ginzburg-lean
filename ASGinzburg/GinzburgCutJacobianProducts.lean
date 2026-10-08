@@ -1,0 +1,82 @@
+import ASGinzburg.GinzburgCutHomologyZeroProducts
+import ASGinzburg.JacobianUnrollingProducts
+
+/-! Multiplicativity of actual fixed-cut mathlib H-zero, the genuine
+homogeneous Jacobian quotient, and the existing algebra A(Phi). -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem originalGinzburgCutDegreeZeroEquiv_symm_comp {u v w : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2))
+    (g : Q.ginzburgCutCohomologicalComponent k v.1 w.1 0 (w.2-v.2)) :
+    (Q.originalGinzburgCutDegreeZeroEquiv k u.1 w.1 (w.2-u.2)).symm
+      (Q.ginzburgCutZeroComp k g f)=
+        Q.pathCutCompBetweenLinear k
+          ((Q.originalGinzburgCutDegreeZeroEquiv k v.1 w.1 (w.2-v.2)).symm g)
+          ((Q.originalGinzburgCutDegreeZeroEquiv k u.1 v.1 (v.2-u.2)).symm f) := by
+  apply Subtype.ext
+  apply Q.originalGinzburgLinearMap_injective k u.1 w.1
+  rw [Q.originalGinzburgCutDegreeZeroEquiv_symm_coe]
+  change Q.ginzburgPathComp k g.val f.val=
+    Q.originalGinzburgLinearMap k u.1 w.1 (Q.pathComp k _ _)
+  rw [Q.originalGinzburgLinearMap_comp,Q.originalGinzburgCutDegreeZeroEquiv_symm_coe]
+  exact congrArg (Q.ginzburgPathComp k g.val)
+    (Q.originalGinzburgCutDegreeZeroEquiv_symm_coe k u.1 v.1 (v.2-u.2) f).symm
+
+@[simp] theorem ginzburgCutZeroQuotientJacobianEquiv_mk (φ : Q.Potential k)
+    {u v : Q.LiftVertex} (f : Q.ginzburgCutCohomologicalComponent k u.1 v.1 0 (v.2-u.2)) :
+    Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 v.1 (v.2-u.2) (Submodule.Quotient.mk f)=
+      Submodule.Quotient.mk
+        ((Q.originalGinzburgCutDegreeZeroEquiv k u.1 v.1 (v.2-u.2)).symm f) := rfl
+
+theorem ginzburgCutZeroQuotientJacobianEquiv_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
+    (f : Q.GinzburgCutZeroQuotient k φ u v) (g : Q.GinzburgCutZeroQuotient k φ v w) :
+    Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 w.1 (w.2-u.2)
+      (Q.ginzburgCutZeroQuotientComp k φ g f)=
+        Q.cutJacobianQuotientComp k φ
+          (Q.ginzburgCutZeroQuotientJacobianEquiv k φ v.1 w.1 (w.2-v.2) g)
+          (Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 v.1 (v.2-u.2) f) := by
+  obtain ⟨f,rfl⟩ := (LinearMap.range
+    (Q.ginzburgCutNegativeOneDifferential k φ u.1 v.1 (v.2-u.2))).mkQ_surjective f
+  obtain ⟨g,rfl⟩ := (LinearMap.range
+    (Q.ginzburgCutNegativeOneDifferential k φ v.1 w.1 (w.2-v.2))).mkQ_surjective g
+  change Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 w.1 (w.2-u.2)
+    (Q.ginzburgCutZeroQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f))=
+      Q.cutJacobianQuotientComp k φ
+        (Q.ginzburgCutZeroQuotientJacobianEquiv k φ v.1 w.1 (w.2-v.2) (Submodule.Quotient.mk g))
+        (Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 v.1 (v.2-u.2) (Submodule.Quotient.mk f))
+  rw [Q.ginzburgCutZeroQuotientComp_mk,
+    Q.ginzburgCutZeroQuotientJacobianEquiv_mk,
+    Q.ginzburgCutZeroQuotientJacobianEquiv_mk,
+    Q.ginzburgCutZeroQuotientJacobianEquiv_mk,Q.cutJacobianQuotientComp_mk]
+  rw [Q.originalGinzburgCutDegreeZeroEquiv_symm_comp k]
+
+theorem ginzburgCutHomologyZeroJacobianIso_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
+    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0)
+    (g : Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0) :
+    (Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 w.1 (w.2-u.2)).hom
+      (Q.ginzburgCutHomologyZeroComp k φ g f)=
+        Q.cutJacobianQuotientComp k φ
+          ((Q.ginzburgCutHomologyZeroJacobianIso k φ v.1 w.1 (w.2-v.2)).hom g)
+          ((Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 v.1 (v.2-u.2)).hom f) := by
+  change Q.ginzburgCutZeroQuotientJacobianEquiv k φ u.1 w.1 (w.2-u.2)
+    ((Q.ginzburgCutHomologyZeroQuotientIso k φ u.1 w.1 (w.2-u.2)).hom
+      (Q.ginzburgCutHomologyZeroComp k φ g f))=_
+  rw [Q.ginzburgCutHomologyZeroQuotientIso_comp k φ]
+  exact Q.ginzburgCutZeroQuotientJacobianEquiv_comp k φ _ _
+
+theorem ginzburgCutHomologyZeroUnrolledIso_comp (φ : Q.Potential k) {u v w : Q.LiftVertex}
+    (f : Q.ginzburgCutHomology k φ u.1 v.1 (v.2-u.2) 0)
+    (g : Q.ginzburgCutHomology k φ v.1 w.1 (w.2-v.2) 0) :
+    (Q.ginzburgCutHomologyZeroUnrolledIso k φ u w).hom (Q.ginzburgCutHomologyZeroComp k φ g f)=
+      (Q.unrolledJacobianZAlgebra k φ).comp
+        ((Q.ginzburgCutHomologyZeroUnrolledIso k φ v w).hom g)
+        ((Q.ginzburgCutHomologyZeroUnrolledIso k φ u v).hom f) := by
+  change Q.homogeneousJacobianUnrolledEquiv k φ u w
+    ((Q.ginzburgCutHomologyZeroJacobianIso k φ u.1 w.1 (w.2-u.2)).hom
+      (Q.ginzburgCutHomologyZeroComp k φ g f))=_
+  rw [Q.ginzburgCutHomologyZeroJacobianIso_comp k φ]
+  exact Q.homogeneousJacobianUnrolledEquiv_comp k φ _ _
+
+end ASGinzburg.CutQuiver

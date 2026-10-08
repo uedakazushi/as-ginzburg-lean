@@ -1,8 +1,8 @@
 # 現在の状況
 
-真のhomogeneous Jacobianイデアルと実際のunrolled Jacobianイデアルの対応を、道の忘却/持上げ・同次数のcontext span・全sheetの関係の積閉性から両方向に証明した。任意整数sheet差の道/線形同型と積保存、Jacobian商とunrollingの交換・homogeneous商の双線形積の保存、固定cutの実際H⁰とA(Φ)成分の線形同型まで完成。H⁰の積との接続・有限箙の全単位的Jacobian環・GinzburgRegularとAS条件の両方向対応・最小関係/選択・quadratic分解の橋・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T203848Z-d7065fb7：280数学モジュール・2346異なる宣言・1169 theorem、全段階終了0。
-単位1〜46の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際のGinzburg積・Leibnizから境界の左右閉性、boundary商の双線形積とmathlib H⁰の積を構成した。通常/固定cut H⁰–Jacobian同型、固定cut H⁰–A(Φ)同型の積/ゼロ道単位元保存、H⁰の結合則を証明。実際の固定cut H⁰ ZAlgebraとA(Φ)の同型、有限成分の全単位的道環/Jacobian環と実際の全環商同型、実際のH⁰成分環とJacobian環のAlgEquiv、全mathlib H⁰の加群表示まで完成。canonical augmentation/quasi-isomorphism・genuine標準双加群/単純分解・GinzburgRegularとAS条件の両方向対応・最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T211149Z-34625f48：296数学モジュール・2452異なる宣言・1226 theorem、全段階終了0。
+単位1〜47の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2346異なる名前、全明示的宣言・283 named instanceを含む、終了0 |
-| theorem | 1169、全件が監査対象 |
+| 個別公理監査 | 2452異なる名前、全明示的宣言・287 named instanceを含む、終了0 |
+| theorem | 1226、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T203848Z-d7065fb7`、全段階終了0、1602.223390104秒。
-UTC 2026-10-08T20:38:48.294271+00:00 → 2026-10-08T21:05:30.517667+00:00。
-JST 2026-10-09T05:38:48.294271+09:00 → 2026-10-09T06:05:30.517667+09:00。
+最新ローカル検証 `20261008T211149Z-34625f48`、全段階終了0、1653.750756874秒。
+UTC 2026-10-08T21:11:49.541687+00:00 → 2026-10-08T21:39:23.292452+00:00。
+JST 2026-10-09T06:11:49.541687+09:00 → 2026-10-09T06:39:23.292452+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -109,6 +109,8 @@ JST 2026-10-09T05:38:48.294271+09:00 → 2026-10-09T06:05:30.517667+09:00。
 | 固定cut複体とgraded H⁰比較 | GinzburgPathFiniteness、GinzburgCutCochainComplex、GinzburgCutProjections、GinzburgCutRetracts、GinzburgCutBounds、PathCutGrading、PathJacobianGrading、GinzburgCutDegreeZero、GinzburgCutHomologyFinite、GinzburgCutHomologyZero、UnrolledPathWords、PathCutUnrollingEquiv、GinzburgCycleBoundary、GinzburgCutDecomposition、GinzburgCutRegularity | 固定cut項/homologyの有限次元性と具体的有界性、実際のretractとcycle/boundary判定、全正則性と全cut負次数消滅の同値、Jacobianのhomogeneous閉性、固定cut H⁰との線形同型、unrolling/eraseの道/線形同型 | 商のunrolling交換・H⁰積保存、AS条件との対応 |
 
 | Jacobian商とunrollingの交換 | UnrolledPathErasure、UnrolledJacobianErasure、PathCutUnrollingComparison、UnrolledErasureIdeals、UnrolledJacobianIdealErasure、PathJacobianContexts、PathCutProducts、PathJacobianHomogeneousContexts、PathQuotientProducts、PathBetweenSheets、BetweenSheetLinearEquiv、UnrolledJacobianLiftIdeal、UnrolledJacobianContexts、BetweenSheetJacobianIdeals、JacobianUnrollingQuotient、JacobianCutQuotientProducts、JacobianUnrollingProducts | 任意整数sheet差の道/線形同型と積保存、真のhomogeneous Jacobianイデアルと実際のunrolledイデアルの一致、商のunrolling交換・homogeneous商積保存、固定cut H⁰とA(Φ)成分の線形比較 | H⁰そのものの積、全単位的Jacobian環、正則性/AS対応と標準双加群分解 |
+
+| 実際のH⁰の代数構造 | GinzburgZeroProducts、GinzburgZeroQuotientProducts、GinzburgHomologyZeroProducts、GinzburgJacobianProducts、GinzburgCutZeroProducts、GinzburgCutZeroQuotientProducts、GinzburgCutHomologyZeroProducts、GinzburgCutJacobianProducts、GinzburgCutHomologyUnits、GinzburgHomologyZAlgebra、FiniteComponentAlgebra、PathJacobianRing、FiniteComponentAlgebraEquiv、GinzburgHomologyUnits、GinzburgHomologyRing、PathJacobianRingQuotient | 微分からのboundary閉性・実際のH⁰積/単位元/結合則、Jacobian/A(Φ)比較の積保存、整数添字H⁰代数同型、全単位的環と全環商・H⁰成分環AlgEquiv、全mathlib H⁰表示 | canonical augmentationとquasi-isomorphism、標準双加群/単純分解、GinzburgRegular/AS対応 |
 
 ## 主結果の状態
 

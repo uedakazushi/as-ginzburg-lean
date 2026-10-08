@@ -1,0 +1,61 @@
+import ASGinzburg.GinzburgHomologyZero
+import ASGinzburg.GinzburgSupportedProducts
+
+/-! Genuine bilinear degree-zero Ginzburg products and closure of the
+actual differential boundary ranges, before any Jacobian comparison. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgZeroComp {u v w : Q.Vertex} :
+    Q.ginzburgCohomologicalComponent k v w 0 →ₗ[k]
+      Q.ginzburgCohomologicalComponent k u v 0 →ₗ[k]
+        Q.ginzburgCohomologicalComponent k u w 0 where
+  toFun g := ((Q.ginzburgPathComp k g.val).comp
+    (Q.ginzburgCohomologicalComponent k u v 0).subtype).codRestrict _ (fun f => by
+      simpa only [zero_add] using Q.ginzburgCohomologicalComponent_comp k f.property g.property)
+  map_add' := by
+    intro g h
+    apply LinearMap.ext
+    intro f
+    apply Subtype.ext
+    exact LinearMap.congr_fun (map_add (Q.ginzburgPathComp k) g.val h.val) f.val
+  map_smul' := by
+    intro a g
+    apply LinearMap.ext
+    intro f
+    apply Subtype.ext
+    exact LinearMap.congr_fun (map_smul (Q.ginzburgPathComp k) a g.val) f.val
+
+theorem ginzburgZeroComp_boundary_left (φ : Q.Potential k) {u v w : Q.Vertex}
+    {f : Q.ginzburgCohomologicalComponent k u v 0}
+    (hf : f ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v))
+    (g : Q.ginzburgCohomologicalComponent k v w 0) :
+    Q.ginzburgZeroComp k g f ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u w) := by
+  obtain ⟨x,rfl⟩ := hf
+  have hx : Q.ginzburgPathComp k g.val x.val ∈ Q.ginzburgCohomologicalComponent k u w (-1) := by
+    simpa only [add_zero] using Q.ginzburgCohomologicalComponent_comp k x.property g.property
+  refine ⟨⟨Q.ginzburgPathComp k g.val x.val,hx⟩,?_⟩
+  apply Subtype.ext
+  change Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k g.val x.val)=
+    Q.ginzburgPathComp k g.val (Q.ginzburgDifferential k φ u v x.val)
+  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ g.property,
+    Q.ginzburgSignMap_homogeneous k g.property,ginzburgSign_zero,one_smul]
+  simp
+
+theorem ginzburgZeroComp_boundary_right (φ : Q.Potential k) {u v w : Q.Vertex}
+    {g : Q.ginzburgCohomologicalComponent k v w 0}
+    (hg : g ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ v w))
+    (f : Q.ginzburgCohomologicalComponent k u v 0) :
+    Q.ginzburgZeroComp k g f ∈ LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u w) := by
+  obtain ⟨x,rfl⟩ := hg
+  have hx : Q.ginzburgPathComp k x.val f.val ∈ Q.ginzburgCohomologicalComponent k u w (-1) := by
+    simpa only [zero_add] using Q.ginzburgCohomologicalComponent_comp k f.property x.property
+  refine ⟨⟨Q.ginzburgPathComp k x.val f.val,hx⟩,?_⟩
+  apply Subtype.ext
+  change Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k x.val f.val)=
+    Q.ginzburgPathComp k (Q.ginzburgDifferential k φ v w x.val) f.val
+  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property]
+  simp
+
+end ASGinzburg.CutQuiver

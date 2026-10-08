@@ -1295,3 +1295,34 @@ UTC 2026-10-08T20:38:48.294271+00:00 → 2026-10-08T21:05:30.517667+00:00。
 差分：runs/total-algebra-20261008-unit46.patch。全theoremを監査し、許容公理3種類のみ。
 
 保存準備 UTC 2026-10-08T21:06:33.518025+00:00、開始から実測50755.518025秒。単位46の新規検査20261008T203848Z-d7065fb7は全6段階0・280数学モジュール/2346異なる宣言/1169 theorem/283 named instance。UTC20:38:48.294271→21:05:30.517667、1602.223390104秒。実際のtool shellも終了0、wrapper UTC20:38:48.263537→21:05:30.527039、1602.263506358秒。初期14/開始時60/577歴史的ファイル・入力PDFの無変更確認も0。許容公理3種類のみ、hole/独自axiom/禁止依存/宣言重複/監査漏れなし。17数学モジュールの差分・完全ログ・単位44の完全CI証拠を保存する。タスク継続中、main保存後も形式化する。
+
+継続保存 UTC 2026-10-08T21:10:02.826559+00:00、開始から実測50964.826559秒。単位46はmain644fca202aa02b8609c406868e2270b9a2d79660へexpected旧6146263・force=falseの通常fast-forwardで保存済み。46ファイル/40独立blob/2465650bytesを11部分へ分け、GitHub tree edb3b74079be64c596ab78084754c9af4ae90d9dがローカルtreeと一致。APIの正確なcommit objectのローカル同期も終了0。タスク継続中。次の個別検査終了0の16数学モジュールを公開ソースへ移して新規検査47を開始する。公開数学ソースを固定し、canonical augmentation/quasi-isomorphismとgenuine標準分解の次の証明はwork草稿で継続する。
+
+修正継続 UTC 2026-10-08T21:11:52.773870+00:00、開始から実測51074.773870秒。単位47初回run20261008T211003Z-a36a1073はumbrella importをモジュール文書の後へ追加したためbuild/full/shell終了1、実測4.613976577秒。修正用最初のscriptはimport名prefixの部分文字列countでassertionとなりファイルを書換えず、47bも同じimport位置でbuild/full/shell終了1。失敗ログは両方保持。import一覧の完全な行一致で16件を本文前へ移動し、修正後の新規47cを開始した。公開数学ソースを固定し、workの単位48を継続する。
+
+継続チェックポイント UTC 2026-10-08T21:25:28.826351+00:00、開始から実測51890.826351秒。タスク継続中。mainは単位46の644fca202aa02b8609c406868e2270b9a2d79660。新規公開47c run20261008T211149Z-34625f48は数学16追加/root compile済み、lake AxiomAuditおよび独立全宣言監査が実行中で、全体終了はまだ未確定。47/47bのimport位置による終了1ログは保持しており、旧成功で新規検査を代用しない。
+次の単位48の12モジュールはすべて実際の個別Lean終了0・診断なし。実際のcomplexのcanonical homology augmentationとquasi-isomorphismの判定、通常/固定cut/unrolled Ginzburg augmentationと実際のGinzburgRegularとの同値を証明。最後の生成元によるaugmentation idealの自由有限和表示と実際のcohomological/cut次数移動、signed微分の閉性とmathlib augmentation complexを構成し、GinzburgRegularからその全負次数homology消滅を証明。標準単純分解のexactness、AS対応の両方向、最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。 差分33244bytesをwork/total-algebra/unit48-draft.patch、実装/利用先/残る義務をunit48.mdへ保存。さらに単位49の実際の最後の生成元の次数filtrationと、そのsigned微分閉性まで個別Lean終了0・診断なし。3層のassociated layerとprefix complexの比較は次の証明義務で、単純分解の完成とは扱わない。最新照会21:19 UTCのGitHub CI45/46はin_progress、旧head44のsuccessを最新head成功と扱わない。チェックポイント後も形式化を継続する。
+
+## 単位47：実際のH⁰の積・単位元とJacobian代数同型
+
+実際のGinzburg道の双線形積をcohomological次数0へ制限し、signed Leibniz則と0次微分の零性から実際の−1次境界像の左右積閉性を証明した。Jacobian比較を用いて積を定義せず、この閉性で実際のboundary商の双線形積を構成した。canonicalな商表示を介して実際のmathlib H⁰へ積とcycle classを移し、代表元の積と一致すること・classの全射性を証明した。
+
+元の道の線形同型の積保存から、H⁰–Jacobian同型がこの実際の積を保つことを証明した。任意integer sheet差の固定cut空間でも、同じLeibnizによるboundary閉性・boundary商積・mathlib H⁰積を構成した。実際の固定cut H⁰–homogeneous Jacobian商–A(Φ)成分の同型が積を保つことを証明した。ゼロ道からの単位元と元の道の結合則をclassの全射性でH⁰へ降ろし、比較写像が単位元も保つことを導いた。
+
+heightの逆を使い実際の固定cut H⁰を整数添字へ移し、その実際の積でGinzburgHomologyZAlgebraを構成した。positive/connected/id≠0は証明済みのJacobian成分同型から導き、finiteは既存の実際のhomology有限性を使用した。GinzburgHomologyJacobianIsomorphismは実際のZAlgebra同型であり、AS条件やGinzburgRegularを仮定していない。
+
+有限個の頂点と具体的な線形Hom・双線形合成・単位元/結合則の構造LinearComponentAlgebraを定義し、全成分の有限積を中間頂点にわたる実際のsumで掛けるRing/Algebraを構成した。通常の道空間と真の二側PathLinearIdealによる成分商をこの構造へ入れ、全単位的PathRing/PathQuotientRing/PathJacobianRingを構成した。実際の全成分商への全射AlgHomとkernelの全成分Jacobian所属判定、mathlib第一同型定理による実際の全環商とのAlgEquivも証明した。
+
+通常のmathlib H⁰成分の実際の積・ゼロ道単位元/結合則を同じ有限合成構造へ入れ、GinzburgHomologyRingを構成した。成分同型の積/単位元保存から全単位的環のAlgEquivを構成し、GinzburgHomologyJacobianAlgEquivを得た。全Ginzburg複体の実際のhomologyのcoproduct表示・有限DirectSum–Pi同型・curryから、実際の全mathlib H⁰とこのH⁰環の加群同型、Jacobian環の加群同型も構成した。全homologyの線形表示だけで積保存を宣言していない。
+
+個別ginzburg-zero-products1、ginzburg-zero-quotient-products1、ginzburg-homology-zero-products1、ginzburg-jacobian-products1、ginzburg-cut-zero-products2、ginzburg-cut-zero-quotient-products1、ginzburg-cut-homology-zero-products1、ginzburg-cut-jacobian-products2、ginzburg-cut-homology-units1、ginzburg-homology-z-algebra4、finite-component-algebra2、path-jacobian-ring2、finite-component-algebra-equiv2、ginzburg-homology-units1、ginzburg-homology-ring1、path-jacobian-ring-quotient1は実際のLean終了0・診断なし。cut次数のrewrite、quotient表示、既存height宣言の重複、依存型のsimp、npowのOne/Mul instance、scalar/unitの表示、未使用section引数による初回失敗/警告ログは保持して修正した。
+
+次は実際のGinzburg複体からH⁰へのcanonical augmentationと、負次数acyclicityとquasi-isomorphismの同値、genuine free-generator/augmentation分解と標準双加群/単純分解、GinzburgRegularとAS条件の両方向対応である。最小関係/選択の独立性・quadratic分解・標準RHom/外部一般定理/同型類対応も未完成。正則性・必要なExt同型・主定理相当の仮定は追加していない。定理3.2・系5.2は未証明で正式Lean定理文も未実装。新規公開build・全宣言監査・main保存後も形式化を継続する。
+
+検証：`20261008T211149Z-34625f48`、1653.750756874秒、全段階終了0。
+JST 2026-10-09T06:11:49.541687+09:00 → 2026-10-09T06:39:23.292452+09:00。
+UTC 2026-10-08T21:11:49.541687+00:00 → 2026-10-08T21:39:23.292452+00:00。
+296数学モジュール・2452異なる宣言・1226 theorem。
+差分：runs/total-algebra-20261008-unit47.patch。全theoremを監査し、許容公理3種類のみ。
+
+保存準備 UTC 2026-10-08T21:40:12.978588+00:00、開始から実測52774.978588秒。単位47の新規検査20261008T211149Z-34625f48は全6段階0・296数学モジュール/2452異なる宣言/1226 theorem/287 named instance。UTC 2026-10-08T21:11:49.541687+00:00 → 2026-10-08T21:39:23.292452+00:00、monotonic 1653.750756874秒。実際のtool shell/wrapper終了0、wrapper UTC 2026-10-08T21:11:49.510066+00:00 → 2026-10-08T21:39:23.304763+00:00、1653.794701431秒。初期14/開始時60/577歴史的ファイル・入力PDFの無変更確認も0。許容公理3種類のみ、hole/独自axiom/禁止依存/宣言重複/監査漏れなし。失敗した47/47bのimport位置エラーと全ログを保持。タスク継続中、main保存後も形式化する。

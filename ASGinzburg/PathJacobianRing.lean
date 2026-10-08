@@ -1,0 +1,100 @@
+import ASGinzburg.FiniteComponentAlgebra
+import ASGinzburg.PathJacobianIdeal
+
+/-! The full finite-quiver path and genuine Jacobian algebras as unital
+rings over k, using all actual component quotients and matrix convolution. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def pathComponentAlgebra : LinearComponentAlgebra k Q.Vertex where
+  Hom := Q.PathComponent k
+  id := Q.pathId k
+  comp := Q.pathComp k
+  comp_id := Q.pathComp_id k
+  id_comp := Q.id_pathComp k
+  comp_assoc := Q.pathComp_assoc k
+
+noncomputable def pathQuotientComponentAlgebra (I : Q.PathLinearIdeal k) :
+    LinearComponentAlgebra k Q.Vertex where
+  Hom := I.QuotientComponent
+  id v := Submodule.Quotient.mk (Q.pathId k v)
+  comp := I.quotientComp
+  comp_id := I.quotientComp_id
+  id_comp := I.id_quotientComp
+  comp_assoc := I.quotientComp_assoc
+
+noncomputable abbrev PathRing := (Q.pathComponentAlgebra k).Total
+
+noncomputable abbrev PathQuotientRing (I : Q.PathLinearIdeal k) :=
+  (Q.pathQuotientComponentAlgebra k I).Total
+
+noncomputable abbrev PathJacobianRing (φ : Q.Potential k) :=
+  Q.PathQuotientRing k (Q.pathJacobianIdeal k φ)
+
+noncomputable def pathQuotientRingMap (I : Q.PathLinearIdeal k) :
+    Q.PathRing k →ₐ[k] Q.PathQuotientRing k I where
+  toFun x i j := (I.hom i j).mkQ (x i j)
+  map_zero' := by funext i j; simp
+  map_add' := by intro x y; funext i j; simp
+  map_one' := by
+    classical
+    funext i j
+    by_cases h : i=j
+    · subst j
+      change (I.hom i i).mkQ ((Q.pathComponentAlgebra k).totalOne i i)=
+        (Q.pathQuotientComponentAlgebra k I).totalOne i i
+      rw [LinearComponentAlgebra.totalOne_diag,LinearComponentAlgebra.totalOne_diag]
+      rfl
+    · change (I.hom i j).mkQ ((Q.pathComponentAlgebra k).totalOne i j)=
+        (Q.pathQuotientComponentAlgebra k I).totalOne i j
+      rw [LinearComponentAlgebra.totalOne_offdiag _ h,LinearComponentAlgebra.totalOne_offdiag _ h,map_zero]
+  map_mul' := by
+    intro x y
+    funext i l
+    change (I.hom i l).mkQ (∑ j, Q.pathComp k (x j l) (y i j))=
+      ∑ j, I.quotientComp ((I.hom j l).mkQ (x j l)) ((I.hom i j).mkQ (y i j))
+    rw [map_sum]
+    apply Finset.sum_congr rfl
+    intro j hj
+    rfl
+  commutes' := by
+    intro a
+    funext i j
+    change (I.hom i j).mkQ ((a • (1 : Q.PathRing k)) i j)=
+      (a • (1 : Q.PathQuotientRing k I)) i j
+    change (I.hom i j).mkQ (a • (1 : Q.PathRing k) i j)=
+      a • (1 : Q.PathQuotientRing k I) i j
+    rw [map_smul]
+    have h := congrFun (congrFun (show
+      (fun i j => (I.hom i j).mkQ ((1 : Q.PathRing k) i j))=
+        (1 : Q.PathQuotientRing k I) from by
+          classical
+          funext i j
+          by_cases h : i=j
+          · subst j
+            change (I.hom i i).mkQ ((Q.pathComponentAlgebra k).totalOne i i)=
+              (Q.pathQuotientComponentAlgebra k I).totalOne i i
+            rw [LinearComponentAlgebra.totalOne_diag,LinearComponentAlgebra.totalOne_diag]
+            rfl
+          · change (I.hom i j).mkQ ((Q.pathComponentAlgebra k).totalOne i j)=
+              (Q.pathQuotientComponentAlgebra k I).totalOne i j
+            rw [LinearComponentAlgebra.totalOne_offdiag _ h,
+              LinearComponentAlgebra.totalOne_offdiag _ h,map_zero]) i) j
+    rw [h]
+
+theorem pathQuotientRingMap_surjective (I : Q.PathLinearIdeal k) :
+    Function.Surjective (Q.pathQuotientRingMap k I) := by
+  intro x
+  choose y hy using fun i j => (I.hom i j).mkQ_surjective (x i j)
+  exact ⟨y,funext fun i => funext fun j => hy i j⟩
+
+noncomputable def pathJacobianRingMap (φ : Q.Potential k) :
+    Q.PathRing k →ₐ[k] Q.PathJacobianRing k φ :=
+  Q.pathQuotientRingMap k (Q.pathJacobianIdeal k φ)
+
+theorem pathJacobianRingMap_surjective (φ : Q.Potential k) :
+    Function.Surjective (Q.pathJacobianRingMap k φ) :=
+  Q.pathQuotientRingMap_surjective k _
+
+end ASGinzburg.CutQuiver
