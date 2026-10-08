@@ -146,3 +146,24 @@ AS条件の仮定なし。標準分解は無限であり得るので有限AS分�
 UTC 2026-10-08T04:13:53.678555+00:00 → 2026-10-08T04:17:39.634349+00:00。
 494異なる宣言・222 theorem・88 named instance。
 差分：runs/as-finiteness-20261008-unit8.patch。
+
+単位8のmain保存：ce2fbe48751251b0d8c4b30fa24b363d92e84154。
+
+## 単位9：左A-dualと右・左representableの二重双対
+
+左加群NのA-dualをHom(N,A e_i)の実際の右加群として構成し、反変な射の作用も定義した。
+共変な線形Yonedaにより、左representable A e_iのA-dualはP_iと右作用を保って同型。
+右・左双方のrepresentableは、この二つの実際のA-dualを重ねると元に同型であると証明した。
+AS条件・周期性・Ext同型の仮定なし。標準公理だけの定義と証明。
+利用先：有限生成射影とperfect complexの双対性、有限長双対性からの周期性。
+残る義務：任意加群へのcanonicalなbidual評価と自然性、有限生成射影の直和・直和因子への拡張、perfect complexでの比較。
+一般の二重双対同値や原論文(1.12)の完成とは扱わない。
+次：この自然性と有限coproductのHom交換、高次Extの直和交換。
+
+初回全体run 20261008T042349Z-64f44e21はscalar mapのsimp未解決でbuild終了1。
+個別処理の完了前に成功と述べた点を訂正し、明示的Linear.smul_compへ修正して再検証する。失敗ログも保持。
+
+検証：`20261008T042452Z-24160755`、219.485639秒、全段階終了0。
+UTC 2026-10-08T04:24:52.677086+00:00 → 2026-10-08T04:28:32.162732+00:00。
+505異なる宣言・223 theorem・91 named instance。
+差分：runs/as-finiteness-20261008-unit9.patch。

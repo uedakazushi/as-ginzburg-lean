@@ -197,6 +197,17 @@ import ASGinzburg
 #print axioms ASGinzburg.quadraticHilbert_third_difference
 #print axioms ASGinzburg.quadraticHilbert_unique
 #print axioms ASGinzburg.quadraticHilbert_polynomial_bound
+#print axioms ASGinzburg.ZAlgebra.leftRepresentableFunctor
+#print axioms ASGinzburg.ZAlgebra.leftRepresentableFunctorAdditive
+#print axioms ASGinzburg.ZAlgebra.leftRepresentableFunctorLinear
+#print axioms ASGinzburg.ZAlgebra.leftModuleCoyonedaLinear
+#print axioms ASGinzburg.ZAlgebra.leftModuleADual
+#print axioms ASGinzburg.ZAlgebra.leftModuleADual_obj
+#print axioms ASGinzburg.ZAlgebra.leftModuleADualMap
+#print axioms ASGinzburg.ZAlgebra.leftModuleADualFunctor
+#print axioms ASGinzburg.ZAlgebra.leftRepresentableADualIso
+#print axioms ASGinzburg.ZAlgebra.representableBidualIso
+#print axioms ASGinzburg.ZAlgebra.leftRepresentableBidualIso
 #print axioms ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderLimits
 #print axioms ASGinzburg.ZAlgebra.leftModuleProperty_closedUnderColimits
 #print axioms ASGinzburg.ZAlgebra.leftModuleHasLimitsOfShape
