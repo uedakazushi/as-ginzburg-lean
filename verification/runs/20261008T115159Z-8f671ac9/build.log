@@ -1,0 +1,30 @@
+⚠ [3416/3448] Replayed ASGinzburg.PathAlgebra
+warning: ASGinzburg/PathAlgebra.lean:97:42: This simp argument is unused:
+  LinearMap.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp [map_add, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵ ̵ih, ih']
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✖ [3441/3448] Building ASGinzburg.ProjectiveResolutionSyzygies (1.0s)
+trace: .> LEAN_PATH=/workspace/as-ginzburg-lean/.lake/packages/Cli/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/batteries/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/Qq/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/aesop/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/plausible/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/build/lib/lean /workspace/.cloud-setup/lean-4.24.0-linux/bin/lean /workspace/as-ginzburg-lean/ASGinzburg/ProjectiveResolutionSyzygies.lean -o /workspace/as-ginzburg-lean/.lake/build/lib/lean/ASGinzburg/ProjectiveResolutionSyzygies.olean -i /workspace/as-ginzburg-lean/.lake/build/lib/lean/ASGinzburg/ProjectiveResolutionSyzygies.ilean -c /workspace/as-ginzburg-lean/.lake/build/ir/ASGinzburg/ProjectiveResolutionSyzygies.c --setup /workspace/as-ginzburg-lean/.lake/build/ir/ASGinzburg/ProjectiveResolutionSyzygies.setup.json --json
+error: ASGinzburg/ProjectiveResolutionSyzygies.lean:67:4: Invalid field `ShortExact`: The environment does not contain `CategoryTheory.ShortComplex.ShortExact`
+  { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0, f := kernel.ι (P.π.f 0),
+    g := P.π.f 0, zero := ⋯ }
+has type
+  ShortComplex C
+error: ASGinzburg/ProjectiveResolutionSyzygies.lean:71:4: Invalid field `ShortExact`: The environment does not contain `CategoryTheory.ShortComplex.ShortExact`
+  { X₁ := kernel P.firstCover, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := kernel.ι P.firstCover,
+    g := P.firstCover, zero := ⋯ }
+has type
+  ShortComplex C
+error: ASGinzburg/ProjectiveResolutionSyzygies.lean:79:4: Invalid field `ShortExact`: The environment does not contain `CategoryTheory.ShortComplex.ShortExact`
+  { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2, g := P.secondCover,
+    zero := ⋯ }
+has type
+  ShortComplex C
+error: Lean exited with code 1
+✔ [3443/3448] Built ASGinzburg.ASLeftBidualComplex (4.0s)
+Some required targets logged failures:
+- ASGinzburg.ProjectiveResolutionSyzygies
+error: build failed
