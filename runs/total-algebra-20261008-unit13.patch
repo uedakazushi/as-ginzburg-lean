@@ -1,0 +1,305 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 977b4fa..3c9f3a9 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -14,6 +14,8 @@ import ASGinzburg.UnitizationComponentFunctors
+ import ASGinzburg.UnitizationComponentSums
+ import ASGinzburg.LocallyUnitalEquivalence
+ import ASGinzburg.LocallyUnitalAbelian
++import ASGinzburg.ExactEquivalenceExt
++import ASGinzburg.LocallyUnitalExtComparison
+ import ASGinzburg.RegularCoproductActions
+ import ASGinzburg.TotalModuleSpaces
+ import ASGinzburg.ASDualityRegularCoproduct
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index ef09ea2..c4f4392 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -206,6 +206,22 @@ import ASGinzburg
+ #print axioms ASGinzburg.cyclicCutReconstruction_traceWord
+ #print axioms ASGinzburg.cyclicCutReconstruction_comp_trace
+ #print axioms ASGinzburg.cut_cyclic_derivative_identity
++#print axioms ASGinzburg.equivalenceMapDerivedIsEquivalence
++#print axioms ASGinzburg.exactDerivedEquivalence
++#print axioms ASGinzburg.exactDerivedSingleIso
++#print axioms ASGinzburg.exactDerivedShiftedHomAddEquiv
++#print axioms ASGinzburg.derivedShiftedHomCongrAddEquiv
++#print axioms ASGinzburg.exactEquivalenceExtAddEquiv
++#print axioms ASGinzburg.exactDerivedLinear
++#print axioms ASGinzburg.exactDerivedQhLinear
++#print axioms ASGinzburg.exactDerivedQLinear
++#print axioms ASGinzburg.exactDerivedShiftLinear
++#print axioms ASGinzburg.exactDerivedMapLinear
++#print axioms ASGinzburg.exactDerivedShiftedHomLinearEquiv
++#print axioms ASGinzburg.derivedShiftedHomCongrLinearEquiv
++#print axioms ASGinzburg.exactExtModule
++#print axioms ASGinzburg.exactExtHomLinearEquiv
++#print axioms ASGinzburg.exactEquivalenceExtLinearEquiv
+ #print axioms ASGinzburg.totalDimension
+ #print axioms ASGinzburg.dimension_table_eq_single
+ #print axioms ASGinzburg.total_dimension_single
+@@ -370,6 +386,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalEquivalence
+ #print axioms ASGinzburg.ZAlgebra.leftTotalLocallyUnitalFunctorIsEquivalence
+ #print axioms ASGinzburg.ZAlgebra.rightTotalLocallyUnitalFunctorIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtModule
++#print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtModule
++#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtModule
++#print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtAddEquiv
++#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtAddEquiv
++#print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv
+ #print axioms ASGinzburg.ZAlgebra.totalUnitization
+ #print axioms ASGinzburg.ZAlgebra.totalUnitizationRing
+ #print axioms ASGinzburg.ZAlgebra.totalUnitizationSemiring
+diff --git a/ASGinzburg/ExactEquivalenceExt.lean b/ASGinzburg/ExactEquivalenceExt.lean
+new file mode 100644
+index 0000000..72b96a5
+--- /dev/null
++++ b/ASGinzburg/ExactEquivalenceExt.lean
+@@ -0,0 +1,172 @@
++import Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor
++import Mathlib.Algebra.Homology.DerivedCategory.Ext.Basic
++import ASGinzburg.RightModuleExtLinear
++
++/-! An additive equivalence of Abelian categories induces an equivalence
++of the actual derived categories, compatible with single complexes and shifts.
++Consequently it preserves actual Ext additively, and linearly over a field
++when the equivalence is linear. No Ext comparison is assumed. -/
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe w w₁ w₂ v₁ v₂ u₁ u₂
++variable {C : Type u₁} [Category.{v₁} C] [Abelian C] [HasDerivedCategory.{w₁} C]
++  {D : Type u₂} [Category.{v₂} D] [Abelian D] [HasDerivedCategory.{w₂} D]
++  (e : C ≌ D) [e.functor.Additive] [e.inverse.Additive]
++
++noncomputable instance equivalenceMapDerivedIsEquivalence : e.functor.mapDerivedCategory.IsEquivalence := by
++  let Φ := e.functor.mapHomologicalComplexUpToQuasiIsoLocalizerMorphism (ComplexShape.up ℤ)
++  let Ψ := e.inverse.mapHomologicalComplexUpToQuasiIsoLocalizerMorphism (ComplexShape.up ℤ)
++  let E := e.mapHomologicalComplex (ComplexShape.up ℤ)
++  haveI : Φ.IsLocalizedEquivalence :=
++    Φ.isLocalizedEquivalence_of_unit_of_unit Ψ E.unitIso.hom E.counitIso.inv
++      (fun _ => by dsimp [HomologicalComplex.quasiIso]; infer_instance)
++      (fun _ => by dsimp [HomologicalComplex.quasiIso]; infer_instance)
++  exact inferInstanceAs (Φ.localizedFunctor DerivedCategory.Q DerivedCategory.Q).IsEquivalence
++
++noncomputable def exactDerivedEquivalence : DerivedCategory C ≌ DerivedCategory D :=
++  e.functor.mapDerivedCategory.asEquivalence
++
++noncomputable def exactDerivedSingleIso (n : ℤ) :
++    DerivedCategory.singleFunctor C n ⋙ e.functor.mapDerivedCategory ≅
++      e.functor ⋙ DerivedCategory.singleFunctor D n :=
++  Functor.isoWhiskerRight (DerivedCategory.singleFunctorIsoCompQ C n) e.functor.mapDerivedCategory ≪≫
++    Functor.associator _ _ _ ≪≫
++    Functor.isoWhiskerLeft (CochainComplex.singleFunctor C n) e.functor.mapDerivedCategoryFactors ≪≫
++    (Functor.associator _ _ _).symm ≪≫
++    Functor.isoWhiskerRight
++      (HomologicalComplex.singleMapHomologicalComplex e.functor (ComplexShape.up ℤ) n) DerivedCategory.Q ≪≫
++    Functor.associator _ _ _ ≪≫
++    Functor.isoWhiskerLeft e.functor (DerivedCategory.singleFunctorIsoCompQ D n).symm
++
++noncomputable def exactDerivedShiftedHomAddEquiv (X Y : DerivedCategory C) (n : ℤ) :
++    ShiftedHom X Y n ≃+
++      ShiftedHom (e.functor.mapDerivedCategory.obj X) (e.functor.mapDerivedCategory.obj Y) n where
++  toFun f := e.functor.mapDerivedCategory.map f ≫
++    (e.functor.mapDerivedCategory.commShiftIso n).hom.app Y
++  invFun g := e.functor.mapDerivedCategory.preimage
++    (g ≫ (e.functor.mapDerivedCategory.commShiftIso n).inv.app Y)
++  left_inv f := by
++    change e.functor.mapDerivedCategory.preimage
++      ((e.functor.mapDerivedCategory.map f ≫ (e.functor.mapDerivedCategory.commShiftIso n).hom.app Y) ≫
++        (e.functor.mapDerivedCategory.commShiftIso n).inv.app Y) = f
++    simp only [Category.assoc, Iso.hom_inv_id_app, Functor.comp_obj, Category.comp_id, Functor.preimage_map]
++  right_inv g := by
++    change e.functor.mapDerivedCategory.map
++      (e.functor.mapDerivedCategory.preimage
++        (g ≫ (e.functor.mapDerivedCategory.commShiftIso n).inv.app Y)) ≫
++      (e.functor.mapDerivedCategory.commShiftIso n).hom.app Y = g
++    simp only [Functor.map_preimage, Category.assoc, Iso.inv_hom_id_app, Functor.comp_obj, Category.comp_id]
++  map_add' f g := by
++    change e.functor.mapDerivedCategory.map (f + g) ≫ _ = _
++    rw [Functor.map_add, Preadditive.add_comp]
++
++noncomputable def derivedShiftedHomCongrAddEquiv {X X' Y Y' : DerivedCategory D}
++    (eX : X ≅ X') (eY : Y ≅ Y') (n : ℤ) : ShiftedHom X Y n ≃+ ShiftedHom X' Y' n where
++  toFun f := eX.inv ≫ f ≫ (shiftFunctor (DerivedCategory D) n).map eY.hom
++  invFun g := eX.hom ≫ g ≫ (shiftFunctor (DerivedCategory D) n).map eY.inv
++  left_inv f := by
++    change eX.hom ≫ (eX.inv ≫ f ≫ (shiftFunctor (DerivedCategory D) n).map eY.hom) ≫
++      (shiftFunctor (DerivedCategory D) n).map eY.inv = f
++    simp [Category.assoc, ← Functor.map_comp]
++  right_inv g := by
++    change eX.inv ≫ (eX.hom ≫ g ≫ (shiftFunctor (DerivedCategory D) n).map eY.inv) ≫
++      (shiftFunctor (DerivedCategory D) n).map eY.hom = g
++    simp [Category.assoc, ← Functor.map_comp]
++  map_add' f g := by
++    change eX.inv ≫ (f + g) ≫ _ = _
++    rw [Preadditive.add_comp, Preadditive.comp_add]
++
++variable [HasExt.{w} C] [HasExt.{w} D]
++
++noncomputable def exactEquivalenceExtAddEquiv (X Y : C) (n : ℕ) :
++    Abelian.Ext.{w} X Y n ≃+ Abelian.Ext.{w} (e.functor.obj X) (e.functor.obj Y) n :=
++  Abelian.Ext.homAddEquiv.trans
++    ((exactDerivedShiftedHomAddEquiv e ((DerivedCategory.singleFunctor C 0).obj X)
++      ((DerivedCategory.singleFunctor C 0).obj Y) (n : ℤ)).trans
++      ((derivedShiftedHomCongrAddEquiv ((exactDerivedSingleIso e 0).app X)
++        ((exactDerivedSingleIso e 0).app Y) (n : ℤ)).trans Abelian.Ext.homAddEquiv.symm))
++
++noncomputable instance exactDerivedLinear (R : Type*) [Field R] [Linear R C] :
++    Linear R (DerivedCategory C) :=
++  Localization.linear R (DerivedCategory.Qh : _ ⥤ DerivedCategory C)
++    (HomotopyCategory.quasiIso C (ComplexShape.up ℤ))
++
++noncomputable instance exactDerivedQhLinear (R : Type*) [Field R] [Linear R C] :
++    (DerivedCategory.Qh : _ ⥤ DerivedCategory C).Linear R :=
++  Localization.functor_linear R _ _
++
++noncomputable instance exactDerivedQLinear (R : Type*) [Field R] [Linear R C] :
++    (DerivedCategory.Q : _ ⥤ DerivedCategory C).Linear R :=
++  Functor.linear_of_iso _ (DerivedCategory.quotientCompQhIso C)
++
++noncomputable instance exactDerivedShiftLinear (R : Type*) [Field R] [Linear R C] (n : ℤ) :
++    (shiftFunctor (DerivedCategory C) n).Linear R :=
++  Shift.linear_of_localization R DerivedCategory.Qh
++    (HomotopyCategory.subcategoryAcyclic C).trW _
++
++noncomputable instance exactDerivedMapLinear (R : Type*) [Field R]
++    [Linear R C] [Linear R D] [e.functor.Linear R] :
++    e.functor.mapDerivedCategory.Linear R := by
++  exact (Localization.functor_linear_iff DerivedCategory.Q
++    (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)) R
++      (e.functor.mapHomologicalComplex (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
++        e.functor.mapDerivedCategory).mp inferInstance
++
++noncomputable def exactDerivedShiftedHomLinearEquiv (R : Type*) [Field R]
++    [Linear R C] [Linear R D] [e.functor.Linear R]
++    (X Y : DerivedCategory C) (n : ℤ) :
++    ShiftedHom X Y n ≃ₗ[R]
++      ShiftedHom (e.functor.mapDerivedCategory.obj X) (e.functor.mapDerivedCategory.obj Y) n :=
++  { exactDerivedShiftedHomAddEquiv e X Y n with
++    map_smul' := by
++      intro r f
++      change e.functor.mapDerivedCategory.map (r • f) ≫
++        (e.functor.mapDerivedCategory.commShiftIso n).hom.app Y =
++          r • (e.functor.mapDerivedCategory.map f ≫
++            (e.functor.mapDerivedCategory.commShiftIso n).hom.app Y)
++      rw [Functor.map_smul, Linear.smul_comp] }
++
++noncomputable def derivedShiftedHomCongrLinearEquiv (R : Type*) [Field R]
++    [Linear R D] {X X' Y Y' : DerivedCategory D}
++    (eX : X ≅ X') (eY : Y ≅ Y') (n : ℤ) : ShiftedHom X Y n ≃ₗ[R] ShiftedHom X' Y' n :=
++  { derivedShiftedHomCongrAddEquiv eX eY n with
++    map_smul' := by
++      intro r f
++      change eX.inv ≫ (r • f) ≫ (shiftFunctor (DerivedCategory D) n).map eY.hom =
++        r • (eX.inv ≫ f ≫ (shiftFunctor (DerivedCategory D) n).map eY.hom)
++      rw [Linear.smul_comp, Linear.comp_smul] }
++
++noncomputable def exactExtModule (R : Type*) [Field R] [Linear R C]
++    (X Y : C) (n : ℕ) : Module R (Abelian.Ext.{w} X Y n) :=
++  (Abelian.Ext.homAddEquiv : Abelian.Ext.{w} X Y n ≃+
++    ShiftedHom ((DerivedCategory.singleFunctor C 0).obj X)
++      ((DerivedCategory.singleFunctor C 0).obj Y) (n : ℤ)).module R
++
++noncomputable def exactExtHomLinearEquiv (R : Type*) [Field R] [Linear R C]
++    (X Y : C) (n : ℕ) :
++    letI := exactExtModule R X Y n
++    Abelian.Ext.{w} X Y n ≃ₗ[R]
++      ShiftedHom ((DerivedCategory.singleFunctor C 0).obj X)
++        ((DerivedCategory.singleFunctor C 0).obj Y) (n : ℤ) := by
++  letI := exactExtModule R X Y n
++  exact { Abelian.Ext.homAddEquiv with
++    map_smul' := by
++      intro r α
++      exact (Abelian.Ext.homAddEquiv).apply_symm_apply _ }
++
++noncomputable def exactEquivalenceExtLinearEquiv (R : Type*) [Field R]
++    [Linear R C] [Linear R D] [e.functor.Linear R] (X Y : C) (n : ℕ) :
++    letI := exactExtModule R X Y n
++    letI := exactExtModule R (e.functor.obj X) (e.functor.obj Y) n
++    Abelian.Ext.{w} X Y n ≃ₗ[R] Abelian.Ext.{w} (e.functor.obj X) (e.functor.obj Y) n := by
++  letI := exactExtModule R X Y n
++  letI := exactExtModule R (e.functor.obj X) (e.functor.obj Y) n
++  exact (exactExtHomLinearEquiv R X Y n).trans
++    ((exactDerivedShiftedHomLinearEquiv e R ((DerivedCategory.singleFunctor C 0).obj X)
++      ((DerivedCategory.singleFunctor C 0).obj Y) (n : ℤ)).trans
++      ((derivedShiftedHomCongrLinearEquiv R ((exactDerivedSingleIso e 0).app X)
++        ((exactDerivedSingleIso e 0).app Y) (n : ℤ)).trans
++          (exactExtHomLinearEquiv R (e.functor.obj X) (e.functor.obj Y) n).symm))
++
++end ASGinzburg
+diff --git a/ASGinzburg/LocallyUnitalExtComparison.lean b/ASGinzburg/LocallyUnitalExtComparison.lean
+new file mode 100644
+index 0000000..6703c68
+--- /dev/null
++++ b/ASGinzburg/LocallyUnitalExtComparison.lean
+@@ -0,0 +1,67 @@
++import ASGinzburg.ExactEquivalenceExt
++import ASGinzburg.LocallyUnitalAbelian
++
++/-! The proved concrete locally unital equivalences preserve actual Ext in
++all nonnegative degrees, with its actual field action. Naturality is developed
++separately before transferring the paper's complete equation (1.12). -/
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable instance leftModuleExtModule (M N : A.LeftModule) (n : ℕ) :
++    Module k (Abelian.Ext.{v} M N n) := by
++  letI := HasDerivedCategory.standard A.LeftModule
++  exact ASGinzburg.exactExtModule k M N n
++
++noncomputable instance leftLocallyUnitalExtModule (M N : A.LeftLocallyUnitalModule) (n : ℕ) :
++    Module k (Abelian.Ext.{v} M N n) := by
++  letI := HasDerivedCategory.standard A.LeftLocallyUnitalModule
++  exact ASGinzburg.exactExtModule k M N n
++
++noncomputable instance rightLocallyUnitalExtModule (M N : A.RightLocallyUnitalModule) (n : ℕ) :
++    Module k (Abelian.Ext.{v} M N n) := by
++  letI := HasDerivedCategory.standard A.RightLocallyUnitalModule
++  exact ASGinzburg.exactExtModule k M N n
++
++noncomputable def leftLocallyUnitalExtAddEquiv (M N : A.LeftModule) (n : ℕ) :
++    Abelian.Ext.{v} M N n ≃+
++      Abelian.Ext.{v} (A.leftTotalLocallyUnitalModule M) (A.leftTotalLocallyUnitalModule N) n := by
++  letI := HasDerivedCategory.standard A.LeftModule
++  letI := HasDerivedCategory.standard A.LeftLocallyUnitalModule
++  letI : A.leftLocallyUnitalEquivalence.functor.Additive := A.leftTotalLocallyUnitalFunctorAdditive
++  letI : A.leftLocallyUnitalEquivalence.inverse.Additive := A.leftLocallyUnitalComponentFunctorAdditive
++  exact ASGinzburg.exactEquivalenceExtAddEquiv A.leftLocallyUnitalEquivalence M N n
++
++noncomputable def rightLocallyUnitalExtAddEquiv (M N : A.RightModule) (n : ℕ) :
++    Abelian.Ext.{v} M N n ≃+
++      Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule M) (A.rightTotalLocallyUnitalModule N) n := by
++  letI := HasDerivedCategory.standard A.RightModule
++  letI := HasDerivedCategory.standard A.RightLocallyUnitalModule
++  letI : A.rightLocallyUnitalEquivalence.functor.Additive := A.rightTotalLocallyUnitalFunctorAdditive
++  letI : A.rightLocallyUnitalEquivalence.inverse.Additive := A.rightLocallyUnitalComponentFunctorAdditive
++  exact ASGinzburg.exactEquivalenceExtAddEquiv A.rightLocallyUnitalEquivalence M N n
++
++noncomputable def leftLocallyUnitalExtLinearEquiv (M N : A.LeftModule) (n : ℕ) :
++    Abelian.Ext.{v} M N n ≃ₗ[k]
++      Abelian.Ext.{v} (A.leftTotalLocallyUnitalModule M) (A.leftTotalLocallyUnitalModule N) n := by
++  letI := HasDerivedCategory.standard A.LeftModule
++  letI := HasDerivedCategory.standard A.LeftLocallyUnitalModule
++  letI : A.leftLocallyUnitalEquivalence.functor.Additive := A.leftTotalLocallyUnitalFunctorAdditive
++  letI : A.leftLocallyUnitalEquivalence.inverse.Additive := A.leftLocallyUnitalComponentFunctorAdditive
++  letI : A.leftLocallyUnitalEquivalence.functor.Linear k := A.leftTotalLocallyUnitalFunctorLinear
++  exact ASGinzburg.exactEquivalenceExtLinearEquiv A.leftLocallyUnitalEquivalence k M N n
++
++noncomputable def rightLocallyUnitalExtLinearEquiv (M N : A.RightModule) (n : ℕ) :
++    Abelian.Ext.{v} M N n ≃ₗ[k]
++      Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule M) (A.rightTotalLocallyUnitalModule N) n := by
++  letI := HasDerivedCategory.standard A.RightModule
++  letI := HasDerivedCategory.standard A.RightLocallyUnitalModule
++  letI : A.rightLocallyUnitalEquivalence.functor.Additive := A.rightTotalLocallyUnitalFunctorAdditive
++  letI : A.rightLocallyUnitalEquivalence.inverse.Additive := A.rightLocallyUnitalComponentFunctorAdditive
++  letI : A.rightLocallyUnitalEquivalence.functor.Linear k := A.rightTotalLocallyUnitalFunctorLinear
++  exact ASGinzburg.exactEquivalenceExtLinearEquiv A.rightLocallyUnitalEquivalence k M N n
++
++end ASGinzburg.ZAlgebra

@@ -1,11 +1,11 @@
 # Codexクラウドへの引継ぎ
 
-具体的な局所単位付き左右加群圏に、証明済み圏同値からAbelian構造・EnoughProjectives・実際のExtの存在を移しました。
-総加群関手と成分復元関手の加法性・k線形性も証明済みです。既存RightModuleと原論文の仮定を保持しています。
-次は導来圏の同値を通じた、全M,N・全次数の実際のAbelian.Extのk線形保存と自然性です。
+左右の具体的局所単位付き加群圏との圏同値が、実際のAbelian.Extを全M,N・全非負次数でk線形に保存することを証明しました。
+複体の同値と準同型による局所化から導来圏の同値を構成し、single complex・次数shiftに適合するHom同型を使っています。
+次は前合成・後合成の自然性、正則総加群と総代数の同定、および直和交換・全成分左作用の原論文(1.12)への移送です。
 有限長双対性・周期性・主定理3.2と系5.2は未証明。両主結果の形式的な文も未実装です。
-最新ローカル検証 20261008T090214Z-24c5aa34：75数学モジュール・836異なる宣言・357 theorem、全段階終了0。
-単位1〜12の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+最新ローカル検証 20261008T091702Z-13b57871：77数学モジュール・859異なる宣言・357 theorem、全段階終了0。
+単位1〜13の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -29,10 +29,10 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T090214Z-24c5aa34`、全段階終了0、398.220371555秒。
-UTC 2026-10-08T09:02:14.997132+00:00 → 2026-10-08T09:08:53.217513+00:00。
-JST 2026-10-08T18:02:14.997132+09:00 → 2026-10-08T18:08:53.217513+09:00。
-75数学モジュール・836異なる明示的宣言・全357 theorem・147 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T091702Z-13b57871`、全段階終了0、422.418809290秒。
+UTC 2026-10-08T09:17:02.077765+00:00 → 2026-10-08T09:24:04.496581+00:00。
+JST 2026-10-08T18:17:02.077765+09:00 → 2026-10-08T18:24:04.496581+09:00。
+77数学モジュール・859異なる明示的宣言・全357 theorem・156 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -59,7 +59,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 ## 次に必要な証明義務
 
 1. 具体的な成分復元関手と単位・余単位による左右圏同値は完成。
-2. この圏同値でAbelian構造・EnoughProjectives・実際のExtの存在は移送済み。次は導来圏の同値による実際のExtのk線形保存と自然性。
+2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。次は前合成・後合成の自然性、正則総加群と総代数の同定と(1.12)への移送。
 3. canonicalな二重A-dualの評価と自然性、有限生成射影・perfect complex・有限長双対性。
 4. D Ext³から区間制限・projective cover・区間同型のcoherenceを構成し、AS条件から周期性を導く。
 5. Jacobian商・Ginzburg dg代数・d²=0・外部一般定理・主定理の同型類対応。
