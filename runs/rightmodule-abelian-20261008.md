@@ -24,3 +24,21 @@
 - `git diff`を`runs/rightmodule-abelian-20261008-unit1.patch`へ保存する。
 
 主定理3.2・系5.2は未証明、形式的な定理文も未実装。AS条件・Ext条件・周期性を追加仮定にしない。
+
+## 単位2：Abelian構造と核・余核の保存
+
+- 完成：任意の存在する形状の(余)極限のfull subcategoryへの持ち上げとcreate、有限積、
+  余像→像の比較射の同型性、`rightModuleAbelian`、包含の有限(余)極限保存。
+- 単位1のコミット：`2798d6f`、push終了0。
+- mathlibの`ModuleCat`とambient関手圏のAbelian構造、full faithful inclusion、
+  `PreservesCoimageImageComparison.iso`と`Abelian.ofCoimageImageComparisonIsIso`を使用。
+- 長い宣言名でLeanの公理リストが折り返されるため、監査ログ解析を複数行に対応させた。
+  重複・禁止公理・切れたリスト・未認識出力を拒否する回帰テストを追加（合計11件）。
+- 検証：`20261008T002911Z-45d4d8c7`、全段階終了0、14.815409秒。
+  UTC 2026-10-08T00:29:11.909605+00:00 → 2026-10-08T00:29:26.725020+00:00。
+  ビルド、183異なる宣言の公理監査（86 theorem）、11回帰テスト、固定環境、照合が成功。
+- 途中の失敗：`20261008T002644Z-f4e57128` build終了1（有限余極限保存の明示的introで解消）、
+  `20261008T002737Z-ed8c1a7f` report終了1（公理出力の折り返し対応で解消）。
+- 差分：`runs/rightmodule-abelian-20261008-unit2.patch`。
+- 次の利用先と証明義務：頂点評価がホモロジーを保存すること、核・余核・homologyの成分同型、
+  exactnessと線形写像の像＝核の同値、短完全列の成分判定。

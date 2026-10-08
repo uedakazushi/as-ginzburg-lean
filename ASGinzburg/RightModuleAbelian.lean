@@ -73,4 +73,55 @@ theorem rightModuleProperty_closedUnderColimits
       (c.ι.app j).naturality f, Linear.comp_smul]
     rfl
 
+/-- Limits are inherited without leaving the category of linear right modules. -/
+noncomputable instance rightModuleHasLimitsOfShape
+    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
+    HasLimitsOfShape J A.RightModule :=
+  hasLimitsOfShape_of_closedUnderLimits (A.rightModuleProperty_closedUnderLimits J)
+
+/-- Colimits are inherited without leaving the category of linear right modules. -/
+noncomputable instance rightModuleHasColimitsOfShape
+    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
+    HasColimitsOfShape J A.RightModule :=
+  hasColimitsOfShape_of_closedUnderColimits (A.rightModuleProperty_closedUnderColimits J)
+
+/-- The full-subcategory inclusion creates limits in the ambient presheaf category. -/
+noncomputable instance rightModuleInclusionCreatesLimitsOfShape
+    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
+    CreatesLimitsOfShape J A.rightModuleProperty.ι :=
+  createsLimitsOfShapeFullSubcategoryInclusion (A.rightModuleProperty_closedUnderLimits J)
+
+/-- The full-subcategory inclusion creates colimits in the ambient presheaf category. -/
+noncomputable instance rightModuleInclusionCreatesColimitsOfShape
+    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
+    CreatesColimitsOfShape J A.rightModuleProperty.ι :=
+  createsColimitsOfShapeFullSubcategoryInclusion (A.rightModuleProperty_closedUnderColimits J)
+
+/-- In particular, right modules have the finite products needed for the Abelian criterion. -/
+noncomputable instance rightModuleHasFiniteProducts : HasFiniteProducts A.RightModule where
+  out _ := inferInstance
+
+/-- Coimages and images agree: the inclusion preserves both constructions and reflects isos. -/
+noncomputable instance rightModuleCoimageImageComparisonIsIso
+    {M N : A.RightModule} (f : M ⟶ N) : IsIso (Abelian.coimageImageComparison f) := by
+  haveI : IsIso (A.rightModuleProperty.ι.map (Abelian.coimageImageComparison f)) := by
+    rw [Arrow.isIso_iff_isIso_of_isIso
+      (Abelian.PreservesCoimageImageComparison.iso A.rightModuleProperty.ι f).hom]
+    infer_instance
+  exact isIso_of_reflects_iso _ A.rightModuleProperty.ι
+
+/-- The existing category of additive, linear right presheaves is Abelian. -/
+noncomputable instance rightModuleAbelian : Abelian A.RightModule :=
+  Abelian.ofCoimageImageComparisonIsIso
+
+/-- The inclusion preserves finite limits, in particular kernels. -/
+noncomputable instance rightModuleInclusionPreservesFiniteLimits :
+    PreservesFiniteLimits A.rightModuleProperty.ι where
+  preservesFiniteLimits _ := inferInstance
+
+/-- The inclusion preserves finite colimits, in particular cokernels. -/
+noncomputable instance rightModuleInclusionPreservesFiniteColimits :
+    PreservesFiniteColimits A.rightModuleProperty.ι where
+  preservesFiniteColimits _ := inferInstance
+
 end ASGinzburg.ZAlgebra

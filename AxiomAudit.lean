@@ -130,6 +130,15 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.representableEnd_finrank
 #print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits
 #print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits
+#print axioms ASGinzburg.ZAlgebra.rightModuleHasLimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.rightModuleHasColimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionCreatesLimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionCreatesColimitsOfShape
+#print axioms ASGinzburg.ZAlgebra.rightModuleHasFiniteProducts
+#print axioms ASGinzburg.ZAlgebra.rightModuleCoimageImageComparisonIsIso
+#print axioms ASGinzburg.ZAlgebra.rightModuleAbelian
+#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteLimits
+#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteColimits
 #print axioms ASGinzburg.ArrowSpace333
 #print axioms ASGinzburg.CubicTensor333
 #print axioms ASGinzburg.Triple333

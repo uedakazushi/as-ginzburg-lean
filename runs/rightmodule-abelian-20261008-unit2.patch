@@ -1,0 +1,145 @@
+diff --git a/ASGinzburg/RightModuleAbelian.lean b/ASGinzburg/RightModuleAbelian.lean
+index 8dbcd2f..edda9fb 100644
+--- a/ASGinzburg/RightModuleAbelian.lean
++++ b/ASGinzburg/RightModuleAbelian.lean
+@@ -73,4 +73,55 @@ theorem rightModuleProperty_closedUnderColimits
+       (c.ι.app j).naturality f, Linear.comp_smul]
+     rfl
+ 
++/-- Limits are inherited without leaving the category of linear right modules. -/
++noncomputable instance rightModuleHasLimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    HasLimitsOfShape J A.RightModule :=
++  hasLimitsOfShape_of_closedUnderLimits (A.rightModuleProperty_closedUnderLimits J)
++
++/-- Colimits are inherited without leaving the category of linear right modules. -/
++noncomputable instance rightModuleHasColimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    HasColimitsOfShape J A.RightModule :=
++  hasColimitsOfShape_of_closedUnderColimits (A.rightModuleProperty_closedUnderColimits J)
++
++/-- The full-subcategory inclusion creates limits in the ambient presheaf category. -/
++noncomputable instance rightModuleInclusionCreatesLimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    CreatesLimitsOfShape J A.rightModuleProperty.ι :=
++  createsLimitsOfShapeFullSubcategoryInclusion (A.rightModuleProperty_closedUnderLimits J)
++
++/-- The full-subcategory inclusion creates colimits in the ambient presheaf category. -/
++noncomputable instance rightModuleInclusionCreatesColimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    CreatesColimitsOfShape J A.rightModuleProperty.ι :=
++  createsColimitsOfShapeFullSubcategoryInclusion (A.rightModuleProperty_closedUnderColimits J)
++
++/-- In particular, right modules have the finite products needed for the Abelian criterion. -/
++noncomputable instance rightModuleHasFiniteProducts : HasFiniteProducts A.RightModule where
++  out _ := inferInstance
++
++/-- Coimages and images agree: the inclusion preserves both constructions and reflects isos. -/
++noncomputable instance rightModuleCoimageImageComparisonIsIso
++    {M N : A.RightModule} (f : M ⟶ N) : IsIso (Abelian.coimageImageComparison f) := by
++  haveI : IsIso (A.rightModuleProperty.ι.map (Abelian.coimageImageComparison f)) := by
++    rw [Arrow.isIso_iff_isIso_of_isIso
++      (Abelian.PreservesCoimageImageComparison.iso A.rightModuleProperty.ι f).hom]
++    infer_instance
++  exact isIso_of_reflects_iso _ A.rightModuleProperty.ι
++
++/-- The existing category of additive, linear right presheaves is Abelian. -/
++noncomputable instance rightModuleAbelian : Abelian A.RightModule :=
++  Abelian.ofCoimageImageComparisonIsIso
++
++/-- The inclusion preserves finite limits, in particular kernels. -/
++noncomputable instance rightModuleInclusionPreservesFiniteLimits :
++    PreservesFiniteLimits A.rightModuleProperty.ι where
++  preservesFiniteLimits _ := inferInstance
++
++/-- The inclusion preserves finite colimits, in particular cokernels. -/
++noncomputable instance rightModuleInclusionPreservesFiniteColimits :
++    PreservesFiniteColimits A.rightModuleProperty.ι where
++  preservesFiniteColimits _ := inferInstance
++
+ end ASGinzburg.ZAlgebra
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index c87f235..3456753 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -130,6 +130,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.representableEnd_finrank
+ #print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits
+ #print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits
++#print axioms ASGinzburg.ZAlgebra.rightModuleHasLimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightModuleHasColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionCreatesLimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionCreatesColimitsOfShape
++#print axioms ASGinzburg.ZAlgebra.rightModuleHasFiniteProducts
++#print axioms ASGinzburg.ZAlgebra.rightModuleCoimageImageComparisonIsIso
++#print axioms ASGinzburg.ZAlgebra.rightModuleAbelian
++#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteLimits
++#print axioms ASGinzburg.ZAlgebra.rightModuleInclusionPreservesFiniteColimits
+ #print axioms ASGinzburg.ArrowSpace333
+ #print axioms ASGinzburg.CubicTensor333
+ #print axioms ASGinzburg.Triple333
+diff --git a/scripts/report_verification.py b/scripts/report_verification.py
+index 73868cf..5972e97 100644
+--- a/scripts/report_verification.py
++++ b/scripts/report_verification.py
+@@ -12,7 +12,7 @@ from audit_sources import ROOT, inventory, project_sources, require_unique
+ ALLOWED = {'propext', 'Classical.choice', 'Quot.sound'}
+ TOOLCHAIN = 'leanprover/lean4:v4.24.0'
+ MATHLIB = 'f897ebcf72cd16f89ab4577d0c826cd14afaafc7'
+-RECORD = re.compile(r"^'(.+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)$")
++RECORD = re.compile(r"^'(.+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)$", re.M)
+ 
+ 
+ def digest(path):
+@@ -23,14 +23,17 @@ def check_coverage(entries, text):
+     expected = [e['name'] for e in entries]
+     require_unique(expected, 'inventory names')
+     names, axioms = [], set()
+-    for line in text.splitlines():
+-        if not line.strip():
+-            continue
+-        match = RECORD.fullmatch(line.strip())
+-        if not match:
+-            raise ValueError(f'Unexpected axiom audit output: {line}')
++    # Lean pretty-printing wraps long declarations' axiom lists across lines.
++    # Parse complete records, but reject all intervening non-whitespace output.
++    cursor = 0
++    for match in RECORD.finditer(text):
++        if text[cursor:match.start()].strip():
++            raise ValueError(f'Unexpected axiom audit output: {text[cursor:match.start()]}')
+         names.append(match[1])
+         axioms.update(n.strip() for n in (match[2] or '').split(',') if n.strip())
++        cursor = match.end()
++    if text[cursor:].strip():
++        raise ValueError(f'Unexpected axiom audit output: {text[cursor:]}')
+     require_unique(names, 'axiom log names')
+     if Counter(names) != Counter(expected):
+         raise ValueError(f'Audit coverage mismatch; missing={sorted(set(expected)-set(names))}; '
+diff --git a/tests/test_audit.py b/tests/test_audit.py
+index be97b60..cfd27d3 100644
+--- a/tests/test_audit.py
++++ b/tests/test_audit.py
+@@ -81,6 +81,23 @@ class AuditTests(unittest.TestCase):
+         with self.assertRaisesRegex(ValueError, 'active run'):
+             certify(run_dir, root)
+ 
++    def test_wrapped_axiom_lists_preserve_strict_coverage(self):
++        entries = [{'name': 'N.longDeclaration'}]
++        wrapped = "'N.longDeclaration' depends on axioms: [propext,\n Classical.choice, Quot.sound]\n"
++        names, axioms = check_coverage(entries, wrapped)
++        self.assertEqual(names, ['N.longDeclaration'])
++        self.assertEqual(axioms, {'propext', 'Classical.choice', 'Quot.sound'})
++        with self.assertRaisesRegex(ValueError, 'Duplicate'):
++            check_coverage(entries, wrapped + wrapped)
++        for bad in (wrapped.replace('Quot.sound', 'sorryAx'),
++                    wrapped.replace('Quot.sound', 'Lean.trustCompiler')):
++            with self.subTest(log=bad), self.assertRaisesRegex(ValueError, 'Unaccepted'):
++                check_coverage(entries, bad)
++        for bad in (wrapped.replace(']', ''), wrapped + 'unexpected output\n',
++                    'unexpected output\n' + wrapped):
++            with self.subTest(log=bad), self.assertRaisesRegex(ValueError, 'Unexpected'):
++                check_coverage(entries, bad)
++
+     def test_failed_build_exit_propagates_despite_success_text(self):
+         root = self.project('def x := 0\n')
+         shutil.copytree(ROOT / 'scripts', root / 'scripts', ignore=shutil.ignore_patterns('__pycache__'))
