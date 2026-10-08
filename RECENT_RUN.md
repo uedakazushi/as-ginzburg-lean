@@ -64,3 +64,45 @@
   `rightModule_exact_iff_range_eq_ker`による(1.6)の成分wiseな完全性の検証。
 - 残る証明義務：射影性、radicalとs_v、四項分解とminimality、実際のExt条件、
   presheafモデルと直和・局所単位元付き加群の明示的同値。主定理は未実装・未証明。
+
+PRのbase更新：リモートでPR #1が2026-10-08T00:18:35Zに既にマージ済みと確認し、
+PR #2のbaseをmainへ変更。mainの観測HEADは`0d806291edbaf56b4ff30b77e45d2a632a207a27`。
+本タスクはmainへpush・マージしていない。
+
+## 引継ぎの確定・リモート検証
+
+今回の数学的目標は既存presheafモデル上で完成。12 theorem・4 def・14 named instanceを追加。
+README、AGENTS、HANDOFF、STATUS、GAPSを現行結果と残る義務に合わせて更新。
+元の14数学モジュール・PDF・旧4ログ・初期161異なる宣言を照合し、終了0。
+checkpoints/・recovery/の変更なし。詳細はverification/rightmodule_integrity.json。
+git diff --checkは終了0。保存したraw patchの空白context markerを保つため、
+.gitattributesはruns/*.patchだけを空白検査から除外（ソース・文書には検査を適用）。
+整合性検査の初回終了1は保存ログのパス指定誤りで、正しいverification/下で再実行して解消。
+
+数学的実装の最終コミット：`f8e7ce0c4336be1d7360a64ef8d0b631f807c982`、push終了0。
+このコミットのpush/pull_request CIは双方success、全検証段階終了0。
+各artifactに今回のrunログと固定Leanのsetupログの12ファイルを保存。
+
+- push: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37708459140
+  UTC 2026-10-08T00:35:09.589226+00:00 → 2026-10-08T00:38:20.817504+00:00、191.228272秒、終了0。
+  artifact: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37708459140/artifacts/11520900890 （12ファイル）。
+
+- pull_request: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37708463929
+  UTC 2026-10-08T00:34:39.307991+00:00 → 2026-10-08T00:37:38.079317+00:00、178.771325秒、終了0。
+  artifact: https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37708463929/artifacts/11520603315 （12ファイル）。
+
+Actionsログから得た各段階の終了コード・時刻・実測秒とartifactメタデータは
+verification/rightmodule_github_ci_evidence.json。今回の成功を過去の記録から流用していない。
+PR #2はmainをbaseとするDraft。mainへpush・マージしていない。
+最後の追加コミットは引継ぎ・整合性証拠・差分ファイル属性の記録のみで、検証済みのLean実装は無変更。
+
+残存：既存lint警告。新規数学のコンパイル・監査エラーはなし。
+未実装：representableの射影性、s_v、(1.6)の実際の最小完全分解、実際のExt、
+直和・局所単位元付き加群モデルとの明示的同値。主定理3.2・系5.2の形式的文と証明も未実装。
+周期性をAS条件に追加しない。この目標を超える数学的作業には別の明示的な指示が必要。
+
+実測開始：2026-10-08T00:20:15+00:00（秒精度）。
+実装・検査・引継ぎの記録確定時刻：2026-10-08T00:40:14.171377+00:00。
+記録確定までの実測所要時間：1199.171377秒（UTC時計差）。
+記録コミット・pushはこの時刻の後に行い、その後の終了観測と全区間の時間はPR本文と最終報告に記載する。
+過去の稼働時間を推測していない。検証時間はタスク全体の時間と区別する。

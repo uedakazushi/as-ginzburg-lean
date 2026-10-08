@@ -1,3 +1,5 @@
 # Preserve tool output byte-for-byte; whitespace checks apply to source and docs.
 verification/**/*.log -whitespace
 checkpoints/**/*.log -whitespace
+# Patch context lines may consist of the required single-space diff marker.
+runs/*.patch -whitespace

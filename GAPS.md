@@ -1,14 +1,15 @@
-# 今回の再現・監査整備の状態
+# 今回のRightModuleのAbelian構造・ホモロジー接続
 
-2026年10月8日（JST）。新しい数学的形式化は行っていません。
-Lean 4.24.0と固定mathlibで現在のビルド・全172明示的宣言の公理監査が成功しました。
-旧ドット付き宣言名の切り詰めと重複照合の穴は修正済みです。
-数学的ソース14モジュールとルートimportは旧SHA-256に一致し、原論文の仮定は無変更です。
-既存のlint警告が残ります。最新の検証時間・終了コード・リモート保存状況はRECENT_RUN.md参照。
+2026年10月8日。ユーザーの再開指示により、AS側の最初の課題を既存のpresheafモデル上で完成。
+極限・余極限の閉性、核・余核・有限積、Abelian構造、成分homology、exactnessの像＝核判定、
+短完全列・mono/epi・injective/surjectiveの成分判定を実装しました。
+Lean 4.24.0と固定mathlibで全202宣言の監査・ビルドは終了0。未解決の実装エラーはありません。
+原論文との対応とmathlibの利用先は`docs/rightmodule_homological_bridge.md`を参照。
+今回の補題には原論文から導出する未証明のAS仮定を追加していません。
 
-旧回収時点の環境欠落・監査不足の記録はcheckpoints/20261007/recovered_docs/とrecovery/に保存。
-以下は将来の証明義務の一覧です。今回実施せず、再開にはユーザーの別の明示的な指示が必要です。
+以下の未完了課題を進めるには別の明示的な指示が必要です。
 原論文を否定する反例や矛盾を発見したという記録はありません。
+旧回収記録はcheckpoints/とrecovery/に無変更で保存しています。
 
 # 未完了部分と、主定理を完成させるための証明義務
 
@@ -21,7 +22,8 @@ Lean 4.24.0と固定mathlibで現在のビルド・全172明示的宣言の公�
 
 Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、projective resolutionは存在します。
 したがって「LeanにExtがない」ことは障害ではありません。
-今回定義した、局所単位元を持つZ-代数の**線形右加群圏との接続**がまず必要です。
+既存の線形右加群圏はAbelianになり、mathlibの核・余核・ShortComplex.homologyとexactnessへ接続済みです。
+次は射影対象・実際の分解とExt計算の接続が必要です。
 取得したmathlibのファイル名検索では、AS正則性、Ginzburg dg代数、Calabi–Yau completion、
 高次preprojective代数をそのまま使える専用の実装を確認できませんでした。
 これは全宣言を意味論的に検索した不存在証明ではありません。
@@ -30,12 +32,17 @@ Lean 4.24.0のmathlibソースには、一般のAbelian圏のExt、導来圏、p
 
 次の作業を最優先にします。
 
-1. `ZAlgebra.RightModule`のAbelian構造を与える。
-   現在はk線形presheafのfull subcategoryを定義した段階で、核・余核・exactnessの閉性は未証明。
+1. **完成**：`ZAlgebra.RightModule`のAbelian構造、核・余核の閉性と成分同型、
+   mathlibのhomologyとexactness・短完全列の成分判定。
+   `rightModuleProperty`の加法性・k線形性は既存の定義のまま。
 2. `representable v`の射影性を証明する。
+   完成した`rightModule_epi_iff_surjective`と線形Yonedaを用いる持ち上げが次の利用先。
 3. 正次数radical submoduleと単純加群s_vを定義する。
 4. 原論文(1.6)の四項の有限直和と微分を実際の対象として定義する。
 5. 完全性と最小性を定義し、(1.7)を本物のExtの次元で定式化する。
+
+presheafモデルと`⊕_v M_v`の局所単位元付き右加群の明示的同値は未実装です。
+原論文§1.2との右作用の向きは照合済みですが、Extを比較する形式的同値の代わりにはしません。
 
 代替ルートとして、成分の直和からnon-unital algebraを作り、そのunitizationの`ModuleCat`に
 locally unitalな加群を埋め込むことが考えられます。

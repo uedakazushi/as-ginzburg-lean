@@ -38,6 +38,13 @@
 
 ## 次に必要な証明義務
 
+上記4段階は既存のpresheafモデル上で完成した。公開した判定は
+`rightModule_exact_iff_inclusion`、`rightModule_exact_iff`、
+`rightModule_exact_iff_range_eq_ker`、`rightModule_shortExact_iff`、
+`rightModule_mono_iff_injective`、`rightModule_epi_iff_surjective`である。
+`rightModuleKernelObjIso`、`rightModuleCokernelObjIso`、`rightModuleHomologyObjIso`は
+mathlibの普遍構成との実際の同型を与える。
+
 - `representable v` がprojectiveであること。成分ごとのepi判定とYonedaによる持ち上げが利用先。
 - radical部分加群と単純加群 `s_v` の実際の構成。
 - 原論文(1.6)の有限直和・微分・exactness・minimality。
