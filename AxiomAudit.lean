@@ -128,6 +128,8 @@ import ASGinzburg
 #print axioms ASGinzburg.ZAlgebra.representableHom_vanishes
 #print axioms ASGinzburg.ZAlgebra.scalarEndEquiv
 #print axioms ASGinzburg.ZAlgebra.representableEnd_finrank
+#print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits
+#print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits
 #print axioms ASGinzburg.ArrowSpace333
 #print axioms ASGinzburg.CubicTensor333
 #print axioms ASGinzburg.Triple333

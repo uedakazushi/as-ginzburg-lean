@@ -4,6 +4,7 @@ import ASGinzburg.CyclicDerivative
 import ASGinzburg.PathAlgebra
 import ASGinzburg.ZAlgebra
 import ASGinzburg.Representables
+import ASGinzburg.RightModuleAbelian
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology
 import ASGinzburg.WindowPeriodicity

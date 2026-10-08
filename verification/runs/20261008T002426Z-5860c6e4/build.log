@@ -1,0 +1,57 @@
+⚠ [3090/3153] Replayed ASGinzburg.PathAlgebra
+warning: ASGinzburg/PathAlgebra.lean:97:42: This simp argument is unused:
+  LinearMap.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp [map_add, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵ ̵ih, ih']
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✖ [3149/3153] Building ASGinzburg.RightModuleAbelian (2.4s)
+trace: .> LEAN_PATH=/workspace/as-ginzburg-lean/.lake/packages/Cli/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/batteries/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/Qq/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/aesop/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/plausible/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/as-ginzburg-lean/.lake/build/lib/lean /workspace/.cloud-setup/lean-4.24.0-linux/bin/lean /workspace/as-ginzburg-lean/ASGinzburg/RightModuleAbelian.lean -o /workspace/as-ginzburg-lean/.lake/build/lib/lean/ASGinzburg/RightModuleAbelian.olean -i /workspace/as-ginzburg-lean/.lake/build/lib/lean/ASGinzburg/RightModuleAbelian.ilean -c /workspace/as-ginzburg-lean/.lake/build/ir/ASGinzburg/RightModuleAbelian.c --setup /workspace/as-ginzburg-lean/.lake/build/ir/ASGinzburg/RightModuleAbelian.setup.json --json
+error: ASGinzburg/RightModuleAbelian.lean:62:8: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (c.ι.app j).app X ≫ (((Functor.const J).obj c.pt).obj j).map (f + g)
+in the target expression
+  (c.ι.app j).app X ≫ c.pt.map (f + g) = (c.ι.app j).app X ≫ (c.pt.map f + c.pt.map g)
+
+case left.map_add
+k : Type u
+inst✝² : Field k
+A : ZAlgebra k
+J : Type w
+inst✝¹ : Category.{w', w} J
+inst✝ : HasColimitsOfShape J (ModuleCat k)
+F : J ⥤ A.Objᵒᵖ ⥤ ModuleCat k
+c : Cocone F
+hc : IsColimit c
+hF : ∀ (j : J), A.rightModuleProperty (F.obj j)
+X Y : A.Objᵒᵖ
+f g : X ⟶ Y
+j : J
+this : (F.obj j).Additive := (hF j).left
+⊢ (c.ι.app j).app X ≫ c.pt.map (f + g) = (c.ι.app j).app X ≫ (c.pt.map f + c.pt.map g)
+error: ASGinzburg/RightModuleAbelian.lean:71:8: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (c.ι.app j).app X ≫ (((Functor.const J).obj c.pt).obj j).map (r • f)
+in the target expression
+  (c.ι.app j).app X ≫ c.pt.map (r • f) = (c.ι.app j).app X ≫ (r • c.pt.map f)
+
+case right.map_smul
+k : Type u
+inst✝² : Field k
+A : ZAlgebra k
+J : Type w
+inst✝¹ : Category.{w', w} J
+inst✝ : HasColimitsOfShape J (ModuleCat k)
+F : J ⥤ A.Objᵒᵖ ⥤ ModuleCat k
+c : Cocone F
+hc : IsColimit c
+hF : ∀ (j : J), A.rightModuleProperty (F.obj j)
+X Y : A.Objᵒᵖ
+f : X ⟶ Y
+r : k
+j : J
+this : Functor.Linear k (F.obj j) := (hF j).right
+⊢ (c.ι.app j).app X ≫ c.pt.map (r • f) = (c.ι.app j).app X ≫ (r • c.pt.map f)
+error: Lean exited with code 1
+Some required targets logged failures:
+- ASGinzburg.RightModuleAbelian
+error: build failed
