@@ -1,10 +1,10 @@
 # 現在の状況
 
-左右の有限次元加群の有限生成射影表示をAS条件なしで構成。有限生成射影性の有限直和・直和因子・拡大閉性、snake lemmaによる被覆と核の貼り合わせ、実際のepiと核を3段繰り返す有限生成射影分解の存在をAS条件とfiltrationから証明しました。
-次は実際の四項ProjectiveResolutionへの複体構成、一般有限次元Mの成分Extと総正則Extの比較、二重Extの自然同型と有限長反変同値です。
+左右有限次元加群の全項有限生成射影な実際の四項ProjectiveResolutionと次数4以上零性をAS条件から構成。実際Ext消滅から一般Hom複体の低次数exactness、有限生成射影Homの余極限交換、有限射影分解から全次数Extのexactな余極限・小さい直和との交換を証明しました。
+次は一般有限次元Mの総正則Ext比較と全左作用適合性、双対分解と二重Ext対象同型の公開検査、射に関する自然性と有限長反変同値です。
 有限長反変同値と周期性、標準RHomの符号・shift/derived/perfect、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
-最新ローカル検証 20261008T124407Z-3461af44：121数学モジュール・1294異なる宣言・581 theorem、全段階終了0。
-単位1〜29の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+最新ローカル検証 20261008T130053Z-e0b99f15：127数学モジュール・1342異なる宣言・604 theorem、全段階終了0。
+単位1〜30の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -22,17 +22,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1294異なる名前、全明示的宣言・206 named instanceを含む、終了0 |
-| theorem | 581、全件が監査対象 |
+| 個別公理監査 | 1342異なる名前、全明示的宣言・208 named instanceを含む、終了0 |
+| theorem | 604、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T124407Z-3461af44`、全段階終了0、843.458967108秒。
-UTC 2026-10-08T12:44:07.855520+00:00 → 2026-10-08T12:58:11.314494+00:00。
-JST 2026-10-08T21:44:07.855520+09:00 → 2026-10-08T21:58:11.314494+09:00。
+最新ローカル検証 `20261008T130053Z-e0b99f15`、全段階終了0、886.393155674秒。
+UTC 2026-10-08T13:00:53.735554+00:00 → 2026-10-08T13:15:40.128719+00:00。
+JST 2026-10-08T22:00:53.735554+09:00 → 2026-10-08T22:15:40.128719+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -85,7 +85,9 @@ JST 2026-10-08T21:44:07.855520+09:00 → 2026-10-08T21:58:11.314494+09:00。
 | 総代数への実際Extの移送 | LinearExtTransport、RegularLeftMultiplication、RegularExtComparison | 同型に沿う線形Ext後合成と共役の適合性、全左乗法の右加群射、有限AS分解からGr(A)のExtへの直和比較と全総代数の左作用への適合性 | 局所単位付き左Ext加群、(1.12)の次数3の左単純商同型と他次数零性 |
 | 総空間の有限局所単位 | TotalModuleLocalUnits | 具体的有限射影の冪等性、左右の恒等成分作用との一致、任意の有限個の元の同時固定、右成分作用の包含への適合性 | 総代数と左右圏同値は後続単位で完成。実際のExt保存・前合成・後合成の自然性も後続単位で完成。(1.12)の移送 |
 
-| 有限生成射影分解の貼り合わせ | FiniteProjectivePresentations、FiniteProjectiveExtensionClosure、ShortExactKernels、ProjectiveExtensionCovers、FiniteProjectiveResolutionLength、ASFiniteDimensionalResolutionLength | 有限生成射影表示・有限直和と拡大の閉性・snake lemmaによる核の短完全列・実際epiと核を3段繰り返す有限射影分解存在 | 四項複体・一般有限次元Mの総正則Ext比較・二重Ext自然同型 |
+| 有限生成射影分解の貼り合わせ | FiniteProjectivePresentations、FiniteProjectiveExtensionClosure、ShortExactKernels、ProjectiveExtensionCovers、FiniteProjectiveResolutionLength、ASFiniteDimensionalResolutionLength | 有限生成射影表示・有限直和と拡大の閉性・snake lemmaによる核の短完全列・実際epiと核を3段繰り返す有限射影分解存在 | 四項複体は後続単位で完成。一般有限次元Mの総正則Ext比較・二重Ext自然同型 |
+
+| 有限次元加群の四項複体とExt交換 | FourTermProjectiveResolution、FiniteProjectiveFourTermResolution、ASFiniteDimensionalProjectiveResolution、ProjectiveResolutionHomExactness、FiniteProjectiveHomColimits、FiniteProjectiveResolutionExtColimits | 全項有限生成射影の実際の四項ProjectiveResolution・次数4以上零性・Hom複体のexactness・右有限次元加群の全次数Extの余極限/直和交換 | 総正則Extへの左作用適合比較・二重Ext自然同型 |
 
 ## 主結果の状態
 

@@ -723,3 +723,27 @@ JST 2026-10-08T21:44:07.855520+09:00 → 2026-10-08T21:58:11.314494+09:00。
 UTC 2026-10-08T12:44:07.855520+00:00 → 2026-10-08T12:58:11.314494+00:00。
 121数学モジュール・1294異なる宣言・581 theorem。
 差分：runs/total-algebra-20261008-unit29.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位29はmain 92a215de793ef0dbc4f55b7eb875e25dfc5ce74dへ保存済み。単位30として、一般四項射影列のChainComplex・QuasiIso・ProjectiveResolutionへの変換、左右有限次元加群への適用、実際Ext消滅からHom複体のexactness、有限生成射影Homと有限射影分解の全次数Extの余極限交換を公開検査。個別草稿as-finite-projective-resolution-draft1、hom-complex-exactness-draft3、finite-resolution-colimits-draft2はLean終了0・診断なし。次は一般有限次元Mの総正則Extとの比較・全左作用適合性、双対四項分解と二重Ext自然同型。
+
+作業中チェックポイント UTC 2026-10-08T13:09:16.150037+00:00、開始から実測22118.150037秒。継続中、タスク終了時刻ではない。単位29 main 92a215de793ef0dbc4f55b7eb875e25dfc5ce74dへ保存済み。単位29公開検査20261008T124407Z-3461af44はUTC 12:44:07.855520 →12:58:11.314494、843.458967108秒、121数学モジュール・1294宣言・581 theorem・全6段階0。
+単位30公開検査20261008T130053Z-e0b99f15はソース監査1342異なる宣言・604 theorem、全体lake build終了0・452.250171秒、全宣言の独立公理監査を実行中。次の草稿finite-total-ext-draft2はLean終了0・診断なし。一般有限次元右加群の成分Ext直和と総正則加群への実際Extの線形同型、全成分左作用と全総代数左表現の適合性を検証した。both-ext-bidual-draft2はLean終了0・診断なし。一般四項有限生成射影分解の双対分解とcanonical評価による二重Ext対象同型を左右とも構成。finite-ext-bidual-draft1も終了0・診断なし、AS条件から左右有限次元加群への適用を検証。
+次は接続写像・射影分解比較射についての自然性から二重Ext自然同型を構成し、有限次元full部分圏の反変同値へ進む。対象ごとの同型だけを反変同値の完成として扱わない。単位27の正確なheadのGitHub CI37776962559はsuccess、単位28/29は照会時点in_progress。古い成功を現在のCI成功に流用しない。主定理3.2と系5.2は正式Lean定理文も未実装・未証明。
+
+## 単位30：有限次元加群の実際の四項ProjectiveResolutionと全次数Extの余極限交換
+
+FourTermProjectiveResolution.lean、FiniteProjectiveFourTermResolution.lean、ASFiniteDimensionalProjectiveResolution.lean、ProjectiveResolutionHomExactness.lean、FiniteProjectiveHomColimits.lean、FiniteProjectiveResolutionExtColimits.leanを追加。一般Abelian圏の四項射影列を、実際のChainComplex・augmentation・QuasiIso・mathlib ProjectiveResolutionに変換し、次数4以上の零性を証明した。三段の実際epiと核から四項列を構成し、単位29の分解存在から左右有限次元加群の全項有限生成射影な実際の四項分解を導いた。
+
+実際のAbelian.Extの長完全列からHomの拡張補題を証明し、一般四項ProjectiveResolutionについてExtの0/1/2次消滅から線形Hom複体の各低次数exactnessを導いた。旧AS単純専用補題を保持しつつ一般化したもので、自然な全次数Hom複体–Ext同型を証明したとは扱わない。
+
+自然変換の同型性と関手の余極限保存が直和因子に沿って保存されることを証明。有限生成射影の既存の直和因子定義からHomの余極限交換を導き、実際の有限射影被覆と核についての帰納法・長完全列・Hom核表示から、有限射影分解を持つ加群の全次数Extがexactな余極限と交換することを証明した。AS条件から左右有限次元分解存在を用い、右有限次元加群の全次数Extの小さい直和交換と実際のDirectSumへの線形同型を構成。追加48宣言・6数学モジュール。
+
+単位29 main 92a215de793ef0dbc4f55b7eb875e25dfc5ce74dへ保存済み。次の草稿finite-total-ext-draft2は個別Lean終了0・診断なし。一般有限次元右加群の成分Ext直和と総正則加群への実際Extの線形同型、全成分左作用と全総代数左表現の適合性を検証した。both-ext-bidual-draft2は終了0・診断なし。一般四項有限生成射影分解の双対分解とcanonical評価による二重Ext対象同型を左右とも構成。finite-ext-bidual-draft1も終了0・診断なし、AS条件から左右有限次元加群への適用を検証した。これらは現在の公開監査の範囲に含めず、次の単位で公開検査する。
+
+次は接続写像・射影分解比較射に関する二重Extの自然性、互いに逆な有限長反変同値、ベクトル空間双対との合成と有限区間での周期性。対象ごとの同型だけで有限長反変同値を完成扱いにしない。標準RHomの符号・shift/derived/perfect、命題5.1、定理3.2・系5.2は未完成。両主定理の正式Lean定理文も未実装。
+
+検証：`20261008T130053Z-e0b99f15`、886.393155674秒、全段階終了0。
+JST 2026-10-08T22:00:53.735554+09:00 → 2026-10-08T22:15:40.128719+09:00。
+UTC 2026-10-08T13:00:53.735554+00:00 → 2026-10-08T13:15:40.128719+00:00。
+127数学モジュール・1342異なる宣言・604 theorem。
+差分：runs/total-algebra-20261008-unit30.patch。全theoremを監査し、許容公理3種類のみ。

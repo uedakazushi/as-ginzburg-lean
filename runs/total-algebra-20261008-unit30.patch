@@ -1,0 +1,683 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 3c168bc..4fe2fad 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -116,6 +116,13 @@ import ASGinzburg.ShortExactKernels
+ import ASGinzburg.ProjectiveExtensionCovers
+ import ASGinzburg.FiniteProjectiveResolutionLength
+ import ASGinzburg.ASFiniteDimensionalResolutionLength
++import ASGinzburg.FourTermProjectiveResolution
++import ASGinzburg.FiniteProjectiveFourTermResolution
++import ASGinzburg.ASFiniteDimensionalProjectiveResolution
++import ASGinzburg.ProjectiveResolutionHomExactness
++import ASGinzburg.FiniteProjectiveHomColimits
++import ASGinzburg.FiniteProjectiveResolutionExtColimits
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 9a40abc..f965a63 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -60,6 +60,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjectionEpi
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection_dual_d₃
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.dualTopProjection_exact
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalProjectiveResolution_finite
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalProjectiveResolution_isZero_ge_four
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalProjectiveResolution_finite
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalProjectiveResolution_isZero_ge_four
+ #print axioms ASGinzburg.ZAlgebra.rightSimple_hasFiniteProjectiveResolutionLength
+ #print axioms ASGinzburg.ZAlgebra.leftSimple_hasFiniteProjectiveResolutionLength
+ #print axioms ASGinzburg.ZAlgebra.rightVertexFiltration_hasFiniteProjectiveResolutionLength
+@@ -440,6 +446,23 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_finite_coproduct
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_biprod
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_of_shortExact
++#print axioms ASGinzburg.ZAlgebra.exists_rightFiniteProjectiveFourTermResolution
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveFourTermResolution
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveFourTermResolution_finite
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProjectiveResolution_finite
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveProjectiveResolution_isZero_ge_four
++#print axioms ASGinzburg.ZAlgebra.exists_leftFiniteProjectiveFourTermResolution
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveFourTermResolution
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveFourTermResolution_finite
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProjectiveResolution_finite
++#print axioms ASGinzburg.ZAlgebra.leftFiniteProjectiveProjectiveResolution_isZero_ge_four
++#print axioms ASGinzburg.isIso_natTrans_app_retract_general
++#print axioms ASGinzburg.colimitPostNatTrans
++#print axioms ASGinzburg.preservesColimit_of_functor_retract
++#print axioms ASGinzburg.preservesColimitsOfShape_of_functor_retract
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveHomPreservesColimits
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensional_component_finite
+ #print axioms ASGinzburg.ZAlgebra.finiteRightModuleSupport
+ #print axioms ASGinzburg.ZAlgebra.finiteRightModuleSupport_isZero
+@@ -462,6 +485,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModule_finiteProjective
+ #print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModuleProjective
+ #print axioms ASGinzburg.ZAlgebra.finiteFreeLeftModuleπEpi
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveHigherExtFunctorIsZero
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveExtPreservesColimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteProjectiveResolutionExtPreservesExactColimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtPreservesExactColimits
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtPreservesCoproducts
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtCoproductIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtDirectSumLinearEquiv
+ #print axioms ASGinzburg.ZAlgebra.HasRightFiniteProjectiveResolutionLength
+ #print axioms ASGinzburg.ZAlgebra.hasRightFiniteProjectiveResolutionLength_of_iso
+ #print axioms ASGinzburg.ZAlgebra.hasRightFiniteProjectiveResolutionLength_of_isZero
+@@ -487,6 +517,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LeftVertexFiltration
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensional_hasVertexFiltration
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalVertexFiltration
++#print axioms ASGinzburg.exact_epi_comp_iff
++#print axioms ASGinzburg.FourTermProjectiveResolution
++#print axioms ASGinzburg.FourTermProjectiveResolution.term
++#print axioms ASGinzburg.FourTermProjectiveResolution.differential
++#print axioms ASGinzburg.FourTermProjectiveResolution.differential_sq
++#print axioms ASGinzburg.FourTermProjectiveResolution.complex
++#print axioms ASGinzburg.FourTermProjectiveResolution.termProjective
++#print axioms ASGinzburg.FourTermProjectiveResolution.complex_exactAt_succ
++#print axioms ASGinzburg.FourTermProjectiveResolution.augmentation
++#print axioms ASGinzburg.FourTermProjectiveResolution.augmentationQuasiIso
++#print axioms ASGinzburg.FourTermProjectiveResolution.toProjectiveResolution
++#print axioms ASGinzburg.FourTermProjectiveResolution.complex_isZero_ge_four
++#print axioms ASGinzburg.FourTermProjectiveResolution.ofKernelCovers
+ #print axioms ASGinzburg.fullSubcategoryOpFunctor
+ #print axioms ASGinzburg.fullSubcategoryOpInverse
+ #print axioms ASGinzburg.fullSubcategoryOpEquivalence
+@@ -793,6 +836,11 @@ import ASGinzburg
+ #print axioms CategoryTheory.ProjectiveResolution.homComplex_exactAt_succ_iff
+ #print axioms CategoryTheory.ProjectiveResolution.homComplex_exactAt_zero_iff
+ #print axioms CategoryTheory.ProjectiveResolution.ext_low_eq_zero_of_homComplex_exact
++#print axioms ASGinzburg.hom_extension_of_ext_one_zero
++#print axioms CategoryTheory.ProjectiveResolution.homComplex_exactAt_zero_of_ext_zero
++#print axioms CategoryTheory.ProjectiveResolution.homComplex_exactAt_one_of_ext_zero
++#print axioms CategoryTheory.ProjectiveResolution.homComplex_exactAt_two_of_ext_zero
++#print axioms CategoryTheory.ProjectiveResolution.homComplex_exactAt_low_of_ext_zero
+ #print axioms ASGinzburg.exact_comp_mono_iff
+ #print axioms CategoryTheory.ProjectiveResolution.firstCover
+ #print axioms CategoryTheory.ProjectiveResolution.firstCover_ι
+diff --git a/ASGinzburg/FourTermProjectiveResolution.lean b/ASGinzburg/FourTermProjectiveResolution.lean
+new file mode 100644
+index 0000000..926735b
+--- /dev/null
++++ b/ASGinzburg/FourTermProjectiveResolution.lean
+@@ -0,0 +1,160 @@
++import ASGinzburg.ProjectiveResolutionSyzygies
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {C : Type u} [Category.{v} C] [Abelian C]
++
++theorem exact_epi_comp_iff {W X Y Z : C}
++    (e : W ⟶ X) (f : X ⟶ Y) (g : Y ⟶ Z) [Epi e] (h : f ≫ g = 0) :
++    (ShortComplex.mk (e ≫ f) g (by rw [Category.assoc, h, comp_zero])).Exact ↔
++      (ShortComplex.mk f g h).Exact := by
++  let φ : ShortComplex.mk (e ≫ f) g (by rw [Category.assoc, h, comp_zero]) ⟶
++      ShortComplex.mk f g h := { τ₁ := e, τ₂ := 𝟙 Y, τ₃ := 𝟙 Z }
++  haveI : Epi φ.τ₁ := by dsimp [φ]; infer_instance
++  haveI : IsIso φ.τ₂ := by dsimp [φ]; infer_instance
++  haveI : Mono φ.τ₃ := by dsimp [φ]; infer_instance
++  exact ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ
++
++/-- Four actual projective objects and maps, with all resolution obligations. -/
++structure FourTermProjectiveResolution (M : C) where
++  P₀ : C
++  P₁ : C
++  P₂ : C
++  P₃ : C
++  projective₀ : Projective P₀
++  projective₁ : Projective P₁
++  projective₂ : Projective P₂
++  projective₃ : Projective P₃
++  π : P₀ ⟶ M
++  d₁ : P₁ ⟶ P₀
++  d₂ : P₂ ⟶ P₁
++  d₃ : P₃ ⟶ P₂
++  epi_π : Epi π
++  mono_d₃ : Mono d₃
++  d₁_π : d₁ ≫ π = 0
++  d₂_d₁ : d₂ ≫ d₁ = 0
++  d₃_d₂ : d₃ ≫ d₂ = 0
++  exact₀ : (ShortComplex.mk d₁ π d₁_π).Exact
++  exact₁ : (ShortComplex.mk d₂ d₁ d₂_d₁).Exact
++  exact₂ : (ShortComplex.mk d₃ d₂ d₃_d₂).Exact
++
++namespace FourTermProjectiveResolution
++variable {M : C} (R : FourTermProjectiveResolution M)
++
++noncomputable def term : ℕ → C
++  | 0 => R.P₀
++  | 1 => R.P₁
++  | 2 => R.P₂
++  | 3 => R.P₃
++  | _+4 => 0
++
++noncomputable def differential : ∀ n : ℕ, R.term (n+1) ⟶ R.term n
++  | 0 => R.d₁
++  | 1 => R.d₂
++  | 2 => R.d₃
++  | _+3 => 0
++
++theorem differential_sq (n : ℕ) : R.differential (n+1) ≫ R.differential n = 0 := by
++  rcases n with _ | _ | _ | n
++  · exact R.d₂_d₁
++  · exact R.d₃_d₂
++  · simp [differential]
++  · simp [differential]
++
++noncomputable def complex : ChainComplex C ℕ :=
++  ChainComplex.of R.term R.differential R.differential_sq
++
++noncomputable instance termProjective (n : ℕ) : Projective (R.term n) := by
++  rcases n with _ | _ | _ | _ | n
++  · exact R.projective₀
++  · exact R.projective₁
++  · exact R.projective₂
++  · exact R.projective₃
++  · change Projective (0 : C); infer_instance
++
++theorem complex_exactAt_succ (n : ℕ) : R.complex.ExactAt (n+1) := by
++  rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp)]
++  rcases n with _ | _ | _ | n
++  · change (ShortComplex.mk (R.complex.d 2 1) (R.complex.d 1 0) _).Exact
++    simpa only [show R.complex.d 2 1 = R.d₂ from ChainComplex.of_d _ _ _ 1,
++      show R.complex.d 1 0 = R.d₁ from ChainComplex.of_d _ _ _ 0] using R.exact₁
++  · change (ShortComplex.mk (R.complex.d 3 2) (R.complex.d 2 1) _).Exact
++    simpa only [show R.complex.d 3 2 = R.d₃ from ChainComplex.of_d _ _ _ 2,
++      show R.complex.d 2 1 = R.d₂ from ChainComplex.of_d _ _ _ 1] using R.exact₂
++  · letI := R.mono_d₃
++    apply (ShortComplex.exact_iff_mono _ ?_).mpr
++    · change Mono (R.complex.d 3 2)
++      rw [show R.complex.d 3 2 = R.d₃ from ChainComplex.of_d _ _ _ 2]
++      infer_instance
++    · change R.complex.d 4 3 = 0
++      exact ChainComplex.of_d _ _ _ 3
++  · apply ShortComplex.exact_of_isZero_X₂
++    change IsZero (R.term (n+4))
++    exact isZero_zero C
++
++noncomputable def augmentation : R.complex ⟶ (ChainComplex.single₀ C).obj M :=
++  (ChainComplex.toSingle₀Equiv _ _).symm ⟨R.π, by
++    rw [show R.complex.d 1 0 = R.d₁ from ChainComplex.of_d _ _ _ 0]
++    exact R.d₁_π⟩
++
++noncomputable instance augmentationQuasiIso : QuasiIso R.augmentation := ⟨fun n => by
++  cases n
++  · rw [ChainComplex.quasiIsoAt₀_iff,ShortComplex.quasiIso_iff_of_zeros']
++    · dsimp
++      letI := R.epi_π
++      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2 ⟨R.exact₀,inferInstance⟩
++      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
++        (by
++          simp only [Iso.refl_hom,Category.id_comp,Category.comp_id]
++          exact (ChainComplex.of_d R.term R.differential R.differential_sq 0).symm)
++        (by simp [augmentation])
++    all_goals rfl
++  · rw [quasiIsoAt_iff_exactAt']
++    · exact R.complex_exactAt_succ _
++    · exact ChainComplex.exactAt_succ_single_obj _ _⟩
++
++noncomputable def toProjectiveResolution : ProjectiveResolution M where
++  complex := R.complex
++  projective n := by change Projective (R.term n); infer_instance
++  π := R.augmentation
++  quasiIso := R.augmentationQuasiIso
++
++theorem complex_isZero_ge_four (n : ℕ) : IsZero (R.complex.X (n+4)) := by
++  change IsZero (R.term (n+4))
++  exact isZero_zero C
++
++/-- Assemble three actual epimorphisms onto successive kernels. -/
++noncomputable def ofKernelCovers {P₀ P₁ P₂ : C}
++    [Projective P₀] [Projective P₁] [Projective P₂]
++    (p₀ : P₀ ⟶ M) [Epi p₀] (p₁ : P₁ ⟶ kernel p₀) [Epi p₁]
++    (p₂ : P₂ ⟶ kernel p₁) [Epi p₂] [Projective (kernel p₂)] :
++    FourTermProjectiveResolution M where
++  P₀ := P₀
++  P₁ := P₁
++  P₂ := P₂
++  P₃ := kernel p₂
++  projective₀ := inferInstance
++  projective₁ := inferInstance
++  projective₂ := inferInstance
++  projective₃ := inferInstance
++  π := p₀
++  d₁ := p₁ ≫ kernel.ι p₀
++  d₂ := p₂ ≫ kernel.ι p₁
++  d₃ := kernel.ι p₂
++  epi_π := inferInstance
++  mono_d₃ := inferInstance
++  d₁_π := by simp
++  d₂_d₁ := by simp [Category.assoc]
++  d₃_d₂ := by simp [← Category.assoc]
++  exact₀ := (exact_epi_comp_iff p₁ (kernel.ι p₀) p₀ (kernel.condition p₀)).mpr
++    (ShortComplex.exact_kernel p₀)
++  exact₁ := by
++    apply (exact_comp_mono_iff (p₂ ≫ kernel.ι p₁) p₁ (kernel.ι p₀) (by simp)).mp
++    exact (exact_epi_comp_iff p₂ (kernel.ι p₁) p₁ (kernel.condition p₁)).mpr
++      (ShortComplex.exact_kernel p₁)
++  exact₂ := (exact_comp_mono_iff (kernel.ι p₂) p₂ (kernel.ι p₁) (kernel.condition p₂)).mp
++    (ShortComplex.exact_kernel p₂)
++end FourTermProjectiveResolution
++end ASGinzburg
+diff --git a/ASGinzburg/FiniteProjectiveFourTermResolution.lean b/ASGinzburg/FiniteProjectiveFourTermResolution.lean
+new file mode 100644
+index 0000000..27742d9
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveFourTermResolution.lean
+@@ -0,0 +1,108 @@
++import ASGinzburg.FourTermProjectiveResolution
++import ASGinzburg.FiniteProjectiveResolutionLength
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem exists_rightFiniteProjectiveFourTermResolution {M : A.RightModule}
++    (hM : A.HasRightFiniteProjectiveResolutionLength 3 M) :
++    ∃ R : ASGinzburg.FourTermProjectiveResolution M,
++      ∀ n, A.rightFiniteProjectiveProperty (R.term n) := by
++  obtain ⟨P₀,p₀,hP₀,hp₀,P₁,p₁,hP₁,hp₁,P₂,p₂,hP₂,hp₂,hP₃⟩ := hM
++  letI := hp₀
++  letI := hp₁
++  letI := hp₂
++  letI : Projective P₀ := A.rightFiniteProjectiveProperty_projective hP₀
++  letI : Projective P₁ := A.rightFiniteProjectiveProperty_projective hP₁
++  letI : Projective P₂ := A.rightFiniteProjectiveProperty_projective hP₂
++  letI : Projective (kernel p₂) := A.rightFiniteProjectiveProperty_projective hP₃
++  let R := ASGinzburg.FourTermProjectiveResolution.ofKernelCovers p₀ p₁ p₂
++  refine ⟨R,?_⟩
++  intro n
++  rcases n with _ | _ | _ | _ | n
++  · exact hP₀
++  · exact hP₁
++  · exact hP₂
++  · exact hP₃
++  · exact A.rightFiniteProjectiveProperty_of_isZero (isZero_zero _)
++
++noncomputable def rightFiniteProjectiveFourTermResolution (M : A.RightModule)
++    (hM : A.HasRightFiniteProjectiveResolutionLength 3 M) :
++    ASGinzburg.FourTermProjectiveResolution M :=
++  (A.exists_rightFiniteProjectiveFourTermResolution hM).choose
++
++theorem rightFiniteProjectiveFourTermResolution_finite (M : A.RightModule)
++    (hM : A.HasRightFiniteProjectiveResolutionLength 3 M) (n : ℕ) :
++    A.rightFiniteProjectiveProperty ((A.rightFiniteProjectiveFourTermResolution M hM).term n) :=
++  (A.exists_rightFiniteProjectiveFourTermResolution hM).choose_spec n
++
++noncomputable def rightFiniteProjectiveProjectiveResolution (M : A.RightModule)
++    (hM : A.HasRightFiniteProjectiveResolutionLength 3 M) : ProjectiveResolution M :=
++  (A.rightFiniteProjectiveFourTermResolution M hM).toProjectiveResolution
++
++theorem rightFiniteProjectiveProjectiveResolution_finite (M : A.RightModule)
++    (hM : A.HasRightFiniteProjectiveResolutionLength 3 M) (n : ℕ) :
++    A.rightFiniteProjectiveProperty ((A.rightFiniteProjectiveProjectiveResolution M hM).complex.X n) :=
++  A.rightFiniteProjectiveFourTermResolution_finite M hM n
++
++theorem rightFiniteProjectiveProjectiveResolution_isZero_ge_four (M : A.RightModule)
++    (hM : A.HasRightFiniteProjectiveResolutionLength 3 M) (n : ℕ) :
++    IsZero ((A.rightFiniteProjectiveProjectiveResolution M hM).complex.X (n+4)) :=
++  (A.rightFiniteProjectiveFourTermResolution M hM).complex_isZero_ge_four n
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem exists_leftFiniteProjectiveFourTermResolution {M : A.LeftModule}
++    (hM : A.HasLeftFiniteProjectiveResolutionLength 3 M) :
++    ∃ R : ASGinzburg.FourTermProjectiveResolution M,
++      ∀ n, A.leftFiniteProjectiveProperty (R.term n) := by
++  obtain ⟨P₀,p₀,hP₀,hp₀,P₁,p₁,hP₁,hp₁,P₂,p₂,hP₂,hp₂,hP₃⟩ := hM
++  letI := hp₀
++  letI := hp₁
++  letI := hp₂
++  letI : Projective P₀ := A.leftFiniteProjectiveProperty_projective hP₀
++  letI : Projective P₁ := A.leftFiniteProjectiveProperty_projective hP₁
++  letI : Projective P₂ := A.leftFiniteProjectiveProperty_projective hP₂
++  letI : Projective (kernel p₂) := A.leftFiniteProjectiveProperty_projective hP₃
++  let R := ASGinzburg.FourTermProjectiveResolution.ofKernelCovers p₀ p₁ p₂
++  refine ⟨R,?_⟩
++  intro n
++  rcases n with _ | _ | _ | _ | n
++  · exact hP₀
++  · exact hP₁
++  · exact hP₂
++  · exact hP₃
++  · exact A.leftFiniteProjectiveProperty_of_isZero (isZero_zero _)
++
++noncomputable def leftFiniteProjectiveFourTermResolution (M : A.LeftModule)
++    (hM : A.HasLeftFiniteProjectiveResolutionLength 3 M) :
++    ASGinzburg.FourTermProjectiveResolution M :=
++  (A.exists_leftFiniteProjectiveFourTermResolution hM).choose
++
++theorem leftFiniteProjectiveFourTermResolution_finite (M : A.LeftModule)
++    (hM : A.HasLeftFiniteProjectiveResolutionLength 3 M) (n : ℕ) :
++    A.leftFiniteProjectiveProperty ((A.leftFiniteProjectiveFourTermResolution M hM).term n) :=
++  (A.exists_leftFiniteProjectiveFourTermResolution hM).choose_spec n
++
++noncomputable def leftFiniteProjectiveProjectiveResolution (M : A.LeftModule)
++    (hM : A.HasLeftFiniteProjectiveResolutionLength 3 M) : ProjectiveResolution M :=
++  (A.leftFiniteProjectiveFourTermResolution M hM).toProjectiveResolution
++
++theorem leftFiniteProjectiveProjectiveResolution_finite (M : A.LeftModule)
++    (hM : A.HasLeftFiniteProjectiveResolutionLength 3 M) (n : ℕ) :
++    A.leftFiniteProjectiveProperty ((A.leftFiniteProjectiveProjectiveResolution M hM).complex.X n) :=
++  A.leftFiniteProjectiveFourTermResolution_finite M hM n
++
++theorem leftFiniteProjectiveProjectiveResolution_isZero_ge_four (M : A.LeftModule)
++    (hM : A.HasLeftFiniteProjectiveResolutionLength 3 M) (n : ℕ) :
++    IsZero ((A.leftFiniteProjectiveProjectiveResolution M hM).complex.X (n+4)) :=
++  (A.leftFiniteProjectiveFourTermResolution M hM).complex_isZero_ge_four n
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASFiniteDimensionalProjectiveResolution.lean b/ASGinzburg/ASFiniteDimensionalProjectiveResolution.lean
+new file mode 100644
+index 0000000..010a1cb
+--- /dev/null
++++ b/ASGinzburg/ASFiniteDimensionalProjectiveResolution.lean
+@@ -0,0 +1,44 @@
++import ASGinzburg.FiniteProjectiveFourTermResolution
++import ASGinzburg.ASFiniteDimensionalResolutionLength
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++/-- A genuine four-term projective resolution, derived from the original AS conditions. -/
++noncomputable def rightFiniteDimensionalProjectiveResolution (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) : ProjectiveResolution M :=
++  A.rightFiniteProjectiveProjectiveResolution M
++    (A.rightFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM)
++
++theorem rightFiniteDimensionalProjectiveResolution_finite (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) (n : ℕ) :
++    A.rightFiniteProjectiveProperty ((A.rightFiniteDimensionalProjectiveResolution Q hAS M hM).complex.X n) :=
++  A.rightFiniteProjectiveProjectiveResolution_finite M
++    (A.rightFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM) n
++
++theorem rightFiniteDimensionalProjectiveResolution_isZero_ge_four (hAS : A.ASRegular Q)
++    (M : A.RightModule) (hM : A.rightFiniteDimensionalProperty M) (n : ℕ) :
++    IsZero ((A.rightFiniteDimensionalProjectiveResolution Q hAS M hM).complex.X (n+4)) :=
++  A.rightFiniteProjectiveProjectiveResolution_isZero_ge_four M
++    (A.rightFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM) n
++
++/-- A genuine four-term left projective resolution, without an additional left AS axiom. -/
++noncomputable def leftFiniteDimensionalProjectiveResolution (hAS : A.ASRegular Q)
++    (M : A.LeftModule) (hM : A.leftFiniteDimensionalProperty M) : ProjectiveResolution M :=
++  A.leftFiniteProjectiveProjectiveResolution M
++    (A.leftFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM)
++
++theorem leftFiniteDimensionalProjectiveResolution_finite (hAS : A.ASRegular Q)
++    (M : A.LeftModule) (hM : A.leftFiniteDimensionalProperty M) (n : ℕ) :
++    A.leftFiniteProjectiveProperty ((A.leftFiniteDimensionalProjectiveResolution Q hAS M hM).complex.X n) :=
++  A.leftFiniteProjectiveProjectiveResolution_finite M
++    (A.leftFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM) n
++
++theorem leftFiniteDimensionalProjectiveResolution_isZero_ge_four (hAS : A.ASRegular Q)
++    (M : A.LeftModule) (hM : A.leftFiniteDimensionalProperty M) (n : ℕ) :
++    IsZero ((A.leftFiniteDimensionalProjectiveResolution Q hAS M hM).complex.X (n+4)) :=
++  A.leftFiniteProjectiveProjectiveResolution_isZero_ge_four M
++    (A.leftFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM) n
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ProjectiveResolutionHomExactness.lean b/ASGinzburg/ProjectiveResolutionHomExactness.lean
+new file mode 100644
+index 0000000..b9c31e9
+--- /dev/null
++++ b/ASGinzburg/ProjectiveResolutionHomExactness.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.ProjectiveResolutionHomComplex
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v t
++variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{t} C]
++
++theorem hom_extension_of_ext_one_zero {S : ShortComplex C} (hS : S.ShortExact)
++    (N : C) (hExt : ∀ x : Abelian.Ext.{t} S.X₃ N 1, x = 0) (f : S.X₁ ⟶ N) :
++    ∃ g : S.X₂ ⟶ N, S.f ≫ g = f := by
++  obtain ⟨y,hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N
++    (Abelian.Ext.mk₀ f) (by rfl) (hExt _)
++  refine ⟨Abelian.Ext.homEquiv₀ y,?_⟩
++  apply (Abelian.Ext.homEquiv₀ (X := S.X₁) (Y := N)).symm.injective
++  change Abelian.Ext.mk₀ (S.f ≫ Abelian.Ext.homEquiv₀ y) = Abelian.Ext.mk₀ f
++  rw [← Abelian.Ext.mk₀_comp_mk₀,Abelian.Ext.mk₀_homEquiv₀_apply]
++  exact hy
++end ASGinzburg
++
++namespace CategoryTheory.ProjectiveResolution
++open CategoryTheory.Limits
++universe u v t
++variable {k : Type t} [Field k] {C : Type u} [Category.{v} C] [Abelian C] [Linear k C]
++  [HasExt.{v} C] {X : C} (P : ProjectiveResolution X)
++
++theorem homComplex_exactAt_zero_of_ext_zero (N : C)
++    (hExt : ∀ x : Abelian.Ext.{v} X N 0, x = 0) :
++    (P.homComplex (k := k) N).ExactAt 0 := by
++  apply (P.homComplex_exactAt_zero_iff N).mpr
++  intro f hf
++  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' P.exact₀.gIsCokernel f hf
++  have hy0 : y = 0 := by
++    have H := hExt (Abelian.Ext.mk₀ y)
++    apply (Abelian.Ext.addEquiv₀ (X := X) (Y := N)).symm.injective
++    simpa only [map_zero] using H
++  change P.π.f 0 ≫ y = f at hy
++  rw [hy0,comp_zero] at hy
++  exact hy.symm
++
++theorem homComplex_exactAt_one_of_ext_zero (N : C)
++    (hExt : ∀ x : Abelian.Ext.{v} X N 1, x = 0) :
++    (P.homComplex (k := k) N).ExactAt 1 := by
++  apply (P.homComplex_exactAt_succ_iff N 0).mpr
++  intro f hf
++  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' P.exact_d₂_firstCover.gIsCokernel f hf
++  obtain ⟨z,hz⟩ := ASGinzburg.hom_extension_of_ext_one_zero P.shortExact₀ N hExt y
++  refine ⟨z,?_⟩
++  change P.firstCover ≫ y = f at hy
++  rw [← P.firstCover_ι,Category.assoc,hz,hy]
++
++theorem homComplex_exactAt_two_of_ext_zero (h₄ : IsZero (P.complex.X 4)) (N : C)
++    (hExt : ∀ x : Abelian.Ext.{v} X N 2, x = 0) :
++    (P.homComplex (k := k) N).ExactAt 2 := by
++  apply (P.homComplex_exactAt_succ_iff N 1).mpr
++  intro f hf
++  obtain ⟨y,hy⟩ := CokernelCofork.IsColimit.desc' (P.shortExact₂ h₄).gIsCokernel f hf
++  have hK : ∀ x : Abelian.Ext.{v} (kernel (P.π.f 0)) N 1, x = 0 := by
++    intro x
++    obtain ⟨z,hz⟩ := Abelian.Ext.contravariant_sequence_exact₁ P.shortExact₀ N x
++      (show 1+1=2 from rfl) (hExt _)
++    rw [Abelian.Ext.eq_zero_of_projective z,Abelian.Ext.comp_zero] at hz
++    exact hz.symm
++  obtain ⟨z,hz⟩ := ASGinzburg.hom_extension_of_ext_one_zero P.shortExact₁ N hK y
++  refine ⟨z,?_⟩
++  change P.secondCover ≫ y = f at hy
++  rw [← P.secondCover_ι,Category.assoc,hz,hy]
++
++theorem homComplex_exactAt_low_of_ext_zero (h₄ : IsZero (P.complex.X 4)) (N : C)
++    (hExt : ∀ n, n<3 → ∀ x : Abelian.Ext.{v} X N n, x=0) (n : ℕ) (hn : n<3) :
++    (P.homComplex (k := k) N).ExactAt n := by
++  rcases n with _ | _ | _ | n
++  · exact P.homComplex_exactAt_zero_of_ext_zero N (hExt 0 (by decide))
++  · exact P.homComplex_exactAt_one_of_ext_zero N (hExt 1 (by decide))
++  · exact P.homComplex_exactAt_two_of_ext_zero h₄ N (hExt 2 (by decide))
++  · omega
++end CategoryTheory.ProjectiveResolution
+diff --git a/ASGinzburg/FiniteProjectiveHomColimits.lean b/ASGinzburg/FiniteProjectiveHomColimits.lean
+new file mode 100644
+index 0000000..cf49017
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveHomColimits.lean
+@@ -0,0 +1,60 @@
++import ASGinzburg.FiniteCoproductHomColimits
++import ASGinzburg.FiniteProjectiveBidual
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u₁ u₂ u₃ v₁ v₂ v₃
++variable {C : Type u₁} [Category.{v₁} C]
++  {D : Type u₂} [Category.{v₂} D] {J : Type u₃} [Category.{v₃} J]
++
++theorem isIso_natTrans_app_retract_general {F G : C ⥤ D}
++    (η : F ⟶ G) {X Y : C} (r : Retract X Y) [IsIso (η.app Y)] :
++    IsIso (η.app X) := by
++  refine ⟨⟨G.map r.i ≫ inv (η.app Y) ≫ F.map r.r,?_,?_⟩⟩
++  · rw [← Category.assoc,← η.naturality r.i,Category.assoc,
++      IsIso.hom_inv_id_assoc,← F.map_comp,r.retract,F.map_id]
++  · rw [Category.assoc,Category.assoc,η.naturality r.r,
++      ← Category.assoc (inv (η.app Y)),IsIso.inv_hom_id,Category.id_comp,
++      ← G.map_comp,r.retract,G.map_id]
++
++noncomputable def colimitPostNatTrans (K : J ⥤ C) [HasColimit K]
++    [HasColimitsOfShape J D] :
++    (Functor.whiskeringLeft J C D).obj K ⋙ colim ⟶ (evaluation C D).obj (colimit K) where
++  app F := colimit.post K F
++  naturality {F G} α := by
++    apply colimit.hom_ext
++    intro j
++    dsimp
++    simp only [ι_colimMap_assoc,colimit.ι_post,colimit.ι_post_assoc,
++      Functor.whiskerLeft_app]
++    exact (α.naturality (colimit.ι K j)).symm
++
++noncomputable def preservesColimit_of_functor_retract (K : J ⥤ C) [HasColimit K]
++    [HasColimitsOfShape J D] {F G : C ⥤ D} (r : Retract F G) [PreservesColimit K G] :
++    PreservesColimit K F := by
++  letI : IsIso ((colimitPostNatTrans K).app G) :=
++    inferInstanceAs (IsIso (colimit.post K G))
++  letI : IsIso (colimit.post K F) :=
++    isIso_natTrans_app_retract_general (colimitPostNatTrans K) r
++  exact preservesColimit_of_isIso_post F K
++
++noncomputable def preservesColimitsOfShape_of_functor_retract
++    [HasColimitsOfShape J C] [HasColimitsOfShape J D]
++    {F G : C ⥤ D} (r : Retract F G) [PreservesColimitsOfShape J G] :
++    PreservesColimitsOfShape J F where
++  preservesColimit := preservesColimit_of_functor_retract _ r
++end ASGinzburg
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v w w'
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightFiniteProjectiveHomPreservesColimits {P : A.RightModule}
++    (hP : A.rightFiniteProjectiveProperty P) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J A.RightModule] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op P)) := by
++  obtain ⟨n,i,⟨r⟩⟩ := hP
++  exact ASGinzburg.preservesColimitsOfShape_of_functor_retract
++    (r.op.map (linearCoyoneda k A.RightModule))
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteProjectiveResolutionExtColimits.lean b/ASGinzburg/FiniteProjectiveResolutionExtColimits.lean
+new file mode 100644
+index 0000000..e78882e
+--- /dev/null
++++ b/ASGinzburg/FiniteProjectiveResolutionExtColimits.lean
+@@ -0,0 +1,94 @@
++import ASGinzburg.FiniteProjectiveHomColimits
++import ASGinzburg.ASResolutionExtColimits
++import ASGinzburg.ASFiniteDimensionalResolutionLength
++import ASGinzburg.FiniteProjectiveDuality
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++open scoped DirectSum
++universe u v w w'
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightFiniteProjectiveHigherExtFunctorIsZero {P : A.RightModule}
++    (hP : A.rightFiniteProjectiveProperty P) (n : ℕ) :
++    IsZero (A.rightModuleExtCovariant P (n+1)) := by
++  letI : Projective P := A.rightFiniteProjectiveProperty_projective hP
++  rw [Functor.isZero_iff]
++  intro N
++  letI : Subsingleton (Abelian.Ext.{v} P N (n+1)) :=
++    ⟨fun a b => by rw [Abelian.Ext.eq_zero_of_projective a,Abelian.Ext.eq_zero_of_projective b]⟩
++  change IsZero (ModuleCat.of k (Abelian.Ext.{v} P N (n+1)))
++  exact ModuleCat.isZero_of_subsingleton _
++
++noncomputable def rightFiniteProjectiveExtPreservesColimits {P : A.RightModule}
++    (hP : A.rightFiniteProjectiveProperty P) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J A.RightModule] [HasColimitsOfShape J (ModuleCat.{v} k)]
++    (n : ℕ) : PreservesColimitsOfShape J (A.rightModuleExtCovariant P n) := by
++  cases n with
++  | zero =>
++    letI := A.rightFiniteProjectiveHomPreservesColimits hP J
++    exact A.rightModuleExtZeroPreservesColimits P J
++  | succ n =>
++    exact Functor.preservesColimitsOfShape_of_isZero _
++      (A.rightFiniteProjectiveHigherExtFunctorIsZero hP n) J
++
++/-- Derived from actual finite projective covers and exact colimits, for every degree. -/
++noncomputable def rightFiniteProjectiveResolutionExtPreservesExactColimits (length : ℕ)
++    {M : A.RightModule} (hM : A.HasRightFiniteProjectiveResolutionLength length M)
++    (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J A.RightModule] [HasColimitsOfShape J (ModuleCat.{v} k)]
++    [HasExactColimitsOfShape J (ModuleCat.{v} k)] (n : ℕ) :
++    PreservesColimitsOfShape J (A.rightModuleExtCovariant M n) := by
++  induction length generalizing M n with
++  | zero => exact A.rightFiniteProjectiveExtPreservesColimits hM J n
++  | succ length ih =>
++    obtain ⟨P,π,hP,hπ,htail⟩ := hM
++    letI := hπ
++    letI : Projective P := A.rightFiniteProjectiveProperty_projective hP
++    let S := ShortComplex.mk (kernel.ι π) π (kernel.condition π)
++    have hS : S.ShortExact := { exact := ShortComplex.exact_kernel π }
++    cases n with
++    | zero =>
++      letI := ih htail 0
++      letI : PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op (kernel π))) :=
++        preservesColimitsOfShape_of_natIso (A.rightModuleExtZeroFunctorIso (kernel π))
++      letI := A.rightFiniteProjectiveHomPreservesColimits hP J
++      letI := A.rightModuleHomPreservesExactColimits hS J
++      exact A.rightModuleExtZeroPreservesColimits M J
++    | succ n =>
++      letI := ih htail n
++      letI := A.rightFiniteProjectiveExtPreservesColimits hP J n
++      exact A.rightModuleExtSuccPreservesColimits hS n J
++
++noncomputable def rightFiniteDimensionalExtPreservesExactColimits
++    (Q : CutQuiver) (hAS : A.ASRegular Q) (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) (J : Type w) [Category.{w'} J]
++    [HasColimitsOfShape J A.RightModule] [HasColimitsOfShape J (ModuleCat.{v} k)]
++    [HasExactColimitsOfShape J (ModuleCat.{v} k)] (n : ℕ) :
++    PreservesColimitsOfShape J (A.rightModuleExtCovariant M n) :=
++  A.rightFiniteProjectiveResolutionExtPreservesExactColimits 3
++    (A.rightFiniteDimensional_hasFiniteProjectiveResolutionLength Q hAS M hM) J n
++
++noncomputable def rightFiniteDimensionalExtPreservesCoproducts
++    (Q : CutQuiver) (hAS : A.ASRegular Q) (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) (I : Type) (n : ℕ) :
++    PreservesColimitsOfShape (Discrete I) (A.rightModuleExtCovariant M n) := by
++  letI : HasExactColimitsOfShape (Discrete I) (ModuleCat.{v} k) := moduleCatExactCoproducts I
++  exact A.rightFiniteDimensionalExtPreservesExactColimits Q hAS M hM (Discrete I) n
++
++noncomputable def rightFiniteDimensionalExtCoproductIso
++    (Q : CutQuiver) (hAS : A.ASRegular Q) (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) {I : Type} (n : ℕ) (F : I → A.RightModule) :
++    ModuleCat.of k (Abelian.Ext.{v} M (∐ F) n) ≅
++      ∐ fun i => ModuleCat.of k (Abelian.Ext.{v} M (F i) n) := by
++  letI := A.rightFiniteDimensionalExtPreservesCoproducts Q hAS M hM I n
++  exact PreservesCoproduct.iso (A.rightModuleExtCovariant M n) F
++
++noncomputable def rightFiniteDimensionalExtDirectSumLinearEquiv
++    (Q : CutQuiver) (hAS : A.ASRegular Q) (M : A.RightModule)
++    (hM : A.rightFiniteDimensionalProperty M) {I : Type} [DecidableEq I]
++    (n : ℕ) (F : I → A.RightModule) :
++    Abelian.Ext.{v} M (∐ F) n ≃ₗ[k] ⨁ i, Abelian.Ext.{v} M (F i) n :=
++  ((A.rightFiniteDimensionalExtCoproductIso Q hAS M hM n F) ≪≫
++    ModuleCat.coprodIsoDirectSum _).toLinearEquiv
++end ASGinzburg.ZAlgebra
