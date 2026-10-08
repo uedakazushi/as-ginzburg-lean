@@ -1,0 +1,58 @@
+import ASGinzburg.HomologyAugmentation
+import ASGinzburg.GinzburgHomologyZero
+import ASGinzburg.GinzburgPositiveHomology
+
+/-! Canonical maps from the actual Ginzburg complex to the actual H-zero
+and Jacobian quotient complexes. Regularity is exactly their acyclicity. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCochainZero_outgoing (φ : Q.Potential k) (u v : Q.Vertex) :
+    ((Q.ginzburgCochainComplex k φ u v).sc 0).g=0 := by
+  change (Q.ginzburgCochainComplex k φ u v).d 0 ((ComplexShape.up ℤ).next 0)=0
+  have hn : (ComplexShape.up ℤ).next 0=0+1 := by simp
+  rw [hn,Q.ginzburgCochainComplex_d]
+  apply ModuleCat.hom_ext
+  exact Q.ginzburgGradedDifferential_zero k φ u v
+
+noncomputable def ginzburgHomologyAugmentation (φ : Q.Potential k) (u v : Q.Vertex) :
+    Q.ginzburgCochainComplex k φ u v ⟶
+      (HomologicalComplex.single (ModuleCat k) (ComplexShape.up ℤ) 0).obj
+        (Q.ginzburgHomology k φ u v 0) :=
+  ASGinzburg.homologyAugmentation _ 0 (Q.ginzburgCochainZero_outgoing k φ u v)
+
+noncomputable def ginzburgJacobianAugmentation (φ : Q.Potential k) (u v : Q.Vertex) :
+    Q.ginzburgCochainComplex k φ u v ⟶
+      (HomologicalComplex.single (ModuleCat k) (ComplexShape.up ℤ) 0).obj
+        (ModuleCat.of k (Q.PathComponent k u v ⧸ (Q.pathJacobianIdeal k φ).hom u v)) :=
+  Q.ginzburgHomologyAugmentation k φ u v ≫
+    (HomologicalComplex.single (ModuleCat k) (ComplexShape.up ℤ) 0).map
+      (Q.ginzburgHomologyZeroJacobianIso k φ u v).hom
+
+theorem ginzburgHomologyAugmentation_quasiIso_iff (φ : Q.Potential k) (u v : Q.Vertex) :
+    QuasiIso (Q.ginzburgHomologyAugmentation k φ u v) ↔
+      ∀ q : ℤ, q<0 → IsZero (Q.ginzburgHomology k φ u v q) := by
+  rw [ginzburgHomologyAugmentation,ASGinzburg.homologyAugmentation_quasiIso_iff]
+  constructor
+  · intro h q hq
+    exact h q (by omega)
+  · intro h q hq
+    by_cases hn : q<0
+    · exact h q hn
+    · exact Q.ginzburgHomology_isZero_of_pos k φ u v (by omega)
+
+theorem ginzburgJacobianAugmentation_quasiIso_iff (φ : Q.Potential k) (u v : Q.Vertex) :
+    QuasiIso (Q.ginzburgJacobianAugmentation k φ u v) ↔
+      ∀ q : ℤ, q<0 → IsZero (Q.ginzburgHomology k φ u v q) := by
+  rw [ginzburgJacobianAugmentation,quasiIso_iff_comp_right]
+  exact Q.ginzburgHomologyAugmentation_quasiIso_iff k φ u v
+
+theorem ginzburgRegular_iff_augmentation_quasiIso (φ : Q.Potential k) :
+    Q.GinzburgRegular k φ ↔ ∀ u v : Q.Vertex,
+      QuasiIso (Q.ginzburgJacobianAugmentation k φ u v) := by
+  rw [Q.ginzburgRegular_iff_components]
+  simp only [Q.ginzburgJacobianAugmentation_quasiIso_iff]
+
+end ASGinzburg.CutQuiver

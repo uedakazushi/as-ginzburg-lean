@@ -310,6 +310,19 @@ import ASGinzburg.GinzburgHomologyUnits
 import ASGinzburg.GinzburgHomologyRing
 import ASGinzburg.PathJacobianRingQuotient
 
+import ASGinzburg.HomologyAugmentation
+import ASGinzburg.GinzburgAugmentation
+import ASGinzburg.GinzburgCutAugmentation
+import ASGinzburg.GinzburgUnrolledAugmentation
+import ASGinzburg.GinzburgLastGenerator
+import ASGinzburg.GinzburgAugmentationBasis
+import ASGinzburg.GinzburgAugmentationIdeal
+import ASGinzburg.GinzburgLastGeneratorGradings
+import ASGinzburg.GinzburgAugmentationGradedFree
+import ASGinzburg.GinzburgAugmentationComplex
+import ASGinzburg.GinzburgAugmentationHomology
+import ASGinzburg.GinzburgAugmentationRegularity
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

@@ -1,0 +1,63 @@
+import ASGinzburg.GinzburgAugmentationGradedFree
+import ASGinzburg.GinzburgCycleBoundary
+import ASGinzburg.GinzburgCutRetracts
+
+/-! The genuine homogeneous augmentation ideal, with its actual
+differential, is a mathlib cochain complex. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgAugmentationAtDegree_eq_inf (u v : Q.Vertex) (q c : ℤ) :
+    Q.ginzburgAugmentationAtDegree k u v q c=
+      Q.ginzburgAugmentationSubmodule k u v ⊓ Q.ginzburgCutCohomologicalComponent k u v q c := by
+  unfold ginzburgAugmentationAtDegree ginzburgAugmentationSubmodule
+    ginzburgCutCohomologicalComponent ginzburgCohomologicalComponent ginzburgCutComponent
+  rw [←Finsupp.supported_inter,←Finsupp.supported_inter]
+  rfl
+
+theorem ginzburgDifferential_mem_augmentationAtDegree (φ : Q.Potential k)
+    {u v : Q.Vertex} {q c : ℤ} {f : Q.GinzburgPathComponent k u v}
+    (hf : f ∈ Q.ginzburgAugmentationAtDegree k u v q c) :
+    Q.ginzburgDifferential k φ u v f ∈ Q.ginzburgAugmentationAtDegree k u v (q+1) c := by
+  rw [Q.ginzburgAugmentationAtDegree_eq_inf] at hf ⊢
+  exact ⟨Q.ginzburgDifferential_mem_augmentation k φ hf.1,
+    Q.ginzburgDifferential_degree k φ q hf.2.1,Q.ginzburgDifferential_cut k φ c hf.2.2⟩
+
+noncomputable def ginzburgAugmentationGradedDifferential (φ : Q.Potential k)
+    (u v : Q.Vertex) (q c : ℤ) :
+    Q.ginzburgAugmentationAtDegree k u v q c →ₗ[k]
+      Q.ginzburgAugmentationAtDegree k u v (q+1) c :=
+  ((Q.ginzburgDifferential k φ u v).comp
+    (Q.ginzburgAugmentationAtDegree k u v q c).subtype).codRestrict _
+      (fun f => Q.ginzburgDifferential_mem_augmentationAtDegree k φ f.property)
+
+theorem ginzburgAugmentationGradedDifferential_square (φ : Q.Potential k)
+    (u v : Q.Vertex) (q c : ℤ) :
+    (Q.ginzburgAugmentationGradedDifferential k φ u v (q+1) c).comp
+      (Q.ginzburgAugmentationGradedDifferential k φ u v q c)=0 := by
+  apply LinearMap.ext
+  intro f
+  apply Subtype.ext
+  exact Q.ginzburgDifferential_square k φ f.val
+
+noncomputable def ginzburgAugmentationCochainComplex (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) : CochainComplex (ModuleCat.{u} k) ℤ :=
+  CochainComplex.of (fun q => ModuleCat.of k (Q.ginzburgAugmentationAtDegree k u v q c))
+    (fun q => ModuleCat.ofHom (Q.ginzburgAugmentationGradedDifferential k φ u v q c))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgAugmentationGradedDifferential_square k φ u v q c)
+
+theorem ginzburgAugmentationCochainComplex_d (φ : Q.Potential k)
+    (u v : Q.Vertex) (c q : ℤ) :
+    (Q.ginzburgAugmentationCochainComplex k φ u v c).d q (q+1)=
+      ModuleCat.ofHom (Q.ginzburgAugmentationGradedDifferential k φ u v q c) :=
+  CochainComplex.of_d _ _ _ q
+
+noncomputable def ginzburgAugmentationHomology (φ : Q.Potential k)
+    (u v : Q.Vertex) (c q : ℤ) : ModuleCat.{u} k :=
+  (Q.ginzburgAugmentationCochainComplex k φ u v c).homology q
+
+end ASGinzburg.CutQuiver

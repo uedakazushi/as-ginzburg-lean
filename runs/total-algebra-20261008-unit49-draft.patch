@@ -1,0 +1,1019 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FinsuppSupportedQuotient.lean
+@@ -0,0 +1,62 @@
++import Mathlib.LinearAlgebra.Finsupp.Supported
++import Mathlib.LinearAlgebra.Isomorphisms
++
++/-! The quotient of two actual supported finite-function spaces is
++the supported space on their set difference. -/
++namespace ASGinzburg
++universe u v
++variable (k : Type u) [Field k] (α : Type v)
++
++noncomputable def supportedDifferenceProjection (s t : Set α) :
++    Finsupp.supported k k t →ₗ[k] Finsupp.supported k k (t\s) := by
++  classical
++  exact (Finsupp.restrictDom k k (t\s)).comp (Finsupp.supported k k t).subtype
++
++theorem supportedDifferenceProjection_surjective (s t : Set α) :
++    Function.Surjective (supportedDifferenceProjection k α s t) := by
++  classical
++  intro f
++  refine ⟨⟨f.val,Finsupp.supported_mono (Set.diff_subset) f.property⟩,?_⟩
++  apply Subtype.ext
++  change f.val.filter (· ∈ t\s)=f.val
++  rw [Finsupp.filter_eq_self_iff]
++  intro p hp
++  exact f.property ((Finsupp.mem_support_iff).mpr hp)
++
++theorem supportedDifferenceProjection_ker (s t : Set α) :
++    LinearMap.ker (supportedDifferenceProjection k α s t)=
++      (Finsupp.supported k k s).comap (Finsupp.supported k k t).subtype := by
++  classical
++  ext f
++  rw [LinearMap.mem_ker,Submodule.mem_comap]
++  change supportedDifferenceProjection k α s t f=0 ↔ f.val ∈ Finsupp.supported k k s
++  rw [Finsupp.mem_supported']
++  constructor
++  · intro hf p hp
++    by_cases ht : p∈t
++    · have he := congrArg (fun g : Finsupp.supported k k (t\s) => g.val p) hf
++      simpa [supportedDifferenceProjection,Finsupp.restrictDom_apply,
++        Finsupp.filter_apply,ht,hp] using he
++    · exact (Finsupp.mem_supported' k f.val).mp f.property p ht
++  · intro hf
++    apply Subtype.ext
++    change f.val.filter (· ∈ t\s)=0
++    rw [Finsupp.filter_eq_zero_iff]
++    intro p hp
++    exact hf p hp.2
++
++noncomputable def supportedQuotientDifferenceEquiv (s t : Set α) :
++    (Finsupp.supported k k t ⧸
++      (Finsupp.supported k k s).comap (Finsupp.supported k k t).subtype) ≃ₗ[k]
++        Finsupp.supported k k (t\s) :=
++  (Submodule.quotEquivOfEq _ _
++    (supportedDifferenceProjection_ker k α s t).symm).trans
++      ((supportedDifferenceProjection k α s t).quotKerEquivOfSurjective
++        (supportedDifferenceProjection_surjective k α s t))
++
++theorem supportedQuotientDifferenceEquiv_mk (s t : Set α)
++    (f : Finsupp.supported k k t) :
++    supportedQuotientDifferenceEquiv k α s t (Submodule.Quotient.mk f)=
++      supportedDifferenceProjection k α s t f := rfl
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorFiltration.lean
+@@ -0,0 +1,60 @@
++import work.ASGinzburgDraft.GinzburgAugmentationIdeal
++import work.ASGinzburgDraft.GinzburgLastGeneratorGradings
++
++/-! The genuine last-generator filtration of the free augmentation
++module, which has exactly the original, dual and loop layers. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++def ginzburgGeneratorFiltrationPaths (u v : Q.Vertex) (r : ℤ) : Set (Q.GinzburgPath u v) :=
++  {p | ∃ d : Q.GinzburgLastGeneratorData u v, d.path Q=p ∧ r≤d.1.val.cohomologicalDegree Q}
++
++theorem ginzburgGeneratorFiltrationPaths_nonempty {u v : Q.Vertex} {r : ℤ}
++    {p : Q.GinzburgPath u v} (hp : p ∈ Q.ginzburgGeneratorFiltrationPaths u v r) :
++    0<p.length := by
++  obtain ⟨d,rfl,hd⟩ := hp
++  rw [d.path_length]
++  omega
++
++theorem ginzburgGeneratorFiltrationPaths_of_degree {u v : Q.Vertex}
++    {p : Q.GinzburgPath u v} (hp : 0<p.length) (r : ℤ) (hr : r≤p.cohomologicalDegree) :
++    p ∈ Q.ginzburgGeneratorFiltrationPaths u v r := by
++  let d := p.lastGenerator Q hp
++  refine ⟨d,p.lastGenerator_path Q hp,?_⟩
++  have hn := d.2.cohomologicalDegree_nonpos
++  have he : p.cohomologicalDegree=d.2.cohomologicalDegree+d.1.val.cohomologicalDegree Q := by
++    rw [←p.lastGenerator_path Q hp]
++    exact d.path_cohomologicalDegree Q
++  omega
++
++theorem ginzburgGeneratorFiltrationPaths_comp {u v w : Q.Vertex}
++    (p : Q.GinzburgPath u v) {q : Q.GinzburgPath v w} {r : ℤ}
++    (hq : q ∈ Q.ginzburgGeneratorFiltrationPaths v w r) :
++    p.comp q ∈ Q.ginzburgGeneratorFiltrationPaths u w r := by
++  obtain ⟨⟨⟨a,ha⟩,s⟩,rfl,hr⟩ := hq
++  cases ha
++  refine ⟨⟨⟨a,rfl⟩,p.comp s⟩,?_,hr⟩
++  rfl
++
++universe u
++variable (k : Type u) [Field k]
++
++def ginzburgGeneratorFiltration (u v : Q.Vertex) (r : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k (Q.ginzburgGeneratorFiltrationPaths u v r)
++
++theorem ginzburgGeneratorFiltration_le_augmentation (u v : Q.Vertex) (r : ℤ) :
++    Q.ginzburgGeneratorFiltration k u v r ≤ Q.ginzburgAugmentationSubmodule k u v :=
++  Finsupp.supported_mono (fun _p hp => Q.ginzburgGeneratorFiltrationPaths_nonempty hp)
++
++theorem ginzburgGeneratorFiltration_comp {u v w : Q.Vertex} {r : ℤ}
++    {g : Q.GinzburgPathComponent k v w} (hg : g ∈ Q.ginzburgGeneratorFiltration k v w r)
++    (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgPathComp k g f ∈ Q.ginzburgGeneratorFiltration k u w r := by
++  apply Q.ginzburgSupported_comp k Set.univ (Q.ginzburgGeneratorFiltrationPaths v w r)
++    (Q.ginzburgGeneratorFiltrationPaths u w r) _
++      (by rw [Finsupp.supported_univ]; trivial) hg
++  intro p _hp q hq
++  exact Q.ginzburgGeneratorFiltrationPaths_comp p hq
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorFiltrationDifferential.lean
+@@ -0,0 +1,79 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFiltration
++
++/-! The actual signed differential preserves the genuine three-layer
++last-generator filtration and raises the generator layer on generators. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem ginzburgGeneratorFiltrationPaths_antitone {u v : Q.Vertex} {r s : ℤ} (hrs : r≤s) :
++    Q.ginzburgGeneratorFiltrationPaths u v s ⊆ Q.ginzburgGeneratorFiltrationPaths u v r := by
++  rintro p ⟨d,rfl,hd⟩
++  exact ⟨d,rfl,hrs.trans hd⟩
++
++theorem ginzburgArrowPath_mem_generatorFiltration (a : Q.GinzburgArrow) (r : ℤ)
++    (hr : r≤a.cohomologicalDegree Q) :
++    Q.ginzburgArrowPath a ∈ Q.ginzburgGeneratorFiltrationPaths (a.source Q) (a.target Q) r :=
++  ⟨⟨⟨a,rfl⟩,GinzburgPath.nil (a.source Q)⟩,rfl,hr⟩
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgGeneratorFiltration_antitone (u v : Q.Vertex) {r s : ℤ} (hrs : r≤s) :
++    Q.ginzburgGeneratorFiltration k u v s ≤ Q.ginzburgGeneratorFiltration k u v r :=
++  Finsupp.supported_mono (Q.ginzburgGeneratorFiltrationPaths_antitone hrs)
++
++theorem ginzburgGeneratorDifferential_mem_generatorFiltration (φ : Q.Potential k)
++    (a : Q.GinzburgArrow) : Q.ginzburgGeneratorDifferential k φ a ∈
++      Q.ginzburgGeneratorFiltration k (a.source Q) (a.target Q) (a.cohomologicalDegree Q+1) := by
++  have ha : Finsupp.single (Q.ginzburgArrowPath a) (1:k) ∈
++      Q.ginzburgAugmentationSubmodule k (a.source Q) (a.target Q) := by
++    apply Finsupp.single_mem_supported
++    simp [ginzburgArrowPath,GinzburgPath.length]
++  have hd := Q.ginzburgDifferential_mem_augmentation k φ ha
++  rw [Q.ginzburgDifferential_generator] at hd
++  have hc := Q.ginzburgGeneratorDifferential_degree k φ a
++  have hi : Q.ginzburgGeneratorDifferential k φ a ∈
++      Q.ginzburgCohomologicalComponent k _ _ (a.cohomologicalDegree Q+1) ⊓
++        Q.ginzburgAugmentationSubmodule k _ _ := ⟨hc,hd⟩
++  change Q.ginzburgGeneratorDifferential k φ a ∈ Finsupp.supported k k _ ⊓
++    Finsupp.supported k k _ at hi
++  rw [←Finsupp.supported_inter] at hi
++  apply Finsupp.supported_mono _ hi
++  intro p hp
++  apply Q.ginzburgGeneratorFiltrationPaths_of_degree hp.2
++    (a.cohomologicalDegree Q+1)
++  exact le_of_eq hp.1.symm
++
++theorem GinzburgPath.differential_mem_generatorFiltration (φ : Q.Potential k)
++    {u v : Q.Vertex} {r : ℤ} {p : Q.GinzburgPath u v}
++    (hp : p ∈ Q.ginzburgGeneratorFiltrationPaths u v r) :
++    p.differential Q k φ ∈ Q.ginzburgGeneratorFiltration k u v r := by
++  obtain ⟨⟨⟨a,ha⟩,s⟩,rfl,hr⟩ := hp
++  cases ha
++  change r ≤ a.cohomologicalDegree Q at hr
++  change (GinzburgPath.snoc s a rfl).differential Q k φ ∈ _
++  rw [GinzburgPath.differential]
++  apply Submodule.add_mem
++  · apply Q.ginzburgGeneratorFiltration_comp k _ (Finsupp.single s 1)
++    exact Q.ginzburgGeneratorFiltration_antitone k _ _ (by omega)
++      (Q.ginzburgGeneratorDifferential_mem_generatorFiltration k φ a)
++  · apply Submodule.smul_mem
++    apply Q.ginzburgGeneratorFiltration_comp k _ (s.differential Q k φ)
++    exact Finsupp.single_mem_supported _ _ (Q.ginzburgArrowPath_mem_generatorFiltration a r hr)
++
++theorem ginzburgDifferential_mem_generatorFiltration (φ : Q.Potential k)
++    {u v : Q.Vertex} {r : ℤ} {f : Q.GinzburgPathComponent k u v}
++    (hf : f ∈ Q.ginzburgGeneratorFiltration k u v r) :
++    Q.ginzburgDifferential k φ u v f ∈ Q.ginzburgGeneratorFiltration k u v r := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    simp only [Q.ginzburgDifferential_single,one_smul]
++    exact p.differential_mem_generatorFiltration Q k φ hp
++  | zero => simp
++  | add x y hx hy ihx ihy => simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul a x hx ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorFiltrationBounds.lean
+@@ -0,0 +1,45 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFiltrationDifferential
++
++/-! The actual last generators have exactly three cohomological degrees;
++the last-generator filtration is exhaustive and terminates. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem GinzburgArrow.cohomologicalDegree_lower (a : Q.GinzburgArrow) :
++    -2 ≤ a.cohomologicalDegree Q := by
++  cases a <;> simp [cohomologicalDegree]
++
++theorem GinzburgArrow.cohomologicalDegree_upper (a : Q.GinzburgArrow) :
++    a.cohomologicalDegree Q ≤ 0 := by
++  cases a <;> simp [cohomologicalDegree]
++
++theorem ginzburgGeneratorFiltrationPaths_negTwo (u v : Q.Vertex) :
++    Q.ginzburgGeneratorFiltrationPaths u v (-2)={p | 0<p.length} := by
++  ext p
++  constructor
++  · exact Q.ginzburgGeneratorFiltrationPaths_nonempty
++  · intro hp
++    exact ⟨p.lastGenerator Q hp,p.lastGenerator_path Q hp,
++      (p.lastGenerator Q hp).1.val.cohomologicalDegree_lower Q⟩
++
++theorem ginzburgGeneratorFiltrationPaths_one (u v : Q.Vertex) :
++    Q.ginzburgGeneratorFiltrationPaths u v 1=∅ := by
++  apply Set.eq_empty_iff_forall_notMem.mpr
++  rintro p ⟨d,hd,hr⟩
++  have hu := d.1.val.cohomologicalDegree_upper Q
++  omega
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgGeneratorFiltration_negTwo (u v : Q.Vertex) :
++    Q.ginzburgGeneratorFiltration k u v (-2)=Q.ginzburgAugmentationSubmodule k u v := by
++  unfold ginzburgGeneratorFiltration ginzburgAugmentationSubmodule
++  rw [Q.ginzburgGeneratorFiltrationPaths_negTwo]
++
++theorem ginzburgGeneratorFiltration_one (u v : Q.Vertex) :
++    Q.ginzburgGeneratorFiltration k u v 1=⊥ := by
++  unfold ginzburgGeneratorFiltration
++  rw [Q.ginzburgGeneratorFiltrationPaths_one,Finsupp.supported_empty]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorLayers.lean
+@@ -0,0 +1,100 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFiltrationBounds
++import work.ASGinzburgDraft.GinzburgAugmentationComplex
++
++/-! The consecutive terms of the genuine last-generator filtration
++split, as graded vector spaces, by the exact degree of the last generator. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem GinzburgLastGeneratorData.path_injective (u v : Q.Vertex) :
++    Function.Injective (GinzburgLastGeneratorData.path Q (u:=u) (v:=v)) := by
++  intro d e h
++  apply (Q.ginzburgNonemptyLastEquiv u v).symm.injective
++  exact Subtype.ext h
++
++def ginzburgGeneratorLayerPaths (u v : Q.Vertex) (r : ℤ) : Set (Q.GinzburgPath u v) :=
++  {p | ∃ d : Q.GinzburgLastGeneratorData u v,
++    d.path Q=p ∧ d.1.val.cohomologicalDegree Q=r}
++
++theorem ginzburgGeneratorLayerPaths_le_filtration (u v : Q.Vertex) (r : ℤ) :
++    Q.ginzburgGeneratorLayerPaths u v r ⊆ Q.ginzburgGeneratorFiltrationPaths u v r := by
++  rintro p ⟨d,rfl,hd⟩
++  exact ⟨d,rfl,le_of_eq hd.symm⟩
++
++theorem ginzburgGeneratorFiltrationPaths_step (u v : Q.Vertex) (r : ℤ) :
++    Q.ginzburgGeneratorFiltrationPaths u v r=
++      Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∪ Q.ginzburgGeneratorLayerPaths u v r := by
++  ext p
++  constructor
++  · rintro ⟨d,rfl,hd⟩
++    by_cases he : d.1.val.cohomologicalDegree Q=r
++    · exact Or.inr ⟨d,rfl,he⟩
++    · exact Or.inl ⟨d,rfl,by omega⟩
++  · rintro (hp|hp)
++    · exact Q.ginzburgGeneratorFiltrationPaths_antitone (by omega) hp
++    · exact Q.ginzburgGeneratorLayerPaths_le_filtration u v r hp
++
++theorem ginzburgGeneratorLayerPaths_disjoint (u v : Q.Vertex) (r : ℤ) :
++    Disjoint (Q.ginzburgGeneratorFiltrationPaths u v (r+1))
++      (Q.ginzburgGeneratorLayerPaths u v r) := by
++  apply Set.disjoint_left.mpr
++  rintro p ⟨d,hd,hr⟩ ⟨e,he,hs⟩
++  have hde := GinzburgLastGeneratorData.path_injective Q u v (hd.trans he.symm)
++  subst e
++  omega
++
++universe u
++variable (k : Type u) [Field k]
++
++def ginzburgGeneratorLayer (u v : Q.Vertex) (r : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k (Q.ginzburgGeneratorLayerPaths u v r)
++
++def ginzburgGeneratorFiltrationAtDegree (u v : Q.Vertex) (r q c : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
++    p.cohomologicalDegree=q ∧ p.cutDegree=c}
++
++def ginzburgGeneratorLayerAtDegree (u v : Q.Vertex) (r q c : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
++    p.cohomologicalDegree=q ∧ p.cutDegree=c}
++
++theorem ginzburgGeneratorFiltrationAtDegree_eq_inf (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorFiltrationAtDegree k u v r q c=
++      Q.ginzburgGeneratorFiltration k u v r ⊓ Q.ginzburgCutCohomologicalComponent k u v q c := by
++  unfold ginzburgGeneratorFiltrationAtDegree ginzburgGeneratorFiltration
++    ginzburgCutCohomologicalComponent ginzburgCohomologicalComponent ginzburgCutComponent
++  rw [←Finsupp.supported_inter,←Finsupp.supported_inter]
++  rfl
++
++theorem ginzburgGeneratorLayerAtDegree_eq_inf (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorLayerAtDegree k u v r q c=
++      Q.ginzburgGeneratorLayer k u v r ⊓ Q.ginzburgCutCohomologicalComponent k u v q c := by
++  unfold ginzburgGeneratorLayerAtDegree ginzburgGeneratorLayer
++    ginzburgCutCohomologicalComponent ginzburgCohomologicalComponent ginzburgCutComponent
++  rw [←Finsupp.supported_inter,←Finsupp.supported_inter]
++  rfl
++
++theorem ginzburgGeneratorFiltration_step (u v : Q.Vertex) (r : ℤ) :
++    Q.ginzburgGeneratorFiltration k u v r=
++      Q.ginzburgGeneratorFiltration k u v (r+1) ⊔ Q.ginzburgGeneratorLayer k u v r := by
++  unfold ginzburgGeneratorFiltration ginzburgGeneratorLayer
++  rw [Q.ginzburgGeneratorFiltrationPaths_step,Finsupp.supported_union]
++
++theorem ginzburgGeneratorLayer_disjoint (u v : Q.Vertex) (r : ℤ) :
++    Disjoint (Q.ginzburgGeneratorFiltration k u v (r+1))
++      (Q.ginzburgGeneratorLayer k u v r) :=
++  Finsupp.disjoint_supported_supported (Q.ginzburgGeneratorLayerPaths_disjoint u v r)
++
++theorem ginzburgGeneratorFiltrationAtDegree_negTwo (u v : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) q c=
++      Q.ginzburgAugmentationAtDegree k u v q c := by
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf,Q.ginzburgGeneratorFiltration_negTwo,
++    Q.ginzburgAugmentationAtDegree_eq_inf]
++
++theorem ginzburgGeneratorFiltrationAtDegree_one (u v : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgGeneratorFiltrationAtDegree k u v 1 q c=⊥ := by
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf,Q.ginzburgGeneratorFiltration_one,bot_inf_eq]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorLayerQuotients.lean
+@@ -0,0 +1,56 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayers
++import work.ASGinzburgDraft.FinsuppSupportedQuotient
++
++/-! The actual successive filtration quotient, in each genuine pair
++of cohomological and cut degrees, is the exact last-generator layer. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem ginzburgGeneratorFiltrationPaths_difference (u v : Q.Vertex) (r : ℤ) :
++    Q.ginzburgGeneratorFiltrationPaths u v r\
++      Q.ginzburgGeneratorFiltrationPaths u v (r+1)=Q.ginzburgGeneratorLayerPaths u v r := by
++  ext p
++  constructor
++  · rintro ⟨hp,hn⟩
++    rw [Q.ginzburgGeneratorFiltrationPaths_step] at hp
++    exact hp.resolve_left hn
++  · intro hp
++    refine ⟨Q.ginzburgGeneratorLayerPaths_le_filtration u v r hp,?_⟩
++    intro hn
++    exact Set.disjoint_left.mp (Q.ginzburgGeneratorLayerPaths_disjoint u v r) hn hp
++
++theorem ginzburgGeneratorFiltrationDegreePaths_difference (u v : Q.Vertex) (r q c : ℤ) :
++    {p : Q.GinzburgPath u v | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c}\
++    {p : Q.GinzburgPath u v | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c}=
++    {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c} := by
++  ext p
++  have he := congrArg (fun s : Set (Q.GinzburgPath u v) => p∈s)
++    (Q.ginzburgGeneratorFiltrationPaths_difference u v r)
++  change (p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
++    p ∉ Q.ginzburgGeneratorFiltrationPaths u v (r+1))=
++      (p ∈ Q.ginzburgGeneratorLayerPaths u v r) at he
++  simp only [Set.mem_diff,Set.mem_setOf_eq]
++  rw [←he]
++  tauto
++
++universe u
++variable (k : Type u) [Field k]
++
++noncomputable def ginzburgGeneratorLayerQuotientEquiv (u v : Q.Vertex) (r q c : ℤ) :
++    (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c ⧸
++      (Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c).comap
++        (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c).subtype) ≃ₗ[k]
++      Q.ginzburgGeneratorLayerAtDegree k u v r q c :=
++  (supportedQuotientDifferenceEquiv k (Q.GinzburgPath u v)
++    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c}
++    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c}).trans
++      (LinearEquiv.ofEq _ _
++        (congrArg (Finsupp.supported k k)
++          (Q.ginzburgGeneratorFiltrationDegreePaths_difference u v r q c)))
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorFilteredComplex.lean
+@@ -0,0 +1,57 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerQuotients
++
++/-! The genuine last-generator filtration consists of actual subcomplexes
++of the homogeneous Ginzburg augmentation complex. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgDifferential_mem_generatorFiltrationAtDegree (φ : Q.Potential k)
++    {u v : Q.Vertex} {r q c : ℤ} {f : Q.GinzburgPathComponent k u v}
++    (hf : f ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v r q c) :
++    Q.ginzburgDifferential k φ u v f ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v r (q+1) c := by
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf] at hf ⊢
++  exact ⟨Q.ginzburgDifferential_mem_generatorFiltration k φ hf.1,
++    Q.ginzburgDifferential_degree k φ q hf.2.1,Q.ginzburgDifferential_cut k φ c hf.2.2⟩
++
++noncomputable def ginzburgGeneratorFilteredDifferential (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorFiltrationAtDegree k u v r q c →ₗ[k]
++      Q.ginzburgGeneratorFiltrationAtDegree k u v r (q+1) c :=
++  ((Q.ginzburgDifferential k φ u v).comp
++    (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c).subtype).codRestrict _
++      (fun f => Q.ginzburgDifferential_mem_generatorFiltrationAtDegree k φ f.property)
++
++theorem ginzburgGeneratorFilteredDifferential_square (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    (Q.ginzburgGeneratorFilteredDifferential k φ u v r (q+1) c).comp
++      (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c)=0 := by
++  apply LinearMap.ext
++  intro f
++  apply Subtype.ext
++  exact Q.ginzburgDifferential_square k φ f.val
++
++noncomputable def ginzburgGeneratorFilteredComplex (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) : CochainComplex (ModuleCat.{u} k) ℤ :=
++  CochainComplex.of
++    (fun q => ModuleCat.of k (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c))
++    (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgGeneratorFilteredDifferential_square k φ u v r q c)
++
++def ginzburgGeneratorHigherLayer (u v : Q.Vertex) (r q c : ℤ) :
++    Submodule k (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c) :=
++  (Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c).comap
++    (Q.ginzburgGeneratorFiltrationAtDegree k u v r q c).subtype
++
++theorem ginzburgGeneratorFilteredDifferential_mem_higherLayer (φ : Q.Potential k)
++    {u v : Q.Vertex} {r q c : ℤ}
++    {f : Q.ginzburgGeneratorFiltrationAtDegree k u v r q c}
++    (hf : f ∈ Q.ginzburgGeneratorHigherLayer k u v r q c) :
++    Q.ginzburgGeneratorFilteredDifferential k φ u v r q c f ∈
++      Q.ginzburgGeneratorHigherLayer k u v r (q+1) c :=
++  Q.ginzburgDifferential_mem_generatorFiltrationAtDegree k φ hf
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgAssociatedGradedComplex.lean
+@@ -0,0 +1,62 @@
++import work.ASGinzburgDraft.GinzburgGeneratorFilteredComplex
++
++/-! The genuine associated graded complex is formed by consecutive
++quotients of the actual last-generator subcomplexes. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++abbrev GinzburgAssociatedGraded (u v : Q.Vertex) (r q c : ℤ) :=
++  Q.ginzburgGeneratorFiltrationAtDegree k u v r q c ⧸
++    Q.ginzburgGeneratorHigherLayer k u v r q c
++
++noncomputable def ginzburgAssociatedGradedDifferential (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    Q.GinzburgAssociatedGraded k u v r q c →ₗ[k]
++      Q.GinzburgAssociatedGraded k u v r (q+1) c :=
++  (Q.ginzburgGeneratorHigherLayer k u v r q c).mapQ
++    (Q.ginzburgGeneratorHigherLayer k u v r (q+1) c)
++    (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c)
++    (by
++      intro f hf
++      change f.val ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c at hf
++      change Q.ginzburgDifferential k φ u v f.val ∈
++        Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) (q+1) c
++      exact Q.ginzburgDifferential_mem_generatorFiltrationAtDegree k φ hf)
++
++theorem ginzburgAssociatedGradedDifferential_square (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    (Q.ginzburgAssociatedGradedDifferential k φ u v r (q+1) c).comp
++      (Q.ginzburgAssociatedGradedDifferential k φ u v r q c)=0 := by
++  apply LinearMap.ext
++  intro f
++  refine Submodule.Quotient.induction_on _ f ?_
++  intro g
++  change Submodule.Quotient.mk
++    (Q.ginzburgGeneratorFilteredDifferential k φ u v r (q+1) c
++      (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c g))=0
++  have he := LinearMap.congr_fun
++    (Q.ginzburgGeneratorFilteredDifferential_square k φ u v r q c) g
++  change Q.ginzburgGeneratorFilteredDifferential k φ u v r (q+1) c
++    (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c g)=0 at he
++  rw [he]
++  exact (Q.ginzburgGeneratorHigherLayer k u v r (q+1+1) c).mkQ.map_zero
++
++noncomputable def ginzburgAssociatedGradedComplex (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) : CochainComplex (ModuleCat.{u} k) ℤ :=
++  CochainComplex.of (fun q => ModuleCat.of k (Q.GinzburgAssociatedGraded k u v r q c))
++    (fun q => ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v r q c))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgAssociatedGradedDifferential_square k φ u v r q c)
++
++noncomputable def ginzburgFilteredToAssociatedGraded (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v r c ⟶
++      Q.ginzburgAssociatedGradedComplex k φ u v r c :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorHigherLayer k u v r q c).mkQ)
++    (fun _q => by apply ModuleCat.hom_ext; rfl)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorLayerBasis.lean
+@@ -0,0 +1,77 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerQuotients
++
++/-! Each actual generator layer has the genuine shifted prefix basis,
++with the original, dual or loop generators of that degree. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem GinzburgLastGeneratorData.path_mem_layer_iff {u v : Q.Vertex}
++    (d : Q.GinzburgLastGeneratorData u v) (r : ℤ) :
++    d.path Q ∈ Q.ginzburgGeneratorLayerPaths u v r ↔ d.1.val.cohomologicalDegree Q=r := by
++  constructor
++  · rintro ⟨e,he,hd⟩
++    have heq := GinzburgLastGeneratorData.path_injective Q u v he
++    subst e
++    exact hd
++  · intro hd
++    exact ⟨d,rfl,hd⟩
++
++def ginzburgGeneratorLayerDegreeEquiv (u v : Q.Vertex) (r q c : ℤ) :
++    {p : Q.GinzburgPath u v // p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c} ≃
++    Σ a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
++      {p : Q.GinzburgPath u (a.val.source Q) //
++        p.cohomologicalDegree=q-r ∧ p.cutDegree=c-a.val.cutDegree Q} where
++  toFun p := by
++    have hp := Q.ginzburgGeneratorFiltrationPaths_nonempty
++      (Q.ginzburgGeneratorLayerPaths_le_filtration u v r p.property.1)
++    let d := p.val.lastGenerator Q hp
++    have hd : d.1.val.cohomologicalDegree Q=r := by
++      apply (d.path_mem_layer_iff Q r).mp
++      rw [p.val.lastGenerator_path]
++      exact p.property.1
++    refine ⟨⟨d.1.val,⟨d.1.property,hd⟩⟩,⟨d.2,?_,?_⟩⟩
++    · have he := d.path_cohomologicalDegree Q
++      rw [p.val.lastGenerator_path,hd] at he
++      have hq := p.property.2.1
++      omega
++    · apply (d.path_cutDegree_iff Q c).mp
++      rw [p.val.lastGenerator_path]
++      exact p.property.2.2
++  invFun a := by
++    let d : Q.GinzburgLastGeneratorData u v := ⟨⟨a.1.val,a.1.property.1⟩,a.2.val⟩
++    refine ⟨d.path Q,⟨d,rfl,a.1.property.2⟩,?_,?_⟩
++    · rw [d.path_cohomologicalDegree]
++      have hq := a.2.property.1
++      have hr := a.1.property.2
++      change a.2.val.cohomologicalDegree+a.1.val.cohomologicalDegree Q=q
++      omega
++    · apply (d.path_cutDegree_iff Q c).mpr
++      exact a.2.property.2
++  left_inv p := by
++    apply Subtype.ext
++    exact p.val.lastGenerator_path Q _
++  right_inv a := by
++    obtain ⟨⟨a,ha⟩,p⟩ := a
++    obtain ⟨ht,hr⟩ := ha
++    cases ht
++    rfl
++
++universe u
++variable (k : Type u) [Field k]
++
++noncomputable def ginzburgGeneratorLayerFreeEquiv (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorLayerAtDegree k u v r q c ≃ₗ[k]
++      (Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
++        Q.ginzburgCutCohomologicalComponent k u (a.val.source Q)
++          (q-r) (c-a.val.cutDegree Q)) := by
++  classical
++  letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}
++  exact (Finsupp.supportedEquivFinsupp (M:=k) (R:=k) _).trans
++    ((Finsupp.domLCongr (Q.ginzburgGeneratorLayerDegreeEquiv u v r q c)).trans
++      ((Finsupp.sigmaFinsuppLEquivPiFinsupp k).trans
++        (LinearEquiv.piCongrRight fun a =>
++          (Q.ginzburgCutComponentBasisEquiv k u (a.val.source Q)
++            (q-r) (c-a.val.cutDegree Q)).symm)))
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgLastGeneratorDifferential.lean
+@@ -0,0 +1,56 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerBasis
++
++/-! Modulo the next actual generator layer, differentiating a path
++ending in a generator is exactly the signed differential of its prefix. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem ginzburgGeneratorLayerPaths_comp {u v w : Q.Vertex}
++    (p : Q.GinzburgPath u v) {q : Q.GinzburgPath v w} {r : ℤ}
++    (hq : q ∈ Q.ginzburgGeneratorLayerPaths v w r) :
++    p.comp q ∈ Q.ginzburgGeneratorLayerPaths u w r := by
++  obtain ⟨⟨⟨a,ha⟩,s⟩,rfl,hr⟩ := hq
++  cases ha
++  exact ⟨⟨⟨a,rfl⟩,p.comp s⟩,rfl,hr⟩
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgGeneratorLayer_comp {u v w : Q.Vertex} {r : ℤ}
++    {g : Q.GinzburgPathComponent k v w} (hg : g ∈ Q.ginzburgGeneratorLayer k v w r)
++    (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgPathComp k g f ∈ Q.ginzburgGeneratorLayer k u w r := by
++  apply Q.ginzburgSupported_comp k Set.univ (Q.ginzburgGeneratorLayerPaths v w r)
++    (Q.ginzburgGeneratorLayerPaths u w r) _
++      (by rw [Finsupp.supported_univ]; trivial) hg
++  intro p _hp q hq
++  exact Q.ginzburgGeneratorLayerPaths_comp p hq
++
++theorem ginzburgAppendGenerator_mem_layer (a : Q.GinzburgArrow) {u : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u (a.source Q)) :
++    Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) f ∈
++      Q.ginzburgGeneratorLayer k u (a.target Q) (a.cohomologicalDegree Q) := by
++  apply Q.ginzburgGeneratorLayer_comp k _ f
++  exact Finsupp.single_mem_supported _ _
++    ⟨⟨⟨a,rfl⟩,GinzburgPath.nil (a.source Q)⟩,rfl,rfl⟩
++
++theorem ginzburgDifferential_appendGenerator_mod_filtration (φ : Q.Potential k)
++    (a : Q.GinzburgArrow) {u : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u (a.source Q)) :
++    Q.ginzburgDifferential k φ u (a.target Q)
++      (Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) f)-
++        ginzburgSign k (a.cohomologicalDegree Q) •
++          Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1)
++            (Q.ginzburgDifferential k φ u (a.source Q) f) ∈
++      Q.ginzburgGeneratorFiltration k u (a.target Q) (a.cohomologicalDegree Q+1) := by
++  have ha : Finsupp.single (Q.ginzburgArrowPath a) (1:k) ∈
++      Q.ginzburgCohomologicalComponent k (a.source Q) (a.target Q)
++        (a.cohomologicalDegree Q) := by
++    apply Finsupp.single_mem_supported
++    simp [ginzburgArrowPath,GinzburgPath.cohomologicalDegree]
++  rw [Q.ginzburgDifferential_comp_homogeneous k φ f _ _ ha,
++    Q.ginzburgDifferential_generator,add_sub_cancel_right]
++  exact Q.ginzburgGeneratorFiltration_comp k
++    (Q.ginzburgGeneratorDifferential_mem_generatorFiltration k φ a) f
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorPrefixComplex.lean
+@@ -0,0 +1,56 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerBasis
++
++/-! Genuine shifted prefix complexes, with the signed Ginzburg
++differential, for the finite family of last generators of a fixed degree. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++abbrev GinzburgGeneratorPrefix (u v : Q.Vertex) (r q c : ℤ) :=
++  Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
++    Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (q-r) (c-a.val.cutDegree Q)
++
++noncomputable def ginzburgSignedShiftDifferential (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgCutCohomologicalComponent k u v (q-r) c →ₗ[k]
++      Q.ginzburgCutCohomologicalComponent k u v (q+1-r) c :=
++  ginzburgSign k r •
++    (((Q.ginzburgDifferential k φ u v).comp
++      (Q.ginzburgCutCohomologicalComponent k u v (q-r) c).subtype).codRestrict
++      (Q.ginzburgCutCohomologicalComponent k u v (q+1-r) c) (fun f => by
++        have he : q+1-r=(q-r)+1 := by omega
++        rw [he]
++        exact ⟨Q.ginzburgDifferential_degree k φ (q-r) f.property.1,
++          Q.ginzburgDifferential_cut k φ c f.property.2⟩))
++
++noncomputable def ginzburgGeneratorPrefixDifferential (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    Q.GinzburgGeneratorPrefix k u v r q c →ₗ[k]
++      Q.GinzburgGeneratorPrefix k u v r (q+1) c :=
++  LinearMap.pi (fun a =>
++    (Q.ginzburgSignedShiftDifferential k φ u (a.val.source Q)
++      r q (c-a.val.cutDegree Q)).comp
++      (LinearMap.proj a))
++
++theorem ginzburgGeneratorPrefixDifferential_square (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ) :
++    (Q.ginzburgGeneratorPrefixDifferential k φ u v r (q+1) c).comp
++      (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c)=0 := by
++  apply LinearMap.ext
++  intro f
++  funext a
++  apply Subtype.ext
++  change ginzburgSign k r • Q.ginzburgDifferential k φ u (a.val.source Q)
++    (ginzburgSign k r • Q.ginzburgDifferential k φ u (a.val.source Q) (f a).val)=0
++  rw [map_smul,Q.ginzburgDifferential_square,smul_zero,smul_zero]
++
++noncomputable def ginzburgGeneratorPrefixComplex (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) : CochainComplex (ModuleCat.{u} k) ℤ :=
++  CochainComplex.of (fun q => ModuleCat.of k (Q.GinzburgGeneratorPrefix k u v r q c))
++    (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgGeneratorPrefixDifferential_square k φ u v r q c)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorPrefixHomology.lean
+@@ -0,0 +1,77 @@
++import work.ASGinzburgDraft.GinzburgGeneratorPrefixComplex
++import ASGinzburg.GinzburgCutRegularity
++
++/-! Genuine Ginzburg regularity controls the homology of the actual
++shifted prefix complexes, without assuming exactness of a simple resolution. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgSign_ne_zero (r : ℤ) : ginzburgSign k r ≠ 0 := by
++  exact zpow_ne_zero r (neg_ne_zero.mpr (one_ne_zero : (1:k)≠0))
++
++theorem ginzburgGeneratorPrefixComplex_d (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    (Q.ginzburgGeneratorPrefixComplex k φ u v r c).d q (q+1)=
++      ModuleCat.ofHom (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c) :=
++  CochainComplex.of_d _ _ _ q
++
++noncomputable def ginzburgGeneratorPrefixHomology (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) : ModuleCat.{u} k :=
++  (Q.ginzburgGeneratorPrefixComplex k φ u v r c).homology q
++
++theorem ginzburgGeneratorPrefixHomology_succ_isZero_iff_cycles (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    IsZero (Q.ginzburgGeneratorPrefixHomology k φ u v r c (q+1)) ↔
++      ∀ f : Q.GinzburgGeneratorPrefix k u v r (q+1) c,
++        Q.ginzburgGeneratorPrefixDifferential k φ u v r (q+1) c f=0 →
++          ∃ g : Q.GinzburgGeneratorPrefix k u v r q c,
++            Q.ginzburgGeneratorPrefixDifferential k φ u v r q c g=f := by
++  let C := Q.ginzburgGeneratorPrefixComplex k φ u v r c
++  change IsZero (C.homology (q+1)) ↔ _
++  rw [←C.exactAt_iff_isZero_homology,
++    C.exactAt_iff' (j:=q+1) (i:=q) (k:=q+1+1) (by simp) (by simp),
++    ShortComplex.moduleCat_exact_iff]
++  have hf : C.d q (q+1)=ModuleCat.ofHom
++      (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c) :=
++    Q.ginzburgGeneratorPrefixComplex_d k φ u v r c q
++  have hg : C.d (q+1) (q+1+1)=ModuleCat.ofHom
++      (Q.ginzburgGeneratorPrefixDifferential k φ u v r (q+1) c) :=
++    Q.ginzburgGeneratorPrefixComplex_d k φ u v r c (q+1)
++  change (∀ f : Q.GinzburgGeneratorPrefix k u v r (q+1) c,
++    C.d (q+1) (q+1+1) f=0 → ∃ g : Q.GinzburgGeneratorPrefix k u v r q c,
++      C.d q (q+1) g=f) ↔ _
++  rw [hf,hg]
++  rfl
++
++theorem GinzburgRegular.generatorPrefixHomology_succ_isZero {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (r c q : ℤ) (hq : q+1<r) :
++    IsZero (Q.ginzburgGeneratorPrefixHomology k φ u v r c (q+1)) := by
++  classical
++  apply (Q.ginzburgGeneratorPrefixHomology_succ_isZero_iff_cycles k φ u v r c q).mpr
++  intro f hf
++  have hex (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
++      ∃ g : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q)
++          (q-r) (c-a.val.cutDegree Q),
++        Q.ginzburgDifferential k φ u (a.val.source Q) g.val=(f a).val := by
++    have hdf := congrArg (fun t => (t a).val) hf
++    change ginzburgSign k r • Q.ginzburgDifferential k φ u (a.val.source Q) (f a).val=0 at hdf
++    have hd : Q.ginzburgDifferential k φ u (a.val.source Q) (f a).val=0 :=
++      (smul_eq_zero.mp hdf).resolve_left (ginzburgSign_ne_zero k r)
++    have he : q+1-r=(q-r)+1 := by omega
++    let f' : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q)
++        ((q-r)+1) (c-a.val.cutDegree Q) := ⟨(f a).val,by rw [←he]; exact (f a).property⟩
++    exact ((Q.ginzburgCutHomology_succ_isZero_iff_cycles k φ u (a.val.source Q)
++      (c-a.val.cutDegree Q) (q-r)).mp
++        (h.cutHomology_isZero Q k u (a.val.source Q) (c-a.val.cutDegree Q)
++          ((q-r)+1) (by omega))) f' hd
++  choose g hg using hex
++  refine ⟨fun a => (ginzburgSign k r)⁻¹ • g a,?_⟩
++  funext a
++  apply Subtype.ext
++  change ginzburgSign k r • Q.ginzburgDifferential k φ u (a.val.source Q)
++    ((ginzburgSign k r)⁻¹ • (g a).val)=(f a).val
++  rw [map_smul,hg,smul_smul,mul_inv_cancel₀ (ginzburgSign_ne_zero k r),one_smul]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorLayerCoefficients.lean
+@@ -0,0 +1,38 @@
++import work.ASGinzburgDraft.GinzburgGeneratorPrefixHomology
++import work.ASGinzburgDraft.GinzburgLastGeneratorDifferential
++
++/-! The layer/prefix equivalence reads the actual coefficient of the
++path obtained by adjoining the specified last generator. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorLayerFreeEquiv_apply (u v : Q.Vertex) (r q c : ℤ)
++    (f : Q.ginzburgGeneratorLayerAtDegree k u v r q c)
++    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r})
++    (p : {p : Q.GinzburgPath u (a.val.source Q) //
++      p.cohomologicalDegree=q-r ∧ p.cutDegree=c-a.val.cutDegree Q}) :
++    (Q.ginzburgGeneratorLayerFreeEquiv k u v r q c f a).val p.val=
++      f.val ((GinzburgLastGeneratorData.path Q)
++        ⟨⟨a.val,a.property.1⟩,p.val⟩) := by
++  classical
++  letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}
++  simp only [ginzburgGeneratorLayerFreeEquiv,LinearEquiv.trans_apply,
++    LinearEquiv.piCongrRight_apply]
++  simp only [ginzburgCutComponentBasisEquiv,LinearEquiv.trans_symm,
++    LinearEquiv.trans_apply,LinearEquiv.ofEq_symm,LinearEquiv.coe_ofEq_apply]
++  let s : Set (Q.GinzburgPath u (a.val.source Q)) :=
++    {p | p.cohomologicalDegree=q-r ∧ p.cutDegree=c-a.val.cutDegree Q}
++  let g : s →₀ k := (Finsupp.sigmaFinsuppLEquivPiFinsupp k)
++    ((Finsupp.domLCongr (R:=k) (Q.ginzburgGeneratorLayerDegreeEquiv u v r q c))
++      ((Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
++        {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
++          p.cohomologicalDegree=q ∧ p.cutDegree=c}) f)) a
++  have he : ((Finsupp.supportedEquivFinsupp (M:=k) (R:=k) s).symm g).val p.val=g p := by
++    rw [Finsupp.supportedEquivFinsupp_symm_apply_coe (R:=k) (M:=k) s g]
++    rw [Finsupp.extendDomain_toFun]
++    rw [dif_pos (show p.val ∈ s from p.property)]
++    rfl
++  exact he.trans rfl
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorLayerClasses.lean
+@@ -0,0 +1,66 @@
++import work.ASGinzburgDraft.GinzburgAssociatedGradedComplex
++
++/-! Canonical representatives for the genuine successive quotient
++and their exact projection to the generator layer. -/
++namespace ASGinzburg.CutQuiver
++open scoped Classical
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorLayerAtDegree_le_filtration (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorLayerAtDegree k u v r q c ≤
++      Q.ginzburgGeneratorFiltrationAtDegree k u v r q c := by
++  apply Finsupp.supported_mono
++  intro p hp
++  exact ⟨Q.ginzburgGeneratorLayerPaths_le_filtration u v r hp.1,hp.2⟩
++
++noncomputable def ginzburgGeneratorLayerClass (u v : Q.Vertex) (r q c : ℤ) :
++    Q.ginzburgGeneratorLayerAtDegree k u v r q c →ₗ[k]
++      Q.GinzburgAssociatedGraded k u v r q c :=
++  (Q.ginzburgGeneratorHigherLayer k u v r q c).mkQ.comp
++    (Submodule.inclusion (Q.ginzburgGeneratorLayerAtDegree_le_filtration k u v r q c))
++
++theorem ginzburgGeneratorLayerQuotientEquiv_coe_mk (u v : Q.Vertex) (r q c : ℤ)
++    (f : Q.ginzburgGeneratorFiltrationAtDegree k u v r q c) :
++    ((Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c)
++      (Submodule.Quotient.mk f)).val=
++      f.val.filter (· ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
++        p.cohomologicalDegree=q ∧ p.cutDegree=c}) := by
++  classical
++  simp only [ginzburgGeneratorLayerQuotientEquiv,LinearEquiv.trans_apply,
++    LinearEquiv.coe_ofEq_apply]
++  have he := congrArg Subtype.val (supportedQuotientDifferenceEquiv_mk k
++    (Q.GinzburgPath u v)
++    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c}
++    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
++      p.cohomologicalDegree=q ∧ p.cutDegree=c} f)
++  refine he.trans ?_
++  simp only [supportedDifferenceProjection,LinearMap.comp_apply,
++    Submodule.subtype_apply,Finsupp.restrictDom_apply]
++  simp only [Q.ginzburgGeneratorFiltrationDegreePaths_difference]
++
++theorem ginzburgGeneratorLayerQuotientEquiv_layerClass (u v : Q.Vertex) (r q c : ℤ)
++    (f : Q.ginzburgGeneratorLayerAtDegree k u v r q c) :
++    Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c
++      (Q.ginzburgGeneratorLayerClass k u v r q c f)=f := by
++  classical
++  apply Subtype.ext
++  rw [ginzburgGeneratorLayerClass,LinearMap.comp_apply]
++  change ((Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c)
++    (Submodule.Quotient.mk _)).val=f.val
++  rw [Q.ginzburgGeneratorLayerQuotientEquiv_coe_mk]
++  change f.val.filter (· ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
++    p.cohomologicalDegree=q ∧ p.cutDegree=c})=f.val
++  rw [Finsupp.filter_eq_self_iff]
++  intro p hp
++  exact f.property (Finsupp.mem_support_iff.mpr hp)
++
++theorem ginzburgGeneratorLayerQuotientEquiv_symm (u v : Q.Vertex) (r q c : ℤ)
++    (f : Q.ginzburgGeneratorLayerAtDegree k u v r q c) :
++    (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c).symm f=
++      Q.ginzburgGeneratorLayerClass k u v r q c f := by
++  apply (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c).injective
++  rw [LinearEquiv.apply_symm_apply,Q.ginzburgGeneratorLayerQuotientEquiv_layerClass]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGeneratorShiftAppend.lean
+@@ -0,0 +1,83 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerClasses
++import work.ASGinzburgDraft.GinzburgGeneratorPrefixComplex
++import work.ASGinzburgDraft.GinzburgLastGeneratorDifferential
++
++/-! Adjoining an actual last generator is a chain map from the
++signed shifted prefix to the actual associated graded complex. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgAppendGenerator_mem_layerAtDegree (a : Q.GinzburgArrow)
++    (u : Q.Vertex) (q c : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k u (a.source Q)
++      (q-a.cohomologicalDegree Q) (c-a.cutDegree Q)) :
++    Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) f.val ∈
++      Q.ginzburgGeneratorLayerAtDegree k u (a.target Q) (a.cohomologicalDegree Q) q c := by
++  rw [Q.ginzburgGeneratorLayerAtDegree_eq_inf]
++  refine ⟨Q.ginzburgAppendGenerator_mem_layer k a f.val,?_,?_⟩
++  · have ha : Finsupp.single (Q.ginzburgArrowPath a) (1:k) ∈
++      Q.ginzburgCohomologicalComponent k (a.source Q) (a.target Q)
++        (a.cohomologicalDegree Q) := by
++      apply Finsupp.single_mem_supported
++      simp [ginzburgArrowPath,GinzburgPath.cohomologicalDegree]
++    simpa only [sub_add_cancel] using Q.ginzburgCohomologicalComponent_comp k f.property.1 ha
++  · have ha : Finsupp.single (Q.ginzburgArrowPath a) (1:k) ∈
++      Q.ginzburgCutComponent k (a.source Q) (a.target Q) (a.cutDegree Q) := by
++      apply Finsupp.single_mem_supported
++      simp [ginzburgArrowPath,GinzburgPath.cutDegree]
++    simpa only [sub_add_cancel] using Q.ginzburgCutComponent_comp k f.property.2 ha
++
++noncomputable def ginzburgAppendGeneratorAtDegree (a : Q.GinzburgArrow)
++    (u : Q.Vertex) (q c : ℤ) :
++    Q.ginzburgCutCohomologicalComponent k u (a.source Q)
++      (q-a.cohomologicalDegree Q) (c-a.cutDegree Q) →ₗ[k]
++      Q.ginzburgGeneratorLayerAtDegree k u (a.target Q) (a.cohomologicalDegree Q) q c :=
++  ((Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1)).comp
++    (Q.ginzburgCutCohomologicalComponent k u (a.source Q)
++      (q-a.cohomologicalDegree Q) (c-a.cutDegree Q)).subtype).codRestrict _
++        (Q.ginzburgAppendGenerator_mem_layerAtDegree k a u q c)
++
++theorem ginzburgAssociatedGradedDifferential_appendGenerator (φ : Q.Potential k)
++    (a : Q.GinzburgArrow) (u : Q.Vertex) (q c : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k u (a.source Q)
++      (q-a.cohomologicalDegree Q) (c-a.cutDegree Q)) :
++    Q.ginzburgAssociatedGradedDifferential k φ u (a.target Q)
++      (a.cohomologicalDegree Q) q c
++      (Q.ginzburgGeneratorLayerClass k u (a.target Q) (a.cohomologicalDegree Q) q c
++        (Q.ginzburgAppendGeneratorAtDegree k a u q c f))=
++    Q.ginzburgGeneratorLayerClass k u (a.target Q) (a.cohomologicalDegree Q) (q+1) c
++      (Q.ginzburgAppendGeneratorAtDegree k a u (q+1) c
++        (Q.ginzburgSignedShiftDifferential k φ u (a.source Q)
++          (a.cohomologicalDegree Q) q (c-a.cutDegree Q) f)) := by
++  let x := Q.ginzburgGeneratorFilteredDifferential k φ u (a.target Q)
++    (a.cohomologicalDegree Q) q c
++      (Submodule.inclusion (Q.ginzburgGeneratorLayerAtDegree_le_filtration k u (a.target Q)
++        (a.cohomologicalDegree Q) q c) (Q.ginzburgAppendGeneratorAtDegree k a u q c f))
++  let y := Submodule.inclusion (Q.ginzburgGeneratorLayerAtDegree_le_filtration k u (a.target Q)
++    (a.cohomologicalDegree Q) (q+1) c)
++      (Q.ginzburgAppendGeneratorAtDegree k a u (q+1) c
++        (Q.ginzburgSignedShiftDifferential k φ u (a.source Q)
++          (a.cohomologicalDegree Q) q (c-a.cutDegree Q) f))
++  change Submodule.Quotient.mk x=Submodule.Quotient.mk y
++  apply (Submodule.Quotient.eq
++    (Q.ginzburgGeneratorHigherLayer k u (a.target Q) (a.cohomologicalDegree Q) (q+1) c)).mpr
++  change x.val-y.val ∈ Q.ginzburgGeneratorFiltrationAtDegree k u (a.target Q)
++    (a.cohomologicalDegree Q+1) (q+1) c
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf]
++  constructor
++  · change Q.ginzburgDifferential k φ u (a.target Q)
++      (Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) f.val)-
++        Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1)
++          (ginzburgSign k (a.cohomologicalDegree Q) •
++            Q.ginzburgDifferential k φ u (a.source Q) f.val) ∈ _
++    rw [map_smul]
++    exact Q.ginzburgDifferential_appendGenerator_mod_filtration k φ a f.val
++  · have hle : Q.ginzburgGeneratorFiltrationAtDegree k u (a.target Q)
++        (a.cohomologicalDegree Q) (q+1) c ≤
++          Q.ginzburgCutCohomologicalComponent k u (a.target Q) (q+1) c := by
++      rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf]
++      exact inf_le_right
++    exact Submodule.sub_mem _ (hle x.property) (hle y.property)
++
++end ASGinzburg.CutQuiver

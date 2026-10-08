@@ -1326,3 +1326,39 @@ UTC 2026-10-08T21:11:49.541687+00:00 → 2026-10-08T21:39:23.292452+00:00。
 差分：runs/total-algebra-20261008-unit47.patch。全theoremを監査し、許容公理3種類のみ。
 
 保存準備 UTC 2026-10-08T21:40:12.978588+00:00、開始から実測52774.978588秒。単位47の新規検査20261008T211149Z-34625f48は全6段階0・296数学モジュール/2452異なる宣言/1226 theorem/287 named instance。UTC 2026-10-08T21:11:49.541687+00:00 → 2026-10-08T21:39:23.292452+00:00、monotonic 1653.750756874秒。実際のtool shell/wrapper終了0、wrapper UTC 2026-10-08T21:11:49.510066+00:00 → 2026-10-08T21:39:23.304763+00:00、1653.794701431秒。初期14/開始時60/577歴史的ファイル・入力PDFの無変更確認も0。許容公理3種類のみ、hole/独自axiom/禁止依存/宣言重複/監査漏れなし。失敗した47/47bのimport位置エラーと全ログを保持。タスク継続中、main保存後も形式化する。
+
+継続保存 UTC 2026-10-08T21:43:49.993207+00:00、開始から実測52991.993207秒。単位47はmain de666ed5bb5078f0ddf41e33de12bf08fe99e2bcへexpected旧644fca2・force=falseの通常fast-forwardで保存済み。58ファイル/44独立blob/1847759bytesを10部分へ分け、GitHub tree551776471d5d977bf028363f7522dc66b2cc85b5がローカルtreeと一致。APIの正確なcommit objectのローカル同期も終了0。タスク継続中。個別成功した単位48の12数学モジュールを公開ソースへ移し、rootのimportを本文前へ挿入して新規検査48を開始する。公開数学ソースを固定し、workで実際の3層filtrationと標準分解の次の証明を継続する。
+
+継続チェックポイント UTC 2026-10-08T21:51:22.348495+00:00、開始から実測53444.348495秒。タスク継続中。mainは単位47のde666ed5bb5078f0ddf41e33de12bf08fe99e2bc。新規公開48は12追加数学モジュール/root compile済み、lake AxiomAuditと独立全宣言監査が実行中、全体終了は未確定。最後の新規全体成功は47の20261008T211149Z-34625f48、全6段階0・1653.750756874秒。
+次の単位49の15数学草稿は全て実際の個別Lean終了0・最終診断なし。実際の最後の生成元の次数filtrationとsigned微分閉性、最下段＝augmentation ideal/最上段＝零、隣接商＝exact-generator層の線形同型を証明。実際のfiltered/associated-graded mathlib complexesと商へのcochain map、各層の実際のshifted prefix自由有限和表示、native signed prefix complexとGinzburgRegularからの必要な負次数homology消滅を構成。実際のLeibnizから生成元微分項が一段上へ入ることと、生成元付加の商複体/shifted prefix微分への適合性まで証明。商複体と有限prefix complexesの全cochain同型、A(Φ)への有限filtration比較、標準単純分解のexactnessとExt表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。 差分48138bytesをwork/total-algebra/unit49-draft.patchおよび回収可能なruns/total-algebra-20261008-unit49-draft.patchへ保存、実装/利用先/残る義務をunit49.md/checkpoint49.txtへ保存。全cochain同型とA(Φ)上の分解のexactnessは未完成で、新規公開全監査は48保存後に行う。チェックポイント後も継続する。
+GitHub CI45 exacthead6146263/Actions37840925747はsuccess・全7段階0。検証器20261008T203840Z-6b72f5eaはUTC20:38:40.404713→21:26:24.375743、2863.971024384秒。完全ジョブログ812045bytes・SHA256487f5bf1734264b5a8034930dd0714e541f56436413c9f153fdff7e1b68f42a5をverification/total_algebra_unit45_github_ci_part0.logとpart1.logへ無変更の2部分として保存し、証拠JSONとartifact11579433618/digest492074bc9180f69f5a6a4da617027f18dd684d2e59c012c43e2e1b9642ab120aを記録。CI46 exacthead644fca2はActions37844799294、CI47 exactheadde666ed5はActions37848719715で、直前照会in_progress。旧head45の成功を最新main47の成功と扱わない。
+
+証明継続 UTC 2026-10-08T22:02:47.807211+00:00、開始から実測54129.807211秒。タスク継続中。単位49の追加6モジュールも全て実際の個別Lean終了0・診断なし、前の15と合わせた21数学モジュールの差分67398bytesをruns/total-algebra-20261008-unit49-draft-2202.patchとworkの同名patchへ保存。実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のactual associated-graded complexを構成。実際の道の係数とLeibnizから全有限shifted-prefix complexとのcochain同型を証明し、GinzburgRegularから各層のhomologyが生成元次数だけに集中することを導いた。canonicalな層augmentationからその実際のhomologyのsingle complexへのquasi-isomorphismまで完成。生成元次数のhomologyとA(Φ)成分の比較、有限filtrationの長完全列から標準単純分解のexactness・Ext表/AS対応を導く部分は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。 単位49の新規公開全監査は48の保存後に行い、次の有限filtration長完全列/単純分解の証明はworkの単位50で継続する。公開48はlake build終了0、UTC2026-10-08T21:43:51.121721+00:00→2026-10-08T21:57:26.751921+00:00、815.630239秒。独立全宣言監査は実行中で全体終了はまだ未確定。
+
+## 単位48：canonical augmentationと実際のfree-generator complex
+
+実際のcomplexのcanonical homology augmentationとquasi-isomorphismの判定、通常/固定cut/unrolled Ginzburg augmentationと実際のGinzburgRegularとの同値を証明。最後の生成元によるaugmentation idealの自由有限和表示と実際のcohomological/cut次数移動、signed微分の閉性とmathlib augmentation complexを構成し、GinzburgRegularからその全負次数homology消滅を証明。標準単純分解のexactness、AS対応の両方向、最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+
+一般Abelian圏の実際のoutgoing differential=0を持つcomplexからsingle Hのcanonical cochain mapを構成し、そのhomology mapが当該次数で同型、他の全次数のhomology零性がquasi-isomorphismと同値であることを証明した。実際の通常/固定cut/unrolled Ginzburg complexへ適用し、全成分augmentationのquasi-isomorphismとGinzburgRegularの同値を導いた。これをAS条件との同値とは扱わない。
+
+augmentation idealは非空の実際のGinzburg pathsにsupportedな部分空間である。最後の拡張矢とprefixの実際の型付き道のbijectionを作り、自由線形延長と有限sigma Finsupp分解で全incoming拡張矢に添字付けた実際のprefix Ginzburg空間の有限和表示を構成した。cohomological/cut次数も保存し、各summandの次数は実際の矢の0/−1/−2およびcut次数に従う。微分のaugmentation閉性は正windingと実際の微分のwinding保存から導き、左右の積閉性も証明した。
+
+実際のhomogeneous augmentation spacesとsigned微分をmathlib CochainComplexへ束ねた。負cohomological次数ではaugmentation spaceが全Ginzburg cut componentと一致することを非空性から導き、実際のcycle/boundary criterionによりGinzburgRegularからaugmentation complexの全負次数homology零性を証明した。
+
+個別homology-augmentation7、ginzburg-augmentation2、ginzburg-cut-augmentation1、ginzburg-unrolled-augmentation1、ginzburg-last-generator3、ginzburg-augmentation-basis3、ginzburg-augmentation-ideal4、ginzburg-last-generator-gradings1、ginzburg-augmentation-graded-free1、ginzburg-augmentation-complex1、ginzburg-augmentation-homology1、ginzburg-augmentation-regularity2はいずれも実際のLean終了0・診断なし。初回のglobal QuasiIso namespace、cycles表示、既存transportとの重複、有限incomingのFintype、依存型rewrite、微分square lemma名の修正による失敗ログを保持した。
+
+利用先は実際のlast-generator filtrationの3層をprefix complexと比較し、GinzburgRegularからA(Φ)上の単純加群の4項射影分解のexactnessを導く証明である。現在の証明はaugmentation complexのacyclicityまでで、そのA(Φ)への比較、実際の標準分解のexactness、Ext表/AS条件の導出は未証明。正則性・Ext同型・AS結論相当の仮定を加えていない。新規公開全監査/main保存後も継続する。
+
+検証：`20261008T214350Z-4231f27e`、1617.721621879秒、全段階終了0。
+JST 2026-10-09T06:43:50.288138+09:00 → 2026-10-09T07:10:48.009764+09:00。
+UTC 2026-10-08T21:43:50.288138+00:00 → 2026-10-08T22:10:48.009764+00:00。
+308数学モジュール・2514異なる宣言・1263 theorem。
+差分：runs/total-algebra-20261008-unit48.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 継続checkpoint 2026-10-08T22:14:44.767546+00:00 / JST 2026-10-09T07:14:44.767546+09:00
+
+単位48の公開全検証 `20261008T214350Z-4231f27e` は実際の全6段階終了0、308数学モジュール・2514異なる宣言・1263 theorem。検証UTC2026-10-08T21:43:50.288138+00:00→2026-10-08T22:10:48.009764+00:00、1617.721621879秒。wrapperも実際の終了0。初期14/基準60数学モジュール・過去577保護ファイル・入力PDFは無変更、保存検査終了0。
+
+単位46のGitHub CI `37844799294` / exact head `644fca202aa02b8609c406868e2270b9a2d79660` はsuccess。独立検証 `20261008T211008Z-ba8f8cca`、UTC 2026-10-08T21:10:08.238684+00:00→2026-10-08T21:56:49.035800+00:00、2800.797115277秒、全7段階終了0。全836794バイトのjob logを2分割して保存し、SHA-256 `ce477ebdf0feac59dfdaf15d5c2866659b0a07d0c98520ff8acf271d46c7a892` とartifact digestをevidenceへ記録した。単位47の最新main CI 37848719715 / de666ed5は現時点in_progressであり、旧CIのsuccessを最新commitの成功と扱わない。
+
+次の単位49は実際の3層filtration・associated graded/prefix complexの全複体同型・全層のhomology集中・canonical augmentationのquasi-isomorphismまで21モジュール個別Lean終了0。21モジュール差分と旧15モジュールsnapshotを保存済み。単位50は実際のfiltration短完全列・長完全列・最下段augmentation同型・正則性からの最初の接続写像の同型まで4モジュール個別Lean終了0。単位49/50はまだ公開全監査前のdraftである。次は上段filtrationの同型と実際の核/像の一致、A(Φ)係数との比較、標準単純分解とExt表。定理3.2・系5.2の正式定理文/証明は未実装・未証明。これは作業途中の保存記録であり、終了時刻は未確定。

@@ -1,0 +1,41 @@
+import ASGinzburg.GinzburgLastGenerator
+import ASGinzburg.GinzburgPathFiniteness
+import Mathlib.LinearAlgebra.Finsupp.SumProd
+
+/-! Actual augmentation paths form the finite family of free right
+path spaces indexed by genuine incoming extended generators. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+def ginzburgAugmentationSubmodule (u v : Q.Vertex) :
+    Submodule k (Q.GinzburgPathComponent k u v) :=
+  Finsupp.supported k k {p | 0<p.length}
+
+noncomputable def ginzburgAugmentationLastEquiv (u v : Q.Vertex) :
+    Q.ginzburgAugmentationSubmodule k u v ≃ₗ[k]
+      (Q.GinzburgLastGeneratorData u v →₀ k) :=
+  (Finsupp.supportedEquivFinsupp (M:=k) (R:=k)
+    {p : Q.GinzburgPath u v | 0<p.length}).trans
+      (Finsupp.domLCongr (Q.ginzburgNonemptyLastEquiv u v))
+
+noncomputable def ginzburgAugmentationPrefixEquiv (u v : Q.Vertex) :
+    Q.ginzburgAugmentationSubmodule k u v ≃ₗ[k]
+      (Π a : {a : Q.GinzburgArrow // a.target Q=v},
+        Q.GinzburgPathComponent k u (a.val.source Q)) :=
+  by
+    classical
+    letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v}
+    exact (Q.ginzburgAugmentationLastEquiv k u v).trans
+      (Finsupp.sigmaFinsuppLEquivPiFinsupp k)
+
+theorem ginzburgAugmentationLastEquiv_symm_single (u v : Q.Vertex)
+    (d : Q.GinzburgLastGeneratorData u v) (c : k) :
+    ((Q.ginzburgAugmentationLastEquiv k u v).symm (Finsupp.single d c)).val=
+      Finsupp.single (d.path Q) c := by
+  simp only [ginzburgAugmentationLastEquiv,LinearEquiv.trans_symm,LinearEquiv.trans_apply,
+    Finsupp.domLCongr_symm,Finsupp.domLCongr_single]
+  exact Finsupp.supportedEquivFinsupp_symm_single (R:=k) _
+    ((Q.ginzburgNonemptyLastEquiv u v).symm d) c
+
+end ASGinzburg.CutQuiver

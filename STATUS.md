@@ -1,8 +1,8 @@
 # 現在の状況
 
-実際のGinzburg積・Leibnizから境界の左右閉性、boundary商の双線形積とmathlib H⁰の積を構成した。通常/固定cut H⁰–Jacobian同型、固定cut H⁰–A(Φ)同型の積/ゼロ道単位元保存、H⁰の結合則を証明。実際の固定cut H⁰ ZAlgebraとA(Φ)の同型、有限成分の全単位的道環/Jacobian環と実際の全環商同型、実際のH⁰成分環とJacobian環のAlgEquiv、全mathlib H⁰の加群表示まで完成。canonical augmentation/quasi-isomorphism・genuine標準双加群/単純分解・GinzburgRegularとAS条件の両方向対応・最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T211149Z-34625f48：296数学モジュール・2452異なる宣言・1226 theorem、全段階終了0。
-単位1〜47の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際のcomplexのcanonical homology augmentationとquasi-isomorphismの判定、通常/固定cut/unrolled Ginzburg augmentationと実際のGinzburgRegularとの同値を証明。最後の生成元によるaugmentation idealの自由有限和表示と実際のcohomological/cut次数移動、signed微分の閉性とmathlib augmentation complexを構成し、GinzburgRegularからその全負次数homology消滅を証明。標準単純分解のexactness、AS対応の両方向、最小関係/選択・quadratic分解・標準RHom/外部一般定理/同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T214350Z-4231f27e：308数学モジュール・2514異なる宣言・1263 theorem、全段階終了0。
+単位1〜48の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2452異なる名前、全明示的宣言・287 named instanceを含む、終了0 |
-| theorem | 1226、全件が監査対象 |
+| 個別公理監査 | 2514異なる名前、全明示的宣言・288 named instanceを含む、終了0 |
+| theorem | 1263、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T211149Z-34625f48`、全段階終了0、1653.750756874秒。
-UTC 2026-10-08T21:11:49.541687+00:00 → 2026-10-08T21:39:23.292452+00:00。
-JST 2026-10-09T06:11:49.541687+09:00 → 2026-10-09T06:39:23.292452+09:00。
+最新ローカル検証 `20261008T214350Z-4231f27e`、全段階終了0、1617.721621879秒。
+UTC 2026-10-08T21:43:50.288138+00:00 → 2026-10-08T22:10:48.009764+00:00。
+JST 2026-10-09T06:43:50.288138+09:00 → 2026-10-09T07:10:48.009764+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -110,7 +110,9 @@ JST 2026-10-09T06:11:49.541687+09:00 → 2026-10-09T06:39:23.292452+09:00。
 
 | Jacobian商とunrollingの交換 | UnrolledPathErasure、UnrolledJacobianErasure、PathCutUnrollingComparison、UnrolledErasureIdeals、UnrolledJacobianIdealErasure、PathJacobianContexts、PathCutProducts、PathJacobianHomogeneousContexts、PathQuotientProducts、PathBetweenSheets、BetweenSheetLinearEquiv、UnrolledJacobianLiftIdeal、UnrolledJacobianContexts、BetweenSheetJacobianIdeals、JacobianUnrollingQuotient、JacobianCutQuotientProducts、JacobianUnrollingProducts | 任意整数sheet差の道/線形同型と積保存、真のhomogeneous Jacobianイデアルと実際のunrolledイデアルの一致、商のunrolling交換・homogeneous商積保存、固定cut H⁰とA(Φ)成分の線形比較 | H⁰そのものの積、全単位的Jacobian環、正則性/AS対応と標準双加群分解 |
 
-| 実際のH⁰の代数構造 | GinzburgZeroProducts、GinzburgZeroQuotientProducts、GinzburgHomologyZeroProducts、GinzburgJacobianProducts、GinzburgCutZeroProducts、GinzburgCutZeroQuotientProducts、GinzburgCutHomologyZeroProducts、GinzburgCutJacobianProducts、GinzburgCutHomologyUnits、GinzburgHomologyZAlgebra、FiniteComponentAlgebra、PathJacobianRing、FiniteComponentAlgebraEquiv、GinzburgHomologyUnits、GinzburgHomologyRing、PathJacobianRingQuotient | 微分からのboundary閉性・実際のH⁰積/単位元/結合則、Jacobian/A(Φ)比較の積保存、整数添字H⁰代数同型、全単位的環と全環商・H⁰成分環AlgEquiv、全mathlib H⁰表示 | canonical augmentationとquasi-isomorphism、標準双加群/単純分解、GinzburgRegular/AS対応 |
+| 実際のH⁰の代数構造 | GinzburgZeroProducts、GinzburgZeroQuotientProducts、GinzburgHomologyZeroProducts、GinzburgJacobianProducts、GinzburgCutZeroProducts、GinzburgCutZeroQuotientProducts、GinzburgCutHomologyZeroProducts、GinzburgCutJacobianProducts、GinzburgCutHomologyUnits、GinzburgHomologyZAlgebra、FiniteComponentAlgebra、PathJacobianRing、FiniteComponentAlgebraEquiv、GinzburgHomologyUnits、GinzburgHomologyRing、PathJacobianRingQuotient | 微分からのboundary閉性・実際のH⁰積/単位元/結合則、Jacobian/A(Φ)比較の積保存、整数添字H⁰代数同型、全単位的環と全環商・H⁰成分環AlgEquiv、全mathlib H⁰表示 | augmentation/quasi-isomorphismは単位48で完成、標準双加群/単純分解・GinzburgRegular/AS対応は未証明 |
+
+| 実際のaugmentationとfree-generator complex | HomologyAugmentation、GinzburgAugmentation、GinzburgCutAugmentation、GinzburgUnrolledAugmentation、GinzburgLastGenerator、GinzburgAugmentationBasis、GinzburgAugmentationIdeal、GinzburgLastGeneratorGradings、GinzburgAugmentationGradedFree、GinzburgAugmentationComplex、GinzburgAugmentationHomology、GinzburgAugmentationRegularity | canonical augmentationのquasi-isomorphismとGinzburgRegularの同値、実際の有限free-generator表示と次数移動・signed微分閉性、augmentation complexのGinzburgRegularからの負次数homology零性 | 3層のprefix complex比較、A(Φ)上の標準単純分解のexactness、Ext表/AS対応 |
 
 ## 主結果の状態
 

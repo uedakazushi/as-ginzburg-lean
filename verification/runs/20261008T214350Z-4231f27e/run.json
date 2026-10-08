@@ -1,33 +1,105 @@
 {
-  "checked_at_utc": "2026-10-08T22:10:48.001692+00:00",
   "run_id": "20261008T214350Z-4231f27e",
-  "lean_toolchain": "leanprover/lean4:v4.24.0",
-  "mathlib_revision": "f897ebcf72cd16f89ab4577d0c826cd14afaafc7",
-  "module_count": 308,
-  "declaration_count": 2514,
-  "unique_declaration_count": 2514,
-  "declaration_kinds": {
-    "theorem": 1263,
-    "def": 888,
-    "abbrev": 52,
-    "instance": 288,
-    "inductive": 6,
-    "structure": 17
-  },
-  "definitions_theorems_and_types": 2226,
-  "theorem_count": 1263,
-  "missing_theorems": [],
-  "kernel_axiom_dependencies": [
-    "Classical.choice",
-    "Quot.sound",
-    "propext"
+  "started_at_utc": "2026-10-08T21:43:50.288138+00:00",
+  "status": "success",
+  "steps": [
+    {
+      "stage": "regression_tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "regression_tests.log",
+      "started_at_utc": "2026-10-08T21:43:50.290232+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T21:43:50.526153+00:00",
+      "elapsed_seconds": 0.23594066499208566,
+      "log_sha256": "fdff6b9fa1335484e1a86eefd3267ff06445eb2acc375acdc150372bb7711daa"
+    },
+    {
+      "stage": "source_audit",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/audit_sources.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T214350Z-4231f27e"
+      ],
+      "log": "source_audit.log",
+      "started_at_utc": "2026-10-08T21:43:50.526615+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T21:43:50.941643+00:00",
+      "elapsed_seconds": 0.41505371300445404,
+      "log_sha256": "ad76b8d75adf69776b502f527a97530acbd32d0d0619ed0586f4c9f80d081926"
+    },
+    {
+      "stage": "environment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check_environment.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T214350Z-4231f27e"
+      ],
+      "log": "environment.log",
+      "started_at_utc": "2026-10-08T21:43:50.955234+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T21:43:51.121157+00:00",
+      "elapsed_seconds": 0.1659470529993996,
+      "log_sha256": "d5e678cb314b7e8e314263cd7f435216c0155fcad8f097bb5e8865e6f3c01b2c"
+    },
+    {
+      "stage": "build",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "build"
+      ],
+      "log": "build.log",
+      "started_at_utc": "2026-10-08T21:43:51.121721+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T21:57:26.751921+00:00",
+      "elapsed_seconds": 815.6302393860096,
+      "log_sha256": "04d3cb7111f8fc59e53e32aeef58e16863ce500583a97486424af3fe2b57a44e"
+    },
+    {
+      "stage": "axioms",
+      "command": [
+        "bash",
+        "/workspace/as-ginzburg-lean/scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "AxiomAudit.lean"
+      ],
+      "log": "axioms.log",
+      "started_at_utc": "2026-10-08T21:57:26.753134+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T22:10:47.559032+00:00",
+      "elapsed_seconds": 800.8059371909912,
+      "log_sha256": "e3a48afc6be17317cbc2c6d65d05f8a75a73f9dcd7fcceebe7dffaf5e560f61e"
+    },
+    {
+      "stage": "report",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/report_verification.py",
+        "--run-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261008T214350Z-4231f27e"
+      ],
+      "log": "report.log",
+      "started_at_utc": "2026-10-08T22:10:47.560041+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-08T22:10:48.008975+00:00",
+      "elapsed_seconds": 0.448954737992608,
+      "log_sha256": "b1c8dabe4d9a2990366ddb738ffaf8641c2e7f215e0844d712a37a1d19f9140a"
+    }
   ],
-  "build_success": true,
-  "unchecked_proof_dependencies": [],
-  "source_placeholders": [],
-  "main_theorem_proved": false,
-  "main_theorem_formal_statement_implemented": false,
-  "source_paper_sha256": "dd17baddbe17a40cc2117285b65623f58772a5f65ba883146da3ea74290e8a8e",
+  "git_head_before_run": "de666ed5bb5078f0ddf41e33de12bf08fe99e2bc",
   "lean_source_sha256": {
     "ASGinzburg.lean": "719d21e6ef05dd9785fa3167c611936715e2e334effd9dd32e6c5300cf2f6f04",
     "ASGinzburg/ASDualityComplexExactness.lean": "7cc741b97fc6906a73c445d98cd630bdde71279447d23f3c5bd22b02558d8737",
@@ -340,17 +412,7 @@
     "ASGinzburg/ZAlgebraIsomorphisms.lean": "e7ad25643270022bb327f9ac11d7106f2251505251df65a902a94f1ce326b9f8",
     "AxiomAudit.lean": "e129669b381a3770c99e4928740fc783e72e4937d31b37ac7731d1421eb63ce4"
   },
-  "verification_success": true,
-  "started_at_utc": "2026-10-08T21:43:50.288138+00:00",
   "ended_at_utc": "2026-10-08T22:10:48.009764+00:00",
   "elapsed_seconds": 1617.7216218789981,
-  "exit_code": 0,
-  "stage_exit_codes": {
-    "regression_tests": 0,
-    "source_audit": 0,
-    "environment": 0,
-    "build": 0,
-    "axioms": 0,
-    "report": 0
-  }
+  "exit_code": 0
 }
