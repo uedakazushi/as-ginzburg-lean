@@ -1,0 +1,60 @@
+import ASGinzburg.UnrolledPathZAlgebra
+import ASGinzburg.PeriodInverse
+
+/-! The AS resolution produces an actual vertex-fixing surjective morphism
+from the unrolled path Z-algebra, with multiplication and units preserved. -/
+namespace ASGinzburg.ZAlgebra
+universe u v w
+variable {k : Type u} [Field k]
+
+/-- Componentwise linear algebra maps between concrete Z-algebras.
+Surjectivity is a property to prove, not built into the structure. -/
+structure Homomorphism (B : ZAlgebra.{u,v} k) (A : ZAlgebra.{u,w} k) where
+  map : ∀ i j, B.Hom i j →ₗ[k] A.Hom i j
+  map_id : ∀ i, map i i (B.id i) = A.id i
+  map_comp : ∀ {i j l} (f : B.Hom i j) (g : B.Hom j l),
+    map i l (B.comp g f) = A.comp (map j l g) (map i j f)
+
+variable (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+
+noncomputable def unrolledPathPresentationMap (i j : ℤ) :
+    (Q.unrolledPathZAlgebra k).Hom i j →ₗ[k] A.Hom i j :=
+  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j)).toLinearMap.comp
+    (A.unrolledPathLinearEvaluation Q R (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
+
+theorem unrolledPathPresentationMap_id (i : ℤ) :
+    A.unrolledPathPresentationMap Q R i i ((Q.unrolledPathZAlgebra k).id i) = A.id i := by
+  change A.homTransport _ _ i i _ _
+    (A.unrolledPathLinearEvaluation Q R _ _ (Q.unrolledPathId k _)) = _
+  rw [A.unrolledPathLinearEvaluation_id,A.homTransport_id]
+
+theorem unrolledPathPresentationMap_comp {i j l : ℤ}
+    (f : (Q.unrolledPathZAlgebra k).Hom i j) (g : (Q.unrolledPathZAlgebra k).Hom j l) :
+    A.unrolledPathPresentationMap Q R i l ((Q.unrolledPathZAlgebra k).comp g f) =
+      A.comp (A.unrolledPathPresentationMap Q R j l g) (A.unrolledPathPresentationMap Q R i j f) := by
+  change A.homTransport _ _ i l _ _
+    (A.unrolledPathLinearEvaluation Q R _ _ (Q.unrolledPathComp k g f)) = _
+  rw [A.unrolledPathLinearEvaluation_comp,A.homTransport_comp]
+  rfl
+
+noncomputable def unrolledPathPresentation : Homomorphism (Q.unrolledPathZAlgebra k) A where
+  map := A.unrolledPathPresentationMap Q R
+  map_id := A.unrolledPathPresentationMap_id Q R
+  map_comp := A.unrolledPathPresentationMap_comp Q R
+
+include R in
+theorem unrolledPathPresentation_surjective (i j : ℤ) :
+    Function.Surjective ((A.unrolledPathPresentation Q R).map i j) :=
+  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j)).surjective.comp
+    (A.unrolledPathLinearEvaluation_surjective Q R _ _)
+
+noncomputable def ASRegular.unrolledPathPresentation (hAS : A.ASRegular Q) :
+    Homomorphism (Q.unrolledPathZAlgebra k) A :=
+  A.unrolledPathPresentation Q (hAS.resolution A Q)
+
+theorem ASRegular.unrolledPathPresentation_surjective (hAS : A.ASRegular Q) (i j : ℤ) :
+    Function.Surjective ((hAS.unrolledPathPresentation A Q).map i j) :=
+  A.unrolledPathPresentation_surjective Q (hAS.resolution A Q) i j
+
+end ASGinzburg.ZAlgebra

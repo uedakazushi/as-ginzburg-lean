@@ -1,8 +1,8 @@
 # Codexクラウドへの引継ぎ
 
-左右有限次元加群について、実際の総正則局所単位付きGr(A)加群への全次数Extと既存Ext成分加群の総空間のk線形比較、全総代数作用への適合性まで両側とも完成。左側の有限生成射影Hom・Extの直和交換、正則総左加群と全右乗法を追加した。AS条件からの正負周期性は単位38で完成。AS分解d₁から道代数提示の最小生成元・核の二乗条件、標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、命題5.1・外部一般定理と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
-最新ローカル検証 20261008T164858Z-3dea7a05：180数学モジュール・1777異なる宣言・810 theorem、全段階終了0。
-単位1〜39の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+AS分解のd₁から実際のincoming生成元、成分全射と全体生成、実際のunrolled path ZAlgebraからの頂点固定・積/単位元を保つ全射を証明。核のradical包含とradical像の積span同定、有限coproductのradical商の分解から原論文(1.8)の矢の本数による最小生成元次元公式と実際の基底、(1.10)の成分分解まで完成。全射の核の矢イデアル二乗への包含と最小関係は未証明。左右総正則Ext比較とAS正負周期性は完成。標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、命題5.1・外部一般定理と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
+最新ローカル検証 20261008T171534Z-a4ada4a1：195数学モジュール・1871異なる宣言・867 theorem、全段階終了0。
+単位1〜40の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -22,14 +22,14 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 具体的Ext成分左加群の次数集中と左単純商との同型、左右A-dualとrepresentableの二重双対も完成。
 前回のExt直和交換と成分作用への適合性はdocs/ext_coproduct_exchange.mdとruns/ext-sums-20261008.md。
 今回の総代数・両側局所単位・左右総作用はdocs/total_algebra_comparison.md。
-開始時の60数学モジュールは無変更。canonical二重双対は有限生成射影・有界cochainホモトピー圏・有限次元の実際Ext³まで完成。具体的局所単位付きGr(A)圏と全次数Ext比較、総ベクトル双対の自然比較・全作用適合性、AS条件からの正負周期性まで完成。標準RHomの符号・shift/derived/perfectと左側総正則Ext比較と全右作用適合性も完成。
+開始時の60数学モジュールは無変更。canonical二重双対は有限生成射影・有界cochainホモトピー圏・有限次元の実際Ext³まで完成。具体的局所単位付きGr(A)圏と全次数Ext比較、総ベクトル双対の自然比較・全作用適合性、AS条件からの正負周期性、左右総正則Ext比較・全作用適合性まで完成。標準RHomの符号・shift/derived/perfectは未完成。道代数全射と(1.8)/(1.10)は単位40で完成。
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T164858Z-3dea7a05`、全段階終了0、1419.286460870秒。
-UTC 2026-10-08T16:48:58.294143+00:00 → 2026-10-08T17:12:37.580667+00:00。
-JST 2026-10-09T01:48:58.294143+09:00 → 2026-10-09T02:12:37.580667+09:00。
-180数学モジュール・1777異なる明示的宣言・全810 theorem・275 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T171534Z-a4ada4a1`、全段階終了0、1449.813445645秒。
+UTC 2026-10-08T17:15:34.771206+00:00 → 2026-10-08T17:39:44.584660+00:00。
+JST 2026-10-09T02:15:34.771206+09:00 → 2026-10-09T02:39:44.584660+09:00。
+195数学モジュール・1871異なる明示的宣言・全867 theorem・276 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -58,7 +58,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 1. 具体的な成分復元関手と単位・余単位による左右圏同値は完成。
 2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。前合成・後合成の自然性も完成。正則総加群と総代数の同定と(1.12)への移送も完成。
 3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。有限生成射影の反変同値まで完成。有界cochainホモトピー圏まで完成。左単純分解とExtの相互計算も完成。二重Ext自然同型・有限次元Ext³反変同値・成分線形双対の反変同値・exactな自己同値と頂点単純の移送は完成。総ベクトル双対比較・全作用適合性とAS条件からの周期性まで完成。次は左側総正則Ext比較も完成。次はd₁からの道代数提示と標準RHom/derived接続。
-4. D Ext³の区間制限・projective cover・正規化同型、代数成分回収と区間coherence、AS条件からの正負周期性は完成。道代数提示の最小生成元・核の二乗条件と最小関係を続ける。
+4. D Ext³の区間制限・projective cover・正規化同型、代数成分回収と区間coherence、AS条件からの正負周期性は完成。道代数全射・最小生成元の基底と成分分解は完成。核の矢イデアル平方への包含と最小関係を続ける。
 5. Jacobian商・Ginzburg dg代数・d²=0・外部一般定理・主定理の同型類対応。
 
 一般の全M,N・全次数の自然なHom複体–Abelian.Ext比較も未証明。直和交換には長完全列の自然性を使用した。

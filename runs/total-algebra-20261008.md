@@ -1031,3 +1031,43 @@ UTC 2026-10-08T16:48:58.294143+00:00 → 2026-10-08T17:12:37.580667+00:00。
 次の草稿では原論文(1.8)の最小生成元の次元公式、実際のincoming係数による基底、(1.10)の成分分解がas-generator-dimensions6とas-generator-basis3で個別Lean終了0。unrolled-path-finiteness2とunrolled-path-z-algebra1で実際の被覆道の局所有限性と具体的ZAlgebraを構成、unrolled-path-presentation-morphism2で積と単位元を保つ全成分への全射を構成し、いずれも0。unrolled-path-indecomposables2で長さ2以上の道が積の商で零になること、z-algebra-homomorphisms1で準同型の核の両側イデアル閉性と対角単射性・実際の成分商同型が0。unrolled-single-arrows2で長さ1の実際の道と指定sourceを持つincoming矢の全単射およびheightによる生成元添字との比較が0。全射の核が矢イデアルの二乗に入る逆向きの義務は未証明。今回単位39の公開監査には含めず、次の単位で公開検証を行う。
 保存用の作業中helper reconcile_periodicity.pyは既に更新済みのGAPS節7の旧見出しを検索したため一度終了1。見出しを現在の節番号から検索する形へ修正し、再実行0。数学ソース・公開検証結果は変更していない。
 次は核の二乗条件と最小関係、標準RHomの符号・shift/derived/perfect、Jacobian/Ginzburg dgと外部一般定理、主定理の同型類対応。定理3.2と系5.2は未証明で正式Lean定理文も未実装。検証・記録・push後も自律的に継続する。
+
+
+作業中チェックポイント UTC 2026-10-08T17:29:40.440325+00:00、開始から実測37742.440325秒。継続中、タスク終了時刻ではない。
+単位39はmain 0eb34ad7704347e0a7386399063e9dce18a4ac84へ保存済み。最後の全体成功検査20261008T164858Z-3dea7a05は全6段階終了0、180数学モジュール・1777異なる宣言・810 theorem。単位40の新規公開検査20261008T171534Z-a4ada4a1は195数学モジュール・1871異なる宣言・867 theorem・276 named instanceを対象とし、11回帰テスト・ソース監査・固定環境とlake buildは終了0。全宣言の独立した#print axioms監査中で、全体成功とはまだ扱わない。数学ソースは検査中に変更していない。
+単位37の正確なhead 24d0fa3224de2434851fa04124fddf20f547ea17のCI37807936230はsuccess。全jobログ600397bytes・SHA-256と、実行ログのUTC16:20:26.560500→16:43:58.257103・単調時計1411.696599437秒・全7段階0、artifact11564523400のdigestをverification/total_algebra_unit37_github_ci*へ保存した。単位38の正確なhead 8f3cc84ed81c11b8e95c2f5642992bac3d59644fのCI37811536193もsuccess、単位39のCI37815094225はin_progressと確認した。旧headの成功を最新headの成功判定に流用しない。
+次の草稿unrolled-path-arrow-classes1、free-linear-kernel-support2、unrolled-path-kernel-square3/6、linear-ideal-products2、unrolled-path-filtration2は個別Lean終了0・診断なし。長さ1の道の類が実際の生成元基底に一致して線形独立であること、任意の自由線形評価の核に関するsupported判定、AS道評価の全成分の核が長さ2以上に支持されること、実際の線形イデアルの積の左右閉性、道の長さの加法性とfiltrationの積閉性・長い道の分解を証明した。これらは単位40の公開監査には含めず、次の新規公開検査で扱う。
+草稿の初回のkernel membershipの展開・scalarEndEquivの定義・comp_assocの向き・dependent elimination・oleanの検索場所の誤りによる終了1ログは保持。空ログだけで成功と扱わず実際のLean終了コードを確認した。長さ2以上のsupported空間と矢イデアルの実際の二乗の一致を現在検査中。
+次は命題1.2の核の二乗条件を実際の全射へ結合し、最小関係とその選択の独立性を続ける。標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、命題5.1・外部一般定理と主定理の同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。チェックポイント後も継続する。
+
+## 単位40：AS分解からの道代数全射と最小生成元
+
+第一微分d₁の各incoming coproduct包含との合成を実際の線形Yoneda同型へ渡し、矢に対応する代数成分の元を取り出した。分解のexactnessと単純商の非対角成分の零性からd₁の成分全射を導き、incoming元による全体生成をwindingの次数帰納法で証明した。初期のgenerated_of_decompositionの分解仮定を新しいAS仮定に加えていない。
+
+実際のunrolled quiverの可合成な道を定義し、その自由ベクトル空間・双線形積・単位元・結合則を構成した。incoming微分係数を用いる評価写像と積保存を証明し、AS分解(i)のみから全成分への全射を導いた。正のwindingと有限個のincoming矢による強い帰納法で各始点・終点間の道の有限性を証明した。heightの全単射で整数添字の実際のlocally finite directed ZAlgebraに束ね、頂点を固定し積と単位元を保つsurjective Homomorphismを構成した。周期性は全射性の入力に使っていない。
+
+exact₁とminimal₂からd₁の核が射影項の正次数radicalに入ることを証明し、d₁のradical像が代数の正次数積のspanに一致することを自然性と成分全射で証明した。surjectiveな線形写像による実際の商同型を用い、生成元側のradical商と代数の積による商を同定した。有限coproductの実際のprojection・成分Pi同型・radical判定と商の分解を構成し、原論文(1.8)の最小生成元のfinrankが対応するincoming矢の本数に等しいことを証明した。
+
+実際のincoming係数の類がこの商をspanすることを、非対角係数が零または短い積になることから証明した。次元公式とmathlibのbasisOfTopLeSpanOfCardEqFinrankにより、各矢に対応する実際の基底を構成した。基底の値が元の係数の類であることも確認した。商写像のspan像と核を用い、原論文(1.10)の生成元spanと正次数積spanの和が全成分となることまで証明した。
+
+長さ1の実際の道と指定sourceを持つincoming矢の全単射、およびheightによる生成元基底の添字との比較も構成した。
+
+長さ2以上の道が実際の評価後の積による商で零になることと、そのsupported部分空間の核への包含も証明した。一般の頂点固定のHomomorphismの実際の核を、左右の積で閉じるLinearIdealとして構成し、connectednessと単位元保存から対角単射性・対角の核が零であることを証明した。surjectiveな成分準同型について、実際の核による商とターゲットの成分の線形同型も構成した。
+
+命題1.2の(1.8)、(1.10)、全射の積・単位元保存を埋めたが、全射の核が矢イデアルの二乗に含まれることはまだ未証明。最小関係の基底と代表元・選択の独立性も未完成であり、命題1.2全体の完成とは扱わない。両主定理の完成とも扱わない。
+
+個別草稿as-generators6、as-path-presentation4、as-minimal-generators1、as-indecomposables2、unrolled-path-algebra1、coproduct-radicals5、coproduct-radical-quotients2、unrolled-path-finiteness2、unrolled-path-z-algebra1、as-generator-dimensions6、unrolled-path-presentation-morphism2、as-generator-basis3、unrolled-path-indecomposables2、z-algebra-homomorphisms1、unrolled-single-arrows2は実際のLean終了0・診断なし。初期のexactness呼出し・暗黙引数・dependent quotientのrewrite・必要なinclude R・ModuleCatの成分インスタンス・関手の向きなどの終了1ログは保存した。固定mathlibのQuotient.Pi.olean不足は固定ソースのみlake buildして解消し、依存バージョンを変更していない。
+
+次は全射の核の二乗条件と最小関係の提示、標準RHomの符号・shift/derived/perfect、Jacobian商とGinzburg dg代数のd²=0・正則性、命題5.1と外部一般定理・主定理の同型類対応。定理3.2と系5.2は未証明で正式Lean定理文も未実装。検証・main保存後も継続する。
+
+単位39はmain 0eb34ad7704347e0a7386399063e9dce18a4ac84へ通常のfast-forwardで保存済み。初回import配置エラーの終了1ログと、修正後の全6段階0の新規検証をともに保持。
+
+検証：`20261008T171534Z-a4ada4a1`、1449.813445645秒、全段階終了0。
+JST 2026-10-09T02:15:34.771206+09:00 → 2026-10-09T02:39:44.584660+09:00。
+UTC 2026-10-08T17:15:34.771206+00:00 → 2026-10-08T17:39:44.584660+00:00。
+195数学モジュール・1871異なる宣言・867 theorem。
+差分：runs/total-algebra-20261008-unit40.patch。全theoremを監査し、許容公理3種類のみ。
+
+単位40の新規検査20261008T171534Z-a4ada4a1は全6段階終了0、実際の検査シェル終了0を確認。UTC17:15:34.771206→17:39:44.584660、1449.813445645秒。195数学モジュール・1871異なる宣言・全867 theorem・276 named instance。初期14/開始時60数学モジュールと歴史的577ファイルの無変更確認は終了0。単位37のCIの全ログ・実測1411.696599437秒・全7段階0・artifact digestを保存し、38のCI成功と39のCI進行中も正確なheadで確認。単位40のmain保存後も継続する。
+次の草稿quotient-z-algebra2、z-algebra-isomorphisms1、as-presentation-quotient1は個別Lean終了0・診断なし。実際の二側イデアルによる商ZAlgebra・商射と核、頂点固定の線形代数同型の反射/逆/合成、全射についての積・単位元を保つ第一同型定理、AS代数の実際の道代数の核による商との同型まで証明。核の矢イデアル平方への包含も個別検査終了0だが、単位40の公開監査には含めず次の新規公開検査で扱う。最小関係・任意の生成元の持上げと選択の独立性は未完成。
+closed-path-potentials3とpath-word-embeddings3も個別Lean終了0・診断なし。実際の可合成閉路・cut次数1・長さ3以上に支持された有限巡回多項式の部分空間を定義し、その上の(3.8)を証明した。元の道のtoListが始点を固定すれば終点込みで単射であること、実際の道の自由ベクトル空間から語多項式への線形単射も証明した。巡回微分の正しい始点・終点への接続は未証明で、Jacobian商・Ginzburg dg代数が完成したとは扱わない。

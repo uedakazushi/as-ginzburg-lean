@@ -1,0 +1,1357 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 5159f0f..9e1d5d1 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -185,6 +185,22 @@ import ASGinzburg.LeftRegularExtComparison
+ import ASGinzburg.RegularRightMultiplication
+ import ASGinzburg.LeftFiniteTotalExt
+ 
++import ASGinzburg.ASGenerators
++import ASGinzburg.ASPathPresentation
++import ASGinzburg.ASMinimalGenerators
++import ASGinzburg.ASIndecomposables
++import ASGinzburg.UnrolledPathAlgebra
++import ASGinzburg.CoproductRadicals
++import ASGinzburg.CoproductRadicalQuotients
++import ASGinzburg.UnrolledPathFiniteness
++import ASGinzburg.UnrolledPathZAlgebra
++import ASGinzburg.ASGeneratorDimensions
++import ASGinzburg.UnrolledPathPresentationMorphism
++import ASGinzburg.ASGeneratorBasis
++import ASGinzburg.UnrolledPathIndecomposables
++import ASGinzburg.ZAlgebraHomomorphisms
++import ASGinzburg.UnrolledSingleArrows
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index c047b46..d9a3471 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -78,6 +78,29 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex_isZero_outside
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.boundedFiniteProjectiveCochainObject
++#print axioms ASGinzburg.ZAlgebra.ASResolution.GeneratorIndex
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingGenerator
++#print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGenerator
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingMultiplication_diagonal_span
++#print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGenerator_span
++#print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGeneratorBasis
++#print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGeneratorBasis_apply
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingGenerator_decomposition
++#print axioms ASGinzburg.ZAlgebra.representable_top_component_finrank
++#print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposables_finrank
++#print axioms ASGinzburg.ZAlgebra.ASRegular.indecomposables_finrank
++#print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_surjective
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingElement
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingElement_component
++#print axioms ASGinzburg.ZAlgebra.ASResolution.term₁ComponentIso
++#print axioms ASGinzburg.ZAlgebra.ASResolution.term₁ComponentIso_lof_inv
++#print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_lof
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingMultiplication
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingMultiplication_eq
++#print axioms ASGinzburg.ZAlgebra.ASResolution.incomingMultiplication_surjective
++#print axioms ASGinzburg.ZAlgebra.generated_of_asResolution
++#print axioms ASGinzburg.surjectiveQuotientImageEquiv
++#print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposablesEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionDualComplex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.reversedRightTerm
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.reversedRightDifferential
+@@ -124,6 +147,21 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionTermFiniteProjective
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionComplex_isZero_ge_four
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.leftSimpleProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_ker_le_radical
++#print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_eq_zero_of_ge
++#print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_action
++#print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_radical_image
++#print axioms ASGinzburg.CutQuiver.UnrolledPath
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.comp
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.comp_nil
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.nil_comp
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.comp_assoc
++#print axioms ASGinzburg.ZAlgebra.unrolledPathEvaluation
++#print axioms ASGinzburg.ZAlgebra.unrolledPathEvaluation_comp
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_single
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_snoc
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_surjective
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.nakayamaWindowSystem
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.negativePeriodIso
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.isPeriodic_negative
+@@ -229,6 +267,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.conjugateHom_apply
+ #print axioms ASGinzburg.conjugateHom_id
+ #print axioms ASGinzburg.conjugateHom_comp
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproduct_radical_map
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductTopEquiv
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductProjection
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproduct_inclusion_projection
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproduct_inclusion_projection_off
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductComponentIso
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductComponentIso_lof_inv
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_projection
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_single_symm
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproduct_radical_iff
+ #print axioms ASGinzburg.CyclicWord
+ #print axioms ASGinzburg.WordPolynomial
+ #print axioms ASGinzburg.CyclicPolynomial
+@@ -1764,6 +1813,45 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentSum_surjective
+ #print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentSumEquiv
+ #print axioms ASGinzburg.ZAlgebra.rightUnitizationComponentSumEquiv
++#print axioms ASGinzburg.CutQuiver.UnrolledPathComponent
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp
++#print axioms ASGinzburg.CutQuiver.unrolledPathId
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp_single
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp_id
++#print axioms ASGinzburg.CutQuiver.id_unrolledPathComp
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp_assoc
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_id
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_comp
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.length
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.height_le
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.height_lt_of_length_pos
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.diagonal_eq_nil
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.lastStep
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.lastStep_injective
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.finite
++#print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap
++#print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_surjective
++#print axioms ASGinzburg.ZAlgebra.unrolledPathIndecomposableMap_single_long
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLong_supported_le_ker
++#print axioms ASGinzburg.ZAlgebra.Homomorphism
++#print axioms ASGinzburg.ZAlgebra.unrolledPathPresentationMap
++#print axioms ASGinzburg.ZAlgebra.unrolledPathPresentationMap_id
++#print axioms ASGinzburg.ZAlgebra.unrolledPathPresentationMap_comp
++#print axioms ASGinzburg.ZAlgebra.unrolledPathPresentation
++#print axioms ASGinzburg.ZAlgebra.unrolledPathPresentation_surjective
++#print axioms ASGinzburg.ZAlgebra.ASRegular.unrolledPathPresentation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.unrolledPathPresentation_surjective
++#print axioms ASGinzburg.CutQuiver.height_heightEquiv_symm
++#print axioms ASGinzburg.CutQuiver.unrolledPathZAlgebra
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.height_eq_of_length_zero
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.SingleArrowIndex
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrow
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrow_length
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrowOfPath
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrowOfPath_singleArrow
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrow_singleArrowOfPath
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrowEquiv
++#print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrowHeightEquiv
+ #print axioms ASGinzburg.ZAlgebra.InWindow
+ #print axioms ASGinzburg.ZAlgebra.InWindow.mono
+ #print axioms ASGinzburg.ZAlgebra.WindowSystem
+@@ -1777,3 +1865,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearSubcategory
+ #print axioms ASGinzburg.ZAlgebra.products
+ #print axioms ASGinzburg.ZAlgebra.generated_of_decomposition
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.kernel
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.diagonal_injective
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.kernel_diagonal_eq_bot
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.componentQuotientEquiv
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.componentQuotientEquiv_apply_mk
+diff --git a/ASGinzburg/ASGenerators.lean b/ASGinzburg/ASGenerators.lean
+new file mode 100644
+index 0000000..c180cb0
+--- /dev/null
++++ b/ASGinzburg/ASGenerators.lean
+@@ -0,0 +1,133 @@
++import ASGinzburg.ASRegular
++import ASGinzburg.ASResolutionSyzygies
++import ASGinzburg.RepresentableHomColimits
++import Mathlib.Algebra.Category.ModuleCat.Products
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++namespace ASResolution
++variable {A Q} {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem d₁_component_surjective (i : ℤ) (hi : i < Q.height w) :
++    Function.Surjective ((A.rightModuleEvaluation i).map R.d₁).hom := by
++  have h := (ShortComplex.moduleCat_exact_iff _).mp
++    (R.exact₀.map (A.rightModuleEvaluation i))
++  intro x
++  apply h x
++  have hz := (A.simpleRightModule_off_diagonal (Q.height w) i (ne_of_lt hi)).eq_zero_of_tgt
++    ((A.rightModuleEvaluation i).map (A.simpleRightModuleπ (Q.height w)))
++  change ((A.rightModuleEvaluation i).map (A.simpleRightModuleπ (Q.height w))).hom x = 0
++  rw [hz]
++  rfl
++
++noncomputable def incomingElement (a : Q.incomingArrows w) :
++    A.Hom (Q.height (Q.incomingSource w a)) (Q.height w) :=
++  A.representableYonedaEquiv (Q.height (Q.incomingSource w a)) (A.representable (Q.height w))
++    (Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a ≫ R.d₁)
++
++theorem incomingElement_component (a : Q.incomingArrows w) (i : ℤ)
++    (x : A.Hom i (Q.height (Q.incomingSource w a))) :
++    ((Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a ≫
++      R.d₁).app (op (⟨i⟩ : A.Obj))).hom x = A.comp (R.incomingElement a) x := by
++  let f := Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a ≫ R.d₁
++  have H := (A.representableYonedaEquiv (Q.height (Q.incomingSource w a))
++    (A.representable (Q.height w))).symm_apply_apply f
++  exact (congrArg (fun g => (g.app (op (⟨i⟩ : A.Obj))).hom x) H).symm
++
++noncomputable def term₁ComponentIso (_R : A.ASResolution Q w) (i : ℤ) :
++    (A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w) ≅
++      ModuleCat.of k (⨁ a : Q.incomingArrows w, A.Hom i (Q.height (Q.incomingSource w a))) :=
++  PreservesCoproduct.iso (A.rightModuleEvaluation i)
++      (fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) ≪≫
++    ModuleCat.coprodIsoDirectSum _
++
++theorem term₁ComponentIso_lof_inv (i : ℤ) (a : Q.incomingArrows w)
++    (x : A.Hom i (Q.height (Q.incomingSource w a))) :
++    (R.term₁ComponentIso i).inv.hom (DirectSum.lof k (Q.incomingArrows w) _ a x) =
++      ((Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a).app
++        (op (⟨i⟩ : A.Obj))).hom x := by
++  have H : ModuleCat.ofHom (DirectSum.lof k (Q.incomingArrows w)
++        (fun a => A.Hom i (Q.height (Q.incomingSource w a))) a) ≫ (R.term₁ComponentIso i).inv =
++      (A.rightModuleEvaluation i).map
++        (Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a) := by
++    dsimp only [term₁ComponentIso,Iso.trans_inv]
++    rw [← Category.assoc]
++    erw [ModuleCat.lof_coprodIsoDirectSum_inv]
++    rw [PreservesCoproduct.inv_hom,ι_comp_sigmaComparison]
++  exact congrArg (fun f => f.hom x) H
++
++theorem d₁_component_lof (i : ℤ) (a : Q.incomingArrows w)
++    (x : A.Hom i (Q.height (Q.incomingSource w a))) :
++    ((A.rightModuleEvaluation i).map R.d₁).hom
++      ((R.term₁ComponentIso i).inv.hom (DirectSum.lof k (Q.incomingArrows w) _ a x)) =
++      A.comp (R.incomingElement a) x := by
++  rw [R.term₁ComponentIso_lof_inv]
++  exact R.incomingElement_component a i x
++
++noncomputable def incomingMultiplication (i : ℤ) :
++    (⨁ a : Q.incomingArrows w, A.Hom i (Q.height (Q.incomingSource w a))) →ₗ[k]
++      A.Hom i (Q.height w) :=
++  DirectSum.toModule k _ _ (fun a => A.comp (R.incomingElement a))
++
++theorem incomingMultiplication_eq (i : ℤ) :
++    R.incomingMultiplication i =
++      ((A.rightModuleEvaluation i).map R.d₁).hom.comp (R.term₁ComponentIso i).inv.hom := by
++  apply DirectSum.linearMap_ext
++  intro a
++  apply LinearMap.ext
++  intro x
++  simpa only [incomingMultiplication, LinearMap.comp_apply, DirectSum.toModule_lof]
++    using (R.d₁_component_lof i a x).symm
++
++theorem incomingMultiplication_surjective (i : ℤ) (hi : i < Q.height w) :
++    Function.Surjective (R.incomingMultiplication i) := by
++  rw [R.incomingMultiplication_eq]
++  exact (R.d₁_component_surjective i hi).comp
++    ((ConcreteCategory.bijective_of_isIso (R.term₁ComponentIso i).inv).surjective)
++
++end ASResolution
++
++theorem generated_of_asResolution
++    (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++    (L : A.LinearSubcategory)
++    (hR : ∀ (w : Q.LiftVertex) (a : Q.incomingArrows w),
++      (R w).incomingElement a ∈ L.hom (Q.height (Q.incomingSource w a)) (Q.height w)) :
++    ∀ i j, L.hom i j = ⊤ := by
++  have hmain : ∀ d : ℕ, ∀ i j : ℤ, (j - i).toNat = d →
++      ∀ f : A.Hom i j, f ∈ L.hom i j := by
++    intro d
++    induction d using Nat.strong_induction_on with
++    | h d ih =>
++      intro i j hd f
++      rcases lt_trichotomy j i with hji | hji | hij
++      · rw [A.positive hji f]
++        exact (L.hom i j).zero_mem
++      · subst j
++        obtain ⟨c, rfl⟩ := A.connected i f
++        exact (L.hom i i).smul_mem c (L.id_mem i)
++      · obtain ⟨w, rfl⟩ := Q.height_bijective.surjective j
++        obtain ⟨x, rfl⟩ := (R w).incomingMultiplication_surjective i hij f
++        induction x using DirectSum.induction_on with
++        | zero => simpa only [map_zero] using (L.hom i (Q.height w)).zero_mem
++        | add x y hx hy =>
++          simpa only [map_add] using (L.hom i (Q.height w)).add_mem hx hy
++        | of a x =>
++          change ((R w).incomingMultiplication i)
++            (DirectSum.lof k (Q.incomingArrows w)
++              (fun a => A.Hom i (Q.height (Q.incomingSource w a))) a x) ∈ _
++          simp only [ASResolution.incomingMultiplication, DirectSum.toModule_lof]
++          change A.comp ((R w).incomingElement a) x ∈ _
++          apply L.comp_mem
++          · exact ih (Q.height (Q.incomingSource w a) - i).toNat
++              (by have := Q.incomingSource_height_lt w a; omega)
++              i (Q.height (Q.incomingSource w a)) rfl x
++          · exact hR w a
++  intro i j
++  apply top_unique
++  intro f _
++  exact hmain (j - i).toNat i j rfl f
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASPathPresentation.lean b/ASGinzburg/ASPathPresentation.lean
+new file mode 100644
+index 0000000..a0798c6
+--- /dev/null
++++ b/ASGinzburg/ASPathPresentation.lean
+@@ -0,0 +1,118 @@
++import ASGinzburg.ASGenerators
++import ASGinzburg.PathAlgebra
++
++/-! Actual directed paths in the unrolled quiver and their evaluation through
++coefficients of the finite AS resolution. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++inductive UnrolledPath : Q.LiftVertex → Q.LiftVertex → Type
++  | nil (v : Q.LiftVertex) : UnrolledPath v v
++  | snoc {u v : Q.LiftVertex} (a : Q.incomingArrows v)
++      (p : UnrolledPath u (Q.incomingSource v a)) : UnrolledPath u v
++
++namespace UnrolledPath
++variable {Q}
++
++def comp {u v w : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    Q.UnrolledPath v w → Q.UnrolledPath u w
++  | .nil _ => p
++  | .snoc a q => .snoc a (comp p q)
++
++@[simp] theorem comp_nil {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    p.comp (.nil v) = p := rfl
++
++@[simp] theorem nil_comp {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    (UnrolledPath.nil u).comp p = p := by
++  induction p with
++  | nil => rfl
++  | snoc a p ih => simp [comp,ih]
++
++theorem comp_assoc {u v w z : Q.LiftVertex} (p : Q.UnrolledPath u v)
++    (q : Q.UnrolledPath v w) (r : Q.UnrolledPath w z) :
++    (p.comp q).comp r = p.comp (q.comp r) := by
++  induction r with
++  | nil => rfl
++  | snoc a r ih => simp [comp,ih]
++
++end UnrolledPath
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++noncomputable def unrolledPathEvaluation (R : ∀ w : Q.LiftVertex, A.ASResolution Q w) :
++    {i j : Q.LiftVertex} → Q.UnrolledPath i j → A.Hom (Q.height i) (Q.height j)
++  | _, _, .nil w => A.id (Q.height w)
++  | _, w, .snoc a p => A.comp ((R w).incomingElement a) (unrolledPathEvaluation R p)
++
++theorem unrolledPathEvaluation_comp {u v w : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (q : Q.UnrolledPath v w) :
++    A.unrolledPathEvaluation Q R (p.comp q) =
++      A.comp (A.unrolledPathEvaluation Q R q) (A.unrolledPathEvaluation Q R p) := by
++  induction q with
++  | nil => simp [CutQuiver.UnrolledPath.comp,unrolledPathEvaluation,A.comp_id]
++  | snoc a q ih => simp only [CutQuiver.UnrolledPath.comp,unrolledPathEvaluation,ih,A.comp_assoc]
++
++noncomputable def unrolledPathLinearEvaluation (u v : Q.LiftVertex) :
++    (Q.UnrolledPath u v →₀ k) →ₗ[k] A.Hom (Q.height u) (Q.height v) :=
++  Finsupp.linearCombination k (A.unrolledPathEvaluation Q R)
++
++@[simp] theorem unrolledPathLinearEvaluation_single {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (c : k) :
++    A.unrolledPathLinearEvaluation Q R u v (Finsupp.single p c) =
++      c • A.unrolledPathEvaluation Q R p := by
++  simp [unrolledPathLinearEvaluation]
++
++theorem unrolledPathLinearEvaluation_snoc {u v : Q.LiftVertex}
++    (a : Q.incomingArrows v) (p : Q.UnrolledPath u (Q.incomingSource v a) →₀ k) :
++    A.unrolledPathLinearEvaluation Q R u v
++      (p.mapDomain (CutQuiver.UnrolledPath.snoc a)) =
++      A.comp ((R v).incomingElement a)
++        (A.unrolledPathLinearEvaluation Q R u (Q.incomingSource v a) p) := by
++  classical
++  induction p using Finsupp.induction_linear with
++  | zero => simp
++  | add p q hp hq => simp [Finsupp.mapDomain_add,map_add,hp,hq]
++  | single p c => simp [unrolledPathEvaluation,Finsupp.mapDomain_single]
++
++theorem unrolledPathLinearEvaluation_surjective (u v : Q.LiftVertex) :
++    Function.Surjective (A.unrolledPathLinearEvaluation Q R u v) := by
++  have hmain : ∀ d : ℕ, ∀ u v : Q.LiftVertex, (Q.height v - Q.height u).toNat = d →
++      ∀ f : A.Hom (Q.height u) (Q.height v),
++        f ∈ LinearMap.range (A.unrolledPathLinearEvaluation Q R u v) := by
++    intro d
++    induction d using Nat.strong_induction_on with
++    | h d ih =>
++      intro u v hd f
++      rcases lt_trichotomy (Q.height v) (Q.height u) with hlt | heq | hlt
++      · rw [A.positive hlt f]
++        exact (LinearMap.range _).zero_mem
++      · have hvu := Q.height_bijective.injective heq
++        subst v
++        obtain ⟨c,rfl⟩ := A.connected (Q.height u) f
++        exact ⟨Finsupp.single (.nil u) c, by simp [unrolledPathEvaluation]⟩
++      · obtain ⟨x,rfl⟩ := (R v).incomingMultiplication_surjective (Q.height u) hlt f
++        induction x using DirectSum.induction_on with
++        | zero => simpa only [map_zero] using (LinearMap.range
++            (A.unrolledPathLinearEvaluation Q R u v)).zero_mem
++        | add x y hx hy => simpa only [map_add] using
++            (LinearMap.range (A.unrolledPathLinearEvaluation Q R u v)).add_mem hx hy
++        | of a x =>
++          change ((R v).incomingMultiplication (Q.height u))
++            (DirectSum.lof k (Q.incomingArrows v)
++              (fun a => A.Hom (Q.height u) (Q.height (Q.incomingSource v a))) a x) ∈ _
++          simp only [ASResolution.incomingMultiplication,DirectSum.toModule_lof]
++          obtain ⟨p,hp⟩ := ih (Q.height (Q.incomingSource v a) - Q.height u).toNat
++            (by have := Q.incomingSource_height_lt v a; omega)
++            u (Q.incomingSource v a) rfl x
++          exact ⟨p.mapDomain (CutQuiver.UnrolledPath.snoc a), by
++            rw [A.unrolledPathLinearEvaluation_snoc,hp]⟩
++  intro f
++  exact hmain (Q.height v - Q.height u).toNat u v rfl f
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASMinimalGenerators.lean b/ASGinzburg/ASMinimalGenerators.lean
+new file mode 100644
+index 0000000..1d1dda9
+--- /dev/null
++++ b/ASGinzburg/ASMinimalGenerators.lean
+@@ -0,0 +1,65 @@
++import ASGinzburg.ASGenerators
++
++/-! Exactness and minimality identify the kernel and positive-product image
++of the first AS differential, as required in Proposition 1.2. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++namespace ASResolution
++variable {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem d₁_component_ker_le_radical (i : ℤ) :
++    LinearMap.ker ((A.rightModuleEvaluation i).map R.d₁).hom ≤
++      A.positiveActionSpan (A.asResolutionTerm₁ Q w) i := by
++  intro x hx
++  have hex := (ShortComplex.moduleCat_exact_iff _).mp
++    (R.exact₁.map (A.rightModuleEvaluation i))
++  obtain ⟨y,rfl⟩ := hex x hx
++  exact R.minimal₂ i y
++
++theorem d₁_component_eq_zero_of_ge (i : ℤ) (hi : Q.height w ≤ i)
++    (x : (A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w)) :
++    ((A.rightModuleEvaluation i).map R.d₁).hom x = 0 := by
++  have h := R.minimal₁ i x
++  rw [← A.representableRadical_eq_positiveActionSpan] at h
++  simpa [representableRadical,not_lt.mpr hi] using h
++
++theorem d₁_component_action (i l : ℤ) (a : A.Hom i l)
++    (x : (A.rightModuleEvaluation l).obj (A.asResolutionTerm₁ Q w)) :
++    ((A.rightModuleEvaluation i).map R.d₁).hom
++      ((A.asResolutionTerm₁ Q w).obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op x) =
++      A.comp (((A.rightModuleEvaluation l).map R.d₁).hom x) a := by
++  exact (congrArg (fun f => f.hom x) (R.d₁.naturality
++    (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op))
++
++theorem d₁_radical_image (i : ℤ) :
++    Submodule.map ((A.rightModuleEvaluation i).map R.d₁).hom
++      (A.positiveActionSpan (A.asResolutionTerm₁ Q w) i) =
++      Submodule.span k (A.products i (Q.height w)) := by
++  apply le_antisymm
++  · rintro y ⟨x,hx,rfl⟩
++    induction hx using Submodule.span_induction with
++    | mem z hz =>
++      rcases hz with ⟨l,hil,x,a,rfl⟩
++      rw [R.d₁_component_action]
++      by_cases hl : l < Q.height w
++      · exact Submodule.subset_span ⟨l,hil,hl,a,
++          ((A.rightModuleEvaluation l).map R.d₁).hom x,rfl⟩
++      · rw [R.d₁_component_eq_zero_of_ge l (le_of_not_gt hl)]
++        simp
++    | zero => simp
++    | add x y hx hy ihx ihy => simpa only [map_add] using
++        (Submodule.span k (A.products i (Q.height w))).add_mem ihx ihy
++    | smul c x hx ih => simpa only [map_smul] using
++        (Submodule.span k (A.products i (Q.height w))).smul_mem c ih
++  · apply Submodule.span_le.mpr
++    rintro y ⟨l,hil,hlj,a,b,rfl⟩
++    obtain ⟨x,hx⟩ := R.d₁_component_surjective l hlj b
++    refine ⟨(A.asResolutionTerm₁ Q w).obj.map
++      (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op x,?_,?_⟩
++    · exact Submodule.subset_span ⟨l,hil,x,a,rfl⟩
++    · rw [R.d₁_component_action,hx]
++
++end ASResolution
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASIndecomposables.lean b/ASGinzburg/ASIndecomposables.lean
+new file mode 100644
+index 0000000..d7231db
+--- /dev/null
++++ b/ASGinzburg/ASIndecomposables.lean
+@@ -0,0 +1,41 @@
++import ASGinzburg.ASMinimalGenerators
++import Mathlib.LinearAlgebra.Quotient.Basic
++
++namespace ASGinzburg
++universe u v w
++variable {k : Type u} [Field k] {V : Type v} {W : Type w}
++  [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W]
++
++/-- A surjective linear map induces the expected quotient isomorphism when
++its kernel lies in the subspace being quotiented. -/
++noncomputable def surjectiveQuotientImageEquiv (f : V →ₗ[k] W)
++    (hf : Function.Surjective f) (p : Submodule k V) (hker : LinearMap.ker f ≤ p) :
++    (V ⧸ p) ≃ₗ[k] (W ⧸ p.map f) := by
++  let g := p.mapQ (p.map f) f (Submodule.le_comap_map f p)
++  refine LinearEquiv.ofBijective g ⟨?_,?_⟩
++  · apply LinearMap.ker_eq_bot.mp
++    dsimp only [g,Submodule.mapQ]
++    rw [Submodule.ker_liftQ,LinearMap.ker_comp,Submodule.ker_mkQ,
++      Submodule.comap_map_eq_self hker,Submodule.mkQ_map_self]
++  · intro y
++    obtain ⟨b,rfl⟩ := (p.map f).mkQ_surjective y
++    obtain ⟨a,rfl⟩ := hf b
++    exact ⟨p.mkQ a,rfl⟩
++
++namespace ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++variable {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++namespace ASResolution
++variable {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++noncomputable def indecomposablesEquiv (i : ℤ) (hi : i < Q.height w) :
++    ((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w) ⧸
++      A.positiveActionSpan (A.asResolutionTerm₁ Q w) i) ≃ₗ[k]
++    (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) :=
++  (surjectiveQuotientImageEquiv ((A.rightModuleEvaluation i).map R.d₁).hom
++    (R.d₁_component_surjective i hi) _ (R.d₁_component_ker_le_radical i)).trans
++    (Submodule.quotEquivOfEq _ _ (R.d₁_radical_image i))
++
++end ASResolution
++end ZAlgebra
++end ASGinzburg
+diff --git a/ASGinzburg/UnrolledPathAlgebra.lean b/ASGinzburg/UnrolledPathAlgebra.lean
+new file mode 100644
+index 0000000..fbee0f1
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathAlgebra.lean
+@@ -0,0 +1,88 @@
++import ASGinzburg.ASPathPresentation
++
++/-! Bilinear multiplication on the actual unrolled path components and
++multiplicativity of the AS evaluation. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++abbrev UnrolledPathComponent (u v : Q.LiftVertex) := Q.UnrolledPath u v →₀ k
++
++noncomputable def unrolledPathComp {u v w : Q.LiftVertex} :
++    Q.UnrolledPathComponent k v w →ₗ[k] Q.UnrolledPathComponent k u v →ₗ[k]
++      Q.UnrolledPathComponent k u w :=
++  Finsupp.linearCombination k (fun q =>
++    Finsupp.linearCombination k (fun p => Finsupp.single (p.comp q) 1))
++
++noncomputable def unrolledPathId (v : Q.LiftVertex) : Q.UnrolledPathComponent k v v :=
++  Finsupp.single (.nil v) 1
++
++@[simp] theorem unrolledPathComp_single {u v w : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (q : Q.UnrolledPath v w) (a b : k) :
++    Q.unrolledPathComp k (Finsupp.single q b) (Finsupp.single p a) =
++      Finsupp.single (p.comp q) (b * a) := by
++  simp [unrolledPathComp,LinearMap.smul_apply,Finsupp.smul_single,smul_eq_mul]
++
++theorem unrolledPathComp_id {u v : Q.LiftVertex} (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledPathComp k (Q.unrolledPathId k v) f = f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p a => simp [unrolledPathId]
++
++theorem id_unrolledPathComp {u v : Q.LiftVertex} (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledPathComp k f (Q.unrolledPathId k u) = f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,LinearMap.add_apply,hf,hg]
++  | single p a => simp [unrolledPathId]
++
++theorem unrolledPathComp_assoc {u v w x : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w)
++    (h : Q.UnrolledPathComponent k w x) :
++    Q.unrolledPathComp k h (Q.unrolledPathComp k g f) =
++      Q.unrolledPathComp k (Q.unrolledPathComp k h g) f := by
++  classical
++  induction h using Finsupp.induction_linear with
++  | zero => simp
++  | add h h' ih ih' => simp [map_add,LinearMap.add_apply,ih,ih']
++  | single r c =>
++    induction g using Finsupp.induction_linear with
++    | zero => simp
++    | add g g' ih ih' => simp [map_add,ih,ih']
++    | single q b =>
++      induction f using Finsupp.induction_linear with
++      | zero => simp
++      | add f f' ih ih' => simp [map_add,ih,ih']
++      | single p a => simp [UnrolledPath.comp_assoc,mul_assoc]
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++theorem unrolledPathLinearEvaluation_id (v : Q.LiftVertex) :
++    A.unrolledPathLinearEvaluation Q R v v (Q.unrolledPathId k v) = A.id (Q.height v) := by
++  simp [CutQuiver.unrolledPathId,unrolledPathEvaluation]
++
++theorem unrolledPathLinearEvaluation_comp {u v w : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w) :
++    A.unrolledPathLinearEvaluation Q R u w (Q.unrolledPathComp k g f) =
++      A.comp (A.unrolledPathLinearEvaluation Q R v w g)
++        (A.unrolledPathLinearEvaluation Q R u v f) := by
++  classical
++  induction g using Finsupp.induction_linear with
++  | zero => simp
++  | add g g' hg hg' => simp [map_add,LinearMap.add_apply,hg,hg']
++  | single q b =>
++    induction f using Finsupp.induction_linear with
++    | zero => simp
++    | add f f' hf hf' => simp [map_add,hf,hf']
++    | single p a =>
++      simp [A.unrolledPathEvaluation_comp,LinearMap.smul_apply,smul_smul,mul_comm]
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/CoproductRadicals.lean b/ASGinzburg/CoproductRadicals.lean
+new file mode 100644
+index 0000000..55181bc
+--- /dev/null
++++ b/ASGinzburg/CoproductRadicals.lean
+@@ -0,0 +1,112 @@
++import ASGinzburg.RightModuleRadical
++import ASGinzburg.RepresentableHomColimits
++import Mathlib.Algebra.Category.ModuleCat.Products
++
++/-! Finite coproduct radicals and their actual quotient components. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++variable {I : Type} [Fintype I] [DecidableEq I] (g : I → A.RightModule)
++
++noncomputable def rightFiniteCoproductProjection (a : I) : ∐ g ⟶ g a :=
++  Sigma.desc (fun b => if h : b=a then eqToHom (congrArg g h) else 0)
++
++@[simp] theorem rightFiniteCoproduct_inclusion_projection (a : I) :
++    Sigma.ι g a ≫ A.rightFiniteCoproductProjection g a = 𝟙 _ := by
++  simp [rightFiniteCoproductProjection]
++
++theorem rightFiniteCoproduct_inclusion_projection_off (a b : I) (h : b≠a) :
++    Sigma.ι g b ≫ A.rightFiniteCoproductProjection g a = 0 := by
++  simp [rightFiniteCoproductProjection,h]
++
++noncomputable def rightFiniteCoproductComponentIso (i : ℤ) :
++    (A.rightModuleEvaluation i).obj (∐ g) ≅
++      ModuleCat.of k (⨁ a, (A.rightModuleEvaluation i).obj (g a)) :=
++  PreservesCoproduct.iso (A.rightModuleEvaluation i) g ≪≫ ModuleCat.coprodIsoDirectSum _
++
++theorem rightFiniteCoproductComponentIso_lof_inv (i : ℤ) (a : I)
++    (x : (A.rightModuleEvaluation i).obj (g a)) :
++    (A.rightFiniteCoproductComponentIso g i).inv.hom (DirectSum.lof k I _ a x) =
++      ((A.rightModuleEvaluation i).map (Sigma.ι g a)).hom x := by
++  have H : ModuleCat.ofHom (DirectSum.lof k I
++      (fun a => (A.rightModuleEvaluation i).obj (g a)) a) ≫
++      (A.rightFiniteCoproductComponentIso g i).inv =
++      (A.rightModuleEvaluation i).map (Sigma.ι g a) := by
++    dsimp only [rightFiniteCoproductComponentIso,Iso.trans_inv]
++    rw [← Category.assoc]
++    erw [ModuleCat.lof_coprodIsoDirectSum_inv]
++    rw [PreservesCoproduct.inv_hom,ι_comp_sigmaComparison]
++  exact congrArg (fun f => f.hom x) H
++
++noncomputable def rightFiniteCoproductPiEquiv (i : ℤ) :
++    (A.rightModuleEvaluation i).obj (∐ g) ≃ₗ[k]
++      (∀ a, (A.rightModuleEvaluation i).obj (g a)) :=
++  (A.rightFiniteCoproductComponentIso g i).toLinearEquiv.trans DFinsupp.linearEquivFunOnFintype
++
++theorem rightFiniteCoproductPiEquiv_projection (i : ℤ) (a : I)
++    (x : (A.rightModuleEvaluation i).obj (∐ g)) :
++    A.rightFiniteCoproductPiEquiv g i x a =
++      ((A.rightModuleEvaluation i).map (A.rightFiniteCoproductProjection g a)).hom x := by
++  obtain ⟨x,rfl⟩ := (A.rightFiniteCoproductComponentIso g i).toLinearEquiv.symm.surjective x
++  induction x using DirectSum.induction_on with
++  | zero => simp
++  | add x y hx hy => simp [map_add,hx,hy]
++  | of b x =>
++    change A.rightFiniteCoproductPiEquiv g i
++      ((A.rightFiniteCoproductComponentIso g i).inv.hom (DirectSum.lof k I _ b x)) a = _
++    have hleft : A.rightFiniteCoproductPiEquiv g i
++        ((A.rightFiniteCoproductComponentIso g i).inv.hom (DirectSum.lof k I _ b x)) a =
++        DFinsupp.single (β := fun a => (A.rightModuleEvaluation i).obj (g a)) b x a := by
++      change ((A.rightFiniteCoproductComponentIso g i).toLinearEquiv
++        ((A.rightFiniteCoproductComponentIso g i).toLinearEquiv.symm
++          (DirectSum.lof k I _ b x))) a = _
++      rw [LinearEquiv.apply_symm_apply]
++      rfl
++    rw [hleft]
++    change DFinsupp.single (β := fun a => (A.rightModuleEvaluation i).obj (g a)) b x a =
++      ((A.rightModuleEvaluation i).map (A.rightFiniteCoproductProjection g a)).hom
++        ((A.rightFiniteCoproductComponentIso g i).inv.hom (DirectSum.lof k I _ b x))
++    rw [A.rightFiniteCoproductComponentIso_lof_inv]
++    have H := congrArg (fun f => f.hom x)
++      ((A.rightModuleEvaluation i).map_comp (Sigma.ι g b) (A.rightFiniteCoproductProjection g a))
++    by_cases h : b=a
++    · subst b
++      simpa using H
++    · have Hz := congrArg (fun f => ((A.rightModuleEvaluation i).map f).hom x)
++        (A.rightFiniteCoproduct_inclusion_projection_off g a b h)
++      simp only [Functor.map_zero] at Hz
++      have Hzero := H.symm.trans Hz
++      simpa only [DFinsupp.single_eq_of_ne (Ne.symm h)] using Hzero.symm
++
++theorem rightFiniteCoproductPiEquiv_single_symm (i : ℤ) (a : I)
++    (x : (A.rightModuleEvaluation i).obj (g a)) :
++    (A.rightFiniteCoproductPiEquiv g i).symm (Pi.single a x) =
++      ((A.rightModuleEvaluation i).map (Sigma.ι g a)).hom x := by
++  change (A.rightFiniteCoproductComponentIso g i).inv.hom
++    (DFinsupp.equivFunOnFintype.symm (Pi.single a x)) = _
++  rw [show DFinsupp.equivFunOnFintype.symm (Pi.single a x) =
++    DirectSum.lof k I (fun a => (A.rightModuleEvaluation i).obj (g a)) a x by
++      apply DFinsupp.ext; intro b; rfl]
++  exact A.rightFiniteCoproductComponentIso_lof_inv g i a x
++
++theorem rightFiniteCoproduct_radical_iff (i : ℤ)
++    (x : (A.rightModuleEvaluation i).obj (∐ g)) :
++    x ∈ A.positiveActionSpan (∐ g) i ↔
++      ∀ a, A.rightFiniteCoproductPiEquiv g i x a ∈ A.positiveActionSpan (g a) i := by
++  constructor
++  · intro hx a
++    rw [A.rightFiniteCoproductPiEquiv_projection]
++    exact A.positiveActionSpan_map_mem (A.rightFiniteCoproductProjection g a) i hx
++  · intro hx
++    have H := congrArg (A.rightFiniteCoproductPiEquiv g i).symm
++      (Finset.univ_sum_single (A.rightFiniteCoproductPiEquiv g i x))
++    rw [map_sum,LinearEquiv.symm_apply_apply] at H
++    rw [← H]
++    apply (A.positiveActionSpan (∐ g) i).sum_mem
++    intro a ha
++    rw [A.rightFiniteCoproductPiEquiv_single_symm]
++    exact A.positiveActionSpan_map_mem (Sigma.ι g a) i (hx a)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/CoproductRadicalQuotients.lean b/ASGinzburg/CoproductRadicalQuotients.lean
+new file mode 100644
+index 0000000..8d41928
+--- /dev/null
++++ b/ASGinzburg/CoproductRadicalQuotients.lean
+@@ -0,0 +1,32 @@
++import ASGinzburg.CoproductRadicals
++import Mathlib.LinearAlgebra.Quotient.Pi
++
++/-! The actual top of a finite coproduct is the product of its component tops. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++variable {I : Type} [Fintype I] [DecidableEq I] (g : I → A.RightModule)
++
++theorem rightFiniteCoproduct_radical_map (i : ℤ) :
++    Submodule.map (A.rightFiniteCoproductPiEquiv g i).toLinearMap
++      (A.positiveActionSpan (∐ g) i) =
++      Submodule.pi Set.univ (fun a => A.positiveActionSpan (g a) i) := by
++  ext x
++  constructor
++  · rintro ⟨y,hy,rfl⟩
++    exact Submodule.mem_pi.mpr (fun a _ => (A.rightFiniteCoproduct_radical_iff g i y).mp hy a)
++  · intro hx
++    obtain ⟨y,rfl⟩ := (A.rightFiniteCoproductPiEquiv g i).surjective x
++    refine ⟨y,?_,rfl⟩
++    exact (A.rightFiniteCoproduct_radical_iff g i y).mpr
++      (fun a => Submodule.mem_pi.mp hx a (Set.mem_univ a))
++
++noncomputable def rightFiniteCoproductTopEquiv (i : ℤ) :
++    ((A.rightModuleEvaluation i).obj (∐ g) ⧸ A.positiveActionSpan (∐ g) i) ≃ₗ[k]
++      (∀ a, (A.rightModuleEvaluation i).obj (g a) ⧸ A.positiveActionSpan (g a) i) :=
++  (Submodule.Quotient.equiv _ _ (A.rightFiniteCoproductPiEquiv g i)
++    (A.rightFiniteCoproduct_radical_map g i)).trans
++      (Submodule.quotientPi (fun a => A.positiveActionSpan (g a) i))
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/UnrolledPathFiniteness.lean b/ASGinzburg/UnrolledPathFiniteness.lean
+new file mode 100644
+index 0000000..b2d3b4f
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathFiniteness.lean
+@@ -0,0 +1,75 @@
++import ASGinzburg.ASPathPresentation
++
++/-! Local finiteness of the actual unrolled quiver's path sets follows from
++strictly positive winding and finitely many incoming arrows. -/
++namespace ASGinzburg.CutQuiver.UnrolledPath
++variable {Q : CutQuiver}
++
++def length {u v : Q.LiftVertex} : Q.UnrolledPath u v → ℕ
++  | .nil _ => 0
++  | .snoc _ p => length p + 1
++
++theorem height_le {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    Q.height u ≤ Q.height v := by
++  induction p with
++  | nil => exact le_refl _
++  | snoc a p ih =>
++    have := Q.incomingSource_height_lt _ a
++    omega
++
++theorem height_lt_of_length_pos {u v : Q.LiftVertex} (p : Q.UnrolledPath u v)
++    (hp : 0 < p.length) : Q.height u < Q.height v := by
++  cases p with
++  | nil => simp [length] at hp
++  | snoc a p =>
++    have := p.height_le
++    have := Q.incomingSource_height_lt _ a
++    omega
++
++theorem diagonal_eq_nil {u : Q.LiftVertex} (p : Q.UnrolledPath u u) : p = .nil u := by
++  cases p with
++  | nil => rfl
++  | snoc a p =>
++    have := p.height_le
++    have := Q.incomingSource_height_lt _ a
++    omega
++
++def lastStep : {u v : Q.LiftVertex} → Q.UnrolledPath u v →
++    (PLift (u = v)) ⊕ (Σ a : Q.incomingArrows v, Q.UnrolledPath u (Q.incomingSource v a))
++  | _, _, .nil _ => .inl ⟨rfl⟩
++  | _, _, .snoc a p => .inr ⟨a,p⟩
++
++theorem lastStep_injective {u v : Q.LiftVertex} :
++    Function.Injective (lastStep (u := u) (v := v)) := by
++  intro p q h
++  cases p <;> cases q <;> simp only [lastStep] at h
++  · rfl
++  · cases h
++  · cases h
++  · cases h
++    rfl
++
++instance finite (u v : Q.LiftVertex) : Finite (Q.UnrolledPath u v) := by
++  have hmain : ∀ d : ℕ, ∀ u v : Q.LiftVertex, (Q.height v - Q.height u).toNat = d →
++      Finite (Q.UnrolledPath u v) := by
++    intro d
++    induction d using Nat.strong_induction_on with
++    | h d ih =>
++      intro u v hd
++      by_cases hlt : Q.height v < Q.height u
++      · haveI : IsEmpty (Q.UnrolledPath u v) := ⟨fun p => by have := p.height_le; omega⟩
++        infer_instance
++      by_cases heq : Q.height v=Q.height u
++      · have hvu := Q.height_bijective.injective heq
++        subst v
++        haveI : Subsingleton (Q.UnrolledPath u u) :=
++          ⟨fun p q => p.diagonal_eq_nil.trans q.diagonal_eq_nil.symm⟩
++        infer_instance
++      · haveI : ∀ a : Q.incomingArrows v, Finite (Q.UnrolledPath u (Q.incomingSource v a)) :=
++          fun a => ih (Q.height (Q.incomingSource v a) - Q.height u).toNat
++            (by have := Q.incomingSource_height_lt _ a; omega)
++            u (Q.incomingSource v a) rfl
++        exact Finite.of_injective lastStep lastStep_injective
++  exact hmain (Q.height v - Q.height u).toNat u v rfl
++
++end ASGinzburg.CutQuiver.UnrolledPath
+diff --git a/ASGinzburg/UnrolledPathZAlgebra.lean b/ASGinzburg/UnrolledPathZAlgebra.lean
+new file mode 100644
+index 0000000..fd10924
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathZAlgebra.lean
+@@ -0,0 +1,40 @@
++import ASGinzburg.UnrolledPathAlgebra
++import ASGinzburg.UnrolledPathFiniteness
++
++/-! The actual free unrolled path components form a locally finite directed
++Z-algebra with the original cut quiver's height indexing. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++@[simp] theorem height_heightEquiv_symm (i : ℤ) :
++    Q.height (Q.heightEquiv.symm i) = i :=
++  (Q.heightEquiv_apply _).symm.trans (Q.heightEquiv.apply_symm_apply i)
++
++noncomputable def unrolledPathZAlgebra : ZAlgebra.{u,u} k where
++  Hom i j := Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
++  id i := Q.unrolledPathId k (Q.heightEquiv.symm i)
++  comp := Q.unrolledPathComp k
++  comp_id := Q.unrolledPathComp_id k
++  id_comp := Q.id_unrolledPathComp k
++  comp_assoc := Q.unrolledPathComp_assoc k
++  positive := by
++    intro i j h f
++    haveI : IsEmpty (Q.UnrolledPath (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)) :=
++      ⟨fun p => by have hp := p.height_le; simp only [Q.height_heightEquiv_symm] at hp; omega⟩
++    exact Subsingleton.elim _ _
++  connected := by
++    intro i f
++    refine ⟨f (.nil (Q.heightEquiv.symm i)),?_⟩
++    ext p
++    rw [p.diagonal_eq_nil]
++    simp [unrolledPathId,Finsupp.smul_single,smul_eq_mul]
++  id_nonzero := by
++    intro i
++    simp [unrolledPathId]
++  finite := by
++    intro i j
++    letI := Fintype.ofFinite (Q.UnrolledPath (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
++    infer_instance
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ASGeneratorDimensions.lean b/ASGinzburg/ASGeneratorDimensions.lean
+new file mode 100644
+index 0000000..5b8d6d2
+--- /dev/null
++++ b/ASGinzburg/ASGeneratorDimensions.lean
+@@ -0,0 +1,75 @@
++import ASGinzburg.ASIndecomposables
++import ASGinzburg.CoproductRadicalQuotients
++import Mathlib.LinearAlgebra.Dimension.Constructions
++
++/-! Proposition 1.2: the first minimal AS differential identifies the number
++of minimal algebra generators in each component with incoming arrows. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem representable_top_component_finrank (j i : ℤ) :
++    Module.finrank k ((A.rightModuleEvaluation i).obj (A.representable j) ⧸
++      A.positiveActionSpan (A.representable j) i) = if i = j then 1 else 0 := by
++  rw [← A.representableRadical_eq_positiveActionSpan]
++  by_cases hij : i < j
++  · have hp : (A.representableRadical j).component (op (⟨i⟩ : A.Obj)) = ⊤ := by
++      simp [representableRadical,hij]
++    letI : Subsingleton ((A.rightModuleEvaluation i).obj (A.representable j) ⧸
++        (A.representableRadical j).component (op (⟨i⟩ : A.Obj))) :=
++      (Submodule.Quotient.subsingleton_iff _).mpr (fun x => by rw [hp]; trivial)
++    rw [Module.finrank_zero_of_subsingleton,if_neg (ne_of_lt hij)]
++  · have hp : (A.representableRadical j).component (op (⟨i⟩ : A.Obj)) = ⊥ := by
++      simp [representableRadical,hij]
++    rw [(Submodule.quotEquivOfEqBot _ hp).finrank_eq]
++    change Module.finrank k (A.Hom i j) = if i = j then 1 else 0
++    by_cases heq : i = j
++    · subst i
++      rw [if_pos rfl,← (A.scalarEndEquiv j).finrank_eq]
++      exact Module.finrank_self k
++    · have hji : j < i := by omega
++      letI : Subsingleton (A.Hom i j) := ⟨fun x y => by rw [A.positive hji x,A.positive hji y]⟩
++      rw [if_neg heq]
++      exact Module.finrank_zero_of_subsingleton
++
++namespace ASResolution
++variable {A} {Q : CutQuiver} {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++include R in
++theorem indecomposables_finrank (i : ℤ) (hi : i < Q.height w) :
++    Module.finrank k (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) =
++      Fintype.card {a : Q.incomingArrows w // Q.height (Q.incomingSource w a) = i} := by
++  classical
++  have hdim : Module.finrank k
++      ((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w) ⧸
++        A.positiveActionSpan (A.asResolutionTerm₁ Q w) i) =
++      Module.finrank k (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) :=
++    LinearEquiv.finrank_eq (R.indecomposablesEquiv i hi)
++  rw [← hdim]
++  change Module.finrank k
++    ((A.rightModuleEvaluation i).obj
++      (∐ fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) ⧸
++      A.positiveActionSpan
++        (∐ fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) i) = _
++  rw [(A.rightFiniteCoproductTopEquiv
++    (fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) i).finrank_eq]
++  letI : ∀ a : Q.incomingArrows w, Module.Finite k
++      ((A.rightModuleEvaluation i).obj (A.representable (Q.height (Q.incomingSource w a))) ⧸
++        A.positiveActionSpan (A.representable (Q.height (Q.incomingSource w a))) i) := fun a => by
++    change Module.Finite k (A.Hom i (Q.height (Q.incomingSource w a)) ⧸ _)
++    infer_instance
++  rw [Module.finrank_pi_fintype]
++  simp only [A.representable_top_component_finrank]
++  simp [eq_comm,Fintype.card_subtype]
++
++end ASResolution
++
++theorem ASRegular.indecomposables_finrank {Q : CutQuiver} (hAS : A.ASRegular Q)
++    (u v : Q.LiftVertex) (huv : Q.height u < Q.height v) :
++    Module.finrank k (A.Hom (Q.height u) (Q.height v) ⧸
++      Submodule.span k (A.products (Q.height u) (Q.height v))) =
++      Fintype.card {a : Q.incomingArrows v // Q.height (Q.incomingSource v a) = Q.height u} :=
++  (hAS.resolution A Q v).indecomposables_finrank (Q.height u) huv
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/UnrolledPathPresentationMorphism.lean b/ASGinzburg/UnrolledPathPresentationMorphism.lean
+new file mode 100644
+index 0000000..30ddda0
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathPresentationMorphism.lean
+@@ -0,0 +1,60 @@
++import ASGinzburg.UnrolledPathZAlgebra
++import ASGinzburg.PeriodInverse
++
++/-! The AS resolution produces an actual vertex-fixing surjective morphism
++from the unrolled path Z-algebra, with multiplication and units preserved. -/
++namespace ASGinzburg.ZAlgebra
++universe u v w
++variable {k : Type u} [Field k]
++
++/-- Componentwise linear algebra maps between concrete Z-algebras.
++Surjectivity is a property to prove, not built into the structure. -/
++structure Homomorphism (B : ZAlgebra.{u,v} k) (A : ZAlgebra.{u,w} k) where
++  map : ∀ i j, B.Hom i j →ₗ[k] A.Hom i j
++  map_id : ∀ i, map i i (B.id i) = A.id i
++  map_comp : ∀ {i j l} (f : B.Hom i j) (g : B.Hom j l),
++    map i l (B.comp g f) = A.comp (map j l g) (map i j f)
++
++variable (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++noncomputable def unrolledPathPresentationMap (i j : ℤ) :
++    (Q.unrolledPathZAlgebra k).Hom i j →ₗ[k] A.Hom i j :=
++  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j)).toLinearMap.comp
++    (A.unrolledPathLinearEvaluation Q R (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
++
++theorem unrolledPathPresentationMap_id (i : ℤ) :
++    A.unrolledPathPresentationMap Q R i i ((Q.unrolledPathZAlgebra k).id i) = A.id i := by
++  change A.homTransport _ _ i i _ _
++    (A.unrolledPathLinearEvaluation Q R _ _ (Q.unrolledPathId k _)) = _
++  rw [A.unrolledPathLinearEvaluation_id,A.homTransport_id]
++
++theorem unrolledPathPresentationMap_comp {i j l : ℤ}
++    (f : (Q.unrolledPathZAlgebra k).Hom i j) (g : (Q.unrolledPathZAlgebra k).Hom j l) :
++    A.unrolledPathPresentationMap Q R i l ((Q.unrolledPathZAlgebra k).comp g f) =
++      A.comp (A.unrolledPathPresentationMap Q R j l g) (A.unrolledPathPresentationMap Q R i j f) := by
++  change A.homTransport _ _ i l _ _
++    (A.unrolledPathLinearEvaluation Q R _ _ (Q.unrolledPathComp k g f)) = _
++  rw [A.unrolledPathLinearEvaluation_comp,A.homTransport_comp]
++  rfl
++
++noncomputable def unrolledPathPresentation : Homomorphism (Q.unrolledPathZAlgebra k) A where
++  map := A.unrolledPathPresentationMap Q R
++  map_id := A.unrolledPathPresentationMap_id Q R
++  map_comp := A.unrolledPathPresentationMap_comp Q R
++
++include R in
++theorem unrolledPathPresentation_surjective (i j : ℤ) :
++    Function.Surjective ((A.unrolledPathPresentation Q R).map i j) :=
++  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j)).surjective.comp
++    (A.unrolledPathLinearEvaluation_surjective Q R _ _)
++
++noncomputable def ASRegular.unrolledPathPresentation (hAS : A.ASRegular Q) :
++    Homomorphism (Q.unrolledPathZAlgebra k) A :=
++  A.unrolledPathPresentation Q (hAS.resolution A Q)
++
++theorem ASRegular.unrolledPathPresentation_surjective (hAS : A.ASRegular Q) (i j : ℤ) :
++    Function.Surjective ((hAS.unrolledPathPresentation A Q).map i j) :=
++  A.unrolledPathPresentation_surjective Q (hAS.resolution A Q) i j
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASGeneratorBasis.lean b/ASGinzburg/ASGeneratorBasis.lean
+new file mode 100644
+index 0000000..e56012a
+--- /dev/null
++++ b/ASGinzburg/ASGeneratorBasis.lean
+@@ -0,0 +1,97 @@
++import ASGinzburg.ASGeneratorDimensions
++import ASGinzburg.PeriodInverse
++import Mathlib.LinearAlgebra.Dimension.DivisionRing
++
++/-! The actual coefficients of d₁ give a basis of each positive-degree
++indecomposable component, rather than only a numerical equality. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++namespace ASResolution
++variable {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++abbrev GeneratorIndex (i : ℤ) := {a : Q.incomingArrows w // Q.height (Q.incomingSource w a) = i}
++
++noncomputable def incomingGenerator (i : ℤ) (a : GeneratorIndex (Q := Q) (w := w) i) :
++    A.Hom i (Q.height w) :=
++  A.homTransport _ _ i (Q.height w) a.property rfl (R.incomingElement a.val)
++
++noncomputable def indecomposableGenerator (i : ℤ) (a : GeneratorIndex (Q := Q) (w := w) i) :
++    A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w)) :=
++  Submodule.Quotient.mk (R.incomingGenerator i a)
++
++theorem incomingMultiplication_diagonal_span (i : ℤ) (a : Q.incomingArrows w)
++    (ha : Q.height (Q.incomingSource w a) = i) (x : A.Hom i (Q.height (Q.incomingSource w a))) :
++    Submodule.Quotient.mk (A.comp (R.incomingElement a) x) ∈
++      Submodule.span k (Set.range (R.indecomposableGenerator i)) := by
++  subst i
++  obtain ⟨c,rfl⟩ := A.connected (Q.height (Q.incomingSource w a)) x
++  change (Submodule.span k (A.products _ (Q.height w))).mkQ
++    (A.comp (R.incomingElement a) (c • A.id _)) ∈ _
++  rw [map_smul,A.id_comp,map_smul]
++  apply Submodule.smul_mem
++  exact Submodule.subset_span ⟨⟨a,rfl⟩,rfl⟩
++
++include R in
++theorem indecomposableGenerator_span (i : ℤ) (hi : i < Q.height w) :
++    Submodule.span k (Set.range (R.indecomposableGenerator i)) = ⊤ := by
++  apply top_unique
++  intro y hy
++  clear hy
++  obtain ⟨y,rfl⟩ := (Submodule.span k (A.products i (Q.height w))).mkQ_surjective y
++  obtain ⟨x,rfl⟩ := R.incomingMultiplication_surjective i hi y
++  induction x using DirectSum.induction_on with
++  | zero => simpa only [map_zero,Submodule.Quotient.mk_zero] using
++      (Submodule.span k (Set.range (R.indecomposableGenerator i))).zero_mem
++  | add x y hx hy =>
++    change (Submodule.span k (A.products i (Q.height w))).mkQ
++      (R.incomingMultiplication i (x+y)) ∈ _
++    simpa only [map_add] using
++      (Submodule.span k (Set.range (R.indecomposableGenerator i))).add_mem hx hy
++  | of a x =>
++    change Submodule.Quotient.mk (R.incomingMultiplication i (DirectSum.lof k (Q.incomingArrows w)
++      (fun a => A.Hom i (Q.height (Q.incomingSource w a))) a x)) ∈ _
++    simp only [incomingMultiplication,DirectSum.toModule_lof]
++    rcases lt_trichotomy (Q.height (Q.incomingSource w a)) i with hlt | heq | hlt
++    · rw [A.positive hlt x]
++      simp
++    · exact R.incomingMultiplication_diagonal_span i a heq x
++    · have hmem : A.comp (R.incomingElement a) x ∈ Submodule.span k (A.products i (Q.height w)) :=
++        Submodule.subset_span ⟨Q.height (Q.incomingSource w a),hlt,Q.incomingSource_height_lt w a,
++          x,R.incomingElement a,rfl⟩
++      have hz : (Submodule.Quotient.mk (A.comp (R.incomingElement a) x) :
++          A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) = 0 :=
++        (Submodule.Quotient.mk_eq_zero _).mpr hmem
++      rw [hz]
++      exact Submodule.zero_mem _
++
++noncomputable def indecomposableGeneratorBasis (i : ℤ) (hi : i < Q.height w) :
++    Module.Basis (GeneratorIndex (Q := Q) (w := w) i) k
++      (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) := by
++  classical
++  exact basisOfTopLeSpanOfCardEqFinrank (R.indecomposableGenerator i)
++    (R.indecomposableGenerator_span i hi).ge
++    (R.indecomposables_finrank i hi).symm
++
++theorem indecomposableGeneratorBasis_apply (i : ℤ) (hi : i < Q.height w)
++    (a : GeneratorIndex (Q := Q) (w := w) i) :
++    R.indecomposableGeneratorBasis i hi a = R.indecomposableGenerator i a := by
++  classical
++  simp [indecomposableGeneratorBasis]
++
++theorem incomingGenerator_decomposition (i : ℤ) (hi : i < Q.height w) :
++    Submodule.span k (Set.range (R.incomingGenerator i)) ⊔
++      Submodule.span k (A.products i (Q.height w)) = ⊤ := by
++  let p := Submodule.span k (A.products i (Q.height w))
++  have hm : Submodule.map p.mkQ (Submodule.span k (Set.range (R.incomingGenerator i))) = ⊤ := by
++    rw [Submodule.map_span]
++    change Submodule.span k (p.mkQ '' Set.range (R.incomingGenerator i)) = ⊤
++    rw [← Set.range_comp]
++    exact R.indecomposableGenerator_span i hi
++  have h := (p.map_mkQ_eq_top (Submodule.span k (Set.range (R.incomingGenerator i)))).mp hm
++  simpa only [sup_comm] using h
++
++end ASResolution
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/UnrolledPathIndecomposables.lean b/ASGinzburg/UnrolledPathIndecomposables.lean
+new file mode 100644
+index 0000000..9067629
+--- /dev/null
++++ b/ASGinzburg/UnrolledPathIndecomposables.lean
+@@ -0,0 +1,51 @@
++import ASGinzburg.UnrolledPathAlgebra
++import ASGinzburg.UnrolledPathFiniteness
++import ASGinzburg.ASGeneratorBasis
++import Mathlib.LinearAlgebra.Finsupp.Supported
++
++/-! The unrolled path evaluation modulo products kills every path of length
++at least two. This supplies the well-definedness direction of (1.9). -/
++namespace ASGinzburg.ZAlgebra
++open scoped DirectSum
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++noncomputable def unrolledPathIndecomposableMap (u v : Q.LiftVertex) :
++    Q.UnrolledPathComponent k u v →ₗ[k]
++      (A.Hom (Q.height u) (Q.height v) ⧸
++        Submodule.span k (A.products (Q.height u) (Q.height v))) :=
++  (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ.comp
++    (A.unrolledPathLinearEvaluation Q R u v)
++
++theorem unrolledPathIndecomposableMap_surjective (u v : Q.LiftVertex) :
++    Function.Surjective (A.unrolledPathIndecomposableMap Q R u v) :=
++  (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ_surjective.comp
++    (A.unrolledPathLinearEvaluation_surjective Q R u v)
++
++theorem unrolledPathIndecomposableMap_single_long {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (hp : 2 ≤ p.length) :
++    A.unrolledPathIndecomposableMap Q R u v (Finsupp.single p 1) = 0 := by
++  cases p with
++  | nil => simp [CutQuiver.UnrolledPath.length] at hp
++  | @snoc v a p =>
++    have hp' : 0 < p.length := by
++      simp only [CutQuiver.UnrolledPath.length] at hp
++      omega
++    change (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
++      (A.unrolledPathLinearEvaluation Q R _ _ (Finsupp.single (.snoc a p) 1)) = 0
++    rw [A.unrolledPathLinearEvaluation_single,one_smul]
++    apply (Submodule.Quotient.mk_eq_zero _).mpr
++    exact Submodule.subset_span ⟨Q.height (Q.incomingSource v a),p.height_lt_of_length_pos hp',
++      Q.incomingSource_height_lt v a,A.unrolledPathEvaluation Q R p,(R v).incomingElement a,
++      by simp only [unrolledPathEvaluation]⟩
++
++theorem unrolledPathLong_supported_le_ker (u v : Q.LiftVertex) :
++    Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} ≤
++      LinearMap.ker (A.unrolledPathIndecomposableMap Q R u v) := by
++  rw [Finsupp.supported_eq_span_single]
++  apply Submodule.span_le.mpr
++  rintro x ⟨p,hp,rfl⟩
++  exact A.unrolledPathIndecomposableMap_single_long Q R p hp
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ZAlgebraHomomorphisms.lean b/ASGinzburg/ZAlgebraHomomorphisms.lean
+new file mode 100644
+index 0000000..4abbcd4
+--- /dev/null
++++ b/ASGinzburg/ZAlgebraHomomorphisms.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.UnrolledPathPresentationMorphism
++import Mathlib.LinearAlgebra.Isomorphisms
++
++/-! Kernels of actual componentwise algebra maps are genuine two-sided
++linear ideals. Surjective maps identify component quotients with the target. -/
++namespace ASGinzburg.ZAlgebra
++universe u v w
++variable {k : Type u} [Field k] (B : ZAlgebra.{u,v} k)
++
++structure LinearIdeal where
++  hom : ∀ i j, Submodule k (B.Hom i j)
++  comp_left : ∀ {i j l} {f : B.Hom i j}, f ∈ hom i j →
++    ∀ g : B.Hom j l, B.comp g f ∈ hom i l
++  comp_right : ∀ {i j l} {g : B.Hom j l}, g ∈ hom j l →
++    ∀ f : B.Hom i j, B.comp g f ∈ hom i l
++
++namespace Homomorphism
++variable {B} {A : ZAlgebra.{u,w} k} (F : Homomorphism B A)
++
++def kernel : B.LinearIdeal where
++  hom i j := LinearMap.ker (F.map i j)
++  comp_left := by
++    intro i j l f hf g
++    change F.map i l (B.comp g f) = 0
++    rw [F.map_comp,hf,map_zero]
++  comp_right := by
++    intro i j l g hg f
++    change F.map i l (B.comp g f) = 0
++    rw [F.map_comp,hg]
++    simp
++
++theorem diagonal_injective (i : ℤ) : Function.Injective (F.map i i) := by
++  intro x y h
++  obtain ⟨c,hc⟩ := B.connected i x
++  obtain ⟨d,hd⟩ := B.connected i y
++  rw [hc,hd,map_smul,map_smul,F.map_id] at h
++  have hcd : c=d := (A.scalarEndEquiv i).injective h
++  rw [hc,hd,hcd]
++
++theorem kernel_diagonal_eq_bot (i : ℤ) : F.kernel.hom i i = ⊥ :=
++  LinearMap.ker_eq_bot.mpr (F.diagonal_injective i)
++
++noncomputable def componentQuotientEquiv (hF : ∀ i j, Function.Surjective (F.map i j))
++    (i j : ℤ) : (B.Hom i j ⧸ F.kernel.hom i j) ≃ₗ[k] A.Hom i j :=
++  (F.map i j).quotKerEquivOfSurjective (hF i j)
++
++theorem componentQuotientEquiv_apply_mk (hF : ∀ i j, Function.Surjective (F.map i j))
++    {i j : ℤ} (f : B.Hom i j) :
++    F.componentQuotientEquiv hF i j (Submodule.Quotient.mk f) = F.map i j f := rfl
++
++end Homomorphism
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/UnrolledSingleArrows.lean b/ASGinzburg/UnrolledSingleArrows.lean
+new file mode 100644
+index 0000000..139fc6e
+--- /dev/null
++++ b/ASGinzburg/UnrolledSingleArrows.lean
+@@ -0,0 +1,71 @@
++import ASGinzburg.UnrolledPathFiniteness
++import ASGinzburg.ASGeneratorBasis
++
++/-! Actual one-arrow paths are indexed by incoming arrows with the specified
++source vertex. The height bijection compares this index with generator bases. -/
++namespace ASGinzburg.CutQuiver.UnrolledPath
++variable {Q : CutQuiver}
++
++theorem height_eq_of_length_zero {u v : Q.LiftVertex} (p : Q.UnrolledPath u v)
++    (hp : p.length=0) : Q.height u = Q.height v := by
++  cases p with
++  | nil => rfl
++  | snoc a p => simp [length] at hp
++
++abbrev SingleArrowIndex (u v : Q.LiftVertex) :=
++  {a : Q.incomingArrows v // Q.incomingSource v a = u}
++
++noncomputable def singleArrow (u v : Q.LiftVertex) (a : SingleArrowIndex u v) : Q.UnrolledPath u v := by
++  obtain ⟨a,ha⟩ := a
++  subst u
++  exact .snoc a (.nil _)
++
++theorem singleArrow_length (u v : Q.LiftVertex) (a : SingleArrowIndex u v) :
++    (singleArrow u v a).length=1 := by
++  obtain ⟨a,ha⟩ := a
++  subst u
++  rfl
++
++noncomputable def singleArrowOfPath {u v : Q.LiftVertex} (p : Q.UnrolledPath u v)
++    (hp : p.length=1) : SingleArrowIndex u v := by
++  cases p with
++  | nil => simp [length] at hp
++  | @snoc v a p =>
++    refine ⟨a,?_⟩
++    have hz : p.length=0 := by simp only [length] at hp; omega
++    exact (Q.height_bijective.injective (p.height_eq_of_length_zero hz)).symm
++
++theorem singleArrowOfPath_singleArrow (u v : Q.LiftVertex) (a : SingleArrowIndex u v) :
++    singleArrowOfPath (singleArrow u v a) (singleArrow_length u v a) = a := by
++  obtain ⟨a,ha⟩ := a
++  subst u
++  rfl
++
++theorem singleArrow_singleArrowOfPath {u v : Q.LiftVertex} (p : Q.UnrolledPath u v)
++    (hp : p.length=1) : singleArrow u v (singleArrowOfPath p hp) = p := by
++  cases p with
++  | nil => simp [length] at hp
++  | @snoc v a p =>
++    have hz : p.length=0 := by simp only [length] at hp; omega
++    have hu := Q.height_bijective.injective (p.height_eq_of_length_zero hz)
++    subst u
++    have hnil := p.diagonal_eq_nil
++    cases hnil
++    rfl
++
++noncomputable def singleArrowEquiv (u v : Q.LiftVertex) :
++    SingleArrowIndex u v ≃ {p : Q.UnrolledPath u v // p.length=1} where
++  toFun a := ⟨singleArrow u v a,singleArrow_length u v a⟩
++  invFun p := singleArrowOfPath p.val p.property
++  left_inv := singleArrowOfPath_singleArrow u v
++  right_inv p := Subtype.ext (singleArrow_singleArrowOfPath p.val p.property)
++
++noncomputable def singleArrowHeightEquiv (u v : Q.LiftVertex) :
++    SingleArrowIndex u v ≃
++      ASGinzburg.ZAlgebra.ASResolution.GeneratorIndex (Q := Q) (w := v) (Q.height u) where
++  toFun a := ⟨a.val,congrArg Q.height a.property⟩
++  invFun a := ⟨a.val,Q.height_bijective.injective a.property⟩
++  left_inv _ := rfl
++  right_inv _ := rfl
++
++end ASGinzburg.CutQuiver.UnrolledPath

@@ -1,8 +1,8 @@
 # 現在の状況
 
-左右有限次元加群について、実際の総正則局所単位付きGr(A)加群への全次数Extと既存Ext成分加群の総空間のk線形比較、全総代数作用への適合性まで両側とも完成。左側の有限生成射影Hom・Extの直和交換、正則総左加群と全右乗法を追加した。AS条件からの正負周期性は単位38で完成。AS分解d₁から道代数提示の最小生成元・核の二乗条件、標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、命題5.1・外部一般定理と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
-最新ローカル検証 20261008T164858Z-3dea7a05：180数学モジュール・1777異なる宣言・810 theorem、全段階終了0。
-単位1〜39の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+AS分解のd₁から実際のincoming生成元、成分全射と全体生成、実際のunrolled path ZAlgebraからの頂点固定・積/単位元を保つ全射を証明。核のradical包含とradical像の積span同定、有限coproductのradical商の分解から原論文(1.8)の矢の本数による最小生成元次元公式と実際の基底、(1.10)の成分分解まで完成。全射の核の矢イデアル二乗への包含と最小関係は未証明。左右総正則Ext比較とAS正負周期性は完成。標準RHom/derived/perfect、Jacobian/Ginzburg dg構築、命題5.1・外部一般定理と両主定理は未完成。定理3.2・系5.2の正式Lean定理文も未実装。
+最新ローカル検証 20261008T171534Z-a4ada4a1：195数学モジュール・1871異なる宣言・867 theorem、全段階終了0。
+単位1〜40の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,17 +20,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1777異なる名前、全明示的宣言・275 named instanceを含む、終了0 |
-| theorem | 810、全件が監査対象 |
+| 個別公理監査 | 1871異なる名前、全明示的宣言・276 named instanceを含む、終了0 |
+| theorem | 867、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T164858Z-3dea7a05`、全段階終了0、1419.286460870秒。
-UTC 2026-10-08T16:48:58.294143+00:00 → 2026-10-08T17:12:37.580667+00:00。
-JST 2026-10-09T01:48:58.294143+09:00 → 2026-10-09T02:12:37.580667+09:00。
+最新ローカル検証 `20261008T171534Z-a4ada4a1`、全段階終了0、1449.813445645秒。
+UTC 2026-10-08T17:15:34.771206+00:00 → 2026-10-08T17:39:44.584660+00:00。
+JST 2026-10-09T02:15:34.771206+09:00 → 2026-10-09T02:39:44.584660+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -42,7 +42,7 @@ JST 2026-10-09T01:48:58.294143+09:00 → 2026-10-09T02:12:37.580667+09:00。
 | (3.8) | `CyclicDerivative.lean` | 巡回微分の実装、回転不変性、cut復元恒等式 | Jacobianイデアルおよび商代数との接続 |
 | 道代数 | `PathAlgebra.lean` | 成分の自由ベクトル空間、双線形積、単位元、結合則 | 関係イデアルとその商、unrolling |
 | (1.4) | `ZAlgebra.lean` | 具体的な成分、双線形な積、局所単位元、connected・positive・finite条件 | 総代数モデルは後続単位で構成済み。特定の代数のAS条件の成立 |
-| 命題1.2の帰納法 | `ZAlgebra.lean` | 成分が生成元と短い積に分解されれば全成分を生成する | 分解条件を最小射影分解から導くこと、核が矢イデアルの二乗に入ること |
+| 命題1.2の道代数全射と最小生成元 | ASGenerators、ASPathPresentation、ASMinimalGenerators、ASIndecomposables、CoproductRadicals、CoproductRadicalQuotients、ASGeneratorDimensions、ASGeneratorBasis、UnrolledPathAlgebra、UnrolledPathFiniteness、UnrolledPathZAlgebra、UnrolledPathPresentationMorphism、UnrolledSingleArrows | 最小d₁からの実際のincoming係数、全体生成、自由道ZAlgebra・積/単位元保存と全射、(1.8)の次元式と基底、(1.10)の成分分解 | 核の矢イデアル平方への包含・最小関係・選択の独立性 |
 | (1.5) | `Representables.lean` | k線形圏と右線形presheaf、YonedaのHom同型、逆向きHomの消滅、自己Homの次元1 | 局所単位付きGr(A)モデルとの圏同値は後続単位で完成。実際のExtの自然な移送 |
 | §1.2の加群圏・(1.6)の基盤 | `RightModuleAbelian.lean`、`RightModuleHomology.lean` | (余)極限の閉性、Abelian構造、核・余核・homologyの成分同型、exactness・短完全列・mono/epiの成分判定 | 一般の自然なHom複体–Ext比較 |
 | (1.5)の射影対象 | `RightModuleProjectives.lean`、`RightModuleEnoughProjectives.lean` | 全Mへの線形Yoneda同型、P_vの射影性、representableの直和による射影提示、EnoughProjectives | 有限生成のprojective coverと最小分解 |
@@ -97,6 +97,8 @@ JST 2026-10-09T01:48:58.294143+09:00 → 2026-10-09T02:12:37.580667+09:00。
 | 有限次元Abelian部分圏と線形双対 | FiniteDiagramClosureMaps、FiniteDimensionalAbelian、SmallVectorDuality、ModuleVectorDuality、FiniteDimensionalVectorDuality、FiniteDimensionalNakayama | 左右有限次元Abelian圏・有限極限/余極限の閉性・成分線形双対の自然な反変同値・Ext³との合成による線形exactな自己同値 | 総空間のベクトル双対比較・全作用適合性、頂点/有限区間の移送と射影被覆は完成。区間coherence・AS周期性は完成。左右総正則Ext比較・全作用適合性まで完成。標準RHomへの接続 |
 
 | 左有限次元加群の総正則Ext比較 | LeftHomColimits、LeftFiniteExtColimits、LeftRegularCoproduct、LeftFiniteRegularExtComparison、LeftRegularTotalAlgebra、RegularLeftModule、LeftRegularExtComparison、RegularRightMultiplication、LeftFiniteTotalExt | 有限生成射影Hom・全次数Extの直和交換、実際の総正則局所単位付き左加群と全右乗法、全次数Extのk線形比較・全右作用適合性 | 標準RHomの符号・shift/derived/perfectへの接続 |
+
+| 実際の道評価と積の商・代数核 | UnrolledPathIndecomposables、ZAlgebraHomomorphisms | 長さ2以上の道は積の商で零。頂点固定Homomorphismの核の左右積閉性・対角零性・成分商同型 | 全射の核の平方への包含は未証明 |
 
 ## 主結果の状態
 

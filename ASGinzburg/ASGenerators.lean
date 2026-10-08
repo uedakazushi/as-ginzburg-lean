@@ -1,0 +1,133 @@
+import ASGinzburg.ASRegular
+import ASGinzburg.ASResolutionSyzygies
+import ASGinzburg.RepresentableHomColimits
+import Mathlib.Algebra.Category.ModuleCat.Products
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+namespace ASResolution
+variable {A Q} {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+theorem d₁_component_surjective (i : ℤ) (hi : i < Q.height w) :
+    Function.Surjective ((A.rightModuleEvaluation i).map R.d₁).hom := by
+  have h := (ShortComplex.moduleCat_exact_iff _).mp
+    (R.exact₀.map (A.rightModuleEvaluation i))
+  intro x
+  apply h x
+  have hz := (A.simpleRightModule_off_diagonal (Q.height w) i (ne_of_lt hi)).eq_zero_of_tgt
+    ((A.rightModuleEvaluation i).map (A.simpleRightModuleπ (Q.height w)))
+  change ((A.rightModuleEvaluation i).map (A.simpleRightModuleπ (Q.height w))).hom x = 0
+  rw [hz]
+  rfl
+
+noncomputable def incomingElement (a : Q.incomingArrows w) :
+    A.Hom (Q.height (Q.incomingSource w a)) (Q.height w) :=
+  A.representableYonedaEquiv (Q.height (Q.incomingSource w a)) (A.representable (Q.height w))
+    (Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a ≫ R.d₁)
+
+theorem incomingElement_component (a : Q.incomingArrows w) (i : ℤ)
+    (x : A.Hom i (Q.height (Q.incomingSource w a))) :
+    ((Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a ≫
+      R.d₁).app (op (⟨i⟩ : A.Obj))).hom x = A.comp (R.incomingElement a) x := by
+  let f := Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a ≫ R.d₁
+  have H := (A.representableYonedaEquiv (Q.height (Q.incomingSource w a))
+    (A.representable (Q.height w))).symm_apply_apply f
+  exact (congrArg (fun g => (g.app (op (⟨i⟩ : A.Obj))).hom x) H).symm
+
+noncomputable def term₁ComponentIso (_R : A.ASResolution Q w) (i : ℤ) :
+    (A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w) ≅
+      ModuleCat.of k (⨁ a : Q.incomingArrows w, A.Hom i (Q.height (Q.incomingSource w a))) :=
+  PreservesCoproduct.iso (A.rightModuleEvaluation i)
+      (fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) ≪≫
+    ModuleCat.coprodIsoDirectSum _
+
+theorem term₁ComponentIso_lof_inv (i : ℤ) (a : Q.incomingArrows w)
+    (x : A.Hom i (Q.height (Q.incomingSource w a))) :
+    (R.term₁ComponentIso i).inv.hom (DirectSum.lof k (Q.incomingArrows w) _ a x) =
+      ((Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a).app
+        (op (⟨i⟩ : A.Obj))).hom x := by
+  have H : ModuleCat.ofHom (DirectSum.lof k (Q.incomingArrows w)
+        (fun a => A.Hom i (Q.height (Q.incomingSource w a))) a) ≫ (R.term₁ComponentIso i).inv =
+      (A.rightModuleEvaluation i).map
+        (Sigma.ι (fun b : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w b))) a) := by
+    dsimp only [term₁ComponentIso,Iso.trans_inv]
+    rw [← Category.assoc]
+    erw [ModuleCat.lof_coprodIsoDirectSum_inv]
+    rw [PreservesCoproduct.inv_hom,ι_comp_sigmaComparison]
+  exact congrArg (fun f => f.hom x) H
+
+theorem d₁_component_lof (i : ℤ) (a : Q.incomingArrows w)
+    (x : A.Hom i (Q.height (Q.incomingSource w a))) :
+    ((A.rightModuleEvaluation i).map R.d₁).hom
+      ((R.term₁ComponentIso i).inv.hom (DirectSum.lof k (Q.incomingArrows w) _ a x)) =
+      A.comp (R.incomingElement a) x := by
+  rw [R.term₁ComponentIso_lof_inv]
+  exact R.incomingElement_component a i x
+
+noncomputable def incomingMultiplication (i : ℤ) :
+    (⨁ a : Q.incomingArrows w, A.Hom i (Q.height (Q.incomingSource w a))) →ₗ[k]
+      A.Hom i (Q.height w) :=
+  DirectSum.toModule k _ _ (fun a => A.comp (R.incomingElement a))
+
+theorem incomingMultiplication_eq (i : ℤ) :
+    R.incomingMultiplication i =
+      ((A.rightModuleEvaluation i).map R.d₁).hom.comp (R.term₁ComponentIso i).inv.hom := by
+  apply DirectSum.linearMap_ext
+  intro a
+  apply LinearMap.ext
+  intro x
+  simpa only [incomingMultiplication, LinearMap.comp_apply, DirectSum.toModule_lof]
+    using (R.d₁_component_lof i a x).symm
+
+theorem incomingMultiplication_surjective (i : ℤ) (hi : i < Q.height w) :
+    Function.Surjective (R.incomingMultiplication i) := by
+  rw [R.incomingMultiplication_eq]
+  exact (R.d₁_component_surjective i hi).comp
+    ((ConcreteCategory.bijective_of_isIso (R.term₁ComponentIso i).inv).surjective)
+
+end ASResolution
+
+theorem generated_of_asResolution
+    (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+    (L : A.LinearSubcategory)
+    (hR : ∀ (w : Q.LiftVertex) (a : Q.incomingArrows w),
+      (R w).incomingElement a ∈ L.hom (Q.height (Q.incomingSource w a)) (Q.height w)) :
+    ∀ i j, L.hom i j = ⊤ := by
+  have hmain : ∀ d : ℕ, ∀ i j : ℤ, (j - i).toNat = d →
+      ∀ f : A.Hom i j, f ∈ L.hom i j := by
+    intro d
+    induction d using Nat.strong_induction_on with
+    | h d ih =>
+      intro i j hd f
+      rcases lt_trichotomy j i with hji | hji | hij
+      · rw [A.positive hji f]
+        exact (L.hom i j).zero_mem
+      · subst j
+        obtain ⟨c, rfl⟩ := A.connected i f
+        exact (L.hom i i).smul_mem c (L.id_mem i)
+      · obtain ⟨w, rfl⟩ := Q.height_bijective.surjective j
+        obtain ⟨x, rfl⟩ := (R w).incomingMultiplication_surjective i hij f
+        induction x using DirectSum.induction_on with
+        | zero => simpa only [map_zero] using (L.hom i (Q.height w)).zero_mem
+        | add x y hx hy =>
+          simpa only [map_add] using (L.hom i (Q.height w)).add_mem hx hy
+        | of a x =>
+          change ((R w).incomingMultiplication i)
+            (DirectSum.lof k (Q.incomingArrows w)
+              (fun a => A.Hom i (Q.height (Q.incomingSource w a))) a x) ∈ _
+          simp only [ASResolution.incomingMultiplication, DirectSum.toModule_lof]
+          change A.comp ((R w).incomingElement a) x ∈ _
+          apply L.comp_mem
+          · exact ih (Q.height (Q.incomingSource w a) - i).toNat
+              (by have := Q.incomingSource_height_lt w a; omega)
+              i (Q.height (Q.incomingSource w a)) rfl x
+          · exact hR w a
+  intro i j
+  apply top_unique
+  intro f _
+  exact hmain (j - i).toNat i j rfl f
+end ASGinzburg.ZAlgebra
