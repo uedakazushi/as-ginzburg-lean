@@ -130,6 +130,13 @@ import ASGinzburg.LeftResolutionExtBidual
 import ASGinzburg.FiniteDimensionalExtBidual
 import ASGinzburg.FiniteDimensionalRegularExtComparison
 
+import ASGinzburg.ExtClassNaturality
+import ASGinzburg.ProjectiveResolutionSyzygyNaturality
+import ASGinzburg.ResolutionExtBoundaryNaturality
+import ASGinzburg.DualResolutionComparisonMaps
+import ASGinzburg.ResolutionExtBidualNaturality
+import ASGinzburg.FiniteDimensionalExtEquivalence
+
 /-!
 # AS--Ginzburg formalization checkpoint
 

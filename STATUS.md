@@ -1,10 +1,10 @@
 # 現在の状況
 
-一般四項有限生成射影分解の双対分解とcanonical評価から、左右有限次元加群の二重Ext³対象同型をAS条件から構成。一般有限次元右加群の成分Ext直和と総正則右加群への実際Extの線形同型、全成分左作用・全総代数左表現への適合性を証明しました。
-次は二重Ext自然同型と有限長反変同値の公開検査、有限次元部分圏のAbelian構造とベクトル空間双対との合成、有限区間からの周期性です。
-有限長反変同値と周期性、左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
-最新ローカル検証 20261008T131843Z-95e93d4e：133数学モジュール・1382異なる宣言・624 theorem、全段階終了0。
-単位1〜31の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際Ext class・接続写像・射影分解比較射の自然性から二重Ext³の自然同型を左右とも証明し、AS条件から左右有限次元full部分圏の実際Ext³反変同値を構成しました。
+次は有限次元Abelian部分圏とベクトル空間双対との合成、頂点単純の移送と有限区間からの周期性です。
+左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1・外部一般定理と両主定理は未完成。定理3.2と系5.2の正式なLean定理文も未実装です。
+最新ローカル検証 20261008T134435Z-bbc82103：139数学モジュール・1421異なる宣言・651 theorem、全段階終了0。
+単位1〜32の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -22,17 +22,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 1382異なる名前、全明示的宣言・211 named instanceを含む、終了0 |
-| theorem | 624、全件が監査対象 |
+| 個別公理監査 | 1421異なる名前、全明示的宣言・211 named instanceを含む、終了0 |
+| theorem | 651、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261008T131843Z-95e93d4e`、全段階終了0、983.940208454秒。
-UTC 2026-10-08T13:18:43.867359+00:00 → 2026-10-08T13:35:07.807576+00:00。
-JST 2026-10-08T22:18:43.867359+09:00 → 2026-10-08T22:35:07.807576+09:00。
+最新ローカル検証 `20261008T134435Z-bbc82103`、全段階終了0、1044.642004808秒。
+UTC 2026-10-08T13:44:35.554806+00:00 → 2026-10-08T14:02:00.196818+00:00。
+JST 2026-10-08T22:44:35.554806+09:00 → 2026-10-08T23:02:00.196818+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 ## 形式化状況
@@ -89,14 +89,16 @@ JST 2026-10-08T22:18:43.867359+09:00 → 2026-10-08T22:35:07.807576+09:00。
 
 | 有限次元加群の四項複体とExt交換 | FourTermProjectiveResolution、FiniteProjectiveFourTermResolution、ASFiniteDimensionalProjectiveResolution、ProjectiveResolutionHomExactness、FiniteProjectiveHomColimits、FiniteProjectiveResolutionExtColimits | 全項有限生成射影の実際の四項ProjectiveResolution・次数4以上零性・Hom複体のexactness・右有限次元加群の全次数Extの余極限/直和交換 | 総正則Extへの左作用適合比較・二重Ext自然同型 |
 
-| 総正則Extと二重Ext対象同型 | RightResolutionDuality、LeftResolutionDuality、RightResolutionExtBidual、LeftResolutionExtBidual、FiniteDimensionalExtBidual、FiniteDimensionalRegularExtComparison | 一般四項分解の双対分解・canonical二重Ext対象同型、右有限次元加群の総正則Ext比較と全左作用適合性 | 二重Ext自然性・有限長反変同値の公開検証、左側総正則Ext比較、周期性 |
+| 総正則Extと二重Ext対象同型 | RightResolutionDuality、LeftResolutionDuality、RightResolutionExtBidual、LeftResolutionExtBidual、FiniteDimensionalExtBidual、FiniteDimensionalRegularExtComparison | 一般四項分解の双対分解・canonical二重Ext対象同型、右有限次元加群の総正則Ext比較と全左作用適合性 | 二重Ext自然同型と有限次元Ext³反変同値は後続単位で完成。左側総正則Ext比較と周期性 |
+
+| 二重Ext自然同型と有限次元Ext³反変同値 | ExtClassNaturality、ProjectiveResolutionSyzygyNaturality、ResolutionExtBoundaryNaturality、DualResolutionComparisonMaps、ResolutionExtBidualNaturality、FiniteDimensionalExtEquivalence | mapping coneから実際Ext接続の自然性・双対分解比較射とcanonical評価の自然性・左右二重Ext自然同型・実際Ext³反変同値 | 有限次元Abelian部分圏とベクトル空間双対の公開検証・有限区間の周期性 |
 
 ## 主結果の状態
 
 | 主張 | 状態 |
 |---|---|
 | 定理3.2：一般の型QのAS–Ginzburg対応 | 未証明。形式的な定理文も未実装 |
-| 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数・左右総作用と具体的局所単位付きGr(A)モデルへの圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。単純加群の(1.12)の左作用を含む移送は完成。一般有限次元MのExt(M,A)比較は未完成 |
+| 命題1.3 | 既存モデルの数値的両方向とExt成分の左単純商への同型は証明済み。全次数の直和交換と成分作用適合性は証明済み。総代数・左右総作用と具体的局所単位付きGr(A)モデルへの圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。単純加群の(1.12)の左作用を含む移送は完成。一般有限次元右MのExt(M,A)比較と全左作用への適合性も完成。左側の総正則Ext比較は未完成 |
 | 命題1.4：AS条件からの周期性 | 未証明。coherentな区間同型を仮定した最後の貼り合わせのみ |
 | 命題5.1：三周期性 | 未証明 |
 | 系5.2：(3,3,3)型の全単射 | 未証明。形式的な定理文も未実装 |

@@ -773,3 +773,26 @@ JST 2026-10-08T22:18:43.867359+09:00 → 2026-10-08T22:35:07.807576+09:00。
 UTC 2026-10-08T13:18:43.867359+00:00 → 2026-10-08T13:35:07.807576+00:00。
 133数学モジュール・1382異なる宣言・624 theorem。
 差分：runs/total-algebra-20261008-unit31.patch。全theoremを監査し、許容公理3種類のみ。
+
+作業中チェックポイント UTC 2026-10-08T13:45:11.519730+00:00、開始から実測24273.519730秒。継続中、タスク終了時刻ではない。
+単位31はmain a1559bdb485428fefc6bd478d00fc0f88b21a002へ保存済み。公開検査20261008T131843Z-95e93d4eはUTC13:18:43.867359→13:35:07.807576、983.940208454秒、133数学モジュール・1382異なる宣言・624 theorem、全6段階0。単位30の正確なheadのGitHub CI37783216492はsuccess。単位31のCI成功はまだ確認していない。
+単位32として二重Extの自然同型と有限次元full部分圏の実際Ext³反変同値を公開検査中。数学ソースは検査中固定。ベクトル空間双対の小さい値域を保つ評価の全単射と有限性はsmall-vector-dual-draft2で個別Lean終了0・診断なし。有限次元full部分圏のAbelian構造は未公開草稿でuniverse制約とcoimage比較のelaborationを修正中、未完成。
+次は有限次元Abelian部分圏・ベクトル双対とExt³の合成から有限区間の射影被覆、coherenceとAS周期性。左右の総正則Ext比較のうち左側、標準RHom符号・shift/derived/perfect、命題5.1・外部一般定理、定理3.2・系5.2も未完成。両主定理の正式Lean定理文は未実装。
+
+## 単位32：実際Extの接続写像の自然性と有限次元Ext³反変同値
+
+ExtClassNaturality.lean、ProjectiveResolutionSyzygyNaturality.lean、ResolutionExtBoundaryNaturality.lean、DualResolutionComparisonMaps.lean、ResolutionExtBidualNaturality.lean、FiniteDimensionalExtEquivalence.leanを追加。mapping coneの短完全列への射と三角の接続射から、実際のAbelian.Ext classと長完全列の接続写像の自然性を一般Abelian圏で証明した。ProjectiveResolutionの比較鎖写像から第一・第二syzygyの射と三つの短完全列の射を構成。
+
+左右とも、Ext³上端射影の自然性、双対四項分解の実際の比較鎖写像・augmentationへの適合性を証明。canonical二重双対評価の自然性と上端余核の一意性から二重Ext対象同型の自然性を導いた。AS条件から選んだ実際の分解とmathlibの比較射を使い、左右有限次元full部分圏の二重Ext自然同型と実際Ext³の反変同値を構成した。必要なExt同型や主定理と同等の結論を仮定として追加していない。
+
+単位31はmain a1559bdb485428fefc6bd478d00fc0f88b21a002へ保存済み。単位30の正確なheadのCI37783216492はsuccess。単位31 CI37786707963は照会時点in_progress。この単位32のCI成功はまだ確認していない。
+
+次の未公開草稿では、左右有限次元full部分圏の有限極限・有限余極限の閉性とAbelian構造、既存の小さい値域を保つ線形双対・二重評価・有限次元性保存・左右反変同値を個別Lean終了0で検証。これらは単位32の公開監査の範囲には含めず、次の単位で公開する。ベクトル空間双対とExt³を合成した自己同値と、その有限次元Abelian圏でのexactnessを現在草稿で検査中。
+
+次はベクトル空間双対との合成・頂点単純の移送・有限区間の射影被覆とcoherenceを通じたAS条件からの周期性。左側総正則Ext比較、標準RHomの符号・shift/derived/perfect、命題5.1、外部一般定理、定理3.2・系5.2は未完成。両主定理の正式Lean定理文も未実装。
+
+検証：`20261008T134435Z-bbc82103`、1044.642004808秒、全段階終了0。
+JST 2026-10-08T22:44:35.554806+09:00 → 2026-10-08T23:02:00.196818+09:00。
+UTC 2026-10-08T13:44:35.554806+00:00 → 2026-10-08T14:02:00.196818+00:00。
+139数学モジュール・1421異なる宣言・651 theorem。
+差分：runs/total-algebra-20261008-unit32.patch。全theoremを監査し、許容公理3種類のみ。

@@ -1,0 +1,744 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 4cedf8e..f00c69e 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -130,6 +130,13 @@ import ASGinzburg.LeftResolutionExtBidual
+ import ASGinzburg.FiniteDimensionalExtBidual
+ import ASGinzburg.FiniteDimensionalRegularExtComparison
+ 
++import ASGinzburg.ExtClassNaturality
++import ASGinzburg.ProjectiveResolutionSyzygyNaturality
++import ASGinzburg.ResolutionExtBoundaryNaturality
++import ASGinzburg.DualResolutionComparisonMaps
++import ASGinzburg.ResolutionExtBidualNaturality
++import ASGinzburg.FiniteDimensionalExtEquivalence
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 8b65842..059a40b 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -294,6 +294,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.cyclicCutReconstruction_traceWord
+ #print axioms ASGinzburg.cyclicCutReconstruction_comp_trace
+ #print axioms ASGinzburg.cut_cyclic_derivative_identity
++#print axioms ASGinzburg.ZAlgebra.rightResolutionDualTermMap
++#print axioms ASGinzburg.ZAlgebra.rightResolutionDualTermMap_comm
++#print axioms ASGinzburg.ZAlgebra.rightResolutionDualComplexMap
++#print axioms ASGinzburg.ZAlgebra.rightResolutionDualComplexMap_augmentation
++#print axioms ASGinzburg.ZAlgebra.leftResolutionDualTermMap
++#print axioms ASGinzburg.ZAlgebra.leftResolutionDualTermMap_comm
++#print axioms ASGinzburg.ZAlgebra.leftResolutionDualComplexMap
++#print axioms ASGinzburg.ZAlgebra.leftResolutionDualComplexMap_augmentation
+ #print axioms ASGinzburg.equivalenceMapDerivedIsEquivalence
+ #print axioms ASGinzburg.exactDerivedEquivalence
+ #print axioms ASGinzburg.exactDerivedSingleIso
+@@ -310,6 +318,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.exactExtModule
+ #print axioms ASGinzburg.exactExtHomLinearEquiv
+ #print axioms ASGinzburg.exactEquivalenceExtLinearEquiv
++#print axioms ASGinzburg.mappingCone_descShortComplex_natural
++#print axioms ASGinzburg.triangleOfSESδ_natural
++#print axioms ASGinzburg.singleδ_natural
++#print axioms ASGinzburg.extClass_natural
++#print axioms ASGinzburg.extBoundary_natural
+ #print axioms ASGinzburg.oppositeLinear
+ #print axioms ASGinzburg.ZAlgebra.rightModuleOppositeLinear
+ #print axioms ASGinzburg.ZAlgebra.leftModuleOppositeLinear
+@@ -366,6 +379,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalExtThreeFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtThreeFunctorLinear
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalExtThreeFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtBidualIso_natural
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalExtBidualIso_natural
++#print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalExtBidualNatIso
++#print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalExtBidualNatIso
++#print axioms ASGinzburg.ZAlgebra.finiteDimensionalExtThreeEquivalence
+ #print axioms ASGinzburg.directSum_finite_support_of_finite
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteDimensionalProperty
+ #print axioms ASGinzburg.ZAlgebra.leftFiniteDimensionalProperty
+@@ -879,6 +897,15 @@ import ASGinzburg
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₁
+ #print axioms CategoryTheory.ProjectiveResolution.mono_d₃_of_isZero_four
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₂
++#print axioms CategoryTheory.ProjectiveResolution.firstKernelMap
++#print axioms CategoryTheory.ProjectiveResolution.firstKernelMap_ι
++#print axioms CategoryTheory.ProjectiveResolution.firstCover_firstKernelMap
++#print axioms CategoryTheory.ProjectiveResolution.secondKernelMap
++#print axioms CategoryTheory.ProjectiveResolution.secondKernelMap_ι
++#print axioms CategoryTheory.ProjectiveResolution.secondCover_secondKernelMap
++#print axioms CategoryTheory.ProjectiveResolution.shortExact₀Hom
++#print axioms CategoryTheory.ProjectiveResolution.shortExact₁Hom
++#print axioms CategoryTheory.ProjectiveResolution.shortExact₂Hom
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproductProjection
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproduct_inclusion_projection
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproduct_inclusion_projection_off
+@@ -967,6 +994,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.representableHom_vanishes
+ #print axioms ASGinzburg.ZAlgebra.scalarEndEquiv
+ #print axioms ASGinzburg.ZAlgebra.representableEnd_finrank
++#print axioms ASGinzburg.ZAlgebra.rightResolutionExtBidualIso_projection
++#print axioms ASGinzburg.ZAlgebra.rightResolutionBidualTermIso_natural
++#print axioms ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_natural
++#print axioms ASGinzburg.ZAlgebra.rightResolutionExtBidualIso_natural
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtBidualIso_projection
++#print axioms ASGinzburg.ZAlgebra.leftResolutionBidualTermIso_natural
++#print axioms ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_natural
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtBidualIso_natural
++#print axioms ASGinzburg.ZAlgebra.rightModuleExtBoundaryLeft_natural
++#print axioms ASGinzburg.ZAlgebra.rightResolutionExtTopProjection_natural
++#print axioms ASGinzburg.ZAlgebra.leftModuleExtBoundaryRight_natural
++#print axioms ASGinzburg.ZAlgebra.leftResolutionExtTopProjection_natural
+ #print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderLimits
+ #print axioms ASGinzburg.ZAlgebra.rightModuleProperty_closedUnderColimits
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHasLimitsOfShape
+diff --git a/ASGinzburg/ExtClassNaturality.lean b/ASGinzburg/ExtClassNaturality.lean
+new file mode 100644
+index 0000000..3218253
+--- /dev/null
++++ b/ASGinzburg/ExtClassNaturality.lean
+@@ -0,0 +1,106 @@
++import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExtClass
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits CategoryTheory.Pretriangulated
++universe u v w
++variable {C : Type u} [Category.{v} C] [Abelian C]
++
++theorem mappingCone_descShortComplex_natural
++    {S T : ShortComplex (CochainComplex C ℤ)} (φ : S ⟶ T) :
++    CochainComplex.mappingCone.map S.f T.f φ.τ₁ φ.τ₂ φ.comm₁₂.symm ≫
++        CochainComplex.mappingCone.descShortComplex T =
++      CochainComplex.mappingCone.descShortComplex S ≫ φ.τ₃ := by
++  ext n
++  simp only [HomologicalComplex.comp_f]
++  rw [CochainComplex.mappingCone.ext_from_iff _ (n+1) n rfl]
++  constructor
++  · simp [CochainComplex.mappingCone.map,CochainComplex.mappingCone.descShortComplex]
++  · simpa [CochainComplex.mappingCone.map,CochainComplex.mappingCone.descShortComplex]
++      using HomologicalComplex.congr_hom φ.comm₂₃ n
++
++variable [HasDerivedCategory.{w} C]
++
++theorem triangleOfSESδ_natural
++    {S T : ShortComplex (CochainComplex C ℤ)} (hS : S.ShortExact) (hT : T.ShortExact)
++    (φ : S ⟶ T) :
++    DerivedCategory.Q.map φ.τ₃ ≫ DerivedCategory.triangleOfSESδ hT =
++      DerivedCategory.triangleOfSESδ hS ≫ (DerivedCategory.Q.map φ.τ₁)⟦(1 : ℤ)⟧' := by
++  let α := CochainComplex.mappingCone.map S.f T.f φ.τ₁ φ.τ₂ φ.comm₁₂.symm
++  haveI := CochainComplex.mappingCone.quasiIso_descShortComplex hS
++  haveI := CochainComplex.mappingCone.quasiIso_descShortComplex hT
++  have Hq : DerivedCategory.Q.map φ.τ₃ ≫
++      inv (DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex T)) =
++    inv (DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex S)) ≫
++      DerivedCategory.Q.map α := by
++    rw [IsIso.comp_inv_eq,Category.assoc,IsIso.eq_inv_comp]
++    simp only [← Functor.map_comp]
++    exact congrArg DerivedCategory.Q.map (mappingCone_descShortComplex_natural φ).symm
++  have Hδ := (DerivedCategory.Q.mapTriangle.map
++    (CochainComplex.mappingCone.triangleMap S.f T.f φ.τ₁ φ.τ₂ φ.comm₁₂.symm)).comm₃
++  change (DerivedCategory.Q.map (CochainComplex.mappingCone.triangle S.f).mor₃ ≫
++      (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app S.X₁) ≫
++      (DerivedCategory.Q.map φ.τ₁)⟦(1 : ℤ)⟧' =
++    DerivedCategory.Q.map α ≫ DerivedCategory.Q.map (CochainComplex.mappingCone.triangle T.f).mor₃ ≫
++      (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app T.X₁ at Hδ
++  simp only [Category.assoc] at Hδ
++  dsimp [DerivedCategory.triangleOfSESδ]
++  rw [← Category.assoc,← Category.assoc,Hq]
++  simp only [Category.assoc]
++  exact congrArg (fun f =>
++    inv (DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex S)) ≫ f) Hδ.symm
++theorem singleδ_natural {S T : ShortComplex C} (hS : S.ShortExact) (hT : T.ShortExact)
++    (φ : S ⟶ T) :
++    (DerivedCategory.singleFunctor C 0).map φ.τ₃ ≫ hT.singleδ =
++      hS.singleδ ≫ ((DerivedCategory.singleFunctor C 0).map φ.τ₁)⟦(1 : ℤ)⟧' := by
++  let e := (SingleFunctors.evaluation _ _ 0).mapIso (DerivedCategory.singleFunctorsPostcompQIso C)
++  let F := HomologicalComplex.single C (ComplexShape.up ℤ) 0
++  let ψ : S.map F ⟶ T.map F := F.mapShortComplex.map φ
++  have Hδ := triangleOfSESδ_natural (hS.map_of_exact F) (hT.map_of_exact F) ψ
++  change DerivedCategory.Q.map (F.map φ.τ₃) ≫
++      DerivedCategory.triangleOfSESδ (hT.map_of_exact F) =
++    DerivedCategory.triangleOfSESδ (hS.map_of_exact F) ≫
++      (DerivedCategory.Q.map (F.map φ.τ₁))⟦(1 : ℤ)⟧' at Hδ
++  change (DerivedCategory.singleFunctor C 0).map φ.τ₃ ≫ e.hom.app T.X₃ ≫
++      DerivedCategory.triangleOfSESδ (hT.map_of_exact F) ≫ (e.inv.app T.X₁)⟦(1 : ℤ)⟧' =
++    (e.hom.app S.X₃ ≫ DerivedCategory.triangleOfSESδ (hS.map_of_exact F) ≫
++      (e.inv.app S.X₁)⟦(1 : ℤ)⟧') ≫
++        ((DerivedCategory.singleFunctor C 0).map φ.τ₁)⟦(1 : ℤ)⟧'
++  have H₃ := e.hom.naturality φ.τ₃
++  change (DerivedCategory.singleFunctor C 0).map φ.τ₃ ≫ e.hom.app T.X₃ =
++    e.hom.app S.X₃ ≫ DerivedCategory.Q.map (F.map φ.τ₃) at H₃
++  have H₁ := e.inv.naturality φ.τ₁
++  change DerivedCategory.Q.map (F.map φ.τ₁) ≫ e.inv.app T.X₁ =
++    e.inv.app S.X₁ ≫ (DerivedCategory.singleFunctor C 0).map φ.τ₁ at H₁
++  rw [← Category.assoc,← Category.assoc,H₃]
++  simp only [Category.assoc]
++  change e.hom.app S.X₃ ≫ DerivedCategory.Q.map (F.map φ.τ₃) ≫
++      DerivedCategory.triangleOfSESδ (hT.map_of_exact F) ≫ (e.inv.app T.X₁)⟦(1 : ℤ)⟧' = _
++  rw [← Category.assoc (DerivedCategory.Q.map (F.map φ.τ₃)),Hδ]
++  simp only [Category.assoc]
++  congr 2
++  rw [← Functor.map_comp,H₁,Functor.map_comp]
++end ASGinzburg
++
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v t
++variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{t} C]
++
++theorem extClass_natural {S T : ShortComplex C} (hS : S.ShortExact) (hT : T.ShortExact)
++    (φ : S ⟶ T) :
++    hS.extClass.comp (Abelian.Ext.mk₀ φ.τ₁) (Nat.add_zero 1) =
++      (Abelian.Ext.mk₀ φ.τ₃).comp hT.extClass (Nat.zero_add 1) := by
++  letI := HasDerivedCategory.standard C
++  ext
++  simp only [Abelian.Ext.comp_hom,Abelian.Ext.mk₀_hom,
++    ShortComplex.ShortExact.extClass_hom,ShiftedHom.comp_mk₀,ShiftedHom.mk₀_comp]
++  exact (singleδ_natural hS hT φ).symm
++
++theorem extBoundary_natural {S T : ShortComplex C} (hS : S.ShortExact) (hT : T.ShortExact)
++    (φ : S ⟶ T) (N : C) (n : ℕ) (e : Abelian.Ext.{t} T.X₁ N n) :
++    hS.extClass.comp ((Abelian.Ext.mk₀ φ.τ₁).comp e (Nat.zero_add n)) (Nat.add_comm 1 n) =
++      (Abelian.Ext.mk₀ φ.τ₃).comp (hT.extClass.comp e (Nat.add_comm 1 n)) (Nat.zero_add (n+1)) := by
++  rw [← Abelian.Ext.comp_assoc_of_second_deg_zero,extClass_natural hS hT φ]
++  apply Abelian.Ext.comp_assoc
++  omega
++end ASGinzburg
+diff --git a/ASGinzburg/ProjectiveResolutionSyzygyNaturality.lean b/ASGinzburg/ProjectiveResolutionSyzygyNaturality.lean
+new file mode 100644
+index 0000000..3db3625
+--- /dev/null
++++ b/ASGinzburg/ProjectiveResolutionSyzygyNaturality.lean
+@@ -0,0 +1,66 @@
++import ASGinzburg.ProjectiveResolutionSyzygies
++
++namespace CategoryTheory.ProjectiveResolution
++open CategoryTheory.Limits
++universe u v
++variable {C : Type u} [Category.{v} C] [Abelian C] {M N : C}
++  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++  (F : P.complex ⟶ Q.complex) (f : M ⟶ N)
++  (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f)
++
++noncomputable def firstKernelMap : kernel (P.π.f 0) ⟶ kernel (Q.π.f 0) :=
++  kernel.map (P.π.f 0) (Q.π.f 0) (F.f 0) f hπ.symm
++
++@[reassoc] theorem firstKernelMap_ι :
++    P.firstKernelMap Q F f hπ ≫ kernel.ι (Q.π.f 0) = kernel.ι (P.π.f 0) ≫ F.f 0 :=
++  kernel.lift_ι _ _ _
++
++@[reassoc] theorem firstCover_firstKernelMap :
++    P.firstCover ≫ P.firstKernelMap Q F f hπ = F.f 1 ≫ Q.firstCover := by
++  apply (cancel_mono (kernel.ι (Q.π.f 0))).mp
++  rw [Category.assoc,P.firstKernelMap_ι,← Category.assoc,P.firstCover_ι,
++    Category.assoc,Q.firstCover_ι]
++  exact (F.comm 1 0).symm
++
++noncomputable def secondKernelMap : kernel P.firstCover ⟶ kernel Q.firstCover :=
++  kernel.map P.firstCover Q.firstCover (F.f 1) (P.firstKernelMap Q F f hπ)
++    (P.firstCover_firstKernelMap Q F f hπ)
++
++@[reassoc] theorem secondKernelMap_ι :
++    P.secondKernelMap Q F f hπ ≫ kernel.ι Q.firstCover = kernel.ι P.firstCover ≫ F.f 1 :=
++  kernel.lift_ι _ _ _
++
++@[reassoc] theorem secondCover_secondKernelMap :
++    P.secondCover ≫ P.secondKernelMap Q F f hπ = F.f 2 ≫ Q.secondCover := by
++  apply (cancel_mono (kernel.ι Q.firstCover)).mp
++  rw [Category.assoc,P.secondKernelMap_ι,← Category.assoc,P.secondCover_ι,
++    Category.assoc,Q.secondCover_ι]
++  exact (F.comm 2 1).symm
++
++noncomputable def shortExact₀Hom :
++    ShortComplex.mk (kernel.ι (P.π.f 0)) (P.π.f 0) (kernel.condition _) ⟶
++      ShortComplex.mk (kernel.ι (Q.π.f 0)) (Q.π.f 0) (kernel.condition _) where
++  τ₁ := P.firstKernelMap Q F f hπ
++  τ₂ := F.f 0
++  τ₃ := f
++  comm₁₂ := P.firstKernelMap_ι Q F f hπ
++  comm₂₃ := hπ
++
++noncomputable def shortExact₁Hom :
++    ShortComplex.mk (kernel.ι P.firstCover) P.firstCover (kernel.condition _) ⟶
++      ShortComplex.mk (kernel.ι Q.firstCover) Q.firstCover (kernel.condition _) where
++  τ₁ := P.secondKernelMap Q F f hπ
++  τ₂ := F.f 1
++  τ₃ := P.firstKernelMap Q F f hπ
++  comm₁₂ := P.secondKernelMap_ι Q F f hπ
++  comm₂₃ := (P.firstCover_firstKernelMap Q F f hπ).symm
++
++noncomputable def shortExact₂Hom :
++    ShortComplex.mk (P.complex.d 3 2) P.secondCover P.d₃_secondCover ⟶
++      ShortComplex.mk (Q.complex.d 3 2) Q.secondCover Q.d₃_secondCover where
++  τ₁ := F.f 3
++  τ₂ := F.f 2
++  τ₃ := P.secondKernelMap Q F f hπ
++  comm₁₂ := F.comm 3 2
++  comm₂₃ := (P.secondCover_secondKernelMap Q F f hπ).symm
++end CategoryTheory.ProjectiveResolution
+diff --git a/ASGinzburg/ResolutionExtBoundaryNaturality.lean b/ASGinzburg/ResolutionExtBoundaryNaturality.lean
+new file mode 100644
+index 0000000..3a9849c
+--- /dev/null
++++ b/ASGinzburg/ResolutionExtBoundaryNaturality.lean
+@@ -0,0 +1,104 @@
++import ASGinzburg.ExtClassNaturality
++import ASGinzburg.ProjectiveResolutionSyzygyNaturality
++import ASGinzburg.RightResolutionDuality
++import ASGinzburg.LeftResolutionDuality
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem rightModuleExtBoundaryLeft_natural {S T : ShortComplex A.RightModule}
++    (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T) (n : ℕ) :
++    A.rightModuleExtPrecompLeft φ.τ₁ n ≫ A.rightModuleExtBoundaryLeft hS n =
++      A.rightModuleExtBoundaryLeft hT n ≫ A.rightModuleExtPrecompLeft φ.τ₃ (n+1) := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro e
++  exact ASGinzburg.extBoundary_natural hS hT φ (A.representable X.index) n e
++
++theorem rightResolutionExtTopProjection_natural {M N : A.RightModule}
++    (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++    (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
++    (F : P.complex ⟶ Q.complex) (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    A.rightModuleADualMap (F.f 3) ≫ A.rightResolutionExtTopProjection P hP₄ =
++      A.rightResolutionExtTopProjection Q hQ₄ ≫ A.rightModuleExtPrecompLeft f 3 := by
++  have H₂ := A.rightModuleExtBoundaryLeft_natural (P.shortExact₂ hP₄) (Q.shortExact₂ hQ₄)
++    (P.shortExact₂Hom Q F f hπ) 0
++  have H₁ := A.rightModuleExtBoundaryLeft_natural P.shortExact₁ Q.shortExact₁
++    (P.shortExact₁Hom Q F f hπ) 1
++  have H₀ := A.rightModuleExtBoundaryLeft_natural P.shortExact₀ Q.shortExact₀
++    (P.shortExact₀Hom Q F f hπ) 2
++  change A.rightModuleExtPrecompLeft (F.f 3) 0 ≫ A.rightModuleExtBoundaryLeft (P.shortExact₂ hP₄) 0 =
++    A.rightModuleExtBoundaryLeft (Q.shortExact₂ hQ₄) 0 ≫
++      A.rightModuleExtPrecompLeft (P.secondKernelMap Q F f hπ) 1 at H₂
++  change A.rightModuleExtPrecompLeft (P.secondKernelMap Q F f hπ) 1 ≫
++      A.rightModuleExtBoundaryLeft P.shortExact₁ 1 =
++    A.rightModuleExtBoundaryLeft Q.shortExact₁ 1 ≫
++      A.rightModuleExtPrecompLeft (P.firstKernelMap Q F f hπ) 2 at H₁
++  change A.rightModuleExtPrecompLeft (P.firstKernelMap Q F f hπ) 2 ≫
++      A.rightModuleExtBoundaryLeft P.shortExact₀ 2 =
++    A.rightModuleExtBoundaryLeft Q.shortExact₀ 2 ≫ A.rightModuleExtPrecompLeft f 3 at H₀
++  dsimp only [rightResolutionExtTopProjection]
++  simp only [rightModuleExtDimensionShiftLeftIso_hom]
++  rw [← Category.assoc,A.rightModuleADualMap_extLeftZeroIso_inv]
++  simp only [Category.assoc]
++  rw [← Category.assoc (A.rightModuleExtPrecompLeft (F.f 3) 0),H₂]
++  simp only [Category.assoc]
++  rw [← Category.assoc (A.rightModuleExtPrecompLeft (P.secondKernelMap Q F f hπ) 1),H₁]
++  simp only [Category.assoc]
++  rw [H₀]
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem leftModuleExtBoundaryRight_natural {S T : ShortComplex A.LeftModule}
++    (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T) (n : ℕ) :
++    A.leftModuleExtPrecompRight φ.τ₁ n ≫ A.leftModuleExtBoundaryRight hS n =
++      A.leftModuleExtBoundaryRight hT n ≫ A.leftModuleExtPrecompRight φ.τ₃ (n+1) := by
++  apply NatTrans.ext
++  funext X
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro e
++  exact ASGinzburg.extBoundary_natural hS hT φ (A.leftRepresentable X.unop.index) n e
++
++theorem leftResolutionExtTopProjection_natural {M N : A.LeftModule}
++    (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++    (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
++    (F : P.complex ⟶ Q.complex) (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    A.leftModuleADualMap (F.f 3) ≫ A.leftResolutionExtTopProjection P hP₄ =
++      A.leftResolutionExtTopProjection Q hQ₄ ≫ A.leftModuleExtPrecompRight f 3 := by
++  have H₂ := A.leftModuleExtBoundaryRight_natural (P.shortExact₂ hP₄) (Q.shortExact₂ hQ₄)
++    (P.shortExact₂Hom Q F f hπ) 0
++  have H₁ := A.leftModuleExtBoundaryRight_natural P.shortExact₁ Q.shortExact₁
++    (P.shortExact₁Hom Q F f hπ) 1
++  have H₀ := A.leftModuleExtBoundaryRight_natural P.shortExact₀ Q.shortExact₀
++    (P.shortExact₀Hom Q F f hπ) 2
++  change A.leftModuleExtPrecompRight (F.f 3) 0 ≫ A.leftModuleExtBoundaryRight (P.shortExact₂ hP₄) 0 =
++    A.leftModuleExtBoundaryRight (Q.shortExact₂ hQ₄) 0 ≫
++      A.leftModuleExtPrecompRight (P.secondKernelMap Q F f hπ) 1 at H₂
++  change A.leftModuleExtPrecompRight (P.secondKernelMap Q F f hπ) 1 ≫
++      A.leftModuleExtBoundaryRight P.shortExact₁ 1 =
++    A.leftModuleExtBoundaryRight Q.shortExact₁ 1 ≫
++      A.leftModuleExtPrecompRight (P.firstKernelMap Q F f hπ) 2 at H₁
++  change A.leftModuleExtPrecompRight (P.firstKernelMap Q F f hπ) 2 ≫
++      A.leftModuleExtBoundaryRight P.shortExact₀ 2 =
++    A.leftModuleExtBoundaryRight Q.shortExact₀ 2 ≫ A.leftModuleExtPrecompRight f 3 at H₀
++  dsimp only [leftResolutionExtTopProjection]
++  simp only [leftModuleExtDimensionShiftRightIso_hom]
++  rw [← Category.assoc,A.leftModuleADualMap_extRightZeroIso_inv]
++  simp only [Category.assoc]
++  rw [← Category.assoc (A.leftModuleExtPrecompRight (F.f 3) 0),H₂]
++  simp only [Category.assoc]
++  rw [← Category.assoc (A.leftModuleExtPrecompRight (P.secondKernelMap Q F f hπ) 1),H₁]
++  simp only [Category.assoc]
++  rw [H₀]
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/DualResolutionComparisonMaps.lean b/ASGinzburg/DualResolutionComparisonMaps.lean
+new file mode 100644
+index 0000000..5a5e80a
+--- /dev/null
++++ b/ASGinzburg/DualResolutionComparisonMaps.lean
+@@ -0,0 +1,125 @@
++import ASGinzburg.ResolutionExtBoundaryNaturality
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.RightModule}
++  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++  (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
++  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
++  (hQ : ∀ n, n<4 → A.rightFiniteProjectiveProperty (Q.complex.X n))
++  (hM : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
++  (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.representable i) n, e=0)
++  (F : P.complex ⟶ Q.complex)
++
++noncomputable def rightResolutionDualTermMap : ∀ n,
++    (A.rightResolutionDualFourTerm Q hQ₄ hQ hN).term n ⟶
++      (A.rightResolutionDualFourTerm P hP₄ hP hM).term n
++  | 0 => A.rightModuleADualMap (F.f 3)
++  | 1 => A.rightModuleADualMap (F.f 2)
++  | 2 => A.rightModuleADualMap (F.f 1)
++  | 3 => A.rightModuleADualMap (F.f 0)
++  | _+4 => 0
++
++theorem rightResolutionDualTermMap_comm (n : ℕ) :
++    A.rightResolutionDualTermMap P Q hP₄ hQ₄ hP hQ hM hN F (n+1) ≫
++      (A.rightResolutionDualFourTerm P hP₄ hP hM).differential n =
++    (A.rightResolutionDualFourTerm Q hQ₄ hQ hN).differential n ≫
++      A.rightResolutionDualTermMap P Q hP₄ hQ₄ hP hQ hM hN F n := by
++  rcases n with _ | _ | _ | n
++  · change A.rightModuleADualFunctor.map (F.f 2).op ≫
++      A.rightModuleADualFunctor.map (P.complex.d 3 2).op =
++      A.rightModuleADualFunctor.map (Q.complex.d 3 2).op ≫ A.rightModuleADualFunctor.map (F.f 3).op
++    rw [← A.rightModuleADualFunctor.map_comp,← A.rightModuleADualFunctor.map_comp,
++      ← op_comp,← op_comp,F.comm 3 2]
++  · change A.rightModuleADualFunctor.map (F.f 1).op ≫
++      A.rightModuleADualFunctor.map (P.complex.d 2 1).op =
++      A.rightModuleADualFunctor.map (Q.complex.d 2 1).op ≫ A.rightModuleADualFunctor.map (F.f 2).op
++    rw [← A.rightModuleADualFunctor.map_comp,← A.rightModuleADualFunctor.map_comp,
++      ← op_comp,← op_comp,F.comm 2 1]
++  · change A.rightModuleADualFunctor.map (F.f 0).op ≫
++      A.rightModuleADualFunctor.map (P.complex.d 1 0).op =
++      A.rightModuleADualFunctor.map (Q.complex.d 1 0).op ≫ A.rightModuleADualFunctor.map (F.f 1).op
++    rw [← A.rightModuleADualFunctor.map_comp,← A.rightModuleADualFunctor.map_comp,
++      ← op_comp,← op_comp,F.comm 1 0]
++  · simp [rightResolutionDualTermMap,ASGinzburg.FourTermProjectiveResolution.differential]
++
++noncomputable def rightResolutionDualComplexMap :
++    (A.rightResolutionDualFourTerm Q hQ₄ hQ hN).complex ⟶
++      (A.rightResolutionDualFourTerm P hP₄ hP hM).complex :=
++  ChainComplex.ofHom _ _ _ _ _ _
++    (A.rightResolutionDualTermMap P Q hP₄ hQ₄ hP hQ hM hN F)
++    (A.rightResolutionDualTermMap_comm P Q hP₄ hQ₄ hP hQ hM hN F)
++
++theorem rightResolutionDualComplexMap_augmentation (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    (A.rightResolutionDualComplexMap P Q hP₄ hQ₄ hP hQ hM hN F).f 0 ≫
++      (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution.π.f 0 =
++    (A.rightResolutionDualFourTerm Q hQ₄ hQ hN).toProjectiveResolution.π.f 0 ≫
++      A.rightModuleExtPrecompLeft f 3 := by
++  change A.rightModuleADualMap (F.f 3) ≫ A.rightResolutionExtTopProjection P hP₄ =
++    A.rightResolutionExtTopProjection Q hQ₄ ≫ A.rightModuleExtPrecompLeft f 3
++  exact A.rightResolutionExtTopProjection_natural P Q hP₄ hQ₄ F f hπ
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.LeftModule}
++  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++  (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
++  (hP : ∀ n, n<4 → A.leftFiniteProjectiveProperty (P.complex.X n))
++  (hQ : ∀ n, n<4 → A.leftFiniteProjectiveProperty (Q.complex.X n))
++  (hM : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.leftRepresentable i) n, e=0)
++  (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.leftRepresentable i) n, e=0)
++  (F : P.complex ⟶ Q.complex)
++
++noncomputable def leftResolutionDualTermMap : ∀ n,
++    (A.leftResolutionDualFourTerm Q hQ₄ hQ hN).term n ⟶
++      (A.leftResolutionDualFourTerm P hP₄ hP hM).term n
++  | 0 => A.leftModuleADualMap (F.f 3)
++  | 1 => A.leftModuleADualMap (F.f 2)
++  | 2 => A.leftModuleADualMap (F.f 1)
++  | 3 => A.leftModuleADualMap (F.f 0)
++  | _+4 => 0
++
++theorem leftResolutionDualTermMap_comm (n : ℕ) :
++    A.leftResolutionDualTermMap P Q hP₄ hQ₄ hP hQ hM hN F (n+1) ≫
++      (A.leftResolutionDualFourTerm P hP₄ hP hM).differential n =
++    (A.leftResolutionDualFourTerm Q hQ₄ hQ hN).differential n ≫
++      A.leftResolutionDualTermMap P Q hP₄ hQ₄ hP hQ hM hN F n := by
++  rcases n with _ | _ | _ | n
++  · change A.leftModuleADualFunctor.map (F.f 2).op ≫
++      A.leftModuleADualFunctor.map (P.complex.d 3 2).op =
++      A.leftModuleADualFunctor.map (Q.complex.d 3 2).op ≫ A.leftModuleADualFunctor.map (F.f 3).op
++    rw [← A.leftModuleADualFunctor.map_comp,← A.leftModuleADualFunctor.map_comp,
++      ← op_comp,← op_comp,F.comm 3 2]
++  · change A.leftModuleADualFunctor.map (F.f 1).op ≫
++      A.leftModuleADualFunctor.map (P.complex.d 2 1).op =
++      A.leftModuleADualFunctor.map (Q.complex.d 2 1).op ≫ A.leftModuleADualFunctor.map (F.f 2).op
++    rw [← A.leftModuleADualFunctor.map_comp,← A.leftModuleADualFunctor.map_comp,
++      ← op_comp,← op_comp,F.comm 2 1]
++  · change A.leftModuleADualFunctor.map (F.f 0).op ≫
++      A.leftModuleADualFunctor.map (P.complex.d 1 0).op =
++      A.leftModuleADualFunctor.map (Q.complex.d 1 0).op ≫ A.leftModuleADualFunctor.map (F.f 1).op
++    rw [← A.leftModuleADualFunctor.map_comp,← A.leftModuleADualFunctor.map_comp,
++      ← op_comp,← op_comp,F.comm 1 0]
++  · simp [leftResolutionDualTermMap,ASGinzburg.FourTermProjectiveResolution.differential]
++
++noncomputable def leftResolutionDualComplexMap :
++    (A.leftResolutionDualFourTerm Q hQ₄ hQ hN).complex ⟶
++      (A.leftResolutionDualFourTerm P hP₄ hP hM).complex :=
++  ChainComplex.ofHom _ _ _ _ _ _
++    (A.leftResolutionDualTermMap P Q hP₄ hQ₄ hP hQ hM hN F)
++    (A.leftResolutionDualTermMap_comm P Q hP₄ hQ₄ hP hQ hM hN F)
++
++theorem leftResolutionDualComplexMap_augmentation (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    (A.leftResolutionDualComplexMap P Q hP₄ hQ₄ hP hQ hM hN F).f 0 ≫
++      (A.leftResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution.π.f 0 =
++    (A.leftResolutionDualFourTerm Q hQ₄ hQ hN).toProjectiveResolution.π.f 0 ≫
++      A.leftModuleExtPrecompRight f 3 := by
++  change A.leftModuleADualMap (F.f 3) ≫ A.leftResolutionExtTopProjection P hP₄ =
++    A.leftResolutionExtTopProjection Q hQ₄ ≫ A.leftModuleExtPrecompRight f 3
++  exact A.leftResolutionExtTopProjection_natural P Q hP₄ hQ₄ F f hπ
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ResolutionExtBidualNaturality.lean b/ASGinzburg/ResolutionExtBidualNaturality.lean
+new file mode 100644
+index 0000000..1c4ac56
+--- /dev/null
++++ b/ASGinzburg/ResolutionExtBidualNaturality.lean
+@@ -0,0 +1,141 @@
++import ASGinzburg.DualResolutionComparisonMaps
++import ASGinzburg.RightResolutionExtBidual
++import ASGinzburg.LeftResolutionExtBidual
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.RightModule}
++  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++  (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
++  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
++  (hQ : ∀ n, n<4 → A.rightFiniteProjectiveProperty (Q.complex.X n))
++  (hM : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
++  (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.representable i) n, e=0)
++  (F : P.complex ⟶ Q.complex)
++
++@[reassoc] theorem rightResolutionExtBidualIso_projection :
++    A.leftResolutionExtTopProjection (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
++        ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
++      (A.rightResolutionExtBidualIso P hP₄ hP hM).hom =
++    A.rightResolutionBidualTopProjection P hP₄ hP hM :=
++  IsColimit.comp_coconePointUniqueUpToIso_hom
++    (A.leftResolutionExtTopProjection_exact
++      (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
++      ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0)).gIsCokernel
++    (A.rightResolutionBidualTopProjection_exact P hP₄ hP hM).gIsCokernel .one
++
++theorem rightResolutionBidualTermIso_natural (n : ℕ) (hn : n<4) :
++    A.leftModuleADualMap (A.rightModuleADualMap (F.f n)) ≫
++      (A.rightResolutionBidualTermIso Q hQ n hn).hom =
++    (A.rightResolutionBidualTermIso P hP n hn).hom ≫ F.f n := by
++  letI := A.rightFiniteProjectiveProperty_bidual (hP n hn)
++  letI := A.rightFiniteProjectiveProperty_bidual (hQ n hn)
++  change A.leftModuleADualMap (A.rightModuleADualMap (F.f n)) ≫
++      inv (A.rightModuleBidualEvaluation (Q.complex.X n)) =
++    inv (A.rightModuleBidualEvaluation (P.complex.X n)) ≫ F.f n
++  have H := A.rightModuleBidualEvaluation_natural (F.f n)
++  apply Eq.symm
++  rw [IsIso.inv_comp_eq,← Category.assoc,← H]
++  simp only [Category.assoc,IsIso.hom_inv_id,Category.comp_id]
++
++theorem rightResolutionBidualTopProjection_natural (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    A.leftModuleADualMap (A.rightModuleADualMap (F.f 0)) ≫
++      A.rightResolutionBidualTopProjection Q hQ₄ hQ hN =
++    A.rightResolutionBidualTopProjection P hP₄ hP hM ≫ f := by
++  dsimp only [rightResolutionBidualTopProjection]
++  rw [← Category.assoc,A.rightResolutionBidualTermIso_natural P Q hP hQ F 0 (by decide),
++    Category.assoc,hπ,← Category.assoc]
++
++theorem rightResolutionExtBidualIso_natural (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    A.leftModuleExtPrecompRight (A.rightModuleExtPrecompLeft f 3) 3 ≫
++      (A.rightResolutionExtBidualIso Q hQ₄ hQ hN).hom =
++    (A.rightResolutionExtBidualIso P hP₄ hP hM).hom ≫ f := by
++  let DP := A.rightResolutionDualFourTerm P hP₄ hP hM
++  let DQ := A.rightResolutionDualFourTerm Q hQ₄ hQ hN
++  let DF := A.rightResolutionDualComplexMap P Q hP₄ hQ₄ hP hQ hM hN F
++  have H := A.leftResolutionExtTopProjection_natural DQ.toProjectiveResolution DP.toProjectiveResolution
++    (DQ.complex_isZero_ge_four 0) (DP.complex_isZero_ge_four 0) DF
++    (A.rightModuleExtPrecompLeft f 3)
++    (A.rightResolutionDualComplexMap_augmentation P Q hP₄ hQ₄ hP hQ hM hN F f hπ)
++  change A.leftModuleADualMap (A.rightModuleADualMap (F.f 0)) ≫
++      A.leftResolutionExtTopProjection DQ.toProjectiveResolution (DQ.complex_isZero_ge_four 0) =
++    A.leftResolutionExtTopProjection DP.toProjectiveResolution (DP.complex_isZero_ge_four 0) ≫
++      A.leftModuleExtPrecompRight (A.rightModuleExtPrecompLeft f 3) 3 at H
++  apply (cancel_epi (A.leftResolutionExtTopProjection DP.toProjectiveResolution
++    (DP.complex_isZero_ge_four 0))).mp
++  rw [← Category.assoc,← H,Category.assoc,A.rightResolutionExtBidualIso_projection]
++  rw [A.rightResolutionBidualTopProjection_natural P Q hP₄ hQ₄ hP hQ hM hN F f hπ]
++  rw [← Category.assoc,A.rightResolutionExtBidualIso_projection]
++end ASGinzburg.ZAlgebra
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.LeftModule}
++  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
++  (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
++  (hP : ∀ n, n<4 → A.leftFiniteProjectiveProperty (P.complex.X n))
++  (hQ : ∀ n, n<4 → A.leftFiniteProjectiveProperty (Q.complex.X n))
++  (hM : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.leftRepresentable i) n, e=0)
++  (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.leftRepresentable i) n, e=0)
++  (F : P.complex ⟶ Q.complex)
++
++@[reassoc] theorem leftResolutionExtBidualIso_projection :
++    A.rightResolutionExtTopProjection (A.leftResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
++        ((A.leftResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
++      (A.leftResolutionExtBidualIso P hP₄ hP hM).hom =
++    A.leftResolutionBidualTopProjection P hP₄ hP hM :=
++  IsColimit.comp_coconePointUniqueUpToIso_hom
++    (A.rightResolutionExtTopProjection_exact
++      (A.leftResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
++      ((A.leftResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0)).gIsCokernel
++    (A.leftResolutionBidualTopProjection_exact P hP₄ hP hM).gIsCokernel .one
++
++theorem leftResolutionBidualTermIso_natural (n : ℕ) (hn : n<4) :
++    A.rightModuleADualMap (A.leftModuleADualMap (F.f n)) ≫
++      (A.leftResolutionBidualTermIso Q hQ n hn).hom =
++    (A.leftResolutionBidualTermIso P hP n hn).hom ≫ F.f n := by
++  letI := A.leftFiniteProjectiveProperty_bidual (hP n hn)
++  letI := A.leftFiniteProjectiveProperty_bidual (hQ n hn)
++  change A.rightModuleADualMap (A.leftModuleADualMap (F.f n)) ≫
++      inv (A.leftModuleBidualEvaluation (Q.complex.X n)) =
++    inv (A.leftModuleBidualEvaluation (P.complex.X n)) ≫ F.f n
++  have H := A.leftModuleBidualEvaluation_natural (F.f n)
++  apply Eq.symm
++  rw [IsIso.inv_comp_eq,← Category.assoc,← H]
++  simp only [Category.assoc,IsIso.hom_inv_id,Category.comp_id]
++
++theorem leftResolutionBidualTopProjection_natural (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    A.rightModuleADualMap (A.leftModuleADualMap (F.f 0)) ≫
++      A.leftResolutionBidualTopProjection Q hQ₄ hQ hN =
++    A.leftResolutionBidualTopProjection P hP₄ hP hM ≫ f := by
++  dsimp only [leftResolutionBidualTopProjection]
++  rw [← Category.assoc,A.leftResolutionBidualTermIso_natural P Q hP hQ F 0 (by decide),
++    Category.assoc,hπ,← Category.assoc]
++
++theorem leftResolutionExtBidualIso_natural (f : M ⟶ N)
++    (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
++    A.rightModuleExtPrecompLeft (A.leftModuleExtPrecompRight f 3) 3 ≫
++      (A.leftResolutionExtBidualIso Q hQ₄ hQ hN).hom =
++    (A.leftResolutionExtBidualIso P hP₄ hP hM).hom ≫ f := by
++  let DP := A.leftResolutionDualFourTerm P hP₄ hP hM
++  let DQ := A.leftResolutionDualFourTerm Q hQ₄ hQ hN
++  let DF := A.leftResolutionDualComplexMap P Q hP₄ hQ₄ hP hQ hM hN F
++  have H := A.rightResolutionExtTopProjection_natural DQ.toProjectiveResolution DP.toProjectiveResolution
++    (DQ.complex_isZero_ge_four 0) (DP.complex_isZero_ge_four 0) DF
++    (A.leftModuleExtPrecompRight f 3)
++    (A.leftResolutionDualComplexMap_augmentation P Q hP₄ hQ₄ hP hQ hM hN F f hπ)
++  change A.rightModuleADualMap (A.leftModuleADualMap (F.f 0)) ≫
++      A.rightResolutionExtTopProjection DQ.toProjectiveResolution (DQ.complex_isZero_ge_four 0) =
++    A.rightResolutionExtTopProjection DP.toProjectiveResolution (DP.complex_isZero_ge_four 0) ≫
++      A.rightModuleExtPrecompLeft (A.leftModuleExtPrecompRight f 3) 3 at H
++  apply (cancel_epi (A.rightResolutionExtTopProjection DP.toProjectiveResolution
++    (DP.complex_isZero_ge_four 0))).mp
++  rw [← Category.assoc,← H,Category.assoc,A.leftResolutionExtBidualIso_projection]
++  rw [A.leftResolutionBidualTopProjection_natural P Q hP₄ hQ₄ hP hQ hM hN F f hπ]
++  rw [← Category.assoc,A.leftResolutionExtBidualIso_projection]
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteDimensionalExtEquivalence.lean b/ASGinzburg/FiniteDimensionalExtEquivalence.lean
+new file mode 100644
+index 0000000..2081cbb
+--- /dev/null
++++ b/ASGinzburg/FiniteDimensionalExtEquivalence.lean
+@@ -0,0 +1,70 @@
++import ASGinzburg.ResolutionExtBidualNaturality
++import ASGinzburg.FiniteDimensionalExtBidual
++import ASGinzburg.FiniteDimensionalExtDuality
++
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem rightFiniteDimensionalExtBidualIso_natural (hAS : A.ASRegular Q)
++    (M N : A.RightModule) (hM : A.rightFiniteDimensionalProperty M)
++    (hN : A.rightFiniteDimensionalProperty N) (f : M ⟶ N) :
++    A.leftModuleExtPrecompRight (A.rightModuleExtPrecompLeft f 3) 3 ≫
++      (A.rightFiniteDimensionalExtBidualIso Q hAS N hN).hom =
++    (A.rightFiniteDimensionalExtBidualIso Q hAS M hM).hom ≫ f := by
++  let PM := A.rightFiniteDimensionalProjectiveResolution Q hAS M hM
++  let PN := A.rightFiniteDimensionalProjectiveResolution Q hAS N hN
++  exact A.rightResolutionExtBidualIso_natural PM PN
++    (A.rightFiniteDimensionalProjectiveResolution_isZero_ge_four Q hAS M hM 0)
++    (A.rightFiniteDimensionalProjectiveResolution_isZero_ge_four Q hAS N hN 0)
++    (fun n _ => A.rightFiniteDimensionalProjectiveResolution_finite Q hAS M hM n)
++    (fun n _ => A.rightFiniteDimensionalProjectiveResolution_finite Q hAS N hN n)
++    (fun i n hn e => A.rightFiniteDimensional_ext_other_eq_zero Q hAS M hM i n (by omega) e)
++    (fun i n hn e => A.rightFiniteDimensional_ext_other_eq_zero Q hAS N hN i n (by omega) e)
++    (ProjectiveResolution.lift f PM PN) f (ProjectiveResolution.lift_commutes_zero f PM PN)
++
++theorem leftFiniteDimensionalExtBidualIso_natural (hAS : A.ASRegular Q)
++    (M N : A.LeftModule) (hM : A.leftFiniteDimensionalProperty M)
++    (hN : A.leftFiniteDimensionalProperty N) (f : M ⟶ N) :
++    A.rightModuleExtPrecompLeft (A.leftModuleExtPrecompRight f 3) 3 ≫
++      (A.leftFiniteDimensionalExtBidualIso Q hAS N hN).hom =
++    (A.leftFiniteDimensionalExtBidualIso Q hAS M hM).hom ≫ f := by
++  let PM := A.leftFiniteDimensionalProjectiveResolution Q hAS M hM
++  let PN := A.leftFiniteDimensionalProjectiveResolution Q hAS N hN
++  exact A.leftResolutionExtBidualIso_natural PM PN
++    (A.leftFiniteDimensionalProjectiveResolution_isZero_ge_four Q hAS M hM 0)
++    (A.leftFiniteDimensionalProjectiveResolution_isZero_ge_four Q hAS N hN 0)
++    (fun n _ => A.leftFiniteDimensionalProjectiveResolution_finite Q hAS M hM n)
++    (fun n _ => A.leftFiniteDimensionalProjectiveResolution_finite Q hAS N hN n)
++    (fun i n hn e => A.leftFiniteDimensional_ext_other_eq_zero Q hAS M hM i n (by omega) e)
++    (fun i n hn e => A.leftFiniteDimensional_ext_other_eq_zero Q hAS N hN i n (by omega) e)
++    (ProjectiveResolution.lift f PM PN) f (ProjectiveResolution.lift_commutes_zero f PM PN)
++
++noncomputable def rightFiniteDimensionalExtBidualNatIso (hAS : A.ASRegular Q) :
++    (A.rightFiniteDimensionalExtThreeFunctor Q hAS).rightOp ⋙
++      A.leftFiniteDimensionalExtThreeFunctor Q hAS ≅ 𝟭 A.RightFiniteDimensional :=
++  NatIso.ofComponents (fun M => A.rightFiniteDimensionalProperty.isoMk
++    (X := ((A.rightFiniteDimensionalExtThreeFunctor Q hAS).rightOp ⋙
++      A.leftFiniteDimensionalExtThreeFunctor Q hAS).obj M) (Y := M)
++    (A.rightFiniteDimensionalExtBidualIso Q hAS M.obj M.property)) (by
++      intro M N f
++      exact A.rightFiniteDimensionalExtBidualIso_natural Q hAS M.obj N.obj M.property N.property f)
++
++noncomputable def leftFiniteDimensionalExtBidualNatIso (hAS : A.ASRegular Q) :
++    (A.leftFiniteDimensionalExtThreeFunctor Q hAS).rightOp ⋙
++      A.rightFiniteDimensionalExtThreeFunctor Q hAS ≅ 𝟭 A.LeftFiniteDimensional :=
++  NatIso.ofComponents (fun M => A.leftFiniteDimensionalProperty.isoMk
++    (X := ((A.leftFiniteDimensionalExtThreeFunctor Q hAS).rightOp ⋙
++      A.rightFiniteDimensionalExtThreeFunctor Q hAS).obj M) (Y := M)
++    (A.leftFiniteDimensionalExtBidualIso Q hAS M.obj M.property)) (by
++      intro M N f
++      exact A.leftFiniteDimensionalExtBidualIso_natural Q hAS M.obj N.obj M.property N.property f)
++
++noncomputable def finiteDimensionalExtThreeEquivalence (hAS : A.ASRegular Q) :
++    A.RightFiniteDimensionalᵒᵖ ≌ A.LeftFiniteDimensional :=
++  CategoryTheory.Equivalence.mk (A.rightFiniteDimensionalExtThreeFunctor Q hAS)
++    (A.leftFiniteDimensionalExtThreeFunctor Q hAS).rightOp
++    (NatIso.op (A.rightFiniteDimensionalExtBidualNatIso Q hAS))
++    (A.leftFiniteDimensionalExtBidualNatIso Q hAS)
++end ASGinzburg.ZAlgebra
