@@ -1,0 +1,76 @@
+import ASGinzburg.GinzburgPathWords
+
+/-! The actual cohomological degree zero extended path algebra is the
+original free path algebra, before taking differential boundaries. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+def ginzburgCohomologicalComponent (u v : Q.Vertex) (q : ℤ) :
+    Submodule k (Q.GinzburgPathComponent k u v) :=
+  Finsupp.supported k k {p | p.cohomologicalDegree=q}
+
+noncomputable def originalGinzburgLinearMap (u v : Q.Vertex) :
+    Q.PathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u v :=
+  Finsupp.lmapDomain k k (Path.originalGinzburg Q)
+
+theorem originalGinzburgLinearMap_injective (u v : Q.Vertex) :
+    Function.Injective (Q.originalGinzburgLinearMap k u v) :=
+  Finsupp.mapDomain_injective (Path.originalGinzburg_injective Q u v)
+
+@[simp] theorem originalGinzburgLinearMap_single {u v : Q.Vertex} (p : Q.Path u v) (c : k) :
+    Q.originalGinzburgLinearMap k u v (Finsupp.single p c)=
+      Finsupp.single (p.originalGinzburg Q) c :=
+  Finsupp.mapDomain_single
+
+theorem originalGinzburgLinearMap_range (u v : Q.Vertex) :
+    LinearMap.range (Q.originalGinzburgLinearMap k u v)=
+      Q.ginzburgCohomologicalComponent k u v 0 := by
+  rw [originalGinzburgLinearMap,LinearMap.range_eq_map,
+    ←(Finsupp.supported_univ : Finsupp.supported k k (Set.univ : Set (Q.Path u v))=⊤),
+    Finsupp.lmapDomain_supported]
+  change Finsupp.supported k k _=Finsupp.supported k k _
+  congr 1
+  ext p
+  constructor
+  · rintro ⟨q,_,rfl⟩
+    exact q.originalGinzburg_cohomologicalDegree Q
+  · intro hp
+    obtain ⟨q,hq⟩ := p.degreeZero_existsOriginal Q hp
+    exact ⟨q,Set.mem_univ _,hq⟩
+
+noncomputable def originalGinzburgDegreeZeroEquiv (u v : Q.Vertex) :
+    Q.PathComponent k u v ≃ₗ[k] Q.ginzburgCohomologicalComponent k u v 0 :=
+  (LinearEquiv.ofInjective (Q.originalGinzburgLinearMap k u v)
+    (Q.originalGinzburgLinearMap_injective k u v)).trans
+      (LinearEquiv.ofEq _ _ (Q.originalGinzburgLinearMap_range k u v))
+
+theorem originalGinzburgDegreeZeroEquiv_coe (u v : Q.Vertex) (f : Q.PathComponent k u v) :
+    (Q.originalGinzburgDegreeZeroEquiv k u v f).val=Q.originalGinzburgLinearMap k u v f := rfl
+
+theorem Path.originalGinzburg_comp {u v w : Q.Vertex} (p : Q.Path u v) (q : Q.Path v w) :
+    (p.comp q).originalGinzburg Q=(p.originalGinzburg Q).comp (q.originalGinzburg Q) := by
+  induction q with
+  | nil => simp [Path.comp,originalGinzburg]
+  | snoc q a h ih => simp [Path.comp,originalGinzburg,GinzburgPath.comp,ih]
+
+theorem originalGinzburgLinearMap_id (v : Q.Vertex) :
+    Q.originalGinzburgLinearMap k v v (Q.pathId k v)=Q.ginzburgPathId k v := by
+  simp [pathId,ginzburgPathId,Path.originalGinzburg]
+
+theorem originalGinzburgLinearMap_comp {u v w : Q.Vertex}
+    (f : Q.PathComponent k u v) (g : Q.PathComponent k v w) :
+    Q.originalGinzburgLinearMap k u w (Q.pathComp k g f)=
+      Q.ginzburgPathComp k (Q.originalGinzburgLinearMap k v w g)
+        (Q.originalGinzburgLinearMap k u v f) := by
+  classical
+  induction g using Finsupp.induction_linear with
+  | zero => simp
+  | add g h hg hh => simp [map_add,LinearMap.add_apply,hg,hh]
+  | single q b =>
+    induction f using Finsupp.induction_linear with
+    | zero => simp
+    | add f h hf hh => simp [map_add,hf,hh]
+    | single p a => simp [Path.originalGinzburg_comp]
+
+end ASGinzburg.CutQuiver

@@ -1147,3 +1147,41 @@ UTC 2026-10-08T18:11:47.499720+00:00 → 2026-10-08T18:36:29.372870+00:00。
 継続チェックポイント UTC 2026-10-08T18:49:48.204847+00:00。タスク開始から 42550.204847秒、継続中・タスク終了時刻は未記録。単位42の実際の検証シェルも終了0。wrapper測定UTC 2026-10-08T18:11:47.467848+00:00 → 2026-10-08T18:36:29.382503+00:00、1481.914657621秒。
 単位41の正確なmain head d29f1eded50bba8d7593245cd5c39356d6513cc4のGitHub Actions 37822308916はcompleted/successを確認。https://github.com/uedakazushi/as-ginzburg-lean/actions/runs/37822308916 。これは単位42のリモート検査とは区別する。
 次の草稿では実際の拡張道・道代数・degree-zero部分と元の道代数との同型を個別Lean終了0で検証。生成元微分は総和の括弧とunfoldの修正を検証中。未完成草稿の成功を公開ソースの成功として記録しない。main保存後も形式化を継続する。
+
+継続チェックポイント UTC 2026-10-08T19:00:41.117056+00:00、タスク開始から実測43203.117056秒。継続中、タスク終了ではない。単位42はmain 9541c0cd8866345663bf7c215a086ee12c293082へforce=false・expected旧headの通常fast-forwardで保存済み。40ファイル・34独立blob・1430413bytesを9部分へ分け、GitHub tree 19cb15efdf4dd0fe66e6dd10cf0929c7e42028b1がローカルtreeと一致。正確なAPI commitのローカル同期終了0。CI37827670317は正確なheadでin_progressと確認。
+生成元微分の初稿は原論文(1.3)のloop符号が逆だった。原論文を再確認し、正符号をsourceでのa* a・負符号をtargetでのa a*へ修正した。ginzburg-generator-differentials4、ginzburg-generator-gradings2、ginzburg-supported-products1、ginzburg-path-differential4、ginzburg-differential-gradings3は個別Lean終了0・診断なし。実際の生成元微分・signed有限道微分・生成元との一致、コホモロジー次数+1・cut/winding保存まで完成した草稿。Leibnizは基底道まで証明でき、全線形結合への延長を検証中。d²=0・実際のコホモロジー・正則性は未証明。原論文の誤りとして扱わず、公開版42はこの草稿を含んでいない。
+
+単位43の最初の新規公開検査20261008T190333Z-41c47191はbuild終了1で停止。UTC19:03:33.607776→19:04:02.902652、29.294873280秒。実際のシェルも終了1、wrapper29.340164910秒。GinzburgDifferentialSignの二重否定の正規化が残っていたため、宣言は成功扱いにしない。neg_negによる修正を個別ginzburg-differential-sign4でLean終了0・診断なしと確認。既存の失敗ディレクトリとcheck43.log・wrapper JSONを保持し、修正した公開ソースを別の新規実行で検査する。
+
+継続チェックポイント UTC 2026-10-08T19:15:23.648834+00:00、開始から実測44085.648834秒。タスク継続中。公開13追加モジュールの新規検査43bはlake build内の全宣言監査を実行中で、全体成功とはまだ宣言しない。前の失敗20261008T190333Z-41c47191と最後の成功42の20261008T181147Z-bc8e0dceを区別して保持。main保存済み9541c0c。
+次の個別vertex-cyclic-commutators2、path-cyclic-commutators1、ginzburg-loop-square1、ginzburg-square-zero2、ginzburg-cochain-complex1、ginzburg-regularity1はLean終了0・診断なし。全頂点の実際の巡回微分の交換子恒等式、原論文符号でのloopのd²=0、全有限道・全有限線形結合のsquare-zero、mathlibの整数cochain複体と実際のコホモロジーまで完成。全始点/終点の有限直和の項を実際のDirectSumと同定し、全コホモロジーの有限直和比較・零性の成分判定も証明した。GinzburgRegularを実際の全複体の負次数homologyのIsZeroとして定義した。任意のPropで置換したものではなく、特定のΦでその零性が成立すること・AS条件からの順方向/逆方向は未証明。これら44の草稿は43bの固定公開検査には含めない。次はH⁰の実際の境界イデアルとJacobian商の比較を進める。
+
+継続チェックポイント UTC 2026-10-08T19:31:08.069875+00:00、開始から実測45030.069875秒。タスク継続中、終了ではない。新規公開検査43b（20261008T190529Z-618b1d98）のlake build終了0、760.611464551秒、UTC19:05:30.462640→19:18:11.074077。11回帰/ソース/固定環境も終了0、独立#print axiomsは実行中。232数学モジュール・2105異なる宣言・1020 theorem・276 named instanceを対象とし、全体成功は未確定。
+未公開の次の16数学モジュールの個別検査は終了0・診断なし：vertex-cyclic-commutators2、path-cyclic-commutators1、ginzburg-loop-square1、ginzburg-square-zero2、ginzburg-cochain-complex1、ginzburg-regularity1、path-linear-ideals3、ginzburg-degree-neg-one-paths1、ginzburg-boundary-spaces1、ginzburg-boundary-products1、path-jacobian-ideal1、ginzburg-dual-contexts2、ginzburg-jacobian-boundaries1、ginzburg-homology-zero2、ginzburg-total-homology-zero1、ginzburg-positive-homology1。全square-zero・actual mathlib complex/homology/regularity定義、真の二側Jacobianイデアルと境界の一致、全H⁰のJacobian商成分の有限直和との同型、正次数homology零性まで草稿で完成した。特定のΦのGinzburgRegular成立、AS対応、graded Jacobian/unrolling比較、最小関係/選択の独立性、quadratic分解の橋、外部一般定理と主定理の定理文/証明は未完成。公開監査43bが完了しmain保存した後、この16モジュールを新規公開検査する。
+次の固定cut道空間の有限性草稿はコードの射影の型注釈とFinsupp index subtypeの型推論を修正して検証中。この未完了草稿を44の完成した16モジュールの検査と混同しない。CI42の37827670317は直前の照会時in_progress。
+
+## 単位43：実際の拡張道代数・符号付き微分とLeibniz則
+
+原論文(1.3)の元の矢・逆矢・頂点loopからなる実際の拡張箙の可合成道を構成した。道の合成・単位元・結合則、コホモロジー/cut/windingの三つの次数の加法性、非正コホモロジー次数・非負windingと非空道の正winding、windingの端点公式を証明した。道の語の単射性も平行な矢の識別を保って証明した。
+
+その実際の自由ベクトル空間の双線形積と単位元・結合則を構成し、三つのhomogeneous成分の積閉性を証明した。次数0の道は元の道であることを導き、元の自由道代数と拡張道代数の次数0部分の線形同型・積/単位元保存を構成した。コホモロジーのH⁰やJacobian商の同定とは区別する。
+
+実際の道を値に取る巡回微分を用いて原論文(1.3)の生成元微分を構成した。loopの正符号はsourceでのa* a、負符号はtargetでのa a*であり、既存の積の向きに合わせた。草稿の逆符号を原論文再読時に修正し、修正版を検証した。生成元微分がコホモロジー次数を1上げ、cut/windingを保つことを証明した。
+
+(-1)の整数冪を実際の符号とし、生成元微分を有限道へ再帰的にsigned Leibnizで延長し、その自由線形延長を構成した。単位元の微分が零・各生成元では元の微分に一致すること、道全体でコホモロジー次数+1・cut/winding保存を証明した。全有限線形結合についての実際のsigned Leibniz則と、homogeneousな積での通常の次数表示も証明した。
+
+符号作用素がinvolutionであり微分と反可換することを証明した。それによりd²がunsignedな積の導分になることを仮定なしで証明した。正コホモロジー次数の部分空間は零であるため、微分は次数0部分・全元の道で零となる。元の矢と逆向きの矢について微分の二乗が零となることも証明した。
+
+利用先はGinzburg dg代数そのものの構築。次はloop生成元のd²を巡回微分の交換子恒等式へ接続し、全道のd²=0、実際のcochain complex・コホモロジーとGinzburg正則性の定義、H⁰とJacobian商の同定。全道のd²=0はまだ証明しておらず、現時点でdg代数・正則性の完成と宣言しない。新たな仮定・独自axiom・任意のPropによる定義の置換は導入していない。
+
+個別ginzburg-paths4、ginzburg-path-algebra1、ginzburg-path-words3、ginzburg-degree-zero-algebra3、ginzburg-generator-differentials4、ginzburg-generator-gradings2、ginzburg-path-differential4、ginzburg-supported-products1、ginzburg-differential-gradings3、ginzburg-leibniz7、ginzburg-differential-sign4、ginzburg-degree-zero-differential1、ginzburg-square-products1は実際のLean終了0・診断なし。初回の二重import・総和の括弧・依存添字輸送/停止性・Nat/Int coercion・simpのscalar正規化・二重否定による失敗ログは保持。公開検査の最初の20261008T190333Z-41c47191もbuild/全体/実行シェル終了1として保持し、neg_negを修正した別の新規実行を証拠にする。
+
+有限graded Jacobian商とunrollingの比較、最小関係・選択の独立性、quadratic分解の橋、標準RHom/derived/perfect・引用の一般定理と主定理の同型類対応は未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。新規公開ビルド・全宣言監査・main保存後も形式化を継続する。
+
+検証：`20261008T190529Z-618b1d98`、1500.924975873秒、全段階終了0。
+JST 2026-10-09T04:05:29.675889+09:00 → 2026-10-09T04:30:30.600869+09:00。
+UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00。
+232数学モジュール・2105異なる宣言・1020 theorem。
+差分：runs/total-algebra-20261008-unit43.patch。全theoremを監査し、許容公理3種類のみ。
+
+作業中保存 UTC 2026-10-08T19:32:43.049140+00:00、開始から実測45125.049140秒。タスク継続中。単位43の新規公開検査20261008T190529Z-618b1d98は全6段階0、232数学モジュール・2105異なる宣言・1020 theorem・276 named instance。UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00、1500.924975873秒。実際のシェルも終了0、wrapper UTC 2026-10-08T19:05:29.639678+00:00 → 2026-10-08T19:30:30.610626+00:00、1500.970951776秒。初期14/開始時60/歴史的577ファイルの無変更確認も終了0。修正前の失敗ログは無変更で保持。単位43をmain保存後、次の16数学モジュールの新規公開検査へ進み、固定cutの有限性/複体を別の草稿で継続する。

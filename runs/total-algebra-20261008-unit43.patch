@@ -1,0 +1,1164 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index aa01cac..9e6d1ca 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -227,6 +227,21 @@ import ASGinzburg.UnrolledComponentHeights
+ import ASGinzburg.TrianglePeriodicity
+ import ASGinzburg.UnrolledJacobianAlgebra
+ 
++import ASGinzburg.GinzburgPaths
++import ASGinzburg.GinzburgPathAlgebra
++import ASGinzburg.GinzburgPathWords
++import ASGinzburg.GinzburgDegreeZeroAlgebra
++import ASGinzburg.GinzburgGeneratorDifferentials
++import ASGinzburg.GinzburgGeneratorGradings
++import ASGinzburg.GinzburgPathDifferential
++import ASGinzburg.GinzburgSupportedProducts
++import ASGinzburg.GinzburgDifferentialGradings
++import ASGinzburg.GinzburgLeibniz
++import ASGinzburg.GinzburgDifferentialSign
++import ASGinzburg.GinzburgDegreeZeroDifferential
++
++import ASGinzburg.GinzburgSquareProducts
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index cddc234..47bf5a3 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -750,6 +750,47 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.subset_generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated_le
++#print axioms ASGinzburg.CutQuiver.ginzburgCohomologicalComponent
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_injective
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_single
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_range
++#print axioms ASGinzburg.CutQuiver.originalGinzburgDegreeZeroEquiv
++#print axioms ASGinzburg.CutQuiver.originalGinzburgDegreeZeroEquiv_coe
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg_comp
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_id
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCohomologicalComponent_eq_bot_of_pos
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_degreeZero
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_original
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_original_square
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_dual_square
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_degree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_degree
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_cut
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_winding
++#print axioms ASGinzburg.CutQuiver.ginzburgSign_succ
++#print axioms ASGinzburg.CutQuiver.ginzburgSignMap_homogeneous
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_sign
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_comp_homogeneous
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.transport
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_transport
++#print axioms ASGinzburg.CutQuiver.originalGinzburgArrowPath
++#print axioms ASGinzburg.CutQuiver.dualGinzburgArrowPath
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential_degree
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_degree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cutDegree_transport
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg_cutDegree
++#print axioms ASGinzburg.CutQuiver.ginzburgCutComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgWindingComponent
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_cut
++#print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_le_winding
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_winding
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
+@@ -761,6 +802,65 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.original_dual_winding_sum
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.original_dual_cut_sum
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.loop_differential_cohomological_degree
++#print axioms ASGinzburg.CutQuiver.ginzburgSignMap
++#print axioms ASGinzburg.CutQuiver.ginzburgSignMap_single
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPathComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgPathComp
++#print axioms ASGinzburg.CutQuiver.ginzburgPathComp_single
++#print axioms ASGinzburg.CutQuiver.ginzburgPathId
++#print axioms ASGinzburg.CutQuiver.ginzburgPathComp_id
++#print axioms ASGinzburg.CutQuiver.id_ginzburgPathComp
++#print axioms ASGinzburg.CutQuiver.ginzburgPathComp_assoc
++#print axioms ASGinzburg.CutQuiver.ginzburgHomogeneousComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgHomogeneousComponent_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgSign
++#print axioms ASGinzburg.CutQuiver.ginzburgSign_zero
++#print axioms ASGinzburg.CutQuiver.ginzburgSign_add
++#print axioms ASGinzburg.CutQuiver.ginzburgArrowPath
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.differential
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_single
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_nil
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_id
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_generator
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_sigma_injective
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_injective
++#print axioms ASGinzburg.CutQuiver.ginzburgPathWordMap
++#print axioms ASGinzburg.CutQuiver.ginzburgPathWordMap_injective
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg_toList
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg_injective
++#print axioms ASGinzburg.CutQuiver.degreeZeroGinzburgPaths
++#print axioms ASGinzburg.CutQuiver.originalPathEquivDegreeZero
++#print axioms ASGinzburg.CutQuiver.GinzburgPath
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.length
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.toList
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cutDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.comp_nil
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.nil_comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.comp_assoc
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.length_toList
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cutDegree_comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding_comp
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_nonpos
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding_nonneg
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding_pos_of_length_pos
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding_formula
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg_cohomologicalDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.degreeZero_existsOriginal
++#print axioms ASGinzburg.CutQuiver.ginzburgSign_mul_self
++#print axioms ASGinzburg.CutQuiver.ginzburgSignMap_involutive
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_square_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgSupported_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCohomologicalComponent_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_comp
+ #print axioms ASGinzburg.positive_recurrence_unique
+ #print axioms ASGinzburg.quadraticHilbert
+ #print axioms ASGinzburg.quadraticHilbert_closed
+diff --git a/ASGinzburg/GinzburgPaths.lean b/ASGinzburg/GinzburgPaths.lean
+new file mode 100644
+index 0000000..c5c465f
+--- /dev/null
++++ b/ASGinzburg/GinzburgPaths.lean
+@@ -0,0 +1,159 @@
++import ASGinzburg.GinzburgGrading
++import ASGinzburg.PathAlgebra
++
++/-! Actual composable paths in the extended Ginzburg quiver, with all
++three gradings. The differential is a separate construction. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++inductive GinzburgPath : Q.Vertex → Q.Vertex → Type
++  | nil (v : Q.Vertex) : GinzburgPath v v
++  | snoc {u v : Q.Vertex} (p : GinzburgPath u v) (a : Q.GinzburgArrow)
++      (h : a.source Q=v) : GinzburgPath u (a.target Q)
++
++namespace GinzburgPath
++variable {Q}
++
++def length {u v : Q.Vertex} : Q.GinzburgPath u v → ℕ
++  | .nil _ => 0
++  | .snoc p _ _ => length p+1
++
++def toList {u v : Q.Vertex} : Q.GinzburgPath u v → List Q.GinzburgArrow
++  | .nil _ => []
++  | .snoc p a _ => toList p++[a]
++
++def cohomologicalDegree {u v : Q.Vertex} : Q.GinzburgPath u v → ℤ
++  | .nil _ => 0
++  | .snoc p a _ => cohomologicalDegree p+a.cohomologicalDegree Q
++
++def cutDegree {u v : Q.Vertex} : Q.GinzburgPath u v → ℤ
++  | .nil _ => 0
++  | .snoc p a _ => cutDegree p+a.cutDegree Q
++
++def winding {u v : Q.Vertex} : Q.GinzburgPath u v → ℤ
++  | .nil _ => 0
++  | .snoc p a _ => winding p+a.winding Q
++
++def comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v) :
++    Q.GinzburgPath v w → Q.GinzburgPath u w
++  | .nil _ => p
++  | .snoc q a h => .snoc (comp p q) a h
++
++@[simp] theorem comp_nil {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    p.comp (.nil v)=p := rfl
++
++@[simp] theorem nil_comp {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    (GinzburgPath.nil u).comp p=p := by
++  induction p with
++  | nil => rfl
++  | snoc p a h ih => simp [comp,ih]
++
++theorem comp_assoc {u v w x : Q.Vertex} (p : Q.GinzburgPath u v)
++    (q : Q.GinzburgPath v w) (r : Q.GinzburgPath w x) :
++    (p.comp q).comp r=p.comp (q.comp r) := by
++  induction r with
++  | nil => rfl
++  | snoc r a h ih => simp [comp,ih]
++
++@[simp] theorem toList_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
++    (q : Q.GinzburgPath v w) : (p.comp q).toList=p.toList++q.toList := by
++  induction q with
++  | nil => simp [comp,toList]
++  | snoc q a h ih => simp [comp,toList,ih,List.append_assoc]
++
++theorem length_toList {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    p.toList.length=p.length := by
++  induction p with
++  | nil => rfl
++  | snoc p a h ih => simp [toList,length,ih]
++
++theorem cohomologicalDegree_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
++    (q : Q.GinzburgPath v w) :
++    (p.comp q).cohomologicalDegree=p.cohomologicalDegree+q.cohomologicalDegree := by
++  induction q with
++  | nil => simp [comp,cohomologicalDegree]
++  | snoc q a h ih => simp [comp,cohomologicalDegree,ih,add_assoc]
++
++theorem cutDegree_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
++    (q : Q.GinzburgPath v w) : (p.comp q).cutDegree=p.cutDegree+q.cutDegree := by
++  induction q with
++  | nil => simp [comp,cutDegree]
++  | snoc q a h ih => simp [comp,cutDegree,ih,add_assoc]
++
++theorem winding_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
++    (q : Q.GinzburgPath v w) : (p.comp q).winding=p.winding+q.winding := by
++  induction q with
++  | nil => simp [comp,winding]
++  | snoc q a h ih => simp [comp,winding,ih,add_assoc]
++
++theorem cohomologicalDegree_nonpos {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    p.cohomologicalDegree ≤ 0 := by
++  induction p with
++  | nil => simp [cohomologicalDegree]
++  | snoc p a h ih =>
++    cases a <;> simp only [cohomologicalDegree,GinzburgArrow.cohomologicalDegree] <;> omega
++
++theorem winding_nonneg {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    0 ≤ p.winding := by
++  induction p with
++  | nil => simp [winding]
++  | snoc p a h ih =>
++    have := a.winding_pos Q
++    simp only [winding]
++    omega
++
++theorem winding_pos_of_length_pos {u v : Q.Vertex} (p : Q.GinzburgPath u v)
++    (hp : 0<p.length) : 0<p.winding := by
++  cases p with
++  | nil => simp [length] at hp
++  | snoc p a h =>
++    have := p.winding_nonneg
++    have := a.winding_pos Q
++    simp only [winding]
++    omega
++
++theorem winding_formula {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    p.winding=(v.val:ℤ)-u.val+Q.vertices*p.cutDegree := by
++  induction p with
++  | nil => simp [winding,cutDegree]
++  | snoc p a h ih =>
++    rw [winding,cutDegree,ih,a.winding_formula Q,h]
++    ring
++
++end GinzburgPath
++
++def Path.originalGinzburg : {u v : Q.Vertex} → Q.Path u v → Q.GinzburgPath u v
++  | _,_,.nil v => .nil v
++  | _,_,.snoc p a h => .snoc (originalGinzburg p) (.original a) h
++
++theorem Path.originalGinzburg_cohomologicalDegree {u v : Q.Vertex} (p : Q.Path u v) :
++    (p.originalGinzburg Q).cohomologicalDegree=0 := by
++  induction p with
++  | nil => simp [originalGinzburg,GinzburgPath.cohomologicalDegree]
++  | snoc p a h ih => simp [originalGinzburg,GinzburgPath.cohomologicalDegree,
++      GinzburgArrow.cohomologicalDegree,ih]
++
++theorem GinzburgPath.degreeZero_existsOriginal {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) (hp : p.cohomologicalDegree=0) :
++    ∃ q : Q.Path u v, q.originalGinzburg Q=p := by
++  revert hp
++  induction p with
++  | nil => intro _; exact ⟨.nil _,by simp [Path.originalGinzburg]⟩
++  | snoc p a h ih =>
++    intro hp
++    have hn := p.cohomologicalDegree_nonpos
++    cases a with
++    | original a =>
++      have hz : p.cohomologicalDegree=0 := by
++        simpa only [GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree,add_zero]
++          using hp
++      obtain ⟨q,rfl⟩ := ih hz
++      exact ⟨Path.snoc q a h,by simp [Path.originalGinzburg]⟩
++    | dual a =>
++      simp only [GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree] at hp
++      omega
++    | loop v =>
++      simp only [GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree] at hp
++      omega
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPathAlgebra.lean b/ASGinzburg/GinzburgPathAlgebra.lean
+new file mode 100644
+index 0000000..b4526eb
+--- /dev/null
++++ b/ASGinzburg/GinzburgPathAlgebra.lean
+@@ -0,0 +1,93 @@
++import ASGinzburg.GinzburgPaths
++import Mathlib.LinearAlgebra.Finsupp.Supported
++
++/-! Actual bilinear multiplication on the extended path spaces and closure
++of homogeneous components under composition. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++abbrev GinzburgPathComponent (u v : Q.Vertex) := Q.GinzburgPath u v →₀ k
++
++noncomputable def ginzburgPathComp {u v w : Q.Vertex} :
++    Q.GinzburgPathComponent k v w →ₗ[k] Q.GinzburgPathComponent k u v →ₗ[k]
++      Q.GinzburgPathComponent k u w :=
++  Finsupp.linearCombination k (fun q =>
++    Finsupp.linearCombination k (fun p => Finsupp.single (p.comp q) 1))
++
++@[simp] theorem ginzburgPathComp_single {u v w : Q.Vertex}
++    (p : Q.GinzburgPath u v) (q : Q.GinzburgPath v w) (a b : k) :
++    Q.ginzburgPathComp k (Finsupp.single q b) (Finsupp.single p a)=
++      Finsupp.single (p.comp q) (b*a) := by
++  simp [ginzburgPathComp,LinearMap.smul_apply,Finsupp.smul_single,smul_eq_mul]
++
++noncomputable def ginzburgPathId (v : Q.Vertex) : Q.GinzburgPathComponent k v v :=
++  Finsupp.single (.nil v) 1
++
++theorem ginzburgPathComp_id {u v : Q.Vertex} (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgPathComp k (Q.ginzburgPathId k v) f=f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,hf,hg]
++  | single p c => simp [ginzburgPathId]
++
++theorem id_ginzburgPathComp {u v : Q.Vertex} (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgPathComp k f (Q.ginzburgPathId k u)=f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add,LinearMap.add_apply,hf,hg]
++  | single p c => simp [ginzburgPathId]
++
++theorem ginzburgPathComp_assoc {u v w x : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) (g : Q.GinzburgPathComponent k v w)
++    (h : Q.GinzburgPathComponent k w x) :
++    Q.ginzburgPathComp k h (Q.ginzburgPathComp k g f)=
++      Q.ginzburgPathComp k (Q.ginzburgPathComp k h g) f := by
++  classical
++  induction h using Finsupp.induction_linear with
++  | zero => simp
++  | add h h' ih ih' => simp [map_add,LinearMap.add_apply,ih,ih']
++  | single r c =>
++    induction g using Finsupp.induction_linear with
++    | zero => simp
++    | add g g' ih ih' => simp [map_add,ih,ih']
++    | single q b =>
++      induction f using Finsupp.induction_linear with
++      | zero => simp
++      | add f f' ih ih' => simp [map_add,ih,ih']
++      | single p a => simp [GinzburgPath.comp_assoc,mul_assoc]
++
++def ginzburgHomogeneousComponent (u v : Q.Vertex) (q c w : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k {p |p.cohomologicalDegree=q ∧ p.cutDegree=c ∧ p.winding=w}
++
++theorem ginzburgHomogeneousComponent_comp {u v x : Q.Vertex} {q c w q' c' w' : ℤ}
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgHomogeneousComponent k u v q c w)
++    {g : Q.GinzburgPathComponent k v x} (hg : g ∈ Q.ginzburgHomogeneousComponent k v x q' c' w') :
++    Q.ginzburgPathComp k g f ∈ Q.ginzburgHomogeneousComponent k u x (q+q') (c+c') (w+w') := by
++  change f ∈ Finsupp.supported k k _ at hf
++  change g ∈ Finsupp.supported k k _ at hg
++  rw [Finsupp.supported_eq_span_single] at hf hg
++  induction hg using Submodule.span_induction with
++  | mem y hy =>
++    obtain ⟨r,hr,rfl⟩ := hy
++    induction hf using Submodule.span_induction with
++    | mem y hy =>
++      obtain ⟨p,hp,rfl⟩ := hy
++      rw [Q.ginzburgPathComp_single]
++      apply Finsupp.single_mem_supported
++      exact ⟨by rw [GinzburgPath.cohomologicalDegree_comp,hp.1,hr.1],
++        by rw [GinzburgPath.cutDegree_comp,hp.2.1,hr.2.1],
++        by rw [GinzburgPath.winding_comp,hp.2.2,hr.2.2]⟩
++    | zero => simp
++    | add f h hf hh ihf ihh => simpa only [map_add] using Submodule.add_mem _ ihf ihh
++    | smul a f hf ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++  | zero => simp
++  | add g h hg hh ihg ihh =>
++    simpa only [map_add,LinearMap.add_apply] using Submodule.add_mem _ ihg ihh
++  | smul a g hg ih =>
++    simpa only [map_smul,LinearMap.smul_apply] using Submodule.smul_mem _ a ih
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPathWords.lean b/ASGinzburg/GinzburgPathWords.lean
+new file mode 100644
+index 0000000..03584ed
+--- /dev/null
++++ b/ASGinzburg/GinzburgPathWords.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.GinzburgPathAlgebra
++import ASGinzburg.PathWordEmbeddings
++
++/-! The genuine extended paths embed injectively into words. Original
++paths are exactly the cohomological degree zero basis paths. -/
++namespace ASGinzburg.CutQuiver.GinzburgPath
++variable {Q : CutQuiver}
++
++theorem toList_sigma_injective (u : Q.Vertex) :
++    Function.Injective (fun p : Σ v, Q.GinzburgPath u v => p.2.toList) := by
++  rintro ⟨v,p⟩ ⟨w,q⟩ hword
++  induction p generalizing w with
++  | nil =>
++    cases q with
++    | nil => rfl
++    | snoc q a h => simp [toList] at hword
++  | @snoc v p a h ih =>
++    cases q with
++    | nil => simp [toList] at hword
++    | @snoc w q b hb =>
++      have hr := congrArg List.reverse hword
++      simp only [toList,List.reverse_append,List.reverse_singleton,List.singleton_append] at hr
++      obtain ⟨hab,hpq⟩ := List.cons.inj hr
++      subst b
++      have H := ih w q (List.reverse_injective hpq)
++      cases H
++      rfl
++
++theorem toList_injective (u v : Q.Vertex) :
++    Function.Injective (toList : Q.GinzburgPath u v → List Q.GinzburgArrow) := by
++  intro p q h
++  have H : (⟨v,p⟩ : Σ v, Q.GinzburgPath u v)=⟨v,q⟩ := toList_sigma_injective u h
++  exact eq_of_heq (Sigma.mk.inj H).2
++
++end ASGinzburg.CutQuiver.GinzburgPath
++
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgPathWordMap (u v : Q.Vertex) :
++    Q.GinzburgPathComponent k u v →ₗ[k] WordPolynomial k Q.GinzburgArrow :=
++  Finsupp.lmapDomain k k GinzburgPath.toList
++
++theorem ginzburgPathWordMap_injective (u v : Q.Vertex) :
++    Function.Injective (Q.ginzburgPathWordMap k u v) :=
++  Finsupp.mapDomain_injective (GinzburgPath.toList_injective u v)
++
++theorem Path.originalGinzburg_toList {u v : Q.Vertex} (p : Q.Path u v) :
++    (p.originalGinzburg Q).toList=p.toList.map GinzburgArrow.original := by
++  induction p with
++  | nil => simp [originalGinzburg,GinzburgPath.toList,Path.toList]
++  | snoc p a h ih => simp [originalGinzburg,GinzburgPath.toList,Path.toList,ih]
++
++theorem Path.originalGinzburg_injective (u v : Q.Vertex) :
++    Function.Injective (Path.originalGinzburg Q (u:=u) (v:=v)) := by
++  intro p q h
++  have H := congrArg GinzburgPath.toList h
++  rw [Path.originalGinzburg_toList,Path.originalGinzburg_toList] at H
++  have hi : Function.Injective (GinzburgArrow.original (Q:=Q)) := by
++    intro a b h
++    exact GinzburgArrow.original.inj h
++  exact Path.toList_injective u v ((List.map_injective_iff.mpr hi) H)
++
++def degreeZeroGinzburgPaths (u v : Q.Vertex) := {p : Q.GinzburgPath u v //p.cohomologicalDegree=0}
++
++noncomputable def originalPathEquivDegreeZero (u v : Q.Vertex) :
++    Q.Path u v ≃ Q.degreeZeroGinzburgPaths u v :=
++  Equiv.ofBijective (fun p => ⟨p.originalGinzburg Q,p.originalGinzburg_cohomologicalDegree Q⟩)
++    ⟨by intro p q h; exact Path.originalGinzburg_injective Q u v (congrArg Subtype.val h),
++      by
++        rintro ⟨p,hp⟩
++        obtain ⟨q,hq⟩ := p.degreeZero_existsOriginal Q hp
++        exact ⟨q,Subtype.ext hq⟩⟩
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgDegreeZeroAlgebra.lean b/ASGinzburg/GinzburgDegreeZeroAlgebra.lean
+new file mode 100644
+index 0000000..382cde7
+--- /dev/null
++++ b/ASGinzburg/GinzburgDegreeZeroAlgebra.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.GinzburgPathWords
++
++/-! The actual cohomological degree zero extended path algebra is the
++original free path algebra, before taking differential boundaries. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def ginzburgCohomologicalComponent (u v : Q.Vertex) (q : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k {p | p.cohomologicalDegree=q}
++
++noncomputable def originalGinzburgLinearMap (u v : Q.Vertex) :
++    Q.PathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u v :=
++  Finsupp.lmapDomain k k (Path.originalGinzburg Q)
++
++theorem originalGinzburgLinearMap_injective (u v : Q.Vertex) :
++    Function.Injective (Q.originalGinzburgLinearMap k u v) :=
++  Finsupp.mapDomain_injective (Path.originalGinzburg_injective Q u v)
++
++@[simp] theorem originalGinzburgLinearMap_single {u v : Q.Vertex} (p : Q.Path u v) (c : k) :
++    Q.originalGinzburgLinearMap k u v (Finsupp.single p c)=
++      Finsupp.single (p.originalGinzburg Q) c :=
++  Finsupp.mapDomain_single
++
++theorem originalGinzburgLinearMap_range (u v : Q.Vertex) :
++    LinearMap.range (Q.originalGinzburgLinearMap k u v)=
++      Q.ginzburgCohomologicalComponent k u v 0 := by
++  rw [originalGinzburgLinearMap,LinearMap.range_eq_map,
++    ←(Finsupp.supported_univ : Finsupp.supported k k (Set.univ : Set (Q.Path u v))=⊤),
++    Finsupp.lmapDomain_supported]
++  change Finsupp.supported k k _=Finsupp.supported k k _
++  congr 1
++  ext p
++  constructor
++  · rintro ⟨q,_,rfl⟩
++    exact q.originalGinzburg_cohomologicalDegree Q
++  · intro hp
++    obtain ⟨q,hq⟩ := p.degreeZero_existsOriginal Q hp
++    exact ⟨q,Set.mem_univ _,hq⟩
++
++noncomputable def originalGinzburgDegreeZeroEquiv (u v : Q.Vertex) :
++    Q.PathComponent k u v ≃ₗ[k] Q.ginzburgCohomologicalComponent k u v 0 :=
++  (LinearEquiv.ofInjective (Q.originalGinzburgLinearMap k u v)
++    (Q.originalGinzburgLinearMap_injective k u v)).trans
++      (LinearEquiv.ofEq _ _ (Q.originalGinzburgLinearMap_range k u v))
++
++theorem originalGinzburgDegreeZeroEquiv_coe (u v : Q.Vertex) (f : Q.PathComponent k u v) :
++    (Q.originalGinzburgDegreeZeroEquiv k u v f).val=Q.originalGinzburgLinearMap k u v f := rfl
++
++theorem Path.originalGinzburg_comp {u v w : Q.Vertex} (p : Q.Path u v) (q : Q.Path v w) :
++    (p.comp q).originalGinzburg Q=(p.originalGinzburg Q).comp (q.originalGinzburg Q) := by
++  induction q with
++  | nil => simp [Path.comp,originalGinzburg]
++  | snoc q a h ih => simp [Path.comp,originalGinzburg,GinzburgPath.comp,ih]
++
++theorem originalGinzburgLinearMap_id (v : Q.Vertex) :
++    Q.originalGinzburgLinearMap k v v (Q.pathId k v)=Q.ginzburgPathId k v := by
++  simp [pathId,ginzburgPathId,Path.originalGinzburg]
++
++theorem originalGinzburgLinearMap_comp {u v w : Q.Vertex}
++    (f : Q.PathComponent k u v) (g : Q.PathComponent k v w) :
++    Q.originalGinzburgLinearMap k u w (Q.pathComp k g f)=
++      Q.ginzburgPathComp k (Q.originalGinzburgLinearMap k v w g)
++        (Q.originalGinzburgLinearMap k u v f) := by
++  classical
++  induction g using Finsupp.induction_linear with
++  | zero => simp
++  | add g h hg hh => simp [map_add,LinearMap.add_apply,hg,hh]
++  | single q b =>
++    induction f using Finsupp.induction_linear with
++    | zero => simp
++    | add f h hf hh => simp [map_add,hf,hh]
++    | single p a => simp [Path.originalGinzburg_comp]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgGeneratorDifferentials.lean b/ASGinzburg/GinzburgGeneratorDifferentials.lean
+new file mode 100644
+index 0000000..3b26503
+--- /dev/null
++++ b/ASGinzburg/GinzburgGeneratorDifferentials.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.GinzburgDegreeZeroAlgebra
++import ASGinzburg.PathCyclicDerivativeDegrees
++
++/-! Genuine path-valued differentials on the extended generators. The
++signed extension to all paths and its square-zero proof remain separate. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def GinzburgPath.transport {u v u' v' : Q.Vertex} (hu : u=u') (hv : v=v')
++    (p : Q.GinzburgPath u v) : Q.GinzburgPath u' v' := hu ▸ hv ▸ p
++
++@[simp] theorem GinzburgPath.cohomologicalDegree_transport {u v u' v' : Q.Vertex}
++    (hu : u=u') (hv : v=v') (p : Q.GinzburgPath u v) :
++    (p.transport Q hu hv).cohomologicalDegree=p.cohomologicalDegree := by subst u' v'; rfl
++
++def originalGinzburgArrowPath (a : Q.Arrow) : Q.GinzburgPath (Q.source a) (Q.target a) :=
++  .snoc (.nil (Q.source a)) (.original a) rfl
++
++def dualGinzburgArrowPath (a : Q.Arrow) : Q.GinzburgPath (Q.target a) (Q.source a) :=
++  .snoc (.nil (Q.target a)) (.dual a) rfl
++
++noncomputable def ginzburgLoopDifferential (v : Q.Vertex) : Q.GinzburgPathComponent k v v :=
++  ∑ a : Q.Arrow,
++    ((if hs : Q.source a=v then Finsupp.single
++      (((Q.originalGinzburgArrowPath a).comp (Q.dualGinzburgArrowPath a)).transport Q hs hs) 1 else 0)-
++    (if ht : Q.target a=v then Finsupp.single
++      (((Q.dualGinzburgArrowPath a).comp (Q.originalGinzburgArrowPath a)).transport Q ht ht) 1 else 0))
++
++noncomputable def ginzburgGeneratorDifferential (φ : Q.Potential k) :
++    (a : Q.GinzburgArrow) → Q.GinzburgPathComponent k (a.source Q) (a.target Q)
++  | .original _ => 0
++  | .dual a => Q.originalGinzburgLinearMap k (Q.target a) (Q.source a) (Q.pathCyclicDerivative k a φ)
++  | .loop v => Q.ginzburgLoopDifferential k v
++
++theorem ginzburgLoopDifferential_degree (v : Q.Vertex) :
++    Q.ginzburgLoopDifferential k v ∈ Q.ginzburgCohomologicalComponent k v v (-1) := by
++  unfold ginzburgLoopDifferential
++  apply Submodule.sum_mem
++  intro a _
++  apply Submodule.sub_mem
++  · split_ifs with ht
++    · apply Finsupp.single_mem_supported
++      simp [GinzburgPath.cohomologicalDegree_comp,originalGinzburgArrowPath,dualGinzburgArrowPath,
++        GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree]
++    · exact Submodule.zero_mem _
++  · split_ifs with hs
++    · apply Finsupp.single_mem_supported
++      simp [GinzburgPath.cohomologicalDegree_comp,originalGinzburgArrowPath,dualGinzburgArrowPath,
++        GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree]
++    · exact Submodule.zero_mem _
++
++theorem ginzburgGeneratorDifferential_degree (φ : Q.Potential k) (a : Q.GinzburgArrow) :
++    Q.ginzburgGeneratorDifferential k φ a ∈
++      Q.ginzburgCohomologicalComponent k (a.source Q) (a.target Q) (a.cohomologicalDegree Q+1) := by
++  cases a with
++  | original a => exact Submodule.zero_mem _
++  | dual a =>
++    change Q.originalGinzburgLinearMap k _ _ _ ∈ Q.ginzburgCohomologicalComponent k _ _ 0
++    rw [←Q.originalGinzburgLinearMap_range k]
++    exact LinearMap.mem_range_self _ _
++  | loop v => exact Q.ginzburgLoopDifferential_degree k v
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgGeneratorGradings.lean b/ASGinzburg/GinzburgGeneratorGradings.lean
+new file mode 100644
+index 0000000..34e27d1
+--- /dev/null
++++ b/ASGinzburg/GinzburgGeneratorGradings.lean
+@@ -0,0 +1,88 @@
++import ASGinzburg.GinzburgGeneratorDifferentials
++
++/-! The genuine generator differentials preserve both internal gradings. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++@[simp] theorem GinzburgPath.cutDegree_transport {u v u' v' : Q.Vertex}
++    (hu : u=u') (hv : v=v') (p : Q.GinzburgPath u v) :
++    (p.transport Q hu hv).cutDegree=p.cutDegree := by subst u' v'; rfl
++
++theorem Path.originalGinzburg_cutDegree {u v : Q.Vertex} (p : Q.Path u v) :
++    (p.originalGinzburg Q).cutDegree=p.cutDegree := by
++  induction p with
++  | nil => simp [originalGinzburg,GinzburgPath.cutDegree,Path.cutDegree]
++  | snoc p a h ih =>
++    simp [originalGinzburg,GinzburgPath.cutDegree,Path.cutDegree,GinzburgArrow.cutDegree,ih]
++
++def ginzburgCutComponent (u v : Q.Vertex) (c : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k {p | p.cutDegree=c}
++
++def ginzburgWindingComponent (u v : Q.Vertex) (w : ℤ) :
++    Submodule k (Q.GinzburgPathComponent k u v) :=
++  Finsupp.supported k k {p | p.winding=w}
++
++theorem originalGinzburgLinearMap_cut {u v : Q.Vertex} {c : ℤ}
++    {f : Q.PathComponent k u v}
++    (hf : f ∈ Finsupp.supported k k {p : Q.Path u v | (p.cutDegree:ℤ)=c}) :
++    Q.originalGinzburgLinearMap k u v f ∈ Q.ginzburgCutComponent k u v c := by
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    rw [Q.originalGinzburgLinearMap_single]
++    apply Finsupp.single_mem_supported
++    simpa only [Set.mem_setOf_eq,Path.originalGinzburg_cutDegree] using hp
++  | zero => simp
++  | add x y hx hy ihx ihy => simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul a x hx ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++theorem ginzburgLoopDifferential_cut (v : Q.Vertex) :
++    Q.ginzburgLoopDifferential k v ∈ Q.ginzburgCutComponent k v v 1 := by
++  unfold ginzburgLoopDifferential
++  apply Submodule.sum_mem
++  intro a _
++  apply Submodule.sub_mem
++  · split_ifs with ht
++    · apply Finsupp.single_mem_supported
++      simp [GinzburgPath.cutDegree_comp,originalGinzburgArrowPath,dualGinzburgArrowPath,
++        GinzburgPath.cutDegree,GinzburgArrow.cutDegree]
++    · exact Submodule.zero_mem _
++  · split_ifs with hs
++    · apply Finsupp.single_mem_supported
++      simp [GinzburgPath.cutDegree_comp,originalGinzburgArrowPath,dualGinzburgArrowPath,
++        GinzburgPath.cutDegree,GinzburgArrow.cutDegree]
++    · exact Submodule.zero_mem _
++
++theorem ginzburgGeneratorDifferential_cut (φ : Q.Potential k) (a : Q.GinzburgArrow) :
++    Q.ginzburgGeneratorDifferential k φ a ∈
++      Q.ginzburgCutComponent k (a.source Q) (a.target Q) (a.cutDegree Q) := by
++  cases a with
++  | original a => exact Submodule.zero_mem _
++  | dual a =>
++    apply Q.originalGinzburgLinearMap_cut k
++    apply Finsupp.supported_mono _ (Q.pathCyclicDerivative_supported_degrees k a φ)
++    rintro p ⟨_,hp⟩
++    change (p.cutDegree:ℤ)=1-(Q.cutDegree a:ℤ)
++    have hi : (p.cutDegree:ℤ)+(Q.cutDegree a:ℤ)=1 := by exact_mod_cast hp
++    omega
++  | loop v => exact Q.ginzburgLoopDifferential_cut k v
++
++theorem ginzburgCutComponent_le_winding (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgCutComponent k u v c ≤
++      Q.ginzburgWindingComponent k u v ((v.val:ℤ)-u.val+Q.vertices*c) := by
++  apply Finsupp.supported_mono
++  intro p hp
++  change p.cutDegree=c at hp
++  change p.winding=_
++  rw [p.winding_formula,hp]
++
++theorem ginzburgGeneratorDifferential_winding (φ : Q.Potential k) (a : Q.GinzburgArrow) :
++    Q.ginzburgGeneratorDifferential k φ a ∈
++      Q.ginzburgWindingComponent k (a.source Q) (a.target Q) (a.winding Q) := by
++  rw [a.winding_formula Q]
++  exact Q.ginzburgCutComponent_le_winding k _ _ _ (Q.ginzburgGeneratorDifferential_cut k φ a)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPathDifferential.lean b/ASGinzburg/GinzburgPathDifferential.lean
+new file mode 100644
+index 0000000..0860795
+--- /dev/null
++++ b/ASGinzburg/GinzburgPathDifferential.lean
+@@ -0,0 +1,54 @@
++import ASGinzburg.GinzburgGeneratorDifferentials
++import Mathlib.Algebra.Field.Power
++
++/-! The signed extension of (1.3) to actual finite paths. Square-zero
++and the full graded Leibniz theorem are proved separately. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgSign (q : ℤ) : k := (-1:k)^q
++
++@[simp] theorem ginzburgSign_zero : ginzburgSign k 0=1 := by simp [ginzburgSign]
++
++theorem ginzburgSign_add (q r : ℤ) :
++    ginzburgSign k (q+r)=ginzburgSign k q*ginzburgSign k r :=
++  zpow_add₀ (neg_ne_zero.mpr one_ne_zero) q r
++
++def ginzburgArrowPath (a : Q.GinzburgArrow) :
++    Q.GinzburgPath (a.source Q) (a.target Q) := .snoc (.nil (a.source Q)) a rfl
++
++noncomputable def GinzburgPath.differential (φ : Q.Potential k) :
++    {u v : Q.Vertex} → Q.GinzburgPath u v → Q.GinzburgPathComponent k u v
++  | _,_,.nil _ => 0
++  | _,_,.snoc p a h =>
++    Q.ginzburgPathComp k (h ▸ Q.ginzburgGeneratorDifferential k φ a) (Finsupp.single p 1)+
++      ginzburgSign k (a.cohomologicalDegree Q) •
++        Q.ginzburgPathComp k (h ▸ Finsupp.single (Q.ginzburgArrowPath a) 1) (p.differential φ)
++termination_by u v p => p.length
++decreasing_by simp_all [GinzburgPath.length]
++
++noncomputable def ginzburgDifferential (φ : Q.Potential k) (u v : Q.Vertex) :
++    Q.GinzburgPathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u v :=
++  Finsupp.linearCombination k (GinzburgPath.differential Q k φ)
++
++@[simp] theorem ginzburgDifferential_single (φ : Q.Potential k) {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) (c : k) :
++    Q.ginzburgDifferential k φ u v (Finsupp.single p c)=c • p.differential Q k φ := by
++  simp [ginzburgDifferential]
++
++@[simp] theorem GinzburgPath.differential_nil (φ : Q.Potential k) (v : Q.Vertex) :
++    (GinzburgPath.nil v).differential Q k φ=0 := by simp [differential]
++
++theorem ginzburgDifferential_id (φ : Q.Potential k) (v : Q.Vertex) :
++    Q.ginzburgDifferential k φ v v (Q.ginzburgPathId k v)=0 := by
++  simp [ginzburgPathId]
++
++theorem ginzburgDifferential_generator (φ : Q.Potential k) (a : Q.GinzburgArrow) :
++    Q.ginzburgDifferential k φ (a.source Q) (a.target Q)
++      (Finsupp.single (Q.ginzburgArrowPath a) 1)=Q.ginzburgGeneratorDifferential k φ a := by
++  simp only [ginzburgDifferential_single,one_smul,ginzburgArrowPath,GinzburgPath.differential,
++    map_zero,smul_zero,add_zero]
++  exact Q.id_ginzburgPathComp k _
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgSupportedProducts.lean b/ASGinzburg/GinzburgSupportedProducts.lean
+new file mode 100644
+index 0000000..a337fbc
+--- /dev/null
++++ b/ASGinzburg/GinzburgSupportedProducts.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.GinzburgGeneratorGradings
++
++/-! Closure of actual supported extended path spaces under multiplication. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgSupported_comp {u v x : Q.Vertex}
++    (S : Set (Q.GinzburgPath u v)) (T : Set (Q.GinzburgPath v x))
++    (U : Set (Q.GinzburgPath u x))
++    (hc : ∀ p ∈ S, ∀ q ∈ T, p.comp q ∈ U)
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Finsupp.supported k k S)
++    {g : Q.GinzburgPathComponent k v x} (hg : g ∈ Finsupp.supported k k T) :
++    Q.ginzburgPathComp k g f ∈ Finsupp.supported k k U := by
++  rw [Finsupp.supported_eq_span_single] at hf hg
++  induction hg using Submodule.span_induction with
++  | mem y hy =>
++    obtain ⟨q,hq,rfl⟩ := hy
++    induction hf using Submodule.span_induction with
++    | mem y hy =>
++      obtain ⟨p,hp,rfl⟩ := hy
++      rw [Q.ginzburgPathComp_single]
++      exact Finsupp.single_mem_supported _ _ (hc p hp q hq)
++    | zero => simp
++    | add f h hf hh ihf ihh => simpa only [map_add] using Submodule.add_mem _ ihf ihh
++    | smul a f hf ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++  | zero => simp
++  | add g h hg hh ihg ihh =>
++    simpa only [map_add,LinearMap.add_apply] using Submodule.add_mem _ ihg ihh
++  | smul a g hg ih =>
++    simpa only [map_smul,LinearMap.smul_apply] using Submodule.smul_mem _ a ih
++
++theorem ginzburgCohomologicalComponent_comp {u v x : Q.Vertex} {q r : ℤ}
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCohomologicalComponent k u v q)
++    {g : Q.GinzburgPathComponent k v x} (hg : g ∈ Q.ginzburgCohomologicalComponent k v x r) :
++    Q.ginzburgPathComp k g f ∈ Q.ginzburgCohomologicalComponent k u x (q+r) := by
++  apply Q.ginzburgSupported_comp k _ _ _ _ hf hg
++  intro p hp q hq
++  exact (p.cohomologicalDegree_comp q).trans (congrArg₂ (·+·) hp hq)
++
++theorem ginzburgCutComponent_comp {u v x : Q.Vertex} {c d : ℤ}
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCutComponent k u v c)
++    {g : Q.GinzburgPathComponent k v x} (hg : g ∈ Q.ginzburgCutComponent k v x d) :
++    Q.ginzburgPathComp k g f ∈ Q.ginzburgCutComponent k u x (c+d) := by
++  apply Q.ginzburgSupported_comp k _ _ _ _ hf hg
++  intro p hp q hq
++  exact (p.cutDegree_comp q).trans (congrArg₂ (·+·) hp hq)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgDifferentialGradings.lean b/ASGinzburg/GinzburgDifferentialGradings.lean
+new file mode 100644
+index 0000000..840c63e
+--- /dev/null
++++ b/ASGinzburg/GinzburgDifferentialGradings.lean
+@@ -0,0 +1,86 @@
++import ASGinzburg.GinzburgPathDifferential
++import ASGinzburg.GinzburgSupportedProducts
++
++/-! Degree and cut preservation of the signed path differential. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem GinzburgPath.differential_degree (φ : Q.Potential k) {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) :
++    p.differential Q k φ ∈ Q.ginzburgCohomologicalComponent k u v (p.cohomologicalDegree+1) := by
++  induction p with
++  | nil => simp
++  | snoc p a h ih =>
++    subst h
++    rw [differential]
++    apply Submodule.add_mem
++    · have hp : Finsupp.single p (1:k) ∈
++          Q.ginzburgCohomologicalComponent k _ _ p.cohomologicalDegree :=
++        Finsupp.single_mem_supported _ _ rfl
++      simpa only [cohomologicalDegree,add_assoc] using
++        Q.ginzburgCohomologicalComponent_comp k hp (Q.ginzburgGeneratorDifferential_degree k φ a)
++    · apply Submodule.smul_mem
++      have ha : Finsupp.single (Q.ginzburgArrowPath a) (1:k) ∈
++          Q.ginzburgCohomologicalComponent k _ _ (a.cohomologicalDegree Q) := by
++        apply Finsupp.single_mem_supported
++        simp [ginzburgArrowPath,cohomologicalDegree]
++      convert Q.ginzburgCohomologicalComponent_comp k ih ha using 1
++      simp [cohomologicalDegree,add_comm,add_left_comm]
++
++theorem GinzburgPath.differential_cut (φ : Q.Potential k) {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) :
++    p.differential Q k φ ∈ Q.ginzburgCutComponent k u v p.cutDegree := by
++  induction p with
++  | nil => simp
++  | snoc p a h ih =>
++    subst h
++    rw [differential]
++    apply Submodule.add_mem
++    · have hp : Finsupp.single p (1:k) ∈ Q.ginzburgCutComponent k _ _ p.cutDegree :=
++        Finsupp.single_mem_supported _ _ rfl
++      exact Q.ginzburgCutComponent_comp k hp (Q.ginzburgGeneratorDifferential_cut k φ a)
++    · apply Submodule.smul_mem
++      have ha : Finsupp.single (Q.ginzburgArrowPath a) (1:k) ∈
++          Q.ginzburgCutComponent k _ _ (a.cutDegree Q) := by
++        apply Finsupp.single_mem_supported
++        simp [ginzburgArrowPath,cutDegree]
++      exact Q.ginzburgCutComponent_comp k ih ha
++
++theorem ginzburgDifferential_degree (φ : Q.Potential k) {u v : Q.Vertex} (q : ℤ)
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCohomologicalComponent k u v q) :
++    Q.ginzburgDifferential k φ u v f ∈ Q.ginzburgCohomologicalComponent k u v (q+1) := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    simp only [ginzburgDifferential_single,one_smul]
++    change p.cohomologicalDegree=q at hp
++    simpa only [hp] using p.differential_degree Q k φ
++  | zero => simp
++  | add x y hx hy ihx ihy => simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul a x hx ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++theorem ginzburgDifferential_cut (φ : Q.Potential k) {u v : Q.Vertex} (c : ℤ)
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCutComponent k u v c) :
++    Q.ginzburgDifferential k φ u v f ∈ Q.ginzburgCutComponent k u v c := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    simp only [ginzburgDifferential_single,one_smul]
++    change p.cutDegree=c at hp
++    simpa only [hp] using p.differential_cut Q k φ
++  | zero => simp
++  | add x y hx hy ihx ihy => simpa only [map_add] using Submodule.add_mem _ ihx ihy
++  | smul a x hx ih => simpa only [map_smul] using Submodule.smul_mem _ a ih
++
++theorem GinzburgPath.differential_winding (φ : Q.Potential k) {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) :
++    p.differential Q k φ ∈ Q.ginzburgWindingComponent k u v p.winding := by
++  rw [p.winding_formula]
++  exact Q.ginzburgCutComponent_le_winding k _ _ _ (p.differential_cut Q k φ)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgLeibniz.lean b/ASGinzburg/GinzburgLeibniz.lean
+new file mode 100644
+index 0000000..ce9c9a4
+--- /dev/null
++++ b/ASGinzburg/GinzburgLeibniz.lean
+@@ -0,0 +1,66 @@
++import ASGinzburg.GinzburgPathDifferential
++
++/-! The genuine signed Leibniz rule on the extended free path algebra. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgSignMap (u v : Q.Vertex) :
++    Q.GinzburgPathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u v :=
++  Finsupp.linearCombination k (fun p => ginzburgSign k p.cohomologicalDegree • Finsupp.single p 1)
++
++@[simp] theorem ginzburgSignMap_single {u v : Q.Vertex} (p : Q.GinzburgPath u v) (c : k) :
++    Q.ginzburgSignMap k u v (Finsupp.single p c)=
++      ginzburgSign k p.cohomologicalDegree • Finsupp.single p c := by
++  simp [ginzburgSignMap,mul_comm,Finsupp.smul_single,smul_eq_mul]
++
++theorem GinzburgPath.differential_comp (φ : Q.Potential k) {u v w : Q.Vertex}
++    (p : Q.GinzburgPath u v) (q : Q.GinzburgPath v w) :
++    (p.comp q).differential Q k φ=
++      Q.ginzburgPathComp k (q.differential Q k φ) (Finsupp.single p 1)+
++      ginzburgSign k q.cohomologicalDegree •
++        Q.ginzburgPathComp k (Finsupp.single q 1) (p.differential Q k φ) := by
++  induction q with
++  | nil =>
++    simpa only [cohomologicalDegree,comp_nil,differential_nil,ginzburgSign_zero,one_smul,
++      map_zero,LinearMap.zero_apply,zero_add,ginzburgPathId] using (Q.ginzburgPathComp_id k (p.differential Q k φ)).symm
++  | snoc q a h ih =>
++    subst h
++    have hpq : Finsupp.single (p.comp q) (1:k)=
++        Q.ginzburgPathComp k (Finsupp.single q 1) (Finsupp.single p 1) := by simp
++    have hqa : Finsupp.single (GinzburgPath.snoc q a rfl) (1:k)=
++        Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) (Finsupp.single q 1) := by
++      simp [ginzburgArrowPath,comp]
++    simp only [comp,differential,ih,cohomologicalDegree]
++    rw [hpq,hqa]
++    simp only [map_add,map_smul,LinearMap.add_apply,LinearMap.smul_apply,
++      ginzburgPathComp_assoc,ginzburgSign_add,smul_add,smul_smul,mul_comm,add_assoc]
++
++set_option maxHeartbeats 800000 in
++theorem ginzburgDifferential_comp (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) (g : Q.GinzburgPathComponent k v w) :
++    Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k g f)=
++      Q.ginzburgPathComp k (Q.ginzburgDifferential k φ v w g) f+
++      Q.ginzburgPathComp k (Q.ginzburgSignMap k v w g) (Q.ginzburgDifferential k φ u v f) := by
++  classical
++  induction g using Finsupp.induction_linear with
++  | zero => simp
++  | add g h hg hh =>
++    simp only [map_add,LinearMap.add_apply,hg,hh]
++    abel
++  | single q b =>
++    induction f using Finsupp.induction_linear with
++    | zero => simp
++    | add f h hf hh =>
++      simp only [map_add,hf,hh]
++      abel
++    | single p a =>
++      have hp : Finsupp.single p a=a • Finsupp.single p (1:k) := by simp
++      have hq : Finsupp.single q b=b • Finsupp.single q (1:k) := by simp
++      rw [hp,hq]
++      simp only [map_smul,LinearMap.smul_apply,ginzburgPathComp_single,
++        ginzburgDifferential_single,ginzburgSignMap_single,one_smul,mul_one,smul_smul]
++      rw [GinzburgPath.differential_comp]
++      simp only [smul_add,smul_smul,mul_assoc,mul_left_comm]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgDifferentialSign.lean b/ASGinzburg/GinzburgDifferentialSign.lean
+new file mode 100644
+index 0000000..ba7e4c2
+--- /dev/null
++++ b/ASGinzburg/GinzburgDifferentialSign.lean
+@@ -0,0 +1,53 @@
++import ASGinzburg.GinzburgLeibniz
++import ASGinzburg.GinzburgDifferentialGradings
++
++/-! The parity operator and the degree-one differential anticommute. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgSign_succ (q : ℤ) : ginzburgSign k (q+1)=-ginzburgSign k q := by
++  rw [ginzburgSign_add]
++  simp [ginzburgSign]
++
++theorem ginzburgSignMap_homogeneous {u v : Q.Vertex} {q : ℤ}
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCohomologicalComponent k u v q) :
++    Q.ginzburgSignMap k u v f=ginzburgSign k q • f := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    change p.cohomologicalDegree=q at hp
++    simp only [ginzburgSignMap_single,hp]
++  | zero => simp
++  | add x y hx hy ihx ihy => simp only [map_add,ihx,ihy,smul_add]
++  | smul a x hx ih =>
++    rw [map_smul,ih]
++    exact smul_comm a (ginzburgSign k q) x
++
++theorem ginzburgDifferential_sign (φ : Q.Potential k) {u v : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgDifferential k φ u v (Q.ginzburgSignMap k u v f)=
++      -(Q.ginzburgSignMap k u v (Q.ginzburgDifferential k φ u v f)) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg =>
++    simp only [map_add,hf,hg]
++    abel
++  | single p c =>
++    simp only [ginzburgSignMap_single,ginzburgDifferential_single,map_smul]
++    rw [Q.ginzburgSignMap_homogeneous k (p.differential_degree Q k φ),ginzburgSign_succ]
++    simp only [neg_smul,smul_neg,smul_smul,mul_comm,neg_neg]
++
++theorem ginzburgDifferential_comp_homogeneous (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) (g : Q.GinzburgPathComponent k v w) (q : ℤ)
++    (hg : g ∈ Q.ginzburgCohomologicalComponent k v w q) :
++    Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k g f)=
++      Q.ginzburgPathComp k (Q.ginzburgDifferential k φ v w g) f+
++      ginzburgSign k q • Q.ginzburgPathComp k g (Q.ginzburgDifferential k φ u v f) := by
++  rw [Q.ginzburgDifferential_comp k φ f g,Q.ginzburgSignMap_homogeneous k hg]
++  simp only [map_smul,LinearMap.smul_apply]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgDegreeZeroDifferential.lean b/ASGinzburg/GinzburgDegreeZeroDifferential.lean
+new file mode 100644
+index 0000000..9268e4f
+--- /dev/null
++++ b/ASGinzburg/GinzburgDegreeZeroDifferential.lean
+@@ -0,0 +1,44 @@
++import ASGinzburg.GinzburgDifferentialGradings
++
++/-! The differential vanishes on degree zero, including all original
++paths. In particular the squares on original and dual generators vanish. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgCohomologicalComponent_eq_bot_of_pos (u v : Q.Vertex) {q : ℤ} (hq : 0<q) :
++    Q.ginzburgCohomologicalComponent k u v q=⊥ := by
++  change Finsupp.supported k k _=⊥
++  have hs : {p : Q.GinzburgPath u v | p.cohomologicalDegree=q}=∅ := by
++    ext p
++    simp only [Set.mem_setOf_eq,Set.mem_empty_iff_false,iff_false]
++    intro hp
++    have := p.cohomologicalDegree_nonpos
++    omega
++  rw [hs,Finsupp.supported_empty]
++
++theorem ginzburgDifferential_degreeZero (φ : Q.Potential k) {u v : Q.Vertex}
++    {f : Q.GinzburgPathComponent k u v} (hf : f ∈ Q.ginzburgCohomologicalComponent k u v 0) :
++    Q.ginzburgDifferential k φ u v f=0 := by
++  have hd := Q.ginzburgDifferential_degree k φ 0 hf
++  rw [Q.ginzburgCohomologicalComponent_eq_bot_of_pos k u v (by norm_num)] at hd
++  exact hd
++
++theorem ginzburgDifferential_original (φ : Q.Potential k) {u v : Q.Vertex}
++    (f : Q.PathComponent k u v) :
++    Q.ginzburgDifferential k φ u v (Q.originalGinzburgLinearMap k u v f)=0 := by
++  apply Q.ginzburgDifferential_degreeZero k φ
++  rw [←Q.originalGinzburgLinearMap_range k]
++  exact LinearMap.mem_range_self _ _
++
++theorem ginzburgGeneratorDifferential_original_square (φ : Q.Potential k) (a : Q.Arrow) :
++    Q.ginzburgDifferential k φ (Q.source a) (Q.target a)
++      (Q.ginzburgGeneratorDifferential k φ (.original a))=0 := by
++  exact map_zero _
++
++theorem ginzburgGeneratorDifferential_dual_square (φ : Q.Potential k) (a : Q.Arrow) :
++    Q.ginzburgDifferential k φ (Q.target a) (Q.source a)
++      (Q.ginzburgGeneratorDifferential k φ (.dual a))=0 :=
++  Q.ginzburgDifferential_original k φ (Q.pathCyclicDerivative k a φ)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgSquareProducts.lean b/ASGinzburg/GinzburgSquareProducts.lean
+new file mode 100644
+index 0000000..23a9b5d
+--- /dev/null
++++ b/ASGinzburg/GinzburgSquareProducts.lean
+@@ -0,0 +1,34 @@
++import ASGinzburg.GinzburgDifferentialSign
++
++/-! The square is an unsigned derivation; this reduces square-zero to
++the actual generator calculation, without assuming regularity. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgSign_mul_self (q : ℤ) : ginzburgSign k q*ginzburgSign k q=1 := by
++  change (-1:k)^q*(-1:k)^q=1
++  rw [←mul_zpow]
++  simp
++
++theorem ginzburgSignMap_involutive {u v : Q.Vertex} (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgSignMap k u v (Q.ginzburgSignMap k u v f)=f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp only [map_add,hf,hg]
++  | single p c =>
++    simp only [ginzburgSignMap_single,map_smul,smul_smul,ginzburgSign_mul_self,one_smul]
++
++theorem ginzburgDifferential_square_comp (φ : Q.Potential k) {u v w : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) (g : Q.GinzburgPathComponent k v w) :
++    Q.ginzburgDifferential k φ u w (Q.ginzburgDifferential k φ u w (Q.ginzburgPathComp k g f))=
++      Q.ginzburgPathComp k (Q.ginzburgDifferential k φ v w (Q.ginzburgDifferential k φ v w g)) f+
++      Q.ginzburgPathComp k g (Q.ginzburgDifferential k φ u v (Q.ginzburgDifferential k φ u v f)) := by
++  rw [Q.ginzburgDifferential_comp k φ f g,map_add,
++    Q.ginzburgDifferential_comp,Q.ginzburgDifferential_comp,
++    Q.ginzburgDifferential_sign,Q.ginzburgSignMap_involutive]
++  simp only [map_neg,LinearMap.neg_apply]
++  abel
++
++end ASGinzburg.CutQuiver

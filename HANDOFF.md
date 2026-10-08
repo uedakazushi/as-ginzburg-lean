@@ -1,8 +1,8 @@
 # Codexクラウドへの引継ぎ
 
-実際の閉路・cut次数1・長さ3以上のポテンシャル空間、道を値に取る巡回微分と逆向き始点/終点、長さ≥2と補完cut次数、(3.8)と巡回微分の交換子恒等式を証明。通常の道のunrollingと単射・filtration保存、全sheetの実際の巡回微分が生成するJacobianイデアル・平方包含・対角零性と正に有向/connected/locally finiteな商ZAlgebra、商射・核・関係の零性まで完成。Ginzburg dg微分/d²=0/コホモロジー、有限graded Jacobian商との比較、最小関係・選択の独立性、quadratic分解の橋、標準RHom/derived/perfect・外部一般定理・主定理の同型類対応は未完成。ASRegular triangle333からの3周期性は完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T181147Z-bc8e0dce：219数学モジュール・2005異なる宣言・950 theorem、全段階終了0。
-単位1〜42の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の可合成拡張道の次数付き代数、元の道代数と次数0部分の同型、原論文(1.3)の生成元微分と有限道への符号付き線形延長、全道のコホモロジー次数+1・cut/winding保存、全線形結合のsigned Leibniz則を証明。符号作用素との反可換性・involution、d²のunsigned導分則、次数0での微分の零性と元/逆矢のd²=0まで完成。loopのd²・全道のsquare-zero・実際のコホモロジー/正則性は未証明。Jacobian商との比較・最小関係/選択の独立性・quadratic分解の橋・標準RHom/外部一般定理と同型類対応も未完成。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
+最新ローカル検証 20261008T190529Z-618b1d98：232数学モジュール・2105異なる宣言・1020 theorem、全段階終了0。
+単位1〜43の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 ## 場所・固定環境・権限
 
@@ -26,10 +26,10 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261008T181147Z-bc8e0dce`、全段階終了0、1481.873145590秒。
-UTC 2026-10-08T18:11:47.499720+00:00 → 2026-10-08T18:36:29.372870+00:00。
-JST 2026-10-09T03:11:47.499720+09:00 → 2026-10-09T03:36:29.372870+09:00。
-219数学モジュール・2005異なる明示的宣言・全950 theorem・276 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261008T190529Z-618b1d98`、全段階終了0、1500.924975873秒。
+UTC 2026-10-08T19:05:29.675889+00:00 → 2026-10-08T19:30:30.600869+00:00。
+JST 2026-10-09T04:05:29.675889+09:00 → 2026-10-09T04:30:30.600869+09:00。
+232数学モジュール・2105異なる明示的宣言・全1020 theorem・276 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -59,7 +59,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。前合成・後合成の自然性も完成。正則総加群と総代数の同定と(1.12)への移送も完成。
 3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。有限生成射影の反変同値まで完成。有界cochainホモトピー圏まで完成。左単純分解とExtの相互計算も完成。二重Ext自然同型・有限次元Ext³反変同値・成分線形双対の反変同値・exactな自己同値と頂点単純の移送は完成。総ベクトル双対比較・全作用適合性とAS条件からの周期性まで完成。次は左側総正則Ext比較も完成。次はd₁からの道代数提示と標準RHom/derived接続。
 4. D Ext³の区間制限・projective cover・正規化同型、代数成分回収と区間coherence、AS条件からの正負周期性は完成。道代数全射・最小生成元の基底と成分分解は完成。核の矢イデアル平方への包含と実際の道代数商同型も完成。任意の基底の持上げ・選択の独立性と最小関係を続ける。
-5. Jacobian商・Ginzburg dg代数・d²=0・外部一般定理・主定理の同型類対応。
+5. 単位43でsigned微分とLeibnizは公開検証済み。次の草稿のloop/全道のd²=0・実際のコホモロジー/正則性・H⁰とJacobian商比較を新規公開監査する。cut grading/unrolling比較・AS条件との対応・外部一般定理・主定理の同型類対応を続ける。
 
 一般の全M,N・全次数の自然なHom複体–Abelian.Ext比較も未証明。直和交換には長完全列の自然性を使用した。
 古いleftDerived型ProjectiveResolution.isoExtを新しいAbelian.Extの比較と取り違えない。
