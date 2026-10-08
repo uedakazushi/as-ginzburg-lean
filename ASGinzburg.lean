@@ -18,6 +18,7 @@ import ASGinzburg.ExactEquivalenceExt
 import ASGinzburg.LocallyUnitalExtComparison
 import ASGinzburg.LocallyUnitalExtNaturality
 import ASGinzburg.RegularTotalAlgebra
+import ASGinzburg.RegularRightModule
 import ASGinzburg.RegularCoproductActions
 import ASGinzburg.TotalModuleSpaces
 import ASGinzburg.ASDualityRegularCoproduct

@@ -1,0 +1,133 @@
+import ASGinzburg.LocallyUnitalExtNaturality
+import ASGinzburg.RegularTotalAlgebra
+import Mathlib.Algebra.Module.TransferInstance
+
+/-!
+The total algebra is an actual locally unital right module. Its action is
+scalar multiplication plus right multiplication. The original regular
+coproduct totalizes to this module, and component left multiplication is
+identified with the original regular endomorphisms.
+-/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+noncomputable def totalAlgebraRightUnitizationModule : Module A.totalUnitizationᵐᵒᵖ A.totalAlgebra := by
+  letI := A.rightTotalUnitizationModule A.rightRegularCoproduct
+  exact A.rightRegularTotalAlgebraEquiv.symm.toAddEquiv.module A.totalUnitizationᵐᵒᵖ
+
+noncomputable def totalAlgebraRightModule : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ := by
+  letI : Module A.totalUnitizationᵐᵒᵖ A.totalAlgebra := A.totalAlgebraRightUnitizationModule
+  exact ModuleCat.of A.totalUnitizationᵐᵒᵖ A.totalAlgebra
+
+theorem totalAlgebraRightModule_smul (r : A.totalUnitizationᵐᵒᵖ) (x : A.totalAlgebra) :
+    letI : Module A.totalUnitizationᵐᵒᵖ A.totalAlgebra := A.totalAlgebraRightUnitizationModule
+    letI : SMul A.totalUnitizationᵐᵒᵖ A.totalAlgebra :=
+      A.totalAlgebraRightUnitizationModule.toDistribMulAction.toMulAction.toSMul
+    (r • x : A.totalAlgebra) = r.unop.fst • x + x * r.unop.snd := by
+  letI : Module A.totalUnitizationᵐᵒᵖ A.totalAlgebra := A.totalAlgebraRightUnitizationModule
+  letI : SMul A.totalUnitizationᵐᵒᵖ A.totalAlgebra :=
+    A.totalAlgebraRightUnitizationModule.toDistribMulAction.toMulAction.toSMul
+  change A.rightRegularTotalAlgebraEquiv
+    (r.unop.fst • A.rightRegularTotalAlgebraEquiv.symm x +
+      (A.rightTotalRepresentation A.rightRegularCoproduct r.unop.snd).unop
+        (A.rightRegularTotalAlgebraEquiv.symm x)) = _
+  rw [map_add, map_smul, A.rightRegularTotalAlgebraEquiv_representation,
+    LinearEquiv.apply_symm_apply]
+
+noncomputable def rightRegularTotalModuleIso :
+    A.rightTotalModule A.rightRegularCoproduct ≅ A.totalAlgebraRightModule := by
+  letI := A.rightTotalUnitizationModule A.rightRegularCoproduct
+  letI : Module A.totalUnitizationᵐᵒᵖ A.totalAlgebra := A.totalAlgebraRightUnitizationModule
+  let e : A.rightModuleTotalSpace A.rightRegularCoproduct ≃ₗ[A.totalUnitizationᵐᵒᵖ]
+      A.totalAlgebra :=
+    { A.rightRegularTotalAlgebraEquiv.toAddEquiv with
+      map_smul' := by
+        intro r x
+        change A.rightRegularTotalAlgebraEquiv (r • x) =
+          A.rightRegularTotalAlgebraEquiv
+            (r • A.rightRegularTotalAlgebraEquiv.symm (A.rightRegularTotalAlgebraEquiv x))
+        rw [LinearEquiv.symm_apply_apply] }
+  exact e.toModuleIso
+
+theorem totalAlgebraRightModule_locally_unital :
+    A.rightLocallyUnitalProperty A.totalAlgebraRightModule := by
+  letI := A.rightTotalUnitizationModule A.rightRegularCoproduct
+  intro x
+  obtain ⟨s,hs⟩ := A.rightTotalModule_locally_unital A.rightRegularCoproduct
+    (A.rightRegularTotalAlgebraEquiv.symm x)
+  refine ⟨s,?_⟩
+  change A.rightRegularTotalAlgebraEquiv
+    (MulOpposite.op (A.totalAlgebraLocalUnit s : A.totalUnitization) •
+      A.rightRegularTotalAlgebraEquiv.symm x) = x
+  rw [hs, LinearEquiv.apply_symm_apply]
+
+noncomputable def totalAlgebraRightLocallyUnitalModule : A.RightLocallyUnitalModule :=
+  ⟨A.totalAlgebraRightModule, A.totalAlgebraRightModule_locally_unital⟩
+
+noncomputable def rightRegularTotalLocallyUnitalIso :
+    A.rightTotalLocallyUnitalModule A.rightRegularCoproduct ≅
+      A.totalAlgebraRightLocallyUnitalModule :=
+  A.rightLocallyUnitalProperty.isoMk A.rightRegularTotalModuleIso
+
+theorem rightRegularMatrixElement_totalMap {i j p : ℤ} (a : A.Hom i j) (b : A.Hom p i) :
+    A.rightTotalLinearMap (A.rightRegularCoproductAction a) (A.rightRegularMatrixElement b) =
+      A.rightRegularMatrixElement (A.comp a b) := by
+  change A.rightTotalLinearMap (A.rightRegularCoproductAction a)
+    (DirectSum.lof k ℤ _ p
+      (((Sigma.ι (fun t : ℤ => A.representable t) i).app (op (⟨p⟩ : A.Obj))).hom b)) = _
+  rw [A.rightTotalLinearMap_lof]
+  apply congrArg (DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj A.rightRegularCoproduct) p)
+  exact congrArg (fun f => (f.app (op (⟨p⟩ : A.Obj))).hom b)
+    (A.rightRegularCoproduct_inclusion_action a)
+
+theorem rightRegularMatrixElement_totalMap_off {i j p q : ℤ} (a : A.Hom i j)
+    (b : A.Hom p q) (hqi : q ≠ i) :
+    A.rightTotalLinearMap (A.rightRegularCoproductAction a) (A.rightRegularMatrixElement b) = 0 := by
+  change A.rightTotalLinearMap (A.rightRegularCoproductAction a)
+    (DirectSum.lof k ℤ _ p
+      (((Sigma.ι (fun t : ℤ => A.representable t) q).app (op (⟨p⟩ : A.Obj))).hom b)) = _
+  rw [A.rightTotalLinearMap_lof]
+  have h := congrArg (fun f => (f.app (op (⟨p⟩ : A.Obj))).hom b)
+    (A.rightRegularCoproduct_inclusion_action_off a q hqi)
+  change _ = (0 : A.rightModuleTotalSpace A.rightRegularCoproduct)
+  have hz : ((A.rightRegularCoproductAction a).app (op (⟨p⟩ : A.Obj))).hom
+      (((Sigma.ι (fun t : ℤ => A.representable t) q).app (op (⟨p⟩ : A.Obj))).hom b) = 0 := h
+  rw [hz, map_zero]
+
+theorem rightRegularTotalAlgebraEquiv_totalMap {i j : ℤ} (a : A.Hom i j)
+    (x : A.rightModuleTotalSpace A.rightRegularCoproduct) :
+    A.rightRegularTotalAlgebraEquiv (A.rightTotalLinearMap (A.rightRegularCoproductAction a) x) =
+      A.totalAlgebraComponent a * A.rightRegularTotalAlgebraEquiv x := by
+  obtain ⟨x,rfl⟩ := A.rightRegularTotalComponentsEquiv.symm.surjective x
+  induction x using DFinsupp.induction with
+  | h0 => simp
+  | ha p b x _ _ ih =>
+    rw [map_add, map_add, map_add, map_add, mul_add, ih]
+    congr 1
+    rcases p with ⟨l,m⟩
+    rw [A.rightRegularTotalComponentsEquiv_symm_single]
+    by_cases hm : m = i
+    · subst m
+      rw [A.rightRegularMatrixElement_totalMap, A.rightRegularTotalAlgebraEquiv_matrixElement,
+        A.rightRegularTotalAlgebraEquiv_matrixElement, A.totalAlgebraComponent_mul]
+    · rw [A.rightRegularMatrixElement_totalMap_off a b hm, map_zero,
+        A.rightRegularTotalAlgebraEquiv_matrixElement,
+        A.totalAlgebraComponent_mul_off b a hm]
+
+noncomputable def totalAlgebraLeftComponentMap {i j : ℤ} (a : A.Hom i j) :
+    A.totalAlgebraRightLocallyUnitalModule ⟶ A.totalAlgebraRightLocallyUnitalModule :=
+  A.rightRegularTotalLocallyUnitalIso.inv ≫
+    A.rightTotalLocallyUnitalFunctor.map (A.rightRegularCoproductAction a) ≫
+      A.rightRegularTotalLocallyUnitalIso.hom
+
+theorem totalAlgebraLeftComponentMap_apply {i j : ℤ} (a : A.Hom i j)
+    (x : A.totalAlgebra) :
+    (A.totalAlgebraLeftComponentMap a).hom x = A.totalAlgebraComponent a * x := by
+  change A.rightRegularTotalAlgebraEquiv
+    (A.rightTotalLinearMap (A.rightRegularCoproductAction a)
+      (A.rightRegularTotalAlgebraEquiv.symm x)) = _
+  rw [A.rightRegularTotalAlgebraEquiv_totalMap, LinearEquiv.apply_symm_apply]
+
+end ASGinzburg.ZAlgebra
