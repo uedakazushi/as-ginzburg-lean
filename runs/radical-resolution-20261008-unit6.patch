@@ -1,0 +1,134 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 71cb855..cc4b575 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -15,6 +15,7 @@ import ASGinzburg.RightModuleMinimality
+ import ASGinzburg.RightModuleSimpleHom
+ import ASGinzburg.ASResolution
+ import ASGinzburg.RightModuleExtLinear
++import ASGinzburg.ASResolutionComplex
+ import ASGinzburg.RightModuleExt
+ import ASGinzburg.ExtDimension
+ import ASGinzburg.TopCohomology
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index d3cad29..bd15a13 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -19,6 +19,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.hom_d₁_simple_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.hom_d₂_simple_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.hom_d₃_simple_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complexTerm
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complexDifferential
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complexDifferential_sq
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complex
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complexTermProjective
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complex_exactAt_succ
++#print axioms ASGinzburg.ZAlgebra.ASResolution.augmentation
++#print axioms ASGinzburg.ZAlgebra.ASResolution.augmentationQuasiIso
++#print axioms ASGinzburg.ZAlgebra.ASResolution.toProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.ASResolution.complex_isZero_ge_four
+ #print axioms ASGinzburg.conjugateHom
+ #print axioms ASGinzburg.conjugateHom_apply
+ #print axioms ASGinzburg.conjugateHom_id
+diff --git a/ASGinzburg/ASResolutionComplex.lean b/ASGinzburg/ASResolutionComplex.lean
+new file mode 100644
+index 0000000..f629080
+--- /dev/null
++++ b/ASGinzburg/ASResolutionComplex.lean
+@@ -0,0 +1,95 @@
++import ASGinzburg.ASResolution
++import ASGinzburg.RightModuleExt
++
++/-!
++# From the finite minimal AS sequence to a mathlib projective resolution
++
++The input is the concrete sequence in Definition 1.1(i). We prove positive
++degree exactness and that its augmentation to s_v is a quasi-isomorphism.
++No existence of the input sequence for an arbitrary algebra is claimed.
++-/
++
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++variable {v : Q.LiftVertex} (R : A.ASResolution Q v)
++
++/-- Extend the four actual projective terms by zero in degrees ≥4. -/
++noncomputable def complexTerm (_R : A.ASResolution Q v) : ℕ → A.RightModule
++  | 0 => A.representable (Q.height v)
++  | 1 => A.asResolutionTerm₁ Q v
++  | 2 => A.asResolutionTerm₂ Q v
++  | 3 => A.representable (Q.height (Q.tau.symm v))
++  | _ + 4 => 0
++
++noncomputable def complexDifferential : ∀ n : ℕ, R.complexTerm (n + 1) ⟶ R.complexTerm n
++  | 0 => R.d₁
++  | 1 => R.d₂
++  | 2 => R.d₃
++  | _ + 3 => 0
++
++theorem complexDifferential_sq (n : ℕ) :
++    R.complexDifferential (n + 1) ≫ R.complexDifferential n = 0 := by
++  rcases n with _ | _ | _ | n
++  · exact R.d₂_d₁
++  · exact R.d₃_d₂
++  · simp [complexDifferential]
++  · simp [complexDifferential]
++
++/-- A genuine mathlib chain complex, retaining the finite AS terms and differentials. -/
++noncomputable def complex : ChainComplex A.RightModule ℕ :=
++  ChainComplex.of R.complexTerm R.complexDifferential R.complexDifferential_sq
++
++noncomputable instance complexTermProjective (n : ℕ) : Projective (R.complexTerm n) := by
++  rcases n with _ | _ | _ | _ | n <;> dsimp [complexTerm] <;> infer_instance
++
++theorem complex_exactAt_succ (n : ℕ) : R.complex.ExactAt (n + 1) := by
++  rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp)]
++  rcases n with _ | _ | _ | n
++  · simpa [complex, complexTerm, complexDifferential, HomologicalComplex.sc'] using R.exact₁
++  · simpa [complex, complexTerm, complexDifferential, HomologicalComplex.sc'] using R.exact₂
++  · haveI := R.mono_d₃
++    apply (ShortComplex.exact_iff_mono _ ?_).mpr
++    · simpa [complex, complexDifferential, HomologicalComplex.sc',
++        HomologicalComplex.shortComplexFunctor'] using R.mono_d₃
++    · change (ChainComplex.of R.complexTerm R.complexDifferential
++        R.complexDifferential_sq).d 4 3 = 0
++      simpa only [Nat.reduceAdd, complexDifferential] using
++        ChainComplex.of_d R.complexTerm R.complexDifferential R.complexDifferential_sq 3
++  · apply ShortComplex.exact_of_isZero_X₂
++    simpa [complex, complexTerm, HomologicalComplex.sc',
++      HomologicalComplex.shortComplexFunctor'] using isZero_zero A.RightModule
++
++noncomputable def augmentation : R.complex ⟶
++    (ChainComplex.single₀ A.RightModule).obj (A.simpleRightModule (Q.height v)) :=
++  (ChainComplex.toSingle₀Equiv _ _).symm ⟨A.simpleRightModuleπ (Q.height v), by
++    simpa [complex, complexDifferential] using R.d₁_π⟩
++
++noncomputable instance augmentationQuasiIso : QuasiIso R.augmentation := ⟨fun n => by
++  cases n
++  · rw [ChainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros']
++    · dsimp
++      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
++        ⟨R.exact₀, by infer_instance⟩
++      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
++        (by dsimp; exact (ChainComplex.of_d R.complexTerm R.complexDifferential
++          R.complexDifferential_sq 0).symm) (by simp [augmentation])
++    all_goals rfl
++  · rw [quasiIsoAt_iff_exactAt']
++    · apply R.complex_exactAt_succ
++    · apply ChainComplex.exactAt_succ_single_obj⟩
++
++/-- The supplied finite AS sequence is a genuine mathlib projective resolution of s_v. -/
++noncomputable def toProjectiveResolution : ProjectiveResolution (A.simpleRightModule (Q.height v)) where
++  complex := R.complex
++  projective n := by change Projective (R.complexTerm n); infer_instance
++  π := R.augmentation
++  quasiIso := R.augmentationQuasiIso
++
++theorem complex_isZero_ge_four (n : ℕ) : IsZero (R.complex.X (n + 4)) := by
++  change IsZero (R.complexTerm (n + 4))
++  exact isZero_zero A.RightModule
++
++end ASGinzburg.ZAlgebra.ASResolution

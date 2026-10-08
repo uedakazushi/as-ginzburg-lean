@@ -85,3 +85,19 @@ mathlibの古いleftDerived型`Ext`と新しい`Abelian.Ext`は別定義であ�
 開始UTC 2026-10-08T02:39:50.396901+00:00、終了UTC 2026-10-08T02:41:15.194736+00:00。
 295異なる宣言・131 theorem・48 named instanceを監査。
 差分：runs/radical-resolution-20261008-unit5.patch。
+
+## 証明単位6：有限最小分解からmathlib ProjectiveResolutionへの変換
+
+`ASResolutionComplex.lean`で四項をdegree≥4で零に延長した実際のChainComplexを構成した。
+全項の射影性、正次数のexactness、s_vへのaugmentationのQuasiIsoを証明し、
+与えられたASResolutionをmathlib `ProjectiveResolution s_v`へ変換した。
+degree n+4のIsZeroも証明済み。ASResolutionの存在は任意のAについて未証明であり、
+原論文のAS定義(i)の存在条件として扱う。比較同型やAS双対性は仮定していない。
+次：実際のHom複体を構成し、新しいderived-category Extとの比較を証明する。
+単位5のmain保存：44667b2b14d7fe895a9fe215873642389e79fbd5。
+
+
+検証：`20261008T024407Z-dc54759b`、86.544521秒、全段階終了0。
+開始UTC 2026-10-08T02:44:07.074024+00:00、終了UTC 2026-10-08T02:45:33.618552+00:00。
+305異なる宣言・134 theorem・50 named instanceを監査。
+差分：runs/radical-resolution-20261008-unit6.patch。

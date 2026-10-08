@@ -15,6 +15,7 @@ import ASGinzburg.RightModuleMinimality
 import ASGinzburg.RightModuleSimpleHom
 import ASGinzburg.ASResolution
 import ASGinzburg.RightModuleExtLinear
+import ASGinzburg.ASResolutionComplex
 import ASGinzburg.RightModuleExt
 import ASGinzburg.ExtDimension
 import ASGinzburg.TopCohomology
