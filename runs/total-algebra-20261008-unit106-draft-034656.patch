@@ -1,0 +1,71 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgADualMatrixFormulas.lean
+@@ -0,0 +1,68 @@
++import work.ASGinzburgDraft.GinzburgGeneratorJacobianEntries
++import work.ASGinzburgDraft.FiniteIndexedRepresentableDuality
++
++/-! The actual native second and third projective maps, under the
++existing canonical A-dual, are multiplication by the genuine transposed
++Hessian and original-arrow Jacobian matrices. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem ginzburgDualOriginalProjectiveMap_adual_matrix
++    (v : Q.LiftVertex) (l : ℤ)
++    (f : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 ⟶ (Q.unrolledJacobianZAlgebra k φ).representable l)
++    (a : Q.GinzburgIncomingDegree v.1 (-1)) :
++    (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++      (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
++        Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) ((Q.unrolledJacobianZAlgebra k φ).representable l)
++      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨l⟩ f) a=
++      ∑ b : Q.GinzburgIncomingDegree v.1 0,
++        (Q.unrolledJacobianZAlgebra k φ).comp ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++          (fun b : Q.GinzburgIncomingDegree v.1 0 =>
++            Q.height (Q.ginzburgPrefixGeneratorEndpoint v b.val)) ((Q.unrolledJacobianZAlgebra k φ).representable l) f b)
++          (Q.ginzburgGeneratorHessianEntry k φ v a b) := by
++  classical
++  have h := (Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap_indexed_matrix
++    (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    (fun b : Q.GinzburgIncomingDegree v.1 0 =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v b.val)) l
++    (Q.ginzburgDualOriginalProjectiveMap k φ v) f a
++  refine h.trans ?_
++  apply Finset.sum_congr rfl
++  intro b _
++  change (Q.unrolledJacobianZAlgebra k φ).comp _ ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++    (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv _ _ (_ ≫ Q.ginzburgDualOriginalProjectiveMap k φ v)) b)=_
++  rw [Q.ginzburgDualOriginalProjectiveMap_yoneda_entry]
++
++theorem ginzburgLoopDualProjectiveMap_adual_matrix
++    (v : Q.LiftVertex) (l : ℤ)
++    (f : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1) ⟶ (Q.unrolledJacobianZAlgebra k φ).representable l) :
++    (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++      (fun a : Q.GinzburgIncomingDegree v.1 (-2) =>
++        Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) ((Q.unrolledJacobianZAlgebra k φ).representable l)
++      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨l⟩ f)
++      ⟨.loop v.1,rfl,rfl⟩=
++      ∑ b : Q.GinzburgIncomingDegree v.1 (-1),
++        (Q.unrolledJacobianZAlgebra k φ).comp ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++          (fun b : Q.GinzburgIncomingDegree v.1 (-1) =>
++            Q.height (Q.ginzburgPrefixGeneratorEndpoint v b.val)) ((Q.unrolledJacobianZAlgebra k φ).representable l) f b)
++          (Q.ginzburgGeneratorLoopArrowEntry k φ v b) := by
++  classical
++  have h := (Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap_indexed_matrix
++    (fun a : Q.GinzburgIncomingDegree v.1 (-2) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    (fun b : Q.GinzburgIncomingDegree v.1 (-1) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v b.val)) l
++    (Q.ginzburgLoopDualProjectiveMap k φ v) f ⟨.loop v.1,rfl,rfl⟩
++  refine h.trans ?_
++  apply Finset.sum_congr rfl
++  intro b _
++  change (Q.unrolledJacobianZAlgebra k φ).comp _ ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-1)
++    (Q.height (Q.ginzburgPrefixGeneratorEndpoint v (.loop v.1)))
++    ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv _ _ (_ ≫ Q.ginzburgLoopDualProjectiveMap k φ v)) b)=_
++  rw [Q.ginzburgLoopDualProjectiveMap_yoneda_entry]
++
++end ASGinzburg.CutQuiver

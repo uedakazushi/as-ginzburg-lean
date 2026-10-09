@@ -1,0 +1,60 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgProjectiveBasisYoneda.lean
+@@ -0,0 +1,57 @@
++import ASGinzburg.GinzburgGeneratorProjectiveModules
++import work.ASGinzburgDraft.FiniteRepresentableDualMatrix
++
++/-! The identity basis in each actual generator projective summand
++is exactly the Yoneda value of its existing coproduct inclusion. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ginzburgGeneratorCoefficientComponentEquiv_single_symm
++    (w : Q.LiftVertex) (r : ℤ) (a : Q.GinzburgIncomingDegree w.1 r) :
++    (A.ginzburgGeneratorCoefficientComponentEquiv Q w r
++      (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))).symm
++      (Pi.single a (A.id (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))))=
++      (A.rightModuleEvaluation (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))).map
++        (Sigma.ι (fun b : Q.GinzburgIncomingDegree w.1 r =>
++          A.representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint w b.val))) a)
++        (A.id (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))) := by
++  classical
++  exact A.rightFiniteCoproductPiEquiv_single_symm _ _ a _
++
++theorem ginzburgGeneratorCoefficientYoneda_inclusion
++    (w : Q.LiftVertex) (r : ℤ) (a : Q.GinzburgIncomingDegree w.1 r) :
++    A.representableYonedaEquiv (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))
++      (A.ginzburgGeneratorCoefficientModule Q w r)
++      (Sigma.ι (fun b : Q.GinzburgIncomingDegree w.1 r =>
++        A.representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint w b.val))) a)=
++      (A.ginzburgGeneratorCoefficientComponentEquiv Q w r
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))).symm
++        (Pi.single a (A.id (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val)))) :=
++  (A.ginzburgGeneratorCoefficientComponentEquiv_single_symm Q w r a).symm
++
++theorem ginzburgGeneratorCoefficientYoneda_matrix
++    (w z : Q.LiftVertex) (r t : ℤ)
++    (d : A.ginzburgGeneratorCoefficientModule Q w r ⟶
++      A.ginzburgGeneratorCoefficientModule Q z t)
++    (a : Q.GinzburgIncomingDegree w.1 r) :
++    A.ginzburgGeneratorCoefficientComponentEquiv Q z t
++      (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))
++      (A.representableYonedaEquiv (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))
++        (A.ginzburgGeneratorCoefficientModule Q z t)
++        (Sigma.ι (fun b : Q.GinzburgIncomingDegree w.1 r =>
++          A.representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint w b.val))) a ≫ d))=
++      A.ginzburgGeneratorCoefficientComponentEquiv Q z t
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))
++        ((A.rightModuleEvaluation (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))).map d
++          ((A.ginzburgGeneratorCoefficientComponentEquiv Q w r
++            (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))).symm
++            (Pi.single a (A.id (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val)))))) := by
++  rw [A.representableYonedaEquiv_comp]
++  exact congrArg (fun x => A.ginzburgGeneratorCoefficientComponentEquiv Q z t
++    (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))
++    ((A.rightModuleEvaluation (Q.height (Q.ginzburgPrefixGeneratorEndpoint w a.val))).map d x))
++    (A.ginzburgGeneratorCoefficientYoneda_inclusion Q w r a)
++
++end ASGinzburg.ZAlgebra

@@ -1,0 +1,63 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgFirstProjectiveBasis.lean
+@@ -0,0 +1,60 @@
++import work.ASGinzburgDraft.GinzburgFirstProjectiveClasses
++import ASGinzburg.GinzburgGeneratorProjectiveTerms
++
++/-! The genuine native first differential has the actual original-arrow
++Jacobian class as its identity-basis entry. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgOriginalPrefixEndpoint_height_lt (v : Q.LiftVertex)
++    (a : Q.GinzburgIncomingDegree v.1 0) :
++    Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)<Q.height v := by
++  obtain ⟨a,rfl⟩ := (Q.ginzburgOriginalGeneratorEquiv v).surjective a
++  rw [Q.ginzburgOriginalGeneratorEndpoint]
++  exact Q.incomingSource_height_lt v a
++
++noncomputable def ginzburgOriginalUnitCutRepresentative (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 0) :
++    Q.ginzburgCutCohomologicalComponent k
++      (Q.ginzburgPrefixGeneratorEndpoint v a.val).1 v.1 0
++      (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2) :=
++  (Q.ginzburgOriginalFilteredCutMap k φ (Q.ginzburgPrefixGeneratorEndpoint v a.val) v).f 0
++    (Q.ginzburgGeneratorUnitRepresentative k v 0 a)
++
++theorem ginzburgOriginalUnitCutRepresentative_val (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 0) :
++    (Q.ginzburgOriginalUnitCutRepresentative k φ v a).val=
++      Q.ginzburgIncomingArrowPolynomial k v.1 0 a := by
++  change (Q.ginzburgGeneratorUnitRepresentative k v 0 a).val=_
++  exact Q.ginzburgGeneratorUnitRepresentative_val k v 0 a
++
++noncomputable def ginzburgGeneratorOriginalArrowEntry (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 0) :
++    (Q.unrolledJacobianZAlgebra k φ).Hom
++      (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) (Q.height v) :=
++  Q.ginzburgCutZeroQuotientUnrolledEquiv k φ (Q.ginzburgPrefixGeneratorEndpoint v a.val) v
++    (Submodule.Quotient.mk (Q.ginzburgOriginalUnitCutRepresentative k φ v a))
++
++set_option maxRecDepth 2048 in
++theorem ginzburgOriginalRepresentableProjectiveMap_unit_basis (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 0) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation
++      (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).map
++      (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)
++      (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).symm
++        (Pi.single a ((Q.unrolledJacobianZAlgebra k φ).id
++          (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))))=
++      Q.ginzburgGeneratorOriginalArrowEntry k φ v a := by
++  have h := Q.ginzburgOriginalUnitProjectiveClass_coefficients k φ v a
++  have he := ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++    (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).symm_apply_eq.mpr h.symm
++  rw [he]
++  exact Q.ginzburgOriginalRepresentableProjectiveMap_class k φ
++    (Q.ginzburgPrefixGeneratorEndpoint v a.val) v
++    (Q.ginzburgOriginalPrefixEndpoint_height_lt v a)
++    (Q.ginzburgGeneratorUnitRepresentative k v 0 a)
++
++end ASGinzburg.CutQuiver

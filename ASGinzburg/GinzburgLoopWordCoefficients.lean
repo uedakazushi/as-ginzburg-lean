@@ -1,0 +1,47 @@
+import ASGinzburg.GinzburgGeneratorDifferentials
+import ASGinzburg.GinzburgLastGenerator
+import ASGinzburg.CyclicDerivativeMixedCoefficients
+
+/-! The actual loop differential has precisely the original-arrow
+prefix coefficients in its dual-arrow layer. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgLoopDifferential_wordMap (v : Q.Vertex) :
+    Q.ginzburgPathWordMap k v v (Q.ginzburgLoopDifferential k v)=
+      ∑ a : Q.Arrow,
+        ((if Q.source a=v then
+          appendWord (.dual a) (Finsupp.single [.original a] (1:k)) else 0)-
+        (if Q.target a=v then
+          appendWord (.original a) (Finsupp.single [.dual a] (1:k)) else 0)) := by
+  classical
+  simp only [ginzburgLoopDifferential,map_sum,map_sub]
+  apply Finset.sum_congr rfl
+  intro a _
+  by_cases hs : Q.source a=v <;> by_cases ht : Q.target a=v <;>
+    simp [hs,ht,ginzburgPathWordMap,Finsupp.mapDomain_single,
+      GinzburgPath.transport_toList,
+      originalGinzburgArrowPath,dualGinzburgArrowPath,GinzburgPath.toList,
+      appendWord,Finsupp.lmapDomain_apply]
+
+theorem ginzburgLoopDifferential_dual_word_coeff (v : Q.Vertex)
+    (b : Q.Arrow) (w : List Q.GinzburgArrow) :
+    Q.ginzburgPathWordMap k v v (Q.ginzburgLoopDifferential k v) (w++[.dual b])=
+      if Q.source b=v then (Finsupp.single [.original b] (1:k)) w else 0 := by
+  classical
+  rw [Q.ginzburgLoopDifferential_wordMap,Finsupp.finset_sum_apply]
+  calc
+    _ = ∑ a : Q.Arrow, if a=b then
+        (if Q.source b=v then (Finsupp.single [.original b] (1:k)) w else 0) else 0 := by
+      apply Finset.sum_congr rfl
+      intro a _
+      by_cases hab : a=b
+      · subst a
+        by_cases hs : Q.source b=v <;> by_cases ht : Q.target b=v <;>
+          simp [hs,ht,appendWord_coeff]
+      · by_cases hs : Q.source a=v <;> by_cases ht : Q.target a=v <;>
+          simp [hs,ht,appendWord_coeff,hab]
+    _ = _ := by simp
+
+end ASGinzburg.CutQuiver

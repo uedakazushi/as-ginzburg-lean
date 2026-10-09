@@ -1,0 +1,59 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FiniteRepresentableHomCoordinates.lean
+@@ -0,0 +1,56 @@
++import ASGinzburg.CoproductRadicals
++
++/-! Genuine Hom out of finite representable coproducts is the family
++of actual Yoneda values, with concrete evaluation by algebra composition. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++variable {I : Type} [Fintype I]
++
++noncomputable def rightRepresentableCoproductHomEquiv (i : I → ℤ) (M : A.RightModule) :
++    (∐ (fun a => A.representable (i a)) ⟶ M) ≃ₗ[k]
++      (Π a, (A.rightModuleEvaluation (i a)).obj M) :=
++  LinearEquiv.ofBijective
++    { toFun := fun f a => A.representableYonedaEquiv (i a) M
++        (Sigma.ι (fun a => A.representable (i a)) a ≫ f)
++      map_add' := by
++        intro f g
++        funext a
++        change A.representableYonedaEquiv (i a) M (_ ≫ (f+g))=_
++        rw [Preadditive.comp_add,map_add]
++        rfl
++      map_smul' := by
++        intro r f
++        funext a
++        change A.representableYonedaEquiv (i a) M (_ ≫ (r • f))=_
++        rw [Linear.comp_smul,map_smul]
++        rfl }
++    (by
++      constructor
++      · intro f g h
++        apply Sigma.hom_ext
++        intro a
++        apply (A.representableYonedaEquiv (i a) M).injective
++        exact congrFun h a
++      · intro x
++        refine ⟨Sigma.desc (fun a => (A.representableYonedaEquiv (i a) M).symm (x a)),?_⟩
++        funext a
++        change A.representableYonedaEquiv (i a) M (_ ≫ Sigma.desc _)=_
++        rw [Sigma.ι_desc,LinearEquiv.apply_symm_apply])
++
++theorem rightRepresentableCoproductHomEquiv_apply (i : I → ℤ) (M : A.RightModule)
++    (f : ∐ (fun a => A.representable (i a)) ⟶ M) (a : I) :
++    A.rightRepresentableCoproductHomEquiv i M f a=
++      A.representableYonedaEquiv (i a) M
++        (Sigma.ι (fun a => A.representable (i a)) a ≫ f) := rfl
++
++theorem representableMorphism_app_comp (i j l : ℤ)
++    (f : A.representable j ⟶ A.representable l) (a : A.Hom i j) :
++    f.app (op ⟨i⟩) a=
++      A.comp (A.representableYonedaEquiv j (A.representable l) f) a := by
++  have h := A.representableYonedaEquiv_symm_app j (A.representable l)
++    (A.representableYonedaEquiv j (A.representable l) f) (op ⟨i⟩) a
++  simpa only [LinearEquiv.symm_apply_apply] using h
++
++end ASGinzburg.ZAlgebra

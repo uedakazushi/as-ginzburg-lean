@@ -1,0 +1,149 @@
+{
+  "unit": 66,
+  "repository": "uedakazushi/as-ginzburg-lean",
+  "workflow_run_id": 37875613780,
+  "job_id": 113643406108,
+  "head_sha": "9d4cf441f377b0cdcad0de92caf5da1e074436df",
+  "conclusion": "success",
+  "verifier_result": {
+    "run_id": "20261009T024010Z-ed62bc2a",
+    "exit_code": 0,
+    "started_at_utc": "2026-10-09T02:40:10.654541+00:00",
+    "ended_at_utc": "2026-10-09T03:26:02.667912+00:00",
+    "elapsed_seconds": 2752.013365409
+  },
+  "log_bytes": 1166667,
+  "log_sha256": "aed224163f3759e694ede9487e831e68bb68f8bd6bc45d310c304cab65919825",
+  "log_parts": [
+    {
+      "path": "verification/total_algebra_unit66_github_ci_part0.log",
+      "bytes": 583813,
+      "sha256": "d483c172d775de80125aedb5c5c563ffc79511418191d9cfa1334bb4a9619c8d"
+    },
+    {
+      "path": "verification/total_algebra_unit66_github_ci_part1.log",
+      "bytes": 582854,
+      "sha256": "76ac8e0b5e9bd7400138b4ad8ae166c3a491f2b89a53dd7d513a714b0ee39b89"
+    }
+  ],
+  "stage_log_exits": [
+    [
+      "2026-10-09T02:40:11.934131+00:00",
+      "regression_tests",
+      "0",
+      "1.262752"
+    ],
+    [
+      "2026-10-09T02:40:12.814232+00:00",
+      "source_audit",
+      "0",
+      "0.719833"
+    ],
+    [
+      "2026-10-09T02:41:36.737368+00:00",
+      "cache",
+      "0",
+      "83.761335"
+    ],
+    [
+      "2026-10-09T02:41:38.963840+00:00",
+      "environment",
+      "0",
+      "2.172048"
+    ],
+    [
+      "2026-10-09T03:12:32.536774+00:00",
+      "build",
+      "0",
+      "1853.398375"
+    ],
+    [
+      "2026-10-09T03:26:02.113758+00:00",
+      "axioms",
+      "0",
+      "809.575023"
+    ],
+    [
+      "2026-10-09T03:26:02.667084+00:00",
+      "report",
+      "0",
+      "0.552102"
+    ]
+  ],
+  "jobs": [
+    {
+      "id": 113643406108,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37875613780,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Install elan and pinned Lean",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Fresh build and exhaustive axiom audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Save this run's logs, even on failure",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11593921822,
+      "name": "lean-verification-37875613780-1",
+      "size_in_bytes": 151497,
+      "url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11593921822",
+      "archive_download_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11593921822/zip",
+      "expired": false,
+      "created_at": "2026-10-09T03:26:03Z",
+      "expires_at": "2026-11-08T03:26:02Z",
+      "updated_at": "2026-10-09T03:26:03Z",
+      "digest": "sha256:7c5ab33ceaf22c0440907570d989e2f92c47c42cedf478c5a97235530802c9e0",
+      "workflow_run": {
+        "id": 37875613780,
+        "repository_id": 1409469011,
+        "head_repository_id": 1409469011,
+        "head_branch": "main",
+        "head_sha": "9d4cf441f377b0cdcad0de92caf5da1e074436df"
+      }
+    }
+  ],
+  "restoration": "Concatenate log_parts in order without modifying bytes."
+}

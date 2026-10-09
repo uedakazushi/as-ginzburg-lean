@@ -1,9 +1,9 @@
 # 現在の状況
 
-単位71〜79でactual反対Jacobian圏同値による単純商/representableの逆像同型と全評価成分比較を証明。native反対GinzburgRegularから全整数iの元の左単純加群のgenuine ProjectiveResolutionを構成し、全項の既存有限生成射影性・長さ3のfinite cover列・射影次元≤3・任意標的への次数4以上Ext零性を完成。actual巡回微分交換子恒等式からmixed係数一致を導き、native word/path Hessian、元のPotentialの長さ≥3から正の道長さと本来のcut支持、反対ポテンシャルの転置/道反転を証明。actual Ginzburg differentialとHessianの全係数、dual矢の上層prefix成分全体とembedded path Hessianの一致、actual degree -1代表元のquotient/differential cycle、native δのclass公式と既存射影第2微分の各評価成分のactual prefix quotient class公式まで全体検証した。周期性・必要Ext表・Calabi–Yau性・ASRegularを追加仮定にしていない。
-本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。左単純分解の存在や高次零性をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
-最新ローカル検証 20261009T024034Z-d8751382：492数学モジュール・3252異なる宣言・1708 theorem、全段階終了0。
-単位1〜79の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位80〜91で、全層のactual homology/projective class係数と全dual/loop射影項の代表元の全射性を証明。native loop→dual接続写像のactual differential quotient class、ループ微分のword/path係数、全filtered層のprefix係数、nativeループ微分のdual prefix成分全体＝original arrow、既存射影第3微分の全評価成分のactual class公式を完成。actual零道商類とrepresentable恒等成分、有限prefix単位族とcoproduct恒等元基底、actual単一矢/ループ代表元とnative射影基底の同定まで全体ビルド・全宣言公理監査で検証した。
+本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。native反対GinzburgRegularとの同値、全左単純のfinite genuine ProjectiveResolutionと任意標的へのExt≥4零性、actual path Hessianの反転も全体検証済み。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。行列公式や左単純分解の存在をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・ASRegularを新たな仮定にしていない。
+最新ローカル検証 20261009T032315Z-bf08299e：508数学モジュール・3296異なる宣言・1742 theorem、全段階終了0。
+単位1〜91の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -21,17 +21,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 3252異なる名前、全明示的宣言・321 named instanceを含む、終了0 |
-| theorem | 1708、全件が監査対象 |
+| 個別公理監査 | 3296異なる名前、全明示的宣言・321 named instanceを含む、終了0 |
+| theorem | 1742、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261009T024034Z-d8751382`、全段階終了0、2119.995421489秒。
-UTC 2026-10-09T02:40:34.538389+00:00 → 2026-10-09T03:15:54.533839+00:00。
-JST 2026-10-09T11:40:34.538389+09:00 → 2026-10-09T12:15:54.533839+09:00。
+最新ローカル検証 `20261009T032315Z-bf08299e`、全段階終了0、2165.567744235秒。
+UTC 2026-10-09T03:23:15.719186+00:00 → 2026-10-09T03:59:21.286937+00:00。
+JST 2026-10-09T12:23:15.719186+09:00 → 2026-10-09T12:59:21.286937+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 
@@ -55,13 +55,23 @@ JST 2026-10-09T11:40:34.538389+09:00 → 2026-10-09T12:15:54.533839+09:00。
 
 
 
-## 現行のGinzburgからASへの証明状態（単位71〜79）
 
-単位71〜79でactual反対Jacobian圏同値による単純商/representableの逆像同型と全評価成分比較を証明。native反対GinzburgRegularから全整数iの元の左単純加群のgenuine ProjectiveResolutionを構成し、全項の既存有限生成射影性・長さ3のfinite cover列・射影次元≤3・任意標的への次数4以上Ext零性を完成。actual巡回微分交換子恒等式からmixed係数一致を導き、native word/path Hessian、元のPotentialの長さ≥3から正の道長さと本来のcut支持、反対ポテンシャルの転置/道反転を証明。actual Ginzburg differentialとHessianの全係数、dual矢の上層prefix成分全体とembedded path Hessianの一致、actual degree -1代表元のquotient/differential cycle、native δのclass公式と既存射影第2微分の各評価成分のactual prefix quotient class公式まで全体検証した。周期性・必要Ext表・Calabi–Yau性・ASRegularを追加仮定にしていない。
 
-WORK80〜91では全層のactual homology/projective class係数と全dual/loop射影項の代表元の全射性、native loop→dual接続写像のactual differential quotient class、ループ微分のword/path係数、全filtered層のprefix係数、nativeループ微分のdual prefix成分全体＝original arrow、既存射影第3微分の全評価成分のactual class公式を個別Lean終了0で完成。actual零道商類とrepresentable恒等成分、有限prefix単位族とcoproduct恒等元基底、actual単一矢/ループ代表元とnative射影基底の同定も個別終了0で完成。これらは公開79の全体監査には含まれず、各差分/source SHA/個別実測/evidenceを別記した。次は標準基底上のHessian/矢の行列、native右分解のdualと左分解の全微分の一致。
 
-本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。左単純分解の存在や高次零性をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
+
+
+
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位80〜91）
+
+単位80〜91で、全層のactual homology/projective class係数と全dual/loop射影項の代表元の全射性を証明。native loop→dual接続写像のactual differential quotient class、ループ微分のword/path係数、全filtered層のprefix係数、nativeループ微分のdual prefix成分全体＝original arrow、既存射影第3微分の全評価成分のactual class公式を完成。actual零道商類とrepresentable恒等成分、有限prefix単位族とcoproduct恒等元基底、actual単一矢/ループ代表元とnative射影基底の同定まで全体ビルド・全宣言公理監査で検証した。
+
+WORK92〜113ではnative D₂のactual Hessian行列、native D₃のactual original矢行列、全有限representable coproductのYoneda座標とcanonical A-dualのtranspose公式を個別Lean終了0で完成。さらにnative D₁をactual filtered inclusionのhomologyMapと照合し、mathlib cycle classと実際の境界商classの一致、全filtered代表元のJacobian商公式、original単一矢の恒等元基底とD₁のYoneda行列を個別Lean終了0で完成。これらは公開91の全体監査には含まれず、各差分/source SHA/個別実測/evidenceを別記した。次はcanonical A-dualのD₁公式とnative反対分解との全微分の一致。
+
+本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。native反対GinzburgRegularとの同値、全左単純のfinite genuine ProjectiveResolutionと任意標的へのExt≥4零性、actual path Hessianの反転も全体検証済み。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。行列公式や左単純分解の存在をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・ASRegularを新たな仮定にしていない。
 
 過去の単位説明はその時点の状態である。完成判定にはこの段落と最新の実行終了コードを使う。
 
@@ -164,6 +174,8 @@ WORK80〜91では全層のactual homology/projective class係数と全dual/loop�
 | actual反対Jacobianと左右線形加群 | OppositeGinzburgCochainIso、OppositeReflectedJacobianIso、OppositeJacobianLinearEquivalence、OppositeJacobianExactness、OppositeJacobianRepresentables | native反対正則性同値、反射ZAlgebra/線形左右加群圏同値、exactness/representable比較 | native右dualと左分解の微分比較/ASRegular(ii) |
 
 | native左単純分解とactual Hessian | GinzburgLeftSimpleProjectiveResolution、GinzburgLeftFiniteProjectiveResolution、GinzburgLeftSimpleExtBounds、PathCyclicHessian、OppositePathCyclicHessian、GinzburgDualOriginalClassFormula、GinzburgProjectiveConnectingClasses | GinzburgRegularから全左単純のfinite genuine ProjectiveResolutionとExt≥4零性、actual Hessian反転/正長さ/cut支持とnative射影D₂ class公式 | 標準基底行列、dual/左分解の微分一致と低次数/非対角Ext零性/ASRegular(ii) |
+
+| native射影classと恒等元基底 | GinzburgLayerHomologyClasses、GinzburgDualCoefficientRepresentatives、GinzburgLoopCoefficientRepresentatives、GinzburgLoopProjectiveConnectingClasses、GinzburgPrefixFamilyUnits、GinzburgSingleGeneratorProjectiveBasis | 全native D₂/D₃代表元とclass公式、actual prefix単位・既存射影基底の一致を全体検証 | canonical右A-dualと反対分解の全微分一致、低次数/非対角Ext零性・ASRegular(ii) |
 
 ## 主結果の状態
 

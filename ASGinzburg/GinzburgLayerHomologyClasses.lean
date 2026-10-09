@@ -1,0 +1,56 @@
+import ASGinzburg.GinzburgLayerProjectiveNaturality
+import ASGinzburg.GinzburgPrefixHomologyClasses
+import ASGinzburg.GinzburgGradedPrefixInverse
+
+/-! Every actual layer/projective comparison reads the genuine
+prefix quotient coefficients of each concrete homology cycle class. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgLayerProjectiveComponentIso_coefficients
+    (φ : Q.Potential k) (x v : Q.LiftVertex) (r : ℤ) :
+    (Q.ginzburgLayerProjectiveComponentIso k φ x v r).hom ≫
+      (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v r
+        (Q.height x)).toModuleIso (g₂:=Pi.addCommGroup)).hom=
+    HomologicalComplex.homologyMap
+      (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).inv r ≫
+        (Q.ginzburgPrefixTopFixedHomologyIso k φ x v r).hom := by
+  simp only [ginzburgLayerProjectiveComponentIso,ginzburgAssociatedTopFixedHomologyIso,
+    Iso.trans_hom,Iso.symm_hom,Category.assoc,Iso.inv_hom_id,Category.comp_id]
+  rfl
+
+theorem ginzburgLayerProjectiveComponentIso_class
+    (φ : Q.Potential k) (x v : Q.LiftVertex) (r : ℤ)
+    (z : Q.GinzburgAssociatedGraded k x.1 v.1 r r (v.2-x.2))
+    (hz : (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2-x.2)).d r (r+1) z=0) :
+    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v r
+      (Q.height x) ((Q.ginzburgLayerProjectiveComponentIso k φ x v r).hom
+        (moduleCochainHomologyClass
+          (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2-x.2)) r z hz))=
+      Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r
+        (Submodule.Quotient.mk
+          ((Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).inv.f r z)) := by
+  let F := (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).inv
+  have hf : (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2-x.2)).d r (r+1)
+      (F.f r z)=0 := by
+    have he := congrArg (fun f => f z) (F.comm r (r+1))
+    simpa only [ModuleCat.comp_apply,hz,map_zero] using he
+  change ((Q.ginzburgLayerProjectiveComponentIso k φ x v r).hom ≫
+    (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v r
+      (Q.height x)).toModuleIso (g₂:=Pi.addCommGroup)).hom)
+        (moduleCochainHomologyClass
+          (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2-x.2)) r z hz)=_
+  rw [Q.ginzburgLayerProjectiveComponentIso_coefficients]
+  change (Q.ginzburgPrefixTopFixedHomologyIso k φ x v r).hom
+    (HomologicalComplex.homologyMap F r (moduleCochainHomologyClass
+      (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2-x.2)) r z hz))=_
+  rw [moduleCochainHomologyClass_naturality F r z hz hf]
+  change Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r
+    ((Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ x.1 v.1 r (v.2-x.2)).hom
+      (moduleCochainHomologyClass
+        (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2-x.2)) r (F.f r z) hf))=_
+  rw [Q.ginzburgPrefixTopHomologyQuotientIso_class]
+
+end ASGinzburg.CutQuiver
