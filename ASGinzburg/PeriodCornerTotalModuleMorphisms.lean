@@ -1,0 +1,57 @@
+import ASGinzburg.PeriodCutModuleGradedAction
+
+/-! Genuine cover-module morphisms act componentwise on the native cut-module total spaces. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cornerTotalModuleLinearMap
+    {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N) :
+    E.CornerModuleTotalSpace Q M →ₗ[k] E.CornerModuleTotalSpace Q N :=
+  DFinsupp.mapRange.linearMap (fun x => (f.app (op (E.cornerCoordinateObject Q x))).hom)
+
+theorem cornerTotalModuleLinearMap_lof
+    {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)
+    (x : Q.LiftVertex) (v : E.CornerModuleSpace Q M x) :
+    E.cornerTotalModuleLinearMap Q f
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x v)=
+        DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q N) x
+          ((f.app (op (E.cornerCoordinateObject Q x))).hom v) :=
+  DFinsupp.mapRange_single (hf:=fun x => (f.app (op (E.cornerCoordinateObject Q x))).hom.map_zero)
+
+theorem cornerModuleMap_naturality
+    {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)
+    {x y : Q.LiftVertex} (a : E.CornerCoverHom Q x y) :
+    (f.app (op (E.cornerCoordinateObject Q x))).hom.comp (E.cornerModuleMap Q M x y a)=
+      (E.cornerModuleMap Q N x y a).comp (f.app (op (E.cornerCoordinateObject Q y))).hom := by
+  exact congrArg (fun t => t.hom) (f.naturality (E.cornerCoordinateHomEquiv Q x y a).op)
+
+theorem cornerTotalModuleLinearMap_degreeInsertion
+    {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)
+    (q : ℤ) (v : E.CornerModuleDegreeSpace Q M q) :
+    E.cornerTotalModuleLinearMap Q f (E.cornerModuleDegreeInsertion Q M q v)∈
+      E.cornerModuleGrade Q N q := by
+  refine DirectSum.induction_on v ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+    exact Submodule.zero_mem _
+  · intro i x
+    change E.cornerTotalModuleLinearMap Q f
+      (E.cornerModuleDegreeInsertion Q M q
+        (DirectSum.lof k Q.Vertex (fun i => E.CornerModuleSpace Q M (i,-q)) i x))∈_
+    rw [E.cornerModuleDegreeInsertion_lof,E.cornerTotalModuleLinearMap_lof]
+    exact E.cornerModule_lof_mem_grade Q N q (i,-q) rfl _
+  · intro x y hx hy
+    rw [map_add,map_add]
+    exact Submodule.add_mem _ hx hy
+
+theorem cornerTotalModuleLinearMap_mem_grade
+    {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)
+    (q : ℤ) (v : E.CornerModuleTotalSpace Q M) (hv : v∈E.cornerModuleGrade Q M q) :
+    E.cornerTotalModuleLinearMap Q f v∈E.cornerModuleGrade Q N q := by
+  rcases hv with ⟨x,rfl⟩
+  exact E.cornerTotalModuleLinearMap_degreeInsertion Q f q x
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,35 @@
+import ASGinzburg.PeriodCutGradedModuleFunctor
+
+/-! The concrete cover-to-cut graded module functor is k-linear. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+instance cornerGradedModuleFunctorAdditive : (E.cornerGradedModuleFunctor Q).Additive where
+  map_add := by
+    intro M N f g
+    apply Subtype.ext
+    apply DFinsupp.lhom_ext
+    intro x v
+    change E.cornerTotalModuleLinearMap Q (f+g) (DirectSum.lof k Q.LiftVertex _ x v)=
+      E.cornerTotalModuleLinearMap Q f (DirectSum.lof k Q.LiftVertex _ x v)+
+        E.cornerTotalModuleLinearMap Q g (DirectSum.lof k Q.LiftVertex _ x v)
+    rw [E.cornerTotalModuleLinearMap_lof,E.cornerTotalModuleLinearMap_lof,
+      E.cornerTotalModuleLinearMap_lof]
+    exact (DirectSum.lof k Q.LiftVertex _ x).map_add _ _
+
+instance cornerGradedModuleFunctorLinear : (E.cornerGradedModuleFunctor Q).Linear k where
+  map_smul := by
+    intro M N f c
+    apply Subtype.ext
+    apply DFinsupp.lhom_ext
+    intro x v
+    change E.cornerTotalModuleLinearMap Q (c • f) (DirectSum.lof k Q.LiftVertex _ x v)=
+      c • E.cornerTotalModuleLinearMap Q f (DirectSum.lof k Q.LiftVertex _ x v)
+    rw [E.cornerTotalModuleLinearMap_lof,E.cornerTotalModuleLinearMap_lof]
+    exact (DirectSum.lof k Q.LiftVertex _ x).map_smul c _
+
+end ASGinzburg.ZAlgebra.PeriodIso

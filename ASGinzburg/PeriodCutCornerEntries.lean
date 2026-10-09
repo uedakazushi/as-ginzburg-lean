@@ -1,0 +1,40 @@
+import ASGinzburg.PeriodCornerCoordinateMorphisms
+
+/-! Each homogeneous matrix entry is a genuine morphism of the native
+corner cover at any sheet. Its composition uses R's actual product. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutCornerEntry (m : ℕ) (x y : Q.LiftVertex)
+    (h : y.2-x.2=(m:ℤ)) :
+    E.CutGradedHom m (x.1.val:ℤ) (y.1.val:ℤ) →ₗ[k] E.CornerCoverHom Q x y :=
+  (E.cutHomogeneousComponentLinear (fun i : Q.Vertex => (i.val:ℤ)) m x.1 y.1).codRestrict
+    (E.CornerCoverHom Q x y) (fun f => by
+      change E.cutHomogeneousComponentLinear (fun i : Q.Vertex => (i.val:ℤ)) m x.1 y.1 f∈
+        E.integerCorner Q (y.2-x.2) x.1 y.1
+      rw [h,E.integerCorner_ofNat]
+      exact LinearMap.mem_range_self _ _)
+
+theorem cutCornerEntry_val (m : ℕ) (x y : Q.LiftVertex) (h : y.2-x.2=(m:ℤ))
+    (f : E.CutGradedHom m (x.1.val:ℤ) (y.1.val:ℤ)) :
+    (E.cutCornerEntry Q m x y h f).val=
+      E.cutHomogeneousComponentLinear (fun i : Q.Vertex => (i.val:ℤ)) m x.1 y.1 f := rfl
+
+theorem cutCornerEntry_comp (m n : ℕ) (x y z : Q.LiftVertex)
+    (hm : y.2-x.2=(m:ℤ)) (hn : z.2-y.2=(n:ℤ)) (hmn : z.2-x.2=((m+n:ℕ):ℤ))
+    (f : E.CutGradedHom m (x.1.val:ℤ) (y.1.val:ℤ))
+    (g : E.CutGradedHom n (y.1.val:ℤ) (z.1.val:ℤ)) :
+    E.cutCornerEntry Q (m+n) x z hmn (E.cutGradedComp m n g f)=
+      E.cornerCoverComp Q (E.cutCornerEntry Q n y z hn g) (E.cutCornerEntry Q m x y hm f) := by
+  apply Subtype.ext
+  rw [E.cutCornerEntry_val,cornerCoverComp_val,E.cutCornerEntry_val,E.cutCornerEntry_val,
+    E.cutHomogeneousComponentLinear_mul]
+
+theorem cutCornerEntry_id (x : Q.LiftVertex) :
+    E.cutCornerEntry Q 0 x x (by simp) (E.cutGradedId (x.1.val:ℤ))=E.cornerCoverId Q x := by
+  apply Subtype.ext
+  rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

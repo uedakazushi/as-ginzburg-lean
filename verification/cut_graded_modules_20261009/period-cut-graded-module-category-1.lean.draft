@@ -1,0 +1,43 @@
+import work.ASGinzburgDraft.PeriodCutGradedRightModules
+
+/-! Morphisms are actual k-linear maps preserving the grading and all R actions. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+def homSubmodule (M N : E.CutGradedRightModule Q) :
+    Submodule k (M.space →ₗ[k] N.space) where
+  carrier := {f | (∀ r x,f ((M.representation r).unop x)=(N.representation r).unop (f x)) ∧
+    ∀ q x,x∈M.grade q → f x∈N.grade q}
+  zero_mem' := ⟨by intro r x; simp,by intro q x hx; exact Submodule.zero_mem _⟩
+  add_mem' := by
+    intro f g hf hg
+    constructor
+    · intro r x
+      simp only [LinearMap.add_apply,map_add,hf.1 r x,hg.1 r x]
+    · intro q x hx
+      exact Submodule.add_mem _ (hf.2 q x hx) (hg.2 q x hx)
+  smul_mem' := by
+    intro c f hf
+    constructor
+    · intro r x
+      simp only [LinearMap.smul_apply,map_smul,hf.1 r x]
+    · intro q x hx
+      exact Submodule.smul_mem _ c (hf.2 q x hx)
+
+instance category : Category (E.CutGradedRightModule Q) where
+  Hom M N := ↥(homSubmodule M N)
+  id M := ⟨LinearMap.id,⟨by intro r x; rfl,by intro q x hx; exact hx⟩⟩
+  comp f g := ⟨g.val.comp f.val,⟨by
+    intro r x
+    change g.val (f.val ((_).representation r).unop x)=_
+    rw [f.property.1,g.property.1],by
+    intro q x hx
+    exact g.property.2 q _ (f.property.2 q x hx)⟩⟩
+  id_comp f := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+  comp_id f := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+  assoc f g h := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

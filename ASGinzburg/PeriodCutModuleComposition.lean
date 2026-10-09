@@ -1,0 +1,49 @@
+import ASGinzburg.PeriodCutModuleEntryProducts
+import ASGinzburg.PeriodCutModuleUnit
+
+/-! The actual finite matrix action is multiplicative in the right-module
+order, including the native homogeneous product and its degree transport. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutHomogeneousRightOperator_matrixComp (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (n m : ℕ) (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (z : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) n) :
+    E.cutHomogeneousRightOperator Q M (n+m)
+      (E.cutMatrixComp (fun i : Q.Vertex => (i.val:ℤ)) n m x z)=
+        (E.cutHomogeneousRightOperator Q M n z).comp (E.cutHomogeneousRightOperator Q M m x) := by
+  apply DFinsupp.lhom_ext
+  intro y v
+  change E.cutHomogeneousRightOperator Q M (n+m)
+    (E.cutMatrixComp (fun i : Q.Vertex => (i.val:ℤ)) n m x z)
+      (DirectSum.lof k Q.LiftVertex _ y v)=
+        E.cutHomogeneousRightOperator Q M n z
+          (E.cutHomogeneousRightOperator Q M m x (DirectSum.lof k Q.LiftVertex _ y v))
+  rw [E.cutHomogeneousRightOperator_lof,E.cutHomogeneousRightOperator_lof]
+  simp only [E.cutRightColumnMap_eq_sum,LinearMap.sum_apply,cutMatrixComp_apply,
+    map_sum]
+  conv_rhs =>
+    simp only [E.cutRightEntryColumnMap_apply,E.cutHomogeneousRightOperator_lof,
+      E.cutRightColumnMap_eq_sum,LinearMap.sum_apply]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro j hj
+  apply Finset.sum_congr rfl
+  intro i hi
+  exact LinearMap.congr_fun (E.cutRightEntryColumnMap_comp Q M n m y i j (z i j) (x j y.1)) v
+
+theorem cutHomogeneousRightOperator_mul (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m n : ℕ) (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (z : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) n) :
+    E.cutHomogeneousRightOperator Q M (m+n) (GradedMonoid.GMul.mul x z)=
+      (E.cutHomogeneousRightOperator Q M n z).comp (E.cutHomogeneousRightOperator Q M m x) := by
+  change E.cutHomogeneousRightOperator Q M (m+n)
+    (E.cutBlockTransport (fun i : Q.Vertex => (i.val:ℤ)) (n+m) (m+n) (Nat.add_comm n m)
+      (E.cutMatrixComp (fun i : Q.Vertex => (i.val:ℤ)) n m x z))=_
+  rw [E.cutHomogeneousRightOperator_gradeTransport,E.cutHomogeneousRightOperator_matrixComp]
+
+end ASGinzburg.ZAlgebra.PeriodIso

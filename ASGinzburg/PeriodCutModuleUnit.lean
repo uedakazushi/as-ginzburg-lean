@@ -1,0 +1,52 @@
+import ASGinzburg.PeriodCutModuleColumns
+import ASGinzburg.PeriodCornerInsertionMaps
+
+/-! The actual homogeneous identity acts as the identity on the whole
+cover module total space. Changing the written homogeneous degree does
+not change the induced operator. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutHomogeneousRightOperator_gradeTransport
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (m n : ℕ) (h : m=n)
+    (r : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    E.cutHomogeneousRightOperator Q M n
+      (E.cutBlockTransport (fun i : Q.Vertex => (i.val:ℤ)) m n h r)=
+        E.cutHomogeneousRightOperator Q M m r := by
+  subst n
+  rfl
+
+theorem cutHomogeneousRightOperator_one
+    (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    E.cutHomogeneousRightOperator Q M 0
+      (GradedMonoid.GOne.one : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)=
+        (1 : Module.End k (E.CornerModuleTotalSpace Q M)) := by
+  apply DFinsupp.lhom_ext
+  intro y v
+  rcases y with ⟨j,s⟩
+  change E.cutHomogeneousRightOperator Q M 0
+    (E.cutMatrixId (fun i : Q.Vertex => (i.val:ℤ)))
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (j,s) v)=
+        DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (j,s) v
+  rw [E.cutHomogeneousRightOperator_lof,E.cutRightColumnMap_apply]
+  rw [Finset.sum_eq_single j]
+  · rw [E.cutMatrixId_diag]
+    have hs : cutRightSource Q 0 (j,s) j=(j,s) := by simp [cutRightSource]
+    have he := E.cornerInsertionMap_congr_source Q M (cutRightSource Q 0 (j,s) j) (j,s) (j,s)
+      hs (E.cutCornerEntry Q 0 (cutRightSource Q 0 (j,s) j) (j,s)
+        (cutRightSource_difference Q 0 (j,s) j) (E.cutGradedId (j.val:ℤ)))
+      (E.cornerCoverId Q (j,s)) (by rfl)
+    change E.cornerInsertionMap Q M (cutRightSource Q 0 (j,s) j) (j,s) _ v=_
+    rw [he]
+    change DirectSum.lof k Q.LiftVertex _ (j,s)
+      (E.cornerModuleMap Q M (j,s) (j,s) (E.cornerCoverId Q (j,s)) v)=_
+    rw [E.cornerModuleMap_id,LinearMap.id_apply]
+  · intro i hi hij
+    rw [E.cutMatrixId_offdiag _ hij,map_zero,map_zero,LinearMap.zero_apply,map_zero]
+  · simp
+
+end ASGinzburg.ZAlgebra.PeriodIso

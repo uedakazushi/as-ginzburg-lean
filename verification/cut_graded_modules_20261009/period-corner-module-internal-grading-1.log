@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/PeriodCornerModuleInternalGrading.lean:27:2: error: Tactic `rfl` failed: The left-hand side
+  { toFun := DFinsupp.mapRange (fun i x => (cornerModuleDegreeGradeEquiv Q E M i) x) ⋯, map_add' := ⋯, map_smul' := ⋯,
+      invFun := DFinsupp.mapRange (fun i x => (cornerModuleDegreeGradeEquiv Q E M i).symm x) ⋯, left_inv := ⋯,
+      right_inv := ⋯ }
+    ((DirectSum.lof k ℤ (CornerModuleDegreeSpace Q E M) q) x)
+is not definitionally equal to the right-hand side
+  (DirectSum.lof k ℤ (fun q => ↥(cornerModuleGrade Q E M q)) q ∘ₗ ↑(cornerModuleDegreeGradeEquiv Q E M q)) x
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+q : ℤ
+x : CornerModuleDegreeSpace Q E M q
+⊢ { toFun := DFinsupp.mapRange (fun i x => (cornerModuleDegreeGradeEquiv Q E M i) x) ⋯, map_add' := ⋯, map_smul' := ⋯,
+        invFun := DFinsupp.mapRange (fun i x => (cornerModuleDegreeGradeEquiv Q E M i).symm x) ⋯, left_inv := ⋯,
+        right_inv := ⋯ }
+      ((DirectSum.lof k ℤ (CornerModuleDegreeSpace Q E M) q) x) =
+    (DirectSum.lof k ℤ (fun q => ↥(cornerModuleGrade Q E M q)) q ∘ₗ ↑(cornerModuleDegreeGradeEquiv Q E M q)) x
+work/ASGinzburgDraft/PeriodCornerModuleInternalGrading.lean:26:4: warning: This simp argument is unused:
+  DFinsupp.mapRange.addEquiv
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵o̵r̵n̵e̵r̵M̵o̵d̵u̵l̵e̵D̵e̵g̵r̵e̵e̵R̵a̵n̵g̵e̵E̵q̵u̵i̵v̵,̵D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵a̵p̵R̵a̵n̵g̵e̵.̵l̵i̵n̵e̵a̵r̵E̵q̵u̵i̵v̵,̵
+  ̵ ̵ ̵ ̵ ̵D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵a̵p̵R̵a̵n̵g̵e̵.̵a̵d̵d̵E̵q̵u̵i̵v̵,̵D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵a̵p̵R̵a̵n̵g̵e̵_̵s̵i̵n̵g̵l̵e̵]̵[̲c̲o̲r̲n̲e̲r̲M̲o̲d̲u̲l̲e̲D̲e̲g̲r̲e̲e̲R̲a̲n̲g̲e̲E̲q̲u̲i̲v̲,̲ ̲D̲F̲i̲n̲s̲u̲p̲p̲.̲m̲a̲p̲R̲a̲n̲g̲e̲.̲l̲i̲n̲e̲a̲r̲E̲q̲u̲i̲v̲,̲ ̲D̲F̲i̲n̲s̲u̲p̲p̲.̲m̲a̲p̲R̲a̲n̲g̲e̲_̲s̲i̲n̲g̲l̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCornerModuleInternalGrading.lean:26:31: warning: This simp argument is unused:
+  DFinsupp.mapRange_single
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵o̵r̵n̵e̵r̵M̵o̵d̵u̵l̵e̵D̵e̵g̵r̵e̵e̵R̵a̵n̵g̵e̵E̵q̵u̵i̵v̵,̵D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵a̵p̵R̵a̵n̵g̵e̵.̵l̵i̵n̵e̵a̵r̵E̵q̵u̵i̵v̵,̵
+  ̵ ̵ ̵ ̵ ̵D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵a̵p̵R̵a̵n̵g̵e̵.̵a̵d̵d̵E̵q̵u̵i̵v̵,̵D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵a̵p̵R̵a̵n̵g̵e̵_̵s̵i̵n̵g̵l̵e̵]̵[̲c̲o̲r̲n̲e̲r̲M̲o̲d̲u̲l̲e̲D̲e̲g̲r̲e̲e̲R̲a̲n̲g̲e̲E̲q̲u̲i̲v̲,̲ ̲D̲F̲i̲n̲s̲u̲p̲p̲.̲m̲a̲p̲R̲a̲n̲g̲e̲.̲l̲i̲n̲e̲a̲r̲E̲q̲u̲i̲v̲,̲
+  ̲ ̲ ̲ ̲ ̲D̲F̲i̲n̲s̲u̲p̲p̲.̲m̲a̲p̲R̲a̲n̲g̲e̲.̲a̲d̲d̲E̲q̲u̲i̲v̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

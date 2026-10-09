@@ -1,0 +1,41 @@
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:48:2: error: Tactic `rfl` failed: The left-hand side
+  ({
+        toFun := fun r =>
+          ∑ i,
+            DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y i) ∘ₗ
+              (cornerModuleMap Q E M (cutRightSource Q m y i) y)
+                ((cutCornerEntry Q E m (cutRightSource Q m y i) y ⋯) (r i y.1)),
+        map_add' := ⋯, map_smul' := ⋯ }
+      r)
+    v
+is not definitionally equal to the right-hand side
+  ∑ i,
+    (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y i))
+      (((cornerModuleMap Q E M (cutRightSource Q m y i) y)
+          ((cutCornerEntry Q E m (cutRightSource Q m y i) y ⋯) (r i y.1)))
+        v)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+y : Q.LiftVertex
+r : E.CutGradedBlock (fun i => ↑↑i) m
+v : CornerModuleSpace Q E M y
+⊢ ({
+          toFun := fun r =>
+            ∑ i,
+              DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y i) ∘ₗ
+                (cornerModuleMap Q E M (cutRightSource Q m y i) y)
+                  ((cutCornerEntry Q E m (cutRightSource Q m y i) y ⋯) (r i y.1)),
+          map_add' := ⋯, map_smul' := ⋯ }
+        r)
+      v =
+    ∑ i,
+      (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y i))
+        (((cornerModuleMap Q E M (cutRightSource Q m y i) y)
+            ((cutCornerEntry Q E m (cutRightSource Q m y i) y ⋯) (r i y.1)))
+          v)

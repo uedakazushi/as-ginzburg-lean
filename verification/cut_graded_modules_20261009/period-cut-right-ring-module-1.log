@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/PeriodCutRightRingModule.lean:56:32: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  MulOpposite.unop ((cutRightRepresentation Q E ?M) ((E.cutHomogeneousInclusion (fun i => ↑↑i) ?m) ?r))
+in the target expression
+  (MulOpposite.unop
+        ((cutRightRepresentation Q E M)
+          (MulOpposite.unop (MulOpposite.op ((E.cutHomogeneousInclusion (fun i => ↑↑i) m) r)))))
+      v =
+    ((cutHomogeneousRightOperator Q E M m) r) v
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+r : E.CutGradedBlock (fun i => ↑↑i) m
+v : CornerModuleTotalSpace Q E M
+⊢ (MulOpposite.unop
+        ((cutRightRepresentation Q E M)
+          (MulOpposite.unop (MulOpposite.op ((E.cutHomogeneousInclusion (fun i => ↑↑i) m) r)))))
+      v =
+    ((cutHomogeneousRightOperator Q E M m) r) v

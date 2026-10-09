@@ -1,0 +1,36 @@
+import ASGinzburg.PeriodCutGradedModuleCategory
+
+/-! The actual graded right-module category is k-linear and preadditive. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+instance preadditive : Preadditive (E.CutGradedRightModule Q) where
+  homGroup M N := inferInstanceAs (AddCommGroup ↥(homSubmodule M N))
+  add_comp M N P f g h := by
+    apply Subtype.ext
+    apply LinearMap.ext
+    intro x
+    exact h.val.map_add (f.val x) (g.val x)
+  comp_add M N P f g h := by
+    apply Subtype.ext
+    apply LinearMap.ext
+    intro x
+    rfl
+
+instance linear : Linear k (E.CutGradedRightModule Q) where
+  homModule M N := inferInstanceAs (Module k ↥(homSubmodule M N))
+  smul_comp M N P c f g := by
+    apply Subtype.ext
+    apply LinearMap.ext
+    intro x
+    exact g.val.map_smul c (f.val x)
+  comp_smul M N P f c g := by
+    apply Subtype.ext
+    apply LinearMap.ext
+    intro x
+    rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:19:2: error: Invalid field notation: Function `LinearMap.range` does not have a usable parameter of type `LinearMap ...` for which to substitute
+  cornerModuleDegreeInsertion Q E M q
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:24:55: error(lean.unknownIdentifier): Unknown constant `DirectSum.lof_injective`
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:29:2: error: Type mismatch
+  LinearEquiv.ofInjective (cornerModuleDegreeInsertion Q E M q) ⋯
+has type
+  CornerModuleDegreeSpace Q E M q ≃ₗ[k] ↥(LinearMap.range (cornerModuleDegreeInsertion Q E M q))
+but is expected to have type
+  CornerModuleDegreeSpace Q E M q ≃ₗ[k] ↥(cornerModuleGrade Q E M q)
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:36:23: error: Application type mismatch: The argument
+  cornerModuleGrade Q E M
+has type
+  ℤ → Submodule k (CornerModuleTotalSpace Q E M)
+of sort `Type v` but is expected to have type
+  ℤ → Type ?u.41106
+of sort `Type (?u.41106 + 1)` in the application
+  @DirectSum.lof k ?m.39 ℤ (cornerModuleGrade Q E M)
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:50:54: error(lean.unknownIdentifier): Unknown constant `DirectSum.coeLinearMap_lof`
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:49:6: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PeriodCornerModuleDegreeDecomposition.lean:50:13: warning: This simp argument is unused:
+  LinearMap.comp_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵,̵L̵i̵n̵e̵a̵r̵E̵q̵u̵i̵v̵.̵c̵o̵e̵_̵c̵o̵e̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵c̵o̵e̵L̵i̵n̵e̵a̵r̵M̵a̵p̵_̵l̵o̵f̵]̵[̲L̲i̲n̲e̲a̲r̲E̲q̲u̲i̲v̲.̲c̲o̲e̲_̲c̲o̲e̲,̲ ̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲c̲o̲e̲L̲i̲n̲e̲a̲r̲M̲a̲p̲_̲l̲o̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

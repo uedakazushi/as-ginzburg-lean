@@ -1,0 +1,68 @@
+import work.ASGinzburgDraft.PeriodCutModuleGradedAction
+
+/-! A concrete category model of integer-graded unital right modules over
+the native cut ring. The action is an actual k-algebra representation in
+opposite endomorphisms; the grading is an internal direct-sum decomposition. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+structure CutGradedRightModule where
+  space : ModuleCat.{v} k
+  representation : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) →ₐ[k]
+    (Module.End k space)ᵐᵒᵖ
+  grade : ℤ → Submodule k space
+  decomposition : DirectSum.Decomposition grade
+  homogeneous : ∀ (m : ℕ) (r : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (q : ℤ) (x : space),x∈grade q →
+      (representation (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) m r)).unop x∈
+        grade (q+(m:ℤ))
+
+noncomputable def cornerGradedRightModule
+    (M : (E.cornerCoverZAlgebra Q).RightModule) : E.CutGradedRightModule Q where
+  space := ModuleCat.of k (E.CornerModuleTotalSpace Q M)
+  representation := E.cutRightRepresentation Q M
+  grade := E.cornerModuleGrade Q M
+  decomposition := E.cornerModuleGradeDecomposition Q M
+  homogeneous m r q x hx := by
+    change (E.cutRightRepresentation Q M
+      (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) m r)).unop x∈
+        E.cornerModuleGrade Q M (q+(m:ℤ))
+    rw [E.cutRightRepresentation_homogeneous]
+    rcases hx with ⟨v,rfl⟩
+    exact E.cutHomogeneousRightOperator_degreeInsertion_mem Q M m r q v
+
+namespace CutGradedRightModule
+variable {Q E}
+
+noncomputable def rightActionHom (M : E.CutGradedRightModule Q) :
+    (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ →+* Module.End k M.space where
+  toFun r := (M.representation r.unop).unop
+  map_zero' := by rw [MulOpposite.unop_zero,map_zero,MulOpposite.unop_zero]
+  map_one' := by rw [MulOpposite.unop_one,map_one,MulOpposite.unop_one]
+  map_add' r s := by rw [MulOpposite.unop_add,map_add,MulOpposite.unop_add]
+  map_mul' r s := by rw [MulOpposite.unop_mul,map_mul,MulOpposite.unop_mul]
+
+noncomputable instance rightModule (M : E.CutGradedRightModule Q) :
+    Module (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ M.space :=
+  Module.compHom _ M.rightActionHom
+
+noncomputable instance scalarComm (M : E.CutGradedRightModule Q) :
+    SMulCommClass k (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ M.space where
+  smul_comm c r v := (M.rightActionHom r).map_smul c v |>.symm
+
+noncomputable instance scalarTower (M : E.CutGradedRightModule Q) :
+    IsScalarTower k (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ M.space where
+  smul_assoc c r v := by
+    change (M.representation (c • r).unop).unop v=c • (M.representation r.unop).unop v
+    rw [MulOpposite.unop_smul,map_smul,MulOpposite.unop_smul,LinearMap.smul_apply]
+
+noncomputable def ringModule (M : E.CutGradedRightModule Q) :
+    ModuleCat.{v} (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ :=
+  ModuleCat.of _ M.space
+
+end CutGradedRightModule
+end ASGinzburg.ZAlgebra.PeriodIso

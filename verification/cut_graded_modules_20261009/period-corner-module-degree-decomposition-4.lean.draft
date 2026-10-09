@@ -1,0 +1,56 @@
+import work.ASGinzburgDraft.PeriodCornerModuleDegrees
+import Mathlib.Algebra.Module.Submodule.Equiv
+
+/-! The degree regrouping supplies an actual internal direct-sum decomposition. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cornerModuleDegreeInsertion
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (q : ℤ) :
+    E.CornerModuleDegreeSpace Q M q →ₗ[k] E.CornerModuleTotalSpace Q M :=
+  (E.cornerModuleDegreeEquiv Q M).symm.toLinearMap.comp
+    (DirectSum.lof k ℤ (E.CornerModuleDegreeSpace Q M) q)
+
+noncomputable def cornerModuleGrade (M : (E.cornerCoverZAlgebra Q).RightModule) (q : ℤ) :
+    Submodule k (E.CornerModuleTotalSpace Q M) :=
+  LinearMap.range (E.cornerModuleDegreeInsertion Q M q)
+
+theorem cornerModuleDegreeInsertion_injective
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (q : ℤ) :
+    Function.Injective (E.cornerModuleDegreeInsertion Q M q) :=
+  (E.cornerModuleDegreeEquiv Q M).symm.injective.comp (DFinsupp.single_injective (i:=q))
+
+noncomputable def cornerModuleDegreeGradeEquiv
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (q : ℤ) :
+    E.CornerModuleDegreeSpace Q M q ≃ₗ[k] E.cornerModuleGrade Q M q :=
+  LinearEquiv.ofInjective (E.cornerModuleDegreeInsertion Q M q)
+    (E.cornerModuleDegreeInsertion_injective Q M q)
+
+noncomputable def cornerModuleDegreeRangeMap
+    (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    (⨁ q : ℤ,E.CornerModuleDegreeSpace Q M q) →ₗ[k] ⨁ q : ℤ,E.cornerModuleGrade Q M q :=
+  DirectSum.toModule k ℤ _ (fun q =>
+    (DirectSum.lof k ℤ (fun q => ↥(E.cornerModuleGrade Q M q)) q).comp
+      (E.cornerModuleDegreeGradeEquiv Q M q).toLinearMap)
+
+theorem cornerModuleDegreeRangeMap_left
+    (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    (DirectSum.coeLinearMap (E.cornerModuleGrade Q M)).comp
+      (E.cornerModuleDegreeRangeMap Q M)=
+        (E.cornerModuleDegreeEquiv Q M).symm.toLinearMap := by
+  apply DFinsupp.lhom_ext
+  intro q x
+  change DirectSum.coeLinearMap (E.cornerModuleGrade Q M)
+    (E.cornerModuleDegreeRangeMap Q M
+      (DirectSum.lof k ℤ (E.CornerModuleDegreeSpace Q M) q x))=_
+  rw [cornerModuleDegreeRangeMap,DirectSum.toModule_lof]
+  change DirectSum.coeLinearMap (E.cornerModuleGrade Q M)
+    (DirectSum.of (fun q => ↥(E.cornerModuleGrade Q M q)) q
+      (E.cornerModuleDegreeGradeEquiv Q M q x))=_
+  rw [DirectSum.coeLinearMap_of]
+  rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

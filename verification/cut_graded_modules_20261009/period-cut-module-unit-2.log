@@ -1,0 +1,36 @@
+work/ASGinzburgDraft/PeriodCutModuleUnit.lean:37:27: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutCornerEntry Q E 0 ?x ?x ⋯) (E.cutGradedId ↑↑?x.1)
+in the target expression
+  (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (j, s - ↑0))
+      (((cornerModuleMap Q E M (j, s - ↑0) (j, s)) ((cutCornerEntry Q E 0 (j, s - ↑0) (j, s) ⋯) (E.cutGradedId ↑↑j)))
+        v) =
+    (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (j, s)) v
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+j : Q.Vertex
+s : ℤ
+v : CornerModuleSpace Q E M (j, s)
+⊢ (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (j, s - ↑0))
+      (((cornerModuleMap Q E M (j, s - ↑0) (j, s)) ((cutCornerEntry Q E 0 (j, s - ↑0) (j, s) ⋯) (E.cutGradedId ↑↑j)))
+        v) =
+    (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (j, s)) v
+work/ASGinzburgDraft/PeriodCutModuleUnit.lean:36:30: warning: This simp argument is unused:
+  Nat.cast_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵u̵t̵R̵i̵g̵h̵t̵S̵o̵u̵r̵c̵e̵,̵N̵a̵t̵.̵c̵a̵s̵t̵_̵z̵e̵r̵o̵,̵s̵u̵b̵_̵z̵e̵r̵o̵]̵[̲c̲u̲t̲R̲i̲g̲h̲t̲S̲o̲u̲r̲c̲e̲,̲ ̲s̲u̲b̲_̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCutModuleUnit.lean:36:44: warning: This simp argument is unused:
+  sub_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵u̵t̵R̵i̵g̵h̵t̵S̵o̵u̵r̵c̵e̵,̵N̵a̵t̵.̵c̵a̵s̵t̵_̵z̵e̵r̵o̵,̵s̵u̵b̵_̵z̵e̵r̵o̵]̵[̲c̲u̲t̲R̲i̲g̲h̲t̲S̲o̲u̲r̲c̲e̲,̲ ̲N̲a̲t̲.̲c̲a̲s̲t̲_̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

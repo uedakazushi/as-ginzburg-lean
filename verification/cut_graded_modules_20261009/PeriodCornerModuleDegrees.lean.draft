@@ -1,0 +1,36 @@
+import work.ASGinzburgDraft.PeriodCutRightRingModule
+import Mathlib.Algebra.DirectSum.Decomposition
+
+/-! Regroup the actual cover-module total space by degree -sheet. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v
+
+def CutQuiver.moduleDegreeVertexEquiv (Q : CutQuiver) :
+    Q.LiftVertex ≃ Σ _ : ℤ, Q.Vertex where
+  toFun x := ⟨-x.2,x.1⟩
+  invFun x := (x.2,-x.1)
+  left_inv x := by cases x; simp
+  right_inv x := by cases x; simp
+
+namespace ZAlgebra.PeriodIso
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+abbrev CornerModuleDegreeSpace (M : (E.cornerCoverZAlgebra Q).RightModule) (q : ℤ) :=
+  ⨁ i : Q.Vertex,E.CornerModuleSpace Q M (i,-q)
+
+noncomputable def cornerModuleDegreeEquiv (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    E.CornerModuleTotalSpace Q M ≃ₗ[k] ⨁ q : ℤ,E.CornerModuleDegreeSpace Q M q :=
+  (DirectSum.lequivCongrLeft k (M:=E.CornerModuleSpace Q M)
+    Q.moduleDegreeVertexEquiv).trans
+    (DirectSum.sigmaLcurryEquiv k (δ:=fun q i => E.CornerModuleSpace Q M (i,-q)))
+
+theorem cornerModuleDegreeEquiv_apply (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (x : E.CornerModuleTotalSpace Q M) (q : ℤ) (i : Q.Vertex) :
+    E.cornerModuleDegreeEquiv Q M x q i=x (i,-q) := by
+  change (DirectSum.lequivCongrLeft k Q.moduleDegreeVertexEquiv x) ⟨q,i⟩=x (i,-q)
+  exact DirectSum.lequivCongrLeft_apply k Q.moduleDegreeVertexEquiv x ⟨q,i⟩
+
+end ZAlgebra.PeriodIso
+end ASGinzburg
