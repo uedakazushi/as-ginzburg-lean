@@ -1,0 +1,106 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgIndexedArrowReflection.lean
+@@ -0,0 +1,103 @@
++import work.ASGinzburgDraft.GinzburgArrowOppositeClasses
++import work.ASGinzburgDraft.GinzburgIndexedHessianReflection
++import work.ASGinzburgDraft.GinzburgLoopHomCoordinates
++
++/-! All actual native arrow matrix entries reflect under the unchanged
++finite generator equivalences, including their true endpoint transports. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorLoopArrowEntry_heq_of_eq (φ : Q.Potential k)
++    {v v' : Q.LiftVertex} (hv : v=v')
++    (a : Q.GinzburgIncomingDegree v.1 (-1))
++    (a' : Q.GinzburgIncomingDegree v'.1 (-1)) (ha : a.val=a'.val) :
++    HEq (Q.ginzburgGeneratorLoopArrowEntry k φ v a)
++      (Q.ginzburgGeneratorLoopArrowEntry k φ v' a') := by
++  subst v'
++  have haa : a=a' := Subtype.ext ha
++  subst a'
++  rfl
++
++theorem ginzburgGeneratorOriginalArrowEntry_heq_of_eq (φ : Q.Potential k)
++    {v v' : Q.LiftVertex} (hv : v=v')
++    (a : Q.GinzburgIncomingDegree v.1 0)
++    (a' : Q.GinzburgIncomingDegree v'.1 0) (ha : a.val=a'.val) :
++    HEq (Q.ginzburgGeneratorOriginalArrowEntry k φ v a)
++      (Q.ginzburgGeneratorOriginalArrowEntry k φ v' a') := by
++  subst v'
++  have haa : a=a' := Subtype.ext ha
++  subst a'
++  rfl
++
++theorem ginzburgGeneratorOriginalArrowEntry_opposite_indexed (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 0) :
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
++      _ _ _ _
++      (congrArg Q.opposite.height (Q.ginzburgDualOppositeBase_previous v).symm)
++      (congrArg Q.opposite.height (Q.ginzburgOriginalOppositeDualEndpoint v a).symm)
++      (Q.oppositeUnrolledJacobianHomEquiv k φ
++        (Q.ginzburgPrefixGeneratorEndpoint v a.val) v
++        (Q.ginzburgGeneratorOriginalArrowEntry k φ v a))=
++      Q.opposite.ginzburgGeneratorLoopArrowEntry k (Q.oppositePotentialEquiv k φ)
++        (Q.ginzburgDualOppositeBase v) (Q.ginzburgOriginalOppositeDualEquiv v a) := by
++  rcases v with ⟨v,s⟩
++  obtain ⟨a,ha,hda⟩ := a
++  cases a with
++  | dual a => norm_num [GinzburgArrow.cohomologicalDegree] at hda
++  | loop w => norm_num [GinzburgArrow.cohomologicalDegree] at hda
++  | original a =>
++    change Q.target a=v at ha
++    subst v
++    have hao := Q.ginzburgOriginalOppositeDualEquiv_concrete (Q.target a,s) a rfl
++    have h := Q.ginzburgGeneratorOriginalArrowEntry_opposite k φ a s
++    have hv : (Q.opposite.source a,1-s)=Q.ginzburgDualOppositeBase (Q.target a,s) := by
++      rw [Q.ginzburgDualOppositeBase_eq]
++      rfl
++    have hr := Q.opposite.ginzburgGeneratorLoopArrowEntry_heq_of_eq k
++      (Q.oppositePotentialEquiv k φ) hv
++      (⟨.dual a,rfl,rfl⟩ : Q.opposite.GinzburgIncomingDegree (Q.opposite.source a) (-1))
++      (Q.ginzburgOriginalOppositeDualEquiv (Q.target a,s) ⟨.original a,rfl,rfl⟩)
++      (congrArg Subtype.val hao).symm
++    apply eq_of_heq
++    exact (Q.opposite.ginzburgHomTransport_heq k (Q.oppositePotentialEquiv k φ)
++      _ _ _ _ _ _ _).trans
++      ((Q.opposite.ginzburgHomTransport_heq k (Q.oppositePotentialEquiv k φ)
++        _ _ _ _ _ _ _).symm.trans ((heq_of_eq h).trans hr))
++
++theorem ginzburgGeneratorLoopArrowEntry_opposite_indexed (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 (-1)) :
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
++      _ _ _ _
++      (congrArg Q.opposite.height (Q.ginzburgDualOppositeOriginalEndpoint v a).symm)
++      rfl
++      (Q.oppositeUnrolledJacobianHomEquiv k φ (Q.tau.symm v)
++        (Q.ginzburgPrefixGeneratorEndpoint v a.val)
++        (Q.ginzburgGeneratorLoopArrowEntry k φ v a))=
++      Q.opposite.ginzburgGeneratorOriginalArrowEntry k (Q.oppositePotentialEquiv k φ)
++        (Q.ginzburgDualOppositeBase v) (Q.ginzburgDualOppositeOriginalEquiv v a) := by
++  rcases v with ⟨v,s⟩
++  obtain ⟨a,ha,hda⟩ := a
++  cases a with
++  | original a => norm_num [GinzburgArrow.cohomologicalDegree] at hda
++  | loop w => norm_num [GinzburgArrow.cohomologicalDegree] at hda
++  | dual a =>
++    change Q.source a=v at ha
++    subst v
++    have hao := Q.ginzburgDualOppositeOriginalEquiv_concrete (Q.source a,s) a rfl
++    have h := Q.ginzburgGeneratorLoopArrowEntry_opposite k φ a s
++    have hv : (Q.opposite.target a,1-s)=Q.ginzburgDualOppositeBase (Q.source a,s) := by
++      rw [Q.ginzburgDualOppositeBase_eq]
++      rfl
++    have hr := Q.opposite.ginzburgGeneratorOriginalArrowEntry_heq_of_eq k
++      (Q.oppositePotentialEquiv k φ) hv
++      (⟨.original a,rfl,rfl⟩ : Q.opposite.GinzburgIncomingDegree (Q.opposite.target a) 0)
++      (Q.ginzburgDualOppositeOriginalEquiv (Q.source a,s) ⟨.dual a,rfl,rfl⟩)
++      (congrArg Subtype.val hao).symm
++    apply eq_of_heq
++    exact (Q.opposite.ginzburgHomTransport_heq k (Q.oppositePotentialEquiv k φ)
++      _ _ _ _ _ _ _).trans
++      ((Q.opposite.ginzburgHomTransport_heq k (Q.oppositePotentialEquiv k φ)
++        _ _ _ _ _ _ _).symm.trans ((heq_of_eq h).trans hr))
++
++end ASGinzburg.CutQuiver

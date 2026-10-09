@@ -1,5 +1,12 @@
 # 現在の状況
 
+単位114〜131で、canonical A-dual D₁のactual矢公式、original/dualの反対生成元添字と全終点反射、全4項Hom空間と反対射影評価成分の同型を完成。actual native D₁/D₂/D₃の全Jacobian行列反転・Hessian転置と任意元の行列公式、canonical A-dual D₂と反対native D₂の可換性、両端同型の座標と反転D₃有限和公式まで全体ビルド・全宣言公理監査で検証した。
+WORK132〜142は個別Lean終了0・診断なし。全3本のcanonical A-dual/native反対微分の可換性と実際のHom短複体の同型・exactness、既存AS項への移送、mathlibの実際Ext⁰/Ext¹/Ext²の全representable標的での零性、Ext³非対角零性、全次数delta型finrankと総Cardinal rank=1を証明。本来のGinzburgRegularから元のASRegular(i)/(ii)全体を導く定理が個別検証済み。これらは今回の548モジュールの全体監査にはまだ含まれない。
+WORK143〜159は個別Lean終了0・診断なし。任意のincoming基底の実際の持上げ・全射道表示・核の矢イデアル平方への包含・商同型、最小表示の商同型と商生成性から代数全体の可逆性、評価の自然性を証明。任意の基底変更を実際の自由道ZAlgebra自己同型に持ち上げ、表示との可換性と核のcomap等式まで完成。原論文(3.4)の実際の有限foundation代数と有限次元性を構成し、第零sheetのAS生成元添字＝非cut矢の同値と実際の商基底も証明。これらも公開全体監査には未収録。
+未証明：unrolled自己同型の有限cut箙への周期整合した降下、foundationへのexact加群制限・最小関係、AS→Potentialの回収、Keller/Hanihara/Reyesへの接続、Potentialの選択独立性・同型類対応・§5quadratic。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・主結論を新しい仮定にしていない。
+最新ローカル検証 20261009T050135Z-ab4e2d31：548数学モジュール・3423異なる宣言・1837 theorem、全段階終了0。
+単位1〜131の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+
 単位92〜113で、native D₂のactual Hessian行列とnative D₃のactual original矢行列、全有限representable coproductのYoneda座標とcanonical A-dualのtranspose公式を完成。native D₁をactual filtered inclusionのhomologyMapと照合し、mathlib cycle classと実際の境界商classの一致、全filtered代表元のJacobian商公式、original単一矢の恒等元基底とD₁のYoneda行列まで全体ビルド・全宣言公理監査で検証した。
 本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。native反対GinzburgRegularとの同値、全左単純のfinite genuine ProjectiveResolutionと任意標的へのExt≥4零性、actual path Hessianの反転も全体検証済み。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。行列公式や左単純分解の存在をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・ASRegularを新たな仮定にしていない。
 最新ローカル検証 20261009T041520Z-ba229aab：530数学モジュール・3354異なる宣言・1786 theorem、全段階終了0。
@@ -21,17 +28,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 3354異なる名前、全明示的宣言・321 named instanceを含む、終了0 |
-| theorem | 1786、全件が監査対象 |
+| 個別公理監査 | 3423異なる名前、全明示的宣言・321 named instanceを含む、終了0 |
+| theorem | 1837、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261009T041520Z-ba229aab`、全段階終了0、2209.305317288秒。
-UTC 2026-10-09T04:15:20.447085+00:00 → 2026-10-09T04:52:09.752391+00:00。
-JST 2026-10-09T13:15:20.447085+09:00 → 2026-10-09T13:52:09.752391+09:00。
+最新ローカル検証 `20261009T050135Z-ab4e2d31`、全段階終了0、2268.472920865秒。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 
@@ -77,15 +84,34 @@ JST 2026-10-09T13:15:20.447085+09:00 → 2026-10-09T13:52:09.752391+09:00。
 
 
 
-## 現行のGinzburgからASへの証明状態（単位92〜113）
 
-単位92〜113で、native D₂のactual Hessian行列とnative D₃のactual original矢行列、全有限representable coproductのYoneda座標とcanonical A-dualのtranspose公式を完成。native D₁をactual filtered inclusionのhomologyMapと照合し、mathlib cycle classと実際の境界商classの一致、全filtered代表元のJacobian商公式、original単一矢の恒等元基底とD₁のYoneda行列まで全体ビルド・全宣言公理監査で検証した。
 
-WORK114〜131ではcanonical A-dual D₁のactual矢公式、original/dual生成元添字の反対対応と全終点反射、全4項のactual Hom空間と反対射影評価成分の線形同型を個別Lean終了0で完成。actual native D₁/D₂/D₃の全Jacobian行列成分の反転・Hessian転置、任意の評価成分の元の有限和行列公式、actual canonical A-dual D₂と反対native D₂の全Hom元での可換性も個別終了0で完成。両端の同型の座標と反転D₃有限和公式も個別終了0。114/116のimport整合後の現行個別証拠は118に保存し、旧証拠も保持した。これらは公開113の全体監査には含まれない。次はD₁/D₃の可換性、全Hom複体比較とexactness・低次数/非対角Ext消滅への接続。
 
-本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。native反対GinzburgRegularとの同値、全左単純のfinite genuine ProjectiveResolutionと任意標的へのExt≥4零性、actual path Hessianの反転も全体検証済み。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。行列公式や左単純分解の存在をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・ASRegularを新たな仮定にしていない。
 
-過去の単位説明はその時点の状態である。完成判定にはこの段落と最新の実行終了コードを使う。
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位114〜131）
+
+単位114〜131で、canonical A-dual D₁のactual矢公式、original/dualの反対生成元添字と全終点反射、全4項Hom空間と反対射影評価成分の同型を完成。actual native D₁/D₂/D₃の全Jacobian行列反転・Hessian転置と任意元の行列公式、canonical A-dual D₂と反対native D₂の可換性、両端同型の座標と反転D₃有限和公式まで全体ビルド・全宣言公理監査で検証した。
+
+WORK132〜142は個別Lean終了0・診断なし。全3本のcanonical A-dual/native反対微分の可換性と実際のHom短複体の同型・exactness、既存AS項への移送、mathlibの実際Ext⁰/Ext¹/Ext²の全representable標的での零性、Ext³非対角零性、全次数delta型finrankと総Cardinal rank=1を証明。本来のGinzburgRegularから元のASRegular(i)/(ii)全体を導く定理が個別検証済み。これらは今回の548モジュールの全体監査にはまだ含まれない。
+
+WORK143〜159は個別Lean終了0・診断なし。任意のincoming基底の実際の持上げ・全射道表示・核の矢イデアル平方への包含・商同型、最小表示の商同型と商生成性から代数全体の可逆性、評価の自然性を証明。任意の基底変更を実際の自由道ZAlgebra自己同型に持ち上げ、表示との可換性と核のcomap等式まで完成。原論文(3.4)の実際の有限foundation代数と有限次元性を構成し、第零sheetのAS生成元添字＝非cut矢の同値と実際の商基底も証明。これらも公開全体監査には未収録。
+
+未証明：unrolled自己同型の有限cut箙への周期整合した降下、foundationへのexact加群制限・最小関係、AS→Potentialの回収、Keller/Hanihara/Reyesへの接続、Potentialの選択独立性・同型類対応・§5quadratic。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・主結論を新しい仮定にしていない。
+
+過去の単位説明はその時点の状態。完成判定にはこの段落と現行SHAに対応する検査終了コードを使う。
 
 
 ## 形式化状況

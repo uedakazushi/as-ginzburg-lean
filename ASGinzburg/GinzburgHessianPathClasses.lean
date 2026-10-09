@@ -1,0 +1,58 @@
+import ASGinzburg.GinzburgGeneratorJacobianEntries
+import ASGinzburg.GinzburgJacobianPathClasses
+
+/-! The actual native Hessian entries are literal ordinary-path
+Jacobian classes at their true integer-sheet endpoints. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgHessianPathComponent (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) :
+    Q.pathCutComponent k
+      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a)).1
+      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b)).1
+      ((Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b)).2-
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a)).2) := by
+  refine ⟨Q.pathCyclicHessian k a b φ,?_⟩
+  apply Finsupp.supported_mono _ (Q.pathCyclicHessian_ginzburg_cut k a b φ)
+  intro p hp
+  change (p.cutDegree:ℤ)=(s-Q.cutDegree b)-(s-(1-Q.cutDegree a))
+  change (p.cutDegree:ℤ)=(1-Q.cutDegree a)-Q.cutDegree b at hp
+  omega
+
+theorem ginzburgHessianPathComponent_val (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) :
+    (Q.ginzburgHessianPathComponent k φ a b s).val=Q.pathCyclicHessian k a b φ := rfl
+
+theorem ginzburgHessianPrefix_pathClass (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) :
+    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ
+      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a)) (Q.source a,s) (.original b)
+      (Submodule.Quotient.mk (Q.ginzburgUnitHessianComponent k φ a b s))=
+      Q.ginzburgJacobianPathClass k φ
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b))
+        (Q.ginzburgHessianPathComponent k φ a b s) := by
+  rw [Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk]
+  have h : Q.ginzburgPrefixCoefficientZeroCutEquiv k
+      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a)) (Q.source a,s) (.original b)
+      (Q.ginzburgUnitHessianComponent k φ a b s)=
+      Q.originalGinzburgCutDegreeZeroEquiv k _ _ _ (Q.ginzburgHessianPathComponent k φ a b s) := by
+    apply Subtype.ext
+    rw [Q.ginzburgPrefixCoefficientZeroCutEquiv_coe,Q.originalGinzburgCutDegreeZeroEquiv_coe]
+    rfl
+  rw [h,Q.ginzburgCutZeroQuotientUnrolledEquiv_original_mk]
+
+theorem ginzburgGeneratorHessianEntry_pathClass (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) (hb : Q.target b=Q.source a) :
+    Q.ginzburgGeneratorHessianEntry k φ (Q.source a,s)
+      ⟨.dual a,rfl,rfl⟩ ⟨.original b,hb,rfl⟩=
+      Q.ginzburgJacobianPathClass k φ
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b))
+        (Q.ginzburgHessianPathComponent k φ a b s) := by
+  simpa only [ginzburgGeneratorHessianEntry] using
+    Q.ginzburgHessianPrefix_pathClass k φ a b s
+
+end ASGinzburg.CutQuiver

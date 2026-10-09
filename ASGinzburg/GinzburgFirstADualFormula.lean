@@ -1,0 +1,33 @@
+import ASGinzburg.GinzburgFirstProjectiveYoneda
+
+/-! The genuine canonical A-dual of the native first differential is
+the original-arrow column, using actual representable Hom coordinates. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
+
+theorem ginzburgOriginalRepresentableProjectiveMap_adual_matrix
+    (v : Q.LiftVertex) (l : ℤ)
+    (f : (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable l)
+    (a : Q.GinzburgIncomingDegree v.1 0) :
+    (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
+      (fun a : Q.GinzburgIncomingDegree v.1 0 =>
+        Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
+      ((Q.unrolledJacobianZAlgebra k φ).representable l)
+      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
+        (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).app ⟨l⟩ f) a=
+      (Q.unrolledJacobianZAlgebra k φ).comp
+        ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv (Q.height v)
+          ((Q.unrolledJacobianZAlgebra k φ).representable l) f)
+        (Q.ginzburgGeneratorOriginalArrowEntry k φ v a) := by
+  change (Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv
+    (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
+    ((Q.unrolledJacobianZAlgebra k φ).representable l)
+    (_ ≫ (Q.ginzburgOriginalRepresentableProjectiveMap k φ v ≫ f))=_
+  rw [←Category.assoc,(Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv_comp,
+    Q.ginzburgOriginalRepresentableProjectiveMap_yoneda_entry]
+  exact (Q.unrolledJacobianZAlgebra k φ).representableMorphism_app_comp _ _ _ f _
+
+end ASGinzburg.CutQuiver

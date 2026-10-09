@@ -2927,3 +2927,551 @@ UTC 2026-10-09T04:15:20.447085+00:00 → 2026-10-09T04:52:09.752391+00:00。
 
 現行530数学モジュール・3354異なる宣言・1786 theorem・321 named instance。run 20261009T041520Z-ba229aabの全6段階実際の終了0。開始UTC2026-10-09T04:15:20.447085+00:00、終了UTC2026-10-09T04:52:09.752391+00:00、単調時計2209.305317288秒。wrapper actual0、2209.348913050秒。許容3公理のみ、重複/漏れ/placeholder/custom axiom/禁止依存なし。保存検査 actual0（初期14/基準60/保護577）。単位92〜113の各差分・全体終了コード・利用先を保存。WORK114〜131は個別actual0だが全体92監査対象には含まれない。114/116のimport整合後の検査は118に保存し旧差分/証拠を保つ。actual双対D₂/反対native D₂可換性は129で個別actual0。全Hom複体/他の両端可換性/低次数非対角Ext/ASRegular(ii)は未証明。
 main親2c6bc3afa0ae37276437f20e8a1bc3263c9493a9から通常fast-forwardで保存する。PR/forceなし。定理3.2/系5.2は未証明・正式主定理文未実装。開始UTC2026-10-08T07:00:38から実測78780.732256秒。タスク終了時刻未確定。main保存後も両端微分比較とExt消滅へ継続する。
+
+## main保存92〜113と次の全体検証114〜131 UTC 2026-10-09T05:01:34.767827+00:00
+
+GitHub APIのexact tree/parent/ref確認後、mainコミット8008ef6489846e5969cadc23eb372d8e4b03878aをローカルに同一SHAで取り込み、通常fast-forward終了0。PR/force/履歴書換えなし。新たな数学22モジュールとrun20261009T041520Z-ba229aabの全6段階終了0を保存済み。公開準備のJSON分割で日本語ASCIIエスケープによる内部サイズ判定が一度終了1になったため、UTF-8実バイトに修正し再分割終了0。数学ソース・Git indexの内容は変更しなかった。
+次の個別成功18モジュール114〜131を公開ソースへ移し、全体ビルド/公理監査へ進む。114/116の現行SHAには118のimport整合後の終了0証拠を使い、旧記録を保持。actual canonical A-dual D₂と反対native D₂可換性は個別検証済みであり、新全体検査完了までは全体監査済みとしない。D₁/D₃可換性、Hom複体exactness、低次数/非対角Ext、ASRegular(ii)、定理3.2/系5.2は未証明・正式主定理文未実装。
+開始UTC2026-10-08T07:00:38から実測79256.767827秒。タスク終了未確定。全体検査中も次の比較証明へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:02:54.668236+00:00 / JST 2026-10-09T14:02:54.668236+09:00
+
+## 単位132：全生成元添字のactual両端矢行列反射
+
+全original/dual生成元について、本来のD₁/D₃矢行列の反転とnative反対D₃/D₁の一致を、実際の終点移送・生成元添字同値のもとで証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-indexed-arrow-reflection1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：両端微分の積座標比較とcanonical A-dual D₁/D₃の可換性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit132-draft-050254.patch（5152bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79336.668236秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:04:13.971976+00:00 / JST 2026-10-09T14:04:13.971976+09:00
+
+## 単位133：actual両端矢行列とHom座標の積反転
+
+D₁/D₃の本来の矢行列と任意のHom座標の積が、実際の反対成分移送のもとで反対native D₃/D₁行列と反転座標の積に一致することを証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-opposite-arrow-products2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：canonical A-dual D₁/D₃の可換性と全Hom複体比較。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit133-draft-050413.patch（3804bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79415.971976秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:05:00.571873+00:00 / JST 2026-10-09T14:05:00.571873+09:00
+
+## 単位134：canonical A-dual D₁/D₃とactual反対native微分の可換性
+
+全Hom元についてcanonical A-dual D₁が反対native D₃、canonical A-dual D₃が反対native D₁に一致することを、実際の全4項の成分線形同型のもとで証明した。129のD₂比較と合わせて全3微分の可換性が揃った。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-adual-arrow-comparison1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：全Hom複体のactual比較・exactnessと低次数Ext消滅。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit134-draft-050500.patch（3587bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79462.571873秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:08:00.478564+00:00 / JST 2026-10-09T14:08:00.478564+09:00
+
+## 単位135：actual Hom短複体とnative反対射影評価複体の同型・exactness
+
+本来のcanonical A-dual射を持つ2つの実際のModuleCat Hom短複体を構成し、反対native射影短複体の評価成分との同型を証明した。GinzburgRegularから最初のHom短複体のexactness、正則性を仮定せず第2 Hom短複体のexactnessを証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-adual-short-complexes3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：本来の核の零性・Homの持上げとAS射影分解上の低次数Ext消滅。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit135-draft-050800.patch（4805bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79642.478564秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:08:49.351010+00:00 / JST 2026-10-09T14:08:49.351010+09:00
+
+## 単位136：native Hom列の初期核零性と実際の持上げ
+
+GinzburgRegularからnative D₁のHom前合成の核が零であり、D₂で閉じた全Hom元がD₁から持ち上がることを証明。正則性を仮定せず、D₃で閉じた全Hom元がD₂から持ち上がることも証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-native-hom-exactness1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存AS項の同型による移送と実際Ext⁰/Ext¹/Ext²消滅。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit136-draft-050849.patch（2744bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79691.351010秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:09:35.204748+00:00 / JST 2026-10-09T14:09:35.204748+09:00
+
+## 単位137：既存AS射影項上へのactual Hom exactnessの移送
+
+生成元係数射影項と既存AS項の本来の加群同型を使い、AS第1微分のHom核零性、第2/第3微分で閉じた全Hom元の直前の微分からの持上げを証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-as-hom-exactness1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存genuine ProjectiveResolutionとmathlibの実際Ext低次数消滅。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit137-draft-050935.patch（3653bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79737.204748秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:10:32.433385+00:00 / JST 2026-10-09T14:10:32.433385+09:00
+
+## 単位138：GinzburgRegularから実際Ext⁰/Ext¹/Ext²の全representable標的での消滅
+
+genuine simple ProjectiveResolutionの実際のHom複体が全representable標的で次数0/1/2にexactであることを証明し、mathlibのderived-category Abelian.Extがこれら全低次数で零であることを導いた。Ext消滅/AS双対性を仮定していない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-low-ext-vanishing2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：次数3の非対角Ext消滅と総rank=1・ASRegular(ii)。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit138-draft-051032.patch（2177bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79794.433385秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:11:23.791077+00:00 / JST 2026-10-09T14:11:23.791077+09:00
+
+## 単位139：次数3非対角Hom微分のactual全射性
+
+反対側の本来の単純商の非対角成分零性から、反対native第1微分の非対角評価成分が全射であることを証明。全4項のactual同型と第3微分可換性を使い、元のnative最終Hom微分の非対角全射性を証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-off-diagonal-hom-surjectivity1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存AS第3 Hom微分への移送・実際Ext³非対角消滅。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit139-draft-051123.patch（3068bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79845.791077秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:11:56.109626+00:00 / JST 2026-10-09T14:11:56.109626+09:00
+
+## 単位140：genuine四項射影分解の最終Hom全射から実際Ext³消滅
+
+一般Abelian圏のgenuine四項ProjectiveResolutionについて、第3 Hom微分の全射性からmathlib Abelian.Ext³が零であることを、実際のsyzygyとExt長完全列で証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：projective-resolution-top-ext-vanishing1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：反対native第1微分の非対角全射を元のExt³非対角消滅へ接続。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit140-draft-051156.patch（1336bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79878.109626秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:12:46.266967+00:00 / JST 2026-10-09T14:12:46.266967+09:00
+
+## 単位141：実際Ext³の全非対角成分の消滅
+
+native最終Hom微分の非対角全射性を既存AS第3微分へ移し、genuine simple ProjectiveResolutionと実際のsyzygy Ext長完全列からExt³(s_v,P_l)=0（l≠τ⁻¹v）を証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-off-diagonal-ext-vanishing1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：全次数Extのdelta型次元公式とAS総rank=1・GinzburgRegularからASRegular。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit141-draft-051246.patch（2391bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79928.266967秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:13:11.306216+00:00 / JST 2026-10-09T14:13:11.306216+09:00
+
+## 単位142：本来のGinzburgRegularから元のASRegular全体
+
+全次数の実際Extについてdelta型finrank公式を証明し、有限性を最小AS分解から導いた既存の数値的逆方向を使って総Cardinal rank=1を証明。元のASRegularの条件(i)/(ii)を本来のGinzburgRegularだけから導く定理を完成した。定理3.2全体の同型類対応の完成ではない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：ginzburg-regular-implies-as-regular1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：ASからPotentialの回収・選択独立性・逆方向と主定理同型類対応/系5.2。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit142-draft-051311.patch（3074bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測79953.306216秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:15:15.175612+00:00 / JST 2026-10-09T14:15:15.175612+09:00
+
+WORK132〜142は個別Lean検査終了0・診断なし。全3本のcanonical A-dual/native反対微分の可換性、実際のHom短複体の同型とexactness、既存AS項への移送、mathlibの実際Ext⁰/Ext¹/Ext²の全representable標的での消滅、Ext³の非対角消滅、全次数delta型finrankと総Cardinal rank=1を証明。GinzburgRegularから元のASRegular(i)/(ii)全体を導く定理が個別検証済み。これらはまだ公開全体ビルド・全宣言公理監査の対象に追加していない。公開114〜131の新しい全体検査20261009T050135Z-ab4e2d31は実行中であり、最後の確定した全体成功は公開92〜113の20261009T041520Z-ba229aab。
+
+次は任意の基底の持上げ、AS道表示の最小関係とfoundation制限、AS→Potentialの回収とKeller/Hanihara/Reyesへの接続、選択独立性・同型類対応・§5quadratic。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext同型・Calabi–Yau性・主結論を新しい仮定にしていない。
+前のmainコミット2c6bc3afa0ae37276437f20e8a1bc3263c9493a9のCI37882273346/job113664377523はsuccess。実際の7段階全終了0、verifier UTC2026-10-09T04:06:14.165728+00:00→2026-10-09T04:53:06.141874+00:00、2811.976144891秒。全1,210,029bytesログを2部分に保存しSHA346f0e8693f6b5fc3811560bf6f93279ab96e9635d5f67295c962fec6a56a9a0を確認。artifact11595809453保存。前の508モジュールのCIであり、現在の追加証明のCI成功とはしない。
+現在の公開548数学モジュールのrun20261009T050135Z-ab4e2d31はstatus=running、段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': None}。buildは進行中。README/HANDOFF/STATUS/GAPS/AGENTSを個別成功と全体監査の区別を保って更新。
+開始UTC2026-10-08T07:00:38から実測80077.175612秒。タスク終了未確定。AS→Potentialに必要な表示/関係へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:17:21.653387+00:00 / JST 2026-10-09T14:17:21.653387+09:00
+
+## 単位143：任意のactual indecomposable基底の代数元への持上げ
+
+実際のHom/正次数積の商の任意の基底について、商射の全射性から代数元の持上げを構成し、商類の一致とspan(lifts)⊔span(products)=⊤を証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：indecomposable-basis-lifts1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意のincoming矢基底の道表示・基底/代表元の選択独立性と最小関係。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit143-draft-051721.patch（1715bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80203.653387秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:18:12.601741+00:00 / JST 2026-10-09T14:18:12.601741+09:00
+
+## 単位144：任意のincoming矢基底系と実際の代数元の持上げ
+
+各正次数のactual indecomposable成分の任意の矢基底系を定義し、実際のincoming代数元と終点移送、基底商類の一致、成分分解を証明。元のASRegularからこの基底系の存在を導いた。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-incoming-basis-systems1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意基底の自由道全射・選択独立性・最小関係。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit144-draft-051812.patch（2800bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80254.601741秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:19:26.004267+00:00 / JST 2026-10-09T14:19:26.004267+09:00
+
+## 単位145：任意のactual incoming代数元による自由道評価と積・単位元保存
+
+既存の道と線形右加群定義を保ち、任意のactual incoming代数元に対する自由unrolled道評価と線形延長を構成。道/有限多項式の積保存・単位元保存・snoc公式を証明した。AS分解のd₁に係数を固定していない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：arbitrary-arrow-path-evaluation2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意矢基底の持上げによる道評価の全射性と最小表示。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit145-draft-051926.patch（3268bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80328.004267秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:20:14.407233+00:00 / JST 2026-10-09T14:20:14.407233+09:00
+
+## 単位146：任意の矢基底の持上げによるactual自由道全射
+
+任意のincoming矢基底系の持上げが本来のunrolled自由道評価を全射にすることを、正次数積の分解と高さ差の強帰納法で証明した。AS第1微分の固定係数に依存しない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-basis-path-surjectivity2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意基底の頂点固定道ZAlgebra全射と核の矢イデアル平方包含。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit146-draft-052014.patch（3172bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80376.407233秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:21:12.435878+00:00 / JST 2026-10-09T14:21:12.435878+09:00
+
+## 単位147：任意の矢基底による頂点固定のactual道ZAlgebra全射
+
+任意のincoming代数元による頂点固定・積/単位元保存の自由道ZAlgebra準同型を構成し、任意のactual矢基底系の持上げでは全整数成分で全射であることを証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：arbitrary-arrow-presentation1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意基底表示の核の矢イデアル平方包含と最小関係/選択独立性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit147-draft-052112.patch（2220bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80434.435878秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:22:05.688547+00:00 / JST 2026-10-09T14:22:05.688547+09:00
+
+## 単位148：任意矢基底の一矢道のactual商類独立性
+
+任意のincoming代数元による商評価が全長さ≥2の道を消すことを証明。任意のactual矢基底系では一矢道の商類がその基底に一致し、線形独立であることを証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：arbitrary-arrow-indecomposables1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意基底の道表示の核に長さ1の項がないことと最小表示条件(1.9)。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit148-draft-052205.patch（3700bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80487.688547秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:22:39.460328+00:00 / JST 2026-10-09T14:22:39.460328+09:00
+
+## 単位149：任意のactual矢基底の道表示核の長さ≥2支持
+
+一矢道の商類の独立性と全長さ≥2道の商類零性から、任意矢基底による自由道評価の全成分の核が長さ≥2道のspanに含まれることを証明した。対角成分と向きの逆の成分も実際に処理した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-basis-kernel-support1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：核の二側矢イデアル平方包含・本来の最小表示と商同型。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit149-draft-052239.patch（4094bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80521.460328秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:23:55.832938+00:00 / JST 2026-10-09T14:23:55.832938+09:00
+
+## 単位150：任意矢基底による原論文の最小道表示と実際の商同型
+
+任意のactual incoming矢基底系について、道ZAlgebra全射の核の二側矢イデアル平方包含(1.9)と元のMinimalPathPresentationを構成。実際の核による商と元の代数の積/単位元保存の同型を証明した。任意基底の持上げを固定d₁係数に限定していない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-arbitrary-basis-presentation1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：自由道表示間の変数変更・最小関係とfoundation制限・Potentialの選択独立性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit150-draft-052355.patch（2264bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80597.832938秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:25:14.949005+00:00 / JST 2026-10-09T14:25:14.949005+09:00
+
+## 単位151：actual全射表示の正次数積とindecomposable商の同型
+
+全整数成分で全射な実際のZAlgebra準同型が正次数積のspanを全射に送ることを証明。核が分解可能積に含まれる場合の実際のindecomposable商線形同型を構成した。この核条件を自由道の最小表示から導く義務は次の単位で処理する。
+
+個別Lean終了0・診断なし。ログ/.exit.json：presentation-indecomposable-equiv2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：自由道代数の矢イデアル平方＝正次数積span・最小表示の商基底比較。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit151-draft-052514.patch（1772bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80676.949005秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:26:28.387097+00:00 / JST 2026-10-09T14:26:28.387097+09:00
+
+## 単位152：actual自由道代数の矢イデアル平方と正次数積spanの一致
+
+本来の自由unrolled道代数の矢イデアルは正の高さ差の成分で全体、その他では零であることを証明。二側矢イデアルの実際の平方がstrict intermediate積のspanと一致することを証明し、151の核条件を(1.9)から導く接続を完成した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：free-path-decomposable-products2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意の最小道表示のindecomposable商同型・基底変更/選択独立性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit152-draft-052628.patch（2210bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80750.387097秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:29:19.179572+00:00 / JST 2026-10-09T14:29:19.179572+09:00
+
+## 単位153：本来の最小表示のactual商同型とcoherent基底変更
+
+本来のMinimalPathPresentationの全射/核平方条件から、actual indecomposable商の線形同型と商類の公式を証明した。二つの最小表示間の基底変更の可換性・三つの表示間の合成coherenceも証明。151の条件を元の最小表示から導いており未証明仮定ではない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：minimal-presentation-indecomposables2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：基底変更をactual自由道自己同型へ持ち上げることと選択独立性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit153-draft-052919.patch（2698bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80921.179572秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:29:19.969074+00:00 / JST 2026-10-09T14:29:19.969074+09:00
+
+## 単位154：actual商生成性から代数全体の全射と自己同型
+
+actual ZAlgebra準同型の正次数積への適合性・本来の商線形写像と像部分圏を構成。商成分での全射性から正に有向な代数全体の成分全射を導いた。自己準同型の場合は既存の成分有限次元性から可逆性を証明した。商全射性は最小表示の基底変更から次に導く義務であり主定理仮定に追加しない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：indecomposable-generation1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意の最小道表示の基底変更による自由道自己同型・代表元選択独立性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit154-draft-052919.patch（3243bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測80921.969074秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:35:12.212989+00:00 / JST 2026-10-09T14:35:12.212989+09:00
+
+## 単位155：actual矢評価の代数準同型に対する自然性
+
+実際の矢係数族・道の再帰評価・線形評価・canonicalな終点移送を含む道表示について、元のZAlgebra準同型との可換性を証明した。nil枝の展開不足による検査1の失敗を修正し、検査2は終了0・診断なし。
+
+個別Lean終了0・診断なし。ログ/.exit.json：arrow-evaluation-naturality2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：最小表示の全射性で任意の矢係数を持ち上げ、実際の自由道自己同型を構成する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit155-draft-053512.patch（2409bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測81274.212989秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:35:56.109831+00:00 / JST 2026-10-09T14:35:56.109831+09:00
+
+## 単位156：最小表示による任意の矢係数の実際の持上げ
+
+元の最小道表示の成分全射性だけから、実際の矢係数を自由道へ持ち上げ、自由道準同型を構成した。自然性から元の代数への評価が元の係数族の表示と一致することを証明した。新しい周期性やExt条件は仮定していない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：minimal-presentation-arrow-lifts1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意のincoming基底に対して商全射性を導き自由道自己同型・核の変換を証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit156-draft-053556.patch（1877bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測81318.109831秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:36:44.476580+00:00 / JST 2026-10-09T14:36:44.476580+09:00
+
+## 単位157：任意のincoming基底変更の自由道自己同型への持上げ
+
+元の最小表示と実際のincoming基底だけから、自由道準同型の商成分全射性を導いた。成分有限次元性により本来の自由道ZAlgebra自己同型を構成し、表示との可換性と実際の核のcomap等式を証明した。unrolled整数添字での選択独立性の単位であり、有限cut箙への周期整合した降下とPotentialの同値類は未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：minimal-presentation-basis-change2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：foundation上の最小関係の回収・周期整合した有限cut道自己同型への降下・Potential選択独立性。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit157-draft-053644.patch（3360bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T041520Z-ba229aabの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測81366.476580秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:37:41.256872+00:00 / JST 2026-10-09T14:37:41.256872+09:00
+
+WORK143〜157は個別Lean終了0・診断なし。任意のincoming基底の実際の商からの持上げ、全射道表示、核の矢イデアル平方への包含、商同型を証明。実際の最小表示間の商成分同型と、商生成性から代数全体の全射/可逆性、矢評価の自然性を証明。任意のincoming基底変更を自由道ZAlgebraの自己同型に持ち上げ、表示との可換性と実際の核のcomap等式まで完成。これらは公開全体監査へまだ追加していない。
+
+整数添字のunrolled自己同型を有限cut箙のcut次数を保つ自己同型と同一視する降下、foundationの最小関係、Potentialの選択独立性とAS→Potentialの回収は未証明。定理3.2/系5.2は未証明・正式定理文未実装。原論文の仮定を保ち、周期性/必要Ext同型/主結論を新しい仮定にしていない。
+
+全体run 20261009T050135Z-ab4e2d31 status=running、段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}。build終了0、公理監査実行中。main8008ef6489846e5969cadc23eb372d8e4b03878aのCI37886547610は進行中。現在の追加証明のCI成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測81423.256872秒。タスク終了未確定。foundationの制限と最小関係へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T05:40:09.912193+00:00 / JST 2026-10-09T14:40:09.912193+09:00
+
+## 単位159：foundationのGabriel矢の実際のAS基底による回収
+
+第零sheetのASResolutionの第1項添字が非cut矢と完全に一致する同値を構成した。既存の実際のindecomposable基底を移し、Aの正次数商の非cut矢基底を証明した。周期性を仮定しない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-arrow-basis1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：foundationへのexactな加群制限・第2項のcut関係添字・最小関係の回収。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit159-draft-054009.patch（2121bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T050135Z-ab4e2d31の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測81571.912193秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 単位114：native D₁のcanonical A-dualのoriginal矢列
+
+既存canonical右A-dualのnative D₁成分写像が、Yoneda値と実際のoriginal矢Jacobian classの積であることを証明。native全3微分のcanonical A-dualのtranspose公式が個別actual0で揃った。次は反対generator添字と終点の反射、反対分解との全微分比較。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-first-adual-formula1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit114.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位115：native右分解の双対と反対分解のgenerator添字・終点
+
+実際のoriginal/dual生成元の有限族を、反射した前sheetを基点とする反対分解のdual/original生成元の有限族へ同一矢によって移す同値を構成。各prefix終点が元の終点の反射に一致し、反対loop終点が元の頂点の反射に一致することも証明。canonical右A-dualと反対分解の全項・微分比較へ利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-opposite-dual-indices2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit115.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位116：canonical A-dualの実際Hom成分と反対射影項の同型
+
+native original/dual射影項の実際のHom(-,P_l)空間を、反射Jacobian商成分・生成元添字の本来の同値・終点の反射だけから、反対native dual/original射影加群の実際の評価成分へ線形同型で同定。微分一致・Ext消滅はこの対象同型だけでは未証明。次は全微分の可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-opposite-hom-coordinates3。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit116.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位117：actual ordinary道のJacobian商classと反対反射
+
+実際のordinary道のhomogeneous商classとdegree-zero Ginzburg境界商classの一致、全整数sheetの反対Jacobian同型がactual道反転を行うことを証明。native Hessian/矢行列を反対分解と比較するために利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-jacobian-path-classes1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit117.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位118：native Hessianのactual道商classと依存importの整合
+
+native Hessian各成分が本来のordinary pathCyclicHessianのJacobian商classであることを全整数sheetで証明。D₁双対/反対Hom成分同型の依存importは公開92ソースのactual検査済み依存へ揃え、全3最終個別Lean終了0・diagnosticなし。114/116の旧個別証拠は旧import/SHAに対する歴史記録として維持し、この118の最新SHA/ログで現在のソースを検査。反対Hessianの転置・道反転からnative全微分比較へ利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+3最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-first-adual-formula2, ginzburg-opposite-hom-coordinates4, ginzburg-hessian-path-classes3。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit118.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位119：native Hessian商classのactual反射・転置
+
+全整数sheetで、actual native HessianのJacobian商classが反対Jacobian同型によって反対Potentialの転置Hessianの実際の商classへ移ることを証明。反射終点と反対native射影終点の一致も証明し、homTransportを明示。一般のactual道商classの終点等式と代表元一致による移送補題を証明して利用した。次はこの行列転置をHom複体の微分へ適用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-hessian-opposite-classes2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit119.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位120：native D₁/D₃のactual ordinary一矢道商class
+
+全整数sheetで、native D₁/original矢とnative D₃/loop-dual矢の既存Jacobian行列成分が同じactual ordinary一矢道の本来の商classであることを証明。cut支持と終点は既存定義を保持した。反対道反転の公式から両端の微分一致へ利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-arrow-path-classes3。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit120.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位121：native D₁/D₃のactual反対Jacobian矢成分比較
+
+全整数sheetで、actual D₁/original矢のJacobian商成分が反対同型により反対native D₃/loop-dual矢の成分へ移り、actual D₃の矢成分が反対native D₁の成分へ移ることを証明。反射した前sheetの終点等式とhomTransportを明示。Hessian比較と合わせ全3微分の実際のJacobian成分反転が揃った。次は評価成分の有限和行列式と全Hom複体の可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-arrow-opposite-classes1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit121.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位122：finite representable coproductのactual全評価行列
+
+既存representableから有限coproductへの射の全評価座標がactual Yoneda成分とA.compの積であることを証明。さらに任意のfinite representable coproduct間の射について、全評価成分・任意の元の像をactual Yoneda行列成分の有限和で表す公式を証明。native反対分解の全微分とcanonical A-dualの比較へ利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：finite-representable-covariant-matrix2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit122.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位123：native D₁/D₂/D₃の全評価成分・任意の元のactual行列公式
+
+既存native D₁/D₂/D₃の全評価成分で、任意の元の像が本来のoriginal矢/Hessian/loop矢のJacobian行列と既存係数族の有限和の積で表されることを証明。恒等元基底に限った公式から全成分へ拡張した。反対分解の微分とcanonical A-dualのtranspose公式の比較へ利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-projective-coordinate-formulas2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit123.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位124：既存native射影Hessian行列自体のactual反射・転置
+
+全整数sheet/全実際の矢a,bについて、既存native射影D₂のHessian Jacobian行列成分自体が反対Jacobian同型で反対native射影D₂の転置成分へ送られることを証明。反対矢のincidenceも原来の条件から証明し、終点移送を明示。次はgenerator添字対応下の全行列とHom複体の可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-hessian-entry-reflection2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit124.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位125：native反対添字対応の全実際の矢への適用公式
+
+既存original/dual有限generator添字の反対対応が、任意の実際の矢を同じ矢のdual/originalへ送ることを本来のincidence証明付きで証明。native D₁/D₂/D₃の反対行列等式を全generator添字へ適用するための計算補題。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-opposite-concrete-indices1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit125.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位126：全generator有限族のnative Hessian行列の反対転置
+
+全頂点・全original/dual generator添字について、既存native射影D₂のHessian行列が本来の添字同値と反対Jacobian同型の下で転置されることを証明。canonical終点transportのHEqとactual Hessian成分の基点/添字等式によるHEq補題で、依存する終点の書換えを検証可能に処理。次はactual Hom成分同型の計算公式と全微分可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-indexed-hessian-reflection4。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit126.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位127：actual Hom/反対成分同型の全Yoneda座標の反転
+
+実際のoriginal/dual Hom空間と反対射影項の成分同型の全係数族公式を証明。各対応generator座標は元のactual Yoneda座標の反対Jacobian像とcanonical終点移送のみで一致することをHEqで検証。次はfinite sum行列公式とこれらの比較を使った全微分の可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-opposite-coordinate-values4。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit127.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位128：反対Yoneda座標とnative Hessian成分のactual積比較
+
+actual original/dual反対係数同型の各generator座標を、canonicalなhomTransportを含む通常の等式で表す公式を証明。元のYoneda座標×native Hessianの積が、反対Hessian×反対座標のactual積に移ることを本来の反対Jacobian積反転と終点移送から証明。次は有限和を用いた双対D₂/反対native D₂の可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-opposite-hessian-products1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit128.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位129：canonical A-dual D₂と反対native D₂の実際の可換性
+
+任意の頂点・標的representable・実際のHom元について、既存canonical A-dualのnative D₂成分写像と反対native D₂評価写像が、実際のHom/評価成分同型の下で可換になることを証明。actual有限和行列公式・反対Hessian転置・本来の反対Jacobian積反転と添字同値で証明し、微分の一致を新しい仮定にしていない。次は両端D₁/D₃の可換性と全Hom複体のexactness/Ext消滅への接続。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-adual-hessian-comparison1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit129.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位130：実際のloop単一座標と両端のdual/反対成分同型
+
+本来のloop generatorが唯一の座標であることから、既存loop coproductの実際の評価成分とHom空間を前sheetのJacobian成分へ線形同型で同定。native右Hom複体の第0/第3項と反対loop/representable項の実際の成分同型を構成し、反対基点の前sheet＝元の頂点の反射を証明。次はD₁/D₃可換性。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-loop-hom-coordinates2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit130.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位131：実際の両端比較同型の座標とcanonical A-dual D₃の反転有限和
+
+実際の両端Hom/反対成分同型について、第0項は反転Yoneda座標と本来の終点移送、第3項は反転loop座標に一致することを証明。さらにnative canonical A-dual D₃の像が反転した本来の矢×Yoneda座標の有限和に一致することを証明。D₁/D₃可換性へ利用する。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：ginzburg-endpoint-coordinate-values2。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先はnative D₁行列と全右分解の双対・反対分解の比較。native右分解のcanonical A-dualとnative左分解の微分一致、低次数/非対角Ext零性・ASRegular(ii)は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T050135Z-ab4e2d31`、2268.472920865秒、全段階終了0。
+JST 2026-10-09T14:01:35.056814+09:00 → 2026-10-09T14:39:23.529740+09:00。
+UTC 2026-10-09T05:01:35.056814+00:00 → 2026-10-09T05:39:23.529740+00:00。
+548数学モジュール・3423異なる宣言・1837 theorem。
+差分：runs/total-algebra-20261008-unit131.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 継続checkpoint UTC 2026-10-09T05:41:00.387207+00:00 / JST 2026-10-09T14:41:00.387207+09:00
+
+## 単位158：元のsheet-zero成分と積によるfoundation有限代数
+
+原論文(3.4)の有限成分族を元のA.Homとcompositionから構成し、既存の実際の行列畳込み環・k代数構造を利用した。成分有限次元性から全foundation代数の有限次元性、積公式・単位元成分・逆向き成分零性を証明した。同一universeの成分モデルであり一般universeへの拡張は必要に応じて行う。周期性を仮定しない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-algebra2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：foundation加群と既存の成分モデルの接続・exact制限と最小関係の回収。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit158-draft-054100.patch（1404bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T050135Z-ab4e2d31の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測81622.387207秒。タスク終了未確定。次の証明義務へ継続する。

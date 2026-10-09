@@ -1,0 +1,63 @@
+import ASGinzburg.GinzburgHessianPathClasses
+import ASGinzburg.OppositePathCyclicHessian
+import ASGinzburg.PeriodInverse
+
+/-! Reflection genuinely transposes the native Hessian Jacobian classes,
+including their actual integer-sheet endpoints. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgJacobianPathClass_eq_of_lift_eq (φ : Q.Potential k)
+    {x y x' y' : Q.LiftVertex} (hx : x=x') (hy : y=y')
+    (f : Q.pathCutComponent k x.1 y.1 (y.2-x.2))
+    (g : Q.pathCutComponent k x'.1 y'.1 (y'.2-x'.2)) (hfg : HEq f.val g.val) :
+    (Q.unrolledJacobianZAlgebra k φ).homTransport _ _ _ _
+      (congrArg Q.height hx) (congrArg Q.height hy)
+      (Q.ginzburgJacobianPathClass k φ x y f)=
+      Q.ginzburgJacobianPathClass k φ x' y' g := by
+  subst x'
+  subst y'
+  have hf : f=g := Subtype.ext (eq_of_heq hfg)
+  subst g
+  rfl
+
+theorem ginzburgHessianOppositeSource (a b : Q.Arrow) (s : ℤ) :
+    Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b))=
+      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.dual b) := by
+  apply Prod.ext
+  · rfl
+  · change -(s-Q.cutDegree b)=(1-s)-(1-Q.cutDegree b)
+    omega
+
+theorem ginzburgHessianOppositeTarget (a b : Q.Arrow) (s : ℤ) :
+    Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))=
+      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.original a) := by
+  apply Prod.ext
+  · rfl
+  · change -(s-(1-Q.cutDegree a))=(1-s)-Q.cutDegree a
+    omega
+
+theorem ginzburgHessianPathClass_opposite (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) :
+    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
+      _ _ _ _
+      (congrArg Q.opposite.height (Q.ginzburgHessianOppositeSource a b s))
+      (congrArg Q.opposite.height (Q.ginzburgHessianOppositeTarget a b s))
+      (Q.oppositeUnrolledJacobianHomEquiv k φ
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b))
+        (Q.ginzburgJacobianPathClass k φ _ _ (Q.ginzburgHessianPathComponent k φ a b s)))=
+      Q.opposite.ginzburgJacobianPathClass k (Q.oppositePotentialEquiv k φ)
+        (Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.dual b))
+        (Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.original a))
+        (Q.opposite.ginzburgHessianPathComponent k (Q.oppositePotentialEquiv k φ) b a (1-s)) := by
+  rw [Q.ginzburgJacobianPathClass_opposite]
+  refine Q.opposite.ginzburgJacobianPathClass_eq_of_lift_eq k (Q.oppositePotentialEquiv k φ)
+    (Q.ginzburgHessianOppositeSource a b s) (Q.ginzburgHessianOppositeTarget a b s) _ _ ?_
+  apply heq_of_eq
+  rw [Q.oppositeBetweenSheetPathCutEquiv_coe,Q.ginzburgHessianPathComponent_val,
+    Q.opposite.ginzburgHessianPathComponent_val]
+  exact Q.oppositePathComponentEquiv_cyclicHessian k a b φ
+
+end ASGinzburg.CutQuiver

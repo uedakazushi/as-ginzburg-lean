@@ -1,0 +1,30 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ProjectiveResolutionTopExtVanishing.lean
+@@ -0,0 +1,27 @@
++import ASGinzburg.ProjectiveResolutionHomComplex
++
++/-! Actual degree-three Ext vanishes when the final Hom differential
++of a genuine four-term projective resolution is surjective. -/
++namespace CategoryTheory.ProjectiveResolution
++open CategoryTheory.Limits
++universe u v t
++variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{t} C]
++  {X : C} (P : ProjectiveResolution X)
++
++theorem ext_three_eq_zero_of_hom_surjective
++    (h₄ : IsZero (P.complex.X 4)) (N : C)
++    (hs : ∀ f : P.complex.X 3 ⟶ N,
++      ∃ g : P.complex.X 2 ⟶ N, P.complex.d 3 2 ≫ g=f)
++    (e : Abelian.Ext.{t} X N 3) : e=0 := by
++  have hk : ∀ z : Abelian.Ext.{t} (kernel P.firstCover) N 1, z=0 := by
++    apply ASGinzburg.ext_one_eq_zero_of_hom_extension (P.shortExact₂ h₄) N
++    exact hs
++  obtain ⟨x,hx⟩ := Abelian.Ext.contravariant_sequence_exact₃ P.shortExact₀ N e
++    (Abelian.Ext.eq_zero_of_projective _) (show 1+2=3 from rfl)
++  obtain ⟨y,hy⟩ := Abelian.Ext.contravariant_sequence_exact₃ P.shortExact₁ N x
++    (Abelian.Ext.eq_zero_of_projective _) (show 1+1=2 from rfl)
++  rw [hk y,Abelian.Ext.comp_zero] at hy
++  rw [←hy,Abelian.Ext.comp_zero] at hx
++  exact hx.symm
++
++end CategoryTheory.ProjectiveResolution

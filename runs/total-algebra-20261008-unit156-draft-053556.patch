@@ -1,0 +1,41 @@
+--- /dev/null
++++ work/ASGinzburgDraft/MinimalPresentationArrowLifts.lean
+@@ -0,0 +1,38 @@
++import work.ASGinzburgDraft.ArrowEvaluationNaturality
++import ASGinzburg.ASPresentationKernel
++
++/-! Surjectivity of the original minimal presentation lifts actual arrow
++coefficients to free paths and gives a commuting free-path substitution. -/
++namespace ASGinzburg.ZAlgebra.MinimalPathPresentation
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++
++noncomputable def liftIncomingFamily (F : A.MinimalPathPresentation Q)
++    (G : A.IncomingElementFamily Q) :
++    (Q.unrolledPathZAlgebra k).IncomingElementFamily Q :=
++  fun w a => Classical.choose (F.surjective
++    (Q.height (Q.incomingSource w a)) (Q.height w) (G w a))
++
++theorem map_liftIncomingFamily (F : A.MinimalPathPresentation Q)
++    (G : A.IncomingElementFamily Q) :
++    F.presentation.mapIncomingFamily Q (F.liftIncomingFamily G)=G := by
++  funext w a
++  exact Classical.choose_spec (F.surjective
++    (Q.height (Q.incomingSource w a)) (Q.height w) (G w a))
++
++noncomputable def arrowSubstitution (F : A.MinimalPathPresentation Q)
++    (G : A.IncomingElementFamily Q) :
++    Homomorphism (Q.unrolledPathZAlgebra k) (Q.unrolledPathZAlgebra k) :=
++  (Q.unrolledPathZAlgebra k).arrowPathPresentation Q (F.liftIncomingFamily G)
++
++theorem arrowSubstitution_commutes (F : A.MinimalPathPresentation Q)
++    (G : A.IncomingElementFamily Q) (i j : ℤ)
++    (f : (Q.unrolledPathZAlgebra k).Hom i j) :
++    F.presentation.map i j ((F.arrowSubstitution G).map i j f)=
++      (A.arrowPathPresentation Q G).map i j f := by
++  change F.presentation.map i j
++    (((Q.unrolledPathZAlgebra k).arrowPathPresentation Q
++      (F.liftIncomingFamily G)).map i j f)=_
++  rw [F.presentation.arrowPathPresentation_natural,F.map_liftIncomingFamily]
++
++end ASGinzburg.ZAlgebra.MinimalPathPresentation

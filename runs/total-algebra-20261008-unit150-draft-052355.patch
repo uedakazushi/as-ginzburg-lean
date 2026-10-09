@@ -1,0 +1,48 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASArbitraryBasisPresentation.lean
+@@ -0,0 +1,45 @@
++import work.ASGinzburgDraft.ASBasisKernelSupport
++import ASGinzburg.ASPresentationQuotient
++
++/-! Every actual arrow-basis system gives the original minimal free-path
++presentation and an actual quotient isomorphism, preserving multiplication. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem IncomingBasisSystem.pathPresentation_kernel_le_arrow_square
++    (B : A.IncomingBasisSystem Q) (i j : ℤ) :
++    (A.arrowPathPresentation Q B.incomingElement).kernel.hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j := by
++  rw [Q.unrolledArrowIdeal_square k]
++  intro f hf
++  apply A.basisPathLinearEvaluation_ker_le_long Q B
++    (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
++  change A.arrowPathLinearEvaluation Q B.incomingElement _ _ f=0
++  change A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j) (A.arrowPathLinearEvaluation Q B.incomingElement _ _ f)=0 at hf
++  apply (A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)).injective
++  rw [map_zero]
++  exact hf
++
++noncomputable def IncomingBasisSystem.minimalPathPresentation
++    (B : A.IncomingBasisSystem Q) : A.MinimalPathPresentation Q where
++  presentation := A.arrowPathPresentation Q B.incomingElement
++  surjective := B.pathPresentation_surjective A Q
++  kernel_square := B.pathPresentation_kernel_le_arrow_square A Q
++
++noncomputable def IncomingBasisSystem.presentationQuotientIso
++    (B : A.IncomingBasisSystem Q) :
++    Isomorphism
++      ((A.arrowPathPresentation Q B.incomingElement).kernel.quotient
++        (A.arrowPathPresentation Q B.incomingElement).kernel_diagonal_eq_bot) A :=
++  (A.arrowPathPresentation Q B.incomingElement).quotientKernelIso
++    (B.pathPresentation_surjective A Q)
++
++theorem IncomingBasisSystem.presentationQuotientIso_apply_mk
++    (B : A.IncomingBasisSystem Q) {i j : ℤ} (f : (Q.unrolledPathZAlgebra k).Hom i j) :
++    (B.presentationQuotientIso A Q).map i j (Submodule.Quotient.mk f)=
++      (A.arrowPathPresentation Q B.incomingElement).map i j f := rfl
++
++end ASGinzburg.ZAlgebra

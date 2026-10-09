@@ -1,0 +1,99 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgADualShortComplexes.lean
+@@ -0,0 +1,96 @@
++import work.ASGinzburgDraft.GinzburgADualArrowComparison
++import work.ASGinzburgDraft.GinzburgADualHessianComparison
++import ASGinzburg.OppositeGinzburgCochainIso
++import ASGinzburg.GinzburgProjectiveConnectingExactness
++import ASGinzburg.GinzburgProjectiveRepresentableExactness
++import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
++
++/-! The genuine finite Hom complexes are isomorphic to the evaluated
++native opposite projective complexes, so their exactness is proved. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++noncomputable def ginzburgHomOriginalDualShortComplex (v l : Q.LiftVertex) :
++    ShortComplex (ModuleCat k) :=
++  ShortComplex.mk
++    (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
++      (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).app ⟨Q.height l⟩)
++    (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
++      (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨Q.height l⟩)
++    (by
++      apply ModuleCat.hom_ext
++      ext f
++      change Q.ginzburgDualOriginalProjectiveMap k φ v ≫
++        (Q.ginzburgOriginalRepresentableProjectiveMap k φ v ≫ f)=0
++      rw [←Category.assoc,Q.ginzburgDualOriginalProjectiveMap_comp_representable,zero_comp])
++
++noncomputable def ginzburgHomDualLoopShortComplex (v l : Q.LiftVertex) :
++    ShortComplex (ModuleCat k) :=
++  ShortComplex.mk
++    (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
++      (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨Q.height l⟩)
++    (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
++      (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩)
++    (by
++      apply ModuleCat.hom_ext
++      ext f
++      change Q.ginzburgLoopDualProjectiveMap k φ v ≫
++        (Q.ginzburgDualOriginalProjectiveMap k φ v ≫ f)=0
++      rw [←Category.assoc,Q.ginzburgLoopDualProjectiveMap_comp,zero_comp])
++
++noncomputable def ginzburgHomOriginalDualOppositeIso (v l : Q.LiftVertex) :
++    Q.ginzburgHomOriginalDualShortComplex k φ v l ≅
++      (Q.opposite.ginzburgProjectiveConnectingShortComplex k (Q.oppositePotentialEquiv k φ)
++        (Q.ginzburgDualOppositeBase v)).map
++        ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++          (Q.opposite.height (Q.oppositeLiftVertexEquiv l))) :=
++  ShortComplex.isoMk
++    (Q.ginzburgRepresentableADualOppositeLoopComponentEquiv k φ v l).toModuleIso
++    (Q.ginzburgOriginalADualOppositeComponentEquiv k φ v l).toModuleIso
++    (Q.ginzburgDualADualOppositeComponentEquiv k φ v l).toModuleIso
++    (by
++      apply ModuleCat.hom_ext
++      ext f
++      exact (Q.ginzburgOriginalRepresentableProjectiveMap_adual_opposite k φ v l f).symm)
++    (by
++      apply ModuleCat.hom_ext
++      ext f
++      exact (Q.ginzburgDualOriginalProjectiveMap_adual_opposite k φ v l f).symm)
++
++noncomputable def ginzburgHomDualLoopOppositeIso (v l : Q.LiftVertex) :
++    Q.ginzburgHomDualLoopShortComplex k φ v l ≅
++      (Q.opposite.ginzburgProjectiveDualOriginalShortComplex k (Q.oppositePotentialEquiv k φ)
++        (Q.ginzburgDualOppositeBase v)).map
++        ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++          (Q.opposite.height (Q.oppositeLiftVertexEquiv l))) :=
++  ShortComplex.isoMk
++    (Q.ginzburgOriginalADualOppositeComponentEquiv k φ v l).toModuleIso
++    (Q.ginzburgDualADualOppositeComponentEquiv k φ v l).toModuleIso
++    (Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l).toModuleIso
++    (by
++      apply ModuleCat.hom_ext
++      ext f
++      exact (Q.ginzburgDualOriginalProjectiveMap_adual_opposite k φ v l f).symm)
++    (by
++      apply ModuleCat.hom_ext
++      ext f
++      exact (Q.ginzburgLoopDualProjectiveMap_adual_opposite k φ v l f).symm)
++
++theorem GinzburgRegular.homOriginalDualShortComplex_exact
++    (h : Q.GinzburgRegular k φ) (v l : Q.LiftVertex) :
++    (Q.ginzburgHomOriginalDualShortComplex k φ v l).Exact := by
++  apply (ShortComplex.exact_iff_of_iso
++    (Q.ginzburgHomOriginalDualOppositeIso k φ v l)).mpr
++  exact ((h.opposite Q k).projectiveConnectingShortComplex_exact Q.opposite k
++    (Q.ginzburgDualOppositeBase v)).map _
++
++theorem ginzburgHomDualLoopShortComplex_exact (v l : Q.LiftVertex) :
++    (Q.ginzburgHomDualLoopShortComplex k φ v l).Exact := by
++  apply (ShortComplex.exact_iff_of_iso
++    (Q.ginzburgHomDualLoopOppositeIso k φ v l)).mpr
++  exact (Q.opposite.ginzburgProjectiveDualOriginalShortComplex_exact k
++    (Q.oppositePotentialEquiv k φ) (Q.ginzburgDualOppositeBase v)).map _
++
++end ASGinzburg.CutQuiver

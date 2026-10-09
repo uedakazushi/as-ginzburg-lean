@@ -1,0 +1,46 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ArbitraryArrowPresentation.lean
+@@ -0,0 +1,43 @@
++import work.ASGinzburgDraft.ASBasisPathSurjectivity
++
++/-! Arbitrary actual arrow lifts give vertex-preserving Z-algebra maps.
++For every arrow-basis system the resulting map is genuinely surjective. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q)
++
++noncomputable def arrowPathPresentationMap (i j : ℤ) :
++    (Q.unrolledPathZAlgebra k).Hom i j →ₗ[k] A.Hom i j :=
++  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j)).toLinearMap.comp
++    (A.arrowPathLinearEvaluation Q G (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
++
++theorem arrowPathPresentationMap_id (i : ℤ) :
++    A.arrowPathPresentationMap Q G i i ((Q.unrolledPathZAlgebra k).id i) = A.id i := by
++  change A.homTransport _ _ i i _ _
++    (A.arrowPathLinearEvaluation Q G _ _ (Q.unrolledPathId k _)) = _
++  rw [A.arrowPathLinearEvaluation_id,A.homTransport_id]
++
++theorem arrowPathPresentationMap_comp {i j l : ℤ}
++    (f : (Q.unrolledPathZAlgebra k).Hom i j) (g : (Q.unrolledPathZAlgebra k).Hom j l) :
++    A.arrowPathPresentationMap Q G i l ((Q.unrolledPathZAlgebra k).comp g f) =
++      A.comp (A.arrowPathPresentationMap Q G j l g) (A.arrowPathPresentationMap Q G i j f) := by
++  change A.homTransport _ _ i l _ _
++    (A.arrowPathLinearEvaluation Q G _ _ (Q.unrolledPathComp k g f)) = _
++  rw [A.arrowPathLinearEvaluation_comp,A.homTransport_comp]
++  rfl
++
++noncomputable def arrowPathPresentation : Homomorphism (Q.unrolledPathZAlgebra k) A where
++  map := A.arrowPathPresentationMap Q G
++  map_id := A.arrowPathPresentationMap_id Q G
++  map_comp := A.arrowPathPresentationMap_comp Q G
++
++
++theorem IncomingBasisSystem.pathPresentation_surjective
++    (B : A.IncomingBasisSystem Q) (i j : ℤ) :
++    Function.Surjective ((A.arrowPathPresentation Q B.incomingElement).map i j) :=
++  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)).surjective.comp
++      (B.pathLinearEvaluation_surjective (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
++
++end ASGinzburg.ZAlgebra

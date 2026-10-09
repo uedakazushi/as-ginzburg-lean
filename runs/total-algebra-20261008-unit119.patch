@@ -1,0 +1,244 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 4ad5025..81615e8 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -553,6 +553,24 @@ import ASGinzburg.GinzburgOriginalUnitProjectiveClasses
+ import ASGinzburg.GinzburgFirstProjectiveClasses
+ import ASGinzburg.GinzburgFirstProjectiveBasis
+ import ASGinzburg.GinzburgFirstProjectiveYoneda
++import ASGinzburg.GinzburgFirstADualFormula
++import ASGinzburg.GinzburgOppositeDualIndices
++import ASGinzburg.GinzburgOppositeHomCoordinates
++import ASGinzburg.GinzburgJacobianPathClasses
++import ASGinzburg.GinzburgHessianPathClasses
++import ASGinzburg.GinzburgHessianOppositeClasses
++import ASGinzburg.GinzburgArrowPathClasses
++import ASGinzburg.GinzburgArrowOppositeClasses
++import ASGinzburg.FiniteRepresentableCovariantMatrix
++import ASGinzburg.GinzburgProjectiveCoordinateFormulas
++import ASGinzburg.GinzburgHessianEntryReflection
++import ASGinzburg.GinzburgOppositeConcreteIndices
++import ASGinzburg.GinzburgIndexedHessianReflection
++import ASGinzburg.GinzburgOppositeCoordinateValues
++import ASGinzburg.GinzburgOppositeHessianProducts
++import ASGinzburg.GinzburgADualHessianComparison
++import ASGinzburg.GinzburgLoopHomCoordinates
++import ASGinzburg.GinzburgEndpointCoordinateValues
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 1ddbacf..6f37c97 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -759,6 +759,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_isZero
+ #print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_fourTermResolution
+ #print axioms ASGinzburg.ZAlgebra.hasLeftFiniteProjectiveResolutionLength_of_shortExact
++#print axioms ASGinzburg.ZAlgebra.representableCoproductMorphism_coordinates
++#print axioms ASGinzburg.ZAlgebra.rightRepresentableCoproductMorphism_coordinates
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_symm_eq_sum
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductMorphism_apply
+ #print axioms ASGinzburg.ZAlgebra.rightRepresentableCoproductHomEquiv_precomp
+@@ -829,6 +831,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.subset_generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated_le
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_adual_opposite
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_adual_matrix
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_adual_matrix
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentTerm
+@@ -886,6 +889,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.asSimpleAugmentation_quasiIso
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution_isZero_ge_four
++#print axioms ASGinzburg.CutQuiver.ginzburgOrdinaryArrowPath_opposite
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalArrowOppositeSource
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalArrowOppositeTarget
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopArrowOppositeSource
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopArrowOppositeTarget
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorOriginalArrowEntry_opposite
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorLoopArrowEntry_opposite
++#print axioms ASGinzburg.CutQuiver.ginzburgOrdinaryArrowPath
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalArrowPathComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopArrowPathComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorOriginalArrowEntry_pathClass
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorLoopArrowEntry_pathClass
+ #print axioms ASGinzburg.CutQuiver.GinzburgAssociatedGraded
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential_square
+@@ -1130,6 +1145,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalHomology_coefficients
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFilteredComplex_d
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalHomology_representative
++#print axioms ASGinzburg.CutQuiver.ginzburgRepresentableADualOppositeLoopComponentEquiv_coordinate
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopADualOppositeRepresentableComponentEquiv_coordinate
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_adual_opposite_coordinates
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationAtDegree_leftComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm_differential
+@@ -1144,6 +1162,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgFiltrationConnecting_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredInclusionHomology_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredQuotientHomology_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_adual_matrix
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalPrefixEndpoint_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalUnitCutRepresentative
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalUnitCutRepresentative_val
+@@ -1409,6 +1428,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.original_dual_winding_sum
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.original_dual_cut_sum
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.loop_differential_cohomological_degree
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianOppositeArrowIncidence
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorHessianEntry_opposite_raw
++#print axioms ASGinzburg.CutQuiver.ginzburgJacobianPathClass_eq_of_lift_eq
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianOppositeSource
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianOppositeTarget
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianPathClass_opposite
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianPathComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianPathComponent_val
++#print axioms ASGinzburg.CutQuiver.ginzburgHessianPrefix_pathClass
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorHessianEntry_pathClass
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyComponentAlgebra
+ #print axioms ASGinzburg.CutQuiver.GinzburgHomologyRing
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyJacobianComponentIsomorphism
+@@ -1447,9 +1476,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroHomologyClass_surjective
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroComp_class
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroQuotientIso_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgHomTransport_heq
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorHessianEntry_heq_of_eq
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeBase_eq
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorHessianEntry_opposite
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_mem_pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_le_pathJacobianIdeal
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_eq_pathJacobianIdeal
++#print axioms ASGinzburg.CutQuiver.ginzburgJacobianPathClass
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientUnrolledEquiv_original_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgJacobianPathClass_opposite
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgDegreeZeroEquiv_comp
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgDegreeZeroEquiv_symm_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroQuotientJacobianEquiv_mk
+@@ -1496,6 +1532,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopArrowDifferential_val
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopCoefficientClass_surjective
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDualHomology_on_representative
++#print axioms ASGinzburg.ZAlgebra.ginzburgLoopCoefficientEvaluationEquiv
++#print axioms ASGinzburg.ZAlgebra.ginzburgLoopRepresentableHomEquiv
++#print axioms ASGinzburg.ZAlgebra.ginzburgLoopCoefficientEvaluationEquiv_apply
++#print axioms ASGinzburg.ZAlgebra.ginzburgLoopRepresentableHomEquiv_apply
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeBase_previous
++#print axioms ASGinzburg.CutQuiver.ginzburgRepresentableADualOppositeLoopComponentEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopADualOppositeRepresentableComponentEquiv
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopLayerDifferential_mem
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopLayerDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopLayerDifferential_cycle
+@@ -1525,6 +1568,29 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.asExtTotalRank_ge_one
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_eq_zero_of_nonempty_of_not_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeDualEquiv_concrete
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeOriginalEquiv_concrete
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeCoefficientEquiv_apply_heq
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeCoefficientEquiv_apply_heq
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalADualOppositeComponentEquiv_coefficients
++#print axioms ASGinzburg.CutQuiver.ginzburgDualADualOppositeComponentEquiv_coefficients
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeBase
++#print axioms ASGinzburg.CutQuiver.ginzburgIncomingOppositeOutgoingEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgOutgoingOppositeIncomingEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeDualEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeOriginalEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeDualEquiv_val
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeOriginalEquiv_val
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeDualEndpoint
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeOriginalEndpoint
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeBase_loopEndpoint
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeCoefficientEquiv_apply
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeCoefficientEquiv_apply
++#print axioms ASGinzburg.CutQuiver.ginzburgOppositeHessianProduct
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeCoefficientEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeCoefficientEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalADualOppositeComponentEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgDualADualOppositeComponentEquiv
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.oppositeMinimalASResolution
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.opposite_exists_ASResolution
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix
+@@ -1669,6 +1735,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_component
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent_algebra_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_algebra_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_coordinates
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_coordinates
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_coordinates
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_hessian_entry
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveComponent
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveComponent_left_naturality
+diff --git a/ASGinzburg/GinzburgHessianOppositeClasses.lean b/ASGinzburg/GinzburgHessianOppositeClasses.lean
+new file mode 100644
+index 0000000..922d123
+--- /dev/null
++++ b/ASGinzburg/GinzburgHessianOppositeClasses.lean
+@@ -0,0 +1,63 @@
++import ASGinzburg.GinzburgHessianPathClasses
++import ASGinzburg.OppositePathCyclicHessian
++import ASGinzburg.PeriodInverse
++
++/-! Reflection genuinely transposes the native Hessian Jacobian classes,
++including their actual integer-sheet endpoints. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgJacobianPathClass_eq_of_lift_eq (φ : Q.Potential k)
++    {x y x' y' : Q.LiftVertex} (hx : x=x') (hy : y=y')
++    (f : Q.pathCutComponent k x.1 y.1 (y.2-x.2))
++    (g : Q.pathCutComponent k x'.1 y'.1 (y'.2-x'.2)) (hfg : HEq f.val g.val) :
++    (Q.unrolledJacobianZAlgebra k φ).homTransport _ _ _ _
++      (congrArg Q.height hx) (congrArg Q.height hy)
++      (Q.ginzburgJacobianPathClass k φ x y f)=
++      Q.ginzburgJacobianPathClass k φ x' y' g := by
++  subst x'
++  subst y'
++  have hf : f=g := Subtype.ext (eq_of_heq hfg)
++  subst g
++  rfl
++
++theorem ginzburgHessianOppositeSource (a b : Q.Arrow) (s : ℤ) :
++    Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b))=
++      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.dual b) := by
++  apply Prod.ext
++  · rfl
++  · change -(s-Q.cutDegree b)=(1-s)-(1-Q.cutDegree b)
++    omega
++
++theorem ginzburgHessianOppositeTarget (a b : Q.Arrow) (s : ℤ) :
++    Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))=
++      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.original a) := by
++  apply Prod.ext
++  · rfl
++  · change -(s-(1-Q.cutDegree a))=(1-s)-Q.cutDegree a
++    omega
++
++theorem ginzburgHessianPathClass_opposite (φ : Q.Potential k)
++    (a b : Q.Arrow) (s : ℤ) :
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
++      _ _ _ _
++      (congrArg Q.opposite.height (Q.ginzburgHessianOppositeSource a b s))
++      (congrArg Q.opposite.height (Q.ginzburgHessianOppositeTarget a b s))
++      (Q.oppositeUnrolledJacobianHomEquiv k φ
++        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
++        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.original b))
++        (Q.ginzburgJacobianPathClass k φ _ _ (Q.ginzburgHessianPathComponent k φ a b s)))=
++      Q.opposite.ginzburgJacobianPathClass k (Q.oppositePotentialEquiv k φ)
++        (Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.dual b))
++        (Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source b,1-s) (.original a))
++        (Q.opposite.ginzburgHessianPathComponent k (Q.oppositePotentialEquiv k φ) b a (1-s)) := by
++  rw [Q.ginzburgJacobianPathClass_opposite]
++  refine Q.opposite.ginzburgJacobianPathClass_eq_of_lift_eq k (Q.oppositePotentialEquiv k φ)
++    (Q.ginzburgHessianOppositeSource a b s) (Q.ginzburgHessianOppositeTarget a b s) _ _ ?_
++  apply heq_of_eq
++  rw [Q.oppositeBetweenSheetPathCutEquiv_coe,Q.ginzburgHessianPathComponent_val,
++    Q.opposite.ginzburgHessianPathComponent_val]
++  exact Q.oppositePathComponentEquiv_cyclicHessian k a b φ
++
++end ASGinzburg.CutQuiver

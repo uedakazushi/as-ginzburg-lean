@@ -1,0 +1,92 @@
+import ASGinzburg.GinzburgArrowPathClasses
+import ASGinzburg.GinzburgHessianOppositeClasses
+
+/-! The actual first and third native Jacobian arrow entries interchange
+under reflection, at the reflected previous-sheet base vertex. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgOrdinaryArrowPath_opposite (a : Q.Arrow) :
+    (Q.ginzburgOrdinaryArrowPath a).opposite=Q.opposite.ginzburgOrdinaryArrowPath a := by
+  apply Path.toList_injective
+  simp [ginzburgOrdinaryArrowPath,Path.opposite_toList,Path.toList]
+
+theorem ginzburgOriginalArrowOppositeSource (a : Q.Arrow) (s : ℤ) :
+    Q.oppositeLiftVertexEquiv (Q.target a,s)=
+      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source a,1-s)
+        (.loop (Q.opposite.source a)) := by
+  apply Prod.ext
+  · rfl
+  · change -s=(1-s)-1
+    omega
+
+theorem ginzburgOriginalArrowOppositeTarget (a : Q.Arrow) (s : ℤ) :
+    Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint (Q.target a,s) (.original a))=
+      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.source a,1-s) (.dual a) := by
+  apply Prod.ext
+  · rfl
+  · change -(s-Q.cutDegree a)=(1-s)-(1-Q.cutDegree a)
+    omega
+
+theorem ginzburgLoopArrowOppositeSource (a : Q.Arrow) (s : ℤ) :
+    Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))=
+      Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.opposite.target a,1-s) (.original a) := by
+  apply Prod.ext
+  · rfl
+  · change -(s-(1-Q.cutDegree a))=(1-s)-Q.cutDegree a
+    omega
+
+theorem ginzburgLoopArrowOppositeTarget (a : Q.Arrow) (s : ℤ) :
+    Q.oppositeLiftVertexEquiv
+      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a)))=
+      (Q.opposite.target a,1-s) := by
+  apply Prod.ext
+  · rfl
+  · change -(s-1)=1-s
+    omega
+
+theorem ginzburgGeneratorOriginalArrowEntry_opposite (φ : Q.Potential k)
+    (a : Q.Arrow) (s : ℤ) :
+    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
+      _ _ _ _
+      (congrArg Q.opposite.height (Q.ginzburgOriginalArrowOppositeSource a s))
+      (congrArg Q.opposite.height (Q.ginzburgOriginalArrowOppositeTarget a s))
+      (Q.oppositeUnrolledJacobianHomEquiv k φ
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.target a,s) (.original a)) (Q.target a,s)
+        (Q.ginzburgGeneratorOriginalArrowEntry k φ (Q.target a,s) ⟨.original a,rfl,rfl⟩))=
+      Q.opposite.ginzburgGeneratorLoopArrowEntry k (Q.oppositePotentialEquiv k φ)
+        (Q.opposite.source a,1-s) ⟨.dual a,rfl,rfl⟩ := by
+  rw [Q.ginzburgGeneratorOriginalArrowEntry_pathClass,
+    Q.opposite.ginzburgGeneratorLoopArrowEntry_pathClass,Q.ginzburgJacobianPathClass_opposite]
+  refine Q.opposite.ginzburgJacobianPathClass_eq_of_lift_eq k (Q.oppositePotentialEquiv k φ)
+    (Q.ginzburgOriginalArrowOppositeSource a s) (Q.ginzburgOriginalArrowOppositeTarget a s) _ _ ?_
+  apply heq_of_eq
+  rw [Q.oppositeBetweenSheetPathCutEquiv_coe]
+  change Q.oppositePathComponentEquiv k _ _ (Finsupp.single (Q.ginzburgOrdinaryArrowPath a) 1)=
+    Finsupp.single (Q.opposite.ginzburgOrdinaryArrowPath a) 1
+  rw [Q.oppositePathComponentEquiv_single,Q.ginzburgOrdinaryArrowPath_opposite]
+
+theorem ginzburgGeneratorLoopArrowEntry_opposite (φ : Q.Potential k)
+    (a : Q.Arrow) (s : ℤ) :
+    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
+      _ _ _ _
+      (congrArg Q.opposite.height (Q.ginzburgLoopArrowOppositeSource a s))
+      (congrArg Q.opposite.height (Q.ginzburgLoopArrowOppositeTarget a s))
+      (Q.oppositeUnrolledJacobianHomEquiv k φ
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a)))
+        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
+        (Q.ginzburgGeneratorLoopArrowEntry k φ (Q.source a,s) ⟨.dual a,rfl,rfl⟩))=
+      Q.opposite.ginzburgGeneratorOriginalArrowEntry k (Q.oppositePotentialEquiv k φ)
+        (Q.opposite.target a,1-s) ⟨.original a,rfl,rfl⟩ := by
+  rw [Q.ginzburgGeneratorLoopArrowEntry_pathClass,
+    Q.opposite.ginzburgGeneratorOriginalArrowEntry_pathClass,Q.ginzburgJacobianPathClass_opposite]
+  refine Q.opposite.ginzburgJacobianPathClass_eq_of_lift_eq k (Q.oppositePotentialEquiv k φ)
+    (Q.ginzburgLoopArrowOppositeSource a s) (Q.ginzburgLoopArrowOppositeTarget a s) _ _ ?_
+  apply heq_of_eq
+  rw [Q.oppositeBetweenSheetPathCutEquiv_coe]
+  change Q.oppositePathComponentEquiv k _ _ (Finsupp.single (Q.ginzburgOrdinaryArrowPath a) 1)=
+    Finsupp.single (Q.opposite.ginzburgOrdinaryArrowPath a) 1
+  rw [Q.oppositePathComponentEquiv_single,Q.ginzburgOrdinaryArrowPath_opposite]
+
+end ASGinzburg.CutQuiver
