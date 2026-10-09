@@ -1,0 +1,45 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ZeroCutFoundationRingEquiv.lean
+@@ -0,0 +1,42 @@
++import work.ASGinzburgDraft.ZeroCutUnrollingProducts
++import work.ASGinzburgDraft.ZeroSheetPathReindexing
++import work.ASGinzburgDraft.FiniteComponentAlgebraMaps
++
++/-! The actual non-cut path ring is isomorphic to the actual
++sheet-zero free-path foundation ring, preserving all original products. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def zeroCutFoundationComponentEquiv (i j : Q.Vertex) :
++    Q.pathCutComponent k i j 0 ≃ₗ[k]
++      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) :=
++  (Q.zeroCutNativeUnrollingEquiv k i j).trans (Q.zeroSheetPathReindexEquiv k i j)
++
++theorem zeroCutFoundationComponentEquiv_id (i : Q.Vertex) :
++    Q.zeroCutFoundationComponentEquiv k i i (Q.zeroCutPathId k i)=
++      (Q.unrolledPathZAlgebra k).id (i.val : ℤ) := by
++  change Q.zeroSheetPathReindexEquiv k i i
++    (Q.zeroCutNativeUnrollingEquiv k i i (Q.zeroCutPathId k i))=_
++  rw [Q.zeroCutNativeUnrollingEquiv_id,Q.zeroSheetPathReindexEquiv_id]
++
++theorem zeroCutFoundationComponentEquiv_comp {i j l : Q.Vertex}
++    (f : Q.pathCutComponent k i j 0) (g : Q.pathCutComponent k j l 0) :
++    Q.zeroCutFoundationComponentEquiv k i l (Q.zeroCutPathComp k g f)=
++      (Q.unrolledPathZAlgebra k).comp (Q.zeroCutFoundationComponentEquiv k j l g)
++        (Q.zeroCutFoundationComponentEquiv k i j f) := by
++  change Q.zeroSheetPathReindexEquiv k i l
++    (Q.zeroCutNativeUnrollingEquiv k i l (Q.zeroCutPathComp k g f))=_
++  rw [Q.zeroCutNativeUnrollingEquiv_comp,Q.zeroSheetPathReindexEquiv_comp]
++  rfl
++
++noncomputable def zeroCutFoundationRingAlgEquiv :
++    Q.ZeroCutPathRing k ≃ₐ[k] (Q.unrolledPathZAlgebra k).FoundationAlgebra Q :=
++  (Q.zeroCutPathComponentAlgebra k).totalAlgEquivOfComponents
++    ((Q.unrolledPathZAlgebra k).foundationComponents Q) (Q.zeroCutFoundationComponentEquiv k)
++    (Q.zeroCutFoundationComponentEquiv_id k) (Q.zeroCutFoundationComponentEquiv_comp k)
++
++theorem zeroCutFoundationRingAlgEquiv_apply (x : Q.ZeroCutPathRing k) (i j : Q.Vertex) :
++    Q.zeroCutFoundationRingAlgEquiv k x i j=Q.zeroCutFoundationComponentEquiv k i j (x i j) := rfl
++
++end ASGinzburg.CutQuiver

@@ -1,0 +1,29 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationRingEquivalence.lean
+@@ -0,0 +1,26 @@
++import work.ASGinzburgDraft.FoundationTotalUnitIso
++import work.ASGinzburgDraft.FoundationRingCounitIso
++import Mathlib.CategoryTheory.Equivalence
++
++/-! The existing linear foundation presheaves and genuine modules
++over the actual finite opposite foundation ring are equivalent. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def foundationRingRightEquivalence :
++    A.FoundationRightModule Q ≌ ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ :=
++  CategoryTheory.Equivalence.mk (A.foundationRightTotalFunctor Q)
++    (A.foundationRingRightComponentRecovery Q) (A.foundationRightTotalUnitIso Q)
++    (A.foundationRingRightCounitIso Q)
++
++noncomputable instance foundationRightTotalFunctorIsEquivalence :
++    (A.foundationRightTotalFunctor Q).IsEquivalence :=
++  (A.foundationRingRightEquivalence Q).isEquivalence_functor
++
++noncomputable instance foundationRingRightComponentRecoveryIsEquivalence :
++    (A.foundationRingRightComponentRecovery Q).IsEquivalence :=
++  (A.foundationRingRightEquivalence Q).isEquivalence_inverse
++
++end ASGinzburg.ZAlgebra

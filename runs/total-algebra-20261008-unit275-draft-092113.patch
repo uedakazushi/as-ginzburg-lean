@@ -1,0 +1,52 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASFoundationJacobianRingEquiv.lean
+@@ -0,0 +1,49 @@
++import work.ASGinzburgDraft.ZeroCutJacobianRing
++import work.ASGinzburgDraft.ASZeroCutRelationGeneration
++import work.ASGinzburgDraft.ASFoundationPotentialDerivatives
++
++/-! The original AS condition recovers the actual foundation algebra
++as the non-cut Jacobian ring of its chosen foundation potential.
++Ginzburg regularity and recovery of the whole Z-algebra remain unproved. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPotential_zeroCutCyclicDerivative (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.zeroCutCyclicDerivative k (hAS.foundationPotential A Q) b=
++      hAS.foundationZeroCutRelation A Q (Q.target b.val) (Q.source b.val)
++        ⟨b.val,rfl,rfl,b.property⟩ := by
++  apply Subtype.ext
++  exact hAS.foundationPotential_pathCyclicDerivative A Q b
++
++theorem ASRegular.foundationPotential_zeroCutJacobianGenerators (hAS : A.ASRegular Q) :
++    hAS.foundationZeroCutRingRelationGenerators A Q=
++      Q.zeroCutJacobianGenerators k (hAS.foundationPotential A Q) := by
++  ext x
++  constructor
++  · rintro ⟨i,j,⟨a,hs,ht,hc⟩,rfl⟩
++    subst i
++    subst j
++    refine ⟨⟨a,hc⟩,?_⟩
++    exact congrArg ((Q.zeroCutPathComponentAlgebra k).totalComponent (Q.target a) (Q.source a))
++      (hAS.foundationPotential_zeroCutCyclicDerivative A Q ⟨a,hc⟩)
++  · rintro ⟨b,rfl⟩
++    refine ⟨Q.target b.val,Q.source b.val,⟨b.val,rfl,rfl,b.property⟩,?_⟩
++    exact congrArg ((Q.zeroCutPathComponentAlgebra k).totalComponent (Q.target b.val) (Q.source b.val))
++      (hAS.foundationPotential_zeroCutCyclicDerivative A Q b).symm
++
++theorem ASRegular.foundationPotential_zeroCutJacobianIdeal (hAS : A.ASRegular Q) :
++    hAS.foundationZeroCutRelationIdeal A Q=
++      Q.zeroCutJacobianIdeal k (hAS.foundationPotential A Q) := by
++  rw [hAS.foundationZeroCutRelationIdeal_eq_span A Q,
++    hAS.foundationPotential_zeroCutJacobianGenerators A Q]
++  rfl
++
++noncomputable def ASRegular.foundationJacobianRingAlgEquiv (hAS : A.ASRegular Q) :
++    Q.ZeroCutJacobianRing k (hAS.foundationPotential A Q) ≃ₐ[k]
++      A.FoundationAlgebra Q :=
++  (Ideal.quotientEquivAlgOfEq k (hAS.foundationPotential_zeroCutJacobianIdeal A Q).symm).trans
++    (hAS.foundationZeroCutQuotientAlgEquiv A Q)
++
++end ASGinzburg.ZAlgebra

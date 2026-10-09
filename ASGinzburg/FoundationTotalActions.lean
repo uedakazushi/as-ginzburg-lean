@@ -1,0 +1,50 @@
+import ASGinzburg.FoundationComponentActions
+import ASGinzburg.FoundationAlgebra
+import Mathlib.LinearAlgebra.Pi
+
+/-! The actual finite sum of the original foundation presheaf
+component actions gives a linear convolution action on its total space. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+abbrev foundationRightTotalSpace (M : A.FoundationRightModule Q) :=
+  ∀ i : Q.Vertex, (A.foundationRightEvaluation Q i).obj M
+
+noncomputable def foundationRightTotalAction (M : A.FoundationRightModule Q)
+    (x : A.FoundationAlgebra Q) : Module.End k (A.foundationRightTotalSpace Q M) :=
+  LinearMap.pi (fun i => ∑ j : Q.Vertex,
+    (A.foundationRightComponentAction Q M (x i j)).comp (LinearMap.proj j))
+
+theorem foundationRightTotalAction_apply (M : A.FoundationRightModule Q)
+    (x : A.FoundationAlgebra Q) (m : A.foundationRightTotalSpace Q M) (i : Q.Vertex) :
+    A.foundationRightTotalAction Q M x m i=
+      ∑ j : Q.Vertex, A.foundationRightComponentAction Q M (x i j) (m j) := by
+  simp [foundationRightTotalAction,LinearMap.sum_apply]
+
+theorem foundationRightTotalAction_add (M : A.FoundationRightModule Q)
+    (x y : A.FoundationAlgebra Q) :
+    A.foundationRightTotalAction Q M (x+y)=
+      A.foundationRightTotalAction Q M x+A.foundationRightTotalAction Q M y := by
+  apply LinearMap.ext
+  intro m
+  funext i
+  simp only [foundationRightTotalAction_apply,Pi.add_apply,
+    A.foundationRightComponentAction_add,LinearMap.add_apply,Finset.sum_add_distrib]
+
+theorem foundationRightTotalAction_smul (M : A.FoundationRightModule Q)
+    (c : k) (x : A.FoundationAlgebra Q) :
+    A.foundationRightTotalAction Q M (c • x)=c • A.foundationRightTotalAction Q M x := by
+  apply LinearMap.ext
+  intro m
+  funext i
+  simp only [foundationRightTotalAction_apply,Pi.smul_apply,
+    A.foundationRightComponentAction_smul,LinearMap.smul_apply,Finset.smul_sum]
+
+noncomputable def foundationRightTotalRepresentation (M : A.FoundationRightModule Q) :
+    A.FoundationAlgebra Q →ₗ[k] Module.End k (A.foundationRightTotalSpace Q M) where
+  toFun := A.foundationRightTotalAction Q M
+  map_add' := A.foundationRightTotalAction_add Q M
+  map_smul' := A.foundationRightTotalAction_smul Q M
+
+end ASGinzburg.ZAlgebra

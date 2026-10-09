@@ -1,0 +1,31 @@
+import ASGinzburg.UnrolledPathErasure
+import ASGinzburg.PathLengthFiltration
+import ASGinzburg.UnrolledPathFiltration
+
+/-! Erasing sheets preserves the actual length filtration, so relations
+of length at least two remain admissible finite-quiver relations. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem unrolledPathEraseLinearMap_mem_lengthFiltration {u v : Q.LiftVertex}
+    (n : ℕ) {f : Q.UnrolledPathComponent k u v}
+    (hf : f ∈ Q.unrolledPathFiltration k n u v) :
+    Q.unrolledPathEraseLinearMap k u v f ∈ Q.pathLengthFiltration k n u.1 v.1 := by
+  change f ∈ Finsupp.supported k k _ at hf
+  rw [Finsupp.supported_eq_span_single] at hf
+  induction hf using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨p,hp,rfl⟩ := hx
+    rw [Q.unrolledPathEraseLinearMap_single]
+    apply Finsupp.single_mem_supported
+    change n ≤ p.erase.length
+    rw [UnrolledPath.erase_length]
+    exact hp
+  | zero => simp
+  | add x y hx hy ihx ihy =>
+    simpa only [map_add] using Submodule.add_mem _ ihx ihy
+  | smul c x hx ih =>
+    simpa only [map_smul] using Submodule.smul_mem _ c ih
+
+end ASGinzburg.CutQuiver

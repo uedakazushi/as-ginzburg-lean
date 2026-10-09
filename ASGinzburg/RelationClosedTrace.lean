@@ -1,0 +1,44 @@
+import ASGinzburg.ClosedPathPotentials
+import ASGinzburg.PathWordEmbeddings
+
+/-! Closing an actual non-cut relation by its reverse cut arrow
+produces a genuine closed-path potential term, with no existence axiom. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def relationClosedTrace (a : Q.Arrow) :
+    Q.PathComponent k (Q.target a) (Q.source a) →ₗ[k] CyclicPolynomial k Q.Arrow :=
+  (prependTrace a).comp (Q.pathWordMap k (Q.target a) (Q.source a))
+
+@[simp] theorem relationClosedTrace_single (a : Q.Arrow)
+    (p : Q.Path (Q.target a) (Q.source a)) (c : k) :
+    Q.relationClosedTrace k a (Finsupp.single p c)=c • traceWord (a::p.toList) := by
+  simp [relationClosedTrace,pathWordMap,Finsupp.mapDomain_single]
+
+theorem relationClosedTrace_mem_potentialSpace (a : Q.Arrow) (ha : Q.cut a=true)
+    {r : Q.PathComponent k (Q.target a) (Q.source a)}
+    (hr : r ∈ Finsupp.supported k k
+      {p : Q.Path (Q.target a) (Q.source a) | 2 ≤ p.length ∧ p.cutDegree=0}) :
+    Q.relationClosedTrace k a r ∈ Q.potentialSpace k := by
+  rw [Finsupp.supported_eq_span_single] at hr
+  induction hr using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨p,⟨hl,hc⟩,rfl⟩ := hx
+    rw [Q.relationClosedTrace_single,one_smul]
+    have hrot : traceWord (k:=k) (a::p.toList)=
+        traceWord (p.snoc a rfl).toList := by
+      simpa only [Path.toList,List.singleton_append] using
+        (traceWord_append_swap (k:=k) [a] p.toList)
+    rw [hrot]
+    apply Q.traceWord_mem_potentialSpace k
+    · simp only [Path.cutDegree,hc,Q.cutDegree_true ha,zero_add]
+    · simp only [Path.length]
+      omega
+  | zero => simp
+  | add x y hx hy ihx ihy =>
+    simpa only [map_add] using Submodule.add_mem _ ihx ihy
+  | smul c x hx ih =>
+    simpa only [map_smul] using Submodule.smul_mem _ c ih
+
+end ASGinzburg.CutQuiver

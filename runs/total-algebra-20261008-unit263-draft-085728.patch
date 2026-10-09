@@ -1,0 +1,67 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FiniteComponentAlgebraMaps.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.FiniteComponentAlgebra
++
++/-! Genuine componentwise unit- and composition-preserving maps
++induce maps and isomorphisms of finite convolution algebras. -/
++namespace ASGinzburg.LinearComponentAlgebra
++universe u v
++variable {k : Type u} [Field k] {ι : Type v} [Fintype ι]
++  (B C : LinearComponentAlgebra k ι)
++
++noncomputable def totalLinearMapOfComponents
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) : B.Total →ₗ[k] C.Total where
++  toFun x i j := f i j (x i j)
++  map_add' x y := by funext i j; exact (f i j).map_add (x i j) (y i j)
++  map_smul' c x := by funext i j; exact (f i j).map_smul c (x i j)
++
++omit [Fintype ι] in
++theorem totalLinearMapOfComponents_one
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) (hid : ∀ i,f i i (B.id i)=C.id i) :
++    B.totalLinearMapOfComponents C f 1=1 := by
++  classical
++  funext i j
++  change f i j (B.totalOne i j)=C.totalOne i j
++  by_cases h : i=j
++  · subst j
++    rw [B.totalOne_diag,C.totalOne_diag]
++    exact hid i
++  · rw [B.totalOne_offdiag h,C.totalOne_offdiag h,map_zero]
++
++theorem totalLinearMapOfComponents_mul
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      f i l (B.comp y x)=C.comp (f j l y) (f i j x)) (x y : B.Total) :
++    B.totalLinearMapOfComponents C f (x*y)=
++      B.totalLinearMapOfComponents C f x*B.totalLinearMapOfComponents C f y := by
++  funext i l
++  change f i l (∑ j : ι,B.comp (x j l) (y i j))=
++    ∑ j : ι,C.comp (f j l (x j l)) (f i j (y i j))
++  rw [map_sum]
++  apply Finset.sum_congr rfl
++  intro j _
++  exact hmul (y i j) (x j l)
++
++noncomputable def totalAlgHomOfComponents
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) (hid : ∀ i,f i i (B.id i)=C.id i)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      f i l (B.comp y x)=C.comp (f j l y) (f i j x)) : B.Total →ₐ[k] C.Total :=
++  AlgHom.ofLinearMap (B.totalLinearMapOfComponents C f)
++    (B.totalLinearMapOfComponents_one C f hid) (B.totalLinearMapOfComponents_mul C f hmul)
++
++noncomputable def totalAlgEquivOfComponents
++    (e : ∀ i j,B.Hom i j ≃ₗ[k] C.Hom i j) (hid : ∀ i,e i i (B.id i)=C.id i)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      e i l (B.comp y x)=C.comp (e j l y) (e i j x)) : B.Total ≃ₐ[k] C.Total :=
++  AlgEquiv.ofBijective (B.totalAlgHomOfComponents C (fun i j => (e i j).toLinearMap) hid hmul)
++    ⟨by
++      intro x y h
++      funext i j
++      exact (e i j).injective (congrFun (congrFun h i) j),by
++      intro y
++      refine ⟨fun i j => (e i j).symm (y i j),?_⟩
++      funext i j
++      exact (e i j).apply_symm_apply (y i j)⟩
++
++end ASGinzburg.LinearComponentAlgebra

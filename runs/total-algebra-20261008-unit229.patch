@@ -1,0 +1,281 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 45bd455..d8a8dc6 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -653,6 +653,35 @@ import ASGinzburg.ASMinimalRelationAllComponents
+ import ASGinzburg.ASFoundationMinimalRelationBasis
+ import ASGinzburg.ASRegularMinimalRelationBasis
+ import ASGinzburg.ASRegularRelationRepresentatives
++import ASGinzburg.UnrolledErasureLengthFiltration
++import ASGinzburg.ASFoundationRelationNative
++import ASGinzburg.ASFoundationRelationDescent
++import ASGinzburg.RelationClosedTrace
++import ASGinzburg.ASFoundationPotential
++import ASGinzburg.CutCyclicDerivativeDelta
++import ASGinzburg.RelationClosedTraceDerivative
++import ASGinzburg.ASFoundationPotentialDerivatives
++import ASGinzburg.ASFoundationDerivativeUnrolling
++import ASGinzburg.ASFoundationDerivativeClasses
++import ASGinzburg.UnrolledPositiveIdealSupport
++import ASGinzburg.DirectedRelationGeneration
++import ASGinzburg.ASFoundationRelationIdeal
++import ASGinzburg.ASFoundationFullRelations
++import ASGinzburg.FoundationComponentActions
++import ASGinzburg.FoundationTotalActions
++import ASGinzburg.FoundationTotalActionLaws
++import ASGinzburg.FoundationTotalMaps
++import ASGinzburg.FoundationTotalModules
++import ASGinzburg.FoundationTotalFunctor
++import ASGinzburg.FoundationTotalFunctorFaithful
++import ASGinzburg.FiniteComponentEmbeddings
++import ASGinzburg.FiniteComponentIdempotents
++import ASGinzburg.FoundationRingComponentActions
++import ASGinzburg.FoundationRingComponentSpaces
++import ASGinzburg.FoundationRingPresheaves
++import ASGinzburg.FoundationRingComponentMaps
++import ASGinzburg.FoundationTotalComponentActions
++import ASGinzburg.FoundationTotalScalarComparison
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 6e617dd..c42428a 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -116,8 +116,36 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.firstCoverKernelTopEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationFirstKernelRelationBasis
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.firstKernel_component_eq_zero_of_ge
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeRelation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeRelation_eq_lift
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeRelation_class
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_eq_native
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_eval_zero
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_height
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationIdeal_eq_kernel
+ #print axioms ASGinzburg.ZAlgebra.foundationMinimalRelationBasis
+ #print axioms ASGinzburg.ZAlgebra.foundationMinimalRelation_finrank
++#print axioms ASGinzburg.ZAlgebra.ASRegular.cutPathRelation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.cutPathRelation_support
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential_formula
++#print axioms ASGinzburg.ZAlgebra.ASRegular.cutPathRelation_cut
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential_cyclicDerivative
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential_pathCyclicDerivative
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPathRelation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPathRelation_cut
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPathRelation_mem_long
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPathRelation_support
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationGenerators
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationIdeal
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationGenerators_mem_kernel
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationIdeal_le_kernel
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationLift_mem_ideal
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationKernel_le_ideal_mod_decomposables
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationNative
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationNative_height
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationNative_mem_long
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.GeneratorIndex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.incomingGenerator
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGenerator
+@@ -424,6 +452,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_projection
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_single_symm
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproduct_radical_iff
++#print axioms ASGinzburg.derivativeAux_eq_zero_of_cut_zero
++#print axioms ASGinzburg.derivativeWord_cut_cons
+ #print axioms ASGinzburg.CyclicWord
+ #print axioms ASGinzburg.WordPolynomial
+ #print axioms ASGinzburg.CyclicPolynomial
+@@ -538,6 +568,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.moduleCatDirectSumDualIntoLinearMap
+ #print axioms ASGinzburg.moduleCatDirectSumDualIntoLinearMap_eval_lof
+ #print axioms ASGinzburg.moduleCatDirectSumDualIntoLinearMap_bijective
++#print axioms ASGinzburg.CutQuiver.linearIdeal_hom_le_of_mod_decomposables
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionDualTermMap
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionDualTermMap_comm
+ #print axioms ASGinzburg.ZAlgebra.rightResolutionDualComplexMap
+@@ -613,6 +644,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_one
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_mul
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalAlgEquiv
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponent
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_apply_same
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_apply_source_ne
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_mul_same
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_mul_of_ne
++#print axioms ASGinzburg.LinearComponentAlgebra.sum_totalComponent_id
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponentLinear
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponentLinear_apply
++#print axioms ASGinzburg.LinearComponentAlgebra.totalIdempotent
++#print axioms ASGinzburg.LinearComponentAlgebra.totalIdempotent_mul_self
++#print axioms ASGinzburg.LinearComponentAlgebra.totalIdempotent_mul_ne
++#print axioms ASGinzburg.LinearComponentAlgebra.sum_totalIdempotent
++#print axioms ASGinzburg.LinearComponentAlgebra.totalIdempotent_mul_component
++#print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_mul_idempotent
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHomDiagram
+ #print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso
+@@ -939,6 +984,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.foundation_generator_noncut
+ #print axioms ASGinzburg.CutQuiver.foundationGeneratorIndexEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationArrowBasis
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_add
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_smul
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_id
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_comp
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentRepresentation
+ #print axioms ASGinzburg.ZAlgebra.foundation_epi_iff
+ #print axioms ASGinzburg.ZAlgebra.foundationGenerators
+ #print axioms ASGinzburg.ZAlgebra.foundationFreeRightModule
+@@ -995,6 +1046,27 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.foundationRestrictionLinear
+ #print axioms ASGinzburg.ZAlgebra.foundationRightEvaluation
+ #print axioms ASGinzburg.ZAlgebra.foundationRestriction_evaluation
++#print axioms ASGinzburg.ZAlgebra.foundationAlgebraComponentLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentAction
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentAction_comp
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentAction_comp_off
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_idempotent
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_orthogonal
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentLinearMap
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentModuleMap
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentRecovery
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSpace
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_range_fixed
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentMap
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentMap_id
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentMap_comp
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightActionLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightRangeActionLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentFunctor
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentModule
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationFourTermProjectiveResolution
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationProjectiveResolution
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationProjectiveResolution_X_three_isZero
+@@ -1005,6 +1077,36 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.FoundationRelationIndex
+ #print axioms ASGinzburg.CutQuiver.foundationRelationIndexEquiv
+ #print axioms ASGinzburg.CutQuiver.foundation_relation_forward
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_zero
++#print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_sum
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_one
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_mul
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalSpace
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_apply
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_add
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_smul
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalRepresentation
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_component
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_totalModule_apply
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalModuleMap
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctor
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctor_map_apply
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctorFaithful
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalLinearMap
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_apply
++#print axioms ASGinzburg.ZAlgebra.foundationComponentAction_naturality
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_action
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_id
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_comp
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalOppRepresentation
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalUnitalRepresentation
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalModuleStructure
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalModule
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalModule_smul
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalModule_scalar_smul
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalUnderlyingLinearEquiv
+ #print axioms ASGinzburg.fourTermProjectiveResolution_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.exact_epi_comp_iff
+ #print axioms ASGinzburg.FourTermProjectiveResolution
+@@ -3033,6 +3135,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightRegularTotalAlgebraEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightRegularTotalAlgebraEquiv_representation
+ #print axioms ASGinzburg.ZAlgebra.Isomorphism.ofSurjectiveReindex
++#print axioms ASGinzburg.CutQuiver.relationClosedTrace
++#print axioms ASGinzburg.CutQuiver.relationClosedTrace_single
++#print axioms ASGinzburg.CutQuiver.relationClosedTrace_mem_potentialSpace
++#print axioms ASGinzburg.CutQuiver.cyclicDerivative_relationClosedTrace_cut
+ #print axioms ASGinzburg.ZAlgebra.representablePrecomposition
+ #print axioms ASGinzburg.ZAlgebra.representable_map_eq_precomposition
+ #print axioms ASGinzburg.ZAlgebra.representableHomEvaluationIso
+@@ -3563,6 +3669,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_single
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_mem_filtration
+ #print axioms ASGinzburg.CutQuiver.unrolledErasureIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_mem_lengthFiltration
+ #print axioms ASGinzburg.CutQuiver.unrolledIdealProductLift
+ #print axioms ASGinzburg.CutQuiver.unrolledIdealProductLift_map_height
+ #print axioms ASGinzburg.CutQuiver.unrolledIdealProductLift_eq_comap
+@@ -3666,6 +3773,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrollDegreeLinearEquiv_single
+ #print axioms ASGinzburg.CutQuiver.height_heightEquiv_symm
+ #print axioms ASGinzburg.CutQuiver.unrolledPathZAlgebra
++#print axioms ASGinzburg.CutQuiver.unrolledArrowIdeal_elem_eq_zero_of_ge
++#print axioms ASGinzburg.CutQuiver.unrolledPositiveIdeal_elem_eq_zero_of_ge
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.height_eq_of_length_zero
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.SingleArrowIndex
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.singleArrow
+diff --git a/ASGinzburg/FoundationTotalActions.lean b/ASGinzburg/FoundationTotalActions.lean
+new file mode 100644
+index 0000000..bc715ca
+--- /dev/null
++++ b/ASGinzburg/FoundationTotalActions.lean
+@@ -0,0 +1,50 @@
++import ASGinzburg.FoundationComponentActions
++import ASGinzburg.FoundationAlgebra
++import Mathlib.LinearAlgebra.Pi
++
++/-! The actual finite sum of the original foundation presheaf
++component actions gives a linear convolution action on its total space. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++abbrev foundationRightTotalSpace (M : A.FoundationRightModule Q) :=
++  ∀ i : Q.Vertex, (A.foundationRightEvaluation Q i).obj M
++
++noncomputable def foundationRightTotalAction (M : A.FoundationRightModule Q)
++    (x : A.FoundationAlgebra Q) : Module.End k (A.foundationRightTotalSpace Q M) :=
++  LinearMap.pi (fun i => ∑ j : Q.Vertex,
++    (A.foundationRightComponentAction Q M (x i j)).comp (LinearMap.proj j))
++
++theorem foundationRightTotalAction_apply (M : A.FoundationRightModule Q)
++    (x : A.FoundationAlgebra Q) (m : A.foundationRightTotalSpace Q M) (i : Q.Vertex) :
++    A.foundationRightTotalAction Q M x m i=
++      ∑ j : Q.Vertex, A.foundationRightComponentAction Q M (x i j) (m j) := by
++  simp [foundationRightTotalAction,LinearMap.sum_apply]
++
++theorem foundationRightTotalAction_add (M : A.FoundationRightModule Q)
++    (x y : A.FoundationAlgebra Q) :
++    A.foundationRightTotalAction Q M (x+y)=
++      A.foundationRightTotalAction Q M x+A.foundationRightTotalAction Q M y := by
++  apply LinearMap.ext
++  intro m
++  funext i
++  simp only [foundationRightTotalAction_apply,Pi.add_apply,
++    A.foundationRightComponentAction_add,LinearMap.add_apply,Finset.sum_add_distrib]
++
++theorem foundationRightTotalAction_smul (M : A.FoundationRightModule Q)
++    (c : k) (x : A.FoundationAlgebra Q) :
++    A.foundationRightTotalAction Q M (c • x)=c • A.foundationRightTotalAction Q M x := by
++  apply LinearMap.ext
++  intro m
++  funext i
++  simp only [foundationRightTotalAction_apply,Pi.smul_apply,
++    A.foundationRightComponentAction_smul,LinearMap.smul_apply,Finset.smul_sum]
++
++noncomputable def foundationRightTotalRepresentation (M : A.FoundationRightModule Q) :
++    A.FoundationAlgebra Q →ₗ[k] Module.End k (A.foundationRightTotalSpace Q M) where
++  toFun := A.foundationRightTotalAction Q M
++  map_add' := A.foundationRightTotalAction_add Q M
++  map_smul' := A.foundationRightTotalAction_smul Q M
++
++end ASGinzburg.ZAlgebra

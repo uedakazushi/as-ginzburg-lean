@@ -1,0 +1,37 @@
+import ASGinzburg.ASFoundationRelationDescent
+import ASGinzburg.RelationClosedTrace
+
+/-! The potential candidate of the original paper is an actual element
+of the existing closed-path Potential space, constructed solely from
+ASRegular. Its Ginzburg regularity and algebra recovery remain unproved. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutPathRelation (hAS : A.ASRegular Q)
+    (a : {a : Q.Arrow // Q.cut a=true}) :
+    Q.PathComponent k (Q.target a.val) (Q.source a.val) :=
+  hAS.foundationPathRelation A Q (Q.target a.val) (Q.source a.val)
+    ⟨a.val,rfl,rfl,a.property⟩
+
+theorem ASRegular.cutPathRelation_support (hAS : A.ASRegular Q)
+    (a : {a : Q.Arrow // Q.cut a=true}) :
+    hAS.cutPathRelation A Q a ∈ Finsupp.supported k k
+      {p : Q.Path (Q.target a.val) (Q.source a.val) | 2 ≤ p.length ∧ p.cutDegree=0} :=
+  hAS.foundationPathRelation_support A Q (Q.target a.val) (Q.source a.val)
+    ⟨a.val,rfl,rfl,a.property⟩
+
+noncomputable def ASRegular.foundationPotential (hAS : A.ASRegular Q) : Q.Potential k :=
+  ⟨∑ a : {a : Q.Arrow // Q.cut a=true},
+    Q.relationClosedTrace k a.val (hAS.cutPathRelation A Q a),by
+    apply Submodule.sum_mem
+    intro a _
+    exact Q.relationClosedTrace_mem_potentialSpace k a.val a.property
+      (hAS.cutPathRelation_support A Q a)⟩
+
+theorem ASRegular.foundationPotential_formula (hAS : A.ASRegular Q) :
+    (hAS.foundationPotential A Q).val=
+      ∑ a : {a : Q.Arrow // Q.cut a=true},
+        Q.relationClosedTrace k a.val (hAS.cutPathRelation A Q a) := rfl
+
+end ASGinzburg.ZAlgebra

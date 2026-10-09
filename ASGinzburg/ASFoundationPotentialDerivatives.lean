@@ -1,0 +1,43 @@
+import ASGinzburg.ASFoundationPotential
+import ASGinzburg.RelationClosedTraceDerivative
+import ASGinzburg.PathCyclicDerivatives
+
+/-! The cut derivatives of the actual AS foundation potential candidate
+are precisely the chosen minimal relation representatives. This does not
+assert Ginzburg regularity, full relation generation, or algebra recovery. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutPathRelation_cut (hAS : A.ASRegular Q)
+    (a : {a : Q.Arrow // Q.cut a=true}) :
+    hAS.cutPathRelation A Q a ∈
+      Q.pathCutComponent k (Q.target a.val) (Q.source a.val) 0 :=
+  hAS.foundationPathRelation_cut A Q (Q.target a.val) (Q.source a.val)
+    ⟨a.val,rfl,rfl,a.property⟩
+
+theorem ASRegular.foundationPotential_cyclicDerivative (hAS : A.ASRegular Q)
+    (b : {a : Q.Arrow // Q.cut a=true}) :
+    cyclicDerivative b.val (hAS.foundationPotential A Q).val=
+      Q.pathWordMap k (Q.target b.val) (Q.source b.val) (hAS.cutPathRelation A Q b) := by
+  classical
+  rw [hAS.foundationPotential_formula A Q,map_sum]
+  simp_rw [Q.cyclicDerivative_relationClosedTrace_cut k _ b.val b.property
+    (hAS.cutPathRelation_cut A Q _)]
+  rw [Finset.sum_eq_single b]
+  · simp
+  · intro a _ hne
+    have h : b.val≠a.val := by
+      intro h
+      exact hne (Subtype.ext h.symm)
+    simp [h]
+  · simp
+
+theorem ASRegular.foundationPotential_pathCyclicDerivative (hAS : A.ASRegular Q)
+    (b : {a : Q.Arrow // Q.cut a=true}) :
+    Q.pathCyclicDerivative k b.val (hAS.foundationPotential A Q)=
+      hAS.cutPathRelation A Q b := by
+  apply Q.pathWordMap_injective k (Q.target b.val) (Q.source b.val)
+  rw [Q.pathWordMap_pathCyclicDerivative,hAS.foundationPotential_cyclicDerivative A Q b]
+
+end ASGinzburg.ZAlgebra

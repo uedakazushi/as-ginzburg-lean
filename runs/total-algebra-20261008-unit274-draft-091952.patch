@@ -1,0 +1,38 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ZeroCutJacobianRing.lean
+@@ -0,0 +1,35 @@
++import work.ASGinzburgDraft.ZeroCutPathAlgebra
++import work.ASGinzburgDraft.FiniteComponentIdempotents
++import ASGinzburg.PathCutUnrollingComparison
++import Mathlib.RingTheory.TwoSidedIdeal.Operations
++import Mathlib.RingTheory.Ideal.Quotient.Operations
++
++/-! The actual non-cut Jacobian ring is the genuine non-cut path
++ring modulo the two-sided ideal of its cut-arrow cyclic derivatives. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def zeroCutCyclicDerivative (φ : Q.Potential k)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.pathCutComponent k (Q.target b.val) (Q.source b.val) 0 :=
++  ⟨Q.pathCyclicDerivative k b.val φ,by
++    simpa [cutDegree,b.property] using Q.pathCyclicDerivative_mem_pathCut k b.val φ⟩
++
++noncomputable def zeroCutJacobianGenerators (φ : Q.Potential k) : Set (Q.ZeroCutPathRing k) :=
++  Set.range (fun b : {a : Q.Arrow // Q.cut a=true} =>
++    (Q.zeroCutPathComponentAlgebra k).totalComponent (Q.target b.val) (Q.source b.val)
++      (Q.zeroCutCyclicDerivative k φ b))
++
++noncomputable def zeroCutJacobianIdeal (φ : Q.Potential k) : Ideal (Q.ZeroCutPathRing k) :=
++  (TwoSidedIdeal.span (Q.zeroCutJacobianGenerators k φ)).asIdeal
++
++noncomputable instance zeroCutJacobianIdealIsTwoSided (φ : Q.Potential k) :
++    (Q.zeroCutJacobianIdeal k φ).IsTwoSided := by
++  dsimp [zeroCutJacobianIdeal]
++  infer_instance
++
++noncomputable abbrev ZeroCutJacobianRing (φ : Q.Potential k) :=
++  Q.ZeroCutPathRing k ⧸ Q.zeroCutJacobianIdeal k φ
++
++end ASGinzburg.CutQuiver

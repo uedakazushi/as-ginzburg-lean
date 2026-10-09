@@ -1,0 +1,52 @@
+import ASGinzburg.UnrolledPositiveIdealSupport
+
+/-! On a finite height interval, generation modulo IJ+JI implies
+genuine ideal containment. The proof uses strict height induction on
+actual positive path components, rather than assuming a Nakayama claim. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem linearIdeal_hom_le_of_mod_decomposables
+    (I K : (Q.unrolledPathZAlgebra k).LinearIdeal)
+    (hI : ∀ i j, I.hom i j ≤ (Q.unrolledArrowIdeal k).hom i j)
+    (l r : ℤ)
+    (hrep : ∀ i j, l ≤ i → j ≤ r →
+      I.hom i j ≤ K.hom i j ⊔ Q.relationDecomposables I i j)
+    (i j : ℤ) (hi : l ≤ i) (hj : j ≤ r) : I.hom i j ≤ K.hom i j := by
+  have hmain : ∀ d : ℕ, ∀ i j : ℤ, (j-i).toNat=d → l ≤ i → j ≤ r →
+      I.hom i j ≤ K.hom i j := by
+    intro d
+    induction d using Nat.strong_induction_on with
+    | h d ih =>
+      intro i j hd hi hj f hf
+      by_cases hij : j ≤ i
+      · rw [Q.unrolledPositiveIdeal_elem_eq_zero_of_ge k I hI i j hij hf]
+        exact Submodule.zero_mem _
+      have hij' : i < j := by omega
+      have hD : Q.relationDecomposables I i j ≤ K.hom i j := by
+        apply sup_le
+        · apply Submodule.span_le.mpr
+          rintro _ ⟨m,x,hx,y,hy,rfl⟩
+          by_cases hm : m ≤ i
+          · rw [Q.unrolledPositiveIdeal_elem_eq_zero_of_ge k I hI i m hm hx,map_zero]
+            exact Submodule.zero_mem _
+          by_cases hm' : j ≤ m
+          · rw [Q.unrolledArrowIdeal_elem_eq_zero_of_ge k m j hm' hy]
+            simp
+          have hxK := ih (m-i).toNat (by omega) i m rfl hi (by omega) hx
+          exact K.comp_left hxK y
+        · apply Submodule.span_le.mpr
+          rintro _ ⟨m,x,hx,y,hy,rfl⟩
+          by_cases hm : m ≤ i
+          · rw [Q.unrolledArrowIdeal_elem_eq_zero_of_ge k i m hm hx,map_zero]
+            exact Submodule.zero_mem _
+          by_cases hm' : j ≤ m
+          · rw [Q.unrolledPositiveIdeal_elem_eq_zero_of_ge k I hI m j hm' hy]
+            simp
+          have hyK := ih (j-m).toNat (by omega) m j rfl (by omega) hj hy
+          exact K.comp_right hyK x
+      exact (sup_le le_rfl hD) (hrep i j hi hj hf)
+  exact hmain (j-i).toNat i j rfl hi hj
+
+end ASGinzburg.CutQuiver
