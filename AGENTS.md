@@ -1,5 +1,10 @@
 # AS–Ginzburg Lean: 継続作業の規約
 
+2026-10-09のユーザー指示：GitHub Actionsの予算節約のため、GitHubでのビルドは最小限にする。
+通常の検証済みmain保存コミットには`[skip ci]`を付ける。Leanビルド・全宣言公理監査・検証証拠保存は作業環境で継続する。
+GitHub Actionsの再実行・新規実行は通常の保存では開始しない。
+検証workflowは手動実行（`workflow_dispatch`）のみとし、必要時に限って使う。
+
 ## 最初に読むもの
 
 `HANDOFF.md`、`STATUS.md`、`GAPS.md`、`verification/results.json`、
