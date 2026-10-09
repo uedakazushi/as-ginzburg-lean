@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/ZAlgebraFixedRepresentables.lean:22:21: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?e ((LinearEquiv.symm ?e) ?c)
+in the target expression
+  (B.comp ((E.map (unop (E.symm.linearFunctor.op.obj X)).index i) g))
+      ((E.map (unop Y).index (unop (E.symm.linearFunctor.op.obj X)).index)
+        ((E.map (unop Y).index (unop X).index).symm f.unop)) =
+    (B.comp ((E.map (unop X).index i) g)) f.unop
+
+case hf.h
+k : Type u
+inst✝ : Field k
+A B : ZAlgebra k
+E : A.Isomorphism B
+i : ℤ
+X Y : B.Objᵒᵖ
+f : X ⟶ Y
+g : ↑((B.rightModuleProperty.ι.obj (E.fixedRightModuleFunctor.obj (A.representable i))).obj X)
+⊢ (B.comp ((E.map (unop (E.symm.linearFunctor.op.obj X)).index i) g))
+      ((E.map (unop Y).index (unop (E.symm.linearFunctor.op.obj X)).index)
+        ((E.map (unop Y).index (unop X).index).symm f.unop)) =
+    (B.comp ((E.map (unop X).index i) g)) f.unop

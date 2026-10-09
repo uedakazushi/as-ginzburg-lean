@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/PeriodCutModuleEntryProducts.lean:57:51: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+n m : ℕ
+y : Q.LiftVertex
+i j : Q.Vertex
+f : E.CutGradedHom n ↑↑i ↑↑j
+g : E.CutGradedHom m ↑↑j ↑↑y.1
+mid : Q.LiftVertex := cutRightSource Q m y j
+xl : Q.LiftVertex := cutRightSource Q (n + m) y i
+xs : Q.LiftVertex := cutRightSource Q n mid i
+F : ↥(CornerCoverHom Q E xs mid) := (cutCornerEntry Q E n xs mid ⋯) f
+G : ↥(CornerCoverHom Q E mid y) := (cutCornerEntry Q E m mid y ⋯) g
+H : ↥(CornerCoverHom Q E xl y) := (cutCornerEntry Q E (n + m) xl y ⋯) (((E.cutGradedComp n m) g) f)
+hs : xl = xs
+⊢ (E.cutHomogeneousComponentLinear (fun i => ↑↑i) (n + m) xl.1 y.1) (((E.cutGradedComp n m) g) f) =
+    (E.cutHomogeneousComponentLinear (fun i => ↑↑i) (n + m) xs.1 y.1) (((E.cutGradedComp n m) g) f)

@@ -1,0 +1,24 @@
+import ASGinzburg.ASResolutionTransport
+import ASGinzburg.ZAlgebraRightModuleVertexExt
+import ASGinzburg.ASCutCornerCoverRecovery
+
+/-! The original AS definition is invariant under genuine vertex-fixing
+algebra isomorphisms. This includes all minimal-sequence and total-Ext-rank
+conditions, without importing any of them as added hypotheses. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k} (Q : CutQuiver)
+
+theorem ASRegular.mapIsomorphism (hAS : A.ASRegular Q) (E : Isomorphism A B) :
+    B.ASRegular Q :=
+  ⟨fun v => ⟨E.transportASResolution Q v (hAS.resolution A Q v)⟩,
+    fun v => (E.asExtTotalRank_eq Q v).symm.trans (hAS.2 v)⟩
+
+theorem Isomorphism.asRegular_iff (E : Isomorphism A B) : A.ASRegular Q ↔ B.ASRegular Q :=
+  ⟨fun hAS => hAS.mapIsomorphism Q E,fun hAS => hAS.mapIsomorphism Q E.symm⟩
+
+theorem ASRegular.cutCornerASRegular (hAS : A.ASRegular Q) :
+    (hAS.cutCornerCover A Q).ASRegular Q :=
+  hAS.mapIsomorphism Q (hAS.cutCornerCoverRecovery A Q).symm
+
+end ASGinzburg.ZAlgebra

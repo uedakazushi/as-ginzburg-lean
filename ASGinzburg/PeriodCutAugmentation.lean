@@ -1,0 +1,84 @@
+import ASGinzburg.PeriodCutZeroAugmentation
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+/-! The native nonnegative cut algebra has a concrete algebra augmentation
+onto the vertex scalar algebra. All positive homogeneous components vanish. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutAugmentationComponent :
+    (m : ℕ) → E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m →ₗ[k] (Q.Vertex→k)
+  | 0 => (E.cutZeroDiagonalAlgHom Q).toLinearMap
+  | _+1 => 0
+
+theorem cutAugmentationComponent_ne_zero {m : ℕ} (hm : m≠0)
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    E.cutAugmentationComponent Q m x=0 := by
+  cases m with
+  | zero => exact (hm rfl).elim
+  | succ m => rfl
+
+theorem cutAugmentationComponent_one :
+    E.cutAugmentationComponent Q 0
+      (GradedMonoid.GOne.one : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)=1 :=
+  (E.cutZeroDiagonalAlgHom Q).map_one
+
+theorem cutAugmentationComponent_mul {m n : ℕ}
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (y : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) n) :
+    E.cutAugmentationComponent Q (m+n) (GradedMonoid.GMul.mul x y)=
+      E.cutAugmentationComponent Q m x*E.cutAugmentationComponent Q n y := by
+  cases m with
+  | zero =>
+    cases n with
+    | zero => exact (E.cutZeroDiagonalAlgHom Q).map_mul x y
+    | succ n => simp [cutAugmentationComponent]
+  | succ m =>
+    rw [E.cutAugmentationComponent_ne_zero Q (by omega),
+      E.cutAugmentationComponent_ne_zero Q (by omega),zero_mul]
+
+noncomputable def cutAugmentation :
+    E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) →ₐ[k] (Q.Vertex→k) :=
+  DirectSum.toAlgebra k _ (E.cutAugmentationComponent Q)
+    (E.cutAugmentationComponent_one Q) (E.cutAugmentationComponent_mul Q)
+
+theorem cutAugmentation_homogeneous (m : ℕ)
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    E.cutAugmentation Q (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) m x)=
+      E.cutAugmentationComponent Q m x := by
+  change DirectSum.toModule k ℕ _ (E.cutAugmentationComponent Q)
+    (DirectSum.lof k ℕ _ m x)=_
+  exact DirectSum.toModule_lof k m x
+
+theorem cutAugmentation_zero_component
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0) :
+    E.cutAugmentation Q (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) 0 x)=
+      E.cutZeroDiagonalAlgHom Q x := E.cutAugmentation_homogeneous Q 0 x
+
+theorem cutAugmentation_positive_component (m : ℕ)
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) (m+1)) :
+    E.cutAugmentation Q (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) (m+1) x)=0 :=
+  E.cutAugmentation_homogeneous Q (m+1) x
+
+theorem cutAugmentation_surjective : Function.Surjective (E.cutAugmentation Q) := by
+  intro c
+  obtain ⟨x,hx⟩ := E.cutZeroDiagonalAlgHom_surjective Q c
+  exact ⟨E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) 0 x,
+    (E.cutAugmentation_zero_component Q x).trans hx⟩
+
+noncomputable def cutAugmentationKernel :
+    Ideal (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) :=
+  RingHom.ker (E.cutAugmentation Q).toRingHom
+
+noncomputable instance cutAugmentationKernelTwoSided : (E.cutAugmentationKernel Q).IsTwoSided := by
+  unfold cutAugmentationKernel
+  infer_instance
+
+noncomputable def cutAugmentationQuotientAlgEquiv :
+    (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) ⧸ E.cutAugmentationKernel Q) ≃ₐ[k]
+      (Q.Vertex→k) :=
+  Ideal.quotientKerAlgEquivOfSurjective (E.cutAugmentation_surjective Q)
+
+end ASGinzburg.ZAlgebra.PeriodIso

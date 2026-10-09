@@ -1,0 +1,61 @@
+import ASGinzburg.ZAlgebraConjugateModuleMorphisms
+import ASGinzburg.ASResolutionTransportTerms
+import ASGinzburg.ZAlgebraFixedSimples
+
+/-! An actual vertex-fixing algebra isomorphism transports the precise
+finite minimal AS sequence, including its canonical simple augmentation,
+three exactness conditions, endpoint monicity, and real radical containment. -/
+namespace ASGinzburg.ZAlgebra.Isomorphism
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}
+variable (E : Isomorphism A B)
+
+noncomputable def transportASResolution (Q : CutQuiver) (v : Q.LiftVertex)
+    (R : A.ASResolution Q v) : B.ASResolution Q v := by
+  let e₀ := E.fixedRepresentableIso (Q.height v)
+  let e₁ := E.asResolutionTerm₁Iso Q v
+  let e₂ := E.asResolutionTerm₂Iso Q v
+  let e₃ := E.fixedRepresentableIso (Q.height (Q.tau.symm v))
+  let es := E.fixedSimpleIso (Q.height v)
+  let d₁ := E.conjugateModuleMap e₁ e₀ R.d₁
+  let d₂ := E.conjugateModuleMap e₂ e₁ R.d₂
+  let d₃ := E.conjugateModuleMap e₃ e₂ R.d₃
+  have hπ : E.conjugateModuleMap e₀ es (A.simpleRightModuleπ (Q.height v))=
+      B.simpleRightModuleπ (Q.height v) := by
+    rw [conjugateModuleMap]
+    change e₀.inv ≫ E.fixedRightModuleFunctor.map (A.simpleRightModuleπ (Q.height v)) ≫
+      (E.fixedSimpleIso (Q.height v)).hom=_
+    rw [E.fixedSimpleIso_π]
+    exact e₀.inv_hom_id_assoc _
+  have h₀ : d₁ ≫ B.simpleRightModuleπ (Q.height v)=0 := by
+    rw [← hπ]
+    exact E.conjugateModuleMap_comp_zero e₁ e₀ es _ _ R.d₁_π
+  have h₁ : d₂ ≫ d₁=0 := E.conjugateModuleMap_comp_zero e₂ e₁ e₀ _ _ R.d₂_d₁
+  have h₂ : d₃ ≫ d₂=0 := E.conjugateModuleMap_comp_zero e₃ e₂ e₁ _ _ R.d₃_d₂
+  refine {
+    d₁ := d₁
+    d₂ := d₂
+    d₃ := d₃
+    d₁_π := h₀
+    d₂_d₁ := h₁
+    d₃_d₂ := h₂
+    exact₀ := ?_
+    exact₁ := E.conjugateShortComplex_exact
+      (ShortComplex.mk R.d₂ R.d₁ R.d₂_d₁) R.exact₁ e₂ e₁ e₀
+    exact₂ := E.conjugateShortComplex_exact
+      (ShortComplex.mk R.d₃ R.d₂ R.d₃_d₂) R.exact₂ e₃ e₂ e₁
+    mono_d₃ := ?_
+    minimal₁ := E.conjugateModuleMap_minimal e₁ e₀ R.d₁ R.minimal₁
+    minimal₂ := E.conjugateModuleMap_minimal e₂ e₁ R.d₂ R.minimal₂
+    minimal₃ := E.conjugateModuleMap_minimal e₃ e₂ R.d₃ R.minimal₃ }
+  · have he := E.conjugateShortComplex_exact
+      (ShortComplex.mk R.d₁ (A.simpleRightModuleπ (Q.height v)) R.d₁_π) R.exact₀ e₁ e₀ es
+    change (ShortComplex.mk d₁
+      (E.conjugateModuleMap e₀ es (A.simpleRightModuleπ (Q.height v))) _).Exact at he
+    simpa only [hπ] using he
+  · haveI : Mono R.d₃ := R.mono_d₃
+    dsimp only [d₃,conjugateModuleMap]
+    infer_instance
+
+end ASGinzburg.ZAlgebra.Isomorphism

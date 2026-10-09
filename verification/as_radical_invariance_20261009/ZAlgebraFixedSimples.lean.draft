@@ -1,0 +1,52 @@
+import work.ASGinzburgDraft.ZAlgebraFixedRepresentables
+import work.ASGinzburgDraft.VertexSimpleFromPresentation
+
+/-! The explicit transport preserves the actual vertex simple and its
+canonical projective quotient, so that the AS augmentation is preserved. -/
+namespace ASGinzburg.ZAlgebra.Isomorphism
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}
+variable (E : Isomorphism A B)
+
+noncomputable def fixedSimplePresentationMap (i : ℤ) :
+    B.representable i⟶E.fixedRightModuleFunctor.obj (A.simpleRightModule i) :=
+  (E.fixedRepresentableIso i).inv ≫ E.fixedRightModuleFunctor.map (A.simpleRightModuleπ i)
+
+instance fixedSimplePresentationMapEpi (i : ℤ) : Epi (E.fixedSimplePresentationMap i) := by
+  dsimp only [fixedSimplePresentationMap]
+  infer_instance
+
+theorem fixedSimplePresentationMap_nonzero (i : ℤ) : E.fixedSimplePresentationMap i≠0 := by
+  intro hz
+  have hp : E.fixedRightModuleFunctor.map (A.simpleRightModuleπ i)=0 := by
+    apply (cancel_epi (E.fixedRepresentableIso i).inv).mp
+    simpa only [fixedSimplePresentationMap,comp_zero] using hz
+  have hp' : A.simpleRightModuleπ i=0 := by
+    apply E.fixedRightModuleFunctor.map_injective
+    rw [hp,Functor.map_zero]
+  exact Simple.not_isZero _ (IsZero.of_epi_eq_zero _ hp')
+
+theorem fixedImageSimple_off_diagonal (i j : ℤ) (hji : j≠i) :
+    IsZero ((B.rightModuleEvaluation j).obj
+      (E.fixedRightModuleFunctor.obj (A.simpleRightModule i))) :=
+  A.simpleRightModule_off_diagonal i j hji
+
+noncomputable def fixedSimpleIso (i : ℤ) :
+    E.fixedRightModuleFunctor.obj (A.simpleRightModule i) ≅ B.simpleRightModule i :=
+  B.vertexPresentationIso i _ (E.fixedSimplePresentationMap i)
+    (E.fixedImageSimple_off_diagonal i) (E.fixedSimplePresentationMap_nonzero i)
+
+theorem fixedSimpleIso_π (i : ℤ) :
+    E.fixedRightModuleFunctor.map (A.simpleRightModuleπ i) ≫ (E.fixedSimpleIso i).hom=
+      (E.fixedRepresentableIso i).hom ≫ B.simpleRightModuleπ i := by
+  have h := B.vertexPresentationIso_fac i _ (E.fixedSimplePresentationMap i)
+    (E.fixedImageSimple_off_diagonal i) (E.fixedSimplePresentationMap_nonzero i)
+  have hh := congrArg (fun t => (E.fixedRepresentableIso i).hom ≫ t) h
+  change (E.fixedRepresentableIso i).hom ≫
+    ((E.fixedRepresentableIso i).inv ≫ E.fixedRightModuleFunctor.map (A.simpleRightModuleπ i) ≫
+      (E.fixedSimpleIso i).hom)=_
+    at hh
+  simpa only [Iso.hom_inv_id_assoc] using hh
+
+end ASGinzburg.ZAlgebra.Isomorphism

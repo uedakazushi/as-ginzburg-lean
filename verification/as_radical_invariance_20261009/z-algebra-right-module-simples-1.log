@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/ZAlgebraRightModuleSimples.lean:19:10: error(lean.unknownIdentifier): Unknown constant `ASGinzburg.ZAlgebra.Obj.ext`
+work/ASGinzburgDraft/ZAlgebraRightModuleSimples.lean:20:4: error: No goals to be solved
+work/ASGinzburgDraft/ZAlgebraRightModuleSimples.lean:51:17: error: Application type mismatch: The argument
+  (unop X).index
+has type
+  ℤ
+of sort `Type` but is expected to have type
+  Type ?u.3910
+of sort `Type (?u.3910 + 1)` in the application
+  @PrincipalSeg (unop X).index
+work/ASGinzburgDraft/ZAlgebraRightModuleSimples.lean:52:2: error: invalid occurrence of `·` notation, it must be surrounded by parentheses (e.g. `(· + 1)`)
+work/ASGinzburgDraft/ZAlgebraRightModuleSimples.lean:57:28: error: Type mismatch: After simplification, term
+  x.property
+ has type
+  ↑x ∈ if (unop X).index < i then ⊤ else ⊥
+but is expected to have type
+  ↑x = 0
+work/ASGinzburgDraft/ZAlgebraRightModuleSimples.lean:44:74: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A B : ZAlgebra k
+E : A.Isomorphism B
+i : ℤ
+X : B.Objᵒᵖ
+x : ↑((B.representableRadical i).object.obj.obj X)
+hxi : ¬sorry
+⊢ (ConcreteCategory.hom ((E.simplePresentationMap i).app X)) ↑x = 0

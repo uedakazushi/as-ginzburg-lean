@@ -1,0 +1,90 @@
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:16:43: error: Application type mismatch: The argument
+  CornerModuleSpace Q E M
+has type
+  Q.LiftVertex → ModuleCat k
+but is expected to have type
+  Q.LiftVertex → Type ?u.25811
+in the application
+  @DirectSum.lof k ?m.43 Q.LiftVertex (CornerModuleSpace Q E M)
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:25:36: error: Application type mismatch: The argument
+  CornerModuleSpace Q E M
+has type
+  Q.LiftVertex → ModuleCat k
+but is expected to have type
+  Q.LiftVertex → Type ?u.35394
+in the application
+  @DirectSum.lof k ?m.22 Q.LiftVertex (CornerModuleSpace Q E M)
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:26:37: error: Application type mismatch: The argument
+  CornerModuleSpace Q E M
+has type
+  Q.LiftVertex → ModuleCat k
+but is expected to have type
+  Q.LiftVertex → Type ?u.45609
+in the application
+  @DirectSum.lof k ?m.31 Q.LiftVertex (CornerModuleSpace Q E M)
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:27:45: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y : Q.LiftVertex
+f : ↥(CornerCoverHom Q E x y)
+v : ↑(CornerModuleSpace Q E M y)
+⊢ (sorry ()) (sorry ()) = sorry ()
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:28:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:34:36: error: Application type mismatch: The argument
+  CornerModuleSpace Q E M
+has type
+  Q.LiftVertex → ModuleCat k
+but is expected to have type
+  Q.LiftVertex → Type ?u.56107
+in the application
+  @DirectSum.lof k ?m.23 Q.LiftVertex (CornerModuleSpace Q E M)
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:34:72: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y t : Q.LiftVertex
+f : ↥(CornerCoverHom Q E x y)
+v : ↑(CornerModuleSpace Q E M t)
+h : t ≠ y
+⊢ (sorry ()) (sorry ()) = 0
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:35:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:35:28: warning: This simp argument is unused:
+  DirectSum.component.of
+
+Hint: Omit it from the simp argument list.
+  simp [̵c̵o̵r̵n̵e̵r̵T̵o̵t̵a̵l̵E̵n̵t̵r̵y̵M̵a̵p̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵c̵o̵m̵p̵o̵n̵e̵n̵t̵.̵o̵f̵,̵h̵]̵[̲c̲o̲r̲n̲e̲r̲T̲o̲t̲a̲l̲E̲n̲t̲r̲y̲M̲a̲p̲,̲ ̲h̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:35:51: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [cornerTotalEntryMap, ̲DirectSum.component.of,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:37:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:47:4: warning: 'rw [E.cornerTotalEntryMap_lof, E.cornerTotalEntryMap_lof, E.cornerTotalEntryMap_lof]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:48:4: warning: 'exact
+  congrArg (DirectSum.lof k Q.LiftVertex _ x)
+    (LinearMap.congr_fun (E.cornerModuleMap_comp Q M f g) v)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:48:4: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:53:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:55:5: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:63:4: warning: 'rw [E.cornerTotalEntryMap_lof, E.cornerTotalEntryMap_lof_ne Q M x y z f _ h]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

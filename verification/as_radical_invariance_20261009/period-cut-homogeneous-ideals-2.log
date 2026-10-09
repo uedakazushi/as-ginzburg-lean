@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/PeriodCutHomogeneousIdeals.lean:78:43: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (E.cutHomogeneousInclusion ?vertex 0) (E.cutMatrixId ?vertex)
+in the target expression
+  (E.cutHomogeneousInclusion (fun i => ↑↑i) 0) 1 ∈ I
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+I : Ideal (E.CutGradedRing fun i => ↑↑i)
+hI : CutHomogeneousLeftIdeal Q E I
+hne : I ≠ ⊤
+htop : I ⊔ cutPositiveIdeal Q E = ⊤
+hone : 1 ∈ I ⊔ cutPositiveIdeal Q E
+a : E.CutGradedRing fun i => ↑↑i
+ha : a ∈ I
+b : E.CutGradedRing fun i => ↑↑i
+hb : b ∈ cutPositiveIdeal Q E
+hab : a + b = 1
+ha0 : a 0 = 1
+h : (E.cutHomogeneousInclusion (fun i => ↑↑i) 0) 1 ∈ I
+⊢ 1 ∈ I

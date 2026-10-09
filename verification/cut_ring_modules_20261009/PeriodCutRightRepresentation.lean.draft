@@ -1,0 +1,48 @@
+import work.ASGinzburgDraft.PeriodCutModuleComposition
+import Mathlib.Algebra.Algebra.Opposite
+
+/-! The verified homogeneous right action extends to a genuine unital
+algebra representation of R into the opposite endomorphism algebra. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutRightRepresentationComponent (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m →ₗ[k]
+      (Module.End k (E.CornerModuleTotalSpace Q M))ᵐᵒᵖ :=
+  (MulOpposite.opLinearEquiv k).toLinearMap.comp (E.cutHomogeneousRightOperator Q M m)
+
+theorem cutRightRepresentationComponent_one (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    E.cutRightRepresentationComponent Q M 0
+      (GradedMonoid.GOne.one : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)=1 := by
+  apply MulOpposite.unop_injective
+  exact E.cutHomogeneousRightOperator_one Q M
+
+theorem cutRightRepresentationComponent_mul (M : (E.cornerCoverZAlgebra Q).RightModule)
+    {m n : ℕ} (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (z : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) n) :
+    E.cutRightRepresentationComponent Q M (m+n) (GradedMonoid.GMul.mul x z)=
+      E.cutRightRepresentationComponent Q M m x*E.cutRightRepresentationComponent Q M n z := by
+  apply MulOpposite.unop_injective
+  exact E.cutHomogeneousRightOperator_mul Q M m n x z
+
+noncomputable def cutRightRepresentation (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) →ₐ[k]
+      (Module.End k (E.CornerModuleTotalSpace Q M))ᵐᵒᵖ :=
+  DirectSum.toAlgebra k _ (E.cutRightRepresentationComponent Q M)
+    (E.cutRightRepresentationComponent_one Q M) (E.cutRightRepresentationComponent_mul Q M)
+
+theorem cutRightRepresentation_homogeneous (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (r : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    (E.cutRightRepresentation Q M
+      (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) m r)).unop=
+        E.cutHomogeneousRightOperator Q M m r := by
+  change (DirectSum.toModule k ℕ _ (E.cutRightRepresentationComponent Q M)
+    (DirectSum.lof k ℕ _ m r)).unop=_
+  rw [DirectSum.toModule_lof]
+  rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

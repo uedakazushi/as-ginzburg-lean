@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:15:16: error: unsolved goals
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y : E.CutGradedBlock (fun i => ↑↑i) 0
+i : Q.Vertex
+⊢ (A.scalarEndEquiv ↑↑i).symm ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) i i) (x i i)) +
+      (A.scalarEndEquiv ↑↑i).symm ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) i i) (y i i)) =
+    ((fun i => (A.scalarEndEquiv ↑↑i).symm ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) i i) (x i i))) + fun i =>
+        (A.scalarEndEquiv ↑↑i).symm ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) i i) (y i i)))
+      i
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:70:4: error: 'change' tactic failed, pattern
+  1 • A.id ↑↑i = A.id ↑↑i
+is not definitionally equal to target
+  (A.scalarEndEquiv ↑↑i) 1 = A.id ↑↑i
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:72:11: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (LinearEquiv.symm ?e) (?e ?b)
+in the target expression
+  (A.scalarEndEquiv ↑↑i).symm ((A.homTransport ↑↑i ↑↑i ↑↑i ↑↑i ⋯ ⋯) ((A.scalarEndEquiv ↑↑i) 1)) = 1
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+i : Q.Vertex
+h1 : (A.scalarEndEquiv ↑↑i) 1 = A.id ↑↑i
+⊢ (A.scalarEndEquiv ↑↑i).symm ((A.homTransport ↑↑i ↑↑i ↑↑i ↑↑i ⋯ ⋯) ((A.scalarEndEquiv ↑↑i) 1)) = 1

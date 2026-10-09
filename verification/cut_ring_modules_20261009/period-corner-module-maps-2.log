@@ -1,0 +1,67 @@
+work/ASGinzburgDraft/PeriodCornerModuleMaps.lean:15:4: error(lean.unknownIdentifier): Unknown identifier `x`
+work/ASGinzburgDraft/PeriodCornerModuleMaps.lean:15:6: error: unexpected token ':'; expected command
+work/ASGinzburgDraft/PeriodCornerModuleMaps.lean:25:14: error: Function expected at
+  Functor.map_add M.obj
+but this term has type
+  M.obj.map (?m.116 + ?m.117) = M.obj.map ?m.116 + M.obj.map ?m.117
+
+Note: Expected a function because this term is being applied to the argument
+  (E.cornerCoordinateHomEquiv Q x y f).op
+work/ASGinzburgDraft/PeriodCornerModuleMaps.lean:21:14: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y : Q.LiftVertex
+f g : ↥(CornerCoverHom Q E x y)
+this : M.obj.Additive := M.property.left
+⊢ ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x y) f + (cornerCoordinateHomEquiv Q E x y) g).op) =
+    ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x y) f).op) +
+      ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x y) g).op)
+work/ASGinzburgDraft/PeriodCornerModuleMaps.lean:43:22: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cornerCoordinateHomEquiv Q E ?m.165 ?m.167) (((cornerCoverComp Q E) ?g) ?f)
+in the target expression
+  ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x y) f).op) ∘ₗ
+      ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E y z) g).op) =
+    { toFun := fun f => ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x z) f).op), map_add' := ⋯,
+        map_smul' := ⋯ }
+      (((cornerCoverComp Q E) g) f)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y z : Q.LiftVertex
+f : ↥(CornerCoverHom Q E x y)
+g : ↥(CornerCoverHom Q E y z)
+h :
+  M.obj.map (((cornerCoordinateHomEquiv Q E y z) g).op ≫ ((cornerCoordinateHomEquiv Q E x y) f).op) =
+    M.obj.map ((cornerCoordinateHomEquiv Q E y z) g).op ≫ M.obj.map ((cornerCoordinateHomEquiv Q E x y) f).op
+⊢ ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x y) f).op) ∘ₗ
+      ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E y z) g).op) =
+    { toFun := fun f => ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x z) f).op), map_add' := ⋯,
+        map_smul' := ⋯ }
+      (((cornerCoverComp Q E) g) f)
+work/ASGinzburgDraft/PeriodCornerModuleMaps.lean:49:22: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cornerCoordinateHomEquiv Q E ?x ?x) (cornerCoverId Q E ?x)
+in the target expression
+  { toFun := fun f => ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x x) f).op), map_add' := ⋯,
+        map_smul' := ⋯ }
+      (cornerCoverId Q E x) =
+    LinearMap.id
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x : Q.LiftVertex
+⊢ { toFun := fun f => ModuleCat.Hom.hom (M.obj.map ((cornerCoordinateHomEquiv Q E x x) f).op), map_add' := ⋯,
+        map_smul' := ⋯ }
+      (cornerCoverId Q E x) =
+    LinearMap.id

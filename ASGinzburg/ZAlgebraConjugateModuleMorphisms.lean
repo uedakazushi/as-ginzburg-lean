@@ -1,0 +1,57 @@
+import ASGinzburg.ZAlgebraFixedRightModuleEquivalence
+import ASGinzburg.ASResolution
+
+/-! Conjugating transported module maps by actual object isomorphisms
+preserves zero compositions, short-complex exactness, and real minimality. -/
+namespace ASGinzburg.ZAlgebra.Isomorphism
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}
+variable (E : Isomorphism A B)
+
+noncomputable def conjugateModuleMap {M N : A.RightModule} {M' N' : B.RightModule}
+    (eM : E.fixedRightModuleFunctor.obj M≅M') (eN : E.fixedRightModuleFunctor.obj N≅N')
+    (f : M⟶N) : M'⟶N' := eM.inv ≫ E.fixedRightModuleFunctor.map f ≫ eN.hom
+
+theorem conjugateModuleMap_comp {M N P : A.RightModule} {M' N' P' : B.RightModule}
+    (eM : E.fixedRightModuleFunctor.obj M≅M') (eN : E.fixedRightModuleFunctor.obj N≅N')
+    (eP : E.fixedRightModuleFunctor.obj P≅P') (f : M⟶N) (g : N⟶P) :
+    E.conjugateModuleMap eM eN f ≫ E.conjugateModuleMap eN eP g=
+      E.conjugateModuleMap eM eP (f ≫ g) := by
+  simp only [conjugateModuleMap,Category.assoc,Iso.hom_inv_id_assoc,Functor.map_comp]
+
+theorem conjugateModuleMap_comp_zero {M N P : A.RightModule} {M' N' P' : B.RightModule}
+    (eM : E.fixedRightModuleFunctor.obj M≅M') (eN : E.fixedRightModuleFunctor.obj N≅N')
+    (eP : E.fixedRightModuleFunctor.obj P≅P') (f : M⟶N) (g : N⟶P) (h : f ≫ g=0) :
+    E.conjugateModuleMap eM eN f ≫ E.conjugateModuleMap eN eP g=0 := by
+  rw [E.conjugateModuleMap_comp,h,conjugateModuleMap,Functor.map_zero,zero_comp,comp_zero]
+
+noncomputable def conjugateShortComplexIso (S : ShortComplex A.RightModule)
+    {M' N' P' : B.RightModule} (eM : E.fixedRightModuleFunctor.obj S.X₁≅M')
+    (eN : E.fixedRightModuleFunctor.obj S.X₂≅N')
+    (eP : E.fixedRightModuleFunctor.obj S.X₃≅P') :
+    S.map E.fixedRightModuleFunctor ≅
+      ShortComplex.mk (E.conjugateModuleMap eM eN S.f) (E.conjugateModuleMap eN eP S.g)
+        (E.conjugateModuleMap_comp_zero eM eN eP S.f S.g S.zero) :=
+  ShortComplex.isoMk eM eN eP (by simp only [conjugateModuleMap,Iso.hom_inv_id_assoc]; rfl)
+    (by simp only [conjugateModuleMap,Iso.hom_inv_id_assoc]; rfl)
+
+theorem conjugateShortComplex_exact (S : ShortComplex A.RightModule) (h : S.Exact)
+    {M' N' P' : B.RightModule} (eM : E.fixedRightModuleFunctor.obj S.X₁≅M')
+    (eN : E.fixedRightModuleFunctor.obj S.X₂≅N')
+    (eP : E.fixedRightModuleFunctor.obj S.X₃≅P') :
+    (ShortComplex.mk (E.conjugateModuleMap eM eN S.f) (E.conjugateModuleMap eN eP S.g)
+      (E.conjugateModuleMap_comp_zero eM eN eP S.f S.g S.zero)).Exact :=
+  ShortComplex.exact_of_iso (E.conjugateShortComplexIso S eM eN eP)
+    (h.map E.fixedRightModuleFunctor)
+
+theorem conjugateModuleMap_minimal {M N : A.RightModule} {M' N' : B.RightModule}
+    (eM : E.fixedRightModuleFunctor.obj M≅M') (eN : E.fixedRightModuleFunctor.obj N≅N')
+    (f : M⟶N) (hf : A.IsMinimalMorphism f) :
+    B.IsMinimalMorphism (E.conjugateModuleMap eM eN f) := by
+  simpa only [conjugateModuleMap,Category.assoc] using
+    B.isMinimalMorphism_comp_right (eM.inv ≫ E.fixedRightModuleFunctor.map f) eN.hom
+      (B.isMinimalMorphism_comp_left eM.inv (E.fixedRightModuleFunctor.map f)
+        (E.fixedRightModuleFunctor_minimal f hf))
+
+end ASGinzburg.ZAlgebra.Isomorphism

@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/PeriodCutAugmentation.lean:31:11: error: unsolved goals
+case succ
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+n : ℕ
+y : E.CutGradedBlock (fun i => ↑↑i) n
+m : ℕ
+x : E.CutGradedBlock (fun i => ↑↑i) (m + 1)
+⊢ (match m + 1 + n with
+      | 0 => (cutZeroDiagonalAlgHom Q E).toLinearMap
+      | n.succ => 0)
+      (GradedMonoid.GMul.mul x y) =
+    0
+work/ASGinzburgDraft/PeriodCutAugmentation.lean:31:20: warning: This simp argument is unused:
+  Nat.succ_add
+
+Hint: Omit it from the simp argument list.
+  simp [̵N̵a̵t̵.̵s̵u̵c̵c̵_̵a̵d̵d̵,̵c̵u̵t̵A̵u̵g̵m̵e̵n̵t̵a̵t̵i̵o̵n̵C̵o̵m̵p̵o̵n̵e̵n̵t̵]̵[̲c̲u̲t̲A̲u̲g̲m̲e̲n̲t̲a̲t̲i̲o̲n̲C̲o̲m̲p̲o̲n̲e̲n̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCutAugmentation.lean:44:8: error: Function expected at
+  DirectSum.toModule_lof ?m.50 ?m.61 ?m.62
+but this term has type
+  (DirectSum.toModule ?m.50 ?m.52 ?m.57 ?m.60) ((DirectSum.lof ?m.50 ?m.52 ?m.53 ?m.61) ?m.62) = (?m.60 ?m.61) ?m.62
+
+Note: Expected a function because this term is being applied to the argument
+  _

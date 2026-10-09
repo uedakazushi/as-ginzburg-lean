@@ -1,0 +1,48 @@
+work/ASGinzburgDraft/PeriodCutZeroNilpotence.lean:13:19: error: Application type mismatch: The argument
+  ↑j
+has type
+  ℕ
+of sort `Type` but is expected to have type
+  Type ?u.196
+of sort `Type (?u.196 + 1)` in the application
+  @PrincipalSeg ↑j
+work/ASGinzburgDraft/PeriodCutZeroNilpotence.lean:13:26: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.val` could not be determined
+work/ASGinzburgDraft/PeriodCutZeroNilpotence.lean:18:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : E.CutGradedBlock (fun i => ↑↑i) 0
+⊢ CutZeroMatrixVanishing Q E 0 x
+work/ASGinzburgDraft/PeriodCutZeroNilpotence.lean:27:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : E.CutGradedBlock (fun i => ↑↑i) 0
+hx : (cutZeroDiagonalAlgHom Q E) x = 0
+hdiag : ∀ (i : Q.Vertex), x i i = 0
+⊢ CutZeroMatrixVanishing Q E 1 x
+work/ASGinzburgDraft/PeriodCutZeroNilpotence.lean:39:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+n m : ℕ
+x y : E.CutGradedBlock (fun i => ↑↑i) 0
+hx : CutZeroMatrixVanishing Q E n x
+hy : CutZeroMatrixVanishing Q E m y
+⊢ CutZeroMatrixVanishing Q E (n + m) (x * y)
+work/ASGinzburgDraft/PeriodCutZeroNilpotence.lean:62:8: error: Function expected at
+  cutZeroMatrixVanishing_pow Q E x hx Q.vertices
+but this term has type
+  CutZeroMatrixVanishing Q E Q.vertices (x ^ Q.vertices)
+
+Note: Expected a function because this term is being applied to the argument
+  i

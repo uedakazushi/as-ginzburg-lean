@@ -1,0 +1,111 @@
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:34:15: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+y : Q.LiftVertex
+c : k
+r : E.CutGradedBlock (fun i => ↑↑i) m
+⊢ ∑ x,
+      c •
+        DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y x) ∘ₗ
+          (cornerModuleMap Q E M (cutRightSource Q m y x) y)
+            ((cutCornerEntry Q E m (cutRightSource Q m y x) y ⋯) (r x y.1)) =
+    ∑ x,
+      (RingHom.id k) c •
+        DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y x) ∘ₗ
+          (cornerModuleMap Q E M (cutRightSource Q m y x) y)
+            ((cutCornerEntry Q E m (cutRightSource Q m y x) y ⋯) (r x y.1))
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:46:65: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+y : Q.LiftVertex
+r : E.CutGradedBlock (fun i => ↑↑i) m
+v : CornerModuleSpace Q E M y
+⊢ ({
+          toFun := fun r =>
+            ∑ x,
+              DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y x) ∘ₗ
+                (cornerModuleMap Q E M (cutRightSource Q m y x) y)
+                  ((cutCornerEntry Q E m (cutRightSource Q m y x) y ⋯) (r x y.1)),
+          map_add' := ⋯, map_smul' := ⋯ }
+        r)
+      v =
+    ∑ x,
+      (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m y x))
+        (((cornerModuleMap Q E M (cutRightSource Q m y x) y)
+            ((cutCornerEntry Q E m (cutRightSource Q m y x) y ⋯) (r x y.1)))
+          v)
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:47:31: warning: This simp argument is unused:
+  LinearMap.sum_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵u̵t̵R̵i̵g̵h̵t̵C̵o̵l̵u̵m̵n̵M̵a̵p̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵s̵u̵m̵_̵a̵p̵p̵l̵y̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵]̵[̲c̲u̲t̲R̲i̲g̲h̲t̲C̲o̲l̲u̲m̲n̲M̲a̲p̲,̲ ̲L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲c̲o̲m̲p̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:47:51: warning: This simp argument is unused:
+  LinearMap.comp_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵u̵t̵R̵i̵g̵h̵t̵C̵o̵l̵u̵m̵n̵M̵a̵p̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵s̵u̵m̵_̵a̵p̵p̵l̵y̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵]̵[̲c̲u̲t̲R̲i̲g̲h̲t̲C̲o̲l̲u̲m̲n̲M̲a̲p̲,̲ ̲L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲s̲u̲m̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:54:14: error: unsolved goals
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+r t : E.CutGradedBlock (fun i => ↑↑i) m
+y : Q.LiftVertex
+v : CornerModuleSpace Q E M y
+⊢ (DirectSum.toModule k Q.LiftVertex (CornerModuleTotalSpace Q E M) fun y =>
+        (cutRightColumnMap Q E M m y) r + (cutRightColumnMap Q E M m y) t)
+      (DFinsupp.single y v) =
+    (DirectSum.toModule k Q.LiftVertex (CornerModuleTotalSpace Q E M) fun y => (cutRightColumnMap Q E M m y) r)
+        (DFinsupp.single y v) +
+      (DirectSum.toModule k Q.LiftVertex (CornerModuleTotalSpace Q E M) fun y => (cutRightColumnMap Q E M m y) t)
+        (DFinsupp.single y v)
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:59:15: error: unsolved goals
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+c : k
+r : E.CutGradedBlock (fun i => ↑↑i) m
+y : Q.LiftVertex
+v : CornerModuleSpace Q E M y
+⊢ (DirectSum.toModule k Q.LiftVertex (CornerModuleTotalSpace Q E M) fun y => c • (cutRightColumnMap Q E M m y) r)
+      (DFinsupp.single y v) =
+    (RingHom.id k) c •
+      (DirectSum.toModule k Q.LiftVertex (CornerModuleTotalSpace Q E M) fun y => (cutRightColumnMap Q E M m y) r)
+        (DFinsupp.single y v)
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:58:15: warning: This simp argument is unused:
+  DirectSum.toModule_lof
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵t̵o̵M̵o̵d̵u̵l̵e̵_̵l̵o̵f̵,̵m̵a̵p̵_̵a̵d̵d̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵]̵[̲m̲a̲p̲_̲a̲d̲d̲,̲ ̲L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲a̲d̲d̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCutModuleColumns.lean:63:15: warning: This simp argument is unused:
+  DirectSum.toModule_lof
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵t̵o̵M̵o̵d̵u̵l̵e̵_̵l̵o̵f̵,̵m̵a̵p̵_̵s̵m̵u̵l̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵s̵m̵u̵l̵_̵a̵p̵p̵l̵y̵]̵[̲m̲a̲p̲_̲s̲m̲u̲l̲,̲ ̲L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲s̲m̲u̲l̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

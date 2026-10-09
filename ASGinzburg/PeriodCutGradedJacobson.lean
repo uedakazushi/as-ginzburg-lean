@@ -1,0 +1,50 @@
+import ASGinzburg.PeriodCutGradedMaximalIdeals
+import ASGinzburg.PeriodCutZeroJacobson
+
+/-! The actual graded Jacobson radical, defined as an intersection of
+maximal homogeneous left ideals, equals the scalar augmentation kernel.
+Consequently its genuine ring quotient is the vertex scalar algebra. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutGradedJacobson_eq_comap_zero :
+    E.cutGradedJacobson Q=
+      Ideal.comap (E.cutZeroProjection Q).toRingHom
+        (Ring.jacobson (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)) := by
+  rw [E.cutGradedJacobson_eq_positive_jacobson]
+  symm
+  rw [← Ideal.jacobson_bot]
+  exact Ideal.comap_jacobson_of_surjective (E.cutZeroProjection_surjective Q)
+
+theorem cutGradedJacobson_eq_augmentationKernel :
+    E.cutGradedJacobson Q=E.cutAugmentationKernel Q := by
+  ext x
+  rw [E.cutGradedJacobson_eq_comap_zero,Ideal.mem_comap,E.cutZeroJacobson_eq_kernel]
+  change E.cutZeroDiagonalAlgHom Q (E.cutZeroProjection Q x)=0 ↔ E.cutAugmentation Q x=0
+  rw [E.cutZeroProjection_apply,E.cutAugmentation_apply]
+
+noncomputable instance cutGradedJacobsonTwoSided : (E.cutGradedJacobson Q).IsTwoSided := by
+  rw [E.cutGradedJacobson_eq_augmentationKernel]
+  infer_instance
+
+noncomputable def cutGradedSemisimpleQuotientAlgEquiv :
+    (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) ⧸ E.cutGradedJacobson Q) ≃ₐ[k]
+      (Q.Vertex→k) :=
+  (Ideal.quotientEquivAlgOfEq k (E.cutGradedJacobson_eq_augmentationKernel Q)).trans
+    (E.cutAugmentationQuotientAlgEquiv Q)
+
+theorem cutPositiveIdeal_le_gradedJacobson : E.cutPositiveIdeal Q≤E.cutGradedJacobson Q := by
+  rw [E.cutGradedJacobson_eq_positive_jacobson]
+  exact Ideal.le_jacobson
+
+theorem cutGradedJacobson_homogeneous : E.CutHomogeneousLeftIdeal Q (E.cutGradedJacobson Q) :=
+  E.cutHomogeneousLeftIdeal_of_positive_le Q _ (E.cutPositiveIdeal_le_gradedJacobson Q)
+
+theorem mem_cutGradedJacobson_iff
+    (x : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) :
+    x∈E.cutGradedJacobson Q ↔ ∀ i : Q.Vertex,x 0 i i=0 := by
+  rw [E.cutGradedJacobson_eq_augmentationKernel,E.mem_cutAugmentationKernel_iff]
+
+end ASGinzburg.ZAlgebra.PeriodIso

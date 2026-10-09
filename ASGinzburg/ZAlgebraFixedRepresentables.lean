@@ -1,0 +1,28 @@
+import ASGinzburg.ZAlgebraFixedRightModuleEquivalence
+
+/-! The explicit module transport preserves the vertex representables,
+using the actual component maps of the algebra isomorphism. -/
+namespace ASGinzburg.ZAlgebra.Isomorphism
+open CategoryTheory Opposite
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}
+variable (E : Isomorphism A B)
+
+noncomputable def fixedRepresentableIso (i : ℤ) :
+    E.fixedRightModuleFunctor.obj (A.representable i) ≅ B.representable i :=
+  ObjectProperty.isoMk _ (NatIso.ofComponents
+    (fun X => (E.map X.unop.index i).toModuleIso) (by
+      intro X Y f
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro g
+      change E.map Y.unop.index i (A.comp g
+        ((E.map Y.unop.index X.unop.index).symm f.unop))=
+          B.comp (E.map X.unop.index i g) f.unop
+      rw [E.map_comp]
+      change B.comp (E.map X.unop.index i g)
+        (E.map Y.unop.index X.unop.index
+          ((E.map Y.unop.index X.unop.index).symm f.unop))=_
+      rw [LinearEquiv.apply_symm_apply]))
+
+end ASGinzburg.ZAlgebra.Isomorphism

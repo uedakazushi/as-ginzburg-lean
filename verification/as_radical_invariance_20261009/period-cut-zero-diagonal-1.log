@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:13:24: error: typeclass instance problem is stuck, it is often due to metavariables
+  RingHomCompTriple (?m.153 i) (RingHom.id k) (RingHom.id k)
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:17:0: error: Not a definitional equality: the left-hand side
+  (cutZeroDiagonalLinear Q E) x i
+is not definitionally equal to the right-hand side
+  (A.scalarEndEquiv ↑↑i).symm ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) i i) (x i i))
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:20:85: error: Type mismatch
+  rfl
+has type
+  ?m.43 = ?m.43
+but is expected to have type
+  (cutZeroDiagonalLinear Q E) x i =
+    (A.scalarEndEquiv ↑↑i).symm ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) i i) (x i i))
+work/ASGinzburgDraft/PeriodCutZeroDiagonal.lean:50:65: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.homTransport ?i' ?j' ?i'' ?j'' ?hi' ?hj') ((A.homTransport ?i ?j ?i' ?j' ?hi ?hj) ?f)
+in the target expression
+  (A.scalarEndEquiv ↑↑i).symm
+      ((A.homTransport (↑↑i) (↑↑i + 0 * ↑Q.vertices) ↑↑i ↑↑i ⋯ ⋯)
+        ((A.homTransport (↑↑i) (↑↑i) (↑↑i) (↑↑i + 0 * ↑Q.vertices) ⋯ ⋯) (A.id ↑↑i))) =
+    1
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+i : Q.Vertex
+⊢ (A.scalarEndEquiv ↑↑i).symm
+      ((A.homTransport (↑↑i) (↑↑i + 0 * ↑Q.vertices) ↑↑i ↑↑i ⋯ ⋯)
+        ((A.homTransport (↑↑i) (↑↑i) (↑↑i) (↑↑i + 0 * ↑Q.vertices) ⋯ ⋯) (A.id ↑↑i))) =
+    1

@@ -1,0 +1,89 @@
+import work.ASGinzburgDraft.PeriodCornerTotalEntryMaps
+import work.ASGinzburgDraft.PeriodCutCornerEntries
+
+/-! A homogeneous cut matrix acts on every sheet of a genuine cover
+module by a finite sum of its ring-corner entries. These are actual
+k-linear maps into the finite-support total module space. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+def cutRightSource (m : ℕ) (y : Q.LiftVertex) (i : Q.Vertex) : Q.LiftVertex :=
+  (i,y.2-(m:ℤ))
+
+theorem cutRightSource_difference (m : ℕ) (y : Q.LiftVertex) (i : Q.Vertex) :
+    y.2-(cutRightSource Q m y i).2=(m:ℤ) := by
+  dsimp [cutRightSource]
+  ring
+
+noncomputable def cutRightColumnMap (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (y : Q.LiftVertex) :
+    E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m →ₗ[k]
+      (E.CornerModuleSpace Q M y →ₗ[k] E.CornerModuleTotalSpace Q M) where
+  toFun r := ∑ i : Q.Vertex,
+    (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (cutRightSource Q m y i)).comp
+      (E.cornerModuleMap Q M (cutRightSource Q m y i) y
+        (E.cutCornerEntry Q m (cutRightSource Q m y i) y
+          (cutRightSource_difference Q m y i) (r i y.1)))
+  map_add' := by
+    intro r t
+    simp only [Pi.add_apply,map_add,LinearMap.comp_add,Finset.sum_add_distrib]
+  map_smul' := by
+    intro c r
+    simp only [Pi.smul_apply,map_smul,LinearMap.comp_smul,Finset.smul_sum,RingHom.id_apply]
+
+theorem cutRightColumnMap_apply (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (y : Q.LiftVertex)
+    (r : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (v : E.CornerModuleSpace Q M y) :
+    E.cutRightColumnMap Q M m y r v=∑ i : Q.Vertex,
+      DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (cutRightSource Q m y i)
+        (E.cornerModuleMap Q M (cutRightSource Q m y i) y
+          (E.cutCornerEntry Q m (cutRightSource Q m y i) y
+            (cutRightSource_difference Q m y i) (r i y.1)) v) := by
+  change (∑ i : Q.Vertex,
+    (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (cutRightSource Q m y i)).comp
+      (E.cornerModuleMap Q M (cutRightSource Q m y i) y
+        (E.cutCornerEntry Q m (cutRightSource Q m y i) y
+          (cutRightSource_difference Q m y i) (r i y.1)))) v=_
+  simp only [LinearMap.sum_apply,LinearMap.comp_apply]
+
+noncomputable def cutHomogeneousRightOperator (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m →ₗ[k]
+      Module.End k (E.CornerModuleTotalSpace Q M) where
+  toFun r := DirectSum.toModule k Q.LiftVertex (E.CornerModuleTotalSpace Q M)
+    (fun y => E.cutRightColumnMap Q M m y r)
+  map_add' := by
+    intro r t
+    apply DFinsupp.lhom_ext
+    intro y v
+    change DirectSum.toModule k Q.LiftVertex _
+      (fun y => E.cutRightColumnMap Q M m y (r+t)) (DirectSum.lof k Q.LiftVertex _ y v)=
+        DirectSum.toModule k Q.LiftVertex _ (fun y => E.cutRightColumnMap Q M m y r)
+          (DirectSum.lof k Q.LiftVertex _ y v)+
+        DirectSum.toModule k Q.LiftVertex _ (fun y => E.cutRightColumnMap Q M m y t)
+          (DirectSum.lof k Q.LiftVertex _ y v)
+    rw [DirectSum.toModule_lof,DirectSum.toModule_lof,DirectSum.toModule_lof,
+      map_add,LinearMap.add_apply]
+  map_smul' := by
+    intro c r
+    apply DFinsupp.lhom_ext
+    intro y v
+    change DirectSum.toModule k Q.LiftVertex _
+      (fun y => E.cutRightColumnMap Q M m y (c • r)) (DirectSum.lof k Q.LiftVertex _ y v)=
+        c • DirectSum.toModule k Q.LiftVertex _ (fun y => E.cutRightColumnMap Q M m y r)
+          (DirectSum.lof k Q.LiftVertex _ y v)
+    rw [DirectSum.toModule_lof,DirectSum.toModule_lof,map_smul,LinearMap.smul_apply]
+
+theorem cutHomogeneousRightOperator_lof (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (r : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (y : Q.LiftVertex) (v : E.CornerModuleSpace Q M y) :
+    E.cutHomogeneousRightOperator Q M m r
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) y v)=
+        E.cutRightColumnMap Q M m y r v :=
+  DirectSum.toModule_lof k y v
+
+end ASGinzburg.ZAlgebra.PeriodIso

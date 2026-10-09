@@ -1,0 +1,48 @@
+import ASGinzburg.PeriodCutZeroDiagonal
+import ASGinzburg.ScalarEndMultiplication
+
+/-! The genuine degree-zero algebra surjects onto the vertex scalar
+algebra. Its map is the actual diagonal, not an assumed semisimple quotient. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutZeroDiagonalLinear_mul
+    (x y : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0) :
+    E.cutZeroDiagonalLinear Q (x*y)=E.cutZeroDiagonalLinear Q x*E.cutZeroDiagonalLinear Q y := by
+  funext i
+  rw [E.cutZeroDiagonalLinear_apply,E.cutZeroComponent_product_diagonal,A.scalarEndEquiv_symm_comp]
+  rfl
+
+noncomputable def cutZeroDiagonalAlgHom :
+    E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0 →ₐ[k] (Q.Vertex→k) :=
+  AlgHom.ofLinearMap (E.cutZeroDiagonalLinear Q)
+    (E.cutZeroDiagonalLinear_one Q) (E.cutZeroDiagonalLinear_mul Q)
+
+noncomputable def cutZeroScalarDiagonal (c : Q.Vertex→k) :
+    E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0 :=
+  fun i j => if h : i=j then by subst j;exact c i • E.cutGradedId (i.val:ℤ) else 0
+
+theorem cutZeroDiagonalScalar_apply (c : Q.Vertex→k) :
+    E.cutZeroDiagonalAlgHom Q (E.cutZeroScalarDiagonal Q c)=c := by
+  funext i
+  change E.cutZeroDiagonalLinear Q (E.cutZeroScalarDiagonal Q c) i=c i
+  rw [E.cutZeroDiagonalLinear_apply]
+  simp only [cutZeroScalarDiagonal]
+  change (A.scalarEndEquiv (i.val:ℤ)).symm
+    (E.cutDegreeZeroComponentEquiv (fun i : Q.Vertex => (i.val:ℤ)) i i
+      (c i • E.cutGradedId (i.val:ℤ)))=c i
+  rw [map_smul,map_smul]
+  have h1 := congrFun (E.cutZeroDiagonalLinear_one Q) i
+  change (A.scalarEndEquiv (i.val:ℤ)).symm
+    (E.cutDegreeZeroComponentEquiv (fun i : Q.Vertex => (i.val:ℤ)) i i
+      (E.cutMatrixId (fun i : Q.Vertex => (i.val:ℤ)) i i))=1 at h1
+  rw [E.cutMatrixId_diag] at h1
+  rw [h1]
+  exact mul_one _
+
+theorem cutZeroDiagonalAlgHom_surjective : Function.Surjective (E.cutZeroDiagonalAlgHom Q) :=
+  fun c => ⟨E.cutZeroScalarDiagonal Q c,E.cutZeroDiagonalScalar_apply Q c⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/PeriodCutAugmentationKernel.lean:73:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  E.cutMatrixComponent ?m.184 ?m.185 ?m.186 ?m.187 ?m.190 ?m.188 ?m.189
+in the target expression
+  (A.scalarEndEquiv ↑↑j).symm
+      ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) j j)
+        (E.cutMatrixComponent (fun i => ↑↑i) 0 i i (E.cutGradedId ↑↑i) j j)) =
+    Pi.single i 1 j
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+i j : Q.Vertex
+h : ¬j = i
+⊢ (A.scalarEndEquiv ↑↑j).symm
+      ((E.cutDegreeZeroComponentEquiv (fun i => ↑↑i) j j)
+        (E.cutMatrixComponent (fun i => ↑↑i) 0 i i (E.cutGradedId ↑↑i) j j)) =
+    Pi.single i 1 j
+work/ASGinzburgDraft/PeriodCutAugmentationKernel.lean:73:51: error: Application type mismatch: The argument
+  h
+has type
+  ¬j = i
+of sort `Prop` but is expected to have type
+  E.CutGradedHom ?m.185 (?m.184 ?m.186) (?m.184 ?m.187)
+of sort `Type v` in the application
+  cutMatrixComponent_source_ne E ?m.184 ?m.185 ?m.186 ?m.187 ?m.188 ?m.189 h

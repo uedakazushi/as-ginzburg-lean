@@ -1,0 +1,57 @@
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:20:15: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y : Q.LiftVertex
+c : k
+f : ↥(CornerCoverHom Q E x y)
+⊢ c •
+      DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x ∘ₗ
+        (cornerModuleMap Q E M x y) f ∘ₗ DirectSum.component k Q.LiftVertex (CornerModuleSpace Q E M) y =
+    (RingHom.id k) c •
+      DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x ∘ₗ
+        (cornerModuleMap Q E M x y) f ∘ₗ DirectSum.component k Q.LiftVertex (CornerModuleSpace Q E M) y
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:47:60: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((cornerTotalEntryMap Q E ?M ?x ?y) ?f) ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E ?M) ?y) ?v)
+in the target expression
+  (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x)
+      (((cornerModuleMap Q E M x y) f) (((cornerModuleMap Q E M y z) g) v)) =
+    ((cornerTotalEntryMap Q E M x z) (((cornerCoverComp Q E) g) f)) (DFinsupp.single z v)
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y z : Q.LiftVertex
+f : ↥(CornerCoverHom Q E x y)
+g : ↥(CornerCoverHom Q E y z)
+v : CornerModuleSpace Q E M z
+⊢ (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x)
+      (((cornerModuleMap Q E M x y) f) (((cornerModuleMap Q E M y z) g) v)) =
+    ((cornerTotalEntryMap Q E M x z) (((cornerCoverComp Q E) g) f)) (DFinsupp.single z v)
+work/ASGinzburgDraft/PeriodCornerTotalEntryMaps.lean:51:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((cornerTotalEntryMap Q E M x z) (((cornerCoverComp Q E) g) f))
+    ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) t) v)
+in the target expression
+  0 = ((cornerTotalEntryMap Q E M x z) (((cornerCoverComp Q E) g) f)) (DFinsupp.single t v)
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x y z : Q.LiftVertex
+f : ↥(CornerCoverHom Q E x y)
+g : ↥(CornerCoverHom Q E y z)
+t : Q.LiftVertex
+v : CornerModuleSpace Q E M t
+ht : ¬t = z
+⊢ 0 = ((cornerTotalEntryMap Q E M x z) (((cornerCoverComp Q E) g) f)) (DFinsupp.single t v)

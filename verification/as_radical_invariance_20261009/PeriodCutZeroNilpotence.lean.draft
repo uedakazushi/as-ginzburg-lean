@@ -1,0 +1,71 @@
+import work.ASGinzburgDraft.PeriodCutAugmentationKernel
+import Mathlib.RingTheory.Nilpotent.Basic
+
+/-! Directedness gives a concrete nilpotence bound for the kernel of the
+degree-zero scalar augmentation. Each factor increases the vertex distance. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+def CutZeroMatrixVanishing (n : ℕ)
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0) : Prop :=
+  ∀ i j : Q.Vertex, j.val < i.val+n → x i j=0
+
+theorem cutZeroMatrixVanishing_zero
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0) :
+    E.CutZeroMatrixVanishing Q 0 x := by
+  intro i j h
+  apply (E.cutDegreeZeroComponentEquiv (fun i : Q.Vertex => (i.val:ℤ)) i j).injective
+  rw [map_zero]
+  exact A.positive (by omega) _
+
+theorem cutZeroMatrixVanishing_one
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)
+    (hx : E.cutZeroDiagonalAlgHom Q x=0) : E.CutZeroMatrixVanishing Q 1 x := by
+  have hdiag := (E.cutZeroDiagonal_eq_zero_iff Q x).mp hx
+  intro i j h
+  by_cases hij : i=j
+  · subst j
+    exact hdiag i
+  · exact E.cutZeroMatrixVanishing_zero Q x i j (by
+      have hne : i.val≠j.val := fun he => hij (Fin.ext he)
+      omega)
+
+theorem cutZeroMatrixVanishing_mul {n m : ℕ}
+    (x y : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)
+    (hx : E.CutZeroMatrixVanishing Q n x) (hy : E.CutZeroMatrixVanishing Q m y) :
+    E.CutZeroMatrixVanishing Q (n+m) (x*y) := by
+  intro i j hij
+  change E.cutMatrixComp (fun i : Q.Vertex => (i.val:ℤ)) 0 0 x y i j=0
+  rw [cutMatrixComp_apply]
+  apply Finset.sum_eq_zero
+  intro t ht
+  by_cases hjt : j.val < t.val+n
+  · rw [hx t j hjt,map_zero,LinearMap.zero_apply]
+  · rw [hy i t (by omega),map_zero]
+
+theorem cutZeroMatrixVanishing_pow
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)
+    (hx : E.cutZeroDiagonalAlgHom Q x=0) (n : ℕ) :
+    E.CutZeroMatrixVanishing Q n (x^n) := by
+  induction n with
+  | zero => exact E.cutZeroMatrixVanishing_zero Q _
+  | succ n ih =>
+    rw [pow_succ]
+    exact E.cutZeroMatrixVanishing_mul Q (x^n) x ih (E.cutZeroMatrixVanishing_one Q x hx)
+
+theorem cutZeroKernel_pow_vertices
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)
+    (hx : E.cutZeroDiagonalAlgHom Q x=0) : x^Q.vertices=0 := by
+  funext i j
+  exact E.cutZeroMatrixVanishing_pow Q x hx Q.vertices i j (by
+    have hj := j.isLt
+    omega)
+
+theorem cutZeroKernel_isNilpotent
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)
+    (hx : E.cutZeroDiagonalAlgHom Q x=0) : IsNilpotent x :=
+  ⟨Q.vertices,E.cutZeroKernel_pow_vertices Q x hx⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

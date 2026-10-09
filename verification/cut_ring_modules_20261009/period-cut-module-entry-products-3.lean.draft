@@ -1,0 +1,66 @@
+import work.ASGinzburgDraft.PeriodCutModuleColumns
+import work.ASGinzburgDraft.PeriodCornerInsertionMaps
+
+/-! Termwise multiplication for the finite matrix action. The sheet
+arithmetic is checked by source equality, while the corner values use
+the actual ring product. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutRightEntryColumnMap (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (y : Q.LiftVertex) (i : Q.Vertex) :
+    E.CutGradedHom m (i.val:ℤ) (y.1.val:ℤ) →ₗ[k]
+      (E.CornerModuleSpace Q M y →ₗ[k] E.CornerModuleTotalSpace Q M) :=
+  (E.cornerInsertionMap Q M (cutRightSource Q m y i) y).comp
+    (E.cutCornerEntry Q m (cutRightSource Q m y i) y (cutRightSource_difference Q m y i))
+
+theorem cutRightEntryColumnMap_apply (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (y : Q.LiftVertex) (i : Q.Vertex)
+    (f : E.CutGradedHom m (i.val:ℤ) (y.1.val:ℤ)) (v : E.CornerModuleSpace Q M y) :
+    E.cutRightEntryColumnMap Q M m y i f v=
+      DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (cutRightSource Q m y i)
+        (E.cornerModuleMap Q M (cutRightSource Q m y i) y
+          (E.cutCornerEntry Q m (cutRightSource Q m y i) y (cutRightSource_difference Q m y i) f) v) :=
+  rfl
+
+theorem cutRightColumnMap_eq_sum (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (m : ℕ) (y : Q.LiftVertex)
+    (r : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    E.cutRightColumnMap Q M m y r=
+      ∑ i : Q.Vertex,E.cutRightEntryColumnMap Q M m y i (r i y.1) := rfl
+
+theorem cutRightEntryColumnMap_comp (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (n m : ℕ) (y : Q.LiftVertex) (i j : Q.Vertex)
+    (f : E.CutGradedHom n (i.val:ℤ) (j.val:ℤ))
+    (g : E.CutGradedHom m (j.val:ℤ) (y.1.val:ℤ)) :
+    E.cutRightEntryColumnMap Q M (n+m) y i (E.cutGradedComp n m g f)=
+      (E.cutRightEntryColumnMap Q M n (cutRightSource Q m y j) i f).comp
+        (E.cornerModuleMap Q M (cutRightSource Q m y j) y
+          (E.cutCornerEntry Q m (cutRightSource Q m y j) y (cutRightSource_difference Q m y j) g)) := by
+  let mid := cutRightSource Q m y j
+  let xl := cutRightSource Q (n+m) y i
+  let xs := cutRightSource Q n mid i
+  let F := E.cutCornerEntry Q n xs mid (cutRightSource_difference Q n mid i) f
+  let G := E.cutCornerEntry Q m mid y (cutRightSource_difference Q m y j) g
+  let H := E.cutCornerEntry Q (n+m) xl y (cutRightSource_difference Q (n+m) y i)
+    (E.cutGradedComp n m g f)
+  have hs : xl=xs := by
+    apply Prod.ext
+    · rfl
+    · dsimp [xl,xs,mid,cutRightSource]
+      ring
+  have hv : H.val=(E.cornerCoverComp Q G F).val := by
+    dsimp only [H,G,F]
+    rw [cornerCoverComp_val,E.cutCornerEntry_val,E.cutCornerEntry_val,E.cutCornerEntry_val,
+      E.cutHomogeneousComponentLinear_mul]
+    rfl
+  have he := E.cornerInsertionMap_congr_source Q M xl xs y hs H (E.cornerCoverComp Q G F) hv
+  change E.cornerInsertionMap Q M xl y H=
+    (E.cornerInsertionMap Q M xs mid F).comp (E.cornerModuleMap Q M mid y G)
+  rw [he,E.cornerInsertionMap_comp]
+
+end ASGinzburg.ZAlgebra.PeriodIso

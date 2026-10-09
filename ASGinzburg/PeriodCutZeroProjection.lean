@@ -1,0 +1,79 @@
+import ASGinzburg.PeriodCutAugmentationKernel
+
+/-! The genuine degree-zero projection is an algebra homomorphism because
+all cut degrees are nonnegative. Its kernel is the positive-degree ideal. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutZeroProjectionComponent : (m : ℕ) →
+    E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m →ₗ[k]
+      E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0
+  | 0 => LinearMap.id
+  | _+1 => 0
+
+theorem cutZeroProjectionComponent_ne_zero {m : ℕ} (hm : m≠0)
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    E.cutZeroProjectionComponent Q m x=0 := by
+  cases m with
+  | zero => exact (hm rfl).elim
+  | succ m => rfl
+
+theorem cutZeroProjectionComponent_mul {m n : ℕ}
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m)
+    (y : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) n) :
+    E.cutZeroProjectionComponent Q (m+n) (GradedMonoid.GMul.mul x y)=
+      E.cutZeroProjectionComponent Q m x*E.cutZeroProjectionComponent Q n y := by
+  cases m with
+  | zero =>
+    cases n with
+    | zero => rfl
+    | succ n => simp [cutZeroProjectionComponent]
+  | succ m =>
+    rw [E.cutZeroProjectionComponent_ne_zero Q (by omega),
+      E.cutZeroProjectionComponent_ne_zero Q (by omega),zero_mul]
+
+noncomputable def cutZeroProjection : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) →ₐ[k]
+    E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0 :=
+  DirectSum.toAlgebra k _ (E.cutZeroProjectionComponent Q) rfl
+    (E.cutZeroProjectionComponent_mul Q)
+
+theorem cutZeroProjection_homogeneous (m : ℕ)
+    (x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) m) :
+    E.cutZeroProjection Q (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) m x)=
+      E.cutZeroProjectionComponent Q m x := by
+  change DirectSum.toModule k ℕ _ (E.cutZeroProjectionComponent Q)
+    (DirectSum.lof k ℕ _ m x)=_
+  exact DirectSum.toModule_lof k m x
+
+theorem cutZeroProjection_linear_eq : (E.cutZeroProjection Q).toLinearMap=
+    DirectSum.component k ℕ (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ))) 0 := by
+  apply DirectSum.linearMap_ext
+  intro m
+  apply LinearMap.ext
+  intro x
+  change E.cutZeroProjection Q
+    (E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) m x)=_
+  rw [E.cutZeroProjection_homogeneous]
+  cases m with
+  | zero => simp [cutZeroProjectionComponent]
+  | succ m => simp [cutZeroProjectionComponent,DirectSum.component.of]
+
+theorem cutZeroProjection_apply (x : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) :
+    E.cutZeroProjection Q x=x 0 := LinearMap.congr_fun (E.cutZeroProjection_linear_eq Q) x
+
+theorem cutZeroProjection_surjective : Function.Surjective (E.cutZeroProjection Q) := by
+  intro x
+  exact ⟨E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val:ℤ)) 0 x,
+    E.cutZeroProjection_homogeneous Q 0 x⟩
+
+noncomputable def cutPositiveIdeal : Ideal (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) :=
+  RingHom.ker (E.cutZeroProjection Q).toRingHom
+
+theorem mem_cutPositiveIdeal_iff (x : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) :
+    x∈E.cutPositiveIdeal Q ↔ x 0=0 := by
+  change E.cutZeroProjection Q x=0 ↔ _
+  rw [E.cutZeroProjection_apply]
+
+end ASGinzburg.ZAlgebra.PeriodIso

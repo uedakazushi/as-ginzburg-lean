@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/PeriodCutAugmentation.lean:33:4: error: Tactic `generalize` failed: result is not type correct
+  ∀ (x_1 : ℕ),
+    (cutAugmentationComponent Q E x_1) (GradedMonoid.GMul.mul x y) =
+      (cutAugmentationComponent Q E (m + 1)) x * (cutAugmentationComponent Q E n) y
+
+case succ
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+n : ℕ
+y : E.CutGradedBlock (fun i => ↑↑i) n
+m : ℕ
+x : E.CutGradedBlock (fun i => ↑↑i) (m + 1)
+hz : m + 1 + n ≠ 0
+⊢ (cutAugmentationComponent Q E (m + 1 + n)) (GradedMonoid.GMul.mul x y) =
+    (cutAugmentationComponent Q E (m + 1)) x * (cutAugmentationComponent Q E n) y

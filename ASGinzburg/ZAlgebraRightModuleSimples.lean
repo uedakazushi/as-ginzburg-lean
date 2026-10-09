@@ -1,0 +1,84 @@
+import ASGinzburg.ZAlgebraObjectIndices
+import ASGinzburg.ZAlgebraRightModuleRepresentables
+import ASGinzburg.SimpleRightModules
+
+/-! Vertex simples are preserved by the actual right-module equivalence.
+The transferred projective quotient kills precisely the off-diagonal radical. -/
+namespace ASGinzburg.ZAlgebra.Isomorphism
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}
+variable (E : Isomorphism A B)
+
+theorem rightModuleImageSimple_off_diagonal (i j : ℤ) (hji : j≠i) :
+    IsZero ((B.rightModuleEvaluation j).obj
+      (E.rightModuleEquivalence.functor.obj (A.simpleRightModule i))) := by
+  change IsZero ((A.simpleRightModule i).obj.obj
+    (op (E.linearEquivalence.inverse.obj (⟨j⟩:B.Obj))))
+  have he : E.linearEquivalence.inverse.obj (⟨j⟩:B.Obj)=(⟨j⟩:A.Obj) := by
+    exact congrArg (fun t : ℤ => (⟨t⟩:A.Obj))
+      (E.linearEquivalence_inverse_index (⟨j⟩:B.Obj))
+  rw [he]
+  exact A.simpleRightModule_off_diagonal i j hji
+
+noncomputable def simplePresentationMap (i : ℤ) :
+    B.representable i ⟶ E.rightModuleEquivalence.functor.obj (A.simpleRightModule i) :=
+  (E.rightModuleRepresentableIso i).inv ≫
+    E.rightModuleEquivalence.functor.map (A.simpleRightModuleπ i)
+
+instance simplePresentationMapEpi (i : ℤ) : Epi (E.simplePresentationMap i) := by
+  dsimp only [simplePresentationMap]
+  infer_instance
+
+theorem simplePresentationMap_nonzero (i : ℤ) : E.simplePresentationMap i≠0 := by
+  intro hz
+  have hp : E.rightModuleEquivalence.functor.map (A.simpleRightModuleπ i)=0 := by
+    apply (cancel_epi (E.rightModuleRepresentableIso i).inv).mp
+    simpa only [simplePresentationMap,comp_zero] using hz
+  have hp' : A.simpleRightModuleπ i=0 := by
+    apply E.rightModuleEquivalence.functor.map_injective
+    rw [hp,Functor.map_zero]
+  exact Simple.not_isZero _ (IsZero.of_epi_eq_zero _ hp')
+
+theorem simplePresentationMap_radical_zero (i : ℤ) :
+    (B.representableRadical i).inclusion ≫ E.simplePresentationMap i=0 := by
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  change (E.simplePresentationMap i).app X x.val=0
+  by_cases hxi : X.unop.index < i
+  · haveI : Subsingleton ((E.rightModuleEquivalence.functor.obj
+        (A.simpleRightModule i)).obj.obj X) :=
+      ModuleCat.isZero_iff_subsingleton.mp
+        (E.rightModuleImageSimple_off_diagonal i X.unop.index (ne_of_lt hxi))
+    exact Subsingleton.elim _ _
+  · have hx : x.val=0 := by simpa only [representableRadical,if_neg hxi,Submodule.mem_bot] using x.property
+    rw [hx,map_zero]
+
+noncomputable def simpleComparisonMap (i : ℤ) :
+    B.simpleRightModule i ⟶ E.rightModuleEquivalence.functor.obj (A.simpleRightModule i) :=
+  cokernel.desc (B.representableRadical i).inclusion (E.simplePresentationMap i)
+    (E.simplePresentationMap_radical_zero i)
+
+theorem simpleComparisonMap_fac (i : ℤ) :
+    B.simpleRightModuleπ i ≫ E.simpleComparisonMap i=E.simplePresentationMap i :=
+  cokernel.π_desc _ _ _
+
+noncomputable instance simpleComparisonMapEpi (i : ℤ) : Epi (E.simpleComparisonMap i) := by
+  haveI : Epi (B.simpleRightModuleπ i ≫ E.simpleComparisonMap i) := by
+    rw [E.simpleComparisonMap_fac]
+    infer_instance
+  exact epi_of_epi (B.simpleRightModuleπ i) (E.simpleComparisonMap i)
+
+noncomputable def rightModuleSimpleIso (i : ℤ) :
+    E.rightModuleEquivalence.functor.obj (A.simpleRightModule i) ≅ B.simpleRightModule i := by
+  have hn : E.simpleComparisonMap i≠0 := by
+    intro hz
+    apply E.simplePresentationMap_nonzero i
+    rw [← E.simpleComparisonMap_fac,hz,comp_zero]
+  haveI : IsIso (E.simpleComparisonMap i) := isIso_of_epi_of_nonzero hn
+  exact (asIso (E.simpleComparisonMap i)).symm
+
+end ASGinzburg.ZAlgebra.Isomorphism
