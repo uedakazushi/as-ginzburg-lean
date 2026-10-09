@@ -1,0 +1,59 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationRingComponentMaps.lean
+@@ -0,0 +1,56 @@
++import work.ASGinzburgDraft.FoundationRingPresheaves
++
++/-! Genuine maps of finite foundation-ring modules preserve the
++idempotent component images, yielding the inverse component functor. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def foundationRingRightComponentLinearMap
++    {M N : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ} (f : M ⟶ N) (i : Q.Vertex) :
++    A.foundationRingRightComponentSpace Q M i →ₗ[k] A.foundationRingRightComponentSpace Q N i where
++  toFun x := ⟨f x.val,by
++    obtain ⟨y,hy⟩ := x.property
++    refine ⟨f y,?_⟩
++    change MulOpposite.op (A.foundationAlgebraComponentLinear Q i i (A.id (i.val : ℤ))) • f y=f x.val
++    rw [←f.hom.map_smul]
++    exact congrArg f hy⟩
++  map_add' x y := Subtype.ext (f.hom.map_add x.val y.val)
++  map_smul' c x := Subtype.ext ((f.hom.restrictScalars k).map_smul c x.val)
++
++noncomputable def foundationRingRightComponentModuleMap
++    {M N : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ} (f : M ⟶ N) :
++    A.foundationRingRightComponentModule Q M ⟶ A.foundationRingRightComponentModule Q N where
++  app i := ModuleCat.ofHom (A.foundationRingRightComponentLinearMap Q f i)
++  naturality := by
++    intro i j a
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    apply Subtype.ext
++    exact f.hom.map_smul
++      (MulOpposite.op (A.foundationAlgebraComponentLinear Q j i a.unop)) x.val
++
++noncomputable def foundationRingRightComponentRecovery :
++    ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ ⥤ A.FoundationRightModule Q where
++  obj := A.foundationRingRightComponentModule Q
++  map := A.foundationRingRightComponentModuleMap Q
++  map_id M := by
++    apply NatTrans.ext
++    funext i
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    exact Subtype.ext rfl
++  map_comp f g := by
++    apply NatTrans.ext
++    funext i
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    exact Subtype.ext rfl
++
++end ASGinzburg.ZAlgebra

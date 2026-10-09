@@ -1,0 +1,53 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationTotalActionLaws.lean
+@@ -0,0 +1,50 @@
++import work.ASGinzburgDraft.FoundationTotalActions
++
++/-! The concrete finite convolution action of existing right
++presheaves preserves the unit and reverses multiplication, as required
++for genuine modules over the opposite foundation algebra. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationRightComponentAction_zero (M : A.FoundationRightModule Q)
++    (i j : Q.Vertex) : A.foundationRightComponentAction Q M
++      (0 : A.Hom (i.val : ℤ) (j.val : ℤ))=0 :=
++  (A.foundationRightComponentRepresentation Q M i j).map_zero
++
++theorem foundationRightComponentAction_sum (M : A.FoundationRightModule Q)
++    (i j : Q.Vertex) {ι : Type*} (s : Finset ι)
++    (f : ι → A.Hom (i.val : ℤ) (j.val : ℤ)) :
++    A.foundationRightComponentAction Q M (∑ a ∈ s, f a)=
++      ∑ a ∈ s, A.foundationRightComponentAction Q M (f a) :=
++  map_sum (A.foundationRightComponentRepresentation Q M i j) f s
++
++theorem foundationRightTotalAction_one (M : A.FoundationRightModule Q) :
++    A.foundationRightTotalAction Q M 1=LinearMap.id := by
++  classical
++  apply LinearMap.ext
++  intro m
++  funext i
++  rw [A.foundationRightTotalAction_apply Q M,Finset.sum_eq_single i]
++  · rw [A.foundation_one_diagonal Q i,A.foundationRightComponentAction_id Q M i]
++    rfl
++  · intro j _ hji
++    have hz := (A.foundationComponents Q).totalOne_offdiag (Ne.symm hji)
++    change (1 : A.FoundationAlgebra Q) i j=0 at hz
++    rw [hz,A.foundationRightComponentAction_zero Q M i j]
++    rfl
++  · simp
++
++theorem foundationRightTotalAction_mul (M : A.FoundationRightModule Q)
++    (x y : A.FoundationAlgebra Q) :
++    A.foundationRightTotalAction Q M (x*y)=
++      (A.foundationRightTotalAction Q M y).comp (A.foundationRightTotalAction Q M x) := by
++  apply LinearMap.ext
++  intro m
++  funext i
++  simp only [LinearMap.comp_apply,foundationRightTotalAction_apply,
++    A.foundation_mul_component Q x y,foundationRightComponentAction_sum,
++    LinearMap.sum_apply,foundationRightComponentAction_comp,LinearMap.comp_apply,map_sum]
++  rw [Finset.sum_comm]
++
++end ASGinzburg.ZAlgebra

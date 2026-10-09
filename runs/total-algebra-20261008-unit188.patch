@@ -1,0 +1,244 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index f2267bf..45bd455 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -625,6 +625,34 @@ import ASGinzburg.ASLastArrowEvaluation
+ import ASGinzburg.ASFirstDifferentialCoordinates
+ import ASGinzburg.ASLastArrowCoverMap
+ import ASGinzburg.ASFirstKernelPathRelations
++import ASGinzburg.ASFirstKernelComponentComparison
++import ASGinzburg.ASLastArrowKernelCoordinates
++import ASGinzburg.ASLastArrowRelationSpan
++import ASGinzburg.UnrolledLastArrowProducts
++import ASGinzburg.ASRelationArrowProducts
++import ASGinzburg.ASPathKernelHeights
++import ASGinzburg.UnrolledIdealProductHeights
++import ASGinzburg.ASCoverKernelRelationIdeal
++import ASGinzburg.ASRelationKernelHeightEquiv
++import ASGinzburg.ASRelationArrowQuotient
++import ASGinzburg.ASRelationQuotientRepresentatives
++import ASGinzburg.UnrolledLastArrowProductCoordinates
++import ASGinzburg.ASLastArrowCoverNaturality
++import ASGinzburg.ASPathRelationKernelNaturality
++import ASGinzburg.ASFirstKernelSupport
++import ASGinzburg.ASPathRelationSupport
++import ASGinzburg.ASArrowRelationProducts
++import ASGinzburg.ASArrowRelationPreimageSpan
++import ASGinzburg.ASArrowRelationsRadicalImage
++import ASGinzburg.ASFirstKernelRadicalPreimage
++import ASGinzburg.SubmoduleSubtypeSup
++import ASGinzburg.ASMinimalRelationDenominator
++import ASGinzburg.ASMinimalRelationKernelTopEquiv
++import ASGinzburg.ASMinimalRelationSupport
++import ASGinzburg.ASMinimalRelationAllComponents
++import ASGinzburg.ASFoundationMinimalRelationBasis
++import ASGinzburg.ASRegularMinimalRelationBasis
++import ASGinzburg.ASRegularRelationRepresentatives
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 55e0e58..6e617dd 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -4,12 +4,24 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.minimalPathPresentation
+ #print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.presentationQuotientIso
+ #print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.presentationQuotientIso_apply_mk
++#print axioms ASGinzburg.CutQuiver.unrolledPositivePath_eq_zero_of_ge
++#print axioms ASGinzburg.CutQuiver.unrolledPositivePath_mem_of_height_lt
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationProduct_subtype_preimage_span
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationGenerators
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationProduct
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationGenerators_nonempty
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationProduct_le_evaluation_ker
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationProduct_eq_idealProductLift
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationProduct_eq_comap
++#print axioms ASGinzburg.ZAlgebra.pathArrowRelationProduct_map_eq_firstKernel_radical
+ #print axioms ASGinzburg.ZAlgebra.basisPathIndecomposableMap_eq_linearCombination
+ #print axioms ASGinzburg.ZAlgebra.basisPathIndecomposableMap_ker_le_long
+ #print axioms ASGinzburg.ZAlgebra.basisPathLinearEvaluation_ker_le_long_of_lt
+ #print axioms ASGinzburg.ZAlgebra.basisPathLinearEvaluation_ker_le_long
+ #print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingGenerator_mem_path_range
+ #print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.pathLinearEvaluation_surjective
++#print axioms ASGinzburg.ZAlgebra.pathRelationArrowProduct_eq_idealProductLift
++#print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm_ker_eq_relation_arrow_product
+ #print axioms ASGinzburg.ZAlgebra.rightModule_hom_extension_of_ext_one_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_one_of_ext_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_two_of_ext_zero
+@@ -89,13 +101,23 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.finiteProjectiveCochainComplex_isZero_outside
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.boundedFiniteProjectiveCochainObject
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_pi_symm
++#print axioms ASGinzburg.ZAlgebra.asFirstKernelComponentEquiv
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToCategoricalASFirstKernel
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToCategoricalASFirstKernel_surjective
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToCategoricalASFirstKernel_ι
+ #print axioms ASGinzburg.ZAlgebra.pathRelationsToASFirstKernel
+ #print axioms ASGinzburg.ZAlgebra.pathRelationsToASFirstKernel_surjective
+ #print axioms ASGinzburg.ZAlgebra.pathRelationsToASFirstKernel_ker
+ #print axioms ASGinzburg.ZAlgebra.pathRelationsFirstKernelEquiv
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToCategoricalASFirstKernel_ker
++#print axioms ASGinzburg.ZAlgebra.pathRelationHeightEquiv_map_arrowRelation_denominator
++#print axioms ASGinzburg.ZAlgebra.firstKernel_radical_preimage
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.firstCoverKernelD₁Iso
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.firstCoverKernelTopEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationFirstKernelRelationBasis
++#print axioms ASGinzburg.ZAlgebra.ASResolution.firstKernel_component_eq_zero_of_ge
++#print axioms ASGinzburg.ZAlgebra.foundationMinimalRelationBasis
++#print axioms ASGinzburg.ZAlgebra.foundationMinimalRelation_finrank
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.GeneratorIndex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.incomingGenerator
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGenerator
+@@ -131,7 +153,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm
+ #print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm_surjective
+ #print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm_d₁
++#print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm_action
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_lastArrow
++#print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm_eq_zero_iff
++#print axioms ASGinzburg.ZAlgebra.lastArrowToASFirstTerm_ker
++#print axioms ASGinzburg.ZAlgebra.lastArrowRelationGenerators
++#print axioms ASGinzburg.ZAlgebra.lastArrowRelationSpan
++#print axioms ASGinzburg.ZAlgebra.lastArrow_prefix_relation_mem_ker
++#print axioms ASGinzburg.ZAlgebra.lastArrowRelationSpan_eq_cover_ker
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionDualComplex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.reversedRightTerm
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.reversedRightDifferential
+@@ -182,6 +211,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_eq_zero_of_ge
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_component_action
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.d₁_radical_image
++#print axioms ASGinzburg.ZAlgebra.presentationMinimalRelationFirstKernelTopEquiv_all
++#print axioms ASGinzburg.ZAlgebra.pathRelationHeightEquiv_map_radical_preimage
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToASFirstKernelTop
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToASFirstKernelTop_surjective
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToASFirstKernelTop_ker
++#print axioms ASGinzburg.ZAlgebra.presentationMinimalRelationFirstKernelTopEquiv
++#print axioms ASGinzburg.ZAlgebra.presentationKernel_elem_eq_zero_of_ge
++#print axioms ASGinzburg.ZAlgebra.minimalRelationComponent_eq_zero_of_ge
++#print axioms ASGinzburg.CutQuiver.unrolledEndpointEquiv_mem_filtration_iff
++#print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_mem_filtration_iff
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_endpoint_zero_iff
++#print axioms ASGinzburg.ZAlgebra.unrolledComponentHeightEquiv_mem_presentation_kernel_iff
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.comp
+ #print axioms ASGinzburg.CutQuiver.UnrolledPath.comp_nil
+@@ -193,6 +234,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_single
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_snoc
+ #print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_surjective
++#print axioms ASGinzburg.ZAlgebra.prependPathRelation
++#print axioms ASGinzburg.ZAlgebra.pathRelationsToCategoricalASFirstKernel_action
++#print axioms ASGinzburg.ZAlgebra.unrolledPathLinearEvaluation_ker_eq_zero_of_ge
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.nakayamaWindowSystem
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.negativePeriodIso
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.isPeriodic_negative
+@@ -217,9 +261,22 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extFinite
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.extFinrank_le_one
+ #print axioms ASGinzburg.ZAlgebra.asExtRank_zero_iff
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationMinimalRelationBasis
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationMinimalRelation_finrank
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationLift
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationLift_class
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationLift_ambient_decomposition
++#print axioms ASGinzburg.ZAlgebra.pathRelationArrowProduct
++#print axioms ASGinzburg.ZAlgebra.pathRelation_comp_positive_mem_lastArrowSpan
++#print axioms ASGinzburg.ZAlgebra.pathRelationArrowProduct_eq_lastArrowSpan
++#print axioms ASGinzburg.ZAlgebra.pathRelationArrowProduct_eq_cover_ker
++#print axioms ASGinzburg.ZAlgebra.presentationRelationArrowQuotientFirstKernelEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.secondSyzygyTopBasis
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationRelationTopBasis
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationRelationTop_finrank
++#print axioms ASGinzburg.ZAlgebra.pathRelationHeightEquiv
++#print axioms ASGinzburg.ZAlgebra.pathRelationHeightEquiv_map_firstKernel_denominator
++#print axioms ASGinzburg.ZAlgebra.presentationRelationArrowQuotientFirstKernelEquiv_mk
+ #print axioms ASGinzburg.CutQuiver.incomingArrows
+ #print axioms ASGinzburg.CutQuiver.outgoingArrows
+ #print axioms ASGinzburg.CutQuiver.incomingArrowsFintype
+@@ -3234,6 +3291,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.directSum_finite_of_finite_support
+ #print axioms ASGinzburg.moduleCatDualIntoEvaluation
+ #print axioms ASGinzburg.moduleCatDualIntoEvaluation_bijective
++#print axioms ASGinzburg.comap_subtype_sup_of_le
+ #print axioms ASGinzburg.ArrowSpace333
+ #print axioms ASGinzburg.CubicTensor333
+ #print axioms ASGinzburg.Triple333
+@@ -3505,6 +3563,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_single
+ #print axioms ASGinzburg.CutQuiver.unrolledComponentHeightEquiv_mem_filtration
+ #print axioms ASGinzburg.CutQuiver.unrolledErasureIdeal
++#print axioms ASGinzburg.CutQuiver.unrolledIdealProductLift
++#print axioms ASGinzburg.CutQuiver.unrolledIdealProductLift_map_height
++#print axioms ASGinzburg.CutQuiver.unrolledIdealProductLift_eq_comap
+ #print axioms ASGinzburg.CutQuiver.integerJacobianRelation
+ #print axioms ASGinzburg.CutQuiver.integerJacobianRelation_mem_square
+ #print axioms ASGinzburg.CutQuiver.jacobianGenerators
+@@ -3541,6 +3602,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.unrolledLastArrowEquiv
+ #print axioms ASGinzburg.CutQuiver.unrolledLastArrowLinearEquiv
+ #print axioms ASGinzburg.CutQuiver.unrolledLastArrowLinearEquiv_apply
++#print axioms ASGinzburg.CutQuiver.unrolledLastArrowLinearEquiv_mapDomain_snoc
++#print axioms ASGinzburg.CutQuiver.unrolledLastArrowLinearEquiv_comp
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp_mapDomain_snoc
++#print axioms ASGinzburg.CutQuiver.unrolledPathComp_lastArrow
+ #print axioms ASGinzburg.CutQuiver.unrolledLastArrowLinearEquiv_single
+ #print axioms ASGinzburg.CutQuiver.unrolledLastArrowLinearEquiv_symm_single
+ #print axioms ASGinzburg.CutQuiver.unrolledLastArrow_reconstruction
+diff --git a/ASGinzburg/ASLastArrowRelationSpan.lean b/ASGinzburg/ASLastArrowRelationSpan.lean
+new file mode 100644
+index 0000000..2aeee54
+--- /dev/null
++++ b/ASGinzburg/ASLastArrowRelationSpan.lean
+@@ -0,0 +1,50 @@
++import ASGinzburg.ASLastArrowKernelCoordinates
++
++/-! The actual cover kernel is generated by relations extended by one
++last arrow. This gives an explicit denominator, to be identified with
++the genuine ideal product IJ. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++def lastArrowRelationGenerators (u w : Q.LiftVertex) : Set (Q.UnrolledPathComponent k u w) :=
++  {f | ∃ a : Q.incomingArrows w,
++    ∃ p : Q.UnrolledPathComponent k u (Q.incomingSource w a),
++      A.unrolledPathLinearEvaluation Q R u (Q.incomingSource w a) p=0 ∧
++        p.mapDomain (CutQuiver.UnrolledPath.snoc a)=f}
++
++def lastArrowRelationSpan (u w : Q.LiftVertex) : Submodule k (Q.UnrolledPathComponent k u w) :=
++  Submodule.span k (A.lastArrowRelationGenerators Q R u w)
++
++theorem lastArrow_prefix_relation_mem_ker (u w : Q.LiftVertex) (huw : u≠w)
++    (a : Q.incomingArrows w) (p : Q.UnrolledPathComponent k u (Q.incomingSource w a))
++    (hp : A.unrolledPathLinearEvaluation Q R u (Q.incomingSource w a) p=0) :
++    p.mapDomain (CutQuiver.UnrolledPath.snoc a)∈
++      LinearMap.ker (A.lastArrowToASFirstTerm Q R u w huw) := by
++  classical
++  apply (A.lastArrowToASFirstTerm_eq_zero_iff Q R u w huw _).mpr
++  intro b
++  rw [←Q.unrolledLastArrowLinearEquiv_symm_single k u w huw a p,
++    LinearEquiv.apply_symm_apply]
++  by_cases h : b=a
++  · subst b
++    simpa using hp
++  · simp [h]
++
++theorem lastArrowRelationSpan_eq_cover_ker (u w : Q.LiftVertex) (huw : u≠w) :
++    A.lastArrowRelationSpan Q R u w=LinearMap.ker (A.lastArrowToASFirstTerm Q R u w huw) := by
++  classical
++  apply le_antisymm
++  · apply Submodule.span_le.mpr
++    rintro f ⟨a,p,hp,rfl⟩
++    exact A.lastArrow_prefix_relation_mem_ker Q R u w huw a p hp
++  · intro f hf
++    rw [Q.unrolledLastArrow_reconstruction k u w huw f]
++    apply (A.lastArrowRelationSpan Q R u w).sum_mem
++    intro a _
++    apply Submodule.subset_span
++    exact ⟨a,Q.unrolledLastArrowLinearEquiv k u w huw f a,
++      (A.lastArrowToASFirstTerm_eq_zero_iff Q R u w huw f).mp hf a,rfl⟩
++
++end ASGinzburg.ZAlgebra

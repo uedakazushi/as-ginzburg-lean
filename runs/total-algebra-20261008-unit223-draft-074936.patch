@@ -1,0 +1,44 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASFoundationDerivativeClasses.lean
+@@ -0,0 +1,41 @@
++import work.ASGinzburgDraft.ASFoundationDerivativeUnrolling
++
++/-! The cut derivatives of the constructed potential recover actual
++elements of the original presentation kernel, whose genuine minimal
++relation quotient classes are exactly its previously proved basis. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++set_option synthInstance.maxHeartbeats 200000 in
++noncomputable def ASRegular.foundationCutDerivativeRelation (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    (hAS.unrolledPathPresentation A Q).kernel.hom
++      ((Q.target b.val).val : ℤ) ((Q.source b.val).val : ℤ) :=
++  ⟨Q.unrolledComponentHeightEquiv k (Q.target b.val,0) (Q.source b.val,0)
++    (hAS.foundationCutDerivativeUnroll A Q b),by
++    rw [hAS.foundationCutDerivativeUnroll_height A Q b]
++    exact (hAS.foundationRelationLift A Q (Q.target b.val) (Q.source b.val)
++      ⟨b.val,rfl,rfl,b.property⟩).property⟩
++
++set_option synthInstance.maxHeartbeats 200000 in
++theorem ASRegular.foundationCutDerivativeRelation_eq_lift (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    hAS.foundationCutDerivativeRelation A Q b=
++      hAS.foundationRelationLift A Q (Q.target b.val) (Q.source b.val)
++        ⟨b.val,rfl,rfl,b.property⟩ :=
++  Subtype.ext (hAS.foundationCutDerivativeUnroll_height A Q b)
++
++set_option synthInstance.maxHeartbeats 200000 in
++theorem ASRegular.foundationCutDerivativeRelation_class (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    (Submodule.Quotient.mk (hAS.foundationCutDerivativeRelation A Q b) :
++      Q.MinimalRelationComponent (hAS.unrolledPathPresentation A Q).kernel
++        ((Q.target b.val).val : ℤ) ((Q.source b.val).val : ℤ))=
++          hAS.foundationMinimalRelationBasis A Q (Q.target b.val) (Q.source b.val)
++            ⟨b.val,rfl,rfl,b.property⟩ := by
++  rw [hAS.foundationCutDerivativeRelation_eq_lift A Q b]
++  exact hAS.foundationRelationLift_class A Q (Q.target b.val) (Q.source b.val)
++    ⟨b.val,rfl,rfl,b.property⟩
++
++end ASGinzburg.ZAlgebra

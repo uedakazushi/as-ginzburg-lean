@@ -1,0 +1,26 @@
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledPositiveIdealSupport.lean
+@@ -0,0 +1,23 @@
++import ASGinzburg.ASArrowRelationPreimageSpan
++import ASGinzburg.MinimalRelationComponents
++
++/-! The actual arrow ideal has no nonzero components at non-positive
++height difference. This supplies strict induction for relation generation. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledArrowIdeal_elem_eq_zero_of_ge (i j : ℤ) (h : j ≤ i)
++    {f : (Q.unrolledPathZAlgebra k).Hom i j}
++    (hf : f ∈ (Q.unrolledArrowIdeal k).hom i j) : f=0 := by
++  apply Q.unrolledPositivePath_eq_zero_of_ge k _ f hf
++  simpa only [Q.height_heightEquiv_symm] using h
++
++theorem unrolledPositiveIdeal_elem_eq_zero_of_ge
++    (I : (Q.unrolledPathZAlgebra k).LinearIdeal)
++    (hI : ∀ i j, I.hom i j ≤ (Q.unrolledArrowIdeal k).hom i j)
++    (i j : ℤ) (h : j ≤ i) {f : (Q.unrolledPathZAlgebra k).Hom i j}
++    (hf : f ∈ I.hom i j) : f=0 :=
++  Q.unrolledArrowIdeal_elem_eq_zero_of_ge k i j h (hI i j hf)
++
++end ASGinzburg.CutQuiver

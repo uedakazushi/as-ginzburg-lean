@@ -1,0 +1,53 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASFoundationDerivativeUnrolling.lean
+@@ -0,0 +1,50 @@
++import work.ASGinzburgDraft.ASFoundationPotentialDerivatives
++import ASGinzburg.PathCutUnrollingComparison
++
++/-! The genuine cut derivative of the constructed AS potential, lifted
++to sheet zero, recovers the original relation representative. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationCutDerivativeUnroll (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.UnrolledPathComponent k (Q.target b.val,0) (Q.source b.val,0) :=
++  Q.pathCutUnrollingEquiv k (Q.target b.val) (Q.source b.val) 0 0
++    ⟨Q.pathCyclicDerivative k b.val (hAS.foundationPotential A Q),by
++      rw [hAS.foundationPotential_pathCyclicDerivative A Q b]
++      exact hAS.cutPathRelation_cut A Q b⟩
++
++theorem ASRegular.foundationCutDerivativeUnroll_eq_native (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    hAS.foundationCutDerivativeUnroll A Q b=
++      (hAS.foundationRelationNative A Q (Q.target b.val) (Q.source b.val)
++        ⟨b.val,rfl,rfl,b.property⟩).val := by
++  apply Q.unrolledPathEraseLinearMap_injective k (Q.target b.val,0) (Q.source b.val,0)
++  let f : Q.pathCutComponent k (Q.target b.val) (Q.source b.val) 0 :=
++    ⟨Q.pathCyclicDerivative k b.val (hAS.foundationPotential A Q),by
++      rw [hAS.foundationPotential_pathCyclicDerivative A Q b]
++      exact hAS.cutPathRelation_cut A Q b⟩
++  have he := Q.pathCutUnrollingEquiv_erase k (Q.target b.val) (Q.source b.val) 0 0 f
++  exact he.trans (hAS.foundationPotential_pathCyclicDerivative A Q b)
++
++theorem ASRegular.foundationCutDerivativeUnroll_eval_zero (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    A.unrolledPathLinearEvaluation Q (hAS.resolution A Q)
++      (Q.target b.val,0) (Q.source b.val,0) (hAS.foundationCutDerivativeUnroll A Q b)=0 := by
++  rw [hAS.foundationCutDerivativeUnroll_eq_native A Q b]
++  exact (hAS.foundationRelationNative A Q (Q.target b.val) (Q.source b.val)
++    ⟨b.val,rfl,rfl,b.property⟩).property
++
++set_option synthInstance.maxHeartbeats 200000 in
++theorem ASRegular.foundationCutDerivativeUnroll_height (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.unrolledComponentHeightEquiv k (Q.target b.val,0) (Q.source b.val,0)
++      (hAS.foundationCutDerivativeUnroll A Q b)=
++        (hAS.foundationRelationLift A Q (Q.target b.val) (Q.source b.val)
++          ⟨b.val,rfl,rfl,b.property⟩).val := by
++  rw [hAS.foundationCutDerivativeUnroll_eq_native A Q b]
++  exact hAS.foundationRelationNative_height A Q (Q.target b.val) (Q.source b.val)
++    ⟨b.val,rfl,rfl,b.property⟩
++
++end ASGinzburg.ZAlgebra

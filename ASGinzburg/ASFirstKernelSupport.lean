@@ -1,0 +1,24 @@
+import ASGinzburg.ASGenerators
+import ASGinzburg.RightModuleHomology
+import ASGinzburg.CoproductRadicals
+
+/-! The genuine first AS kernel has zero components at and above its
+target vertex. This discharges support exceptions in radical comparisons. -/
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+theorem firstKernel_component_eq_zero_of_ge (i : ℤ) (hi : Q.height w ≤ i)
+    (x : (A.rightModuleEvaluation i).obj (kernel R.d₁)) : x=0 := by
+  classical
+  apply (ModuleCat.mono_iff_injective
+    ((A.rightModuleEvaluation i).map (kernel.ι R.d₁))).mp inferInstance
+  apply (A.rightFiniteCoproductPiEquiv
+    (fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) i).injective
+  funext a
+  rw [map_zero,map_zero]
+  exact A.positive (lt_of_lt_of_le (Q.incomingSource_height_lt w a) hi) _
+
+end ASGinzburg.ZAlgebra.ASResolution

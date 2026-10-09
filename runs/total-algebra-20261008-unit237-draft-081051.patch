@@ -1,0 +1,65 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationRingComponentActions.lean
+@@ -0,0 +1,62 @@
++import work.ASGinzburgDraft.FiniteComponentIdempotents
++import ASGinzburg.FoundationAlgebra
++import Mathlib.Algebra.Category.ModuleCat.Algebra
++
++/-! Any genuine module over the finite opposite foundation ring has
++the original A.Hom component actions and idempotent component projectors. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def foundationAlgebraComponentLinear (i j : Q.Vertex) :
++    A.Hom (i.val : ℤ) (j.val : ℤ) →ₗ[k] A.FoundationAlgebra Q :=
++  (A.foundationComponents Q).totalComponentLinear i j
++
++noncomputable def foundationRingRightComponentAction
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) {i j : Q.Vertex}
++    (a : A.Hom (i.val : ℤ) (j.val : ℤ)) : Module.End k M :=
++  DistribMulAction.toLinearMap k M (MulOpposite.op (A.foundationAlgebraComponentLinear Q i j a))
++
++theorem foundationRingRightComponentAction_comp
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) {i j l : Q.Vertex}
++    (a : A.Hom (i.val : ℤ) (j.val : ℤ)) (b : A.Hom (j.val : ℤ) (l.val : ℤ)) :
++    (A.foundationRingRightComponentAction Q M a).comp (A.foundationRingRightComponentAction Q M b)=
++      A.foundationRingRightComponentAction Q M (A.comp b a) := by
++  apply LinearMap.ext
++  intro x
++  change MulOpposite.op ((A.foundationComponents Q).totalComponent i j a) •
++    (MulOpposite.op ((A.foundationComponents Q).totalComponent j l b) • x)=_
++  rw [smul_smul,←MulOpposite.op_mul,(A.foundationComponents Q).totalComponent_mul_same]
++  rfl
++
++theorem foundationRingRightComponentAction_comp_off
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) {i j p q : Q.Vertex}
++    (a : A.Hom (i.val : ℤ) (j.val : ℤ)) (b : A.Hom (p.val : ℤ) (q.val : ℤ)) (h : j≠p) :
++    (A.foundationRingRightComponentAction Q M a).comp (A.foundationRingRightComponentAction Q M b)=0 := by
++  apply LinearMap.ext
++  intro x
++  change MulOpposite.op ((A.foundationComponents Q).totalComponent i j a) •
++    (MulOpposite.op ((A.foundationComponents Q).totalComponent p q b) • x)=0
++  rw [smul_smul,←MulOpposite.op_mul,
++    (A.foundationComponents Q).totalComponent_mul_of_ne p q i j b a (Ne.symm h)]
++  exact zero_smul _ _
++
++noncomputable def foundationRingRightProjection
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (i : Q.Vertex) : Module.End k M :=
++  A.foundationRingRightComponentAction Q M (A.id (i.val : ℤ))
++
++theorem foundationRingRightProjection_idempotent
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (i : Q.Vertex) :
++    (A.foundationRingRightProjection Q M i).comp (A.foundationRingRightProjection Q M i)=
++      A.foundationRingRightProjection Q M i := by
++  rw [foundationRingRightProjection,A.foundationRingRightComponentAction_comp,A.comp_id]
++
++theorem foundationRingRightProjection_orthogonal
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (i j : Q.Vertex) (h : i≠j) :
++    (A.foundationRingRightProjection Q M i).comp (A.foundationRingRightProjection Q M j)=0 :=
++  A.foundationRingRightComponentAction_comp_off Q M (A.id (i.val : ℤ)) (A.id (j.val : ℤ)) h
++
++end ASGinzburg.ZAlgebra

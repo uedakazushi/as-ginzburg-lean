@@ -4792,3 +4792,750 @@ UTC 2026-10-09T06:36:03.452819+00:00 → 2026-10-09T07:17:59.074513+00:00。
 WORK186〜213の28数学モジュールは個別Lean実終了0・診断なしで、source SHA/実測時刻/差分/利用先と未証明義務を保存。この602全体検査には含まれない。真のI/(IJ+JI)とAS核のradical商の全成分同型、reverse cut矢基底と本来のASRegularからの実際の関係代表元/生成性を完成。非cut降下/全関係生成、有限foundation環ModuleCat同値、AS→Potential正則性/外部結果接続/選択独立性/同型類対応/§5quadraticは未証明。定理3.2と系5.2は未証明・正式Lean定理文未実装。
 前main114=440238b6deb38a31ca3436b306ed5b511dd4b953のGitHub CI run37890174660はsuccess。548数学モジュール、全7検査0、UTC05:46:58.235897→06:46:51.601355、実測3593.365452787秒。全ジョブログ1265805 bytes/SHA256 1bfd760c2f2e9038fb6eb263e7ec35bf8edc4d55357ccf7e97cfaa32dff813fbとartifact11600231390/digest b101509a51efbeed517e31a312dddf0cb58ebe34dd6eec0ebd13c906117309c4の証拠を保存。現main132=80eee11b03a9b95260cfd9742129b025fc92afacのCI run37894259808は最後の取得時点でin_progress。過去headの成功を602現行ソースのCI成功と扱わない。
 開始UTC2026-10-08T07:00:38から実測88050.448120秒。タスク終了未確定。検証済み成果を通常fast-forwardでmainへ保存した後も最小関係の降下へ継続する。
+
+## main保存161〜185と次の全体検証186〜213 UTC 2026-10-09T07:33:18.493990+00:00
+
+main5c6e119036f0d24c480dca8660c76136913b7f77に25数学モジュール・602数学モジュール/3657異なる宣言/1965 theoremの新規全体run20261009T063603Z-82270355全6段階0/wrapper0を保存。API exact tree/parent/refを確認し、同一commitをローカルmainへ通常fast-forward終了0。PR/force/履歴書換えなし。全体検査UTC06:36:03.452819→07:17:59.074513、実測2515.621690114秒。許容公理3種類のみ、初期14/旧60数学モジュール・577保護ファイル/PDF保存検査0。134ファイル/128unique blobs/4,685,988bytes/16分割の更新を保存済み。
+個別Lean終了0・診断なしの28数学モジュール186〜213を公開ソースへ移し、新しい630数学モジュールの全体ビルド/全宣言公理監査に追加。真のIJと最後の矢cover核、I/IJと実際AS核の同型・作用自然性、真のJI像とpositiveActionSpanの一致、IJ+JI分母同定と本来のI/(IJ+JI)・核radical商の全成分同型、第零sheet reverse cut矢基底と本来ASRegularからの関係代表元/生成性を含む。全体検査完了まで追加28数学モジュールを全体監査済みと扱わない。非cut降下/全関係生成、foundation環ModuleCat同値・finitecut降下・AS→Potential/外部結果/選択独立性/同型類対応/§5quadraticは未証明。定理3.2・系5.2は未証明・正式Lean定理文未実装。
+開始UTC2026-10-08T07:00:38から実測88360.493990秒。タスク終了未確定。最小関係の非cut降下へ継続。
+
+## 継続checkpoint UTC 2026-10-09T07:35:36.596787+00:00 / JST 2026-10-09T16:35:36.596787+09:00
+
+## 単位214：sheet忘却による実際の道長さfiltrationの保存
+
+本来のUnrolledPath.eraseから、線形忘却写像が全nの道長さfiltrationを保存することを証明。関係代表元の長さ≥2を有限箙へ降下させるために使用する。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-erasure-length-filtration1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：ASRegular関係代表元のnative持上げ、cut=0/長さ≥2の降下、閉路ポテンシャル候補。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit214-draft-073536.patch（1305bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88498.596787秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:36:17.298927+00:00 / JST 2026-10-09T16:36:17.298927+09:00
+
+## 単位215：AS最小関係代表元の本来のlifted道への移送
+
+元のASRegularだけから最小関係代表元をnativeのunrolled道の評価核へ移送。height比較が元の代表元と一致し、道長さ≥2に支持されることを証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-relation-native1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：第零sheetから非cut道への忘却、閉路ポテンシャル候補の構成とcut微分回収。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit215-draft-073617.patch（2054bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88539.298927秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:37:04.984139+00:00 / JST 2026-10-09T16:37:04.984139+09:00
+
+## 単位216：原論文の非cut自由道への実際の最小関係降下
+
+本来ASRegularから最小関係代表元を有限箙の実際PathComponentへ降下。cut次数0、長さ≥2とその同時支持を証明。周期性/Ext表/必要ポテンシャルの存在を追加条件にしない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-relation-descent1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：cut矢による実際の閉路traceとポテンシャル候補、cut微分での関係回収、全関係生成/正則性。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit216-draft-073704.patch（2120bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88586.984139秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:38:09.007228+00:00 / JST 2026-10-09T16:38:09.007228+09:00
+
+## 単位217：非cut最小関係をreverse cut矢で閉じた実際のPotential項
+
+cut矢aと逆向きの長さ≥2/cut=0のPathComponentから、実際の閉路trace[a r]を線形に構成し、元の閉路支持Potential空間への所属を証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：relation-closed-trace1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：ASRegular関係の有限和ポテンシャル候補、cut微分と最小関係基底の回収、正則性と代数回収。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit217-draft-073809.patch（2007bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88651.007228秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:39:00.483503+00:00 / JST 2026-10-09T16:39:00.483503+09:00
+
+## 単位218：元のASRegularから原論文の実際のfoundationポテンシャル候補
+
+本来のASRegularだけから非cut最小関係rρの有限和ΦB=Σ[ρrρ]を既存の実際の閉路Potential型で構成。全項cut次数1/長さ≥3は証明済み。GinzburgRegularやAの回収は未証明であり候補の存在を主定理完成と扱わない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-potential1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：cut巡回微分が選んだrρを返す証明、全foundation関係生成、正則性/代数回収/選択独立性/外部結果。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit218-draft-073900.patch（1798bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88702.483503秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:40:11.406656+00:00 / JST 2026-10-09T16:40:11.406656+09:00
+
+## 単位219：cut零語の巡回微分とcut矢のdelta回収
+
+実際のcut次数零語からのcut微分は零であり、a::rのcut微分はb=aのときr、それ以外は零となることを証明。ポテンシャル候補の関係回収に使用する。初回失敗ログも保存。
+
+個別Lean終了0・診断なし。ログ/.exit.json：cut-cyclic-derivative-delta2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：実際のrelationClosedTrace線形全体とΦBのcut微分回収、最小関係の商類照合。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit219-draft-074011.patch（1472bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88773.406656秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:41:58.547427+00:00 / JST 2026-10-09T16:41:58.547427+09:00
+
+## 単位220：実際の関係traceのcut巡回微分回収
+
+cut=0の本来のPathComponentの線形全体で∂b[a r]=δba pathWordMap(r)を証明。元の巡回微分と閉路traceの定義を保つ。初回import不足の失敗記録も保存。
+
+個別Lean終了0・診断なし。ログ/.exit.json：relation-closed-trace-derivative2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：ASRegularから構成したΦBの全cut微分が最小関係代表元と一致すること、foundation全関係生成/正則性。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit220-draft-074158.patch（1531bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88880.547427秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:43:04.360615+00:00 / JST 2026-10-09T16:43:04.360615+09:00
+
+## 単位221：元のAS条件から構成したΦBのcut巡回微分の実際の最小関係回収
+
+元のASRegularから構成した実際の閉路ポテンシャルΦBについて、全cut矢bのword巡回微分と実際のpathCyclicDerivativeが選んだ最小関係rbに一致することを証明。候補の正則性/全関係生成/代数回収は未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-potential-derivatives1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：微分をunrollした商類と元の最小関係基底の一致、foundation全関係生成、正則性/外部結果/選択独立性。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit221-draft-074304.patch（1955bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測88946.360615秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint221 UTC 2026-10-09T07:44:09.573279+00:00 / JST 2026-10-09T16:44:09.573279+09:00
+
+main5c6e119036f0d24c480dca8660c76136913b7f77の602数学モジュール/3657異なる宣言/1965 theoremは新規全体run20261009T063603Z-82270355の全6段階/終了0で検証済み。foundationへのexact制限・原論文(3.5)の実際のProjectiveResolution・単純射影次元≤2/Ext≥3零性まで含む。
+
+現在630公開数学モジュールの新規全体run20261009T073318Z-9f470afdはrunning、段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': None}。追加186〜213の28数学モジュールは個別Lean0・診断なし。真のI/(IJ+JI)と実際AS核のradical商の全成分同型、第零sheet reverse cut矢基底、本来のASRegularからの関係代表元と生成性を証明。全体検査完了まで追加部分の全公理監査成功と扱わない。
+
+WORK214〜221の8数学モジュールは個別Lean0・診断なし、公開全体検査には未収録。元のASRegularから最小関係を非cut道へ降下しcut=0/長さ≥2支持を証明。原論文のΦB=Σ[ρrρ]を既存の実際の閉路Potential型で構成し、全cut矢のword/path巡回微分が選んだrρに一致することを証明した。正則性や代数回収を候補の構成から推論しない。
+
+未証明：foundation全関係の生成、有限FoundationAlgebra.ModuleCatとの同値、周期整合したfinitecut基底降下、構成したΦBのGinzburgRegularと元の代数の回収、Reyes/Hanihara/Keller接続、選択独立性/同型類対応/§5quadratic。定理3.2と系5.2は未証明・正式Lean定理文未実装。周期性/必要Ext表/Calabi–Yau性/主結論を新しい仮定にしない。
+
+前head80eee11b03a9b95260cfd9742129b025fc92afacのGitHub CI run37894259808はsuccess、全7検査0、UTC06:35:19.666603→07:34:54.476265、実測3574.809653348秒。全文ログ1312832 bytes/SHA256 2bc2202f4c8809cb3ffdcf824b8b864a903b9a42084c62130896a75a6ab0ff39、artifact11602370188/digest4e49ca0555f52fa67724a044596e488fc850939501c3a9e03641ab716a2d1fd1を回収済み。現main5c6e119のCI run37899618525は最後の取得時点でin_progress。旧headの成功を新headの成功と扱わない。
+開始UTC2026-10-08T07:00:38から実測89011.573279秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:47:44.112278+00:00 / JST 2026-10-09T16:47:44.112278+09:00
+
+## 単位222：ΦBのcut微分unrollと元のAS関係代表元の一致
+
+実際pathCyclicDerivativeを第零sheetへunrollすると元のnative関係代表元になること、AS評価が零であること、height比較が元のpresentation.kernel代表元へ戻ることを証明。rewrite失敗2回の記録も保持。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-derivative-unrolling3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：本来のI/(IJ+JI)での微分商類が元の最小関係基底と一致すること、foundation全関係生成。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit222-draft-074744.patch（2791bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89226.112278秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:49:36.632290+00:00 / JST 2026-10-09T16:49:36.632290+09:00
+
+## 単位223：ΦBのcut微分の本来の最小関係商での基底回収
+
+実際のcut微分を元のpresentation.kernelの要素として構成し、I/(IJ+JI)の商類が本来ASRegularから証明したreverse cut矢基底と一致することを証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-derivative-classes1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：foundation全核の生成、正則性/代数回収/外部結果接続。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit223-draft-074936.patch（2220bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89338.632290秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:49:37.445762+00:00 / JST 2026-10-09T16:49:37.445762+09:00
+
+## 単位224：本来の矢イデアルの非正高さ成分零性
+
+実際のunrolledArrowIdealとその部分線形イデアルの要素は終点高さ≤始点高さなら零であることを証明。生成の高さ帰納法で各因子が厳密に小さくなるために使用。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-positive-ideal-support1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限高さ区間でmod IJ+JIから実際の関係生成を導く。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit224-draft-074937.patch（1085bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89339.445762秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:49:38.238946+00:00 / JST 2026-10-09T16:49:38.238946+09:00
+
+## 単位225：有限高さ区間の実際の関係生成帰納法
+
+本来の正の道イデアルI/Kについて、有限区間でI≤K+(IJ+JI)からI≤Kを厳密な高さ差の強帰納法で証明。一般の条件付き補題であり、AS用途の条件は既存の最小関係基底/代表元生成から導出する義務が残る。
+
+個別Lean終了0・診断なし。ログ/.exit.json：directed-relation-generation1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：元のASRegularだけから帰納法の条件を満たしfoundation全関係の生成を証明。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit225-draft-074938.patch（2410bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89340.238946秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:50:57.417503+00:00 / JST 2026-10-09T16:50:57.417503+09:00
+
+## 単位226：第零sheet最小関係代表元の実際の両側生成イデアル
+
+本来ASRegularから選んだ全foundation関係代表元の実際の両側生成イデアルを定義し、元の表示核への包含、各代表元の所属、核≤生成イデアル+(IJ+JI)を証明。任意Propで定義を置き換えない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-relation-ideal1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：高さ差帰納法の適用により元のASRegularだけからfoundation全核の生成を証明。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit226-draft-075057.patch（2618bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89419.417503秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:53:02.054898+00:00 / JST 2026-10-09T16:53:02.054898+09:00
+
+## 単位224：本来の矢イデアルの非正高さ成分零性
+
+実際のunrolledArrowIdealとその部分線形イデアルの要素は終点高さ≤始点高さなら零であることを証明。生成の高さ帰納法で各因子が厳密に小さくなるために使用。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-positive-ideal-support2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限高さ区間でmod IJ+JIから実際の関係生成を導く。。今回のrevisionは作業版importへの統一であり、以前の成功evidence/差分と失敗ログも保存。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit224-draft-075302.patch（1095bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89544.054898秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:53:02.586032+00:00 / JST 2026-10-09T16:53:02.586032+09:00
+
+## 単位225：有限高さ区間の実際の関係生成帰納法
+
+本来の正の道イデアルI/Kについて、有限区間でI≤K+(IJ+JI)からI≤Kを厳密な高さ差の強帰納法で証明。一般の条件付き補題であり、AS用途の条件は既存の最小関係基底/代表元生成から導出する義務が残る。
+
+個別Lean終了0・診断なし。ログ/.exit.json：directed-relation-generation2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：元のASRegularだけから帰納法の条件を満たしfoundation全関係の生成を証明。。今回のrevisionは作業版importへの統一であり、以前の成功evidence/差分と失敗ログも保存。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit225-draft-075302.patch（2410bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89544.586032秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:54:39.079136+00:00 / JST 2026-10-09T16:54:39.079136+09:00
+
+## 単位224：本来の矢イデアルの非正高さ成分零性
+
+実際のunrolledArrowIdealとその部分線形イデアルの要素は終点高さ≤始点高さなら零であることを証明。生成の高さ帰納法で各因子が厳密に小さくなるために使用。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-positive-ideal-support3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限高さ区間でmod IJ+JIから実際の関係生成を導く。。今回のrevisionは作業版importへの統一であり、以前の成功evidence/差分と失敗ログも保存。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit224-draft-075439.patch（1105bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89641.079136秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:54:39.672754+00:00 / JST 2026-10-09T16:54:39.672754+09:00
+
+## 単位225：有限高さ区間の実際の関係生成帰納法
+
+本来の正の道イデアルI/Kについて、有限区間でI≤K+(IJ+JI)からI≤Kを厳密な高さ差の強帰納法で証明。一般の条件付き補題であり、AS用途の条件は既存の最小関係基底/代表元生成から導出する義務が残る。
+
+個別Lean終了0・診断なし。ログ/.exit.json：directed-relation-generation3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：元のASRegularだけから帰納法の条件を満たしfoundation全関係の生成を証明。。今回のrevisionは作業版importへの統一であり、以前の成功evidence/差分と失敗ログも保存。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit225-draft-075439.patch（2410bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89641.672754秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:56:45.360166+00:00 / JST 2026-10-09T16:56:45.360166+09:00
+
+## 単位227：本来ASRegularだけからfoundationの全関係核の生成
+
+元のASRegularから選んだ最小関係代表元の実際の両側生成イデアルが第零sheetの表示核全体に一致することを証明。単位225の条件をAS由来の核平方包含と単位213の実際の生成性から導出済み。全生成を新しい仮定に加えない。import/添字照合の失敗記録も保持。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-full-relations4。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：非cut自由道商と本来の有限foundation代数の同型、FoundationRightModuleと有限環ModuleCatの同値、ΦB正則性/外部結果接続。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit227-draft-075645.patch（2042bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89767.360166秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:57:37.194003+00:00 / JST 2026-10-09T16:57:37.194003+09:00
+
+## 単位228：既存foundation線形右加群の本来の成分作用
+
+既存FoundationRightModuleのpresheaf定義を保ったまま、本来A.Homの成分作用について線形性・単位元・反変合成を証明。ModuleCat接続の有限convolution作用に使用する。Finの別Category/defeq失敗記録も保存。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-component-actions3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限総空間のconvolution作用と単位/積、有限環ModuleCatへの関手と逆構成。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit228-draft-075737.patch（2735bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89819.194003秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T07:59:48.450736+00:00 / JST 2026-10-09T16:59:48.450736+09:00
+
+## 単位229：既存foundation右加群の実際の有限総空間とconvolution線形作用
+
+本来の有限FoundationAlgebraの成分を既存presheafのA.Hom作用で有限総空間へ作用させる線形写像を構成。加法/スカラー適合性を証明。有限環との圏同値は未完成。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-actions2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：convolution積の反転/単位元保存と本来のFoundationAlgebra上のModuleCat対象、射と逆構成。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit229-draft-075948.patch（2424bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測89950.450736秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:01:19.900280+00:00 / JST 2026-10-09T17:01:19.900280+09:00
+
+## 単位230：有限foundation convolution作用の単位保存と積の反転
+
+既存presheafの有限総空間作用が本来のFoundationAlgebraの単位を恒等写像へ、積xyを作用yと作用xの合成へ送ることを証明。右加群を反対環の本来の加群へ接続する。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-action-laws2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限反対環のAlgHom/ModuleCat対象と射、圏同値の逆構成。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit230-draft-080119.patch（2244bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90041.900280秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:01:20.725704+00:00 / JST 2026-10-09T17:01:20.725704+09:00
+
+## 単位231：foundation自然変換の有限総空間作用への適合性
+
+既存FoundationRightModuleの自然変換の成分線形写像を有限総空間へ持上げ、本来のconvolution作用と可換になること、恒等射/合成保存を証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-maps1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：本来の有限環ModuleCatへの関手と充満忠実性・逆構成。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit231-draft-080120.patch（2422bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90042.725704秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:02:26.285833+00:00 / JST 2026-10-09T17:02:26.285833+09:00
+
+## 単位232：既存foundation右加群の本来の有限反対環ModuleCatへの対象持上げ
+
+既存FoundationRightModuleの有限総空間のconvolution作用から、本来のFoundationAlgebra反対環へのAlgHomと真のModule構造/ModuleCat対象を構成。単位化や元のA.Hom作用の置換を用いない。現行FoundationAlgebraと同じA.{u,u}の宇宙範囲であり圏同値は未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-modules1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：本来の有限環ModuleCatへの射/関手・充満忠実性・成分冪等元からの逆構成と自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit232-draft-080226.patch（2281bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90108.285833秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint232 UTC 2026-10-09T08:02:28.885860+00:00 / JST 2026-10-09T17:02:28.885860+09:00
+
+main5c6e119036f0d24c480dca8660c76136913b7f77の602数学モジュール/3657異なる宣言/1965 theoremは新規全体run20261009T063603Z-82270355の全6段階/終了0で検証済み。foundationへのexact制限・原論文(3.5)の実際のProjectiveResolution・単純射影次元≤2/Ext≥3零性まで含む。
+
+現在630公開数学モジュールの新規全体run20261009T073318Z-9f470afdはrunning、段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}。追加186〜213の28数学モジュールは個別Lean0・診断なし。真のI/(IJ+JI)と実際AS核のradical商の全成分同型、第零sheet reverse cut矢基底、本来のASRegularからの関係代表元と生成性を証明。全体検査完了まで追加部分の全公理監査成功と扱わない。
+
+WORK214〜232の19数学モジュールは個別Lean0・診断なし、公開全体検査には未収録。元のASRegularから最小関係を非cut道へ降下しcut=0/長さ≥2支持を証明。原論文のΦB=Σ[ρrρ]を本来の閉路Potential型で構成し、全cut微分がrρへ戻ること、unroll後に元の核とI/(IJ+JI)の基底商類へ戻ることを証明。有限高さ差の強帰納法により第零sheetの全表示核が選んだ最小関係の本来の両側イデアルで生成されることまで証明した。単位225の一般補題の条件は元のAS条件から単位227で導出済み。既存foundation線形presheafの本来の成分作用から有限convolution作用/積反転/単位保存を証明し、本来のFoundationAlgebra反対環のAlgHom/Module/ModuleCat対象を構成。有限環との圏同値は未完成。
+
+未証明：非cut自由道商と有限foundation環の同型、有限FoundationAlgebra.ModuleCatとの関手/充満忠実性/逆構成と自然同型、宇宙u,vでの一般化、周期整合したfinitecut基底降下、構成したΦBのGinzburgRegularと元の代数回収、Reyes/Hanihara/Keller接続、選択独立性/同型類対応/§5quadratic。定理3.2と系5.2は未証明・正式Lean定理文未実装。周期性/必要Ext表/Calabi–Yau性/主結論を新しい仮定にしない。
+
+前head80eee11b03a9b95260cfd9742129b025fc92afacのGitHub CI run37894259808はsuccess、全7検査0、UTC06:35:19.666603→07:34:54.476265、実測3574.809653348秒。全文ログ1312832 bytes/SHA256 2bc2202f4c8809cb3ffdcf824b8b864a903b9a42084c62130896a75a6ab0ff39、artifact11602370188/digest4e49ca0555f52fa67724a044596e488fc850939501c3a9e03641ab716a2d1fd1を回収済み。現main5c6e119のCI run37899618525は最後の取得時点でin_progress。旧headの成功を新headの成功と扱わない。
+開始UTC2026-10-08T07:00:38から実測90110.885860秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:04:03.645971+00:00 / JST 2026-10-09T17:04:03.645971+09:00
+
+## 単位233：本来の有限foundation反対環ModuleCatへの関手
+
+既存のFoundationRightModuleの対象と自然変換を本来のFoundationAlgebra反対環ModuleCatへ持上げ、単位射/合成と成分式を証明。圏同値や外部結果の適用は未完成。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-functor1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：加法性・忠実性・充満性、冪等元による成分の逆復元と自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit233-draft-080403.patch（1908bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90205.645971秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:05:46.293109+00:00 / JST 2026-10-09T17:05:46.293109+09:00
+
+## 単位234：本来の有限環ModuleCatへのfoundation関手の加法性と忠実性
+
+既存presheafから有限反対環ModuleCatへの関手の加法性と忠実性を、実際の成分singleから証明。充満性/逆構成/圏同値はまだ未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-functor-faithful1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限convolution環の成分埋込と冪等元、全環加群からの成分復元と自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit234-draft-080546.patch（1105bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90308.293109秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:07:35.060655+00:00 / JST 2026-10-09T17:07:35.060655+09:00
+
+## 単位235：本来の有限convolution環の成分埋込と積/単位の分解
+
+有限LinearComponentAlgebra.Totalに実際の行列成分を埋込み、つながる成分の積/切れた成分の積零性/対角idの有限和=1を証明。成分冪等元によるModuleCat逆復元に使用する。失敗ログは保持。
+
+個別Lean終了0・診断なし。ログ/.exit.json：finite-component-embeddings3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：成分線形埋込と冪等元、任意有限環加群の成分射影/像からの元presheaf復元。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit235-draft-080735.patch（2651bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90417.060655秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:09:13.465296+00:00 / JST 2026-10-09T17:09:13.465296+09:00
+
+## 単位236：有限convolution環の線形成分埋込と完全直交冪等元族
+
+本来の有限convolution環で成分の線形埋込、対角成分の冪等性/直交性/総和1、各成分に対する両側恒等作用を証明。元加群の成分復元に使用。初回警告ログも保持。
+
+個別Lean終了0・診断なし。ログ/.exit.json：finite-component-idempotents2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：本来の有限環加群の成分作用/射影、射影像からの既存presheaf復元と自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit236-draft-080913.patch（1836bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90515.465296秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:10:51.914919+00:00 / JST 2026-10-09T17:10:51.914919+09:00
+
+## 単位237：本来の有限foundation環加群からのA.Hom成分作用と直交射影
+
+任意の本来FoundationAlgebra反対環ModuleCat対象から、元のA.Homの実際の成分作用/つながる合成/切れた合成零性/成分射影の冪等性と直交性を証明。逆構成に使用する。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-ring-component-actions1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：成分射影像の線形加群と成分作用、既存FoundationRightModuleへの逆関手、自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit237-draft-081051.patch（3381bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90613.914919秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:11:56.836338+00:00 / JST 2026-10-09T17:11:56.836338+09:00
+
+## 単位238：本来の有限環加群の射影像からの成分加群と作用復元
+
+任意の有限foundation反対環ModuleCat対象で実際の成分射影像を取り、像上の本来A.Hom反変作用・単位/合成と成分線形性を証明。任意Propによる成分定義の置換は用いない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-ring-component-spaces1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存FoundationRightModuleへの対象/射の逆復元、有限総空間の分解と両方向自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit238-draft-081156.patch（3995bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90678.836338秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:13:12.210203+00:00 / JST 2026-10-09T17:13:12.210203+09:00
+
+## 単位239：本来の有限環加群から既存foundation線形presheafへの対象復元
+
+任意の有限foundation反対環ModuleCat対象から、実際の冪等射影像と元のA.Hom作用を用い、既存FoundationRightObj上の加法的k線形FunctorとFoundationRightModuleを構成。圏同値は未完成。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-ring-presheaves1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：環加群の射の成分復元と逆関手、有限総空間との自然同型、元presheafとの自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit239-draft-081312.patch（2043bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90754.210203秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:14:11.479576+00:00 / JST 2026-10-09T17:14:11.479576+09:00
+
+## 単位240：本来の有限環ModuleCatから既存foundation加群への逆関手
+
+有限foundation反対環加群の実際の射が成分射影像を保つことから、既存FoundationRightModuleへの射の復元と逆関手を構成。両方向合成の自然同型は未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-ring-component-maps1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：有限総空間の環加群同型と元presheafの成分同型、両方向自然同型/圏同値。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit240-draft-081411.patch（2267bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90813.479576秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:16:09.213588+00:00 / JST 2026-10-09T17:16:09.213588+09:00
+
+## 単位241：元のfoundation presheafの有限総加群における成分射影の一致
+
+既存presheafの本来の有限総加群で、各matrix成分の環作用が元のA.Hom成分作用後のsingle挿入になること、各冪等射影がPi.single i(m i)に一致することを証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-component-actions2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：kスカラー構造の比較、射影像と元の頂点成分の線形同型、自然同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit241-draft-081609.patch（2097bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T063603Z-82270355の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測90931.213588秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T08:18:36.306356+00:00 / JST 2026-10-09T17:18:36.306356+09:00
+
+## 単位242：本来の有限総環加群のk制限と元の成分ベクトル空間の一致
+
+元のfoundation presheafの有限総環加群について、kに制限した作用が元の成分ごとのkスカラー作用と一致すること、恒等関数が真のk線形同型になることを証明。インスタンス照合の失敗ログも保持。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-total-scalar-comparison3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：射影像と元の頂点成分の線形同型/自然同型、有限環加群の有限成分分解と圏同値。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit242-draft-081836.patch（1306bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T073318Z-9f470afdの段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測91078.306356秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 単位186：自由道関係から既存categorical AS核への全射
+
+既存RightModuleのkernelの評価成分と実際の成分線形核を同型にし、自由道関係の全射をcategorical kernelへ移送。kernel.ιとの可換性を証明し、本来の既存加群モデルへの接続を保つ。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-first-kernel-component-comparison1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：核写像の分母とIJを同定し、正の作用のradical商とJIを比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit186.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位187：AS cover写像の核を全prefix関係で記述
+
+cover写像が零であることと全incoming prefixの実際の道評価が零であることの同値を証明。核を最後の矢線形同型による真の各評価核のPiのcomapとして同定。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-last-arrow-kernel-coordinates1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：最後の矢で延長したprefix関係のspan、関係イデアル積IJの記述とradicalの比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit187.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位188：cover核と最後の矢で延長した真の関係のspanの一致
+
+道評価が零になるprefixを最後の矢で延長した実際の集合を定義し、そのspanがcover写像の核と一致することを証明。核の寸法や任意のProp条件に置き換えていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-last-arrow-relation-span1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：このspanを真の関係イデアルと矢イデアルの積IJへ同定し、radical逆像とJIを比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit188.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位189：実際の自由道積と最後の矢延長の可換性
+
+自由道の双線形積が最後の矢mapDomainと可換であること、および単一矢との積が最後の矢延長そのものであることを証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-last-arrow-products2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：関係と正の道の真の積spanをcover核へ同定し、整数height添字のIJへ移送。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit189.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位190：真の関係と正の道の積span＝AS cover核
+
+持ち上げた頂点添字で実際の道評価核の元と正の長さの道の積spanを構成し、最後の矢関係spanおよびAS cover核と一致することを証明。整数ZAlgebraのIJとの輸送は次の義務で、新しい仮定を加えていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-relation-arrow-products2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存unrolledComponentHeightEquivにより真の整数成分IJへ輸送、radicalとJIの比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit190.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位191：AS自由道評価核と既存height添字関係イデアルの一致
+
+既存unrolledComponentHeightEquivについて、path filtrationの成分所属の両方向と、実際のAS道評価核の元が整数添字の既存presentation.kernelに対応する同値を証明。依存型の輸送を小さいmapDomain等式に分け、最終3.706秒/終了0/診断なし。失敗した型検査ログは保持。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-path-kernel-heights3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：IJ/JIの真の整数成分積へ輸送し、radical逆像を同定。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit191.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位192：任意の真の自由道イデアル積のheight輸送
+
+実際の整数添字の任意のLinearIdeal I,Jについて、持ち上げた頂点での真の積spanのheight像がI.mul Jと一致すること、およびcomap逆像の一致を証明。全射heightによる中間頂点の回収と実際の積保存を用いる。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-ideal-product-heights3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：AS関係イデアルと矢イデアルに適用してcover核をIJと同定。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit192.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位193：AS cover核＝元の真の整数成分IJの逆像
+
+既存のpresentation.kernelとunrolledArrowIdealの実際の積IJへnative関係積spanを同定し、AS cover写像の核がheight線形同型によるIJのcomapであることを証明。原論文の最小関係空間の分母片側を追加仮定なく完成。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-cover-kernel-relation-ideal1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：真のI/IJとAS第1微分kernelの同型、JIとradical逆像の一致によるI/(IJ+JI)の基底抽出。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit193.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位194：真の関係イデアルと道評価核の線形同型・分母保存
+
+道評価核と既存整数添字presentation.kernelの線形同型を構成し、AS第1核全射の核の像が実際のIJ部分加群のcomapと一致することを証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-relation-kernel-height-equiv1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：真のI/IJと既存categorical AS核の商同型、JIとradicalの比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit194.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位195：真のI/IJと既存AS第1核の同型
+
+元の整数添字presentation.kernelの成分を実際のIJ部分加群で割った商と、既存RightModuleでのAS第1微分のcategorical kernel評価成分の線形同型を構成。radical/最小関係topの同定はまだこの補題の内容ではない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-relation-arrow-quotient1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：代表元公式と右作用の自然性、JIのradical像を証明しI/(IJ+JI)へ進む。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit195.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位196：I/IJ同型の実際の関係代表元公式
+
+真のI/IJからAS第1核への同型が、height輸送した道関係の商類を既存の具体的AS核写像へ送ることを証明。寸法から任意に選んだ同型でないことを実際の等式で検証。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-relation-quotient-representatives2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存右作用との自然性、JIの像とpositiveActionSpanの一致。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit196.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位197：最後の矢線形座標とprefix積の適合性
+
+元の自由道の積について、最後の矢で分けた各prefix成分が、後半のprefixと前半の道の実際の積に一致することを証明。単一矢mapDomainの線形座標も同定した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：unrolled-last-arrow-product-coordinates1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：AS cover/核への写像の元の右作用との自然性、JIとradicalの一致。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit197.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位198：自由道cover写像と本来のAS右作用の自然性
+
+実際のprefix道との積が、本来のAS第1射影項の右作用とcover写像を介して一致することを証明。有限直和のcanonical座標の取消しと道評価の積保存を用いた。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-last-arrow-cover-naturality3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：既存categorical AS核への写像に自然性を移送し、JIの像とradicalを比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit198.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位199：真の関係核写像と既存categorical kernel右作用の自然性
+
+道関係に実際の道を前置する操作を定義し、そのAS核への像が既存kernel加群の本来の右作用と一致することを証明。kernel.ιの自然性と実際cover作用適合性を用いた。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-path-relation-kernel-naturality2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：JIの像とAS第1核のradicalの一致、最小関係top比較。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit199.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位200：AS第1核の対象頂点以上での真の零性
+
+既存AS第1kernelの評価成分について、対象頂点のheight以上の全元が零であることを証明。incoming termの終点の厳密不等式と本来のZAlgebra.positiveから導く。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-first-kernel-support2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：radicalの中間頂点を対象頂点未満へ絞り、核全射により真の関係へ持ち上げる。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit200.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位201：実際のAS自由道関係の対象頂点以上での零性
+
+元のAS最小分解から証明済みのkernel-square条件と、正の道長さからheight厳密増加を用い、対象頂点以上の実際の道評価核の全元が零と証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-path-relation-support1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：JIの生成元の支持例外を処理しradical像を同定。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit201.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位202：正のprefixと真の関係の積JIの具体的記述
+
+実際の正の道と道評価核の関係の積の集合/spanを定義し、元のinteger presentation.kernelとarrow idealの真の積JIのcomapへ同定。積spanが実際の道評価核に含まれることと生成集合の非空性も証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-arrow-relation-products1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：関係部分型のspan表示、JI像＝AS kernel radical、両分母による最小関係商。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit202.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位203：JIの関係部分型spanと正の道の実際の支持
+
+正の道は非増加height成分で零、厳密増加height成分では全自由道成分が正の道filtrationに入ることを証明。JIのnative積spanの関係部分型へのcomapを、実際の積生成元の逆像spanとして同定。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-arrow-relation-preimage-span1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：JIの核写像による像と既存kernel radicalの一致。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit203.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位204：真のJIのAS核写像による像＝既存kernel radical
+
+正のprefixと真の関係の積JIに対応する関係部分加群の像が、既存RightModuleのAS第1kernelのpositiveActionSpanに完全に一致すると証明。支持零性・道評価全射・核写像全射・本来の右作用自然性によって両方向を導き、radicalやExt表を仮定していない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-arrow-relations-radical-image2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：radical逆像にIJ kernelを加えた分母とIJ+JIを同定し、I/(IJ+JI)の実際のcut矢基底を抽出。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit204.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位205：AS核radicalの逆像＝真のJIとcover核の和
+
+元のkernel右作用radicalの具体的逆像を、真のJIに対応する関係部分加群とIJ cover kernelの和と同定。categorical kernel写像の線形核が元の成分kernel写像と一致すること、JIのheight輸送による分母保存も証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-first-kernel-radical-preimage1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：IJ+JIの全分母同定と実際の最小関係商同型。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit205.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位206：部分加群に含まれる和のsubtype逆像保存
+
+真の部分加群Pに含まれるp,qについて、P.subtypeによるp⊔qのcomapが各comapの和と一致することを証明。元の関係イデアルIに含まれるIJ,JIへ適用する。
+
+個別Lean終了0・診断なし。ログ/.exit.json：submodule-subtype-sup1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：IJ,JIの既存閉性を使い最小関係商I/(IJ+JI)の分母を照合。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit206.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位207：最小関係の真の全分母IJ+JI＝AS核radical逆像
+
+AS kernel radicalの逆像をheight線形同型で移すと、元の関係イデアルIの中でのIJ+JIのcomapに完全に一致することを証明。両側イデアル積の実際の閉性と部分加群和の輸送を用い、本来の最小関係空間の分母を同定。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-minimal-relation-denominator1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：I/(IJ+JI)と既存AS第1核のradical商の実際の線形同型、cut矢基底と関係代表元。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit207.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位208：真のI/(IJ+JI)と既存AS第1核radical商の同型
+
+元のpresentation.kernelの本来の最小関係商I/(IJ+JI)を、既存RightModuleのAS第1kernel/positiveActionSpanと線形同型にした。道関係の具体的写像・全射性・IJ+JI分母の証明済み一致から第一同型定理とheight輸送で構成し、寸法や結論を追加仮定にしていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-minimal-relation-kernel-top-equiv1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：第零sheet全頂点対での切矢基底と最小関係代表元の抽出、有限foundationへの道表示と関係降下。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit208.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位209：真の関係イデアルと最小関係商の非増加成分零性
+
+元のpresentation.kernelの全元と実際のI/(IJ+JI)の全元が、対象height以下の非増加成分では零と証明。既存の道評価核支持とheight線形同型を用い、対角関係の消滅を追加仮定にしていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-minimal-relation-support2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：非増加成分を含む全成分のkernel top比較と、第零sheet全頂点対の切矢基底。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit209.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位210：真の最小関係商とAS核topの全成分線形同型
+
+増加成分の証明済みcanonical比較と、非増加成分の両側の証明済み零性を合わせ、全lift頂点対で元のI/(IJ+JI)と既存AS第1kernel radical商の線形同型を構成。零性をmathlibの実際のofSubsingletonに渡した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-minimal-relation-all-components3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：第零sheetの全頂点対へ切矢基底を移し、原論文の最小関係代表元と生成性を抽出。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit210.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位211：本来の最小関係商の切矢基底と次元公式
+
+第零sheetの全頂点対i,jについて、元のAS presentation.kernelの真のI/(IJ+JI)にFoundationRelationArrow i jで添字付けた実際のBasisを構成し、finrankがreverse cut矢の個数に等しいと証明。証明済みkernel/radical同型を介して既存AS分解の基底を移送し、基底や関係数を新しい仮定にしない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-foundation-minimal-relation-basis2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：原論文ASRegularだけからの基底・実際の関係代表元と生成性、非cut道空間への降下、foundation環ModuleCat同値とAS→Potential。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit211.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位212：元のASRegular条件から本来の最小関係基底と個数公式
+
+本来のASRegular(i)/(ii)だけを入力に、各第零sheet頂点対の真のpresentation.kernel/(IJ+JI)にreverse cut矢添字のBasisとfinrank公式を構成。基底・関係数・周期性・Ext表を新しい条件へ追加していない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-regular-minimal-relation-basis1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：基底の実際の関係代表元と生成性、非cut道への降下とポテンシャル候補構成、正則性/外部結果接続。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit212.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位213：元のASRegularから最小関係の実際の代表元と生成性
+
+本来のASRegularだけから真のpresentation.kernel内にreverse cut矢添字の基底代表元を取り、商類の一致とspan代表元+IJ+JI=kernelを証明。独自axiomや周期性/Ext表/主結論を追加条件にしていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：as-regular-relation-representatives1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：非cut道空間への降下、foundation全関係生成、ポテンシャル候補と正則性/外部結果接続。。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T073318Z-9f470afd`、2624.182717499秒、全段階終了0。
+JST 2026-10-09T16:33:18.809605+09:00 → 2026-10-09T17:17:02.992333+09:00。
+UTC 2026-10-09T07:33:18.809605+00:00 → 2026-10-09T08:17:02.992333+00:00。
+630数学モジュール・3722異なる宣言・2013 theorem。
+差分：runs/total-algebra-20261008-unit213.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 全体検査186〜213完了・main保存準備 UTC 2026-10-09T08:20:00.204664+00:00 / JST 2026-10-09T17:20:00.204664+09:00
+
+単位132〜185で、本来のGinzburgRegular⇒元のASRegular全体、foundationへのexact制限と原論文(3.5)の実際のProjectiveResolution/単純射影次元≤2/高次Ext消滅、最小関係の本来の定義と基底持上げを全体検証済み。
+
+単位186〜213で、真のIJと最後の矢cover核、実際I/IJと本来のcategorical AS核の同型/代表元/元の作用自然性、真のJIの像と核のpositiveActionSpanの一致を証明。IJ+JI分母を同定し、真のI/(IJ+JI)と核のradical商の全成分線形同型、第零sheetのreverse cut矢添字の基底とfinrank、本来ASRegularだけから実際の関係代表元とmod IJ+JI生成性まで全体検証済み。
+
+WORK214〜242は個別Lean実終了0・診断なし、今回の全体監査には未収録。元のASRegularから最小関係を非cut道へ降下しcut=0/長さ≥2支持を証明。原論文のΦB=Σ[ρrρ]を既存の実際の閉路Potential型で構成し、全cut微分が選んだrρ、unroll後に元の表示核とI/(IJ+JI)の基底商類へ戻ることを証明。有限高さ差帰納法により第零sheetの全表示核が選んだ最小関係の本来の両側イデアルで生成されることも証明。単位225の一般補題の条件は単位227で元のASRegularから導出済み。有限FoundationAlgebra反対環ModuleCatへの加法的忠実な実際の総空間関手と、実際の成分冪等射影像から既存FoundationRightModuleへの逆関手を構成。成分埋込/単位和/直交性、総加群射影の元成分との一致、kスカラー制限との線形比較を個別検証済み。
+
+未証明：両方向合成の自然同型と有限foundation環ModuleCatとの圏同値、現行FoundationAlgebraのA.{u,u}からu,vへの宇宙一般化、非cut自由道商とfoundation環の同型、周期整合したfinitecut基底降下、候補ΦBのGinzburgRegularと元の代数回収、Reyes/Hanihara/Keller接続、選択独立性/同型類対応/§5quadratic。候補の構成や生成性を正則性/主定理完成と扱わない。定理3.2と系5.2は未証明・正式Lean定理文未実装。周期性/必要Ext表/Calabi–Yau性/主結論を新しい仮定にしない。
+
+最新全体成功run20261009T073318Z-9f470afd：630数学モジュール、3722異なる宣言、2013 theorem、全6段階/終了0、現在の公開ソースSHA一致、許容公理propext/Classical.choice/Quot.soundのみ。重複/監査漏れ/holes/独自axiom/禁止依存なし。UTC07:33:18.809605→08:17:02.992333、実測2624.182717499秒。wrapperも実終了0、2624.236277774秒。
+
+前main80eee11のGitHub CI run37894259808は全7検査0/success、全文ログ/artifact証拠を回収済み。現main5c6e119のCI run37899618525は最後の取得時点でin_progress。旧headの成功を現行の成功と扱わない。最新630公開ソースを通常fast-forwardでmainへ保存し、そのheadのCIを確認する。
+初期14/旧60数学モジュール/577保護ファイル/PDFの保存検査実終了0。単位186〜213の28差分を今回の成功runに結び付けて保存済み。過去の検査ログ/失敗記録/入力PDF/回収記録を保持。
+開始UTC2026-10-08T07:00:38から実測91162.204664秒。タスク終了未確定。main保存と次の証明義務へ継続する。

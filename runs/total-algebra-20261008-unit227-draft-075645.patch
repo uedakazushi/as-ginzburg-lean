@@ -1,0 +1,43 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASFoundationFullRelations.lean
+@@ -0,0 +1,40 @@
++import work.ASGinzburgDraft.ASFoundationRelationIdeal
++import work.ASGinzburgDraft.DirectedRelationGeneration
++import ASGinzburg.ASPresentationKernel
++
++/-! The original ASRegular conditions imply that the chosen minimal
++relation representatives generate the full foundation presentation
++kernel. No full-generation hypothesis is added to the AS conditions. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationRelationIdeal_eq_kernel (hAS : A.ASRegular Q)
++    (v w : Q.Vertex) :
++    (hAS.foundationRelationIdeal A Q).hom (v.val : ℤ) (w.val : ℤ)=
++      (hAS.unrolledPathPresentation A Q).kernel.hom (v.val : ℤ) (w.val : ℤ) := by
++  let I := (hAS.unrolledPathPresentation A Q).kernel
++  let K := hAS.foundationRelationIdeal A Q
++  have hpos : ∀ i j, I.hom i j ≤ (Q.unrolledArrowIdeal k).hom i j := by
++    intro i j
++    exact (hAS.unrolledPathPresentation_kernel_le_arrow_square A Q i j).trans
++      ((Q.unrolledArrowIdeal k).mul_hom_le_left _ i j)
++  apply le_antisymm (hAS.foundationRelationIdeal_le_kernel A Q _ _)
++  apply Q.linearIdeal_hom_le_of_mod_decomposables k I K hpos
++    0 ((Q.vertices : ℤ)-1) _ (v.val : ℤ) (w.val : ℤ) (by omega) (by have := w.isLt; omega)
++  intro i j hi hj
++  by_cases hij : j ≤ i
++  · intro f hf
++    rw [Q.unrolledPositiveIdeal_elem_eq_zero_of_ge k I hpos i j hij hf]
++    exact Submodule.zero_mem _
++  let vi : Q.Vertex := ⟨i.toNat,by omega⟩
++  let wj : Q.Vertex := ⟨j.toNat,by omega⟩
++  have hvi : (vi.val : ℤ)=i := by dsimp [vi]; omega
++  have hwj : (wj.val : ℤ)=j := by dsimp [wj]; omega
++  have hg := hAS.foundationKernel_le_ideal_mod_decomposables A Q vi wj
++  change I.hom (vi.val : ℤ) (wj.val : ℤ) ≤ K.hom (vi.val : ℤ) (wj.val : ℤ) ⊔
++    Q.relationDecomposables I (vi.val : ℤ) (wj.val : ℤ) at hg
++  rw [hvi,hwj] at hg
++  exact hg
++
++end ASGinzburg.ZAlgebra

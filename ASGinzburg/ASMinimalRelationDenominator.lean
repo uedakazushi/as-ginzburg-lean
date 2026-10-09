@@ -1,0 +1,40 @@
+import ASGinzburg.ASFirstKernelRadicalPreimage
+import ASGinzburg.SubmoduleSubtypeSup
+import ASGinzburg.MinimalRelationComponents
+
+/-! The genuine IJ+JI denominator of the original minimal relation
+space is exactly the height image of the AS kernel radical preimage. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+
+theorem pathRelationHeightEquiv_map_radical_preimage (u w : Q.LiftVertex)
+    (huw : Q.height u < Q.height w) :
+    Submodule.map (A.pathRelationHeightEquiv Q R u w).toLinearMap
+      (Submodule.comap (A.pathRelationsToCategoricalASFirstKernel Q R u w
+        (by intro h; subst w; exact lt_irrefl _ huw))
+        (A.positiveActionSpan (kernel (R w).d₁) (Q.height u)))=
+      Submodule.comap ((A.unrolledPathPresentation Q R).kernel.hom
+        (Q.height u) (Q.height w)).subtype
+        (Q.relationDecomposables (A.unrolledPathPresentation Q R).kernel
+          (Q.height u) (Q.height w)) := by
+  have hne : u≠w := by intro h; subst w; exact lt_irrefl _ huw
+  rw [A.firstKernel_radical_preimage Q R u w huw,Submodule.map_sup,
+    A.pathRelationHeightEquiv_map_arrowRelation_denominator Q R u w,
+    A.pathRelationHeightEquiv_map_firstKernel_denominator Q R u w hne]
+  let I := (A.unrolledPathPresentation Q R).kernel
+  let J := Q.unrolledArrowIdeal k
+  change Submodule.comap (I.hom (Q.height u) (Q.height w)).subtype
+      ((J.mul I).hom (Q.height u) (Q.height w)) ⊔
+    Submodule.comap (I.hom (Q.height u) (Q.height w)).subtype
+      ((I.mul J).hom (Q.height u) (Q.height w))=
+    Submodule.comap (I.hom (Q.height u) (Q.height w)).subtype
+      ((I.mul J).hom (Q.height u) (Q.height w) ⊔ (J.mul I).hom (Q.height u) (Q.height w))
+  rw [sup_comm]
+  exact (ASGinzburg.comap_subtype_sup_of_le _ _ _
+    (I.mul_hom_le_left J (Q.height u) (Q.height w))
+    (J.mul_hom_le_right I (Q.height u) (Q.height w))).symm
+
+end ASGinzburg.ZAlgebra
