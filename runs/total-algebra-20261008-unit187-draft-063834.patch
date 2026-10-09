@@ -1,0 +1,47 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASLastArrowKernelCoordinates.lean
+@@ -0,0 +1,44 @@
++import work.ASGinzburgDraft.ASFirstKernelPathRelations
++
++/-! The kernel of the actual cover map consists exactly of prefix
++relations for every incoming arrow. This denominator will be identified
++with the product of the relation and arrow ideals. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++theorem lastArrowToASFirstTerm_eq_zero_iff (u w : Q.LiftVertex) (huw : u≠w)
++    (f : Q.UnrolledPathComponent k u w) :
++    A.lastArrowToASFirstTerm Q R u w huw f=0 ↔
++      ∀ a : Q.incomingArrows w,
++        A.unrolledPathLinearEvaluation Q R u (Q.incomingSource w a)
++          (Q.unrolledLastArrowLinearEquiv k u w huw f a)=0 := by
++  let e := A.rightFiniteCoproductPiEquiv
++    (fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a)))
++    (Q.height u)
++  constructor
++  · intro h a
++    have he : A.lastArrowPrefixEvaluation Q R u w
++        (Q.unrolledLastArrowLinearEquiv k u w huw f)=0 := by
++      apply e.symm.injective
++      simpa only [map_zero] using h
++    exact congrFun he a
++  · intro ha
++    have he : A.lastArrowPrefixEvaluation Q R u w
++        (Q.unrolledLastArrowLinearEquiv k u w huw f)=0 := funext ha
++    change e.symm (A.lastArrowPrefixEvaluation Q R u w
++      (Q.unrolledLastArrowLinearEquiv k u w huw f))=0
++    rw [he,map_zero]
++
++theorem lastArrowToASFirstTerm_ker (u w : Q.LiftVertex) (huw : u≠w) :
++    LinearMap.ker (A.lastArrowToASFirstTerm Q R u w huw)=
++      Submodule.comap (Q.unrolledLastArrowLinearEquiv k u w huw).toLinearMap
++        (Submodule.pi Set.univ (fun a : Q.incomingArrows w =>
++          LinearMap.ker (A.unrolledPathLinearEvaluation Q R u (Q.incomingSource w a)))) := by
++  ext f
++  simpa only [LinearMap.mem_ker,Submodule.mem_comap,LinearEquiv.coe_coe,
++    Submodule.mem_pi,Set.mem_univ,forall_const] using
++      A.lastArrowToASFirstTerm_eq_zero_iff Q R u w huw f
++
++end ASGinzburg.ZAlgebra

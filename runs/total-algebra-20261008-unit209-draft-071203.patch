@@ -1,0 +1,32 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASMinimalRelationSupport.lean
+@@ -0,0 +1,29 @@
++import work.ASGinzburgDraft.ASMinimalRelationKernelTopEquiv
++import work.ASGinzburgDraft.ASPathRelationSupport
++
++/-! The genuine original minimal relation quotient is zero at and
++above its target, discharging the remaining foundation component cases. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++set_option synthInstance.maxHeartbeats 200000 in
++theorem presentationKernel_elem_eq_zero_of_ge (u w : Q.LiftVertex)
++    (huw : Q.height w ≤ Q.height u)
++    (r : (A.unrolledPathPresentation Q R).kernel.hom (Q.height u) (Q.height w)) : r=0 := by
++  apply (A.pathRelationHeightEquiv Q R u w).symm.injective
++  rw [map_zero]
++  exact Subtype.ext (A.unrolledPathLinearEvaluation_ker_eq_zero_of_ge Q R u w huw
++    ((A.pathRelationHeightEquiv Q R u w).symm r))
++
++theorem minimalRelationComponent_eq_zero_of_ge (u w : Q.LiftVertex)
++    (huw : Q.height w ≤ Q.height u)
++    (r : Q.MinimalRelationComponent (A.unrolledPathPresentation Q R).kernel
++      (Q.height u) (Q.height w)) : r=0 := by
++  induction r using Submodule.Quotient.induction_on with
++  | _ r =>
++      rw [A.presentationKernel_elem_eq_zero_of_ge Q R u w huw r]
++      simp
++
++end ASGinzburg.ZAlgebra

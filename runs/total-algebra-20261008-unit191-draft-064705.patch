@@ -1,0 +1,62 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASPathKernelHeights.lean
+@@ -0,0 +1,59 @@
++import ASGinzburg.UnrolledJacobianLiftIdeal
++import ASGinzburg.ASPresentationKernel
++
++/-! The existing height equivalence sends genuine lifted evaluation
++kernels and positive path components to the original integer-indexed
++relation and arrow ideals. No replacement ideal is assumed. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledEndpointEquiv_mem_filtration_iff {u v u' v' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') (n : ℕ) (f : Q.UnrolledPathComponent k u v) :
++    Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hu hv) f∈
++      Q.unrolledPathFiltration k n u' v' ↔ f∈Q.unrolledPathFiltration k n u v := by
++  subst u' v'
++  change Finsupp.mapDomain id f∈_ ↔ _
++  rw [Finsupp.mapDomain_id]
++
++theorem unrolledComponentHeightEquiv_mem_filtration_iff (u v : Q.LiftVertex)
++    (n : ℕ) (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledComponentHeightEquiv k u v f∈
++      (Q.unrolledPathIdeal k n).hom (Q.height u) (Q.height v) ↔
++        f∈Q.unrolledPathFiltration k n u v :=
++  Q.unrolledEndpointEquiv_mem_filtration_iff k (Q.heightEquiv_symm_height u).symm
++    (Q.heightEquiv_symm_height v).symm n f
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++set_option maxHeartbeats 1000000 in
++theorem unrolledPathLinearEvaluation_endpoint_zero_iff {u v u' v' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') (f : Q.UnrolledPathComponent k u v) :
++    A.unrolledPathLinearEvaluation Q R u' v'
++      (Finsupp.mapDomain (CutQuiver.UnrolledPath.endpointEquiv Q hu hv) f)=0 ↔
++        A.unrolledPathLinearEvaluation Q R u v f=0 := by
++  cases hu
++  cases hv
++  have h : Finsupp.mapDomain (CutQuiver.UnrolledPath.endpointEquiv Q rfl rfl) f=f :=
++    Finsupp.mapDomain_id
++  rw [h]
++
++theorem unrolledComponentHeightEquiv_mem_presentation_kernel_iff
++    (u v : Q.LiftVertex) (f : Q.UnrolledPathComponent k u v) :
++    Q.unrolledComponentHeightEquiv k u v f∈
++      (A.unrolledPathPresentation Q R).kernel.hom (Q.height u) (Q.height v) ↔
++        A.unrolledPathLinearEvaluation Q R u v f=0 := by
++  change A.homTransport _ _ (Q.height u) (Q.height v)
++    (Q.height_heightEquiv_symm (Q.height u)) (Q.height_heightEquiv_symm (Q.height v))
++      (A.unrolledPathLinearEvaluation Q R _ _
++        (Finsupp.mapDomain (Q.unrolledPathHeightEquiv u v) f))=0 ↔ _
++  rw [LinearEquiv.map_eq_zero_iff]
++  exact A.unrolledPathLinearEvaluation_endpoint_zero_iff Q R
++    (Q.heightEquiv_symm_height u).symm (Q.heightEquiv_symm_height v).symm f
++
++end ASGinzburg.ZAlgebra

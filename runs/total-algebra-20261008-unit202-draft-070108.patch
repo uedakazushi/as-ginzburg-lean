@@ -1,0 +1,57 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASArrowRelationProducts.lean
+@@ -0,0 +1,54 @@
++import work.ASGinzburgDraft.ASPathKernelHeights
++import work.ASGinzburgDraft.UnrolledIdealProductHeights
++
++/-! Actual positive-prefix products with relations, transported to
++the genuine JI product of the original integer-indexed ideals. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++def pathArrowRelationGenerators (u w : Q.LiftVertex) : Set (Q.UnrolledPathComponent k u w) :=
++  {x | ∃ v : Q.LiftVertex,
++    ∃ f ∈ Q.unrolledPathFiltration k 1 u v,
++      ∃ g : Q.UnrolledPathComponent k v w,
++        A.unrolledPathLinearEvaluation Q R v w g=0 ∧ Q.unrolledPathComp k g f=x}
++
++def pathArrowRelationProduct (u w : Q.LiftVertex) : Submodule k (Q.UnrolledPathComponent k u w) :=
++  Submodule.span k (A.pathArrowRelationGenerators Q R u w)
++
++theorem pathArrowRelationGenerators_nonempty (u w : Q.LiftVertex) :
++    (A.pathArrowRelationGenerators Q R u w).Nonempty :=
++  ⟨0,u,0,(Q.unrolledPathFiltration k 1 u u).zero_mem,0,map_zero _,map_zero _⟩
++
++theorem pathArrowRelationProduct_le_evaluation_ker (u w : Q.LiftVertex) :
++    A.pathArrowRelationProduct Q R u w ≤ LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w) := by
++  apply Submodule.span_le.mpr
++  rintro x ⟨v,f,hf,g,hg,rfl⟩
++  change A.unrolledPathLinearEvaluation Q R u w (Q.unrolledPathComp k g f)=0
++  rw [A.unrolledPathLinearEvaluation_comp,hg]
++  simp
++
++theorem pathArrowRelationProduct_eq_idealProductLift (u w : Q.LiftVertex) :
++    A.pathArrowRelationProduct Q R u w=
++      Q.unrolledIdealProductLift k (Q.unrolledArrowIdeal k)
++        (A.unrolledPathPresentation Q R).kernel u w := by
++  unfold pathArrowRelationProduct pathArrowRelationGenerators CutQuiver.unrolledIdealProductLift
++  apply congrArg (Submodule.span k)
++  ext x
++  constructor
++  · rintro ⟨v,f,hf,g,hg,rfl⟩
++    exact ⟨v,f,(Q.unrolledComponentHeightEquiv_mem_filtration_iff k u v 1 f).mpr hf,
++      g,(A.unrolledComponentHeightEquiv_mem_presentation_kernel_iff Q R v w g).mpr hg,rfl⟩
++  · rintro ⟨v,f,hf,g,hg,rfl⟩
++    exact ⟨v,f,(Q.unrolledComponentHeightEquiv_mem_filtration_iff k u v 1 f).mp hf,
++      g,(A.unrolledComponentHeightEquiv_mem_presentation_kernel_iff Q R v w g).mp hg,rfl⟩
++
++theorem pathArrowRelationProduct_eq_comap (u w : Q.LiftVertex) :
++    A.pathArrowRelationProduct Q R u w=
++      Submodule.comap (Q.unrolledComponentHeightEquiv k u w).toLinearMap
++        (((Q.unrolledArrowIdeal k).mul (A.unrolledPathPresentation Q R).kernel).hom
++          (Q.height u) (Q.height w)) := by
++  rw [A.pathArrowRelationProduct_eq_idealProductLift,Q.unrolledIdealProductLift_eq_comap]
++
++end ASGinzburg.ZAlgebra

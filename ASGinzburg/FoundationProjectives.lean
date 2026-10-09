@@ -1,0 +1,64 @@
+import ASGinzburg.FoundationRepresentableYoneda
+
+/-! The actual foundation representables and the non-cut/cut finite
+terms of (3.5) are projective, proved by genuine element lifting. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable instance foundationRightEvaluationPreservesFiniteLimits (i : Q.Vertex) :
+    PreservesFiniteLimits (A.foundationRightEvaluation Q i) := by
+  constructor
+  intro J _ _
+  dsimp [foundationRightEvaluation]
+  infer_instance
+
+noncomputable instance foundationRightEvaluationPreservesFiniteColimits (i : Q.Vertex) :
+    PreservesFiniteColimits (A.foundationRightEvaluation Q i) := by
+  constructor
+  intro J _ _
+  dsimp [foundationRightEvaluation]
+  infer_instance
+
+instance foundationRepresentableProjective (i : Q.Vertex) :
+    Projective (A.foundationRepresentable Q i) where
+  factors := by
+    intro M N f e he
+    letI := he
+    have hs := (ModuleCat.epi_iff_surjective ((A.foundationRightEvaluation Q i).map e)).mp
+      (by infer_instance)
+    obtain ⟨x,hx⟩ := hs (A.foundationRepresentableYonedaEquiv Q i N f)
+    refine ⟨(A.foundationRepresentableYonedaEquiv Q i M).symm x,?_⟩
+    apply (A.foundationRepresentableYonedaEquiv Q i N).injective
+    rw [A.foundationRepresentableYonedaEquiv_comp,LinearEquiv.apply_symm_apply]
+    exact hx
+
+theorem foundation_coproduct_projective {ι : Type*} (g : ι → A.FoundationRightModule Q)
+    [HasCoproduct g] [∀ i, Projective (g i)] : Projective (∐ g) where
+  factors := by
+    intro M N f e he
+    refine ⟨Sigma.desc (fun i => Projective.factorThru (Sigma.ι g i ≫ f) e),?_⟩
+    apply Sigma.hom_ext
+    intro i
+    simp only [Sigma.ι_desc_assoc,Projective.factorThru_comp]
+
+noncomputable instance foundationFirstTermProjective (j : Q.Vertex) :
+    Projective (A.foundationFirstTerm Q j) := by
+  dsimp [foundationFirstTerm]
+  exact A.foundation_coproduct_projective Q _
+
+noncomputable instance foundationSecondTermProjective (j : Q.Vertex) :
+    Projective (A.foundationSecondTerm Q j) := by
+  dsimp [foundationSecondTerm]
+  exact A.foundation_coproduct_projective Q _
+
+theorem foundation_restricted_first_projective (j : Q.Vertex) :
+    Projective ((A.foundationRestriction Q).obj (A.asResolutionTerm₁ Q (j,0))) :=
+  Projective.of_iso (A.foundationASFirstTermIso Q j).symm (by infer_instance)
+
+theorem foundation_restricted_second_projective (j : Q.Vertex) :
+    Projective ((A.foundationRestriction Q).obj (A.asResolutionTerm₂ Q (j,0))) :=
+  Projective.of_iso (A.foundationASSecondTermIso Q j).symm (by infer_instance)
+
+end ASGinzburg.ZAlgebra

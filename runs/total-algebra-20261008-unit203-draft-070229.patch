@@ -1,0 +1,54 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASArrowRelationPreimageSpan.lean
+@@ -0,0 +1,51 @@
++import work.ASGinzburgDraft.ASArrowRelationProducts
++import Mathlib.LinearAlgebra.Quotient.Basic
++
++/-! Concrete positive-prefix support and the actual relation-subtype
++span used to compare the JI image with the AS kernel radical. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledPositivePath_eq_zero_of_ge {u v : Q.LiftVertex}
++    (huv : Q.height v ≤ Q.height u) (f : Q.UnrolledPathComponent k u v)
++    (hf : f∈Q.unrolledPathFiltration k 1 u v) : f=0 := by
++  classical
++  ext p
++  change f p=0
++  by_contra hp
++  have hlen : 1 ≤ p.length :=
++    (Finsupp.mem_supported k f).mp hf (Finsupp.mem_support_iff.mpr hp)
++  have hlt := p.height_lt_of_length_pos (by omega)
++  omega
++
++theorem unrolledPositivePath_mem_of_height_lt {u v : Q.LiftVertex}
++    (huv : Q.height u < Q.height v) (f : Q.UnrolledPathComponent k u v) :
++    f∈Q.unrolledPathFiltration k 1 u v := by
++  apply (Finsupp.mem_supported k f).mpr
++  intro p _
++  apply Nat.one_le_iff_ne_zero.mpr
++  intro hlen
++  have he := p.height_eq_of_length_zero hlen
++  omega
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++theorem pathArrowRelationProduct_subtype_preimage_span (u w : Q.LiftVertex) :
++    Submodule.comap (LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w)).subtype
++      (A.pathArrowRelationProduct Q R u w)=
++        Submodule.span k {r : LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w) |
++          r.val∈A.pathArrowRelationGenerators Q R u w} := by
++  apply (Submodule.span_preimage_eq
++    (f := (LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w)).subtype)
++    (A.pathArrowRelationGenerators_nonempty Q R u w) ?_).symm
++  intro x hx
++  exact ⟨⟨x,A.pathArrowRelationProduct_le_evaluation_ker Q R u w
++    (Submodule.subset_span hx)⟩,rfl⟩
++
++end ASGinzburg.ZAlgebra

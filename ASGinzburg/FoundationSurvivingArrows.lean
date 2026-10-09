@@ -1,0 +1,50 @@
+import ASGinzburg.FoundationArrowBasis
+import ASGinzburg.ASResolution
+
+/-! The actual sheet-zero support of the first two AS terms: non-cut
+incoming arrows and cut outgoing arrows. The relation arrows reverse
+the source and target of the foundation indecomposable component. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+theorem foundation_incoming_nonnegative_iff (j : Q.Vertex)
+    (a : Q.incomingArrows (j,0)) :
+    0 ≤ Q.height (Q.incomingSource (j,0) a) ↔ Q.cut a.val=false := by
+  have hs := (Q.source a.val).isLt
+  cases hc : Q.cut a.val <;>
+    simp [incomingSource,liftedSource,height,cutDegree,hc]
+
+theorem foundation_outgoing_nonnegative_iff (j : Q.Vertex)
+    (a : Q.outgoingArrows (Q.tau.symm (j,0))) :
+    0 ≤ Q.height (Q.outgoingTarget (Q.tau.symm (j,0)) a) ↔ Q.cut a.val=true := by
+  have ht := (Q.target a.val).isLt
+  cases hc : Q.cut a.val <;>
+    simp [outgoingTarget,liftedTarget,tau,shift,height,cutDegree,hc]
+
+abbrev FoundationRelationArrow (i j : Q.Vertex) :=
+  {a : Q.Arrow // Q.source a=j ∧ Q.target a=i ∧ Q.cut a=true}
+
+abbrev FoundationRelationIndex (i j : Q.Vertex) :=
+  {a : Q.outgoingArrows (Q.tau.symm (j,0)) //
+    Q.height (Q.outgoingTarget (Q.tau.symm (j,0)) a)=(i.val : ℤ)}
+
+def foundationRelationIndexEquiv (i j : Q.Vertex) :
+    Q.FoundationRelationIndex i j ≃ Q.FoundationRelationArrow i j where
+  toFun a := ⟨a.val.val,by
+    have hc : Q.cut a.val.val=true :=
+      (Q.foundation_outgoing_nonnegative_iff j a.val).mp (by rw [a.property]; omega)
+    refine ⟨a.val.property,?_,hc⟩
+    apply Fin.ext
+    have ha := a.property
+    simp [outgoingTarget,liftedTarget,tau,shift,height,cutDegree,hc] at ha
+    omega⟩
+  invFun a := ⟨⟨a.val,a.property.1⟩,by
+    simp [outgoingTarget,liftedTarget,tau,shift,height,cutDegree,a.property.2.1,a.property.2.2]⟩
+  left_inv a := rfl
+  right_inv a := rfl
+
+theorem foundation_relation_forward {i j : Q.Vertex} (a : Q.FoundationRelationArrow i j) :
+    i.val < j.val := by
+  simpa [a.property.1,a.property.2.1] using Q.backward a.val a.property.2.2
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,65 @@
+import ASGinzburg.FoundationRestrictionExactness
+import ASGinzburg.ASResolution
+
+/-! Restrict the actual AS sequence to sheet zero. The negative-sheet
+leftmost term vanishes, so the genuine second differential becomes monic.
+Identifying the surviving coproducts with the non-cut/cut terms of (3.5)
+and extracting minimal relations remain further proof obligations. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem foundation_isZero_of_components (M : A.FoundationRightModule Q)
+    (h : ∀ i : Q.Vertex, IsZero ((A.foundationRightEvaluation Q i).obj M)) :
+    IsZero M := by
+  rw [IsZero.iff_id_eq_zero]
+  apply (linearPresheafProperty k (A.FoundationRightObj Q)).ι.map_injective
+  apply NatTrans.ext
+  funext i
+  change 𝟙 (M.obj.obj i)=0
+  exact (h i).eq_of_src _ _
+
+theorem foundation_representable_isZero_of_neg (i : ℤ) (hi : i < 0) :
+    IsZero ((A.foundationRestriction Q).obj (A.representable i)) := by
+  apply A.foundation_isZero_of_components Q
+  intro j
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  constructor
+  intro x y
+  change A.Hom (j.val : ℤ) i at x y
+  rw [A.positive (by omega) x,A.positive (by omega) y]
+
+theorem foundation_as_left_term_isZero (j : Q.Vertex) :
+    IsZero ((A.foundationRestriction Q).obj
+      (A.representable (Q.height (Q.tau.symm (j,0))))) := by
+  apply A.foundation_representable_isZero_of_neg Q
+  have hj := j.isLt
+  simp [CutQuiver.tau,CutQuiver.shift,CutQuiver.height]
+
+namespace ASResolution
+variable {A Q} {j : Q.Vertex} (R : A.ASResolution Q (j,0))
+
+theorem foundation_d₂_mono : Mono ((A.foundationRestriction Q).map R.d₂) := by
+  have H := R.exact₂.map (A.foundationRestriction Q)
+  exact H.mono_g ((A.foundation_as_left_term_isZero Q j).eq_zero_of_src _)
+
+noncomputable def foundationFirstShortComplex : ShortComplex (A.FoundationRightModule Q) :=
+  (ShortComplex.mk R.d₂ R.d₁ R.d₂_d₁).map (A.foundationRestriction Q)
+
+theorem foundationFirstShortComplex_exact : R.foundationFirstShortComplex.Exact :=
+  R.exact₁.map (A.foundationRestriction Q)
+
+noncomputable def foundationAugmentationShortComplex : ShortComplex (A.FoundationRightModule Q) :=
+  (ShortComplex.mk R.d₁ (A.simpleRightModuleπ (Q.height (j,0))) R.d₁_π).map
+    (A.foundationRestriction Q)
+
+theorem foundationAugmentationShortComplex_exact :
+    R.foundationAugmentationShortComplex.Exact := R.exact₀.map (A.foundationRestriction Q)
+
+theorem foundation_simple_π_epi :
+    Epi ((A.foundationRestriction Q).map (A.simpleRightModuleπ (Q.height (j,0)))) := by
+  infer_instance
+
+end ASResolution
+end ASGinzburg.ZAlgebra

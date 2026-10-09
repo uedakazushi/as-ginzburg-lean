@@ -1,0 +1,52 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASFirstKernelComponentComparison.lean
+@@ -0,0 +1,49 @@
++import work.ASGinzburgDraft.ASFirstKernelPathRelations
++import ASGinzburg.RightModuleHomology
++
++/-! The componentwise kernel is identified with the actual categorical
++AS kernel. Thus the genuine path-relation map lands in the existing
++RightModule model without changing the original actions or exactness. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++noncomputable def asFirstKernelComponentEquiv (u w : Q.LiftVertex) :
++    (A.rightModuleEvaluation (Q.height u)).obj (kernel (R w).d₁) ≃ₗ[k]
++      LinearMap.ker ((A.rightModuleEvaluation (Q.height u)).map (R w).d₁).hom :=
++  ((A.rightModuleKernelObjIso (R w).d₁ (Q.height u)) ≪≫
++    ModuleCat.kernelIsoKer ((A.rightModuleEvaluation (Q.height u)).map (R w).d₁)).toLinearEquiv
++
++noncomputable def pathRelationsToCategoricalASFirstKernel (u w : Q.LiftVertex) (huw : u≠w) :
++    LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w) →ₗ[k]
++      (A.rightModuleEvaluation (Q.height u)).obj (kernel (R w).d₁) :=
++  (A.asFirstKernelComponentEquiv Q R u w).symm.toLinearMap.comp
++    (A.pathRelationsToASFirstKernel Q R u w huw)
++
++theorem pathRelationsToCategoricalASFirstKernel_surjective
++    (u w : Q.LiftVertex) (huw : u≠w) :
++    Function.Surjective (A.pathRelationsToCategoricalASFirstKernel Q R u w huw) :=
++  (A.asFirstKernelComponentEquiv Q R u w).symm.surjective.comp
++    (A.pathRelationsToASFirstKernel_surjective Q R u w huw)
++
++theorem pathRelationsToCategoricalASFirstKernel_ι (u w : Q.LiftVertex) (huw : u≠w)
++    (f : LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w)) :
++    ((A.rightModuleEvaluation (Q.height u)).map (kernel.ι (R w).d₁)).hom
++      (A.pathRelationsToCategoricalASFirstKernel Q R u w huw f)=
++        A.lastArrowToASFirstTerm Q R u w huw f.val := by
++  have h := A.rightModuleKernelObjIso_inv_ι (R w).d₁ (Q.height u)
++  have h' := ModuleCat.kernelIsoKer_inv_kernel_ι
++    ((A.rightModuleEvaluation (Q.height u)).map (R w).d₁)
++  change ((A.rightModuleEvaluation (Q.height u)).map (kernel.ι (R w).d₁)).hom
++    ((A.rightModuleKernelObjIso (R w).d₁ (Q.height u)).inv.hom
++      ((ModuleCat.kernelIsoKer ((A.rightModuleEvaluation (Q.height u)).map (R w).d₁)).inv.hom
++        (A.pathRelationsToASFirstKernel Q R u w huw f)))=_
++  have he := congrArg (fun t => t.hom
++    ((ModuleCat.kernelIsoKer ((A.rightModuleEvaluation (Q.height u)).map (R w).d₁)).inv.hom
++      (A.pathRelationsToASFirstKernel Q R u w huw f))) h
++  have he' := congrArg (fun t => t.hom (A.pathRelationsToASFirstKernel Q R u w huw f)) h'
++  exact he.trans he'
++
++end ASGinzburg.ZAlgebra

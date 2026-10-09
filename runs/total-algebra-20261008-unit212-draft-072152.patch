@@ -1,0 +1,29 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASRegularMinimalRelationBasis.lean
+@@ -0,0 +1,26 @@
++import work.ASGinzburgDraft.ASFoundationMinimalRelationBasis
++
++/-! The original ASRegular conditions supply the actual minimal
++relation basis and dimension formula. No additional relation-count,
++periodicity, Ext, or potential-existence hypothesis is used. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++set_option synthInstance.maxHeartbeats 200000 in
++noncomputable def ASRegular.foundationMinimalRelationBasis (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) : Module.Basis (Q.FoundationRelationArrow i j) k
++      (Q.MinimalRelationComponent (hAS.unrolledPathPresentation A Q).kernel
++        (i.val : ℤ) (j.val : ℤ)) :=
++  A.foundationMinimalRelationBasis Q (hAS.resolution A Q) i j
++
++set_option synthInstance.maxHeartbeats 200000 in
++theorem ASRegular.foundationMinimalRelation_finrank (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) :
++    Module.finrank k
++      (Q.MinimalRelationComponent (hAS.unrolledPathPresentation A Q).kernel
++        (i.val : ℤ) (j.val : ℤ))=Fintype.card (Q.FoundationRelationArrow i j) := by
++  classical
++  exact Module.finrank_eq_card_basis (hAS.foundationMinimalRelationBasis A Q i j)
++
++end ASGinzburg.ZAlgebra
