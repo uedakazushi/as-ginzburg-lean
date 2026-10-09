@@ -1,0 +1,131 @@
+--- /dev/null
++++ work/ASGinzburgDraft/LinearPresheafAbelian.lean
+@@ -0,0 +1,128 @@
++import ASGinzburg.RightModuleAbelian
++import Mathlib.Algebra.Category.ModuleCat.Abelian
++import Mathlib.CategoryTheory.Abelian.FunctorCategory
++import Mathlib.CategoryTheory.Limits.FullSubcategory
++import Mathlib.CategoryTheory.Limits.Preserves.Shapes.AbelianImages
++
++/-! Actual additive linear presheaves over any genuine linear category form
++an Abelian category with pointwise kernels, cokernels and exactness.
++This generalizes the existing right-module construction for finite foundations. -/
++
++namespace ASGinzburg
++
++open CategoryTheory CategoryTheory.Limits
++
++universe u v c w w'
++
++variable (k : Type u) [Field k] (C : Type c) [Category.{v} C]
++  [Preadditive C] [Linear k C]
++
++def linearPresheafProperty : ObjectProperty (C ⥤ ModuleCat.{v} k) :=
++  fun F => F.Additive ∧ F.Linear k
++
++abbrev LinearPresheaf := (linearPresheafProperty k C).FullSubcategory
++
++/-- Any pointwise limit of linear right modules is again additive and linear. -/
++theorem linearPresheafProperty_closedUnderLimits
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    ClosedUnderLimitsOfShape J (linearPresheafProperty k C) := by
++  intro F c hc hF
++  constructor
++  · constructor
++    intro X Y f g
++    apply (isLimitOfPreserves ((evaluation C (ModuleCat.{v} k)).obj Y) hc).hom_ext
++    intro j
++    letI := (hF j).1
++    change c.pt.map (f + g) ≫ (c.π.app j).app Y =
++      (c.pt.map f + c.pt.map g) ≫ (c.π.app j).app Y
++    simp only [Preadditive.add_comp, NatTrans.naturality, Functor.map_add,
++      Preadditive.comp_add]
++  · constructor
++    intro X Y f r
++    apply (isLimitOfPreserves ((evaluation C (ModuleCat.{v} k)).obj Y) hc).hom_ext
++    intro j
++    letI := (hF j).2
++    change c.pt.map (r • f) ≫ (c.π.app j).app Y =
++      (r • c.pt.map f) ≫ (c.π.app j).app Y
++    simp only [Linear.smul_comp, NatTrans.naturality, Functor.map_smul,
++      Linear.comp_smul]
++
++/-- Any pointwise colimit of linear right modules is again additive and linear. -/
++theorem linearPresheafProperty_closedUnderColimits
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    ClosedUnderColimitsOfShape J (linearPresheafProperty k C) := by
++  intro F c hc hF
++  constructor
++  · constructor
++    intro X Y f g
++    apply (isColimitOfPreserves ((evaluation C (ModuleCat.{v} k)).obj X) hc).hom_ext
++    intro j
++    letI := (hF j).1
++    change (c.ι.app j).app X ≫ c.pt.map (f + g) =
++      (c.ι.app j).app X ≫ (c.pt.map f + c.pt.map g)
++    erw [← (c.ι.app j).naturality (f + g), Functor.map_add, Preadditive.add_comp,
++      (c.ι.app j).naturality f, (c.ι.app j).naturality g, Preadditive.comp_add]
++    rfl
++  · constructor
++    intro X Y f r
++    apply (isColimitOfPreserves ((evaluation C (ModuleCat.{v} k)).obj X) hc).hom_ext
++    intro j
++    letI := (hF j).2
++    change (c.ι.app j).app X ≫ c.pt.map (r • f) =
++      (c.ι.app j).app X ≫ (r • c.pt.map f)
++    erw [← (c.ι.app j).naturality (r • f), Functor.map_smul, Linear.smul_comp,
++      (c.ι.app j).naturality f, Linear.comp_smul]
++    rfl
++
++/-- Limits are inherited without leaving the category of linear right modules. -/
++noncomputable instance linearPresheafHasLimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    HasLimitsOfShape J (LinearPresheaf k C) :=
++  hasLimitsOfShape_of_closedUnderLimits (linearPresheafProperty_closedUnderLimits k C J)
++
++/-- Colimits are inherited without leaving the category of linear right modules. -/
++noncomputable instance linearPresheafHasColimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    HasColimitsOfShape J (LinearPresheaf k C) :=
++  hasColimitsOfShape_of_closedUnderColimits (linearPresheafProperty_closedUnderColimits k C J)
++
++/-- The full-subcategory inclusion creates limits in the ambient presheaf category. -/
++noncomputable instance linearPresheafInclusionCreatesLimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
++    CreatesLimitsOfShape J (linearPresheafProperty k C).ι :=
++  createsLimitsOfShapeFullSubcategoryInclusion (linearPresheafProperty_closedUnderLimits k C J)
++
++/-- The full-subcategory inclusion creates colimits in the ambient presheaf category. -/
++noncomputable instance linearPresheafInclusionCreatesColimitsOfShape
++    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
++    CreatesColimitsOfShape J (linearPresheafProperty k C).ι :=
++  createsColimitsOfShapeFullSubcategoryInclusion (linearPresheafProperty_closedUnderColimits k C J)
++
++/-- In particular, right modules have the finite products needed for the Abelian criterion. -/
++noncomputable instance linearPresheafHasFiniteProducts : HasFiniteProducts (LinearPresheaf k C) where
++  out _ := inferInstance
++
++/-- Coimages and images agree: the inclusion preserves both constructions and reflects isos. -/
++noncomputable instance linearPresheafCoimageImageComparisonIsIso
++    {M N : (LinearPresheaf k C)} (f : M ⟶ N) : IsIso (Abelian.coimageImageComparison f) := by
++  haveI : IsIso ((linearPresheafProperty k C).ι.map (Abelian.coimageImageComparison f)) := by
++    rw [Arrow.isIso_iff_isIso_of_isIso
++      (Abelian.PreservesCoimageImageComparison.iso (linearPresheafProperty k C).ι f).hom]
++    infer_instance
++  exact isIso_of_reflects_iso _ (linearPresheafProperty k C).ι
++
++/-- The existing category of additive, linear right presheaves is Abelian. -/
++noncomputable instance linearPresheafAbelian : Abelian (LinearPresheaf k C) :=
++  Abelian.ofCoimageImageComparisonIsIso
++
++/-- The inclusion preserves finite limits, in particular kernels. -/
++noncomputable instance linearPresheafInclusionPreservesFiniteLimits :
++    PreservesFiniteLimits (linearPresheafProperty k C).ι where
++  preservesFiniteLimits _ := inferInstance
++
++/-- The inclusion preserves finite colimits, in particular cokernels. -/
++noncomputable instance linearPresheafInclusionPreservesFiniteColimits :
++    PreservesFiniteColimits (linearPresheafProperty k C).ι where
++  preservesFiniteColimits _ := inferInstance
++
++end ASGinzburg

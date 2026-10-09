@@ -1,0 +1,41 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASSecondSyzygyTops.lean
+@@ -0,0 +1,38 @@
++import work.ASGinzburgDraft.RightRadicalEpimorphisms
++import ASGinzburg.ASIndecomposables
++
++/-! The actual AS degree-two generators form the top of the genuine
++second syzygy. This does not yet identify that top with a free-path
++ideal quotient of minimal relations, which remains the next bridge. -/
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
++  {w : Q.LiftVertex} (R : A.ASResolution Q w)
++
++theorem secondCover_component_ker_le_radical (i : ℤ) :
++    LinearMap.ker ((A.rightModuleEvaluation i).map R.secondCover).hom ≤
++      A.positiveActionSpan (A.asResolutionTerm₂ Q w) i := by
++  intro x hx
++  have h := (ShortComplex.moduleCat_exact_iff _).mp
++    (R.exact_d₃_secondCover.map (A.rightModuleEvaluation i))
++  obtain ⟨y,rfl⟩ := h x hx
++  exact R.minimal₃ i y
++
++theorem secondCover_radical_image (i : ℤ) :
++    Submodule.map ((A.rightModuleEvaluation i).map R.secondCover).hom
++      (A.positiveActionSpan (A.asResolutionTerm₂ Q w) i)=
++        A.positiveActionSpan (kernel R.firstCover) i :=
++  A.positiveActionSpan_map_of_epi R.secondCover i
++
++noncomputable def secondSyzygyTopEquiv (i : ℤ) :
++    ((A.rightModuleEvaluation i).obj (A.asResolutionTerm₂ Q w) ⧸
++      A.positiveActionSpan (A.asResolutionTerm₂ Q w) i) ≃ₗ[k]
++      ((A.rightModuleEvaluation i).obj (kernel R.firstCover) ⧸
++        A.positiveActionSpan (kernel R.firstCover) i) :=
++  (surjectiveQuotientImageEquiv ((A.rightModuleEvaluation i).map R.secondCover).hom
++    ((A.rightModule_epi_iff_surjective R.secondCover).mp (by infer_instance) i) _
++    (R.secondCover_component_ker_le_radical i)).trans
++      (Submodule.quotEquivOfEq _ _ (R.secondCover_radical_image i))
++
++end ASGinzburg.ZAlgebra.ASResolution

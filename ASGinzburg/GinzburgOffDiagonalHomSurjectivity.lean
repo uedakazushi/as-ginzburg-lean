@@ -1,0 +1,51 @@
+import ASGinzburg.GinzburgADualShortComplexes
+
+/-! Off the actual reflected simple vertex, the native final Hom
+differential is surjective, proved from the genuine opposite simple quotient. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
+
+theorem ginzburgOppositeFirstProjectiveMap_epi_off_diagonal
+    (v l : Q.LiftVertex) (hne : l≠Q.tau.symm v) :
+    Epi (((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
+      (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).map
+      (Q.opposite.ginzburgOriginalRepresentableProjectiveMap k (Q.oppositePotentialEquiv k φ)
+        (Q.ginzburgDualOppositeBase v))) := by
+  have hh : Q.opposite.height (Q.oppositeLiftVertexEquiv l)≠
+      Q.opposite.height (Q.ginzburgDualOppositeBase v) := by
+    intro hh
+    apply hne
+    apply Q.oppositeLiftVertexEquiv.injective
+    exact Q.opposite.height_bijective.injective hh
+  have hz := (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).simpleRightModule_off_diagonal
+    (Q.opposite.height (Q.ginzburgDualOppositeBase v))
+    (Q.opposite.height (Q.oppositeLiftVertexEquiv l)) hh
+  have he := (Q.opposite.ginzburgProjectiveOriginalSimpleShortComplex_exact k
+    (Q.oppositePotentialEquiv k φ) (Q.ginzburgDualOppositeBase v)).map
+    ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
+      (Q.opposite.height (Q.oppositeLiftVertexEquiv l)))
+  exact he.epi_f (hz.eq_zero_of_tgt _)
+
+theorem ginzburgNativeHom_lift_three_off_diagonal
+    (v l : Q.LiftVertex) (hne : l≠Q.tau.symm v)
+    (f : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-2) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
+    ∃ g : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l),
+      Q.ginzburgLoopDualProjectiveMap k φ v ≫ g=f := by
+  have hm := Q.ginzburgOppositeFirstProjectiveMap_epi_off_diagonal k φ v l hne
+  have hs := (ModuleCat.epi_iff_surjective _).mp hm
+  obtain ⟨x,hx⟩ := hs (Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l f)
+  refine ⟨(Q.ginzburgDualADualOppositeComponentEquiv k φ v l).symm x,?_⟩
+  apply (Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l).injective
+  rw [show Q.ginzburgLoopDualProjectiveMap k φ v ≫
+      (Q.ginzburgDualADualOppositeComponentEquiv k φ v l).symm x=
+      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
+        (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩)
+        ((Q.ginzburgDualADualOppositeComponentEquiv k φ v l).symm x) from rfl,
+    Q.ginzburgLoopDualProjectiveMap_adual_opposite,LinearEquiv.apply_symm_apply]
+  exact hx
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,69 @@
+import ASGinzburg.GinzburgNativeHomExactness
+import ASGinzburg.GinzburgMinimalASResolution
+
+/-! The native Hom exactness transports to the existing unchanged AS
+projective terms and their genuine differentials. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
+
+theorem GinzburgRegular.asHom_zero_kernel
+    (h : Q.GinzburgRegular k φ) (v l : Q.LiftVertex)
+    (f : (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l))
+    (hf : Q.ginzburgASProjectiveD₁ k φ v ≫ f=0) : f=0 := by
+  apply h.nativeHom_zero_kernel Q k φ v l f
+  calc
+    _ = ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorOriginalTermIso Q v).hom ≫
+        (Q.ginzburgASProjectiveD₁ k φ v ≫ f) := by
+      simp [ginzburgASProjectiveD₁]
+    _ = 0 := by rw [hf,comp_zero]
+
+theorem GinzburgRegular.asHom_lift_one
+    (h : Q.GinzburgRegular k φ) (v l : Q.LiftVertex)
+    (f : (Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l))
+    (hf : Q.ginzburgASProjectiveD₂ k φ v ≫ f=0) :
+    ∃ g : (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l),
+      Q.ginzburgASProjectiveD₁ k φ v ≫ g=f := by
+  let e₁ := (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorOriginalTermIso Q v
+  let e₂ := (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorDualTermIso Q v
+  have hn : Q.ginzburgDualOriginalProjectiveMap k φ v ≫ (e₁.hom ≫ f)=0 := by
+    calc
+      _ = e₂.hom ≫ (Q.ginzburgASProjectiveD₂ k φ v ≫ f) := by
+        simp [ginzburgASProjectiveD₂,e₁,e₂,Category.assoc]
+      _ = 0 := by rw [hf,comp_zero]
+  obtain ⟨g,hg⟩ := h.nativeHom_lift_one Q k φ v l (e₁.hom ≫ f) hn
+  refine ⟨g,?_⟩
+  calc
+    _ = e₁.inv ≫ (Q.ginzburgOriginalRepresentableProjectiveMap k φ v ≫ g) := by
+      simp [ginzburgASProjectiveD₁,e₁,Category.assoc]
+    _ = e₁.inv ≫ (e₁.hom ≫ f) := by rw [hg]
+    _ = f := by simp
+
+theorem ginzburgASHom_lift_two (v l : Q.LiftVertex)
+    (f : (Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l))
+    (hf : Q.ginzburgASProjectiveD₃ k φ v ≫ f=0) :
+    ∃ g : (Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v ⟶
+      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l),
+      Q.ginzburgASProjectiveD₂ k φ v ≫ g=f := by
+  let e₁ := (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorOriginalTermIso Q v
+  let e₂ := (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorDualTermIso Q v
+  let e₃ := (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorLoopTermIso Q v
+  have hn : Q.ginzburgLoopDualProjectiveMap k φ v ≫ (e₂.hom ≫ f)=0 := by
+    calc
+      _ = e₃.hom ≫ (Q.ginzburgASProjectiveD₃ k φ v ≫ f) := by
+        simp [ginzburgASProjectiveD₃,e₂,e₃,Category.assoc]
+      _ = 0 := by rw [hf,comp_zero]
+  obtain ⟨g,hg⟩ := Q.ginzburgNativeHom_lift_two k φ v l (e₂.hom ≫ f) hn
+  refine ⟨e₁.inv ≫ g,?_⟩
+  calc
+    _ = e₂.inv ≫ (Q.ginzburgDualOriginalProjectiveMap k φ v ≫ g) := by
+      simp [ginzburgASProjectiveD₂,e₁,e₂,Category.assoc]
+    _ = e₂.inv ≫ (e₂.hom ≫ f) := by rw [hg]
+    _ = f := by simp
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,48 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FiniteRepresentableTopBasis.lean
+@@ -0,0 +1,45 @@
++import ASGinzburg.ASGeneratorDimensions
++
++/-! Genuine tops of finite representable coproducts have bases indexed
++by their summands at the evaluated endpoint. Basis existence follows
++from the actual quotient dimension, without a relation-count hypothesis. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++  {I : Type} [Fintype I] [DecidableEq I] (j : I → ℤ)
++
++theorem finiteRepresentableCoproductComponentFinite (i : ℤ) :
++    Module.Finite k ((A.rightModuleEvaluation i).obj (∐ fun a => A.representable (j a))) := by
++  letI : ∀ a, Module.Finite k ((A.rightModuleEvaluation i).obj (A.representable (j a))) :=
++    fun a => show Module.Finite k (A.Hom i (j a)) from inferInstance
++  exact Module.Finite.of_injective
++    (A.rightFiniteCoproductPiEquiv (fun a => A.representable (j a)) i).toLinearMap
++    (A.rightFiniteCoproductPiEquiv (fun a => A.representable (j a)) i).injective
++
++theorem finiteRepresentableTop_finrank (i : ℤ) :
++    Module.finrank k
++      ((A.rightModuleEvaluation i).obj (∐ fun a => A.representable (j a)) ⧸
++        A.positiveActionSpan (∐ fun a => A.representable (j a)) i)=
++      Fintype.card {a : I // j a=i} := by
++  classical
++  rw [(A.rightFiniteCoproductTopEquiv (fun a => A.representable (j a)) i).finrank_eq]
++  letI : ∀ a, Module.Finite k
++      ((A.rightModuleEvaluation i).obj (A.representable (j a)) ⧸
++        A.positiveActionSpan (A.representable (j a)) i) := fun a => by
++    change Module.Finite k (A.Hom i (j a) ⧸ _)
++    infer_instance
++  rw [Module.finrank_pi_fintype]
++  simp only [A.representable_top_component_finrank]
++  simp [eq_comm,Fintype.card_subtype]
++
++noncomputable def finiteRepresentableTopBasis (i : ℤ) :
++    Module.Basis {a : I // j a=i} k
++      ((A.rightModuleEvaluation i).obj (∐ fun a => A.representable (j a)) ⧸
++        A.positiveActionSpan (∐ fun a => A.representable (j a)) i) := by
++  classical
++  letI := A.finiteRepresentableCoproductComponentFinite j i
++  exact (Module.finBasisOfFinrankEq k _ (A.finiteRepresentableTop_finrank j i)).reindex
++    (Fintype.equivFin {a : I // j a=i}).symm
++
++end ASGinzburg.ZAlgebra

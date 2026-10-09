@@ -1,0 +1,45 @@
+--- /dev/null
++++ work/ASGinzburgDraft/CoproductDropZero.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.ASResolution
++
++/-! Remove actual zero summands from a genuine categorical coproduct.
++The complementary IsZero hypotheses are discharged by the foundation's
++negative-sheet support calculation when used for (3.5). -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v w
++variable {C : Type u} [Category.{v} C] [Preadditive C]
++
++noncomputable def coproductDropZeroIso {ι : Type w} (g : ι → C) (p : ι → Prop)
++    [DecidablePred p] [HasCoproduct g] [HasCoproduct (fun i : {i // p i} => g i.val)]
++    (h : ∀ i, ¬p i → IsZero (g i)) :
++    (∐ g) ≅ ∐ (fun i : {i // p i} => g i.val) where
++  hom := Sigma.desc (fun i => if hi : p i then
++    Sigma.ι (fun i : {i // p i} => g i.val) ⟨i,hi⟩ else 0)
++  inv := Sigma.desc (fun i : {i // p i} => Sigma.ι g i.val)
++  hom_inv_id := by
++    apply Sigma.hom_ext
++    intro i
++    by_cases hi : p i
++    · simp [hi]
++    · simp [(h i hi).eq_zero_of_src (Sigma.ι g i)]
++  inv_hom_id := by
++    apply Sigma.hom_ext
++    intro i
++    simp [i.property]
++
++theorem coproductDropZeroIso_ι_inv {ι : Type w} (g : ι → C) (p : ι → Prop)
++    [DecidablePred p] [HasCoproduct g] [HasCoproduct (fun i : {i // p i} => g i.val)]
++    (h : ∀ i, ¬p i → IsZero (g i)) (i : {i // p i}) :
++    Sigma.ι (fun i : {i // p i} => g i.val) i ≫ (coproductDropZeroIso g p h).inv=
++      Sigma.ι g i.val := Sigma.ι_desc _ _
++
++theorem coproductDropZeroIso_ι_hom {ι : Type w} (g : ι → C) (p : ι → Prop)
++    [DecidablePred p] [HasCoproduct g] [HasCoproduct (fun i : {i // p i} => g i.val)]
++    (h : ∀ i, ¬p i → IsZero (g i)) (i : {i // p i}) :
++    Sigma.ι g i.val ≫ (coproductDropZeroIso g p h).hom=
++      Sigma.ι (fun i : {i // p i} => g i.val) i := by
++  simp [coproductDropZeroIso,i.property]
++
++end ASGinzburg

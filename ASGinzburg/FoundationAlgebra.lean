@@ -1,0 +1,35 @@
+import ASGinzburg.FiniteComponentAlgebra
+import ASGinzburg.ZAlgebraIsomorphisms
+
+/-! The actual finite sheet-zero block in (3.4), with matrix convolution
+given by the original composition. No periodicity is required. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+def foundationComponents : LinearComponentAlgebra k Q.Vertex where
+  Hom i j := A.Hom (i.val : ℤ) (j.val : ℤ)
+  id i := A.id (i.val : ℤ)
+  comp := A.comp
+  comp_id := A.comp_id
+  id_comp := A.id_comp
+  comp_assoc := A.comp_assoc
+
+abbrev FoundationAlgebra := (A.foundationComponents Q).Total
+
+noncomputable instance foundationAlgebraFinite : Module.Finite k (A.FoundationAlgebra Q) := by
+  change Module.Finite k (∀ i j : Q.Vertex, A.Hom (i.val : ℤ) (j.val : ℤ))
+  infer_instance
+
+theorem foundation_mul_component (x y : A.FoundationAlgebra Q) (i j : Q.Vertex) :
+    (x*y) i j=∑ l, A.comp (x l j) (y i l) := rfl
+
+theorem foundation_one_diagonal (i : Q.Vertex) :
+    (1 : A.FoundationAlgebra Q) i i=A.id (i.val : ℤ) :=
+  (A.foundationComponents Q).totalOne_diag i
+
+theorem foundation_hom_backward_zero {i j : Q.Vertex} (h : j.val < i.val)
+    (f : A.Hom (i.val : ℤ) (j.val : ℤ)) : f=0 :=
+  A.positive (by omega) f
+
+end ASGinzburg.ZAlgebra

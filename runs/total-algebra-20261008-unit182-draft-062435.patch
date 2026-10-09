@@ -1,0 +1,28 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ASLastArrowEvaluation.lean
+@@ -0,0 +1,25 @@
++import work.ASGinzburgDraft.UnrolledLastArrowReconstruction
++import ASGinzburg.ASPathPresentation
++
++/-! Actual path evaluation in last-arrow coordinates is the incoming
++AS multiplication. This is the map needed to compare relation ideals
++with the first AS syzygy. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
++
++theorem unrolledPathLinearEvaluation_lastArrow (u v : Q.LiftVertex) (huv : u≠v)
++    (f : Q.UnrolledPathComponent k u v) :
++    A.unrolledPathLinearEvaluation Q R u v f=
++      ∑ a : Q.incomingArrows v, A.comp ((R v).incomingElement a)
++        (A.unrolledPathLinearEvaluation Q R u (Q.incomingSource v a)
++          (Q.unrolledLastArrowLinearEquiv k u v huv f a)) := by
++  classical
++  conv_lhs => rw [Q.unrolledLastArrow_reconstruction k u v huv f]
++  rw [map_sum]
++  apply Finset.sum_congr rfl
++  intro a _
++  exact A.unrolledPathLinearEvaluation_snoc Q R a _
++
++end ASGinzburg.ZAlgebra

@@ -1,0 +1,324 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 81615e8..a283268 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -571,6 +571,35 @@ import ASGinzburg.GinzburgOppositeHessianProducts
+ import ASGinzburg.GinzburgADualHessianComparison
+ import ASGinzburg.GinzburgLoopHomCoordinates
+ import ASGinzburg.GinzburgEndpointCoordinateValues
++import ASGinzburg.GinzburgIndexedArrowReflection
++import ASGinzburg.GinzburgOppositeArrowProducts
++import ASGinzburg.GinzburgADualArrowComparison
++import ASGinzburg.GinzburgADualShortComplexes
++import ASGinzburg.GinzburgNativeHomExactness
++import ASGinzburg.GinzburgASHomExactness
++import ASGinzburg.GinzburgLowExtVanishing
++import ASGinzburg.GinzburgOffDiagonalHomSurjectivity
++import ASGinzburg.ProjectiveResolutionTopExtVanishing
++import ASGinzburg.GinzburgOffDiagonalExtVanishing
++import ASGinzburg.GinzburgRegularImpliesASRegular
++import ASGinzburg.IndecomposableBasisLifts
++import ASGinzburg.ASIncomingBasisSystems
++import ASGinzburg.ArbitraryArrowPathEvaluation
++import ASGinzburg.ASBasisPathSurjectivity
++import ASGinzburg.ArbitraryArrowPresentation
++import ASGinzburg.ArbitraryArrowIndecomposables
++import ASGinzburg.ASBasisKernelSupport
++import ASGinzburg.ASArbitraryBasisPresentation
++import ASGinzburg.PresentationIndecomposableEquiv
++import ASGinzburg.FreePathDecomposableProducts
++import ASGinzburg.MinimalPresentationIndecomposables
++import ASGinzburg.IndecomposableGeneration
++import ASGinzburg.ArrowEvaluationNaturality
++import ASGinzburg.MinimalPresentationArrowLifts
++import ASGinzburg.MinimalPresentationBasisChange
++import ASGinzburg.FoundationAlgebra
++import ASGinzburg.FoundationArrowBasis
++import ASGinzburg.LinearPresheafAbelian
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 6f37c97..864737a 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -1,5 +1,15 @@
+ import ASGinzburg
+ 
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.pathPresentation_kernel_le_arrow_square
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.minimalPathPresentation
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.presentationQuotientIso
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.presentationQuotientIso_apply_mk
++#print axioms ASGinzburg.ZAlgebra.basisPathIndecomposableMap_eq_linearCombination
++#print axioms ASGinzburg.ZAlgebra.basisPathIndecomposableMap_ker_le_long
++#print axioms ASGinzburg.ZAlgebra.basisPathLinearEvaluation_ker_le_long_of_lt
++#print axioms ASGinzburg.ZAlgebra.basisPathLinearEvaluation_ker_le_long
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingGenerator_mem_path_range
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.pathLinearEvaluation_surjective
+ #print axioms ASGinzburg.ZAlgebra.rightModule_hom_extension_of_ext_one_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_one_of_ext_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.homComplex_exactAt_two_of_ext_zero
+@@ -99,6 +109,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.incomingMultiplication_eq
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.incomingMultiplication_surjective
+ #print axioms ASGinzburg.ZAlgebra.generated_of_asResolution
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingElement
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingGenerator
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingGenerator_eq_basisLift
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingGenerator_class
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.incomingGenerator_decomposition
++#print axioms ASGinzburg.ZAlgebra.ASRegular.incomingBasisSystem
++#print axioms ASGinzburg.ZAlgebra.ASRegular.exists_incomingBasisSystem
+ #print axioms ASGinzburg.surjectiveQuotientImageEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposablesEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.leftResolutionDualComplex
+@@ -261,6 +279,29 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.shortExact₀
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.shortExact₁
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.shortExact₂
++#print axioms ASGinzburg.ZAlgebra.arrowPathIndecomposableMap
++#print axioms ASGinzburg.ZAlgebra.arrowPathIndecomposableMap_single_long
++#print axioms ASGinzburg.ZAlgebra.arrowPathLong_supported_le_ker
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.pathIndecomposableMap_singleArrow
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.path_oneArrow_class_independent
++#print axioms ASGinzburg.ZAlgebra.IncomingElementFamily
++#print axioms ASGinzburg.ZAlgebra.arrowPathEvaluation
++#print axioms ASGinzburg.ZAlgebra.arrowPathEvaluation_comp
++#print axioms ASGinzburg.ZAlgebra.arrowPathLinearEvaluation
++#print axioms ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_single
++#print axioms ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_snoc
++#print axioms ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_id
++#print axioms ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_comp
++#print axioms ASGinzburg.ZAlgebra.arrowPathPresentationMap
++#print axioms ASGinzburg.ZAlgebra.arrowPathPresentationMap_id
++#print axioms ASGinzburg.ZAlgebra.arrowPathPresentationMap_comp
++#print axioms ASGinzburg.ZAlgebra.arrowPathPresentation
++#print axioms ASGinzburg.ZAlgebra.IncomingBasisSystem.pathPresentation_surjective
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.mapIncomingFamily
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.arrowPathEvaluation_natural
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.arrowPathLinearEvaluation_natural
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.map_homTransport
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.arrowPathPresentation_natural
+ #print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap
+ #print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap_on_cut
+ #print axioms ASGinzburg.CutQuiver.betweenSheetProjectionMap_on_other_cut
+@@ -806,6 +847,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.supportedDifferenceProjection_ker
+ #print axioms ASGinzburg.supportedQuotientDifferenceEquiv
+ #print axioms ASGinzburg.supportedQuotientDifferenceEquiv_mk
++#print axioms ASGinzburg.ZAlgebra.foundationComponents
++#print axioms ASGinzburg.ZAlgebra.FoundationAlgebra
++#print axioms ASGinzburg.ZAlgebra.foundationAlgebraFinite
++#print axioms ASGinzburg.ZAlgebra.foundation_mul_component
++#print axioms ASGinzburg.ZAlgebra.foundation_one_diagonal
++#print axioms ASGinzburg.ZAlgebra.foundation_hom_backward_zero
++#print axioms ASGinzburg.CutQuiver.FoundationArrow
++#print axioms ASGinzburg.CutQuiver.foundation_generator_noncut
++#print axioms ASGinzburg.CutQuiver.foundationGeneratorIndexEquiv
++#print axioms ASGinzburg.ZAlgebra.ASResolution.foundationArrowBasis
+ #print axioms ASGinzburg.fourTermProjectiveResolution_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.exact_epi_comp_iff
+ #print axioms ASGinzburg.FourTermProjectiveResolution
+@@ -824,6 +875,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightFourTermProjectiveResolution_ext_ge_four_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.rightFourTermProjectiveResolution_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.linearCombination_ker_le_supported
++#print axioms ASGinzburg.CutQuiver.unrolledArrowIdeal_off_diagonal_eq_top
++#print axioms ASGinzburg.CutQuiver.unrolledArrowIdeal_member_eq_zero_of_not_lt
++#print axioms ASGinzburg.CutQuiver.unrolledArrowIdeal_square_eq_products_span
+ #print axioms ASGinzburg.fullSubcategoryOpFunctor
+ #print axioms ASGinzburg.fullSubcategoryOpInverse
+ #print axioms ASGinzburg.fullSubcategoryOpEquivalence
+@@ -831,9 +885,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.subset_generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated_le
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_adual_opposite
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_adual_opposite
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_adual_opposite
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_adual_matrix
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_adual_matrix
++#print axioms ASGinzburg.CutQuiver.ginzburgHomOriginalDualShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgHomDualLoopShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgHomOriginalDualOppositeIso
++#print axioms ASGinzburg.CutQuiver.ginzburgHomDualLoopOppositeIso
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.homOriginalDualShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgHomDualLoopShortComplex_exact
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentTerm
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentDifferential_square
+@@ -861,6 +923,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentOriginalSimpleShortComplex_exact
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₁_minimal
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₃_minimal
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asHom_zero_kernel
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asHom_lift_one
++#print axioms ASGinzburg.CutQuiver.ginzburgASHom_lift_two
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_mem_radical
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_minimal
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₂_minimal
+@@ -1476,6 +1541,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroHomologyClass_surjective
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroComp_class
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyZeroQuotientIso_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorLoopArrowEntry_heq_of_eq
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorOriginalArrowEntry_heq_of_eq
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorOriginalArrowEntry_opposite_indexed
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorLoopArrowEntry_opposite_indexed
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomTransport_heq
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorHessianEntry_heq_of_eq
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeBase_eq
+@@ -1559,6 +1628,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_square
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential_wordMap
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential_dual_word_coeff
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution_homComplex_exactAt_low
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExt_low_eq_zero_representable
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.minimalASResolution
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.exists_ASResolution
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.distinguishedExtThreeEquiv
+@@ -1566,8 +1637,17 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.distinguishedExtThree_finrank
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.distinguishedExtThree_rank
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.asExtTotalRank_ge_one
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.nativeHom_zero_kernel
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.nativeHom_lift_one
++#print axioms ASGinzburg.CutQuiver.ginzburgNativeHom_lift_two
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_eq_zero_of_nonempty_of_not_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgASHom_lift_three_off_diagonal
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExt_three_off_diagonal_eq_zero
++#print axioms ASGinzburg.CutQuiver.ginzburgOppositeFirstProjectiveMap_epi_off_diagonal
++#print axioms ASGinzburg.CutQuiver.ginzburgNativeHom_lift_three_off_diagonal
++#print axioms ASGinzburg.CutQuiver.ginzburgOppositeOriginalArrowProduct
++#print axioms ASGinzburg.CutQuiver.ginzburgOppositeLoopArrowProduct
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeDualEquiv_concrete
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOppositeOriginalEquiv_concrete
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalOppositeCoefficientEquiv_apply_heq
+@@ -1774,6 +1854,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_mul_self
+ #print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_succ
+ #print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_succ_mul
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExt_other_eq_zero_representable
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExt_finrank_representable
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asRegular
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asExtTotalRank_eq_one
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalCochainComplex
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalCochainComplexTermIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalHomology
+@@ -1869,6 +1953,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.homotopyOpUnitIso
+ #print axioms ASGinzburg.homotopyOpCounitIso
+ #print axioms ASGinzburg.homotopyOpEquivalence
++#print axioms ASGinzburg.ZAlgebra.indecomposableBasisLift
++#print axioms ASGinzburg.ZAlgebra.indecomposableBasisLift_mkQ
++#print axioms ASGinzburg.ZAlgebra.indecomposableBasisLift_decomposition
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.products_span_le_comap
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.indecomposableMap
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.indecomposableMap_apply_mk
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.rangeSubcategory
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.surjective_of_indecomposable_surjective
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.isomorphismOfIndecomposableSurjective
+ #print axioms ASGinzburg.isoTransport_naturality
+ #print axioms ASGinzburg.CutQuiver.pathCutCompBetweenLinear
+ #print axioms ASGinzburg.CutQuiver.PathCutJacobianQuotient
+@@ -2113,6 +2206,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.productGenerators
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.mul
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.comp_mem_mul
++#print axioms ASGinzburg.linearPresheafProperty
++#print axioms ASGinzburg.LinearPresheaf
++#print axioms ASGinzburg.linearPresheafProperty_closedUnderLimits
++#print axioms ASGinzburg.linearPresheafProperty_closedUnderColimits
++#print axioms ASGinzburg.linearPresheafHasLimitsOfShape
++#print axioms ASGinzburg.linearPresheafHasColimitsOfShape
++#print axioms ASGinzburg.linearPresheafInclusionCreatesLimitsOfShape
++#print axioms ASGinzburg.linearPresheafInclusionCreatesColimitsOfShape
++#print axioms ASGinzburg.linearPresheafHasFiniteProducts
++#print axioms ASGinzburg.linearPresheafCoimageImageComparisonIsIso
++#print axioms ASGinzburg.linearPresheafAbelian
++#print axioms ASGinzburg.linearPresheafInclusionPreservesFiniteLimits
++#print axioms ASGinzburg.linearPresheafInclusionPreservesFiniteColimits
+ #print axioms ASGinzburg.linearModuleFunctorProperty
+ #print axioms ASGinzburg.linearRepresentationPrecomposition
+ #print axioms ASGinzburg.linearRepresentationPrecompositionAdditive
+@@ -2199,6 +2305,20 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightTotalModule_locally_unital
+ #print axioms ASGinzburg.ZAlgebra.leftTotalLocallyUnitalModule
+ #print axioms ASGinzburg.ZAlgebra.rightTotalLocallyUnitalModule
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.liftIncomingFamily
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.map_liftIncomingFamily
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.arrowSubstitution
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.arrowSubstitution_commutes
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.basisChange_indecomposable_commutes
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.basisChange_indecomposable_surjective
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.basisChangeIsomorphism
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.basisChangeIsomorphism_commutes
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.basisChangeIsomorphism_kernel
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.indecomposableEquiv
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.indecomposableEquiv_apply_mk
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.indecomposableChangeEquiv
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.indecomposableChangeEquiv_commutes
++#print axioms ASGinzburg.ZAlgebra.MinimalPathPresentation.indecomposableChangeEquiv_trans
+ #print axioms ASGinzburg.ZAlgebra.rightModuleBidualElement
+ #print axioms ASGinzburg.ZAlgebra.rightModuleBidualEvaluation
+ #print axioms ASGinzburg.ZAlgebra.rightModuleBidualEvaluation_natural
+@@ -2597,6 +2717,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.PeriodIso.inverseComponent_id
+ #print axioms ASGinzburg.ZAlgebra.PeriodIso.inverseComponent_comp
+ #print axioms ASGinzburg.ZAlgebra.PeriodIso.inverse
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.map_products_span
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.indecomposableEquiv
+ #print axioms ASGinzburg.extensionProjectiveπ
+ #print axioms ASGinzburg.extensionProjectiveπ_inl
+ #print axioms ASGinzburg.extensionProjectiveπ_g
+@@ -2647,6 +2769,7 @@ import ASGinzburg
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₁Hom
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₂Hom
+ #print axioms ASGinzburg.projectiveResolutionTargetIso
++#print axioms CategoryTheory.ProjectiveResolution.ext_three_eq_zero_of_hom_surjective
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.QuotientComponent
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompRight
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompRight_mk
+diff --git a/ASGinzburg/FoundationAlgebra.lean b/ASGinzburg/FoundationAlgebra.lean
+new file mode 100644
+index 0000000..2b373eb
+--- /dev/null
++++ b/ASGinzburg/FoundationAlgebra.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.FiniteComponentAlgebra
++import ASGinzburg.ZAlgebraIsomorphisms
++
++/-! The actual finite sheet-zero block in (3.4), with matrix convolution
++given by the original composition. No periodicity is required. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++def foundationComponents : LinearComponentAlgebra k Q.Vertex where
++  Hom i j := A.Hom (i.val : ℤ) (j.val : ℤ)
++  id i := A.id (i.val : ℤ)
++  comp := A.comp
++  comp_id := A.comp_id
++  id_comp := A.id_comp
++  comp_assoc := A.comp_assoc
++
++abbrev FoundationAlgebra := (A.foundationComponents Q).Total
++
++noncomputable instance foundationAlgebraFinite : Module.Finite k (A.FoundationAlgebra Q) := by
++  change Module.Finite k (∀ i j : Q.Vertex, A.Hom (i.val : ℤ) (j.val : ℤ))
++  infer_instance
++
++theorem foundation_mul_component (x y : A.FoundationAlgebra Q) (i j : Q.Vertex) :
++    (x*y) i j=∑ l, A.comp (x l j) (y i l) := rfl
++
++theorem foundation_one_diagonal (i : Q.Vertex) :
++    (1 : A.FoundationAlgebra Q) i i=A.id (i.val : ℤ) :=
++  (A.foundationComponents Q).totalOne_diag i
++
++theorem foundation_hom_backward_zero {i j : Q.Vertex} (h : j.val < i.val)
++    (f : A.Hom (i.val : ℤ) (j.val : ℤ)) : f=0 :=
++  A.positive (by omega) f
++
++end ASGinzburg.ZAlgebra

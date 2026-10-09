@@ -1,0 +1,52 @@
+import ASGinzburg.PresentationIndecomposableEquiv
+import ASGinzburg.FreePathDecomposableProducts
+
+/-! The original proved minimal-presentation conditions induce actual
+indecomposable quotient isomorphisms and coherent basis-change maps.
+Lifting these quotient maps to free-path automorphisms is a further step. -/
+namespace ASGinzburg.ZAlgebra.MinimalPathPresentation
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+
+noncomputable def indecomposableEquiv (F : A.MinimalPathPresentation Q) (i j : ℤ) :
+    ((Q.unrolledPathZAlgebra k).Hom i j ⧸
+      Submodule.span k ((Q.unrolledPathZAlgebra k).products i j)) ≃ₗ[k]
+      (A.Hom i j ⧸ Submodule.span k (A.products i j)) :=
+  F.presentation.indecomposableEquiv F.surjective i j (by
+    rw [←Q.unrolledArrowIdeal_square_eq_products_span k i j]
+    exact F.kernel_square i j)
+
+theorem indecomposableEquiv_apply_mk (F : A.MinimalPathPresentation Q) (i j : ℤ)
+    (f : (Q.unrolledPathZAlgebra k).Hom i j) :
+    F.indecomposableEquiv i j (Submodule.Quotient.mk f)=
+      Submodule.Quotient.mk (F.presentation.map i j f) := by
+  change (Submodule.quotEquivOfEq
+    (Submodule.map (F.presentation.map i j)
+      (Submodule.span k ((Q.unrolledPathZAlgebra k).products i j)))
+    (Submodule.span k (A.products i j))
+    (F.presentation.map_products_span F.surjective i j))
+    (Submodule.Quotient.mk (F.presentation.map i j f))=_
+  exact Submodule.quotEquivOfEq_mk _ _ _ _
+
+noncomputable def indecomposableChangeEquiv (F G : A.MinimalPathPresentation Q) (i j : ℤ) :
+    ((Q.unrolledPathZAlgebra k).Hom i j ⧸
+      Submodule.span k ((Q.unrolledPathZAlgebra k).products i j)) ≃ₗ[k]
+      ((Q.unrolledPathZAlgebra k).Hom i j ⧸
+        Submodule.span k ((Q.unrolledPathZAlgebra k).products i j)) :=
+  (F.indecomposableEquiv i j).trans (G.indecomposableEquiv i j).symm
+
+theorem indecomposableChangeEquiv_commutes (F G : A.MinimalPathPresentation Q)
+    (i j : ℤ)
+    (x : (Q.unrolledPathZAlgebra k).Hom i j ⧸
+      Submodule.span k ((Q.unrolledPathZAlgebra k).products i j)) :
+    G.indecomposableEquiv i j (F.indecomposableChangeEquiv G i j x)=
+      F.indecomposableEquiv i j x :=
+  LinearEquiv.apply_symm_apply _ _
+
+theorem indecomposableChangeEquiv_trans (F G H : A.MinimalPathPresentation Q) (i j : ℤ) :
+    (F.indecomposableChangeEquiv G i j).trans (G.indecomposableChangeEquiv H i j)=
+      F.indecomposableChangeEquiv H i j := by
+  ext x
+  simp [indecomposableChangeEquiv]
+
+end ASGinzburg.ZAlgebra.MinimalPathPresentation
