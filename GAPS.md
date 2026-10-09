@@ -1,8 +1,8 @@
 # 現在までに完成したAS側の基盤
 
-実際のsigned prefix微分の係数と境界族の一致、finite quotientPiによるtop homologyの実際のJacobian/A(Φ)成分有限族への同型、任意整数origin sheetでの比較、0/−1/−2の生成元族とincoming/outgoing/loopおよび実際のprefix終点との対応を証明。既存有限coproductの成分同型を通じ、各層homologyと実際のAS射影項の評価成分の線形同型まで完成。加群としての自然性・A線形性、接続写像と標準分解微分の照合、augmentation H⁰とradicalの比較、標準単純分解/Ext表/AS対応は未証明。定理3.2・系5.2は未証明で正式Lean定理文も未実装。
-最新ローカル検証 20261008T232613Z-63c7b892：346数学モジュール・2726異なる宣言・1377 theorem、全段階終了0。
-単位1〜51の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+実際の道のwinding/高さ差からaugmentation全次数成分の高さ判定、全cochain/homology同型と零性、既存representable radicalの成分同型/零性、augmentation H⁰≅radical評価成分を正則性なしで証明。filtration接続写像を実際のAS射影項の評価成分へ移し、平方零性・radicalへの全射・各短複体のexactnessを証明。GinzburgRegularから左端の単射性と四項成分chain complexの全正次数exactness、実際の単純商へのaugmentation quasi-isomorphismまで完成。加群圏での自然性/A線形性・標準微分との照合・最小性・実際のAS分解とExt表/AS対応は未証明。成分ごとの四項完全列をASResolutionの存在とは扱わない。定理3.2/系5.2は未証明、正式Lean定理文未実装。
+最新ローカル検証 20261009T000013Z-d09711c1：353数学モジュール・2766異なる宣言・1401 theorem、全段階終了0。
+単位1〜52の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。既存の線形RightModuleを保ち、有限AS分解だけから全次数のExt(s_w,P_i)の有限性と次数4以上の消滅を証明しました。
 有限AS分解の存在の下で、元のASRegularと式(1.11)の数値条件の両方向の同値が証明済みです。
@@ -12,7 +12,7 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。具体的局所単位付きGr(A)モデルへの圏同値・Abelian構造は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送も完成。有限次元加群の実際Ext³反変同値と成分線形双対の反変同値は完成。AS条件からの正負周期性は証明済み。主定理は未証明です。
 
-346数学モジュール、2726異なる明示的宣言、1377 theorem、294 named instanceのビルド・公理監査は終了0。
+353数学モジュール、2766異なる明示的宣言、1401 theorem、294 named instanceのビルド・公理監査は終了0。
 定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 任意のAでAS分解の存在を証明したとは扱わない。具体的な局所単位付きGr(A)モデルとの左右圏同値は完成。全次数のk線形Ext同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送は完成。
 未解決のコンパイルエラーなし。原論文に反例・矛盾を発見したという記録なし。
@@ -146,6 +146,7 @@ presheafモデルと局所単位付き総加群の左右圏同値はLocallyUnita
 11. **実際の3層filtrationと全associated-graded/prefix cochain同型まで完成**：単位49で実際の最後の生成元による3層filtration/subcomplexesとsigned微分閉性、隣接商のassociated-graded complexesを構成し、実際の道の係数・生成元付加・Leibnizから全有限signed shifted-prefix complexesとのcochain同型を証明した。GinzburgRegularから各層のhomologyが生成元次数だけに集中し、その実際のhomologyへのcanonical augmentationがquasi-isomorphismとなることも公開検証。A(Φ)成分との比較、filtration長完全列からの標準単純分解のexactnessとExt表/AS対応は未証明。
 12. **実際のfiltration長完全列と3項homology複体まで完成**：単位50で実際のfiltration短完全列とmathlib長完全列、F_-2とaugmentation複体の同型、正則性から最初の接続写像の同型、F_0と第0層の同型・homology集中、実際のloop→dual射のkernel普遍性、正則性を仮定しないaugmentation homologyへの全射/cokernel普遍性を証明した。実際の3項homology chain complexとGinzburgRegularからのaugmentation quasi-isomorphism、prefix top homologyのactual differential imageによる商表示まで公開検証。各項のA(Φ)係数/射影加群への同定とA線形性・標準単純分解の微分との照合、Ext表/AS対応は未証明。この複体をA(Φ)標準射影分解の完成とは扱わない。
 13. **実際の層homologyと既存AS射影項の評価成分まで完成**：単位51で実際のsigned prefix微分の係数と境界族の一致、finite quotientPiによる各層top homologyのJacobian/A(Φ)成分有限族への同型、任意整数origin sheet、0/−1/−2生成元とincoming/outgoing/loopおよびprefix終点の対応を証明し、既存有限coproductの同型から各層homologyと実際のAS射影項の評価成分の線形同型まで公開検証。ASResolutionの存在を仮定しない比較である。加群圏の自然性・A線形性、接続写像と標準微分の照合、augmentation H⁰/radical、標準単純分解/Ext表/AS対応は未証明。評価成分の同型を加群としての自然同型の完成とは扱わない。
+14. **augmentation radicalと四項成分複体まで完成**：単位52で実際の道のwinding/高さ差からaugmentation成分の高さ判定と全cochain/homology同型/零性、既存representable radical成分との比較を証明し、augmentation H⁰≅radical評価成分を正則性なしで完成した。実際のfiltration接続写像を既存AS射影項の成分へ移し、平方零性・radical全射・各短複体のexactness、GinzburgRegularから左端単射を証明。実際の四項成分chain complexと真の単純商へのaugmentation quasi-isomorphismまで公開検証。加群圏での自然性/A線形性・標準微分との一致・最小性・実際のAS分解とExt表/AS対応は未証明。成分ごとの複体をASResolutionの存在とは扱わない。
 
 Jacobian商で全巡回微分が零となることと、最小関係の基底を与えることは別の証明義務。Ginzburg正則性から最小分解やAS条件を導く部分は未証明。これを入力仮定に追加しない。
 

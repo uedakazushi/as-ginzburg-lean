@@ -1,0 +1,36 @@
+import ASGinzburg.SimpleRightModules
+
+/-! Canonical component isomorphisms for the existing representable
+radical inclusion, below its endpoint, and actual zero components elsewhere. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem representableRadicalInclusion_component_isIso (i j : ℤ) (hij : i<j) :
+    IsIso ((A.rightModuleEvaluation i).map (A.representableRadical j).inclusion) := by
+  apply (ConcreteCategory.isIso_iff_bijective _).mpr
+  refine ⟨?_,?_⟩
+  · intro f g h
+    exact Subtype.ext h
+  · intro f
+    refine ⟨⟨f,?_⟩,rfl⟩
+    simp [representableRadical,hij]
+
+noncomputable def representableRadicalBelowComponentIso (i j : ℤ) (hij : i<j) :
+    (A.rightModuleEvaluation i).obj (A.representableRadical j).object ≅
+      (A.rightModuleEvaluation i).obj (A.representable j) := by
+  letI := A.representableRadicalInclusion_component_isIso i j hij
+  exact asIso ((A.rightModuleEvaluation i).map (A.representableRadical j).inclusion)
+
+@[simp] theorem representableRadicalBelowComponentIso_hom (i j : ℤ) (hij : i<j) :
+    (A.representableRadicalBelowComponentIso i j hij).hom=
+      (A.rightModuleEvaluation i).map (A.representableRadical j).inclusion := rfl
+
+theorem representableRadicalComponent_isZero_of_not_lt (i j : ℤ) (hij : ¬i<j) :
+    IsZero ((A.rightModuleEvaluation i).obj (A.representableRadical j).object) := by
+  change IsZero (ModuleCat.of k (if i<j then ⊤ else ⊥ : Submodule k (A.Hom i j)))
+  rw [if_neg hij]
+  exact ModuleCat.isZero_of_subsingleton _
+
+end ASGinzburg.ZAlgebra

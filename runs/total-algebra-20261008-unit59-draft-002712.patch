@@ -1,0 +1,69 @@
+--- /dev/null
++++ work/ASGinzburgDraft/EndpointProjectiveMinimality.lean
+@@ -0,0 +1,33 @@
++import ASGinzburg.RightModuleMinimality
++import ASGinzburg.CoproductRadicals
++
++/-! Actual radical containment for the representable radical inclusion
++and for every map from a representable to finite representables at
++strictly higher endpoints. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem representableRadicalInclusion_minimal (i : ℤ) :
++    A.IsMinimalMorphism (A.representableRadical i).inclusion := by
++  intro j x
++  rw [← A.representableRadical_eq_positiveActionSpan i j]
++  exact x.property
++
++theorem representable_to_finiteCoproduct_minimal {I : Type} [Fintype I]
++    (i : ℤ) (j : I → ℤ) (h : ∀ a, i<j a)
++    (f : A.representable i ⟶ ∐ fun a => A.representable (j a)) :
++    A.IsMinimalMorphism f := by
++  classical
++  intro l x
++  by_cases hl : l ≤ i
++  · apply (A.rightFiniteCoproduct_radical_iff (fun a => A.representable (j a)) l _).mpr
++    intro a
++    rw [← A.representableRadical_eq_positiveActionSpan (j a) l]
++    simp [representableRadical,lt_of_le_of_lt hl (h a)]
++  · have hx : x=0 := A.positive (u:=l) (v:=i) (lt_of_not_ge hl) x
++    rw [hx,map_zero]
++    exact (A.positiveActionSpan _ l).zero_mem
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgASEndpointMinimality.lean
+@@ -0,0 +1,30 @@
++import work.ASGinzburgDraft.EndpointProjectiveMinimality
++import work.ASGinzburgDraft.GinzburgASProjectiveRadicalMaps
++
++/-! The actual first and third Ginzburg AS differentials are minimal,
++by their genuine radical factorization and unrolled endpoint heights.
++The middle differential remains a separate proof obligation. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgASProjectiveD₁_minimal (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).IsMinimalMorphism (Q.ginzburgASProjectiveD₁ k φ v) := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  apply A.isMinimalMorphism_comp_left
++    (A.ginzburgGeneratorOriginalTermIso Q v).inv
++  exact A.isMinimalMorphism_comp_left (Q.ginzburgOriginalRadicalProjectiveMap k φ v)
++    (A.representableRadical (Q.height v)).inclusion
++    (A.representableRadicalInclusion_minimal (Q.height v))
++
++theorem ginzburgASProjectiveD₃_minimal (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).IsMinimalMorphism (Q.ginzburgASProjectiveD₃ k φ v) :=
++  (Q.unrolledJacobianZAlgebra k φ).representable_to_finiteCoproduct_minimal
++    (Q.height (Q.tau.symm v))
++    (fun a : Q.outgoingArrows (Q.tau.symm v) =>
++      Q.height (Q.outgoingTarget (Q.tau.symm v) a))
++    (fun a => Q.outgoingTarget_height_gt (Q.tau.symm v) a)
++    (Q.ginzburgASProjectiveD₃ k φ v)
++
++end ASGinzburg.CutQuiver

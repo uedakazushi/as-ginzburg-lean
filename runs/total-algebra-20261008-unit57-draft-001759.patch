@@ -1,0 +1,415 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgProjectiveRadicalComponents.lean
+@@ -0,0 +1,78 @@
++import work.ASGinzburgDraft.GinzburgAugmentationRadicalNaturality
++import work.ASGinzburgDraft.GinzburgProjectiveConnectingComponents
++
++/-! The intrinsic augmentation homology map gives actual components
++from the original-generator projective module to the existing radical. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgOriginalRadicalProjectiveComponent (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0) ⟶
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object :=
++  (Q.ginzburgUpperProjectiveComponentIso k φ x v).inv ≫
++    Q.ginzburgGeneratorFiltrationRadicalMap k φ x.1 v.1 (v.2-x.2) ≫
++      (Q.ginzburgAugmentationRadicalComponentIso k φ x v).hom
++
++theorem ginzburgOriginalRadicalProjectiveComponent_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0).obj.map
++        (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from
++          Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)).op ≫
++        Q.ginzburgOriginalRadicalProjectiveComponent k φ x v=
++      Q.ginzburgOriginalRadicalProjectiveComponent k φ y v ≫
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object.obj.map
++          (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from
++            Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)).op := by
++  unfold ginzburgOriginalRadicalProjectiveComponent
++  exact isoTransport_naturality
++    (Q.ginzburgUpperProjectiveComponentIso k φ x v)
++    (Q.ginzburgUpperProjectiveComponentIso k φ y v)
++    (Q.ginzburgAugmentationRadicalComponentIso k φ x v)
++    (Q.ginzburgAugmentationRadicalComponentIso k φ y v) _ _ _ _ _ _
++    (Q.ginzburgUpperProjectiveComponentIso_left_naturality k φ f).symm
++    (Q.ginzburgAugmentationRadicalComponentIso_left_naturality k φ f).symm
++    (Q.ginzburgFiltrationRadicalMap_left_naturality k φ f).symm
++
++theorem ginzburgOriginalRadicalProjectiveComponent_epi (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    Epi (Q.ginzburgOriginalRadicalProjectiveComponent k φ x v) := by
++  unfold ginzburgOriginalRadicalProjectiveComponent
++  haveI := Q.ginzburgGeneratorFiltrationRadicalMap_epi k φ x.1 v.1 (v.2-x.2)
++  infer_instance
++
++theorem ginzburgDualOriginalProjectiveComponent_comp_radical (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    Q.ginzburgDualOriginalProjectiveComponent k φ x v ≫
++      Q.ginzburgOriginalRadicalProjectiveComponent k φ x v=0 := by
++  simp only [ginzburgDualOriginalProjectiveComponent,ginzburgOriginalRadicalProjectiveComponent,
++    Category.assoc,Iso.hom_inv_id_assoc]
++  simp only [← Category.assoc,Q.ginzburgGeneratorDualToOriginalHomology_comp,comp_zero,zero_comp]
++
++noncomputable def ginzburgProjectiveDualRadicalComponentShortComplex (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.mk (Q.ginzburgDualOriginalProjectiveComponent k φ x v)
++    (Q.ginzburgOriginalRadicalProjectiveComponent k φ x v)
++    (Q.ginzburgDualOriginalProjectiveComponent_comp_radical k φ x v)
++
++theorem ginzburgProjectiveDualRadicalComponentShortComplex_exact (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    (Q.ginzburgProjectiveDualRadicalComponentShortComplex k φ x v).Exact := by
++  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
++    (Q.ginzburgLayerProjectiveComponentIso k φ x v (-1))
++    (Q.ginzburgUpperProjectiveComponentIso k φ x v)
++    (Q.ginzburgAugmentationRadicalComponentIso k φ x v)
++    (S₁:=Q.ginzburgGeneratorDualOriginalShortComplex k φ x.1 v.1 (v.2-x.2))
++    (S₂:=Q.ginzburgProjectiveDualRadicalComponentShortComplex k φ x v)
++    (by simp [ginzburgGeneratorDualOriginalShortComplex,
++      ginzburgProjectiveDualRadicalComponentShortComplex,ginzburgDualOriginalProjectiveComponent])
++    (by simp [ginzburgGeneratorDualOriginalShortComplex,
++      ginzburgProjectiveDualRadicalComponentShortComplex,ginzburgOriginalRadicalProjectiveComponent]))).mp
++    (Q.ginzburgGeneratorDualOriginalShortComplex_exact k φ x.1 v.1 (v.2-x.2))
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/RightModuleLiftedComponents.lean
+@@ -0,0 +1,66 @@
++import work.ASGinzburgDraft.LiftedModuleIndexing
++import ASGinzburg.RightModuleHomology
++
++/-! Equality, monicity, epicity and exactness of existing right modules
++are detected by their actual evaluations at all lifted-vertex heights. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem rightModuleHom_ext_lift {M N : A.RightModule} {f g : M ⟶ N}
++    (h : ∀ x : Q.LiftVertex,
++      (A.rightModuleEvaluation (Q.height x)).map f=(A.rightModuleEvaluation (Q.height x)).map g) :
++    f=g := by
++  apply A.rightModuleProperty.ι.map_injective
++  apply NatTrans.ext
++  funext X
++  let x := Q.heightEquiv.symm X.unop.index
++  have hx : Q.height x=X.unop.index := by
++    rw [← Q.heightEquiv_apply]
++    exact Q.heightEquiv.apply_symm_apply _
++  have he := h x
++  change f.app (Opposite.op ⟨Q.height x⟩)=g.app (Opposite.op ⟨Q.height x⟩) at he
++  rw [hx] at he
++  exact he
++
++theorem rightModule_mono_iff_lift {M N : A.RightModule} (f : M ⟶ N) :
++    Mono f ↔ ∀ x : Q.LiftVertex, Mono ((A.rightModuleEvaluation (Q.height x)).map f) := by
++  rw [A.rightModule_mono_iff]
++  constructor
++  · intro h x; exact h (Q.height x)
++  · intro h i
++    let x := Q.heightEquiv.symm i
++    have hx : Q.height x=i := by
++      rw [← Q.heightEquiv_apply]
++      exact Q.heightEquiv.apply_symm_apply _
++    rw [← hx]
++    exact h x
++
++theorem rightModule_epi_iff_lift {M N : A.RightModule} (f : M ⟶ N) :
++    Epi f ↔ ∀ x : Q.LiftVertex, Epi ((A.rightModuleEvaluation (Q.height x)).map f) := by
++  rw [A.rightModule_epi_iff]
++  constructor
++  · intro h x; exact h (Q.height x)
++  · intro h i
++    let x := Q.heightEquiv.symm i
++    have hx : Q.height x=i := by
++      rw [← Q.heightEquiv_apply]
++      exact Q.heightEquiv.apply_symm_apply _
++    rw [← hx]
++    exact h x
++
++theorem rightModule_exact_iff_lift (S : ShortComplex A.RightModule) :
++    S.Exact ↔ ∀ x : Q.LiftVertex, (S.map (A.rightModuleEvaluation (Q.height x))).Exact := by
++  rw [A.rightModule_exact_iff]
++  constructor
++  · intro h x; exact h (Q.height x)
++  · intro h i
++    let x := Q.heightEquiv.symm i
++    have hx : Q.height x=i := by
++      rw [← Q.heightEquiv_apply]
++      exact Q.heightEquiv.apply_symm_apply _
++    rw [← hx]
++    exact h x
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgProjectiveRadicalMap.lean
+@@ -0,0 +1,57 @@
++import work.ASGinzburgDraft.GinzburgProjectiveRadicalComponents
++import work.ASGinzburgDraft.GinzburgProjectiveConnectingMaps
++import work.ASGinzburgDraft.RightModuleLiftedComponents
++
++/-! A genuine epimorphism of existing right modules from the original
++generator projective to the actual representable radical. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgOriginalRadicalProjectiveComponent_algebra_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex}
++    (a : (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height y)) :
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0).obj.map
++        (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from a).op ≫
++        Q.ginzburgOriginalRadicalProjectiveComponent k φ x v=
++      Q.ginzburgOriginalRadicalProjectiveComponent k φ y v ≫
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object.obj.map
++          (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from a).op := by
++  obtain ⟨f,rfl⟩ := Q.ginzburgCutZeroUnrolledClass_surjective k φ x y a
++  exact Q.ginzburgOriginalRadicalProjectiveComponent_left_naturality k φ f
++
++noncomputable def ginzburgOriginalRadicalLiftedMap (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
++        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0).obj ⟶
++      (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object.obj where
++  app x := Q.ginzburgOriginalRadicalProjectiveComponent k φ x v
++  naturality x y f :=
++    Q.ginzburgOriginalRadicalProjectiveComponent_algebra_naturality k φ (x:=y) (y:=x) f.unop
++
++noncomputable def ginzburgOriginalRadicalProjectiveMap (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 ⟶
++      ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object :=
++  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents Q
++    (Q.ginzburgOriginalRadicalLiftedMap k φ v)
++
++theorem ginzburgOriginalRadicalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map
++      (Q.ginzburgOriginalRadicalProjectiveMap k φ v)=Q.ginzburgOriginalRadicalLiftedMap k φ v :=
++  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents_whisker Q _
++
++theorem ginzburgOriginalRadicalProjectiveMap_component (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
++      (Q.ginzburgOriginalRadicalProjectiveMap k φ v)=
++        Q.ginzburgOriginalRadicalProjectiveComponent k φ x v :=
++  congrArg (fun f => f.app x) (Q.ginzburgOriginalRadicalProjectiveMap_whisker k φ v)
++
++theorem ginzburgOriginalRadicalProjectiveMap_epi (φ : Q.Potential k) (v : Q.LiftVertex) :
++    Epi (Q.ginzburgOriginalRadicalProjectiveMap k φ v) := by
++  apply ((Q.unrolledJacobianZAlgebra k φ).rightModule_epi_iff_lift Q _).mpr
++  intro x
++  rw [ginzburgOriginalRadicalProjectiveMap_component]
++  exact Q.ginzburgOriginalRadicalProjectiveComponent_epi k φ x v
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgProjectiveRadicalExactness.lean
+@@ -0,0 +1,80 @@
++import work.ASGinzburgDraft.GinzburgProjectiveRadicalMap
++
++/-! Actual right-module exactness at the original generator projective,
++and its genuine radical epimorphism. No regularity hypothesis is needed. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgDualOriginalProjectiveMap_comp_radical (φ : Q.Potential k) (v : Q.LiftVertex) :
++    Q.ginzburgDualOriginalProjectiveMap k φ v ≫
++      Q.ginzburgOriginalRadicalProjectiveMap k φ v=0 := by
++  apply (Q.unrolledJacobianZAlgebra k φ).rightModuleHom_ext_lift Q
++  intro x
++  rw [Functor.map_comp,Functor.map_zero,ginzburgDualOriginalProjectiveMap_component,
++    ginzburgOriginalRadicalProjectiveMap_component]
++  exact Q.ginzburgDualOriginalProjectiveComponent_comp_radical k φ x v
++
++noncomputable def ginzburgProjectiveDualRadicalShortComplex (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ShortComplex (Q.unrolledJacobianZAlgebra k φ).RightModule :=
++  ShortComplex.mk (Q.ginzburgDualOriginalProjectiveMap k φ v)
++    (Q.ginzburgOriginalRadicalProjectiveMap k φ v)
++    (Q.ginzburgDualOriginalProjectiveMap_comp_radical k φ v)
++
++theorem ginzburgProjectiveDualRadicalShortComplex_exact (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    (Q.ginzburgProjectiveDualRadicalShortComplex k φ v).Exact := by
++  apply ((Q.unrolledJacobianZAlgebra k φ).rightModule_exact_iff_lift Q _).mpr
++  intro x
++  simpa only [ginzburgProjectiveDualRadicalShortComplex,ShortComplex.map,
++    ginzburgDualOriginalProjectiveMap_component,ginzburgOriginalRadicalProjectiveMap_component,
++    ginzburgProjectiveDualRadicalComponentShortComplex] using
++    Q.ginzburgProjectiveDualRadicalComponentShortComplex_exact k φ x v
++
++noncomputable def ginzburgOriginalRepresentableProjectiveMap (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v) :=
++  Q.ginzburgOriginalRadicalProjectiveMap k φ v ≫
++    ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).inclusion
++
++theorem ginzburgDualOriginalProjectiveMap_comp_representable (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    Q.ginzburgDualOriginalProjectiveMap k φ v ≫
++      Q.ginzburgOriginalRepresentableProjectiveMap k φ v=0 := by
++  rw [ginzburgOriginalRepresentableProjectiveMap,← Category.assoc,
++    ginzburgDualOriginalProjectiveMap_comp_radical,zero_comp]
++
++theorem ginzburgOriginalRepresentableProjectiveMap_comp_simpleπ (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    Q.ginzburgOriginalRepresentableProjectiveMap k φ v ≫
++      (Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)=0 := by
++  rw [ginzburgOriginalRepresentableProjectiveMap,Category.assoc]
++  simp only [ZAlgebra.simpleRightModuleπ,ZAlgebra.RightSubmodule.quotientπ,
++    cokernel.condition,comp_zero]
++
++noncomputable def ginzburgProjectiveOriginalSimpleShortComplex (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ShortComplex (Q.unrolledJacobianZAlgebra k φ).RightModule :=
++  ShortComplex.mk (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)
++    ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v))
++    (Q.ginzburgOriginalRepresentableProjectiveMap_comp_simpleπ k φ v)
++
++theorem ginzburgProjectiveOriginalSimpleShortComplex_exact (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    (Q.ginzburgProjectiveOriginalSimpleShortComplex k φ v).Exact := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  let S := (A.representableRadical (Q.height v)).quotientShortComplex
++  let f : Q.ginzburgProjectiveOriginalSimpleShortComplex k φ v ⟶ S :=
++    ShortComplex.homMk (Q.ginzburgOriginalRadicalProjectiveMap k φ v) (𝟙 _) (𝟙 _)
++      (by simp [S,ginzburgProjectiveOriginalSimpleShortComplex,
++        ginzburgOriginalRepresentableProjectiveMap,ZAlgebra.RightSubmodule.quotientShortComplex,A])
++      (by simp [S,ginzburgProjectiveOriginalSimpleShortComplex,ZAlgebra.simpleRightModuleπ,
++        ZAlgebra.RightSubmodule.quotientShortComplex,A])
++  haveI : Epi f.τ₁ := Q.ginzburgOriginalRadicalProjectiveMap_epi k φ v
++  haveI : IsIso f.τ₂ := by dsimp [f]; infer_instance
++  haveI : Mono f.τ₃ := by dsimp [f]; infer_instance
++  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mpr
++    (A.simpleRightModule_shortExact (Q.height v)).exact
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgProjectiveRepresentableExactness.lean
+@@ -0,0 +1,32 @@
++import work.ASGinzburgDraft.GinzburgProjectiveRadicalExactness
++
++/-! Exactness is retained after the actual radical monomorphism into
++the existing representable right module. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgProjectiveDualOriginalShortComplex (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ShortComplex (Q.unrolledJacobianZAlgebra k φ).RightModule :=
++  ShortComplex.mk (Q.ginzburgDualOriginalProjectiveMap k φ v)
++    (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)
++    (Q.ginzburgDualOriginalProjectiveMap_comp_representable k φ v)
++
++theorem ginzburgProjectiveDualOriginalShortComplex_exact (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    (Q.ginzburgProjectiveDualOriginalShortComplex k φ v).Exact := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  let f : Q.ginzburgProjectiveDualRadicalShortComplex k φ v ⟶
++      Q.ginzburgProjectiveDualOriginalShortComplex k φ v :=
++    ShortComplex.homMk (𝟙 _) (𝟙 _) (A.representableRadical (Q.height v)).inclusion
++      (by simp [ginzburgProjectiveDualRadicalShortComplex,ginzburgProjectiveDualOriginalShortComplex])
++      (by simp [ginzburgProjectiveDualRadicalShortComplex,ginzburgProjectiveDualOriginalShortComplex,
++        ginzburgOriginalRepresentableProjectiveMap,A])
++  haveI : Epi f.τ₁ := by dsimp [f]; infer_instance
++  haveI : IsIso f.τ₂ := by dsimp [f]; infer_instance
++  haveI : Mono f.τ₃ := by dsimp [f]; infer_instance
++  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mp
++    (Q.ginzburgProjectiveDualRadicalShortComplex_exact k φ v)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgASProjectiveRadicalMaps.lean
+@@ -0,0 +1,40 @@
++import work.ASGinzburgDraft.GinzburgProjectiveRadicalExactness
++import work.ASGinzburgDraft.GinzburgASProjectiveConnectingMaps
++
++/-! The genuine rightmost AS-term differential into the existing
++representable and its actual simple quotient. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgASProjectiveD₁ (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v) :=
++  ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorOriginalTermIso Q v).inv ≫
++    Q.ginzburgOriginalRepresentableProjectiveMap k φ v
++
++theorem ginzburgASProjectiveD₂_comp_D₁ (φ : Q.Potential k) (v : Q.LiftVertex) :
++    Q.ginzburgASProjectiveD₂ k φ v ≫ Q.ginzburgASProjectiveD₁ k φ v=0 := by
++  simp only [ginzburgASProjectiveD₂,ginzburgASProjectiveD₁,Category.assoc,
++    Iso.hom_inv_id_assoc]
++  simp only [Q.ginzburgDualOriginalProjectiveMap_comp_representable,comp_zero]
++
++theorem ginzburgASProjectiveD₁_comp_simpleπ (φ : Q.Potential k) (v : Q.LiftVertex) :
++    Q.ginzburgASProjectiveD₁ k φ v ≫
++      (Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)=0 := by
++  rw [ginzburgASProjectiveD₁,Category.assoc,
++    ginzburgOriginalRepresentableProjectiveMap_comp_simpleπ,comp_zero]
++
++noncomputable def ginzburgASProjectiveDualOriginalShortComplex (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ShortComplex (Q.unrolledJacobianZAlgebra k φ).RightModule :=
++  ShortComplex.mk (Q.ginzburgASProjectiveD₂ k φ v) (Q.ginzburgASProjectiveD₁ k φ v)
++    (Q.ginzburgASProjectiveD₂_comp_D₁ k φ v)
++
++noncomputable def ginzburgASProjectiveOriginalSimpleShortComplex (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ShortComplex (Q.unrolledJacobianZAlgebra k φ).RightModule :=
++  ShortComplex.mk (Q.ginzburgASProjectiveD₁ k φ v)
++    ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v))
++    (Q.ginzburgASProjectiveD₁_comp_simpleπ k φ v)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgASProjectiveExactness.lean
+@@ -0,0 +1,41 @@
++import work.ASGinzburgDraft.GinzburgASProjectiveRadicalMaps
++import work.ASGinzburgDraft.GinzburgProjectiveRepresentableExactness
++
++/-! Genuine right-module exactness at the right two existing AS terms.
++Together with regularity at the left terms this gives an actual exact
++four-term projective complex, without yet proving minimality or Ext duality. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgASProjectiveDualOriginalShortComplex_exact (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    (Q.ginzburgASProjectiveDualOriginalShortComplex k φ v).Exact := by
++  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorDualTermIso Q v)
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorOriginalTermIso Q v)
++    (Iso.refl _)
++    (S₁:=Q.ginzburgProjectiveDualOriginalShortComplex k φ v)
++    (S₂:=Q.ginzburgASProjectiveDualOriginalShortComplex k φ v)
++    (by simp [ginzburgProjectiveDualOriginalShortComplex,
++      ginzburgASProjectiveDualOriginalShortComplex,ginzburgASProjectiveD₂])
++    (by simp [ginzburgProjectiveDualOriginalShortComplex,
++      ginzburgASProjectiveDualOriginalShortComplex,ginzburgASProjectiveD₁]))).mp
++    (Q.ginzburgProjectiveDualOriginalShortComplex_exact k φ v)
++
++theorem ginzburgASProjectiveOriginalSimpleShortComplex_exact (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    (Q.ginzburgASProjectiveOriginalSimpleShortComplex k φ v).Exact := by
++  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorOriginalTermIso Q v)
++    (Iso.refl _) (Iso.refl _)
++    (S₁:=Q.ginzburgProjectiveOriginalSimpleShortComplex k φ v)
++    (S₂:=Q.ginzburgASProjectiveOriginalSimpleShortComplex k φ v)
++    (by simp [ginzburgProjectiveOriginalSimpleShortComplex,
++      ginzburgASProjectiveOriginalSimpleShortComplex,ginzburgASProjectiveD₁])
++    (by simp [ginzburgProjectiveOriginalSimpleShortComplex,
++      ginzburgASProjectiveOriginalSimpleShortComplex]))).mp
++    (Q.ginzburgProjectiveOriginalSimpleShortComplex_exact k φ v)
++
++end ASGinzburg.CutQuiver

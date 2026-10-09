@@ -1,0 +1,309 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgASProjectiveComplex.lean
+@@ -0,0 +1,88 @@
++import work.ASGinzburgDraft.GinzburgASProjectiveExactness
++import ASGinzburg.RightModuleExt
++
++/-! The genuine four AS projective terms and Ginzburg connecting
++differentials form an actual chain complex of existing right modules.
++Genuine Ginzburg regularity proves its positive-degree exactness. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgASProjectiveComplexTerm (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ℕ → (Q.unrolledJacobianZAlgebra k φ).RightModule
++  | 0 => (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v)
++  | 1 => (Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v
++  | 2 => (Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v
++  | 3 => (Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.tau.symm v))
++  | _+4 => 0
++
++noncomputable def ginzburgASProjectiveComplexDifferential (φ : Q.Potential k)
++    (v : Q.LiftVertex) :
++    ∀ n : ℕ, Q.ginzburgASProjectiveComplexTerm k φ v (n+1) ⟶
++      Q.ginzburgASProjectiveComplexTerm k φ v n
++  | 0 => Q.ginzburgASProjectiveD₁ k φ v
++  | 1 => Q.ginzburgASProjectiveD₂ k φ v
++  | 2 => Q.ginzburgASProjectiveD₃ k φ v
++  | _+3 => 0
++
++theorem ginzburgASProjectiveComplexDifferential_square (φ : Q.Potential k)
++    (v : Q.LiftVertex) (n : ℕ) :
++    Q.ginzburgASProjectiveComplexDifferential k φ v (n+1) ≫
++      Q.ginzburgASProjectiveComplexDifferential k φ v n=0 := by
++  rcases n with _|_|_|n
++  · exact Q.ginzburgASProjectiveD₂_comp_D₁ k φ v
++  · exact Q.ginzburgASProjectiveD₃_comp_D₂ k φ v
++  · simp [ginzburgASProjectiveComplexDifferential]
++  · simp [ginzburgASProjectiveComplexDifferential]
++
++noncomputable def ginzburgASProjectiveComplex (φ : Q.Potential k)
++    (v : Q.LiftVertex) : ChainComplex (Q.unrolledJacobianZAlgebra k φ).RightModule ℕ :=
++  ChainComplex.of (Q.ginzburgASProjectiveComplexTerm k φ v)
++    (Q.ginzburgASProjectiveComplexDifferential k φ v)
++    (Q.ginzburgASProjectiveComplexDifferential_square k φ v)
++
++theorem ginzburgASProjectiveComplex_d (φ : Q.Potential k) (v : Q.LiftVertex) (n : ℕ) :
++    (Q.ginzburgASProjectiveComplex k φ v).d (n+1) n=
++      Q.ginzburgASProjectiveComplexDifferential k φ v n :=
++  ChainComplex.of_d _ _ _ n
++
++noncomputable instance ginzburgASProjectiveComplexTerm_projective (φ : Q.Potential k)
++    (v : Q.LiftVertex) (n : ℕ) :
++    Projective (Q.ginzburgASProjectiveComplexTerm k φ v n) := by
++  rcases n with _|_|_|_|n <;> dsimp [ginzburgASProjectiveComplexTerm] <;> infer_instance
++
++theorem GinzburgRegular.asProjectiveComplex_exactAt_succ {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (n : ℕ) :
++    (Q.ginzburgASProjectiveComplex k φ v).ExactAt (n+1) := by
++  rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp)]
++  rcases n with _|_|_|n
++  · simpa [ginzburgASProjectiveComplex,ginzburgASProjectiveComplexTerm,
++      ginzburgASProjectiveComplexDifferential,HomologicalComplex.sc'] using
++      Q.ginzburgASProjectiveDualOriginalShortComplex_exact k φ v
++  · simpa [ginzburgASProjectiveComplex,ginzburgASProjectiveComplexTerm,
++      ginzburgASProjectiveComplexDifferential,HomologicalComplex.sc'] using
++      h.asProjectiveConnectingShortComplex_exact Q k v
++  · apply (ShortComplex.exact_iff_mono _ ?_).mpr
++    · simpa [ginzburgASProjectiveComplex,ginzburgASProjectiveComplexDifferential,
++        HomologicalComplex.sc',HomologicalComplex.shortComplexFunctor'] using
++        h.asProjectiveD₃_mono Q k v
++    · change (Q.ginzburgASProjectiveComplex k φ v).d 4 3=0
++      simpa only [ginzburgASProjectiveComplex,Nat.reduceAdd,
++        ginzburgASProjectiveComplexDifferential] using
++        ChainComplex.of_d (Q.ginzburgASProjectiveComplexTerm k φ v)
++          (Q.ginzburgASProjectiveComplexDifferential k φ v)
++          (Q.ginzburgASProjectiveComplexDifferential_square k φ v) 3
++  · apply ShortComplex.exact_of_isZero_X₂
++    simpa [ginzburgASProjectiveComplex,ginzburgASProjectiveComplexTerm,
++      HomologicalComplex.sc',HomologicalComplex.shortComplexFunctor'] using
++      isZero_zero (Q.unrolledJacobianZAlgebra k φ).RightModule
++
++theorem ginzburgASProjectiveComplex_isZero_ge_four (φ : Q.Potential k)
++    (v : Q.LiftVertex) (n : ℕ) :
++    IsZero ((Q.ginzburgASProjectiveComplex k φ v).X (n+4)) := by
++  change IsZero (Q.ginzburgASProjectiveComplexTerm k φ v (n+4))
++  exact isZero_zero (Q.unrolledJacobianZAlgebra k φ).RightModule
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgASProjectiveResolution.lean
+@@ -0,0 +1,55 @@
++import work.ASGinzburgDraft.GinzburgASProjectiveComplex
++
++/-! Actual simple augmentation and a genuine mathlib projective
++resolution, obtained from the genuine negative-homology vanishing of
++Ginzburg. This does not yet supply minimality or AS Gorenstein duality. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgASSimpleAugmentation (φ : Q.Potential k) (v : Q.LiftVertex) :
++    Q.ginzburgASProjectiveComplex k φ v ⟶
++      (ChainComplex.single₀ (Q.unrolledJacobianZAlgebra k φ).RightModule).obj
++        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) :=
++  (ChainComplex.toSingle₀Equiv _ _).symm
++    ⟨(Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v),by
++      rw [ginzburgASProjectiveComplex_d]
++      exact Q.ginzburgASProjectiveD₁_comp_simpleπ k φ v⟩
++
++theorem GinzburgRegular.asSimpleAugmentation_quasiIso {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
++    QuasiIso (Q.ginzburgASSimpleAugmentation k φ v) := ⟨fun n => by
++  cases n
++  · rw [ChainComplex.quasiIsoAt₀_iff,ShortComplex.quasiIso_iff_of_zeros']
++    · dsimp
++      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
++        ⟨Q.ginzburgASProjectiveOriginalSimpleShortComplex_exact k φ v,by
++          change Epi ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v))
++          infer_instance⟩
++      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
++        (by dsimp; exact (ChainComplex.of_d (Q.ginzburgASProjectiveComplexTerm k φ v)
++          (Q.ginzburgASProjectiveComplexDifferential k φ v)
++          (Q.ginzburgASProjectiveComplexDifferential_square k φ v) 0).symm)
++        (by simp [ginzburgASSimpleAugmentation,ginzburgASProjectiveOriginalSimpleShortComplex])
++    all_goals rfl
++  · rw [quasiIsoAt_iff_exactAt']
++    · exact h.asProjectiveComplex_exactAt_succ Q k v _
++    · apply ChainComplex.exactAt_succ_single_obj⟩
++
++noncomputable def GinzburgRegular.simpleProjectiveResolution {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
++    ProjectiveResolution ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) where
++  complex := Q.ginzburgASProjectiveComplex k φ v
++  projective n := by
++    change Projective (Q.ginzburgASProjectiveComplexTerm k φ v n)
++    infer_instance
++  π := Q.ginzburgASSimpleAugmentation k φ v
++  quasiIso := h.asSimpleAugmentation_quasiIso Q k v
++
++theorem GinzburgRegular.simpleProjectiveResolution_isZero_ge_four {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (n : ℕ) :
++    IsZero ((h.simpleProjectiveResolution Q k v).complex.X (n+4)) :=
++  Q.ginzburgASProjectiveComplex_isZero_ge_four k φ v n
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/FourTermProjectiveResolutionExt.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.ProjectiveResolutionSyzygies
++import ASGinzburg.RightModuleExtSequence
++import Mathlib.CategoryTheory.Abelian.Projective.Dimension
++
++/-! Real Ext vanishing from a genuine four-term projective resolution.
++No minimality, AS condition, or prescribed Ext duality is assumed. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def rightFourTermProjectiveResolutionExtShift
++    {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
++    (N : A.RightModule) (n : ℕ) :
++    Abelian.Ext.{v} (P.complex.X 3) N (n+1) ≃ₗ[k] Abelian.Ext.{v} M N (n+4) :=
++  ((A.rightModuleExtDimensionShift (P.shortExact₂ h₄) N n).trans
++    (A.rightModuleExtDimensionShift P.shortExact₁ N (n+1))).trans
++      (A.rightModuleExtDimensionShift P.shortExact₀ N (n+2))
++
++theorem rightFourTermProjectiveResolution_ext_ge_four_eq_zero
++    {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
++    (N : A.RightModule) (n : ℕ) (e : Abelian.Ext.{v} M N (n+4)) : e=0 := by
++  obtain ⟨x,rfl⟩ := (A.rightFourTermProjectiveResolutionExtShift P h₄ N n).surjective e
++  rw [Abelian.Ext.eq_zero_of_projective x,LinearEquiv.map_zero]
++
++theorem rightFourTermProjectiveResolution_hasProjectiveDimensionLE
++    {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4)) :
++    HasProjectiveDimensionLE M 3 := by
++  apply HasProjectiveDimensionLT.mk
++  intro n hn N e
++  obtain ⟨m,hm⟩ := Nat.exists_eq_add_of_le hn
++  rw [Nat.add_comm 4 m] at hm
++  subst n
++  exact A.rightFourTermProjectiveResolution_ext_ge_four_eq_zero P h₄ N m e
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgSimpleProjectiveDimension.lean
+@@ -0,0 +1,28 @@
++import work.ASGinzburgDraft.GinzburgASProjectiveResolution
++import work.ASGinzburgDraft.FourTermProjectiveResolutionExt
++
++/-! Genuine Ginzburg regularity implies projective dimension at most
++three and vanishing of the actual higher Ext of every right simple. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem GinzburgRegular.simple_ext_ge_four_eq_zero {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex)
++    (N : (Q.unrolledJacobianZAlgebra k φ).RightModule) (n : ℕ)
++    (e : Abelian.Ext.{u} ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))
++      N (n+4)) : e=0 :=
++  (Q.unrolledJacobianZAlgebra k φ).rightFourTermProjectiveResolution_ext_ge_four_eq_zero
++    (h.simpleProjectiveResolution Q k v)
++    (h.simpleProjectiveResolution_isZero_ge_four Q k v 0) N n e
++
++theorem GinzburgRegular.simple_hasProjectiveDimensionLE {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
++    HasProjectiveDimensionLE
++      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) 3 :=
++  (Q.unrolledJacobianZAlgebra k φ).rightFourTermProjectiveResolution_hasProjectiveDimensionLE
++    (h.simpleProjectiveResolution Q k v)
++    (h.simpleProjectiveResolution_isZero_ge_four Q k v 0)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgSimpleFiniteProjectiveResolution.lean
+@@ -0,0 +1,42 @@
++import work.ASGinzburgDraft.GinzburgASProjectiveResolution
++import ASGinzburg.FiniteProjectiveResolutionLength
++
++/-! Every term of the actual Ginzburg simple resolution is finitely
++generated projective. Actual finite covers of length three are derived
++without imposing minimality or any AS/Ext hypothesis. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgASProjectiveComplexTerm_finite (φ : Q.Potential k)
++    (v : Q.LiftVertex) (n : ℕ) :
++    (Q.unrolledJacobianZAlgebra k φ).rightFiniteProjectiveProperty
++      (Q.ginzburgASProjectiveComplexTerm k φ v n) := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  rcases n with _|_|_|_|n
++  · exact A.rightFiniteProjectiveProperty_representable _
++  · dsimp [ginzburgASProjectiveComplexTerm,ZAlgebra.asResolutionTerm₁]
++    exact A.rightFiniteProjectiveProperty_coproduct _
++  · dsimp [ginzburgASProjectiveComplexTerm,ZAlgebra.asResolutionTerm₂]
++    exact A.rightFiniteProjectiveProperty_coproduct _
++  · exact A.rightFiniteProjectiveProperty_representable _
++  · exact A.rightFiniteProjectiveProperty_of_isZero (isZero_zero _)
++
++theorem GinzburgRegular.simpleProjectiveResolution_finite {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (n : ℕ) :
++    (Q.unrolledJacobianZAlgebra k φ).rightFiniteProjectiveProperty
++      ((h.simpleProjectiveResolution Q k v).complex.X n) :=
++  Q.ginzburgASProjectiveComplexTerm_finite k φ v n
++
++theorem GinzburgRegular.simple_hasRightFiniteProjectiveResolutionLength {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).HasRightFiniteProjectiveResolutionLength 3
++      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) :=
++  (Q.unrolledJacobianZAlgebra k φ).hasRightFiniteProjectiveResolutionLength_of_fourTermResolution
++    (h.simpleProjectiveResolution Q k v)
++    (h.simpleProjectiveResolution_isZero_ge_four Q k v 0)
++    (fun n _ => h.simpleProjectiveResolution_finite Q k v n)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgSimpleExtColimits.lean
+@@ -0,0 +1,42 @@
++import work.ASGinzburgDraft.GinzburgSimpleFiniteProjectiveResolution
++import ASGinzburg.FiniteProjectiveResolutionExtColimits
++
++/-! Genuine Ginzburg regularity implies the required actual Ext/colimit
++exchange for each right simple through its derived finite projective
++resolution; the exchange is not an added hypothesis. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u w t
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def GinzburgRegular.simpleExtPreservesExactColimits {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (J : Type w) [Category.{t} J]
++    [HasColimitsOfShape J (Q.unrolledJacobianZAlgebra k φ).RightModule]
++    [HasColimitsOfShape J (ModuleCat.{u} k)] [HasExactColimitsOfShape J (ModuleCat.{u} k)]
++    (n : ℕ) : PreservesColimitsOfShape J
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleExtCovariant
++        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) n) :=
++  (Q.unrolledJacobianZAlgebra k φ).rightFiniteProjectiveResolutionExtPreservesExactColimits 3
++    (h.simple_hasRightFiniteProjectiveResolutionLength Q k v) J n
++
++noncomputable def GinzburgRegular.simpleExtPreservesCoproducts {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (I : Type) (n : ℕ) :
++    PreservesColimitsOfShape (Discrete I)
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleExtCovariant
++        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) n) := by
++  letI : HasExactColimitsOfShape (Discrete I) (ModuleCat.{u} k) := moduleCatExactCoproducts I
++  exact h.simpleExtPreservesExactColimits Q k v (Discrete I) n
++
++noncomputable def GinzburgRegular.simpleExtCoproductIso {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) {I : Type} (n : ℕ)
++    (F : I → (Q.unrolledJacobianZAlgebra k φ).RightModule) :
++    ModuleCat.of k (Abelian.Ext.{u}
++      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) (∐ F) n) ≅
++      ∐ fun i => ModuleCat.of k (Abelian.Ext.{u}
++        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) (F i) n) := by
++  letI := h.simpleExtPreservesCoproducts Q k v I n
++  exact PreservesCoproduct.iso
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleExtCovariant
++      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) n) F
++
++end ASGinzburg.CutQuiver

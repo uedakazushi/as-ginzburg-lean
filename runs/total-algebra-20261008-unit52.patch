@@ -1,0 +1,611 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 4ac9b64..930ac43 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -364,6 +364,14 @@ import ASGinzburg.GinzburgGeneratorIndices
+ import ASGinzburg.GinzburgGeneratorCoefficientIndices
+ import ASGinzburg.GinzburgProjectiveTermComponents
+ 
++import ASGinzburg.GinzburgAugmentationHeight
++import ASGinzburg.RepresentableRadicalComponents
++import ASGinzburg.GinzburgAugmentationHeightHomology
++import ASGinzburg.GinzburgAugmentationRadical
++import ASGinzburg.GinzburgASComponentDifferentials
++import ASGinzburg.GinzburgASComponentExactness
++import ASGinzburg.GinzburgASComponentComplex
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 7fa45d0..5739803 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -785,6 +785,31 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.subset_generated
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.generated_le
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentDifferential_square
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentChainComplex
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asComponentChainComplex_exactAt_succ
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentAugmentation
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asComponentAugmentation_quasiIso
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₃
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₂
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentRadicalMap
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₁
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₃_comp_D₂
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₂_comp_radicalMap
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₂_comp_D₁
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentD₁_comp_simpleπ
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentRadicalMap_epi
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asComponentD₃_mono
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentLoopDualShortComplex
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asComponentLoopDualShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentDualRadicalShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentDualRadicalShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentDualOriginalShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentDualOriginalShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentOriginalSimpleShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgASComponentOriginalSimpleShortComplex_exact
+ #print axioms ASGinzburg.CutQuiver.GinzburgAssociatedGraded
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential_square
+@@ -812,6 +837,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutComponentBasisEquiv
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationGradedFreeEquiv
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationAtDegree_eq_cut_of_neg
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.length_pos_of_winding_pos
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding_eq_lift_height_difference
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationAtDegree_eq_cut_of_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationAtDegree_eq_bot_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationCochainInclusion_f_isIso_of_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationCochainInclusion_isIso_of_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHeightComplexIso
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHeightHomologyIso
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationTerm_isZero_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHomology_isZero_of_not_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.length_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationSubmodule_comp_left
+@@ -820,6 +855,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_mem_augmentation
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationDifferential_square
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationRadicalComponentIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationCochainInclusion
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.augmentationHomology_succ_isZero
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.augmentationHomology_isZero
+@@ -2081,6 +2117,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModuleExtZeroFunctorIso
+ #print axioms ASGinzburg.ZAlgebra.representableExtZeroPreservesColimitsOfShape
+ #print axioms ASGinzburg.ZAlgebra.representableExtZeroColimitIso
++#print axioms ASGinzburg.ZAlgebra.representableRadicalInclusion_component_isIso
++#print axioms ASGinzburg.ZAlgebra.representableRadicalBelowComponentIso
++#print axioms ASGinzburg.ZAlgebra.representableRadicalBelowComponentIso_hom
++#print axioms ASGinzburg.ZAlgebra.representableRadicalComponent_isZero_of_not_lt
+ #print axioms ASGinzburg.ZAlgebra.Obj
+ #print axioms ASGinzburg.ZAlgebra.objCategory
+ #print axioms ASGinzburg.ZAlgebra.objHomAdd
+diff --git a/ASGinzburg/GinzburgAugmentationHeight.lean b/ASGinzburg/GinzburgAugmentationHeight.lean
+new file mode 100644
+index 0000000..649b6cf
+--- /dev/null
++++ b/ASGinzburg/GinzburgAugmentationHeight.lean
+@@ -0,0 +1,60 @@
++import ASGinzburg.GinzburgAugmentationRegularity
++
++/-! Genuine nonempty paths have positive height difference. Accordingly,
++the augmentation component is the whole component below its endpoint,
++and zero elsewhere, exactly as for the representable radical. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem GinzburgPath.length_pos_of_winding_pos {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) (hw : 0<p.winding) : 0<p.length := by
++  cases p with
++  | nil => simp [GinzburgPath.winding] at hw
++  | snoc p a ha => simp [GinzburgPath.length]
++
++theorem GinzburgPath.winding_eq_lift_height_difference {x y : Q.LiftVertex}
++    (p : Q.GinzburgPath x.1 y.1) (hc : p.cutDegree=y.2-x.2) :
++    p.winding=Q.height y-Q.height x := by
++  rw [p.winding_formula,hc]
++  unfold height
++  ring
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgAugmentationAtDegree_eq_cut_of_height_lt (x y : Q.LiftVertex)
++    (q : ℤ) (hxy : Q.height x<Q.height y) :
++    Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2)=
++      Q.ginzburgCutCohomologicalComponent k x.1 y.1 q (y.2-x.2) := by
++  rw [Q.ginzburgAugmentationAtDegree_eq_inf]
++  apply inf_eq_right.mpr
++  intro f hf
++  change f ∈ Finsupp.supported k k {p : Q.GinzburgPath x.1 y.1 | 0<p.length}
++  rw [Finsupp.mem_supported]
++  intro p hp
++  have hfc : f ∈ Finsupp.supported k k
++      {p : Q.GinzburgPath x.1 y.1 | p.cutDegree=y.2-x.2} := hf.2
++  have hc := (Finsupp.mem_supported k f).mp hfc hp
++  have hw : 0<p.winding := by
++    rw [p.winding_eq_lift_height_difference Q hc]
++    omega
++  exact p.length_pos_of_winding_pos Q hw
++
++theorem ginzburgAugmentationAtDegree_eq_bot_of_not_height_lt (x y : Q.LiftVertex)
++    (q : ℤ) (hxy : ¬Q.height x<Q.height y) :
++    Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2)=⊥ := by
++  apply bot_unique
++  intro f hf
++  rw [Submodule.mem_bot]
++  apply Finsupp.ext
++  intro p
++  by_contra hp
++  simp only [Finsupp.zero_apply] at hp
++  change f ∈ Finsupp.supported k k
++    {p : Q.GinzburgPath x.1 y.1 | 0<p.length ∧ p.cohomologicalDegree=q ∧ p.cutDegree=y.2-x.2} at hf
++  have hpc := (Finsupp.mem_supported k f).mp hf (Finsupp.mem_support_iff.mpr hp)
++  have hw := p.winding_pos_of_length_pos hpc.1
++  rw [p.winding_eq_lift_height_difference Q hpc.2.2] at hw
++  exact hxy (by omega)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/RepresentableRadicalComponents.lean b/ASGinzburg/RepresentableRadicalComponents.lean
+new file mode 100644
+index 0000000..6fb1322
+--- /dev/null
++++ b/ASGinzburg/RepresentableRadicalComponents.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.SimpleRightModules
++
++/-! Canonical component isomorphisms for the existing representable
++radical inclusion, below its endpoint, and actual zero components elsewhere. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem representableRadicalInclusion_component_isIso (i j : ℤ) (hij : i<j) :
++    IsIso ((A.rightModuleEvaluation i).map (A.representableRadical j).inclusion) := by
++  apply (ConcreteCategory.isIso_iff_bijective _).mpr
++  refine ⟨?_,?_⟩
++  · intro f g h
++    exact Subtype.ext h
++  · intro f
++    refine ⟨⟨f,?_⟩,rfl⟩
++    simp [representableRadical,hij]
++
++noncomputable def representableRadicalBelowComponentIso (i j : ℤ) (hij : i<j) :
++    (A.rightModuleEvaluation i).obj (A.representableRadical j).object ≅
++      (A.rightModuleEvaluation i).obj (A.representable j) := by
++  letI := A.representableRadicalInclusion_component_isIso i j hij
++  exact asIso ((A.rightModuleEvaluation i).map (A.representableRadical j).inclusion)
++
++@[simp] theorem representableRadicalBelowComponentIso_hom (i j : ℤ) (hij : i<j) :
++    (A.representableRadicalBelowComponentIso i j hij).hom=
++      (A.rightModuleEvaluation i).map (A.representableRadical j).inclusion := rfl
++
++theorem representableRadicalComponent_isZero_of_not_lt (i j : ℤ) (hij : ¬i<j) :
++    IsZero ((A.rightModuleEvaluation i).obj (A.representableRadical j).object) := by
++  change IsZero (ModuleCat.of k (if i<j then ⊤ else ⊥ : Submodule k (A.Hom i j)))
++  rw [if_neg hij]
++  exact ModuleCat.isZero_of_subsingleton _
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/GinzburgAugmentationHeightHomology.lean b/ASGinzburg/GinzburgAugmentationHeightHomology.lean
+new file mode 100644
+index 0000000..9f88d02
+--- /dev/null
++++ b/ASGinzburg/GinzburgAugmentationHeightHomology.lean
+@@ -0,0 +1,56 @@
++import ASGinzburg.GinzburgAugmentationHeight
++
++/-! The actual augmentation inclusion is an isomorphism at positive
++height difference; at other heights the entire augmentation complex is zero. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgAugmentationCochainInclusion_f_isIso_of_height_lt (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) (q : ℤ) :
++    IsIso ((Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2)).f q) := by
++  apply (ConcreteCategory.isIso_iff_bijective _).mpr
++  refine ⟨?_,?_⟩
++  · intro f g h
++    exact Subtype.ext (congrArg (fun z :
++      Q.ginzburgCutCohomologicalComponent k x.1 y.1 q (y.2-x.2) => z.val) h)
++  · intro f
++    refine ⟨⟨f.val,?_⟩,Subtype.ext rfl⟩
++    rw [Q.ginzburgAugmentationAtDegree_eq_cut_of_height_lt k x y q hxy]
++    exact f.property
++
++theorem ginzburgAugmentationCochainInclusion_isIso_of_height_lt (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) :
++    IsIso (Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2)) := by
++  letI (q : ℤ) : IsIso ((Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2)).f q) :=
++    Q.ginzburgAugmentationCochainInclusion_f_isIso_of_height_lt k φ x y hxy q
++  exact HomologicalComplex.Hom.isIso_of_components _
++
++noncomputable def ginzburgAugmentationHeightComplexIso (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) :
++    Q.ginzburgAugmentationCochainComplex k φ x.1 y.1 (y.2-x.2) ≅
++      Q.ginzburgCutCochainComplex k φ x.1 y.1 (y.2-x.2) := by
++  letI := Q.ginzburgAugmentationCochainInclusion_isIso_of_height_lt k φ x y hxy
++  exact asIso (Q.ginzburgAugmentationCochainInclusion k φ x.1 y.1 (y.2-x.2))
++
++noncomputable def ginzburgAugmentationHeightHomologyIso (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (hxy : Q.height x<Q.height y) (q : ℤ) :
++    Q.ginzburgAugmentationHomology k φ x.1 y.1 (y.2-x.2) q ≅
++      Q.ginzburgCutHomology k φ x.1 y.1 (y.2-x.2) q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).mapIso
++    (Q.ginzburgAugmentationHeightComplexIso k φ x y hxy)
++
++theorem ginzburgAugmentationTerm_isZero_of_not_height_lt (x y : Q.LiftVertex)
++    (q : ℤ) (hxy : ¬Q.height x<Q.height y) :
++    IsZero (ModuleCat.of k (Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2))) := by
++  rw [Q.ginzburgAugmentationAtDegree_eq_bot_of_not_height_lt k x y q hxy]
++  exact ModuleCat.isZero_of_subsingleton _
++
++theorem ginzburgAugmentationHomology_isZero_of_not_height_lt (φ : Q.Potential k)
++    (x y : Q.LiftVertex) (q : ℤ) (hxy : ¬Q.height x<Q.height y) :
++    IsZero (Q.ginzburgAugmentationHomology k φ x.1 y.1 (y.2-x.2) q) :=
++  ((Q.ginzburgAugmentationCochainComplex k φ x.1 y.1 (y.2-x.2)).sc q).isZero_homology_of_isZero_X₂
++    (Q.ginzburgAugmentationTerm_isZero_of_not_height_lt k x y q hxy)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgAugmentationRadical.lean b/ASGinzburg/GinzburgAugmentationRadical.lean
+new file mode 100644
+index 0000000..a4530d7
+--- /dev/null
++++ b/ASGinzburg/GinzburgAugmentationRadical.lean
+@@ -0,0 +1,27 @@
++import ASGinzburg.GinzburgAugmentationHeightHomology
++import ASGinzburg.RepresentableRadicalComponents
++import ASGinzburg.JacobianUnrollingQuotient
++
++/-! Actual augmentation homology identifies with the existing radical
++component. This comparison requires no Ginzburg regularity hypothesis. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgAugmentationRadicalComponentIso (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    Q.ginzburgAugmentationHomology k φ x.1 v.1 (v.2-x.2) 0 ≅
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object := by
++  by_cases h : Q.height x<Q.height v
++  · exact Q.ginzburgAugmentationHeightHomologyIso k φ x v h 0 ≪≫
++      Q.ginzburgCutHomologyZeroUnrolledIso k φ x v ≪≫
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadicalBelowComponentIso
++          (Q.height x) (Q.height v) h).symm
++  · exact (Q.ginzburgAugmentationHomology_isZero_of_not_height_lt k φ x v 0 h).isoZero ≪≫
++      ((Q.unrolledJacobianZAlgebra k φ).representableRadicalComponent_isZero_of_not_lt
++        (Q.height x) (Q.height v) h).isoZero.symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgASComponentDifferentials.lean b/ASGinzburg/GinzburgASComponentDifferentials.lean
+new file mode 100644
+index 0000000..aa37965
+--- /dev/null
++++ b/ASGinzburg/GinzburgASComponentDifferentials.lean
+@@ -0,0 +1,87 @@
++import ASGinzburg.GinzburgAugmentationRadical
++import ASGinzburg.GinzburgProjectiveTermComponents
++import ASGinzburg.GinzburgGeneratorHomologyComplex
++
++/-! Transport the intrinsic filtration homology maps to the actual
++evaluation components of the existing AS terms. Module naturality remains
++a separate proof obligation. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgASComponentD₃ (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.tau.symm v))) ⟶
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v) :=
++  (Q.ginzburgLoopLayerHomologyRepresentableIso k φ x v).inv ≫
++    Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2-x.2) ≫
++      (Q.ginzburgDualLayerHomologyTermTwoIso k φ x v).hom
++
++noncomputable def ginzburgASComponentD₂ (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v) ⟶
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v) :=
++  (Q.ginzburgDualLayerHomologyTermTwoIso k φ x v).inv ≫
++    Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2) ≫
++      (Q.ginzburgUpperFilteredHomologyTermOneIso k φ x v).hom
++
++noncomputable def ginzburgASComponentRadicalMap (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v) ⟶
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object :=
++  (Q.ginzburgUpperFilteredHomologyTermOneIso k φ x v).inv ≫
++    Q.ginzburgGeneratorFiltrationRadicalMap k φ x.1 v.1 (v.2-x.2) ≫
++      (Q.ginzburgAugmentationRadicalComponentIso k φ x v).hom
++
++noncomputable def ginzburgASComponentD₁ (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v) ⟶
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++        ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height v)) :=
++  Q.ginzburgASComponentRadicalMap k φ x v ≫
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
++      ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).inclusion
++
++theorem ginzburgASComponentD₃_comp_D₂ (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    Q.ginzburgASComponentD₃ k φ x v ≫ Q.ginzburgASComponentD₂ k φ x v=0 := by
++  simp only [ginzburgASComponentD₃,ginzburgASComponentD₂,Category.assoc,
++    Iso.hom_inv_id_assoc]
++  simp only [← Category.assoc,Q.ginzburgGeneratorLoopDualOriginal_comp,comp_zero,zero_comp]
++
++theorem ginzburgASComponentD₂_comp_radicalMap (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    Q.ginzburgASComponentD₂ k φ x v ≫ Q.ginzburgASComponentRadicalMap k φ x v=0 := by
++  simp only [ginzburgASComponentD₂,ginzburgASComponentRadicalMap,Category.assoc,
++    Iso.hom_inv_id_assoc]
++  simp only [← Category.assoc,Q.ginzburgGeneratorDualToOriginalHomology_comp,comp_zero,zero_comp]
++
++theorem ginzburgASComponentD₂_comp_D₁ (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    Q.ginzburgASComponentD₂ k φ x v ≫ Q.ginzburgASComponentD₁ k φ x v=0 := by
++  rw [ginzburgASComponentD₁,← Category.assoc,Q.ginzburgASComponentD₂_comp_radicalMap,
++    zero_comp]
++
++theorem ginzburgASComponentD₁_comp_simpleπ (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    Q.ginzburgASComponentD₁ k φ x v ≫
++      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
++        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v))=0 := by
++  rw [ginzburgASComponentD₁,Category.assoc,← Functor.map_comp]
++  simp only [ZAlgebra.simpleRightModuleπ,ZAlgebra.RightSubmodule.quotientπ,
++    cokernel.condition,Functor.map_zero,comp_zero]
++
++theorem ginzburgASComponentRadicalMap_epi (φ : Q.Potential k) (x v : Q.LiftVertex) :
++    Epi (Q.ginzburgASComponentRadicalMap k φ x v) := by
++  letI := Q.ginzburgGeneratorFiltrationRadicalMap_epi k φ x.1 v.1 (v.2-x.2)
++  unfold ginzburgASComponentRadicalMap
++  infer_instance
++
++theorem GinzburgRegular.asComponentD₃_mono {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) :
++    Mono (Q.ginzburgASComponentD₃ k φ x v) := by
++  letI := h.loopToDualHomology_mono Q k x.1 v.1 (v.2-x.2)
++  unfold ginzburgASComponentD₃
++  infer_instance
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgASComponentExactness.lean b/ASGinzburg/GinzburgASComponentExactness.lean
+new file mode 100644
+index 0000000..8587802
+--- /dev/null
++++ b/ASGinzburg/GinzburgASComponentExactness.lean
+@@ -0,0 +1,103 @@
++import ASGinzburg.GinzburgASComponentDifferentials
++
++/-! Exactness at the actual AS-term evaluation components. The intrinsic
++Ginzburg regularity hypothesis is used only for the left two terms. These
++component maps have not yet been assembled into right-module morphisms. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgASComponentLoopDualShortComplex (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.mk (Q.ginzburgASComponentD₃ k φ x v) (Q.ginzburgASComponentD₂ k φ x v)
++    (Q.ginzburgASComponentD₃_comp_D₂ k φ x v)
++
++theorem GinzburgRegular.asComponentLoopDualShortComplex_exact {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) :
++    (Q.ginzburgASComponentLoopDualShortComplex k φ x v).Exact := by
++  let S := ShortComplex.mk
++    (Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2-x.2))
++    (Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2))
++    (Q.ginzburgGeneratorLoopDualOriginal_comp k φ x.1 v.1 (v.2-x.2))
++  have hs : S.Exact := by
++    simpa only [S,ginzburgGeneratorDualToOriginalHomology,
++      show (-1:ℤ)+1=0 by norm_num,ginzburgGeneratorLoopDualShortComplex] using
++      h.loopDualShortComplex_exact Q k x.1 v.1 (v.2-x.2)
++  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
++    (Q.ginzburgLoopLayerHomologyRepresentableIso k φ x v)
++    (Q.ginzburgDualLayerHomologyTermTwoIso k φ x v)
++    (Q.ginzburgUpperFilteredHomologyTermOneIso k φ x v)
++    (S₁:=S) (S₂:=Q.ginzburgASComponentLoopDualShortComplex k φ x v)
++    (by simp [S,ginzburgASComponentLoopDualShortComplex,ginzburgASComponentD₃])
++    (by simp [S,ginzburgASComponentLoopDualShortComplex,ginzburgASComponentD₂]))).mp hs
++
++noncomputable def ginzburgASComponentDualRadicalShortComplex (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.mk (Q.ginzburgASComponentD₂ k φ x v)
++    (Q.ginzburgASComponentRadicalMap k φ x v)
++    (Q.ginzburgASComponentD₂_comp_radicalMap k φ x v)
++
++theorem ginzburgASComponentDualRadicalShortComplex_exact (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).Exact := by
++  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
++    (Q.ginzburgDualLayerHomologyTermTwoIso k φ x v)
++    (Q.ginzburgUpperFilteredHomologyTermOneIso k φ x v)
++    (Q.ginzburgAugmentationRadicalComponentIso k φ x v)
++    (S₁:=Q.ginzburgGeneratorDualOriginalShortComplex k φ x.1 v.1 (v.2-x.2))
++    (S₂:=Q.ginzburgASComponentDualRadicalShortComplex k φ x v)
++    (by simp [ginzburgGeneratorDualOriginalShortComplex,ginzburgASComponentDualRadicalShortComplex,
++      ginzburgASComponentD₂])
++    (by simp [ginzburgGeneratorDualOriginalShortComplex,ginzburgASComponentDualRadicalShortComplex,
++      ginzburgASComponentRadicalMap]))).mp
++    (Q.ginzburgGeneratorDualOriginalShortComplex_exact k φ x.1 v.1 (v.2-x.2))
++
++noncomputable def ginzburgASComponentDualOriginalShortComplex (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.mk (Q.ginzburgASComponentD₂ k φ x v) (Q.ginzburgASComponentD₁ k φ x v)
++    (Q.ginzburgASComponentD₂_comp_D₁ k φ x v)
++
++theorem ginzburgASComponentDualOriginalShortComplex_exact (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    (Q.ginzburgASComponentDualOriginalShortComplex k φ x v).Exact := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  let E := A.rightModuleEvaluation (Q.height x)
++  let f : Q.ginzburgASComponentDualRadicalShortComplex k φ x v ⟶
++      Q.ginzburgASComponentDualOriginalShortComplex k φ x v :=
++    ShortComplex.homMk (𝟙 _) (𝟙 _) (E.map (A.representableRadical (Q.height v)).inclusion)
++      (by simp [ginzburgASComponentDualRadicalShortComplex,ginzburgASComponentDualOriginalShortComplex])
++      (by simp [ginzburgASComponentDualRadicalShortComplex,ginzburgASComponentDualOriginalShortComplex,
++        ginzburgASComponentD₁,E,A])
++  haveI : Epi f.τ₁ := by dsimp [f]; infer_instance
++  haveI : IsIso f.τ₂ := by dsimp [f]; infer_instance
++  haveI : Mono f.τ₃ := by dsimp [f]; infer_instance
++  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mp
++    (Q.ginzburgASComponentDualRadicalShortComplex_exact k φ x v)
++
++noncomputable def ginzburgASComponentOriginalSimpleShortComplex (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
++  ShortComplex.mk (Q.ginzburgASComponentD₁ k φ x v)
++    (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
++      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)))
++    (Q.ginzburgASComponentD₁_comp_simpleπ k φ x v)
++
++theorem ginzburgASComponentOriginalSimpleShortComplex_exact (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    (Q.ginzburgASComponentOriginalSimpleShortComplex k φ x v).Exact := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  let E := A.rightModuleEvaluation (Q.height x)
++  let S := (A.representableRadical (Q.height v)).quotientShortComplex.map E
++  let f : Q.ginzburgASComponentOriginalSimpleShortComplex k φ x v ⟶ S :=
++    ShortComplex.homMk (Q.ginzburgASComponentRadicalMap k φ x v) (𝟙 _) (𝟙 _)
++      (by simp [S,ginzburgASComponentOriginalSimpleShortComplex,ginzburgASComponentD₁,
++        ZAlgebra.RightSubmodule.quotientShortComplex,E,A])
++      (by simp [S,ginzburgASComponentOriginalSimpleShortComplex,ZAlgebra.simpleRightModuleπ,
++        ZAlgebra.RightSubmodule.quotientShortComplex,E,A])
++  haveI : Epi f.τ₁ := Q.ginzburgASComponentRadicalMap_epi k φ x v
++  haveI : IsIso f.τ₂ := by dsimp [f]; infer_instance
++  haveI : Mono f.τ₃ := by dsimp [f]; infer_instance
++  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mpr
++    ((A.simpleRightModule_shortExact (Q.height v)).map_of_exact E).exact
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgASComponentComplex.lean b/ASGinzburg/GinzburgASComponentComplex.lean
+new file mode 100644
+index 0000000..8045981
+--- /dev/null
++++ b/ASGinzburg/GinzburgASComponentComplex.lean
+@@ -0,0 +1,109 @@
++import ASGinzburg.GinzburgASComponentExactness
++
++/-! The genuine four-term sequence at each evaluation component,
++augmented to the actual vertex simple quotient. Right-module naturality
++and minimality are still separate obligations. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++open scoped ZeroObject
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++set_option maxRecDepth 4096
++
++noncomputable def ginzburgASComponentTerm (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ℕ → ModuleCat.{u} k
++  | 0 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++      ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height v))
++  | 1 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++      ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v)
++  | 2 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++      ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v)
++  | 3 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++      ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.tau.symm v)))
++  | _+4 => 0
++
++noncomputable def ginzburgASComponentDifferential (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    ∀ n : ℕ, Q.ginzburgASComponentTerm k φ x v (n+1) ⟶
++      Q.ginzburgASComponentTerm k φ x v n
++  | 0 => Q.ginzburgASComponentD₁ k φ x v
++  | 1 => Q.ginzburgASComponentD₂ k φ x v
++  | 2 => Q.ginzburgASComponentD₃ k φ x v
++  | _+3 => 0
++
++theorem ginzburgASComponentDifferential_square (φ : Q.Potential k)
++    (x v : Q.LiftVertex) (n : ℕ) :
++    Q.ginzburgASComponentDifferential k φ x v (n+1) ≫
++      Q.ginzburgASComponentDifferential k φ x v n=0 := by
++  rcases n with _|_|_|n
++  · exact Q.ginzburgASComponentD₂_comp_D₁ k φ x v
++  · exact Q.ginzburgASComponentD₃_comp_D₂ k φ x v
++  · simp [ginzburgASComponentDifferential]
++  · simp [ginzburgASComponentDifferential]
++
++noncomputable def ginzburgASComponentChainComplex (φ : Q.Potential k)
++    (x v : Q.LiftVertex) : ChainComplex (ModuleCat.{u} k) ℕ :=
++  ChainComplex.of (Q.ginzburgASComponentTerm k φ x v)
++    (Q.ginzburgASComponentDifferential k φ x v)
++    (Q.ginzburgASComponentDifferential_square k φ x v)
++
++theorem GinzburgRegular.asComponentChainComplex_exactAt_succ {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) (n : ℕ) :
++    (Q.ginzburgASComponentChainComplex k φ x v).ExactAt (n+1) := by
++  rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp)]
++  rcases n with _|_|_|n
++  · simpa [ginzburgASComponentChainComplex,ginzburgASComponentTerm,
++      ginzburgASComponentDifferential,HomologicalComplex.sc',
++      ginzburgASComponentDualOriginalShortComplex] using
++      Q.ginzburgASComponentDualOriginalShortComplex_exact k φ x v
++  · simpa [ginzburgASComponentChainComplex,ginzburgASComponentTerm,
++      ginzburgASComponentDifferential,HomologicalComplex.sc',
++      ginzburgASComponentLoopDualShortComplex] using
++      h.asComponentLoopDualShortComplex_exact Q k x v
++  · apply (ShortComplex.exact_iff_mono _ ?_).mpr
++    · simpa [ginzburgASComponentChainComplex,ginzburgASComponentDifferential,
++        HomologicalComplex.sc',HomologicalComplex.shortComplexFunctor'] using
++        h.asComponentD₃_mono Q k x v
++    · change (Q.ginzburgASComponentChainComplex k φ x v).d 4 3=0
++      simpa only [ginzburgASComponentChainComplex,ginzburgASComponentDifferential] using
++        ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
++          (Q.ginzburgASComponentDifferential k φ x v)
++          (Q.ginzburgASComponentDifferential_square k φ x v) 3
++  · apply ShortComplex.exact_of_isZero_X₂
++    simpa [ginzburgASComponentChainComplex,ginzburgASComponentTerm,
++      HomologicalComplex.sc',HomologicalComplex.shortComplexFunctor'] using isZero_zero (ModuleCat k)
++
++noncomputable def ginzburgASComponentAugmentation (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    Q.ginzburgASComponentChainComplex k φ x v ⟶
++      (ChainComplex.single₀ (ModuleCat.{u} k)).obj
++        (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++          ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))) :=
++  (ChainComplex.toSingle₀Equiv _ _).symm
++    ⟨((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
++      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)),by
++        simpa [ginzburgASComponentChainComplex,ginzburgASComponentDifferential] using
++          Q.ginzburgASComponentD₁_comp_simpleπ k φ x v⟩
++
++theorem GinzburgRegular.asComponentAugmentation_quasiIso {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) :
++    QuasiIso (Q.ginzburgASComponentAugmentation k φ x v) := ⟨fun n => by
++  cases n
++  · rw [ChainComplex.quasiIsoAt₀_iff,ShortComplex.quasiIso_iff_of_zeros']
++    · dsimp
++      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
++        ⟨Q.ginzburgASComponentOriginalSimpleShortComplex_exact k φ x v,by
++          change Epi (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
++            ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)))
++          infer_instance⟩
++      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
++        (by dsimp; exact (ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
++          (Q.ginzburgASComponentDifferential k φ x v)
++          (Q.ginzburgASComponentDifferential_square k φ x v) 0).symm)
++        (by simp [ginzburgASComponentAugmentation,ginzburgASComponentOriginalSimpleShortComplex])
++    all_goals rfl
++  · rw [quasiIsoAt_iff_exactAt']
++    · exact h.asComponentChainComplex_exactAt_succ Q k x v _
++    · apply ChainComplex.exactAt_succ_single_obj⟩
++
++end ASGinzburg.CutQuiver

@@ -364,6 +364,14 @@ import ASGinzburg.GinzburgGeneratorIndices
 import ASGinzburg.GinzburgGeneratorCoefficientIndices
 import ASGinzburg.GinzburgProjectiveTermComponents
 
+import ASGinzburg.GinzburgAugmentationHeight
+import ASGinzburg.RepresentableRadicalComponents
+import ASGinzburg.GinzburgAugmentationHeightHomology
+import ASGinzburg.GinzburgAugmentationRadical
+import ASGinzburg.GinzburgASComponentDifferentials
+import ASGinzburg.GinzburgASComponentExactness
+import ASGinzburg.GinzburgASComponentComplex
+
 /-!
 # AS--Ginzburg formalization checkpoint
 
