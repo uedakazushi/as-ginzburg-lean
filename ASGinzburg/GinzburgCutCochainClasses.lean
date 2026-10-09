@@ -1,0 +1,64 @@
+import ASGinzburg.GinzburgCutHomologyZeroProducts
+import ASGinzburg.ModuleCokernelHomologyClasses
+
+/-! Actual mathlib cycle classes in fixed-cut degree zero are exactly
+their genuine differential-boundary quotient classes. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCutHomologyZeroQuotientIso_π (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    (Q.ginzburgCutCochainComplex k φ u v c).homologyπ 0 ≫
+      (Q.ginzburgCutHomologyZeroQuotientIso k φ u v c).hom=
+      (Q.ginzburgCutCochainComplex k φ u v c).iCycles 0 ≫
+        ModuleCat.ofHom (LinearMap.range
+          (Q.ginzburgCutNegativeOneDifferential k φ u v c)).mkQ := by
+  let K := Q.ginzburgCutCochainComplex k φ u v c
+  let e := Q.ginzburgCutZeroShortComplexIso k φ u v c
+  change K.homologyπ 0 ≫ (K.homologyIsoSc' (-1) 0 1 (by simp) (by simp)).hom ≫
+    ShortComplex.homologyMap e.hom ≫
+    (moduleCatCokernelHomologyIso _ (Q.ginzburgCutZeroShortComplex_g k φ u v c)).hom=_
+  rw [K.π_homologyIsoSc'_hom_assoc,ShortComplex.homologyπ_naturality_assoc,
+    moduleCatCokernelHomologyIso_π]
+  rw [ShortComplex.cyclesMap_i_assoc]
+  have he : e.hom.τ₂=𝟙 _ := rfl
+  rw [he,Category.id_comp,←Category.assoc,K.cyclesIsoSc'_hom_iCycles]
+  rfl
+
+theorem ginzburgCutHomologyZeroQuotientIso_cochain_class (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k u v 0 c)
+    (hf : (Q.ginzburgCutCochainComplex k φ u v c).d 0 1 f=0) :
+    (Q.ginzburgCutHomologyZeroQuotientIso k φ u v c).hom
+      (moduleCochainHomologyClass (Q.ginzburgCutCochainComplex k φ u v c) 0 f hf)=
+      Submodule.Quotient.mk f := by
+  let K := Q.ginzburgCutCochainComplex k φ u v c
+  change (K.homologyπ 0 ≫ (Q.ginzburgCutHomologyZeroQuotientIso k φ u v c).hom)
+    (K.cyclesMk f 1 (by simp) hf)=_
+  rw [Q.ginzburgCutHomologyZeroQuotientIso_π]
+  change Submodule.Quotient.mk (K.iCycles 0 (K.cyclesMk f 1 (by simp) hf))=_
+  have hi : K.iCycles 0 (K.cyclesMk f 1 (by simp) hf)=f := by
+    change ((forget₂ (ModuleCat k) Ab).map (K.iCycles 0))
+      (K.cyclesMk f 1 (by simp) hf)=f
+    exact K.i_cyclesMk (i:=0) f 1 (by simp) hf
+  rw [hi]
+
+theorem ginzburgCutCochainHomologyClass_eq_zeroClass (φ : Q.Potential k)
+    (x v : Q.LiftVertex)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 v.1 0 (v.2-x.2))
+    (hf : (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2-x.2)).d 0 1 f=0) :
+    moduleCochainHomologyClass
+      (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2-x.2)) 0 f hf=
+      Q.ginzburgCutZeroHomologyClass k φ x v f := by
+  apply (Q.ginzburgCutHomologyZeroQuotientIso k φ x.1 v.1 (v.2-x.2)).toLinearEquiv.injective
+  change (Q.ginzburgCutHomologyZeroQuotientIso k φ x.1 v.1 (v.2-x.2)).hom
+    (moduleCochainHomologyClass
+      (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2-x.2)) 0 f hf)=
+    (Q.ginzburgCutHomologyZeroQuotientIso k φ x.1 v.1 (v.2-x.2)).hom
+      (Q.ginzburgCutZeroHomologyClass k φ x v f)
+  rw [Q.ginzburgCutHomologyZeroQuotientIso_cochain_class,
+    Q.ginzburgCutHomologyZeroQuotientIso_class]
+
+end ASGinzburg.CutQuiver

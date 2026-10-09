@@ -1,0 +1,56 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgEndpointCoordinateValues.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.GinzburgLoopHomCoordinates
++import ASGinzburg.GinzburgADualMatrixFormulas
++
++/-! The genuine endpoint comparison isomorphisms have the actual
++reversed Yoneda and loop coordinates, including the third differential sum. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem ginzburgRepresentableADualOppositeLoopComponentEquiv_coordinate (v l : Q.LiftVertex)
++    (f : (Q.unrolledJacobianZAlgebra k φ).representable (Q.height v) ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ginzburgLoopCoefficientEvaluationEquiv Q.opposite (Q.ginzburgDualOppositeBase v)
++        (Q.opposite.height (Q.oppositeLiftVertexEquiv l))
++        (Q.ginzburgRepresentableADualOppositeLoopComponentEquiv k φ v l f)=
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
++        _ _ _ _ rfl (congrArg Q.opposite.height (Q.ginzburgDualOppositeBase_previous v).symm)
++        (Q.oppositeUnrolledJacobianHomEquiv k φ v l
++          ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv (Q.height v)
++            ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) f)) := by
++  exact LinearEquiv.apply_symm_apply _ _
++
++theorem ginzburgLoopADualOppositeRepresentableComponentEquiv_coordinate (v l : Q.LiftVertex)
++    (f : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-2) ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
++    Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l f=
++      Q.oppositeUnrolledJacobianHomEquiv k φ (Q.tau.symm v) l
++        ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++          (fun a : Q.GinzburgIncomingDegree v.1 (-2) =>
++            Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++          ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) f
++            ⟨.loop v.1,rfl,rfl⟩) := rfl
++
++theorem ginzburgLoopDualProjectiveMap_adual_opposite_coordinates (v l : Q.LiftVertex)
++    (f : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1) ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
++    Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l
++      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
++        (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩ f)=
++      ∑ b : Q.GinzburgIncomingDegree v.1 (-1),
++        Q.oppositeUnrolledJacobianHomEquiv k φ (Q.tau.symm v) l
++          ((Q.unrolledJacobianZAlgebra k φ).comp
++            ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++              (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
++                Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++              ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) f b)
++            (Q.ginzburgGeneratorLoopArrowEntry k φ v b)) := by
++  rw [Q.ginzburgLoopADualOppositeRepresentableComponentEquiv_coordinate,
++    Q.ginzburgLoopDualProjectiveMap_adual_matrix,map_sum]
++  rfl
++
++end ASGinzburg.CutQuiver

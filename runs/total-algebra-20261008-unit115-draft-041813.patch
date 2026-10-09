@@ -1,0 +1,97 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgOppositeDualIndices.lean
+@@ -0,0 +1,94 @@
++import ASGinzburg.OppositeCutQuiver
++import ASGinzburg.GinzburgGeneratorProjectiveTerms
++
++/-! Genuine original and dual-arrow families interchange in the reversed
++resolution based at the reflected previous-sheet vertex. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++def ginzburgDualOppositeBase (v : Q.LiftVertex) : Q.opposite.LiftVertex :=
++  Q.oppositeLiftVertexEquiv (Q.tau.symm v)
++
++def ginzburgIncomingOppositeOutgoingEquiv (v : Q.LiftVertex) :
++    Q.incomingArrows v ≃ Q.opposite.outgoingArrows
++      (Q.opposite.tau.symm (Q.ginzburgDualOppositeBase v)) where
++  toFun a := ⟨a.val,by change (Q.target a.val).rev=v.1.rev;rw [a.property]⟩
++  invFun a := ⟨a.val,by
++    have h := congrArg Fin.rev a.property
++    change ((Q.target a.val).rev).rev=(v.1.rev).rev at h
++    simpa only [Fin.rev_rev] using h⟩
++  left_inv a := rfl
++  right_inv a := rfl
++
++def ginzburgOutgoingOppositeIncomingEquiv (v : Q.LiftVertex) :
++    Q.outgoingArrows (Q.tau.symm v) ≃
++      Q.opposite.incomingArrows (Q.ginzburgDualOppositeBase v) where
++  toFun a := ⟨a.val,by change (Q.source a.val).rev=v.1.rev;rw [a.property];rfl⟩
++  invFun a := ⟨a.val,by
++    have h := congrArg Fin.rev a.property
++    change ((Q.source a.val).rev).rev=(v.1.rev).rev at h
++    simpa only [Fin.rev_rev] using h⟩
++  left_inv a := rfl
++  right_inv a := rfl
++
++noncomputable def ginzburgOriginalOppositeDualEquiv (v : Q.LiftVertex) :
++    Q.GinzburgIncomingDegree v.1 0 ≃
++      Q.opposite.GinzburgIncomingDegree (Q.ginzburgDualOppositeBase v).1 (-1) :=
++  (Q.ginzburgOriginalGeneratorEquiv v).symm.trans
++    ((Q.ginzburgIncomingOppositeOutgoingEquiv v).trans
++      (Q.opposite.ginzburgDualGeneratorEquiv (Q.ginzburgDualOppositeBase v)))
++
++noncomputable def ginzburgDualOppositeOriginalEquiv (v : Q.LiftVertex) :
++    Q.GinzburgIncomingDegree v.1 (-1) ≃
++      Q.opposite.GinzburgIncomingDegree (Q.ginzburgDualOppositeBase v).1 0 :=
++  (Q.ginzburgDualGeneratorEquiv v).symm.trans
++    ((Q.ginzburgOutgoingOppositeIncomingEquiv v).trans
++      (Q.opposite.ginzburgOriginalGeneratorEquiv (Q.ginzburgDualOppositeBase v)))
++
++theorem ginzburgOriginalOppositeDualEquiv_val (v : Q.LiftVertex)
++    (a : Q.incomingArrows v) :
++    (Q.ginzburgOriginalOppositeDualEquiv v (Q.ginzburgOriginalGeneratorEquiv v a)).val=
++      .dual a.val := by
++  simp only [ginzburgOriginalOppositeDualEquiv,Equiv.trans_apply,Equiv.symm_apply_apply]
++  rfl
++
++theorem ginzburgDualOppositeOriginalEquiv_val (v : Q.LiftVertex)
++    (a : Q.outgoingArrows (Q.tau.symm v)) :
++    (Q.ginzburgDualOppositeOriginalEquiv v (Q.ginzburgDualGeneratorEquiv v a)).val=
++      .original a.val := by
++  simp only [ginzburgDualOppositeOriginalEquiv,Equiv.trans_apply,Equiv.symm_apply_apply]
++  rfl
++
++theorem ginzburgOriginalOppositeDualEndpoint (v : Q.LiftVertex)
++    (a : Q.GinzburgIncomingDegree v.1 0) :
++    Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.ginzburgDualOppositeBase v)
++      (Q.ginzburgOriginalOppositeDualEquiv v a).val=
++      Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint v a.val) := by
++  obtain ⟨a,rfl⟩ := (Q.ginzburgOriginalGeneratorEquiv v).surjective a
++  rw [Q.ginzburgOriginalOppositeDualEquiv_val]
++  apply Prod.ext
++  · rfl
++  · change -(v.2-1)-(1-Q.cutDegree a.val)= -(v.2-Q.cutDegree a.val)
++    omega
++
++theorem ginzburgDualOppositeOriginalEndpoint (v : Q.LiftVertex)
++    (a : Q.GinzburgIncomingDegree v.1 (-1)) :
++    Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.ginzburgDualOppositeBase v)
++      (Q.ginzburgDualOppositeOriginalEquiv v a).val=
++      Q.oppositeLiftVertexEquiv (Q.ginzburgPrefixGeneratorEndpoint v a.val) := by
++  obtain ⟨a,rfl⟩ := (Q.ginzburgDualGeneratorEquiv v).surjective a
++  rw [Q.ginzburgDualOppositeOriginalEquiv_val]
++  apply Prod.ext
++  · rfl
++  · change -(v.2-1)-Q.cutDegree a.val= -(v.2-(1-Q.cutDegree a.val))
++    omega
++
++theorem ginzburgDualOppositeBase_loopEndpoint (v : Q.LiftVertex) :
++    Q.opposite.ginzburgPrefixGeneratorEndpoint (Q.ginzburgDualOppositeBase v)
++      (.loop (Q.ginzburgDualOppositeBase v).1)=Q.oppositeLiftVertexEquiv v := by
++  apply Prod.ext
++  · rfl
++  · change -(v.2-1)-1= -v.2
++    omega
++
++end ASGinzburg.CutQuiver

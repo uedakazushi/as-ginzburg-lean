@@ -1,0 +1,96 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgOppositeHomCoordinates.lean
+@@ -0,0 +1,93 @@
++import work.ASGinzburgDraft.GinzburgOppositeDualIndices
++import work.ASGinzburgDraft.FiniteRepresentableHomCoordinates
++import ASGinzburg.OppositeUnrolledJacobianHom
++import ASGinzburg.PeriodInverse
++
++/-! The actual canonical dual Hom spaces are actual evaluation components
++of the reversed native generator projectives, via endpoint reflection. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++noncomputable def ginzburgOriginalOppositeCoefficientEquiv (v l : Q.LiftVertex) :
++    (Π a : Q.GinzburgIncomingDegree v.1 0,
++      (Q.unrolledJacobianZAlgebra k φ).Hom
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) (Q.height l)) ≃ₗ[k]
++    (Π b : Q.opposite.GinzburgIncomingDegree (Q.ginzburgDualOppositeBase v).1 (-1),
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).Hom
++        (Q.opposite.height (Q.oppositeLiftVertexEquiv l))
++        (Q.opposite.height (Q.opposite.ginzburgPrefixGeneratorEndpoint
++          (Q.ginzburgDualOppositeBase v) b.val))) :=
++  (LinearEquiv.piCongrRight fun a : Q.GinzburgIncomingDegree v.1 0 => Q.oppositeUnrolledJacobianHomEquiv k φ
++    (Q.ginzburgPrefixGeneratorEndpoint v a.val) l).trans
++  (((LinearEquiv.piCongrLeft k (fun a : Q.GinzburgIncomingDegree v.1 0 =>
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).Hom
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv l))
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv
++        (Q.ginzburgPrefixGeneratorEndpoint v a.val))))
++    (Q.ginzburgOriginalOppositeDualEquiv v).symm).symm.trans
++  (LinearEquiv.piCongrRight fun b : Q.opposite.GinzburgIncomingDegree (Q.ginzburgDualOppositeBase v).1 (-1) =>
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
++      _ _ _ _ rfl (congrArg Q.opposite.height
++        ((Q.ginzburgOriginalOppositeDualEndpoint v
++          ((Q.ginzburgOriginalOppositeDualEquiv v).symm b)).symm.trans
++          (congrArg (fun a => Q.opposite.ginzburgPrefixGeneratorEndpoint
++            (Q.ginzburgDualOppositeBase v) a.val)
++            ((Q.ginzburgOriginalOppositeDualEquiv v).apply_symm_apply b)))))))
++
++noncomputable def ginzburgDualOppositeCoefficientEquiv (v l : Q.LiftVertex) :
++    (Π a : Q.GinzburgIncomingDegree v.1 (-1),
++      (Q.unrolledJacobianZAlgebra k φ).Hom
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) (Q.height l)) ≃ₗ[k]
++    (Π b : Q.opposite.GinzburgIncomingDegree (Q.ginzburgDualOppositeBase v).1 0,
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).Hom
++        (Q.opposite.height (Q.oppositeLiftVertexEquiv l))
++        (Q.opposite.height (Q.opposite.ginzburgPrefixGeneratorEndpoint
++          (Q.ginzburgDualOppositeBase v) b.val))) :=
++  (LinearEquiv.piCongrRight fun a : Q.GinzburgIncomingDegree v.1 (-1) => Q.oppositeUnrolledJacobianHomEquiv k φ
++    (Q.ginzburgPrefixGeneratorEndpoint v a.val) l).trans
++  (((LinearEquiv.piCongrLeft k (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).Hom
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv l))
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv
++        (Q.ginzburgPrefixGeneratorEndpoint v a.val))))
++    (Q.ginzburgDualOppositeOriginalEquiv v).symm).symm.trans
++  (LinearEquiv.piCongrRight fun b : Q.opposite.GinzburgIncomingDegree (Q.ginzburgDualOppositeBase v).1 0 =>
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).homTransport
++      _ _ _ _ rfl (congrArg Q.opposite.height
++        ((Q.ginzburgDualOppositeOriginalEndpoint v
++          ((Q.ginzburgDualOppositeOriginalEquiv v).symm b)).symm.trans
++          (congrArg (fun a => Q.opposite.ginzburgPrefixGeneratorEndpoint
++            (Q.ginzburgDualOppositeBase v) a.val)
++            ((Q.ginzburgDualOppositeOriginalEquiv v).apply_symm_apply b)))))))
++
++noncomputable def ginzburgOriginalADualOppositeComponentEquiv (v l : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) ≃ₗ[k]
++    ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).obj
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ginzburgGeneratorCoefficientModule Q.opposite (Q.ginzburgDualOppositeBase v) (-1)) :=
++  ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++    (fun a : Q.GinzburgIncomingDegree v.1 0 =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height l))).trans
++    ((Q.ginzburgOriginalOppositeCoefficientEquiv k φ v l).trans
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ginzburgGeneratorCoefficientComponentEquiv Q.opposite (Q.ginzburgDualOppositeBase v)
++          (-1) (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).symm)
++
++noncomputable def ginzburgDualADualOppositeComponentEquiv (v l : Q.LiftVertex) :
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1) ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) ≃ₗ[k]
++    ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).obj
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ginzburgGeneratorCoefficientModule Q.opposite (Q.ginzburgDualOppositeBase v) 0) :=
++  ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
++    (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height l))).trans
++    ((Q.ginzburgDualOppositeCoefficientEquiv k φ v l).trans
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ginzburgGeneratorCoefficientComponentEquiv Q.opposite (Q.ginzburgDualOppositeBase v)
++          0 (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).symm)
++
++end ASGinzburg.CutQuiver

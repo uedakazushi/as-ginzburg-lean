@@ -1,0 +1,53 @@
+import ASGinzburg.FiniteRepresentableHomCoordinates
+
+/-! Precomposition, hence the actual A-dual, transposes the genuine
+matrix of a morphism between finite representable coproducts. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+variable {I J : Type} [Fintype I] [Fintype J] [DecidableEq I] [DecidableEq J]
+
+theorem rightFiniteCoproductPiEquiv_symm_eq_sum (g : I → A.RightModule) (i : ℤ)
+    (x : Π a, (A.rightModuleEvaluation i).obj (g a)) :
+    (A.rightFiniteCoproductPiEquiv g i).symm x=
+      ∑ a, ((A.rightModuleEvaluation i).map (Sigma.ι g a)) (x a) := by
+  have h := congrArg (A.rightFiniteCoproductPiEquiv g i).symm (Finset.univ_sum_single x)
+  rw [map_sum] at h
+  simp_rw [A.rightFiniteCoproductPiEquiv_single_symm] at h
+  exact h.symm
+
+theorem rightFiniteCoproductMorphism_apply (g : I → A.RightModule) (M : A.RightModule)
+    (f : ∐ g ⟶ M) (i : ℤ) (x : (A.rightModuleEvaluation i).obj (∐ g)) :
+    f.app (op ⟨i⟩) x=
+      ∑ a, (Sigma.ι g a ≫ f).app (op ⟨i⟩) (A.rightFiniteCoproductPiEquiv g i x a) := by
+  calc
+    f.app (op ⟨i⟩) x=f.app (op ⟨i⟩)
+      ((A.rightFiniteCoproductPiEquiv g i).symm
+        (A.rightFiniteCoproductPiEquiv g i x)) := by rw [LinearEquiv.symm_apply_apply]
+    _=∑ a, (Sigma.ι g a ≫ f).app (op ⟨i⟩)
+      (A.rightFiniteCoproductPiEquiv g i x a) := by
+      rw [A.rightFiniteCoproductPiEquiv_symm_eq_sum,map_sum]
+      rfl
+
+omit [DecidableEq I] in
+theorem rightRepresentableCoproductHomEquiv_precomp (i : I → ℤ) (j : J → ℤ) (l : ℤ)
+    (d : ∐ (fun a => A.representable (i a)) ⟶ ∐ (fun b => A.representable (j b)))
+    (f : ∐ (fun b => A.representable (j b)) ⟶ A.representable l) (a : I) :
+    A.rightRepresentableCoproductHomEquiv i (A.representable l) (d ≫ f) a=
+      ∑ b, A.comp (A.rightRepresentableCoproductHomEquiv j (A.representable l) f b)
+        (A.rightFiniteCoproductPiEquiv (fun b => A.representable (j b)) (i a)
+          (A.representableYonedaEquiv (i a) (∐ fun b => A.representable (j b))
+            (Sigma.ι (fun a => A.representable (i a)) a ≫ d)) b) := by
+  rw [A.rightRepresentableCoproductHomEquiv_apply,←Category.assoc,
+    A.representableYonedaEquiv_comp]
+  change f.app (op ⟨i a⟩)
+    (A.representableYonedaEquiv (i a) (∐ fun b => A.representable (j b))
+      (Sigma.ι (fun a => A.representable (i a)) a ≫ d))=_
+  rw [A.rightFiniteCoproductMorphism_apply]
+  apply Finset.sum_congr rfl
+  intro b _
+  rw [A.rightRepresentableCoproductHomEquiv_apply]
+  exact A.representableMorphism_app_comp (i a) (j b) l _ _
+
+end ASGinzburg.ZAlgebra

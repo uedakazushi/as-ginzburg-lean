@@ -1,0 +1,43 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgADualHessianComparison.lean
+@@ -0,0 +1,40 @@
++import work.ASGinzburgDraft.GinzburgOppositeHessianProducts
++import work.ASGinzburgDraft.GinzburgProjectiveCoordinateFormulas
++import ASGinzburg.GinzburgADualMatrixFormulas
++
++/-! The genuine canonical A-dual of native D₂ is the actual opposite
++native D₂ under the actual Hom/evaluation component isomorphisms. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem ginzburgDualOriginalProjectiveMap_adual_opposite (v l : Q.LiftVertex)
++    (f : (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 ⟶
++      (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
++    Q.ginzburgDualADualOppositeComponentEquiv k φ v l
++      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
++        (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨Q.height l⟩ f)=
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++        (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).map
++        (Q.opposite.ginzburgDualOriginalProjectiveMap k (Q.oppositePotentialEquiv k φ)
++          (Q.ginzburgDualOppositeBase v))
++        (Q.ginzburgOriginalADualOppositeComponentEquiv k φ v l f) := by
++  classical
++  apply ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ginzburgGeneratorCoefficientComponentEquiv Q.opposite (Q.ginzburgDualOppositeBase v) 0
++      (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).injective
++  funext c
++  obtain ⟨a,rfl⟩ := (Q.ginzburgDualOppositeOriginalEquiv v).surjective c
++  rw [Q.ginzburgDualADualOppositeComponentEquiv_coefficients,
++    Q.opposite.ginzburgDualOriginalProjectiveMap_coordinates,
++    Q.ginzburgDualOppositeCoefficientEquiv_apply,
++    Q.ginzburgDualOriginalProjectiveMap_adual_matrix]
++  rw [map_sum,map_sum]
++  rw [Q.ginzburgOriginalADualOppositeComponentEquiv_coefficients]
++  conv_rhs => rw [←(Q.ginzburgOriginalOppositeDualEquiv v).sum_comp]
++  apply Finset.sum_congr rfl
++  intro b _
++  rw [Q.ginzburgOriginalOppositeCoefficientEquiv_apply]
++  exact Q.ginzburgOppositeHessianProduct k φ v l a b _
++
++end ASGinzburg.CutQuiver

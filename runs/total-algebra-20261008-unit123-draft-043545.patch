@@ -1,0 +1,101 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgProjectiveCoordinateFormulas.lean
+@@ -0,0 +1,98 @@
++import work.ASGinzburgDraft.FiniteRepresentableCovariantMatrix
++import ASGinzburg.GinzburgGeneratorJacobianEntries
++import ASGinzburg.GinzburgFirstProjectiveYoneda
++
++/-! All actual native projective differentials act on arbitrary evaluation
++components by their literal original-arrow and Hessian Jacobian matrices. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits Opposite
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem ginzburgOriginalRepresentableProjectiveMap_coordinates
++    (v : Q.LiftVertex) (l : ℤ)
++    (x : ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation l).obj
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0)) :
++    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation l).map
++      (Q.ginzburgOriginalRepresentableProjectiveMap k φ v) x=
++      ∑ a : Q.GinzburgIncomingDegree v.1 0,
++        (Q.unrolledJacobianZAlgebra k φ).comp (Q.ginzburgGeneratorOriginalArrowEntry k φ v a)
++          ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0 l x a) := by
++  classical
++  have h := (Q.unrolledJacobianZAlgebra k φ).rightFiniteCoproductMorphism_apply
++    (fun a : Q.GinzburgIncomingDegree v.1 0 =>
++      (Q.unrolledJacobianZAlgebra k φ).representable
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))
++    ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height v))
++    (Q.ginzburgOriginalRepresentableProjectiveMap k φ v) l x
++  refine h.trans ?_
++  apply Finset.sum_congr rfl
++  intro a _
++  rw [(Q.unrolledJacobianZAlgebra k φ).representableMorphism_app_comp,
++    Q.ginzburgOriginalRepresentableProjectiveMap_yoneda_entry]
++  rfl
++
++theorem ginzburgDualOriginalProjectiveMap_coordinates
++    (v : Q.LiftVertex) (l : ℤ)
++    (x : ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation l).obj
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1)))
++    (b : Q.GinzburgIncomingDegree v.1 0) :
++    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0 l
++      (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation l).map
++        (Q.ginzburgDualOriginalProjectiveMap k φ v) x) b=
++      ∑ a : Q.GinzburgIncomingDegree v.1 (-1),
++        (Q.unrolledJacobianZAlgebra k φ).comp (Q.ginzburgGeneratorHessianEntry k φ v a b)
++          ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-1) l x a) := by
++  classical
++  have h := (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductMorphism_coordinates
++    (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    (fun b : Q.GinzburgIncomingDegree v.1 0 =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v b.val)) l
++    (Q.ginzburgDualOriginalProjectiveMap k φ v) x b
++  refine h.trans ?_
++  apply Finset.sum_congr rfl
++  intro a _
++  change (Q.unrolledJacobianZAlgebra k φ).comp
++    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++      (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++      ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv _ _
++        (_ ≫ Q.ginzburgDualOriginalProjectiveMap k φ v)) b) _=_
++  rw [Q.ginzburgDualOriginalProjectiveMap_yoneda_entry]
++  rfl
++
++theorem ginzburgLoopDualProjectiveMap_coordinates
++    (v : Q.LiftVertex) (l : ℤ)
++    (x : ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation l).obj
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-2)))
++    (b : Q.GinzburgIncomingDegree v.1 (-1)) :
++    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-1) l
++      (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation l).map
++        (Q.ginzburgLoopDualProjectiveMap k φ v) x) b=
++      (Q.unrolledJacobianZAlgebra k φ).comp (Q.ginzburgGeneratorLoopArrowEntry k φ v b)
++        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-2) l x
++          ⟨.loop v.1,rfl,rfl⟩) := by
++  classical
++  have h := (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductMorphism_coordinates
++    (fun a : Q.GinzburgIncomingDegree v.1 (-2) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++    (fun b : Q.GinzburgIncomingDegree v.1 (-1) =>
++      Q.height (Q.ginzburgPrefixGeneratorEndpoint v b.val)) l
++    (Q.ginzburgLoopDualProjectiveMap k φ v) x b
++  refine h.trans ?_
++  rw [Finset.sum_eq_single (⟨.loop v.1,rfl,rfl⟩ : Q.GinzburgIncomingDegree v.1 (-2))]
++  · change (Q.unrolledJacobianZAlgebra k φ).comp
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-1)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v (.loop v.1)))
++        ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv _ _
++          (_ ≫ Q.ginzburgLoopDualProjectiveMap k φ v)) b) _=_
++    rw [Q.ginzburgLoopDualProjectiveMap_yoneda_entry]
++    rfl
++  · intro a _ha hne
++    obtain ⟨q,rfl⟩ := (Q.ginzburgLoopGeneratorEquiv v).surjective a
++    cases q
++    exact (hne rfl).elim
++  · intro hne
++    exact (hne (Finset.mem_univ _)).elim
++
++end ASGinzburg.CutQuiver

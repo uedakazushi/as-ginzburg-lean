@@ -1,0 +1,49 @@
+import ASGinzburg.GinzburgUnitLoopPrefixes
+import ASGinzburg.GinzburgPrefixFixedQuotientCoordinates
+
+/-! The actual native third projective differential has the genuine
+original arrows as its Jacobian quotient matrix entries. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgUnitLoopTopArrowComponent (v : Q.Vertex) (s : ℤ)
+    (b : Q.Arrow) (hb : Q.source b=v) :
+    Q.ginzburgCutCohomologicalComponent k v (Q.target b) 0
+      ((s-(s-1))-(GinzburgArrow.dual b).cutDegree Q) :=
+  ⟨(Q.ginzburgUnitLoopArrowComponent k v s b hb).val,
+    by simpa only [sub_self] using (Q.ginzburgUnitLoopArrowComponent k v s b hb).property.1,
+    (Q.ginzburgUnitLoopArrowComponent k v s b hb).property.2⟩
+
+theorem ginzburgLoopDualProjectiveMap_arrow_entry (φ : Q.Potential k)
+    (v : Q.Vertex) (s : ℤ) (b : Q.Arrow) (hb : Q.source b=v) :
+    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q (v,s) (-1)
+      (Q.height (Q.ginzburgPrefixGeneratorEndpoint (v,s) (.loop v)))
+      (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation
+        (Q.height (Q.ginzburgPrefixGeneratorEndpoint (v,s) (.loop v)))).map
+        (Q.ginzburgLoopDualProjectiveMap k φ (v,s))
+        (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q (v,s) (-2)
+          (Q.height (Q.ginzburgPrefixGeneratorEndpoint (v,s) (.loop v)))).symm
+          (Pi.single ⟨.loop v,rfl,rfl⟩ ((Q.unrolledJacobianZAlgebra k φ).id
+            (Q.height (Q.ginzburgPrefixGeneratorEndpoint (v,s) (.loop v)))))))
+      ⟨.dual b,hb,rfl⟩)=
+      Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ
+        (Q.ginzburgPrefixGeneratorEndpoint (v,s) (.loop v)) (v,s) (.dual b)
+        (Submodule.Quotient.mk (Q.ginzburgUnitLoopTopArrowComponent k v s b hb)) := by
+  rw [Q.ginzburgLoopDualProjectiveMap_unit_basis k φ (v,s) ⟨.loop v,rfl,rfl⟩]
+  change Q.ginzburgPrefixTopFixedUnrolledEquiv k φ
+    (Q.ginzburgPrefixGeneratorEndpoint (v,s) (.loop v)) (v,s) (-1)
+    (Submodule.Quotient.mk
+      ((Q.ginzburgFilteredToPrefix k φ v v (-1) (s-(s-1))).f (-1)
+        (Q.ginzburgLoopLayerDifferential k φ v v (s-(s-1))
+          (Q.ginzburgGeneratorUnitRepresentative k (v,s) (-2)
+            ⟨.loop v,rfl,rfl⟩)))) ⟨.dual b,hb,rfl⟩=_
+  rw [Q.ginzburgPrefixTopFixedUnrolledEquiv_mk_apply]
+  congr 1
+  congr 1
+  apply Subtype.ext
+  rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe,Q.ginzburgUnitLoopDualPrefix_eq]
+  rfl
+
+end ASGinzburg.CutQuiver

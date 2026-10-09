@@ -1,9 +1,9 @@
 # 現在の状況
 
-単位80〜91で、全層のactual homology/projective class係数と全dual/loop射影項の代表元の全射性を証明。native loop→dual接続写像のactual differential quotient class、ループ微分のword/path係数、全filtered層のprefix係数、nativeループ微分のdual prefix成分全体＝original arrow、既存射影第3微分の全評価成分のactual class公式を完成。actual零道商類とrepresentable恒等成分、有限prefix単位族とcoproduct恒等元基底、actual単一矢/ループ代表元とnative射影基底の同定まで全体ビルド・全宣言公理監査で検証した。
+単位92〜113で、native D₂のactual Hessian行列とnative D₃のactual original矢行列、全有限representable coproductのYoneda座標とcanonical A-dualのtranspose公式を完成。native D₁をactual filtered inclusionのhomologyMapと照合し、mathlib cycle classと実際の境界商classの一致、全filtered代表元のJacobian商公式、original単一矢の恒等元基底とD₁のYoneda行列まで全体ビルド・全宣言公理監査で検証した。
 本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。native反対GinzburgRegularとの同値、全左単純のfinite genuine ProjectiveResolutionと任意標的へのExt≥4零性、actual path Hessianの反転も全体検証済み。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。行列公式や左単純分解の存在をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・ASRegularを新たな仮定にしていない。
-最新ローカル検証 20261009T032315Z-bf08299e：508数学モジュール・3296異なる宣言・1742 theorem、全段階終了0。
-単位1〜91の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+最新ローカル検証 20261009T041520Z-ba229aab：530数学モジュール・3354異なる宣言・1786 theorem、全段階終了0。
+単位1〜113の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -21,17 +21,17 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 3296異なる名前、全明示的宣言・321 named instanceを含む、終了0 |
-| theorem | 1742、全件が監査対象 |
+| 個別公理監査 | 3354異なる名前、全明示的宣言・321 named instanceを含む、終了0 |
+| theorem | 1786、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261009T032315Z-bf08299e`、全段階終了0、2165.567744235秒。
-UTC 2026-10-09T03:23:15.719186+00:00 → 2026-10-09T03:59:21.286937+00:00。
-JST 2026-10-09T12:23:15.719186+09:00 → 2026-10-09T12:59:21.286937+09:00。
+最新ローカル検証 `20261009T041520Z-ba229aab`、全段階終了0、2209.305317288秒。
+UTC 2026-10-09T04:15:20.447085+00:00 → 2026-10-09T04:52:09.752391+00:00。
+JST 2026-10-09T13:15:20.447085+09:00 → 2026-10-09T13:52:09.752391+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 
@@ -65,11 +65,23 @@ JST 2026-10-09T12:23:15.719186+09:00 → 2026-10-09T12:59:21.286937+09:00。
 
 
 
-## 現行のGinzburgからASへの証明状態（単位80〜91）
 
-単位80〜91で、全層のactual homology/projective class係数と全dual/loop射影項の代表元の全射性を証明。native loop→dual接続写像のactual differential quotient class、ループ微分のword/path係数、全filtered層のprefix係数、nativeループ微分のdual prefix成分全体＝original arrow、既存射影第3微分の全評価成分のactual class公式を完成。actual零道商類とrepresentable恒等成分、有限prefix単位族とcoproduct恒等元基底、actual単一矢/ループ代表元とnative射影基底の同定まで全体ビルド・全宣言公理監査で検証した。
 
-WORK92〜113ではnative D₂のactual Hessian行列、native D₃のactual original矢行列、全有限representable coproductのYoneda座標とcanonical A-dualのtranspose公式を個別Lean終了0で完成。さらにnative D₁をactual filtered inclusionのhomologyMapと照合し、mathlib cycle classと実際の境界商classの一致、全filtered代表元のJacobian商公式、original単一矢の恒等元基底とD₁のYoneda行列を個別Lean終了0で完成。これらは公開91の全体監査には含まれず、各差分/source SHA/個別実測/evidenceを別記した。次はcanonical A-dualのD₁公式とnative反対分解との全微分の一致。
+
+
+
+
+
+
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位92〜113）
+
+単位92〜113で、native D₂のactual Hessian行列とnative D₃のactual original矢行列、全有限representable coproductのYoneda座標とcanonical A-dualのtranspose公式を完成。native D₁をactual filtered inclusionのhomologyMapと照合し、mathlib cycle classと実際の境界商classの一致、全filtered代表元のJacobian商公式、original単一矢の恒等元基底とD₁のYoneda行列まで全体ビルド・全宣言公理監査で検証した。
+
+WORK114〜131ではcanonical A-dual D₁のactual矢公式、original/dual生成元添字の反対対応と全終点反射、全4項のactual Hom空間と反対射影評価成分の線形同型を個別Lean終了0で完成。actual native D₁/D₂/D₃の全Jacobian行列成分の反転・Hessian転置、任意の評価成分の元の有限和行列公式、actual canonical A-dual D₂と反対native D₂の全Hom元での可換性も個別終了0で完成。両端の同型の座標と反転D₃有限和公式も個別終了0。114/116のimport整合後の現行個別証拠は118に保存し、旧証拠も保持した。これらは公開113の全体監査には含まれない。次はD₁/D₃の可換性、全Hom複体比較とexactness・低次数/非対角Ext消滅への接続。
 
 本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。native反対GinzburgRegularとの同値、全左単純のfinite genuine ProjectiveResolutionと任意標的へのExt≥4零性、actual path Hessianの反転も全体検証済み。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。行列公式や左単純分解の存在をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。周期性・必要Ext表・Calabi–Yau性・ASRegularを新たな仮定にしていない。
 
@@ -176,6 +188,8 @@ WORK92〜113ではnative D₂のactual Hessian行列、native D₃のactual orig
 | native左単純分解とactual Hessian | GinzburgLeftSimpleProjectiveResolution、GinzburgLeftFiniteProjectiveResolution、GinzburgLeftSimpleExtBounds、PathCyclicHessian、OppositePathCyclicHessian、GinzburgDualOriginalClassFormula、GinzburgProjectiveConnectingClasses | GinzburgRegularから全左単純のfinite genuine ProjectiveResolutionとExt≥4零性、actual Hessian反転/正長さ/cut支持とnative射影D₂ class公式 | 標準基底行列、dual/左分解の微分一致と低次数/非対角Ext零性/ASRegular(ii) |
 
 | native射影classと恒等元基底 | GinzburgLayerHomologyClasses、GinzburgDualCoefficientRepresentatives、GinzburgLoopCoefficientRepresentatives、GinzburgLoopProjectiveConnectingClasses、GinzburgPrefixFamilyUnits、GinzburgSingleGeneratorProjectiveBasis | 全native D₂/D₃代表元とclass公式、actual prefix単位・既存射影基底の一致を全体検証 | canonical右A-dualと反対分解の全微分一致、低次数/非対角Ext零性・ASRegular(ii) |
+
+| native全射影行列とcanonical A-dual | GinzburgGeneratorJacobianEntries、GinzburgADualMatrixFormulas、GinzburgFirstProjectiveClasses、GinzburgFirstProjectiveBasis、GinzburgFirstProjectiveYoneda | native D₁/D₂/D₃のactual Yoneda行列とD₂/D₃のcanonical A-dual行列を全体検証 | canonical右A-dualと反対分解の全微分一致、低次数/非対角Ext零性・ASRegular(ii) |
 
 ## 主結果の状態
 

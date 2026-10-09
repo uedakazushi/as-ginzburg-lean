@@ -1,0 +1,77 @@
+import ASGinzburg.GinzburgUnitGeneratorDifferentials
+
+/-! At every integer sheet, the actual unit-basis differential has
+the actual embedded path Hessian as its full original prefix component. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgUnitHessianComponent (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) :
+    Q.ginzburgCutCohomologicalComponent k (Q.target a) (Q.source b) (0-0)
+      ((s-(s-(GinzburgArrow.dual a).cutDegree Q))-(GinzburgArrow.original b).cutDegree Q) := by
+  refine ⟨(Q.ginzburgPathHessianComponent k φ a b).val,
+    (Q.ginzburgPathHessianComponent k φ a b).property.1,?_⟩
+  have hc : (s-(s-(GinzburgArrow.dual a).cutDegree Q))-
+      (GinzburgArrow.original b).cutDegree Q=
+      (GinzburgArrow.dual a).cutDegree Q-(GinzburgArrow.original b).cutDegree Q := by omega
+  rw [hc]
+  exact (Q.ginzburgPathHessianComponent k φ a b).property.2
+
+theorem ginzburgUnitDualHessianPrefix_coeff (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) (hb : Q.target b=Q.source a)
+    (p : Q.Path (Q.target a) (Q.source b))
+    (hp : (p.cutDegree:ℤ)=(s-(s-(GinzburgArrow.dual a).cutDegree Q))-
+      (GinzburgArrow.original b).cutDegree Q) :
+    (((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
+      (s-(s-(GinzburgArrow.dual a).cutDegree Q))).f 0
+      (Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
+        (s-(s-(GinzburgArrow.dual a).cutDegree Q))
+        (Q.ginzburgGeneratorUnitRepresentative k (Q.source a,s) (-1)
+          ⟨.dual a,rfl,rfl⟩))) ⟨.original b,hb,rfl⟩).val (p.originalGinzburg Q)=
+      Q.pathCyclicHessian k a b φ p := by
+  let z := Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
+    (s-(s-(GinzburgArrow.dual a).cutDegree Q))
+    (Q.ginzburgGeneratorUnitRepresentative k (Q.source a,s) (-1) ⟨.dual a,rfl,rfl⟩)
+  let pr : {p : Q.GinzburgPath (Q.target a) (Q.source b) //
+      p.cohomologicalDegree=0-0 ∧ p.cutDegree=
+      (s-(s-(GinzburgArrow.dual a).cutDegree Q))-(GinzburgArrow.original b).cutDegree Q} :=
+    ⟨p.originalGinzburg Q,by simp [p.originalGinzburg_cohomologicalDegree Q],by
+      simpa only [p.originalGinzburg_cutDegree Q] using hp⟩
+  have he := Q.ginzburgOriginalFilteredToPrefix_coefficient k φ (Q.target a)
+    (Q.source a) (s-(s-(GinzburgArrow.dual a).cutDegree Q)) z ⟨.original b,hb,rfl⟩ pr
+  change _=z.val ((GinzburgLastGeneratorData.path Q)
+    ⟨⟨.original b,hb⟩,p.originalGinzburg Q⟩) at he
+  rw [GinzburgLastGeneratorData.original_path] at he
+  have hz := congrArg (fun f : Q.GinzburgPathComponent k (Q.target a) (Q.source a) =>
+    f ((GinzburgLastGeneratorData.path Q) ⟨⟨.original b,hb⟩,p.originalGinzburg Q⟩))
+    (Q.ginzburgUnitDualDifferential_val k φ a s)
+  rw [GinzburgLastGeneratorData.original_path] at hz
+  exact he.trans (hz.trans (Q.ginzburgDualGeneratorDifferential_snoc_coeff k a b φ p hb))
+
+theorem ginzburgUnitDualHessianPrefix_eq (φ : Q.Potential k)
+    (a b : Q.Arrow) (s : ℤ) (hb : Q.target b=Q.source a) :
+    (((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
+      (s-(s-(GinzburgArrow.dual a).cutDegree Q))).f 0
+      (Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
+        (s-(s-(GinzburgArrow.dual a).cutDegree Q))
+        (Q.ginzburgGeneratorUnitRepresentative k (Q.source a,s) (-1)
+          ⟨.dual a,rfl,rfl⟩))) ⟨.original b,hb,rfl⟩)=
+      Q.ginzburgUnitHessianComponent k φ a b s := by
+  apply (Q.ginzburgCutComponentBasisEquiv k (Q.target a) (Q.source b) (0-0)
+    ((s-(s-(GinzburgArrow.dual a).cutDegree Q))-(GinzburgArrow.original b).cutDegree Q)).injective
+  apply Finsupp.ext
+  intro p
+  simp only [Q.ginzburgCutComponentBasisEquiv_apply]
+  obtain ⟨q,hq⟩ := p.val.degreeZero_existsOriginal Q
+    (by simpa only [sub_self] using p.property.1)
+  have hp : (q.cutDegree:ℤ)=(s-(s-(GinzburgArrow.dual a).cutDegree Q))-
+      (GinzburgArrow.original b).cutDegree Q := by
+    simpa only [←hq,q.originalGinzburg_cutDegree Q] using p.property.2
+  rw [←hq]
+  change _=Q.originalGinzburgLinearMap k (Q.target a) (Q.source b)
+    (Q.pathCyclicHessian k a b φ) (q.originalGinzburg Q)
+  rw [Q.originalGinzburgLinearMap_apply_original]
+  exact Q.ginzburgUnitDualHessianPrefix_coeff k φ a b s hb q hp
+
+end ASGinzburg.CutQuiver

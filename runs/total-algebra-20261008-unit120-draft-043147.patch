@@ -1,0 +1,86 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgArrowPathClasses.lean
+@@ -0,0 +1,83 @@
++import ASGinzburg.GinzburgFirstProjectiveBasis
++import ASGinzburg.GinzburgGeneratorJacobianEntries
++import work.ASGinzburgDraft.GinzburgJacobianPathClasses
++
++/-! Both endpoint differentials use literal one-arrow ordinary-path
++classes, at the unchanged native projective integer indices. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def ginzburgOrdinaryArrowPath (a : Q.Arrow) : Q.Path (Q.source a) (Q.target a) :=
++  Path.snoc (Path.nil (Q.source a)) a rfl
++
++noncomputable def ginzburgOriginalArrowPathComponent (a : Q.Arrow) (s : ℤ) :
++    Q.pathCutComponent k
++      (Q.ginzburgPrefixGeneratorEndpoint (Q.target a,s) (.original a)).1 (Q.target a)
++      (s-(Q.ginzburgPrefixGeneratorEndpoint (Q.target a,s) (.original a)).2) := by
++  refine ⟨Finsupp.single (Q.ginzburgOrdinaryArrowPath a) 1,?_⟩
++  apply Finsupp.single_mem_supported
++  change ((Path.nil (Q.source a)).cutDegree+Q.cutDegree a:ℤ)=s-(s-Q.cutDegree a)
++  simp only [Path.cutDegree,Nat.cast_zero,zero_add]
++  omega
++
++noncomputable def ginzburgLoopArrowPathComponent (a : Q.Arrow) (s : ℤ) :
++    Q.pathCutComponent k
++      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a))).1
++      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a)).1
++      ((Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a)).2-
++        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a))).2) := by
++  refine ⟨Finsupp.single (Q.ginzburgOrdinaryArrowPath a) 1,?_⟩
++  apply Finsupp.single_mem_supported
++  change ((Path.nil (Q.source a)).cutDegree+Q.cutDegree a:ℤ)=
++    (s-(1-Q.cutDegree a))-(s-1)
++  simp only [Path.cutDegree,Nat.cast_zero,zero_add]
++  omega
++
++theorem ginzburgGeneratorOriginalArrowEntry_pathClass (φ : Q.Potential k)
++    (a : Q.Arrow) (s : ℤ) :
++    Q.ginzburgGeneratorOriginalArrowEntry k φ (Q.target a,s) ⟨.original a,rfl,rfl⟩=
++      Q.ginzburgJacobianPathClass k φ
++        (Q.ginzburgPrefixGeneratorEndpoint (Q.target a,s) (.original a)) (Q.target a,s)
++        (Q.ginzburgOriginalArrowPathComponent k a s) := by
++  unfold ginzburgGeneratorOriginalArrowEntry
++  have h : Q.ginzburgOriginalUnitCutRepresentative k φ (Q.target a,s)
++      ⟨.original a,rfl,rfl⟩=
++      Q.originalGinzburgCutDegreeZeroEquiv k _ _ _ (Q.ginzburgOriginalArrowPathComponent k a s) := by
++    apply Subtype.ext
++    rw [Q.ginzburgOriginalUnitCutRepresentative_val,Q.originalGinzburgCutDegreeZeroEquiv_coe]
++    change _=Q.originalGinzburgLinearMap k _ _
++      (Finsupp.single (Q.ginzburgOrdinaryArrowPath a) 1)
++    rw [Q.originalGinzburgLinearMap_single]
++    simp only [ginzburgIncomingArrowPolynomial,ginzburgArrowPath,
++      GinzburgPath.transport,ginzburgOrdinaryArrowPath,Path.originalGinzburg,
++      GinzburgArrow.source]
++  rw [h,Q.ginzburgCutZeroQuotientUnrolledEquiv_original_mk]
++
++theorem ginzburgGeneratorLoopArrowEntry_pathClass (φ : Q.Potential k)
++    (a : Q.Arrow) (s : ℤ) :
++    Q.ginzburgGeneratorLoopArrowEntry k φ (Q.source a,s) ⟨.dual a,rfl,rfl⟩=
++      Q.ginzburgJacobianPathClass k φ
++        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a)))
++        (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
++        (Q.ginzburgLoopArrowPathComponent k a s) := by
++  have h : Q.ginzburgPrefixCoefficientZeroCutEquiv k
++      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a)))
++      (Q.source a,s) (.dual a) (Q.ginzburgUnitLoopTopArrowComponent k (Q.source a) s a rfl)=
++      Q.originalGinzburgCutDegreeZeroEquiv k _ _ _ (Q.ginzburgLoopArrowPathComponent k a s) := by
++    apply Subtype.ext
++    rw [Q.ginzburgPrefixCoefficientZeroCutEquiv_coe,Q.originalGinzburgCutDegreeZeroEquiv_coe]
++    change _=Q.originalGinzburgLinearMap k _ _
++      (Finsupp.single (Q.ginzburgOrdinaryArrowPath a) 1)
++    rw [Q.originalGinzburgLinearMap_single]
++    simp only [ginzburgUnitLoopTopArrowComponent,ginzburgUnitLoopArrowComponent,
++      ginzburgLoopOriginalArrowComponent,GinzburgPath.transport,
++      originalGinzburgArrowPath,ginzburgOrdinaryArrowPath,Path.originalGinzburg]
++  simpa only [ginzburgGeneratorLoopArrowEntry,
++    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk,h] using
++    Q.ginzburgCutZeroQuotientUnrolledEquiv_original_mk k φ
++      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.loop (Q.source a)))
++      (Q.ginzburgPrefixGeneratorEndpoint (Q.source a,s) (.dual a))
++      (Q.ginzburgLoopArrowPathComponent k a s)
++
++end ASGinzburg.CutQuiver
