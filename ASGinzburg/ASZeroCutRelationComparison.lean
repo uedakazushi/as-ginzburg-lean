@@ -1,0 +1,42 @@
+import ASGinzburg.ASFoundationZeroCutPresentation
+import ASGinzburg.ASFoundationRelationDescent
+
+/-! The genuine non-cut relation representatives map to the original
+minimal relation lifts under the proved finite-ring unrolling comparison. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem zeroSheetPathReindexEquiv_apply_height (i j : Q.Vertex)
+    (f : Q.UnrolledPathComponent k (i,0) (j,0)) :
+    Q.zeroSheetPathReindexEquiv k i j f=Q.unrolledComponentHeightEquiv k (i,0) (j,0) f := rfl
+
+end ASGinzburg.CutQuiver
+
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.foundationZeroCutRelation (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) : Q.pathCutComponent k i j 0 :=
+  ⟨hAS.foundationPathRelation A Q i j a,hAS.foundationPathRelation_cut A Q i j a⟩
+
+theorem ASRegular.foundationZeroCutRelation_native (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
+    Q.zeroCutNativeUnrollingEquiv k i j (hAS.foundationZeroCutRelation A Q i j a)=
+      (hAS.foundationRelationNative A Q i j a).val := by
+  apply Q.unrolledPathEraseLinearMap_injective k (i,0) (j,0)
+  rw [Q.zeroCutNativeUnrollingEquiv_erase]
+  rfl
+
+theorem ASRegular.foundationZeroCutRelation_height (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
+    Q.zeroCutFoundationComponentEquiv k i j (hAS.foundationZeroCutRelation A Q i j a)=
+      (hAS.foundationRelationLift A Q i j a).val := by
+  change Q.zeroSheetPathReindexEquiv k i j
+    (Q.zeroCutNativeUnrollingEquiv k i j (hAS.foundationZeroCutRelation A Q i j a))=_
+  rw [hAS.foundationZeroCutRelation_native A Q i j a,
+    Q.zeroSheetPathReindexEquiv_apply_height k i j]
+  exact hAS.foundationRelationNative_height A Q i j a
+
+end ASGinzburg.ZAlgebra

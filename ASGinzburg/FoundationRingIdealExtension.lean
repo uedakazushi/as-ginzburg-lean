@@ -1,0 +1,84 @@
+import ASGinzburg.FoundationBlockIdeals
+import ASGinzburg.FiniteComponentIdempotents
+
+/-! A genuine two-sided foundation-ring ideal extends to a component
+ideal. Directedness makes compositions through vertices outside the
+foundation window zero when both output endpoints lie inside it. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (B : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+theorem foundationVertex_exists_of_bounds (j : ℤ) (hj : 0 ≤ j) (hn : j < Q.vertices) :
+    ∃ t : Q.Vertex,(t.val : ℤ)=j := by
+  exact ⟨⟨j.toNat,by omega⟩,by simp;omega⟩
+
+noncomputable def foundationRingIdealExtension
+    (J : Ideal (B.FoundationAlgebra Q)) [J.IsTwoSided] : B.LinearIdeal where
+  hom i j := ⨅ (v : Q.Vertex) (w : Q.Vertex) (hv : (v.val : ℤ)=i) (hw : (w.val : ℤ)=j),
+    (J.restrictScalars k).comap (((B.foundationComponents Q).totalComponentLinear v w).comp
+      (B.homTransport i j (v.val : ℤ) (w.val : ℤ) hv.symm hw.symm).toLinearMap)
+  comp_left := by
+    intro i j l f hf g
+    simp only [Submodule.mem_iInf,Submodule.mem_comap] at hf ⊢
+    intro v w hv hw
+    subst i l
+    change (B.foundationComponents Q).totalComponent v w (B.comp g f) ∈ J
+    by_cases hj : 0 ≤ j
+    · by_cases hn : j < Q.vertices
+      · obtain ⟨t,ht⟩ := foundationVertex_exists_of_bounds Q j hj hn
+        subst j
+        change (B.foundationComponents Q).totalComponent v w
+          ((B.foundationComponents Q).comp g f) ∈ J
+        rw [←(B.foundationComponents Q).totalComponent_mul_same v t w f g]
+        exact J.mul_mem_left _ (hf v t rfl rfl)
+      · have hz := B.positive (show (w.val : ℤ) < j by have := w.isLt;omega) g
+        simp only [hz,map_zero,LinearMap.zero_apply]
+        change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
+        rw [map_zero]
+        exact J.zero_mem
+    · have hz := B.positive (show j < (v.val : ℤ) by omega) f
+      simp only [hz,map_zero]
+      change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
+      rw [map_zero]
+      exact J.zero_mem
+  comp_right := by
+    intro i j l g hg f
+    simp only [Submodule.mem_iInf,Submodule.mem_comap] at hg ⊢
+    intro v w hv hw
+    subst i l
+    change (B.foundationComponents Q).totalComponent v w (B.comp g f) ∈ J
+    by_cases hj : 0 ≤ j
+    · by_cases hn : j < Q.vertices
+      · obtain ⟨t,ht⟩ := foundationVertex_exists_of_bounds Q j hj hn
+        subst j
+        change (B.foundationComponents Q).totalComponent v w
+          ((B.foundationComponents Q).comp g f) ∈ J
+        rw [←(B.foundationComponents Q).totalComponent_mul_same v t w f g]
+        exact J.mul_mem_right _ (hg t w rfl rfl)
+      · have hz := B.positive (show (w.val : ℤ) < j by have := w.isLt;omega) g
+        simp only [hz,map_zero,LinearMap.zero_apply]
+        change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
+        rw [map_zero]
+        exact J.zero_mem
+    · have hz := B.positive (show j < (v.val : ℤ) by omega) f
+      simp only [hz,map_zero]
+      change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
+      rw [map_zero]
+      exact J.zero_mem
+
+theorem foundationRingIdealExtension_mem_iff
+    (J : Ideal (B.FoundationAlgebra Q)) [J.IsTwoSided] (v w : Q.Vertex)
+    (x : B.Hom (v.val : ℤ) (w.val : ℤ)) :
+    x ∈ (B.foundationRingIdealExtension Q J).hom (v.val : ℤ) (w.val : ℤ) ↔
+      (B.foundationComponents Q).totalComponent v w x ∈ J := by
+  simp only [foundationRingIdealExtension,Submodule.mem_iInf,Submodule.mem_comap]
+  constructor
+  · intro h
+    exact h v w rfl rfl
+  · intro h v' w' hv hw
+    have hv' : v'=v := Fin.ext (by exact_mod_cast hv)
+    have hw' : w'=w := Fin.ext (by exact_mod_cast hw)
+    subst v' w'
+    exact h
+
+end ASGinzburg.ZAlgebra

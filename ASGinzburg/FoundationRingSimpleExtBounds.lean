@@ -1,0 +1,41 @@
+import ASGinzburg.FoundationRingSimpleResolution
+import ASGinzburg.FoundationRingExtComparison
+
+/-! Genuine foundation-ring vertex-simple Ext vanishes in all degrees
+at least three, solely from the original AS resolution. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+namespace ASResolution
+variable {A Q} {j : Q.Vertex} (R : A.ASResolution Q (j,0))
+
+include R in
+theorem foundation_ring_simple_ext_ge_three_eq_zero
+    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (n : ℕ) (hn : 3 ≤ n)
+    (e : Abelian.Ext.{u} (A.foundationRightTotalModule Q
+      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) M n) : e=0 := by
+  letI := R.foundation_ring_simple_hasProjectiveDimensionLE_two
+  exact e.eq_zero_of_hasProjectiveDimensionLT 3 hn
+
+end ASResolution
+
+namespace ASRegular
+variable {A Q} (hAS : A.ASRegular Q)
+
+include hAS in
+theorem foundation_ring_simple_hasProjectiveDimensionLE_two (j : Q.Vertex) :
+    HasProjectiveDimensionLE (A.foundationRightTotalModule Q
+      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) 2 :=
+  (hAS.resolution A Q (j,0)).foundation_ring_simple_hasProjectiveDimensionLE_two
+
+include hAS in
+theorem foundation_ring_simple_ext_ge_three_eq_zero (j : Q.Vertex)
+    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (n : ℕ) (hn : 3 ≤ n)
+    (e : Abelian.Ext.{u} (A.foundationRightTotalModule Q
+      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) M n) : e=0 :=
+  (hAS.resolution A Q (j,0)).foundation_ring_simple_ext_ge_three_eq_zero M n hn e
+
+end ASRegular
+end ASGinzburg.ZAlgebra

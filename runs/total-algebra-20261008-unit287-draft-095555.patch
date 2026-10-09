@@ -1,0 +1,48 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodMinimalPresentation.lean
+@@ -0,0 +1,45 @@
++import work.ASGinzburgDraft.FoundationPeriodPresentationSurjective
++import work.ASGinzburgDraft.BasedArrowKernelSupport
++import ASGinzburg.ASArbitraryBasisPresentation
++
++/-! The actual foundation-transported arrow family supplies a minimal
++free-path presentation and its true kernel quotient recovers the whole
++original AS algebra. Identification of that kernel with the potential's
++Jacobian ideal and one-step period coherence remain unproved. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathPresentation_kernel_le_arrow_square
++    (hAS : A.ASRegular Q) (i j : ℤ) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j := by
++  rw [Q.unrolledArrowIdeal_square k]
++  intro f hf
++  apply A.basedArrowPathLinearEvaluation_ker_le_long Q
++    (hAS.foundationPeriodIncomingElement A Q) (hAS.foundationRepresentativeBasisSystem A Q)
++    (hAS.foundationPeriodIncomingGenerator_class A Q)
++    (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
++  change A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) _ _ f=0
++  change A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)
++    (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) _ _ f)=0 at hf
++  apply (A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)).injective
++  rw [map_zero]
++  exact hf
++
++noncomputable def ASRegular.foundationPeriodMinimalPathPresentation (hAS : A.ASRegular Q) :
++    A.MinimalPathPresentation Q where
++  presentation := A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)
++  surjective := hAS.foundationPeriodPathPresentation_surjective A Q
++  kernel_square := hAS.foundationPeriodPathPresentation_kernel_le_arrow_square A Q
++
++noncomputable def ASRegular.foundationPeriodPresentationQuotientIso (hAS : A.ASRegular Q) :
++    Isomorphism
++      ((A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.quotient
++        (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel_diagonal_eq_bot) A :=
++  (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).quotientKernelIso
++    (hAS.foundationPeriodPathPresentation_surjective A Q)
++
++end ASGinzburg.ZAlgebra

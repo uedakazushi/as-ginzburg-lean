@@ -1,0 +1,40 @@
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodIterationFormulas.lean
+@@ -0,0 +1,37 @@
++import work.ASGinzburgDraft.FoundationPeriodGeneratorBasis
++
++/-! Concrete zero-step and successor formulas for the actual
++period iterates, including every necessary component index transport. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p q : ℤ}
++
++theorem changePeriod_map (E : A.PeriodIso p) (h : p=q) (i j : ℤ) (f : A.Hom i j) :
++    (E.changePeriod h).map i j f=
++      A.homTransport (i+p) (j+p) (i+q) (j+q)
++        (congrArg (fun t => i+t) h) (congrArg (fun t => j+t) h) (E.map i j f) := by
++  subst q
++  rfl
++
++theorem compose_map (E : A.PeriodIso p) (F : A.PeriodIso q)
++    (i j : ℤ) (f : A.Hom i j) :
++    (E.compose F).map i j f=
++      A.homTransport ((i+p)+q) ((j+p)+q) (i+(p+q)) (j+(p+q))
++        (add_assoc i p q) (add_assoc j p q)
++        (F.map (i+p) (j+p) (E.map i j f)) := rfl
++
++theorem powNat_zero_apply (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    (E.powNat 0).map i j f=
++      A.homTransport i j (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) (by ring) (by ring) f := by
++  apply (A.homTransport (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) i j (by ring) (by ring)).injective
++  rw [E.powNat_zero_map,homTransport_inverse]
++
++theorem powNat_succ_apply (E : A.PeriodIso p) (n : ℕ) (i j : ℤ) (f : A.Hom i j) :
++    (E.powNat (n+1)).map i j f=
++      A.homTransport ((i+(n : ℤ)*p)+p) ((j+(n : ℤ)*p)+p)
++        (i+((n+1 : ℕ) : ℤ)*p) (j+((n+1 : ℕ) : ℤ)*p)
++        (by push_cast;ring) (by push_cast;ring)
++        (E.map (i+(n : ℤ)*p) (j+(n : ℤ)*p) ((E.powNat n).map i j f)) := by
++  rw [powNat,changePeriod_map,compose_map,ASGinzburg.ZAlgebra.homTransport_trans]
++
++end ASGinzburg.ZAlgebra.PeriodIso

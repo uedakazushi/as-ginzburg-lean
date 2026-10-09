@@ -6310,3 +6310,266 @@ WORK243〜264：22数学モジュール/78異なる宣言、UTC2026-10-09T08:58:
 
 main6953a852のGitHub CI run37905210909は最後の取得時点でin_progress。前main5c6e119のrun37899618525は全7検査0/success、全文1,355,167bytes/SHA256b0c9a20739abffb911598b9fa361db043357aba981c45625bfc6ad9d4fc41529とartifact11604452445/digestf2f430e1ceb8603db5c42f59f0798e5b6bb543f89f68f5529112e6eb1d696737を回収済み。UTC07:33:04.593229→08:38:14.407040、実測3909.813803595秒。旧main80eee11のrun37894259808は全7検査実終了0/success、全文ログ/artifact証拠を保存済み。旧成功を新headの成功と扱わない。mainのAPI exact tree/parent/refとローカル通常fast-forward実終了0、PR/force/履歴書換えなし。
 開始UTC2026-10-08T07:00:38から実測94897.864682秒。タスク終了未確定。main保存後も周期整合した基底降下と候補正則性へ継続する。
+
+## main保存214〜242と次の全体検証243〜275 UTC 2026-10-09T09:28:05.092004+00:00
+
+main 0076791ff2b0d6c74c05aa2e18ef0a7b871f3467 に29数学モジュール214〜242と全体run20261009T082942Z-cddaa6a5を保存。659数学モジュール/3831異なる宣言/2081 theorem、全6段階実終了0/wrapper0。UTC08:29:42.868298→09:14:36.877841、実測2694.009537847秒。許容公理3種類のみ。156ファイル/150unique blobs/5,211,654bytes/16分割。API exact tree7b0b835e6790e87fcb03758773c2ab49cc0479ab/parent6953a852/refとローカル通常fast-forward実終了0。PR/force/履歴書換えなし。ローカル反映の初回コマンドは誤った補助スクリプトパスで終了2、正しいwork/radical-resolution/finish_api_publish.pyで終了0に訂正。数学検査の失敗ではない。初期14/旧60数学モジュール・577保護ファイル/PDF保存検査0。
+個別Lean実終了0・診断なしの33数学モジュール243〜275を公開ソースへ統合。直近2バッチの116異なる宣言公理監査も実終了0・厳密照合成功・許容公理3種類のみ。新しい692数学モジュールの全体lake build/全宣言公理監査を開始する。既存FoundationRightModuleと実際のFoundationAlgebra反対環ModuleCatの線形圏同値、全対象/全次数の実際Ext比較、元ASRegularから単純の射影次元≤2とExt≥3消滅、実際の最小関係両側生成性、候補ΦBのcut微分による本来の非cut Jacobian環B(ΦB)≃ₐ元FoundationAlgebraを含む。全体検査終了まで追加33モジュールを公開全体検査済みと扱わない。周期整合finitecut基底降下、候補正則性・全ZAlgebra回収、Reyes/Hanihara/Keller・選択独立性/同型類対応/§5quadratic、宇宙一般化は未証明。定理3.2・系5.2は未証明・正式Lean定理文未実装。
+開始UTC2026-10-08T07:00:38から実測95247.092004秒。タスク終了未確定。AS由来の周期性と基底選択の整合へ継続。
+
+## 継続checkpoint UTC 2026-10-09T09:32:17.270772+00:00 / JST 2026-10-09T18:32:17.270772+09:00
+
+## 単位276：AS由来の周期同型と最小生成元商
+
+実際の積を値に取る集合が周期同型で全単射に移ること、そのspanの完全一致と元の最小生成元商の線形同型、商類の具体式を証明した。元ASRegularから得た周期同型で適用できる。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-indecomposable-equiv2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：正負任意回の周期同型を構成し、基底と持上げをsheet整合的に移送する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit276-draft-093217.patch（2262bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測95499.270772秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 公開統合の継続記録 UTC 2026-10-09T09:34:05.030003+00:00
+
+main0076791ff2b0d6c74c05aa2e18ef0a7b871f3467へ検証済み29数学モジュール214〜242と659モジュール全体成功run20261009T082942Z-cddaa6a5を通常fast-forward保存済み。33モジュール243〜275を公開ソースに統合し、現行692モジュールの新しい全体run20261009T092805Z-570508acが進行中。最新の完了した全体検査は659モジュール/3831異なる宣言/2081 theorem、全6段階0、UTC08:29:42.868298→09:14:36.877841、2694.009537847秒。旧成功を現行692モジュールの完了判定に使わない。
+
+訂正：単位275の記録で基礎代数回収を(3.7)と記載したが、(3.7)は単純加群の標準分解である。275は(3.4)のBとJ(ΦB)の次数0環の同定であり、(3.6)の全代数回収/候補正則性は未証明。数学ソースは変更していない。
+
+## 継続checkpoint UTC 2026-10-09T09:34:18.078804+00:00 / JST 2026-10-09T18:34:18.078804+09:00
+
+## 単位277：任意整数回の実際の周期同型
+
+実際のPeriodIsoの合成・零周期・自然数回の反復・逆同型による負回反復を構成し、任意整数倍周期の単位元/積保存と最小生成元商の線形同型を得た。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-iso-iteration2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：箙のGeneratorIndexのsheet移送と元AS基底の任意sheet移送を構成する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit277-draft-093418.patch（1973bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測95620.078804秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:37:52.096557+00:00 / JST 2026-10-09T18:37:52.096557+09:00
+
+## 単位278：AS最小生成元基底の任意sheet移送
+
+実際のincomingSourceのsheet移送と高さ式、GeneratorIndexの具体的全単射を証明した。元のAS最小生成元基底をAS由来の周期同型により任意正負sheetへ移す実際の基底を構成した。全sheet基底選択のcoherenceは未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-generator-index2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：一つのsheet基底から全体IncomingBasisSystemを構成し、持上げと周期反復のcoherenceを証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit278-draft-093752.patch（2143bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測95834.096557秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:39:57.326616+00:00 / JST 2026-10-09T18:39:57.326616+09:00
+
+## 単位279：foundation基底とAS周期から全被覆基底系
+
+sheet 0のAS最小生成元基底だけを選び、実際の正負整数周期同型とGeneratorIndex全単射により全被覆の既存IncomingBasisSystemを構成した。周期性は元ASRegularから導出済み。代表元の周期coherenceは未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-basis-system2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：実際の成分同型でsheet 0の矢代表元を全sheetへ移し、その商類と基底の一致を証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit279-draft-093957.patch（1065bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測95959.326616秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:46:03.710616+00:00 / JST 2026-10-09T18:46:03.710616+09:00
+
+## 単位280：実際のsheet成分同型とfoundation矢代表元
+
+任意整数sheetの成分線形同型と単位元/積保存を証明し、sheet 0のAS incoming係数を同じ実際の周期同型で全sheetへ移す矢族を構成した。周期0の型変換を一般補題で処理し、sheet 0で元のAS代表元と一致することを証明した。最小生成元基底との商類一致と全反復coherenceは次の義務。失敗1は不足importによるLeanエラー回復のsorry警告で、ソースに穴を書いていない。修正版5は診断なし実終了0。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-sheet-components5。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：移送した矢族の商類と移送基底の一致、全道表示の全射性/最小性、周期反復coherenceを証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit280-draft-094603.patch（4170bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96325.710616秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 集約checkpoint UTC 2026-10-09T09:46:49.593930+00:00
+
+WORK276〜280の5モジュールは個別Lean実終了0・診断なし。実際の積部分空間/最小生成元商の周期保存、正負任意回の周期同型、GeneratorIndexのsheet全単射、sheet 0のAS基底から全被覆IncomingBasisSystem、全sheet成分同型の単位元/積保存、AS矢代表元の移送とsheet 0での一致まで完成。商類と基底の一致、代表元/全自由道表示の周期coherenceは未証明。 新規26異なる宣言公理監査実終了0・厳密照合成功、許容公理3種類のみ、UTC2026-10-09T09:46:04.264805+00:00→2026-10-09T09:46:16.622374+00:00、実測12.357572055秒。
+
+現行692モジュール全体run20261009T092805Z-570508acの状態running、段階終了コード[('regression_tests', 0), ('source_audit', 0), ('environment', 0), ('build', None)]。最後の完了全体検査は659モジュール、全6段階0。開始UTC2026-10-08T07:00:38から実測96371.593930秒。終了未確定。商類/基底/自由表示の比較へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:47:54.669747+00:00 / JST 2026-10-09T18:47:54.669747+09:00
+
+## 単位281：周期移送したAS基底の実際の商類
+
+添字の等式で本来の積部分空間商を移す線形同型と商類公式を証明した。ASの実際のincomingGenerator代表元を整数周期同型で移送すると、その商類が移送基底に等しいことを、任意の最終添字への型変換込みで証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-generator-classes1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：全sheet矢族のgenerator商類と全体基底系を照合し、自由道表示全射性へ接続する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit281-draft-094754.patch（2355bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96436.669747秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:49:38.565183+00:00 / JST 2026-10-09T18:49:38.565183+09:00
+
+## 単位282：全sheet矢代表元と実際の最小生成元基底の一致
+
+基礎sheetと任意sheetの具体的GeneratorIndex全単射を構成し、成分型変換の合成則・周期写像との可換性から、sheet 0から周期移送した実際の矢代表元の商類が全sheetの移送基底に一致することを証明した。独立な代表元の取り直しはしていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-generator-basis2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：この実際の矢族による自由道表示の全射性と最小性、整数周期反復coherenceを証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit282-draft-094938.patch（3382bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96540.565183秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:51:45.887416+00:00 / JST 2026-10-09T18:51:45.887416+09:00
+
+## 単位283：指定した実際の矢族の基底から自由表示全射
+
+実際の矢族Gの商類が指定された既存IncomingBasisSystemの基底であるという具体条件から、全成分の生成元/積による分解、実際の全道評価とZAlgebra表示の全射性を高さ差帰納法で証明した。基底を別の代表元へ持ち上げ直さない一般補題。元AS条件への適用に必要な商類一致は282で証明済み、284で具体的に適用する。
+
+個別Lean終了0・診断なし。ログ/.exit.json：based-arrow-path-surjectivity2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：282の全sheet代表元の商類一致を用いて元ASRegularから全自由道表示全射を導出し、最小核条件を証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit283-draft-095145.patch（4753bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96667.887416秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:52:32.086211+00:00 / JST 2026-10-09T18:52:32.086211+09:00
+
+## 単位284：元AS条件からfoundation周期矢族の全自由表示全射
+
+実際のsheet移送矢族の商類と全sheet基底系が一致することを既存IncomingBasisSystemとして束ね、283の具体的基底条件を元ASRegularから導出した。元AS条件だけで全sheet道評価と整数添字自由道ZAlgebra表示の全射性を証明した。候補ΦBの全Jacobian核との同定/正則性は未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-presentation-surjective1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：この実際の表示の核が矢イデアル平方に含まれることと周期反復coherenceを証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit284-draft-095232.patch（2125bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96714.086211秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:53:34.845427+00:00 / JST 2026-10-09T18:53:34.845427+09:00
+
+## 単位285：実際の指定矢族の一次道商類独立性
+
+指定した矢族Gの実際の最小生成元商類が基底であることから、単一矢道の商類公式と全長さ1道の線形独立性を証明した。元AS適用の基底条件は284で導出済み。
+
+個別Lean終了0・診断なし。ログ/.exit.json：based-arrow-indecomposables1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：同じ実際のGの自由表示核を長さ2以上の道空間に含め、元AS表示の最小性へ適用する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit285-draft-095334.patch（2314bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96776.845427秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:54:34.736002+00:00 / JST 2026-10-09T18:54:34.736002+09:00
+
+## 単位286：指定した実際の自由表示核の長さ2支持
+
+実際の矢族Gの最小生成元商類基底から、元の道評価の核が長さ2以上の道空間に含まれることを全成分で証明した。正/零/逆向き高さ差の全場合を扱い、矢代表元を取り直さない。AS適用の具体的基底条件は284で導出済み。
+
+個別Lean終了0・診断なし。ログ/.exit.json：based-arrow-kernel-support1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：元AS条件のfoundation周期矢族に適用し、矢イデアル平方条件と実際の最小表示/核商同型を構成する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit286-draft-095434.patch（4381bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96836.736002秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:55:55.968542+00:00 / JST 2026-10-09T18:55:55.968542+09:00
+
+## 単位287：元AS条件のfoundation移送最小表示と真の核商
+
+同じ実際の矢族について、全表示核の矢イデアル平方包含を導出し、既存MinimalPathPresentationと真の表示核商≅元AS ZAlgebraを構成した。全Jacobian核との同定、候補ΦB正則性と整数反復coherenceは未証明で、この核商同型をA(ΦB)回収の完成と扱わない。283/285/286の基底条件は284で元ASRegularから導出済み。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-minimal-presentation1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：sheet 0で元の表示/関係核と一致すること、整数周期反復coherence、全Jacobian核との同定を証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit287-draft-095555.patch（2547bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測96917.968542秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T09:59:44.382586+00:00 / JST 2026-10-09T18:59:44.382586+09:00
+
+## 単位288：foundation移送表示と元AS表示の零sheet一致
+
+本来の被覆道の忘却cut次数からsheet単調性を証明し、両端が零sheetの道では途中も零sheetであることを導いた。同じ実際の矢代表元を使う零sheet全道評価と全有限線形結合評価が元AS表示に一致することを証明した。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-zero-sheet2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：零sheetの整数添字表示写像/真の関係核の一致と環表示一致を証明し、周期反復coherenceへ進む。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit288-draft-095944.patch（2403bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測97146.382586秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 改訂checkpoint 単位282 UTC 2026-10-09T10:02:49.276191+00:00
+
+既存FoundationArrowBasisの同名補題との衝突を避けるため新しいsheet移送添字同型をfoundationSheetGeneratorIndexEquivへ改名。数学的内容は同じ。旧コンパイルと旧281〜287バッチ監査は旧SHAの記録として保持し、現行SHAで再監査する。個別Lean実終了0・診断なし。旧証拠verification/total_algebra_unit282_draft.previous-100249276191.evidence.json、新差分runs/total-algebra-20261008-unit282-revision-100249276191.patch、現行source SHA488d5e550326e146e4061025846d73e71606c64a02bd90e8cccecab8bc683de0。検査UTC2026-10-09T10:01:53.800062+00:00→2026-10-09T10:01:57.662972+00:00、実測3.862914461秒。公開全体検査対象外。次の証明義務へ継続。タスク終了未確定。
+
+## 改訂checkpoint 単位284 UTC 2026-10-09T10:03:02.151660+00:00
+
+改名した282の現行環境で代表元/基底一致と全表示全射を再コンパイル。source SHAは以前と同じで数学的変更なし。個別Lean実終了0・診断なし。旧証拠verification/total_algebra_unit284_draft.previous-100302151660.evidence.json、新差分runs/total-algebra-20261008-unit284-revision-100302151660.patch、現行source SHA7d86b6dfe5dddb01a6477a16f89dcb4a3f73413d4b727b9471f64d091737e86b。検査UTC2026-10-09T10:02:49.550751+00:00→2026-10-09T10:02:52.656293+00:00、実測3.105545012秒。公開全体検査対象外。次の証明義務へ継続。タスク終了未確定。
+
+## 改訂checkpoint 単位287 UTC 2026-10-09T10:03:33.700356+00:00
+
+改名した282と再検証284に依存する現行環境で最小表示と真の核商同型を再コンパイル。source SHAは同じで数学的変更なし。個別Lean実終了0・診断なし。旧証拠verification/total_algebra_unit287_draft.previous-100333700356.evidence.json、新差分runs/total-algebra-20261008-unit287-revision-100333700356.patch、現行source SHA41b539480dd51507d86cb22f4ad9817e4dc5cfdd21cbe830b34da912a1c74eb2。検査UTC2026-10-09T10:03:02.434181+00:00→2026-10-09T10:03:05.832989+00:00、実測3.398809507秒。公開全体検査対象外。次の証明義務へ継続。タスク終了未確定。
+
+## 改訂checkpoint 単位288 UTC 2026-10-09T10:03:53.644780+00:00
+
+改名した282・再検証284/287の現行環境で零sheet評価一致を再コンパイル。source SHAは同じで数学的変更なし。個別Lean実終了0・診断なし。旧証拠verification/total_algebra_unit288_draft.previous-100353644780.evidence.json、新差分runs/total-algebra-20261008-unit288-revision-100353644780.patch、現行source SHAbc4cb58acf0a8be8ef3bb2c28665b956670a921db554693ed7f1dec4e4197c77。検査UTC2026-10-09T10:03:33.980335+00:00→2026-10-09T10:03:37.295106+00:00、実測3.314774507秒。公開全体検査対象外。次の証明義務へ継続。タスク終了未確定。
+
+## 継続checkpoint UTC 2026-10-09T10:05:21.528839+00:00 / JST 2026-10-09T19:05:21.528839+09:00
+
+## 単位289：foundation移送表示の零sheet核と元関係イデアル
+
+改名した新sheet添字同型を含む現行環境で元のAS表示との零sheet整数成分写像一致を証明した。元の最小関係イデアルと、この実際の周期移送表示の真の零sheet核が等しいことを証明した。独自の関係生成仮定は用いない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-zero-kernel3。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：零sheet有限環表示と非cut Jacobian核の一致を証明し、周期反復coherenceと全Jacobian核の同定へ進む。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit289-draft-100521.patch（2785bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測97483.528839秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T10:06:06.202665+00:00 / JST 2026-10-09T19:06:06.202665+09:00
+
+## 単位290：実際のfoundation移送表示とcut Jacobian環回収
+
+全被覆の実際のfoundation周期移送表示を零sheet有限環へ束ね、その環表示が元AS表示に一致すること、全射性と非cut道環表示の一致を証明した。元ASRegularだけで同じ非cut道表示の核が候補ΦBの実際のcut Jacobianイデアルに等しく、本来のB(ΦB)≃ₐ元FoundationAlgebraを得た。全Jacobian核や候補GinzburgRegularは未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-ring-recovery1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：任意整数回の周期反復の一段ずつのcoherence、全sheet Jacobian核との同定、候補正則性/外部結果接続を証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit290-draft-100606.patch（3113bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測97528.202665秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 集約checkpoint UTC 2026-10-09T10:08:45.886812+00:00 / JST 2026-10-09T19:08:45.886812+09:00
+
+WORK276〜290の15数学モジュールは個別Lean実終了0・診断なし。元AS条件から得た周期同型が実際の正次数積部分空間と最小生成元商を保存すること、正負任意回の周期同型とGeneratorIndex移送を証明。sheet 0のAS基底/矢代表元だけを使い、全被覆の実際の矢族、その商類＝移送基底、全自由道表示の全射性/矢イデアル平方核/真の核商≅元AS代数まで完成。元AS条件から283/285/286の具体的基底条件を284で導出済み。零sheet全道・全線形結合・整数成分/有限環表示が元AS表示に一致し、同じ非cut道表示の真の核＝候補ΦBのcut Jacobianイデアル、本来のB(ΦB)≃ₐ元FoundationAlgebraを290で証明。全Jacobian核＝この全表示核、候補正則性、任意整数反復のcoherenceは未証明。真の核商回収をA(ΦB)回収の完成として扱わない。
+
+282のsheet添字同型が既存FoundationArrowBasisの別の同名補題と衝突することを289のimport照合で検出し、foundationSheetGeneratorIndexEquivへ改名。282/284/287/288を現行依存環境で再コンパイルして全て実終了0・診断なし。旧SHAの差分/証拠/失敗ログを無変更保存し、現行証拠へ履歴リンクを追加。草稿監査に公開済み全宣言との重複チェックを追加し、現行281〜290バッチで成功。旧281〜287バッチは旧SHAの歴史的な成功記録として保持し、現行ソースの成功判定には使わない。
+
+WORK276〜280/26異なる宣言：UTC2026-10-09T09:46:04.264805+00:00→2026-10-09T09:46:16.622374+00:00、実測12.357572055秒、監査実終了0・厳密照合成功・許容公理3種類のみ・現行source SHA一致。 WORK281〜290/41異なる宣言：UTC2026-10-09T10:06:07.502943+00:00→2026-10-09T10:06:48.536081+00:00、実測41.033139738秒、監査実終了0・厳密照合成功・許容公理3種類のみ・現行source SHA一致。
+
+現行692数学モジュール/3947異なる宣言/2141 theoremの新しい全体run20261009T092805Z-570508acは進行中。回帰テスト/ソース監査/固定環境/lake buildは実終了0。lake build UTC09:28:06.586→09:51:58.562、実測1431.975787158秒。全宣言#print axiomsと照合の完了までは692を全体検査済みと扱わない。最後の完了全体検査は659モジュールのrun20261009T082942Z-cddaa6a5、全6段階0、実測2694.009537847秒、main0076791へ保存済み。WORK276〜290は今回の692全体検査対象外で、現行の個別Lean検査と下記バッチ監査に成功。
+
+main0076791のGitHub CI run37911359000は開始済み、最後の取得時点でin_progress。前main6953a852のrun37905210909はsuccess/全7段階実終了0、全文1,382,714bytes/SHA256610d1a4ab83916023ea3151dadedc2d3d5811b0d36a21c6b0565ba9268890e8cとartifact11608860222/digestsha256:f44f260ef65eab396c6f51e024fbb3441b1e976d2a0a98c217fa83406944c8f2を回収済み。UTC2026-10-09T08:29:20.317530+00:00→2026-10-09T09:47:21.221107+00:00、実測4680.903571295秒。前main5c6e119と80eee11のCI全文/artifact証拠も保存。旧成功を新headの成功と扱わない。
+開始UTC2026-10-08T07:00:38から実測97687.886812秒。終了未確定。周期反復coherenceと全Jacobian核/候補正則性へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T10:09:45.551543+00:00 / JST 2026-10-09T19:09:45.551543+09:00
+
+## 単位291：実際の周期反復の零回/後続回の具体式
+
+型変換したPeriodIso写像と合成写像の成分公式、自然数零回/後続回の反復公式を、全ての添字型変換込みで証明した。次数や周期を追加仮定にしていない。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-iteration-formulas1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：foundation矢代表元の隣接する非負sheetでの実際の周期整合性を証明し、負sheet側へ拡張する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit291-draft-100945.patch（1790bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測97747.551543秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T10:11:44.914078+00:00 / JST 2026-10-09T19:11:44.914078+09:00
+
+## 単位292：非負sheetの実際の矢代表元の周期整合性
+
+元AS条件のfoundation移送矢族について、自然数nからn+1への代表元が実際のAS周期写像により一致することを、全てのsource/target添字型変換を含め証明した。非負sheetのcoherenceは完成、負sheet側と全道/全Jacobian核への接続は未証明。
+
+個別Lean終了0・診断なし。ログ/.exit.json：foundation-period-natural-coherence1。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：周期写像とその逆の具体的キャンセルを証明し、負sheet代表元のcoherenceへ拡張する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit292-draft-101144.patch（1501bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測97866.914078秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T10:13:06.268118+00:00 / JST 2026-10-09T19:13:06.268118+09:00
+
+## 単位293：周期写像と逆写像の両方向キャンセル
+
+実際のPeriodIso.inverseの成分公式と、元の周期写像との両方向のキャンセルを全ての添字型変換込みで証明した。任意の成分元について成立し、負sheetのcoherenceを導くために使う。
+
+個別Lean終了0・診断なし。ログ/.exit.json：period-inverse-cancellation2。失敗ログも保持。公開全体監査には未収録。利用先/次の義務：負sheet同士の隣接代表元と零/負sheet境界の周期整合性を証明する。独自axiom・周期性・必要Ext表・主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+差分runs/total-algebra-20261008-unit293-draft-101306.patch（1396bytes）。source SHA/実測検査時刻を保存。最新公開ソース検査run 20261009T082942Z-cddaa6a5の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。今回のWORK単位はこの全体検査対象外。
+開始UTC2026-10-08T07:00:38から実測97948.268118秒。タスク終了未確定。次の証明義務へ継続する。
+
+## 全体検証243〜275：foundation環モデル・Ext・実際のB(ΦB)回収
+
+33数学モジュールを統合して新しい全体検証に成功。線形圏同値、全対象・全次数の実際Ext比較、AS単純の射影次元≤2、最小関係の両側生成性、候補ΦBのcut Jacobian環と元foundation環のAlgEquivが完成。
+全ZAlgebra回収、候補正則性、選択独立性、主定理3.2/系5.2は未証明。
+
+検証：`20261009T092805Z-570508ac`、2850.900579265秒、全段階終了0。
+JST 2026-10-09T18:28:05.391088+09:00 → 2026-10-09T19:15:36.291672+09:00。
+UTC 2026-10-09T09:28:05.391088+00:00 → 2026-10-09T10:15:36.291672+00:00。
+692数学モジュール・3947異なる宣言・2141 theorem。
+差分：runs/total-algebra-20261008-unit243.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 全体検証完了checkpoint UTC 2026-10-09T10:20:57.186002+00:00 / JST 2026-10-09T19:20:57.186002+09:00
+
+現行692数学モジュール/3947異なる宣言/2141 theoremの新しい全体run20261009T092805Z-570508acはsuccess。全6段階実終了0、wrapper0、現行公開ソースSHA完全一致。全宣言#print axiomsを厳密照合し、許容公理propext/Classical.choice/Quot.soundのみ、重複/監査漏れ/holes/独自axiom/禁止依存なし。UTC2026-10-09T09:28:05.391088+00:00→2026-10-09T10:15:36.291672+00:00、実測2850.900579265秒。wrapper UTC09:28:05.355699→10:15:36.300343、実測2850.944647648秒。初期14/開始時60数学モジュール、577保護記録と入力PDFの無変更検査0。243〜275の33数学モジュールの全体検証済み差分を保存し、直接mainへの通常fast-forward保存を準備する。WORK276以後はこの692全体検査対象外。
+
+WORK291〜293は個別Lean実終了0・診断なしで保存。非負sheetの実際の矢代表元の前進周期整合性、実際の周期写像と逆写像の両方向キャンセルまで完成。これらの新しいバッチ公理監査は未実行。WORK294の負sheet整合性は整数表現の依存型変換を調整中で、個別Lean失敗ログを保持し、成功とは記録していない。295の初回検査は294の未生成oleanにより終了1、未完成。零/-1境界と全整数前進整合性は未証明。
+開始UTC2026-10-08T07:00:38から実測98419.186002秒。タスク終了未確定。直接main保存後も全整数周期整合性・全Jacobian核回収・候補正則性へ継続する。

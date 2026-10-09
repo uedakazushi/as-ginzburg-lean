@@ -1,0 +1,47 @@
+import ASGinzburg.FoundationRingEquivalence
+
+/-! Both genuine finite foundation-ring functors are additive and
+linear for the original field actions. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped ModuleCat.Algebra
+attribute [local instance 2000] ModuleCat.isModule
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+noncomputable instance foundationRightTotalFunctorLinear :
+    (A.foundationRightTotalFunctor Q).Linear k where
+  map_smul := by
+    intro M N f c
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change A.foundationRightTotalLinearMap Q (c • f) x=
+      c • (A.foundationRightTotalModuleMap Q f x : A.foundationRightTotalModule Q N)
+    rw [A.foundationRightTotalModule_scalar_smul Q N]
+    funext i
+    rfl
+
+noncomputable instance foundationRingRightComponentRecoveryAdditive :
+    (A.foundationRingRightComponentRecovery Q).Additive where
+  map_add := by
+    intro M N f g
+    apply NatTrans.ext
+    funext i
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    exact Subtype.ext rfl
+
+noncomputable instance foundationRingRightComponentRecoveryLinear :
+    (A.foundationRingRightComponentRecovery Q).Linear k where
+  map_smul := by
+    intro M N f c
+    apply NatTrans.ext
+    funext i
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    exact Subtype.ext rfl
+
+end ASGinzburg.ZAlgebra

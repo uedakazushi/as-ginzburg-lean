@@ -1,0 +1,27 @@
+import ASGinzburg.FiniteComponentIdempotents
+
+/-! Every element of the actual finite convolution algebra is the
+finite sum of its matrix components. -/
+namespace ASGinzburg.LinearComponentAlgebra
+universe u v
+variable {k : Type u} [Field k] {ι : Type v} [Fintype ι]
+  (B : LinearComponentAlgebra k ι)
+
+theorem sum_totalComponent (x : B.Total) :
+    (∑ i : ι,∑ j : ι,B.totalComponent i j (x i j))=x := by
+  classical
+  funext p q
+  simp only [Finset.sum_apply]
+  rw [Finset.sum_eq_single p]
+  · rw [Finset.sum_eq_single q]
+    · exact B.totalComponent_apply_same p q (x p q)
+    · intro j _ hj
+      simp [totalComponent,Ne.symm hj]
+    · simp
+  · intro i _ hi
+    apply Finset.sum_eq_zero
+    intro j _
+    exact B.totalComponent_apply_source_ne i j p q (x i j) (Ne.symm hi)
+  · simp
+
+end ASGinzburg.LinearComponentAlgebra

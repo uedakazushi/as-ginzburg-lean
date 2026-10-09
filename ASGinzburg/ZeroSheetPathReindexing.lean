@@ -1,0 +1,41 @@
+import ASGinzburg.UnrolledJacobianLiftIdeal
+import ASGinzburg.FoundationAlgebra
+
+/-! The native sheet-zero paths reindex to the actual finite free
+Z-algebra block, preserving path units and composition. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem heightEquiv_symm_vertex_zero (i : Q.Vertex) :
+    Q.heightEquiv.symm (i.val : ℤ)=(i,0) := by
+  simpa [height] using Q.heightEquiv_symm_height (i,0)
+
+noncomputable def zeroSheetPathReindexEquiv (i j : Q.Vertex) :
+    Q.UnrolledPathComponent k (i,0) (j,0) ≃ₗ[k]
+      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) :=
+  Finsupp.mapDomain.linearEquiv k k (UnrolledPath.endpointEquiv Q
+    (Q.heightEquiv_symm_vertex_zero i).symm (Q.heightEquiv_symm_vertex_zero j).symm)
+
+theorem unrolledEndpointEquiv_id {v w : Q.LiftVertex} (h : v=w) :
+    Finsupp.mapDomain (UnrolledPath.endpointEquiv Q h h) (Q.unrolledPathId k v)=
+      Q.unrolledPathId k w := by
+  subst w
+  change Finsupp.mapDomain (fun p => p) (Q.unrolledPathId k v)=_
+  exact Finsupp.mapDomain_id
+
+theorem zeroSheetPathReindexEquiv_id (i : Q.Vertex) :
+    Q.zeroSheetPathReindexEquiv k i i (Q.unrolledPathId k (i,0))=
+      (Q.unrolledPathZAlgebra k).id (i.val : ℤ) :=
+  Q.unrolledEndpointEquiv_id k (Q.heightEquiv_symm_vertex_zero i).symm
+
+theorem zeroSheetPathReindexEquiv_comp {i j l : Q.Vertex}
+    (f : Q.UnrolledPathComponent k (i,0) (j,0))
+    (g : Q.UnrolledPathComponent k (j,0) (l,0)) :
+    Q.zeroSheetPathReindexEquiv k i l (Q.unrolledPathComp k g f)=
+      (Q.unrolledPathZAlgebra k).comp (Q.zeroSheetPathReindexEquiv k j l g)
+        (Q.zeroSheetPathReindexEquiv k i j f) :=
+  Q.unrolledEndpointEquiv_comp k (Q.heightEquiv_symm_vertex_zero i).symm
+    (Q.heightEquiv_symm_vertex_zero j).symm (Q.heightEquiv_symm_vertex_zero l).symm f g
+
+end ASGinzburg.CutQuiver

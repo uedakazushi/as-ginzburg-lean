@@ -1,0 +1,42 @@
+import ASGinzburg.ASZeroCutRelationComparison
+import ASGinzburg.ASFoundationRingRelationGeneration
+import ASGinzburg.FiniteComponentMapEmbeddings
+
+/-! The actual non-cut relation embeddings map exactly to the
+original finite free-path relation generators. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.foundationZeroCutRingRelationGenerators (hAS : A.ASRegular Q) :
+    Set (Q.ZeroCutPathRing k) :=
+  {x | ∃ i j : Q.Vertex,∃ a : Q.FoundationRelationArrow i j,
+    (Q.zeroCutPathComponentAlgebra k).totalComponent i j
+      (hAS.foundationZeroCutRelation A Q i j a)=x}
+
+theorem ASRegular.foundationZeroCutRelation_ring_comparison (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
+    Q.zeroCutFoundationRingAlgEquiv k ((Q.zeroCutPathComponentAlgebra k).totalComponent i j
+      (hAS.foundationZeroCutRelation A Q i j a))=
+      ((Q.unrolledPathZAlgebra k).foundationComponents Q).totalComponent i j
+        (hAS.foundationRelationLift A Q i j a).val := by
+  have he := (Q.zeroCutPathComponentAlgebra k).totalAlgEquivOfComponents_component
+    ((Q.unrolledPathZAlgebra k).foundationComponents Q) (Q.zeroCutFoundationComponentEquiv k)
+    (Q.zeroCutFoundationComponentEquiv_id k) (Q.zeroCutFoundationComponentEquiv_comp k)
+    i j (hAS.foundationZeroCutRelation A Q i j a)
+  exact he.trans (congrArg (((Q.unrolledPathZAlgebra k).foundationComponents Q).totalComponent i j)
+    (hAS.foundationZeroCutRelation_height A Q i j a))
+
+theorem ASRegular.foundationZeroCutRingRelationGenerators_image (hAS : A.ASRegular Q) :
+    Q.zeroCutFoundationRingAlgEquiv k '' hAS.foundationZeroCutRingRelationGenerators A Q=
+      hAS.foundationRingRelationGenerators A Q := by
+  ext x
+  constructor
+  · rintro ⟨y,⟨i,j,a,rfl⟩,rfl⟩
+    exact ⟨i,j,a,(hAS.foundationZeroCutRelation_ring_comparison A Q i j a).symm⟩
+  · rintro ⟨i,j,a,rfl⟩
+    refine ⟨(Q.zeroCutPathComponentAlgebra k).totalComponent i j
+      (hAS.foundationZeroCutRelation A Q i j a),⟨i,j,a,rfl⟩,?_⟩
+    exact hAS.foundationZeroCutRelation_ring_comparison A Q i j a
+
+end ASGinzburg.ZAlgebra

@@ -1,0 +1,1885 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index d8a8dc6..e1e5701 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -682,6 +682,39 @@ import ASGinzburg.FoundationRingPresheaves
+ import ASGinzburg.FoundationRingComponentMaps
+ import ASGinzburg.FoundationTotalComponentActions
+ import ASGinzburg.FoundationTotalScalarComparison
++import ASGinzburg.FoundationTotalComponentEquiv
++import ASGinzburg.FoundationTotalRecoveryIso
++import ASGinzburg.FoundationTotalUnitIso
++import ASGinzburg.FoundationRingComponentSum
++import ASGinzburg.FiniteComponentDecomposition
++import ASGinzburg.FoundationComponentSumActions
++import ASGinzburg.FoundationComponentSumModuleIso
++import ASGinzburg.FoundationRingCounitIso
++import ASGinzburg.FoundationRingEquivalence
++import ASGinzburg.FoundationRingEquivalenceLinear
++import ASGinzburg.FoundationRingExtComparison
++import ASGinzburg.FoundationRingSimpleResolution
++import ASGinzburg.FoundationRingSimpleExtBounds
++import ASGinzburg.FoundationAlgebraMaps
++import ASGinzburg.ASFoundationRingPresentation
++import ASGinzburg.FoundationBlockIdeals
++import ASGinzburg.ASFoundationRelationRingQuotient
++import ASGinzburg.ZeroCutPathAlgebra
++import ASGinzburg.ZeroCutUnrollingProducts
++import ASGinzburg.ZeroSheetPathReindexing
++import ASGinzburg.FiniteComponentAlgebraMaps
++import ASGinzburg.ZeroCutFoundationRingEquiv
++import ASGinzburg.ASFoundationZeroCutPresentation
++import ASGinzburg.ASZeroCutRelationComparison
++import ASGinzburg.FiniteComponentMapEmbeddings
++import ASGinzburg.FoundationRingIdealExtension
++import ASGinzburg.FoundationIdealComponents
++import ASGinzburg.ASFoundationRingRelationGeneration
++import ASGinzburg.ASZeroCutRingRelationGenerators
++import ASGinzburg.TwoSidedSpanRingEquiv
++import ASGinzburg.ASZeroCutRelationGeneration
++import ASGinzburg.ZeroCutJacobianRing
++import ASGinzburg.ASFoundationJacobianRingEquiv
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index c42428a..5db6e4b 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -124,6 +124,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_eval_zero
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_height
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationIdeal_eq_kernel
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential_zeroCutCyclicDerivative
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential_zeroCutJacobianGenerators
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationPotential_zeroCutJacobianIdeal
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationJacobianRingAlgEquiv
+ #print axioms ASGinzburg.ZAlgebra.foundationMinimalRelationBasis
+ #print axioms ASGinzburg.ZAlgebra.foundationMinimalRelation_finrank
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.cutPathRelation
+@@ -146,6 +150,26 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationNative
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationNative_height
+ #print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationNative_mem_long
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationRingIdeal_eq_kernel
++#print axioms ASGinzburg.ZAlgebra.ASRegular.FoundationRelationRing
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationRingAlgEquiv
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRelationRingAlgEquiv_apply_mk
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingPresentation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingPresentation_surjective
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingPresentation_eq_zero_iff
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingKernelQuotientEquiv
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingRelationGenerators
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingRelations_span_le
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingRelationIdeal_le_span
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingRelationIdeal_eq_span
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationRingKernel_eq_span
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutPresentation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutPresentation_surjective
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelationIdeal
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelationIdeal_eq_kernel
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelationIdealIsTwoSided
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutQuotientAlgEquiv
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutQuotientAlgEquiv_apply_mk
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.GeneratorIndex
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.incomingGenerator
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.indecomposableGenerator
+@@ -383,6 +407,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.secondCover_component_ker_le_radical
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.secondCover_radical_image
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.secondSyzygyTopEquiv
++#print axioms ASGinzburg.CutQuiver.zeroSheetPathReindexEquiv_apply_height
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation_native
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation_height
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelationIdeal_eq_span
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutKernel_eq_span
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutGeneratedQuotientAlgEquiv
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRingRelationGenerators
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation_ring_comparison
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRingRelationGenerators_image
+ #print axioms ASGinzburg.ZAlgebra.arrowPathIndecomposableMap
+ #print axioms ASGinzburg.ZAlgebra.arrowPathIndecomposableMap_single_long
+ #print axioms ASGinzburg.ZAlgebra.arrowPathLong_supported_le_ker
+@@ -644,6 +678,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_one
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_mul
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalAlgEquiv
++#print axioms ASGinzburg.LinearComponentAlgebra.totalLinearMapOfComponents
++#print axioms ASGinzburg.LinearComponentAlgebra.totalLinearMapOfComponents_one
++#print axioms ASGinzburg.LinearComponentAlgebra.totalLinearMapOfComponents_mul
++#print axioms ASGinzburg.LinearComponentAlgebra.totalAlgHomOfComponents
++#print axioms ASGinzburg.LinearComponentAlgebra.totalAlgEquivOfComponents
++#print axioms ASGinzburg.LinearComponentAlgebra.sum_totalComponent
+ #print axioms ASGinzburg.LinearComponentAlgebra.totalComponent
+ #print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_apply_same
+ #print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_apply_source_ne
+@@ -658,6 +698,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.LinearComponentAlgebra.sum_totalIdempotent
+ #print axioms ASGinzburg.LinearComponentAlgebra.totalIdempotent_mul_component
+ #print axioms ASGinzburg.LinearComponentAlgebra.totalComponent_mul_idempotent
++#print axioms ASGinzburg.LinearComponentAlgebra.totalLinearMapOfComponents_component
++#print axioms ASGinzburg.LinearComponentAlgebra.totalAlgEquivOfComponents_component
+ #print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHomDiagram
+ #print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso
+@@ -980,16 +1022,29 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.foundation_mul_component
+ #print axioms ASGinzburg.ZAlgebra.foundation_one_diagonal
+ #print axioms ASGinzburg.ZAlgebra.foundation_hom_backward_zero
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.foundationLinearMap
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.foundationLinearMap_one
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.foundationLinearMap_mul
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.foundationAlgebraMap
++#print axioms ASGinzburg.ZAlgebra.Homomorphism.foundationAlgebraMap_surjective
+ #print axioms ASGinzburg.CutQuiver.FoundationArrow
+ #print axioms ASGinzburg.CutQuiver.foundation_generator_noncut
+ #print axioms ASGinzburg.CutQuiver.foundationGeneratorIndexEquiv
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationArrowBasis
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.foundationIdeal
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.mem_foundationIdeal
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.foundationIdealIsTwoSided
+ #print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction
+ #print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_add
+ #print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_smul
+ #print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_id
+ #print axioms ASGinzburg.ZAlgebra.foundationRightComponentAction_comp
+ #print axioms ASGinzburg.ZAlgebra.foundationRightComponentRepresentation
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSum_single
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSum_action
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSum_representation
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSumModuleMap
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSumModuleIso
+ #print axioms ASGinzburg.ZAlgebra.foundation_epi_iff
+ #print axioms ASGinzburg.ZAlgebra.foundationGenerators
+ #print axioms ASGinzburg.ZAlgebra.foundationFreeRightModule
+@@ -1001,6 +1056,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.foundationRepresentableExtZeroEquiv
+ #print axioms ASGinzburg.ZAlgebra.foundationRepresentable_higher_ext_eq_zero
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundation_simple_ext_ge_three_eq_zero
++#print axioms ASGinzburg.ZAlgebra.LinearIdeal.foundationIdeal_component_mem_iff
+ #print axioms ASGinzburg.ZAlgebra.foundationRightEvaluationPreservesFiniteLimits
+ #print axioms ASGinzburg.ZAlgebra.foundationRightEvaluationPreservesFiniteColimits
+ #print axioms ASGinzburg.ZAlgebra.foundationRepresentableProjective
+@@ -1063,10 +1119,37 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentMap_comp
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightActionLinear
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightRangeActionLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSum
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_componentSum
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_sum
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSumEquiv
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentSumModuleMap_natural
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightCounitIso
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightEquivalence
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctorIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentRecoveryIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentRecoveryAdditive
++#print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentRecoveryLinear
++#print axioms ASGinzburg.ZAlgebra.foundationRingEnoughProjectives
++#print axioms ASGinzburg.ZAlgebra.foundationRingHasExt
++#print axioms ASGinzburg.ZAlgebra.foundationExtModule
++#print axioms ASGinzburg.ZAlgebra.foundationRingExtModule
++#print axioms ASGinzburg.ZAlgebra.foundationRingExtLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.foundationVertex_exists_of_bounds
++#print axioms ASGinzburg.ZAlgebra.foundationRingIdealExtension
++#print axioms ASGinzburg.ZAlgebra.foundationRingIdealExtension_mem_iff
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentFunctor
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentFunctorLinear
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightComponentModule
++#print axioms ASGinzburg.ZAlgebra.ASResolution.foundation_ring_simple_ext_ge_three_eq_zero
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundation_ring_simple_hasProjectiveDimensionLE_two
++#print axioms ASGinzburg.ZAlgebra.ASRegular.foundation_ring_simple_ext_ge_three_eq_zero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.foundationRingProjectiveResolution
++#print axioms ASGinzburg.ZAlgebra.ASResolution.foundationRingProjectiveResolution_X_three_isZero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.foundationRingProjectiveResolution_X_ge_four_isZero
++#print axioms ASGinzburg.ZAlgebra.ASResolution.foundation_ring_simple_hasProjectiveDimensionLE_two
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationFourTermProjectiveResolution
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationProjectiveResolution
+ #print axioms ASGinzburg.ZAlgebra.ASResolution.foundationProjectiveResolution_X_three_isZero
+@@ -1089,6 +1172,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalRepresentation
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalAction_component
+ #print axioms ASGinzburg.ZAlgebra.foundationRingRightProjection_totalModule_apply
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_apply
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_symm_apply
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalModuleMap
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctor
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalFunctor_map_apply
+@@ -1105,8 +1191,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalModuleStructure
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalModule
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalModule_smul
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_action
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalRecoveryIso
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalModule_scalar_smul
+ #print axioms ASGinzburg.ZAlgebra.foundationRightTotalUnderlyingLinearEquiv
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalRecoveryIso_natural
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalRecoveryNatIso
++#print axioms ASGinzburg.ZAlgebra.foundationRightTotalUnitIso
+ #print axioms ASGinzburg.fourTermProjectiveResolution_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.exact_epi_comp_iff
+ #print axioms ASGinzburg.FourTermProjectiveResolution
+@@ -3601,6 +3692,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableπ_component_isIso
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableComponentIso
+ #print axioms ASGinzburg.ZAlgebra.rightTruncatedRepresentableYonedaEquiv_comp
++#print axioms ASGinzburg.ringEquiv_mem_twoSidedSpan_image_iff
+ #print axioms ASGinzburg.ZAlgebra.totalUnitizationComponentLinear
+ #print axioms ASGinzburg.ZAlgebra.totalUnitizationComponentLinear_apply
+ #print axioms ASGinzburg.ZAlgebra.leftUnitizationComponentAction
+@@ -3831,3 +3923,27 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.Isomorphism.linearEquivalence
+ #print axioms ASGinzburg.ZAlgebra.objIndex_eq_of_iso
+ #print axioms ASGinzburg.ZAlgebra.obj_eq_of_iso
++#print axioms ASGinzburg.CutQuiver.zeroCutFoundationComponentEquiv
++#print axioms ASGinzburg.CutQuiver.zeroCutFoundationComponentEquiv_id
++#print axioms ASGinzburg.CutQuiver.zeroCutFoundationComponentEquiv_comp
++#print axioms ASGinzburg.CutQuiver.zeroCutFoundationRingAlgEquiv
++#print axioms ASGinzburg.CutQuiver.zeroCutFoundationRingAlgEquiv_apply
++#print axioms ASGinzburg.CutQuiver.zeroCutCyclicDerivative
++#print axioms ASGinzburg.CutQuiver.zeroCutJacobianGenerators
++#print axioms ASGinzburg.CutQuiver.zeroCutJacobianIdeal
++#print axioms ASGinzburg.CutQuiver.zeroCutJacobianIdealIsTwoSided
++#print axioms ASGinzburg.CutQuiver.ZeroCutJacobianRing
++#print axioms ASGinzburg.CutQuiver.zeroCutPathId
++#print axioms ASGinzburg.CutQuiver.zeroCutPathComp
++#print axioms ASGinzburg.CutQuiver.zeroCutPathComponentAlgebra
++#print axioms ASGinzburg.CutQuiver.ZeroCutPathRing
++#print axioms ASGinzburg.CutQuiver.zeroCutPathRingFinite
++#print axioms ASGinzburg.CutQuiver.zeroCutNativeUnrollingEquiv
++#print axioms ASGinzburg.CutQuiver.zeroCutNativeUnrollingEquiv_erase
++#print axioms ASGinzburg.CutQuiver.zeroCutNativeUnrollingEquiv_id
++#print axioms ASGinzburg.CutQuiver.zeroCutNativeUnrollingEquiv_comp
++#print axioms ASGinzburg.CutQuiver.heightEquiv_symm_vertex_zero
++#print axioms ASGinzburg.CutQuiver.zeroSheetPathReindexEquiv
++#print axioms ASGinzburg.CutQuiver.unrolledEndpointEquiv_id
++#print axioms ASGinzburg.CutQuiver.zeroSheetPathReindexEquiv_id
++#print axioms ASGinzburg.CutQuiver.zeroSheetPathReindexEquiv_comp
+diff --git a/ASGinzburg/FoundationTotalComponentEquiv.lean b/ASGinzburg/FoundationTotalComponentEquiv.lean
+new file mode 100644
+index 0000000..b75895b
+--- /dev/null
++++ b/ASGinzburg/FoundationTotalComponentEquiv.lean
+@@ -0,0 +1,45 @@
++import ASGinzburg.FoundationTotalComponentActions
++import ASGinzburg.FoundationTotalScalarComparison
++import ASGinzburg.FoundationRingComponentSpaces
++
++/-! The image of each genuine total-module idempotent is linearly
++isomorphic to the original component, by coordinate extraction. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def foundationRightTotalComponentEquiv
++    (M : A.FoundationRightModule Q) (i : Q.Vertex) :
++    A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) i ≃ₗ[k]
++      (A.foundationRightEvaluation Q i).obj M := by
++  classical
++  exact
++    { toFun := fun x => x.val i
++      invFun := fun x => ⟨Pi.single i x,⟨Pi.single i x,by
++        rw [A.foundationRingRightProjection_totalModule_apply Q M i]
++        simp⟩⟩
++      left_inv := fun x => Subtype.ext (by
++        have h := A.foundationRingRightProjection_range_fixed Q
++          (A.foundationRightTotalModule Q M) i x
++        rw [A.foundationRingRightProjection_totalModule_apply Q M i] at h
++        exact h)
++      right_inv := fun x => by simp
++      map_add' := fun x y => rfl
++      map_smul' := fun c x => by
++        change (c • x.val) i=c • x.val i
++        exact congrFun (A.foundationRightTotalModule_scalar_smul Q M c x.val) i }
++
++theorem foundationRightTotalComponentEquiv_apply
++    (M : A.FoundationRightModule Q) (i : Q.Vertex)
++    (x : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) i) :
++    A.foundationRightTotalComponentEquiv Q M i x=x.val i := rfl
++
++theorem foundationRightTotalComponentEquiv_symm_apply
++    (M : A.FoundationRightModule Q) (i : Q.Vertex)
++    (x : (A.foundationRightEvaluation Q i).obj M) :
++    ((A.foundationRightTotalComponentEquiv Q M i).symm x).val=Pi.single i x := rfl
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationTotalRecoveryIso.lean b/ASGinzburg/FoundationTotalRecoveryIso.lean
+new file mode 100644
+index 0000000..74da3db
+--- /dev/null
++++ b/ASGinzburg/FoundationTotalRecoveryIso.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.FoundationTotalComponentEquiv
++import ASGinzburg.FoundationRingComponentMaps
++
++/-! Coordinate extraction intertwines the original component actions
++and gives an actual isomorphism of foundation linear presheaves. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationRightTotalComponentEquiv_action
++    (M : A.FoundationRightModule Q) {i j : Q.Vertex}
++    (a : A.Hom (i.val : ℤ) (j.val : ℤ))
++    (x : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) j) :
++    A.foundationRightTotalComponentEquiv Q M i
++      (A.foundationRingRightComponentMap Q (A.foundationRightTotalModule Q M) a x)=
++      A.foundationRightComponentAction Q M a (A.foundationRightTotalComponentEquiv Q M j x) := by
++  classical
++  change (A.foundationRightTotalAction Q M ((A.foundationComponents Q).totalComponent i j a) x.val) i=_
++  rw [A.foundationRightTotalAction_component Q M i j a]
++  simp [A.foundationRightTotalComponentEquiv_apply Q M j]
++
++noncomputable def foundationRightTotalRecoveryIso (M : A.FoundationRightModule Q) :
++    A.foundationRingRightComponentModule Q (A.foundationRightTotalModule Q M) ≅ M :=
++  (linearPresheafProperty k (A.FoundationRightObj Q)).isoMk
++    (NatIso.ofComponents (fun i => (A.foundationRightTotalComponentEquiv Q M i).toModuleIso)
++    (by
++      intro i j a
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro x
++      exact A.foundationRightTotalComponentEquiv_action Q M a.unop x))
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationTotalUnitIso.lean b/ASGinzburg/FoundationTotalUnitIso.lean
+new file mode 100644
+index 0000000..5593d77
+--- /dev/null
++++ b/ASGinzburg/FoundationTotalUnitIso.lean
+@@ -0,0 +1,33 @@
++import ASGinzburg.FoundationTotalRecoveryIso
++
++/-! The recovery isomorphism is natural in the original presheaf;
++its inverse is the genuine unit for the two finite-ring functors. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationRightTotalRecoveryIso_natural
++    {M N : A.FoundationRightModule Q} (f : M ⟶ N) :
++    (A.foundationRingRightComponentRecovery Q).map ((A.foundationRightTotalFunctor Q).map f) ≫
++      (A.foundationRightTotalRecoveryIso Q N).hom=
++      (A.foundationRightTotalRecoveryIso Q M).hom ≫ f := by
++  apply NatTrans.ext
++  funext i
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  rfl
++
++noncomputable def foundationRightTotalRecoveryNatIso :
++    A.foundationRightTotalFunctor Q ⋙ A.foundationRingRightComponentRecovery Q ≅
++      𝟭 (A.FoundationRightModule Q) :=
++  NatIso.ofComponents (A.foundationRightTotalRecoveryIso Q)
++    (fun f => A.foundationRightTotalRecoveryIso_natural Q f)
++
++noncomputable def foundationRightTotalUnitIso :
++    𝟭 (A.FoundationRightModule Q) ≅
++      A.foundationRightTotalFunctor Q ⋙ A.foundationRingRightComponentRecovery Q :=
++  (A.foundationRightTotalRecoveryNatIso Q).symm
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationRingComponentSum.lean b/ASGinzburg/FoundationRingComponentSum.lean
+new file mode 100644
+index 0000000..ed59bbd
+--- /dev/null
++++ b/ASGinzburg/FoundationRingComponentSum.lean
+@@ -0,0 +1,60 @@
++import ASGinzburg.FoundationRingComponentMaps
++import ASGinzburg.FoundationTotalScalarComparison
++
++/-! Orthogonal idempotents with sum one give a genuine finite
++component decomposition of every foundation-ring module. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def foundationRingRightComponentSum
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
++    A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M) →ₗ[k] M where
++  toFun x := ∑ i : Q.Vertex, (x i).val
++  map_add' x y := by
++    change (∑ i : Q.Vertex,((x i).val+(y i).val))=_
++    exact Finset.sum_add_distrib
++  map_smul' c x := by
++    change (∑ i : Q.Vertex,c • (x i).val)=_
++    rw [Finset.smul_sum]
++    rfl
++
++theorem foundationRingRightProjection_componentSum
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (i : Q.Vertex)
++    (x : A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) :
++    A.foundationRingRightProjection Q M i (A.foundationRingRightComponentSum Q M x)=(x i).val := by
++  classical
++  change A.foundationRingRightProjection Q M i (∑ j : Q.Vertex,(x j).val)=_
++  rw [map_sum,Finset.sum_eq_single i]
++  · exact A.foundationRingRightProjection_range_fixed Q M i (x i)
++  · intro j _ hji
++    have h := LinearMap.congr_fun (A.foundationRingRightProjection_orthogonal Q M i j (Ne.symm hji)) (x j).val
++    change A.foundationRingRightProjection Q M i (A.foundationRingRightProjection Q M j (x j).val)=0 at h
++    rw [A.foundationRingRightProjection_range_fixed Q M j (x j)] at h
++    exact h
++  · simp
++
++theorem foundationRingRightProjection_sum
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (x : M) :
++    (∑ i : Q.Vertex,A.foundationRingRightProjection Q M i x)=x := by
++  classical
++  change (∑ i : Q.Vertex,MulOpposite.op ((A.foundationComponents Q).totalIdempotent i) • x)=x
++  rw [←Finset.sum_smul]
++  change (∑ i : Q.Vertex,MulOpposite.opAddEquiv ((A.foundationComponents Q).totalIdempotent i)) • x=x
++  rw [←map_sum,(A.foundationComponents Q).sum_totalIdempotent]
++  exact one_smul _ x
++
++noncomputable def foundationRingRightComponentSumEquiv
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
++    A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M) ≃ₗ[k] M where
++  toLinearMap := A.foundationRingRightComponentSum Q M
++  invFun x i := ⟨A.foundationRingRightProjection Q M i x,⟨x,rfl⟩⟩
++  left_inv x := by
++    funext i
++    exact Subtype.ext (A.foundationRingRightProjection_componentSum Q M i x)
++  right_inv x := A.foundationRingRightProjection_sum Q M x
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteComponentDecomposition.lean b/ASGinzburg/FiniteComponentDecomposition.lean
+new file mode 100644
+index 0000000..d5b39ca
+--- /dev/null
++++ b/ASGinzburg/FiniteComponentDecomposition.lean
+@@ -0,0 +1,27 @@
++import ASGinzburg.FiniteComponentIdempotents
++
++/-! Every element of the actual finite convolution algebra is the
++finite sum of its matrix components. -/
++namespace ASGinzburg.LinearComponentAlgebra
++universe u v
++variable {k : Type u} [Field k] {ι : Type v} [Fintype ι]
++  (B : LinearComponentAlgebra k ι)
++
++theorem sum_totalComponent (x : B.Total) :
++    (∑ i : ι,∑ j : ι,B.totalComponent i j (x i j))=x := by
++  classical
++  funext p q
++  simp only [Finset.sum_apply]
++  rw [Finset.sum_eq_single p]
++  · rw [Finset.sum_eq_single q]
++    · exact B.totalComponent_apply_same p q (x p q)
++    · intro j _ hj
++      simp [totalComponent,Ne.symm hj]
++    · simp
++  · intro i _ hi
++    apply Finset.sum_eq_zero
++    intro j _
++    exact B.totalComponent_apply_source_ne i j p q (x i j) (Ne.symm hi)
++  · simp
++
++end ASGinzburg.LinearComponentAlgebra
+diff --git a/ASGinzburg/FoundationComponentSumActions.lean b/ASGinzburg/FoundationComponentSumActions.lean
+new file mode 100644
+index 0000000..e508876
+--- /dev/null
++++ b/ASGinzburg/FoundationComponentSumActions.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.FoundationRingComponentSum
++import ASGinzburg.FoundationTotalComponentActions
++
++/-! The finite component-sum map intertwines every original A.Hom
++action; this will imply its linearity over the actual total ring. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationRingRightComponentSum_single
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (i : Q.Vertex)
++    (x : A.foundationRingRightComponentSpace Q M i) :
++    A.foundationRingRightComponentSum Q M (Pi.single i x)=x.val := by
++  classical
++  change (∑ j : Q.Vertex,((Pi.single i x :
++    A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) j).val)=_
++  rw [Finset.sum_eq_single i]
++  · simp
++  · intro j _ hj
++    rw [Pi.single_eq_of_ne hj]
++    rfl
++  · simp
++
++theorem foundationRingRightComponentSum_action
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) {i j : Q.Vertex}
++    (a : A.Hom (i.val : ℤ) (j.val : ℤ))
++    (x : A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) :
++    A.foundationRingRightComponentSum Q M
++      (A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M)
++        ((A.foundationComponents Q).totalComponent i j a) x)=
++      A.foundationRingRightComponentAction Q M a (A.foundationRingRightComponentSum Q M x) := by
++  classical
++  rw [A.foundationRightTotalAction_component Q _ i j a,
++    A.foundationRingRightComponentSum_single Q M i]
++  change A.foundationRingRightComponentAction Q M a (x j).val=
++    A.foundationRingRightComponentAction Q M a (∑ l : Q.Vertex,(x l).val)
++  rw [map_sum,Finset.sum_eq_single j]
++  · intro l _ hl
++    have h := LinearMap.congr_fun
++      (A.foundationRingRightComponentAction_comp_off Q M a (A.id (l.val : ℤ)) (Ne.symm hl)) (x l).val
++    change A.foundationRingRightComponentAction Q M a (A.foundationRingRightProjection Q M l (x l).val)=0 at h
++    rw [A.foundationRingRightProjection_range_fixed Q M l (x l)] at h
++    exact h
++  · simp
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationComponentSumModuleIso.lean b/ASGinzburg/FoundationComponentSumModuleIso.lean
+new file mode 100644
+index 0000000..60c69a9
+--- /dev/null
++++ b/ASGinzburg/FoundationComponentSumModuleIso.lean
+@@ -0,0 +1,63 @@
++import ASGinzburg.FoundationComponentSumActions
++import ASGinzburg.FiniteComponentDecomposition
++
++/-! The component sum preserves the actual whole-ring action and
++is an isomorphism of genuine foundation-ring modules. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationRingRightComponentSum_representation
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (a : A.FoundationAlgebra Q)
++    (x : A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) :
++    A.foundationRingRightComponentSum Q M
++      (A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M) a x)=
++      MulOpposite.op a • A.foundationRingRightComponentSum Q M x := by
++  classical
++  have he := congrArg (fun b : A.FoundationAlgebra Q =>
++    A.foundationRightTotalRepresentation Q (A.foundationRingRightComponentModule Q M) b)
++    ((A.foundationComponents Q).sum_totalComponent a)
++  simp only [map_sum] at he
++  have hop := congrArg (fun b : A.FoundationAlgebra Q => MulOpposite.opAddEquiv b)
++    ((A.foundationComponents Q).sum_totalComponent a)
++  simp only [map_sum] at hop
++  change (∑ i : Q.Vertex,∑ j : Q.Vertex,
++    MulOpposite.op ((A.foundationComponents Q).totalComponent i j (a i j)))=
++    MulOpposite.op a at hop
++  change (∑ i : Q.Vertex,∑ j : Q.Vertex,
++    A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M)
++      ((A.foundationComponents Q).totalComponent i j (a i j)))=
++    A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M) a at he
++  rw [←he,←hop]
++  simp only [LinearMap.sum_apply,map_sum,Finset.sum_smul]
++  apply Finset.sum_congr rfl
++  intro i _
++  apply Finset.sum_congr rfl
++  intro j _
++  exact A.foundationRingRightComponentSum_action Q M (a i j) x
++
++noncomputable def foundationRingRightComponentSumModuleMap
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
++    A.foundationRightTotalModule Q (A.foundationRingRightComponentModule Q M) ⟶ M := by
++  letI := A.foundationRightTotalModuleStructure Q (A.foundationRingRightComponentModule Q M)
++  exact ModuleCat.ofHom
++    { toFun := fun x => A.foundationRingRightComponentSum Q M x
++      map_add' := (A.foundationRingRightComponentSum Q M).map_add
++      map_smul' := by
++        intro r x
++        change A.foundationRingRightComponentSum Q M
++          (A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M) r.unop x)=_
++        exact A.foundationRingRightComponentSum_representation Q M r.unop x }
++
++noncomputable def foundationRingRightComponentSumModuleIso
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
++    A.foundationRightTotalModule Q (A.foundationRingRightComponentModule Q M) ≅ M :=
++  (LinearEquiv.ofBijective (A.foundationRingRightComponentSumModuleMap Q M).hom
++    (by
++      change Function.Bijective (A.foundationRingRightComponentSum Q M)
++      exact (A.foundationRingRightComponentSumEquiv Q M).bijective)).toModuleIso
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationRingCounitIso.lean b/ASGinzburg/FoundationRingCounitIso.lean
+new file mode 100644
+index 0000000..2aa1705
+--- /dev/null
++++ b/ASGinzburg/FoundationRingCounitIso.lean
+@@ -0,0 +1,29 @@
++import ASGinzburg.FoundationComponentSumModuleIso
++
++/-! The actual finite component sum is natural in ring-module maps,
++giving the counit isomorphism for total space and component recovery. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationRingRightComponentSumModuleMap_natural
++    {M N : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ} (f : M ⟶ N) :
++    (A.foundationRightTotalFunctor Q).map ((A.foundationRingRightComponentRecovery Q).map f) ≫
++      A.foundationRingRightComponentSumModuleMap Q N=
++      A.foundationRingRightComponentSumModuleMap Q M ≫ f := by
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro x
++  change (∑ i : Q.Vertex,f.hom (x i).val)=f.hom (∑ i : Q.Vertex,(x i).val)
++  exact (map_sum f.hom (fun i : Q.Vertex => (x i).val) Finset.univ).symm
++
++noncomputable def foundationRingRightCounitIso :
++    A.foundationRingRightComponentRecovery Q ⋙ A.foundationRightTotalFunctor Q ≅
++      𝟭 (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :=
++  NatIso.ofComponents (A.foundationRingRightComponentSumModuleIso Q)
++    (fun f => A.foundationRingRightComponentSumModuleMap_natural Q f)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationRingEquivalence.lean b/ASGinzburg/FoundationRingEquivalence.lean
+new file mode 100644
+index 0000000..c86c96c
+--- /dev/null
++++ b/ASGinzburg/FoundationRingEquivalence.lean
+@@ -0,0 +1,26 @@
++import ASGinzburg.FoundationTotalUnitIso
++import ASGinzburg.FoundationRingCounitIso
++import Mathlib.CategoryTheory.Equivalence
++
++/-! The existing linear foundation presheaves and genuine modules
++over the actual finite opposite foundation ring are equivalent. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def foundationRingRightEquivalence :
++    A.FoundationRightModule Q ≌ ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ :=
++  CategoryTheory.Equivalence.mk (A.foundationRightTotalFunctor Q)
++    (A.foundationRingRightComponentRecovery Q) (A.foundationRightTotalUnitIso Q)
++    (A.foundationRingRightCounitIso Q)
++
++noncomputable instance foundationRightTotalFunctorIsEquivalence :
++    (A.foundationRightTotalFunctor Q).IsEquivalence :=
++  (A.foundationRingRightEquivalence Q).isEquivalence_functor
++
++noncomputable instance foundationRingRightComponentRecoveryIsEquivalence :
++    (A.foundationRingRightComponentRecovery Q).IsEquivalence :=
++  (A.foundationRingRightEquivalence Q).isEquivalence_inverse
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationRingEquivalenceLinear.lean b/ASGinzburg/FoundationRingEquivalenceLinear.lean
+new file mode 100644
+index 0000000..229bfd0
+--- /dev/null
++++ b/ASGinzburg/FoundationRingEquivalenceLinear.lean
+@@ -0,0 +1,47 @@
++import ASGinzburg.FoundationRingEquivalence
++
++/-! Both genuine finite foundation-ring functors are additive and
++linear for the original field actions. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++attribute [local instance 2000] ModuleCat.isModule
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable instance foundationRightTotalFunctorLinear :
++    (A.foundationRightTotalFunctor Q).Linear k where
++  map_smul := by
++    intro M N f c
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    change A.foundationRightTotalLinearMap Q (c • f) x=
++      c • (A.foundationRightTotalModuleMap Q f x : A.foundationRightTotalModule Q N)
++    rw [A.foundationRightTotalModule_scalar_smul Q N]
++    funext i
++    rfl
++
++noncomputable instance foundationRingRightComponentRecoveryAdditive :
++    (A.foundationRingRightComponentRecovery Q).Additive where
++  map_add := by
++    intro M N f g
++    apply NatTrans.ext
++    funext i
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    exact Subtype.ext rfl
++
++noncomputable instance foundationRingRightComponentRecoveryLinear :
++    (A.foundationRingRightComponentRecovery Q).Linear k where
++  map_smul := by
++    intro M N f c
++    apply NatTrans.ext
++    funext i
++    apply ModuleCat.hom_ext
++    apply LinearMap.ext
++    intro x
++    exact Subtype.ext rfl
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationRingExtComparison.lean b/ASGinzburg/FoundationRingExtComparison.lean
+new file mode 100644
+index 0000000..e3423f1
+--- /dev/null
++++ b/ASGinzburg/FoundationRingExtComparison.lean
+@@ -0,0 +1,45 @@
++import ASGinzburg.FoundationRingEquivalenceLinear
++import ASGinzburg.FoundationEnoughProjectives
++import ASGinzburg.ExactEquivalenceExt
++
++/-! The proved concrete finite-ring equivalence preserves actual
++derived-category Ext in every degree, linearly over the original field. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++open scoped ModuleCat.Algebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++instance foundationRingEnoughProjectives :
++    EnoughProjectives (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :=
++  (A.foundationRingRightEquivalence Q).enoughProjectives_iff.mp inferInstance
++
++instance foundationRingHasExt : HasExt.{u} (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :=
++  hasExt_of_enoughProjectives (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ)
++
++noncomputable instance foundationExtModule (M N : A.FoundationRightModule Q) (n : ℕ) :
++    Module k (Abelian.Ext.{u} M N n) := by
++  letI := HasDerivedCategory.standard (A.FoundationRightModule Q)
++  exact ASGinzburg.exactExtModule k M N n
++
++noncomputable instance foundationRingExtModule
++    (M N : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (n : ℕ) :
++    Module k (Abelian.Ext.{u} M N n) := by
++  letI := HasDerivedCategory.standard (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ)
++  exact ASGinzburg.exactExtModule k M N n
++
++noncomputable def foundationRingExtLinearEquiv
++    (M N : A.FoundationRightModule Q) (n : ℕ) :
++    Abelian.Ext.{u} M N n ≃ₗ[k]
++      Abelian.Ext.{u} (A.foundationRightTotalModule Q M) (A.foundationRightTotalModule Q N) n := by
++  letI := HasDerivedCategory.standard (A.FoundationRightModule Q)
++  letI := HasDerivedCategory.standard (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ)
++  letI : (A.foundationRingRightEquivalence Q).functor.Additive :=
++    A.foundationRightTotalFunctorAdditive Q
++  letI : (A.foundationRingRightEquivalence Q).inverse.Additive :=
++    A.foundationRingRightComponentRecoveryAdditive Q
++  letI : (A.foundationRingRightEquivalence Q).functor.Linear k :=
++    A.foundationRightTotalFunctorLinear Q
++  exact ASGinzburg.exactEquivalenceExtLinearEquiv (A.foundationRingRightEquivalence Q) k M N n
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationRingSimpleResolution.lean b/ASGinzburg/FoundationRingSimpleResolution.lean
+new file mode 100644
+index 0000000..a31567d
+--- /dev/null
++++ b/ASGinzburg/FoundationRingSimpleResolution.lean
+@@ -0,0 +1,34 @@
++import ASGinzburg.FoundationRingEquivalenceLinear
++import ASGinzburg.FoundationExtBounds
++
++/-! The original AS-restricted projective resolution becomes a real
++projective resolution over the finite foundation ring. Its actual
++zero third term gives projective dimension at most two. -/
++namespace ASGinzburg.ZAlgebra.ASResolution
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,u} k} {Q : CutQuiver}
++  {j : Q.Vertex} (R : A.ASResolution Q (j,0))
++
++noncomputable def foundationRingProjectiveResolution :
++    ProjectiveResolution (A.foundationRightTotalModule Q
++      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) :=
++  (A.foundationRightTotalFunctor Q).mapProjectiveResolution R.foundationProjectiveResolution
++
++theorem foundationRingProjectiveResolution_X_three_isZero :
++    IsZero (R.foundationRingProjectiveResolution.complex.X 3) := by
++  exact (A.foundationRightTotalFunctor Q).map_isZero R.foundationProjectiveResolution_X_three_isZero
++
++theorem foundationRingProjectiveResolution_X_ge_four_isZero (n : ℕ) :
++    IsZero (R.foundationRingProjectiveResolution.complex.X (n+4)) := by
++  exact (A.foundationRightTotalFunctor Q).map_isZero (R.foundationProjectiveResolution_X_ge_four_isZero n)
++
++include R in
++theorem foundation_ring_simple_hasProjectiveDimensionLE_two :
++    HasProjectiveDimensionLE (A.foundationRightTotalModule Q
++      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) 2 :=
++  ASGinzburg.threeTermProjectiveResolution_hasProjectiveDimensionLE
++    R.foundationRingProjectiveResolution R.foundationRingProjectiveResolution_X_three_isZero
++    (R.foundationRingProjectiveResolution_X_ge_four_isZero 0)
++
++end ASGinzburg.ZAlgebra.ASResolution
+diff --git a/ASGinzburg/FoundationRingSimpleExtBounds.lean b/ASGinzburg/FoundationRingSimpleExtBounds.lean
+new file mode 100644
+index 0000000..4e40a20
+--- /dev/null
++++ b/ASGinzburg/FoundationRingSimpleExtBounds.lean
+@@ -0,0 +1,41 @@
++import ASGinzburg.FoundationRingSimpleResolution
++import ASGinzburg.FoundationRingExtComparison
++
++/-! Genuine foundation-ring vertex-simple Ext vanishes in all degrees
++at least three, solely from the original AS resolution. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++namespace ASResolution
++variable {A Q} {j : Q.Vertex} (R : A.ASResolution Q (j,0))
++
++include R in
++theorem foundation_ring_simple_ext_ge_three_eq_zero
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (n : ℕ) (hn : 3 ≤ n)
++    (e : Abelian.Ext.{u} (A.foundationRightTotalModule Q
++      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) M n) : e=0 := by
++  letI := R.foundation_ring_simple_hasProjectiveDimensionLE_two
++  exact e.eq_zero_of_hasProjectiveDimensionLT 3 hn
++
++end ASResolution
++
++namespace ASRegular
++variable {A Q} (hAS : A.ASRegular Q)
++
++include hAS in
++theorem foundation_ring_simple_hasProjectiveDimensionLE_two (j : Q.Vertex) :
++    HasProjectiveDimensionLE (A.foundationRightTotalModule Q
++      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) 2 :=
++  (hAS.resolution A Q (j,0)).foundation_ring_simple_hasProjectiveDimensionLE_two
++
++include hAS in
++theorem foundation_ring_simple_ext_ge_three_eq_zero (j : Q.Vertex)
++    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (n : ℕ) (hn : 3 ≤ n)
++    (e : Abelian.Ext.{u} (A.foundationRightTotalModule Q
++      ((A.foundationRestriction Q).obj (A.simpleRightModule (Q.height (j,0))))) M n) : e=0 :=
++  (hAS.resolution A Q (j,0)).foundation_ring_simple_ext_ge_three_eq_zero M n hn e
++
++end ASRegular
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationAlgebraMaps.lean b/ASGinzburg/FoundationAlgebraMaps.lean
+new file mode 100644
+index 0000000..1d25d46
+--- /dev/null
++++ b/ASGinzburg/FoundationAlgebraMaps.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.FoundationAlgebra
++import ASGinzburg.UnrolledPathPresentationMorphism
++
++/-! Genuine vertex-fixing Z-algebra morphisms induce unital algebra
++maps of the actual finite foundation blocks. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] {B A : ZAlgebra.{u,u} k}
++  (F : Homomorphism B A) (Q : CutQuiver)
++
++noncomputable def Homomorphism.foundationLinearMap :
++    B.FoundationAlgebra Q →ₗ[k] A.FoundationAlgebra Q where
++  toFun x i j := F.map (i.val : ℤ) (j.val : ℤ) (x i j)
++  map_add' x y := by funext i j; exact (F.map _ _).map_add (x i j) (y i j)
++  map_smul' c x := by funext i j; exact (F.map _ _).map_smul c (x i j)
++
++theorem Homomorphism.foundationLinearMap_one : F.foundationLinearMap Q 1=1 := by
++  classical
++  funext i j
++  change F.map (i.val : ℤ) (j.val : ℤ) ((B.foundationComponents Q).totalOne i j)=
++    (A.foundationComponents Q).totalOne i j
++  by_cases h : i=j
++  · subst j
++    rw [LinearComponentAlgebra.totalOne_diag,LinearComponentAlgebra.totalOne_diag]
++    exact F.map_id (i.val : ℤ)
++  · rw [LinearComponentAlgebra.totalOne_offdiag _ h,
++      LinearComponentAlgebra.totalOne_offdiag _ h,map_zero]
++
++theorem Homomorphism.foundationLinearMap_mul (x y : B.FoundationAlgebra Q) :
++    F.foundationLinearMap Q (x*y)=F.foundationLinearMap Q x*F.foundationLinearMap Q y := by
++  funext i l
++  change F.map (i.val : ℤ) (l.val : ℤ) (∑ j : Q.Vertex,B.comp (x j l) (y i j))=
++    ∑ j : Q.Vertex,A.comp (F.map (j.val : ℤ) (l.val : ℤ) (x j l))
++      (F.map (i.val : ℤ) (j.val : ℤ) (y i j))
++  rw [map_sum]
++  apply Finset.sum_congr rfl
++  intro j _
++  exact F.map_comp (y i j) (x j l)
++
++noncomputable def Homomorphism.foundationAlgebraMap :
++    B.FoundationAlgebra Q →ₐ[k] A.FoundationAlgebra Q :=
++  AlgHom.ofLinearMap (F.foundationLinearMap Q) (F.foundationLinearMap_one Q)
++    (F.foundationLinearMap_mul Q)
++
++theorem Homomorphism.foundationAlgebraMap_surjective
++    (hF : ∀ i j,Function.Surjective (F.map i j)) :
++    Function.Surjective (F.foundationAlgebraMap Q) := by
++  intro x
++  choose y hy using fun i j : Q.Vertex => hF (i.val : ℤ) (j.val : ℤ) (x i j)
++  exact ⟨y,funext fun i => funext fun j => hy i j⟩
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASFoundationRingPresentation.lean b/ASGinzburg/ASFoundationRingPresentation.lean
+new file mode 100644
+index 0000000..63ddc79
+--- /dev/null
++++ b/ASGinzburg/ASFoundationRingPresentation.lean
+@@ -0,0 +1,41 @@
++import ASGinzburg.FoundationAlgebraMaps
++import ASGinzburg.ASFoundationFullRelations
++import Mathlib.RingTheory.Ideal.Quotient.Operations
++
++/-! The original AS path presentation is a genuine surjection of
++finite foundation rings. Its kernel is exactly the already proved
++two-sided ideal of actual chosen minimal relations in every component. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationRingPresentation (hAS : A.ASRegular Q) :
++    (Q.unrolledPathZAlgebra k).FoundationAlgebra Q →ₐ[k] A.FoundationAlgebra Q :=
++  (hAS.unrolledPathPresentation A Q).foundationAlgebraMap Q
++
++theorem ASRegular.foundationRingPresentation_surjective (hAS : A.ASRegular Q) :
++    Function.Surjective (hAS.foundationRingPresentation A Q) :=
++  (hAS.unrolledPathPresentation A Q).foundationAlgebraMap_surjective Q
++    (hAS.unrolledPathPresentation_surjective A Q)
++
++theorem ASRegular.foundationRingPresentation_eq_zero_iff (hAS : A.ASRegular Q)
++    (x : (Q.unrolledPathZAlgebra k).FoundationAlgebra Q) :
++    hAS.foundationRingPresentation A Q x=0 ↔
++      ∀ i j : Q.Vertex,x i j ∈ (hAS.foundationRelationIdeal A Q).hom (i.val : ℤ) (j.val : ℤ) := by
++  constructor
++  · intro h i j
++    rw [hAS.foundationRelationIdeal_eq_kernel A Q i j]
++    change (hAS.unrolledPathPresentation A Q).map (i.val : ℤ) (j.val : ℤ) (x i j)=0
++    exact congrFun (congrFun h i) j
++  · intro h
++    funext i j
++    have hx := h i j
++    rw [hAS.foundationRelationIdeal_eq_kernel A Q i j] at hx
++    exact hx
++
++noncomputable def ASRegular.foundationRingKernelQuotientEquiv (hAS : A.ASRegular Q) :
++    ((Q.unrolledPathZAlgebra k).FoundationAlgebra Q ⧸
++      RingHom.ker (hAS.foundationRingPresentation A Q).toRingHom) ≃ₐ[k] A.FoundationAlgebra Q :=
++  Ideal.quotientKerAlgEquivOfSurjective (hAS.foundationRingPresentation_surjective A Q)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationBlockIdeals.lean b/ASGinzburg/FoundationBlockIdeals.lean
+new file mode 100644
+index 0000000..5084246
+--- /dev/null
++++ b/ASGinzburg/FoundationBlockIdeals.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.FoundationAlgebra
++import ASGinzburg.ZAlgebraHomomorphisms
++import Mathlib.RingTheory.Ideal.Quotient.Operations
++
++/-! A genuine two-sided component ideal restricts to a two-sided
++ideal of the actual finite foundation convolution ring. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] {B : ZAlgebra.{u,u} k}
++  (I : B.LinearIdeal) (Q : CutQuiver)
++
++noncomputable def LinearIdeal.foundationIdeal : Ideal (B.FoundationAlgebra Q) where
++  carrier := {x | ∀ i j : Q.Vertex,x i j ∈ I.hom (i.val : ℤ) (j.val : ℤ)}
++  zero_mem' := fun i j => (I.hom _ _).zero_mem
++  add_mem' := fun hx hy i j => (I.hom _ _).add_mem (hx i j) (hy i j)
++  smul_mem' := by
++    intro a x hx i l
++    change (∑ j : Q.Vertex,B.comp (a j l) (x i j)) ∈ I.hom (i.val : ℤ) (l.val : ℤ)
++    apply Submodule.sum_mem
++    intro j _
++    exact I.comp_left (hx i j) (a j l)
++
++@[simp] theorem LinearIdeal.mem_foundationIdeal
++    (x : B.FoundationAlgebra Q) :
++    x ∈ I.foundationIdeal Q ↔ ∀ i j : Q.Vertex,x i j ∈ I.hom (i.val : ℤ) (j.val : ℤ) := Iff.rfl
++
++noncomputable instance LinearIdeal.foundationIdealIsTwoSided : (I.foundationIdeal Q).IsTwoSided where
++  mul_mem_of_left := by
++    intro x a hx i l
++    change (∑ j : Q.Vertex,B.comp (x j l) (a i j)) ∈ I.hom (i.val : ℤ) (l.val : ℤ)
++    apply Submodule.sum_mem
++    intro j _
++    exact I.comp_right (hx j l) (a i j)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASFoundationRelationRingQuotient.lean b/ASGinzburg/ASFoundationRelationRingQuotient.lean
+new file mode 100644
+index 0000000..00c7a2f
+--- /dev/null
++++ b/ASGinzburg/ASFoundationRelationRingQuotient.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.ASFoundationRingPresentation
++import ASGinzburg.FoundationBlockIdeals
++
++/-! The original AS foundation ring is isomorphic to the actual
++sheet-zero free-path ring modulo its genuine minimal relation ideal. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationRelationRingIdeal_eq_kernel (hAS : A.ASRegular Q) :
++    (hAS.foundationRelationIdeal A Q).foundationIdeal Q=
++      RingHom.ker (hAS.foundationRingPresentation A Q).toRingHom := by
++  ext x
++  change (∀ i j : Q.Vertex,x i j ∈ (hAS.foundationRelationIdeal A Q).hom
++    (i.val : ℤ) (j.val : ℤ)) ↔ hAS.foundationRingPresentation A Q x=0
++  exact (hAS.foundationRingPresentation_eq_zero_iff A Q x).symm
++
++noncomputable abbrev ASRegular.FoundationRelationRing (hAS : A.ASRegular Q) :=
++  (Q.unrolledPathZAlgebra k).FoundationAlgebra Q ⧸
++    (hAS.foundationRelationIdeal A Q).foundationIdeal Q
++
++noncomputable def ASRegular.foundationRelationRingAlgEquiv (hAS : A.ASRegular Q) :
++    hAS.FoundationRelationRing A Q ≃ₐ[k] A.FoundationAlgebra Q :=
++  (Ideal.quotientEquivAlgOfEq k (hAS.foundationRelationRingIdeal_eq_kernel A Q)).trans
++    (hAS.foundationRingKernelQuotientEquiv A Q)
++
++theorem ASRegular.foundationRelationRingAlgEquiv_apply_mk (hAS : A.ASRegular Q)
++    (x : (Q.unrolledPathZAlgebra k).FoundationAlgebra Q) :
++    hAS.foundationRelationRingAlgEquiv A Q
++      (Ideal.Quotient.mk ((hAS.foundationRelationIdeal A Q).foundationIdeal Q) x)=
++      hAS.foundationRingPresentation A Q x := by
++  rw [ASRegular.foundationRelationRingAlgEquiv,AlgEquiv.trans_apply,
++    Ideal.quotientEquivAlgOfEq_mk]
++  rfl
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ZeroCutPathAlgebra.lean b/ASGinzburg/ZeroCutPathAlgebra.lean
+new file mode 100644
+index 0000000..132516d
+--- /dev/null
++++ b/ASGinzburg/ZeroCutPathAlgebra.lean
+@@ -0,0 +1,44 @@
++import ASGinzburg.PathCutProducts
++import ASGinzburg.FiniteComponentAlgebra
++
++/-! The actual non-cut path spaces, with their original path
++composition and zero-length paths, form a finite-dimensional ring. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def zeroCutPathId (i : Q.Vertex) : Q.pathCutComponent k i i 0 :=
++  ⟨Q.pathId k i,Finsupp.single_mem_supported _ _ (by rfl)⟩
++
++noncomputable def zeroCutPathComp {i j l : Q.Vertex} :
++    Q.pathCutComponent k j l 0 →ₗ[k]
++      Q.pathCutComponent k i j 0 →ₗ[k] Q.pathCutComponent k i l 0 where
++  toFun g :=
++    { toFun := fun f => ⟨Q.pathComp k g.val f.val,by
++        simpa only [add_zero] using Q.pathCutComponent_comp k f.property g.property⟩
++      map_add' := fun f h => Subtype.ext ((Q.pathComp k g.val).map_add f.val h.val)
++      map_smul' := fun c f => Subtype.ext ((Q.pathComp k g.val).map_smul c f.val) }
++  map_add' g h := by
++    apply LinearMap.ext
++    intro f
++    exact Subtype.ext (LinearMap.congr_fun ((Q.pathComp k).map_add g.val h.val) f.val)
++  map_smul' c g := by
++    apply LinearMap.ext
++    intro f
++    exact Subtype.ext (LinearMap.congr_fun ((Q.pathComp k).map_smul c g.val) f.val)
++
++noncomputable def zeroCutPathComponentAlgebra : LinearComponentAlgebra k Q.Vertex where
++  Hom i j := Q.pathCutComponent k i j 0
++  id := Q.zeroCutPathId k
++  comp := Q.zeroCutPathComp k
++  comp_id f := Subtype.ext (Q.pathComp_id k f.val)
++  id_comp f := Subtype.ext (Q.id_pathComp k f.val)
++  comp_assoc f g h := Subtype.ext (Q.pathComp_assoc k f.val g.val h.val)
++
++noncomputable abbrev ZeroCutPathRing := (Q.zeroCutPathComponentAlgebra k).Total
++
++noncomputable instance zeroCutPathRingFinite : Module.Finite k (Q.ZeroCutPathRing k) := by
++  change Module.Finite k (∀ i j : Q.Vertex,Q.pathCutComponent k i j 0)
++  infer_instance
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ZeroCutUnrollingProducts.lean b/ASGinzburg/ZeroCutUnrollingProducts.lean
+new file mode 100644
+index 0000000..0551e53
+--- /dev/null
++++ b/ASGinzburg/ZeroCutUnrollingProducts.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.ZeroCutPathAlgebra
++import ASGinzburg.PathCutUnrollingComparison
++
++/-! Actual non-cut path components unroll to sheet zero with their
++original units and composition preserved. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def zeroCutNativeUnrollingEquiv (i j : Q.Vertex) :
++    Q.pathCutComponent k i j 0 ≃ₗ[k] Q.UnrolledPathComponent k (i,0) (j,0) :=
++  Q.pathCutUnrollingEquiv k i j 0 0
++
++theorem zeroCutNativeUnrollingEquiv_erase (i j : Q.Vertex)
++    (f : Q.pathCutComponent k i j 0) :
++    Q.unrolledPathEraseLinearMap k (i,0) (j,0) (Q.zeroCutNativeUnrollingEquiv k i j f)=f.val :=
++  Q.pathCutUnrollingEquiv_erase k i j 0 0 f
++
++theorem zeroCutNativeUnrollingEquiv_id (i : Q.Vertex) :
++    Q.zeroCutNativeUnrollingEquiv k i i (Q.zeroCutPathId k i)=Q.unrolledPathId k (i,0) := by
++  apply Q.unrolledPathEraseLinearMap_injective k (i,0) (i,0)
++  rw [Q.zeroCutNativeUnrollingEquiv_erase]
++  simpa [zeroCutPathId,pathId,unrolledPathId,UnrolledPath.erase] using
++    (Q.unrolledPathEraseLinearMap_single k (.nil (i,0)) 1).symm
++
++theorem zeroCutNativeUnrollingEquiv_comp {i j l : Q.Vertex}
++    (f : Q.pathCutComponent k i j 0) (g : Q.pathCutComponent k j l 0) :
++    Q.zeroCutNativeUnrollingEquiv k i l (Q.zeroCutPathComp k g f)=
++      Q.unrolledPathComp k (Q.zeroCutNativeUnrollingEquiv k j l g)
++        (Q.zeroCutNativeUnrollingEquiv k i j f) := by
++  apply Q.unrolledPathEraseLinearMap_injective k (i,0) (l,0)
++  rw [Q.zeroCutNativeUnrollingEquiv_erase,Q.unrolledPathEraseLinearMap_comp,
++    Q.zeroCutNativeUnrollingEquiv_erase,Q.zeroCutNativeUnrollingEquiv_erase]
++  rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ZeroSheetPathReindexing.lean b/ASGinzburg/ZeroSheetPathReindexing.lean
+new file mode 100644
+index 0000000..70af0ce
+--- /dev/null
++++ b/ASGinzburg/ZeroSheetPathReindexing.lean
+@@ -0,0 +1,41 @@
++import ASGinzburg.UnrolledJacobianLiftIdeal
++import ASGinzburg.FoundationAlgebra
++
++/-! The native sheet-zero paths reindex to the actual finite free
++Z-algebra block, preserving path units and composition. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem heightEquiv_symm_vertex_zero (i : Q.Vertex) :
++    Q.heightEquiv.symm (i.val : ℤ)=(i,0) := by
++  simpa [height] using Q.heightEquiv_symm_height (i,0)
++
++noncomputable def zeroSheetPathReindexEquiv (i j : Q.Vertex) :
++    Q.UnrolledPathComponent k (i,0) (j,0) ≃ₗ[k]
++      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) :=
++  Finsupp.mapDomain.linearEquiv k k (UnrolledPath.endpointEquiv Q
++    (Q.heightEquiv_symm_vertex_zero i).symm (Q.heightEquiv_symm_vertex_zero j).symm)
++
++theorem unrolledEndpointEquiv_id {v w : Q.LiftVertex} (h : v=w) :
++    Finsupp.mapDomain (UnrolledPath.endpointEquiv Q h h) (Q.unrolledPathId k v)=
++      Q.unrolledPathId k w := by
++  subst w
++  change Finsupp.mapDomain (fun p => p) (Q.unrolledPathId k v)=_
++  exact Finsupp.mapDomain_id
++
++theorem zeroSheetPathReindexEquiv_id (i : Q.Vertex) :
++    Q.zeroSheetPathReindexEquiv k i i (Q.unrolledPathId k (i,0))=
++      (Q.unrolledPathZAlgebra k).id (i.val : ℤ) :=
++  Q.unrolledEndpointEquiv_id k (Q.heightEquiv_symm_vertex_zero i).symm
++
++theorem zeroSheetPathReindexEquiv_comp {i j l : Q.Vertex}
++    (f : Q.UnrolledPathComponent k (i,0) (j,0))
++    (g : Q.UnrolledPathComponent k (j,0) (l,0)) :
++    Q.zeroSheetPathReindexEquiv k i l (Q.unrolledPathComp k g f)=
++      (Q.unrolledPathZAlgebra k).comp (Q.zeroSheetPathReindexEquiv k j l g)
++        (Q.zeroSheetPathReindexEquiv k i j f) :=
++  Q.unrolledEndpointEquiv_comp k (Q.heightEquiv_symm_vertex_zero i).symm
++    (Q.heightEquiv_symm_vertex_zero j).symm (Q.heightEquiv_symm_vertex_zero l).symm f g
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/FiniteComponentAlgebraMaps.lean b/ASGinzburg/FiniteComponentAlgebraMaps.lean
+new file mode 100644
+index 0000000..8a6e397
+--- /dev/null
++++ b/ASGinzburg/FiniteComponentAlgebraMaps.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.FiniteComponentAlgebra
++
++/-! Genuine componentwise unit- and composition-preserving maps
++induce maps and isomorphisms of finite convolution algebras. -/
++namespace ASGinzburg.LinearComponentAlgebra
++universe u v
++variable {k : Type u} [Field k] {ι : Type v} [Fintype ι]
++  (B C : LinearComponentAlgebra k ι)
++
++noncomputable def totalLinearMapOfComponents
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) : B.Total →ₗ[k] C.Total where
++  toFun x i j := f i j (x i j)
++  map_add' x y := by funext i j; exact (f i j).map_add (x i j) (y i j)
++  map_smul' c x := by funext i j; exact (f i j).map_smul c (x i j)
++
++omit [Fintype ι] in
++theorem totalLinearMapOfComponents_one
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) (hid : ∀ i,f i i (B.id i)=C.id i) :
++    B.totalLinearMapOfComponents C f 1=1 := by
++  classical
++  funext i j
++  change f i j (B.totalOne i j)=C.totalOne i j
++  by_cases h : i=j
++  · subst j
++    rw [B.totalOne_diag,C.totalOne_diag]
++    exact hid i
++  · rw [B.totalOne_offdiag h,C.totalOne_offdiag h,map_zero]
++
++theorem totalLinearMapOfComponents_mul
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      f i l (B.comp y x)=C.comp (f j l y) (f i j x)) (x y : B.Total) :
++    B.totalLinearMapOfComponents C f (x*y)=
++      B.totalLinearMapOfComponents C f x*B.totalLinearMapOfComponents C f y := by
++  funext i l
++  change f i l (∑ j : ι,B.comp (x j l) (y i j))=
++    ∑ j : ι,C.comp (f j l (x j l)) (f i j (y i j))
++  rw [map_sum]
++  apply Finset.sum_congr rfl
++  intro j _
++  exact hmul (y i j) (x j l)
++
++noncomputable def totalAlgHomOfComponents
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) (hid : ∀ i,f i i (B.id i)=C.id i)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      f i l (B.comp y x)=C.comp (f j l y) (f i j x)) : B.Total →ₐ[k] C.Total :=
++  AlgHom.ofLinearMap (B.totalLinearMapOfComponents C f)
++    (B.totalLinearMapOfComponents_one C f hid) (B.totalLinearMapOfComponents_mul C f hmul)
++
++noncomputable def totalAlgEquivOfComponents
++    (e : ∀ i j,B.Hom i j ≃ₗ[k] C.Hom i j) (hid : ∀ i,e i i (B.id i)=C.id i)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      e i l (B.comp y x)=C.comp (e j l y) (e i j x)) : B.Total ≃ₐ[k] C.Total :=
++  AlgEquiv.ofBijective (B.totalAlgHomOfComponents C (fun i j => (e i j).toLinearMap) hid hmul)
++    ⟨by
++      intro x y h
++      funext i j
++      exact (e i j).injective (congrFun (congrFun h i) j),by
++      intro y
++      refine ⟨fun i j => (e i j).symm (y i j),?_⟩
++      funext i j
++      exact (e i j).apply_symm_apply (y i j)⟩
++
++end ASGinzburg.LinearComponentAlgebra
+diff --git a/ASGinzburg/ZeroCutFoundationRingEquiv.lean b/ASGinzburg/ZeroCutFoundationRingEquiv.lean
+new file mode 100644
+index 0000000..1b7e54b
+--- /dev/null
++++ b/ASGinzburg/ZeroCutFoundationRingEquiv.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.ZeroCutUnrollingProducts
++import ASGinzburg.ZeroSheetPathReindexing
++import ASGinzburg.FiniteComponentAlgebraMaps
++
++/-! The actual non-cut path ring is isomorphic to the actual
++sheet-zero free-path foundation ring, preserving all original products. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def zeroCutFoundationComponentEquiv (i j : Q.Vertex) :
++    Q.pathCutComponent k i j 0 ≃ₗ[k]
++      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) :=
++  (Q.zeroCutNativeUnrollingEquiv k i j).trans (Q.zeroSheetPathReindexEquiv k i j)
++
++theorem zeroCutFoundationComponentEquiv_id (i : Q.Vertex) :
++    Q.zeroCutFoundationComponentEquiv k i i (Q.zeroCutPathId k i)=
++      (Q.unrolledPathZAlgebra k).id (i.val : ℤ) := by
++  change Q.zeroSheetPathReindexEquiv k i i
++    (Q.zeroCutNativeUnrollingEquiv k i i (Q.zeroCutPathId k i))=_
++  rw [Q.zeroCutNativeUnrollingEquiv_id,Q.zeroSheetPathReindexEquiv_id]
++
++theorem zeroCutFoundationComponentEquiv_comp {i j l : Q.Vertex}
++    (f : Q.pathCutComponent k i j 0) (g : Q.pathCutComponent k j l 0) :
++    Q.zeroCutFoundationComponentEquiv k i l (Q.zeroCutPathComp k g f)=
++      (Q.unrolledPathZAlgebra k).comp (Q.zeroCutFoundationComponentEquiv k j l g)
++        (Q.zeroCutFoundationComponentEquiv k i j f) := by
++  change Q.zeroSheetPathReindexEquiv k i l
++    (Q.zeroCutNativeUnrollingEquiv k i l (Q.zeroCutPathComp k g f))=_
++  rw [Q.zeroCutNativeUnrollingEquiv_comp,Q.zeroSheetPathReindexEquiv_comp]
++  rfl
++
++noncomputable def zeroCutFoundationRingAlgEquiv :
++    Q.ZeroCutPathRing k ≃ₐ[k] (Q.unrolledPathZAlgebra k).FoundationAlgebra Q :=
++  (Q.zeroCutPathComponentAlgebra k).totalAlgEquivOfComponents
++    ((Q.unrolledPathZAlgebra k).foundationComponents Q) (Q.zeroCutFoundationComponentEquiv k)
++    (Q.zeroCutFoundationComponentEquiv_id k) (Q.zeroCutFoundationComponentEquiv_comp k)
++
++theorem zeroCutFoundationRingAlgEquiv_apply (x : Q.ZeroCutPathRing k) (i j : Q.Vertex) :
++    Q.zeroCutFoundationRingAlgEquiv k x i j=Q.zeroCutFoundationComponentEquiv k i j (x i j) := rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ASFoundationZeroCutPresentation.lean b/ASGinzburg/ASFoundationZeroCutPresentation.lean
+new file mode 100644
+index 0000000..3ecb4ed
+--- /dev/null
++++ b/ASGinzburg/ASFoundationZeroCutPresentation.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.ZeroCutFoundationRingEquiv
++import ASGinzburg.ASFoundationRelationRingQuotient
++
++/-! The original AS foundation ring is a quotient of the actual
++non-cut path ring by the transported genuine minimal relation ideal.
++Identifying this ideal as generated by cut derivatives is a further proof. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationZeroCutPresentation (hAS : A.ASRegular Q) :
++    Q.ZeroCutPathRing k →ₐ[k] A.FoundationAlgebra Q :=
++  (hAS.foundationRingPresentation A Q).comp (Q.zeroCutFoundationRingAlgEquiv k).toAlgHom
++
++theorem ASRegular.foundationZeroCutPresentation_surjective (hAS : A.ASRegular Q) :
++    Function.Surjective (hAS.foundationZeroCutPresentation A Q) :=
++  (hAS.foundationRingPresentation_surjective A Q).comp (Q.zeroCutFoundationRingAlgEquiv k).surjective
++
++noncomputable def ASRegular.foundationZeroCutRelationIdeal (hAS : A.ASRegular Q) :
++    Ideal (Q.ZeroCutPathRing k) :=
++  Ideal.comap (Q.zeroCutFoundationRingAlgEquiv k).toRingHom
++    ((hAS.foundationRelationIdeal A Q).foundationIdeal Q)
++
++theorem ASRegular.foundationZeroCutRelationIdeal_eq_kernel (hAS : A.ASRegular Q) :
++    hAS.foundationZeroCutRelationIdeal A Q=
++      RingHom.ker (hAS.foundationZeroCutPresentation A Q).toRingHom := by
++  rw [ASRegular.foundationZeroCutRelationIdeal,hAS.foundationRelationRingIdeal_eq_kernel A Q]
++  rfl
++
++noncomputable instance ASRegular.foundationZeroCutRelationIdealIsTwoSided (hAS : A.ASRegular Q) :
++    (hAS.foundationZeroCutRelationIdeal A Q).IsTwoSided := by
++  rw [hAS.foundationZeroCutRelationIdeal_eq_kernel A Q]
++  infer_instance
++
++noncomputable def ASRegular.foundationZeroCutQuotientAlgEquiv (hAS : A.ASRegular Q) :
++    (Q.ZeroCutPathRing k ⧸ hAS.foundationZeroCutRelationIdeal A Q) ≃ₐ[k] A.FoundationAlgebra Q :=
++  (Ideal.quotientEquivAlgOfEq k (hAS.foundationZeroCutRelationIdeal_eq_kernel A Q)).trans
++    (Ideal.quotientKerAlgEquivOfSurjective (hAS.foundationZeroCutPresentation_surjective A Q))
++
++theorem ASRegular.foundationZeroCutQuotientAlgEquiv_apply_mk (hAS : A.ASRegular Q)
++    (x : Q.ZeroCutPathRing k) :
++    hAS.foundationZeroCutQuotientAlgEquiv A Q
++      (Ideal.Quotient.mk (hAS.foundationZeroCutRelationIdeal A Q) x)=
++      hAS.foundationZeroCutPresentation A Q x := by
++  rw [ASRegular.foundationZeroCutQuotientAlgEquiv,AlgEquiv.trans_apply,
++    Ideal.quotientEquivAlgOfEq_mk]
++  rfl
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASZeroCutRelationComparison.lean b/ASGinzburg/ASZeroCutRelationComparison.lean
+new file mode 100644
+index 0000000..f7d9fed
+--- /dev/null
++++ b/ASGinzburg/ASZeroCutRelationComparison.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.ASFoundationZeroCutPresentation
++import ASGinzburg.ASFoundationRelationDescent
++
++/-! The genuine non-cut relation representatives map to the original
++minimal relation lifts under the proved finite-ring unrolling comparison. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem zeroSheetPathReindexEquiv_apply_height (i j : Q.Vertex)
++    (f : Q.UnrolledPathComponent k (i,0) (j,0)) :
++    Q.zeroSheetPathReindexEquiv k i j f=Q.unrolledComponentHeightEquiv k (i,0) (j,0) f := rfl
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationZeroCutRelation (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) : Q.pathCutComponent k i j 0 :=
++  ⟨hAS.foundationPathRelation A Q i j a,hAS.foundationPathRelation_cut A Q i j a⟩
++
++theorem ASRegular.foundationZeroCutRelation_native (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
++    Q.zeroCutNativeUnrollingEquiv k i j (hAS.foundationZeroCutRelation A Q i j a)=
++      (hAS.foundationRelationNative A Q i j a).val := by
++  apply Q.unrolledPathEraseLinearMap_injective k (i,0) (j,0)
++  rw [Q.zeroCutNativeUnrollingEquiv_erase]
++  rfl
++
++theorem ASRegular.foundationZeroCutRelation_height (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
++    Q.zeroCutFoundationComponentEquiv k i j (hAS.foundationZeroCutRelation A Q i j a)=
++      (hAS.foundationRelationLift A Q i j a).val := by
++  change Q.zeroSheetPathReindexEquiv k i j
++    (Q.zeroCutNativeUnrollingEquiv k i j (hAS.foundationZeroCutRelation A Q i j a))=_
++  rw [hAS.foundationZeroCutRelation_native A Q i j a,
++    Q.zeroSheetPathReindexEquiv_apply_height k i j]
++  exact hAS.foundationRelationNative_height A Q i j a
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FiniteComponentMapEmbeddings.lean b/ASGinzburg/FiniteComponentMapEmbeddings.lean
+new file mode 100644
+index 0000000..81f429d
+--- /dev/null
++++ b/ASGinzburg/FiniteComponentMapEmbeddings.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.FiniteComponentAlgebraMaps
++import ASGinzburg.FiniteComponentIdempotents
++
++/-! The proved finite component algebra maps carry actual single
++matrix embeddings to the corresponding single matrix embeddings. -/
++namespace ASGinzburg.LinearComponentAlgebra
++universe u v
++variable {k : Type u} [Field k] {ι : Type v} [Fintype ι]
++  (B C : LinearComponentAlgebra k ι)
++
++omit [Fintype ι] in
++theorem totalLinearMapOfComponents_component
++    (f : ∀ i j,B.Hom i j →ₗ[k] C.Hom i j) (i j : ι) (a : B.Hom i j) :
++    B.totalLinearMapOfComponents C f (B.totalComponent i j a)=C.totalComponent i j (f i j a) := by
++  classical
++  funext p q
++  by_cases hp : p=i
++  · subst p
++    by_cases hq : q=j
++    · subst q
++      change f i j (B.totalComponent i j a i j)=C.totalComponent i j (f i j a) i j
++      rw [B.totalComponent_apply_same,C.totalComponent_apply_same]
++    · change f i q (B.totalComponent i j a i q)=C.totalComponent i j (f i j a) i q
++      simp [totalComponent,hq]
++  · change f p q (B.totalComponent i j a p q)=C.totalComponent i j (f i j a) p q
++    rw [B.totalComponent_apply_source_ne i j p q a hp,
++      C.totalComponent_apply_source_ne i j p q (f i j a) hp,map_zero]
++
++theorem totalAlgEquivOfComponents_component
++    (e : ∀ i j,B.Hom i j ≃ₗ[k] C.Hom i j) (hid : ∀ i,e i i (B.id i)=C.id i)
++    (hmul : ∀ {i j l} (x : B.Hom i j) (y : B.Hom j l),
++      e i l (B.comp y x)=C.comp (e j l y) (e i j x)) (i j : ι) (a : B.Hom i j) :
++    B.totalAlgEquivOfComponents C e hid hmul (B.totalComponent i j a)=C.totalComponent i j (e i j a) :=
++  B.totalLinearMapOfComponents_component C (fun i j => (e i j).toLinearMap) i j a
++
++end ASGinzburg.LinearComponentAlgebra
+diff --git a/ASGinzburg/FoundationRingIdealExtension.lean b/ASGinzburg/FoundationRingIdealExtension.lean
+new file mode 100644
+index 0000000..e7d2d9e
+--- /dev/null
++++ b/ASGinzburg/FoundationRingIdealExtension.lean
+@@ -0,0 +1,84 @@
++import ASGinzburg.FoundationBlockIdeals
++import ASGinzburg.FiniteComponentIdempotents
++
++/-! A genuine two-sided foundation-ring ideal extends to a component
++ideal. Directedness makes compositions through vertices outside the
++foundation window zero when both output endpoints lie inside it. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (B : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem foundationVertex_exists_of_bounds (j : ℤ) (hj : 0 ≤ j) (hn : j < Q.vertices) :
++    ∃ t : Q.Vertex,(t.val : ℤ)=j := by
++  exact ⟨⟨j.toNat,by omega⟩,by simp;omega⟩
++
++noncomputable def foundationRingIdealExtension
++    (J : Ideal (B.FoundationAlgebra Q)) [J.IsTwoSided] : B.LinearIdeal where
++  hom i j := ⨅ (v : Q.Vertex) (w : Q.Vertex) (hv : (v.val : ℤ)=i) (hw : (w.val : ℤ)=j),
++    (J.restrictScalars k).comap (((B.foundationComponents Q).totalComponentLinear v w).comp
++      (B.homTransport i j (v.val : ℤ) (w.val : ℤ) hv.symm hw.symm).toLinearMap)
++  comp_left := by
++    intro i j l f hf g
++    simp only [Submodule.mem_iInf,Submodule.mem_comap] at hf ⊢
++    intro v w hv hw
++    subst i l
++    change (B.foundationComponents Q).totalComponent v w (B.comp g f) ∈ J
++    by_cases hj : 0 ≤ j
++    · by_cases hn : j < Q.vertices
++      · obtain ⟨t,ht⟩ := foundationVertex_exists_of_bounds Q j hj hn
++        subst j
++        change (B.foundationComponents Q).totalComponent v w
++          ((B.foundationComponents Q).comp g f) ∈ J
++        rw [←(B.foundationComponents Q).totalComponent_mul_same v t w f g]
++        exact J.mul_mem_left _ (hf v t rfl rfl)
++      · have hz := B.positive (show (w.val : ℤ) < j by have := w.isLt;omega) g
++        simp only [hz,map_zero,LinearMap.zero_apply]
++        change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
++        rw [map_zero]
++        exact J.zero_mem
++    · have hz := B.positive (show j < (v.val : ℤ) by omega) f
++      simp only [hz,map_zero]
++      change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
++      rw [map_zero]
++      exact J.zero_mem
++  comp_right := by
++    intro i j l g hg f
++    simp only [Submodule.mem_iInf,Submodule.mem_comap] at hg ⊢
++    intro v w hv hw
++    subst i l
++    change (B.foundationComponents Q).totalComponent v w (B.comp g f) ∈ J
++    by_cases hj : 0 ≤ j
++    · by_cases hn : j < Q.vertices
++      · obtain ⟨t,ht⟩ := foundationVertex_exists_of_bounds Q j hj hn
++        subst j
++        change (B.foundationComponents Q).totalComponent v w
++          ((B.foundationComponents Q).comp g f) ∈ J
++        rw [←(B.foundationComponents Q).totalComponent_mul_same v t w f g]
++        exact J.mul_mem_right _ (hg t w rfl rfl)
++      · have hz := B.positive (show (w.val : ℤ) < j by have := w.isLt;omega) g
++        simp only [hz,map_zero,LinearMap.zero_apply]
++        change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
++        rw [map_zero]
++        exact J.zero_mem
++    · have hz := B.positive (show j < (v.val : ℤ) by omega) f
++      simp only [hz,map_zero]
++      change (B.foundationComponents Q).totalComponentLinear v w 0 ∈ J
++      rw [map_zero]
++      exact J.zero_mem
++
++theorem foundationRingIdealExtension_mem_iff
++    (J : Ideal (B.FoundationAlgebra Q)) [J.IsTwoSided] (v w : Q.Vertex)
++    (x : B.Hom (v.val : ℤ) (w.val : ℤ)) :
++    x ∈ (B.foundationRingIdealExtension Q J).hom (v.val : ℤ) (w.val : ℤ) ↔
++      (B.foundationComponents Q).totalComponent v w x ∈ J := by
++  simp only [foundationRingIdealExtension,Submodule.mem_iInf,Submodule.mem_comap]
++  constructor
++  · intro h
++    exact h v w rfl rfl
++  · intro h v' w' hv hw
++    have hv' : v'=v := Fin.ext (by exact_mod_cast hv)
++    have hw' : w'=w := Fin.ext (by exact_mod_cast hw)
++    subst v' w'
++    exact h
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/FoundationIdealComponents.lean b/ASGinzburg/FoundationIdealComponents.lean
+new file mode 100644
+index 0000000..43841e6
+--- /dev/null
++++ b/ASGinzburg/FoundationIdealComponents.lean
+@@ -0,0 +1,33 @@
++import ASGinzburg.FoundationBlockIdeals
++import ASGinzburg.FiniteComponentDecomposition
++
++/-! Membership of a genuine component embedding in a restricted
++foundation ideal is exactly membership of its original component. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] {B : ZAlgebra.{u,u} k}
++  (I : B.LinearIdeal) (Q : CutQuiver)
++
++theorem LinearIdeal.foundationIdeal_component_mem_iff (i j : Q.Vertex)
++    (f : B.Hom (i.val : ℤ) (j.val : ℤ)) :
++    (B.foundationComponents Q).totalComponent i j f ∈ I.foundationIdeal Q ↔
++      f ∈ I.hom (i.val : ℤ) (j.val : ℤ) := by
++  classical
++  constructor
++  · intro h
++    have hx := h i j
++    rw [(B.foundationComponents Q).totalComponent_apply_same] at hx
++    exact hx
++  · intro h p q
++    by_cases hp : p=i
++    · subst p
++      by_cases hq : q=j
++      · subst q
++        rw [(B.foundationComponents Q).totalComponent_apply_same]
++        exact h
++      · change ((B.foundationComponents Q).totalComponent i j f) i q ∈ I.hom (i.val : ℤ) (q.val : ℤ)
++        simp [LinearComponentAlgebra.totalComponent,hq]
++    · rw [(B.foundationComponents Q).totalComponent_apply_source_ne i j p q f hp]
++      exact (I.hom (p.val : ℤ) (q.val : ℤ)).zero_mem
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASFoundationRingRelationGeneration.lean b/ASGinzburg/ASFoundationRingRelationGeneration.lean
+new file mode 100644
+index 0000000..8703bbf
+--- /dev/null
++++ b/ASGinzburg/ASFoundationRingRelationGeneration.lean
+@@ -0,0 +1,64 @@
++import ASGinzburg.ASFoundationRelationRingQuotient
++import ASGinzburg.FoundationRingIdealExtension
++import ASGinzburg.FoundationIdealComponents
++import Mathlib.RingTheory.TwoSidedIdeal.Operations
++
++/-! The actual finite foundation path kernel is generated as a
++two-sided ring ideal by the genuine chosen minimal relation lifts. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationRingRelationGenerators (hAS : A.ASRegular Q) :
++    Set ((Q.unrolledPathZAlgebra k).FoundationAlgebra Q) :=
++  {x | ∃ i j : Q.Vertex,∃ a : Q.FoundationRelationArrow i j,
++    ((Q.unrolledPathZAlgebra k).foundationComponents Q).totalComponent i j
++      (hAS.foundationRelationLift A Q i j a).val=x}
++
++theorem ASRegular.foundationRingRelations_span_le (hAS : A.ASRegular Q) :
++    (TwoSidedIdeal.span (hAS.foundationRingRelationGenerators A Q)).asIdeal ≤
++      (hAS.foundationRelationIdeal A Q).foundationIdeal Q := by
++  have h : TwoSidedIdeal.span (hAS.foundationRingRelationGenerators A Q) ≤
++      ((hAS.foundationRelationIdeal A Q).foundationIdeal Q).toTwoSided := by
++    apply TwoSidedIdeal.span_le.mpr
++    rintro x ⟨i,j,a,rfl⟩
++    apply Ideal.mem_toTwoSided.mpr
++    apply ((hAS.foundationRelationIdeal A Q).foundationIdeal_component_mem_iff Q i j _).mpr
++    exact hAS.foundationRelationLift_mem_ideal A Q i j a
++  simpa only [Ideal.asIdeal_toTwoSided] using TwoSidedIdeal.asIdeal.monotone h
++
++theorem ASRegular.foundationRingRelationIdeal_le_span (hAS : A.ASRegular Q) :
++    (hAS.foundationRelationIdeal A Q).foundationIdeal Q ≤
++      (TwoSidedIdeal.span (hAS.foundationRingRelationGenerators A Q)).asIdeal := by
++  let B := Q.unrolledPathZAlgebra k
++  let J := (TwoSidedIdeal.span (hAS.foundationRingRelationGenerators A Q)).asIdeal
++  let K := B.foundationRingIdealExtension Q J
++  have hs : ∀ i j,hAS.foundationRelationGenerators A Q i j ⊆ K.hom i j := by
++    rintro i j f ⟨v,w,hv,hw,a,rfl⟩
++    subst i j
++    apply (B.foundationRingIdealExtension_mem_iff Q J v w _).mpr
++    exact TwoSidedIdeal.subset_span ⟨v,w,a,rfl⟩
++  have hlin := LinearIdeal.generated_le (hAS.foundationRelationGenerators A Q) K hs
++  intro x hx
++  have hc : ∀ i j : Q.Vertex,(B.foundationComponents Q).totalComponent i j (x i j) ∈ J := by
++    intro i j
++    apply (B.foundationRingIdealExtension_mem_iff Q J i j _).mp
++    exact hlin _ _ (hx i j)
++  rw [←(B.foundationComponents Q).sum_totalComponent x]
++  apply Submodule.sum_mem
++  intro i _
++  apply Submodule.sum_mem
++  intro j _
++  exact hc i j
++
++theorem ASRegular.foundationRingRelationIdeal_eq_span (hAS : A.ASRegular Q) :
++    (hAS.foundationRelationIdeal A Q).foundationIdeal Q=
++      (TwoSidedIdeal.span (hAS.foundationRingRelationGenerators A Q)).asIdeal :=
++  le_antisymm (hAS.foundationRingRelationIdeal_le_span A Q) (hAS.foundationRingRelations_span_le A Q)
++
++theorem ASRegular.foundationRingKernel_eq_span (hAS : A.ASRegular Q) :
++    RingHom.ker (hAS.foundationRingPresentation A Q).toRingHom=
++      (TwoSidedIdeal.span (hAS.foundationRingRelationGenerators A Q)).asIdeal := by
++  rw [←hAS.foundationRelationRingIdeal_eq_kernel A Q,hAS.foundationRingRelationIdeal_eq_span A Q]
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ASZeroCutRingRelationGenerators.lean b/ASGinzburg/ASZeroCutRingRelationGenerators.lean
+new file mode 100644
+index 0000000..c2f8ff1
+--- /dev/null
++++ b/ASGinzburg/ASZeroCutRingRelationGenerators.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.ASZeroCutRelationComparison
++import ASGinzburg.ASFoundationRingRelationGeneration
++import ASGinzburg.FiniteComponentMapEmbeddings
++
++/-! The actual non-cut relation embeddings map exactly to the
++original finite free-path relation generators. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationZeroCutRingRelationGenerators (hAS : A.ASRegular Q) :
++    Set (Q.ZeroCutPathRing k) :=
++  {x | ∃ i j : Q.Vertex,∃ a : Q.FoundationRelationArrow i j,
++    (Q.zeroCutPathComponentAlgebra k).totalComponent i j
++      (hAS.foundationZeroCutRelation A Q i j a)=x}
++
++theorem ASRegular.foundationZeroCutRelation_ring_comparison (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
++    Q.zeroCutFoundationRingAlgEquiv k ((Q.zeroCutPathComponentAlgebra k).totalComponent i j
++      (hAS.foundationZeroCutRelation A Q i j a))=
++      ((Q.unrolledPathZAlgebra k).foundationComponents Q).totalComponent i j
++        (hAS.foundationRelationLift A Q i j a).val := by
++  have he := (Q.zeroCutPathComponentAlgebra k).totalAlgEquivOfComponents_component
++    ((Q.unrolledPathZAlgebra k).foundationComponents Q) (Q.zeroCutFoundationComponentEquiv k)
++    (Q.zeroCutFoundationComponentEquiv_id k) (Q.zeroCutFoundationComponentEquiv_comp k)
++    i j (hAS.foundationZeroCutRelation A Q i j a)
++  exact he.trans (congrArg (((Q.unrolledPathZAlgebra k).foundationComponents Q).totalComponent i j)
++    (hAS.foundationZeroCutRelation_height A Q i j a))
++
++theorem ASRegular.foundationZeroCutRingRelationGenerators_image (hAS : A.ASRegular Q) :
++    Q.zeroCutFoundationRingAlgEquiv k '' hAS.foundationZeroCutRingRelationGenerators A Q=
++      hAS.foundationRingRelationGenerators A Q := by
++  ext x
++  constructor
++  · rintro ⟨y,⟨i,j,a,rfl⟩,rfl⟩
++    exact ⟨i,j,a,(hAS.foundationZeroCutRelation_ring_comparison A Q i j a).symm⟩
++  · rintro ⟨i,j,a,rfl⟩
++    refine ⟨(Q.zeroCutPathComponentAlgebra k).totalComponent i j
++      (hAS.foundationZeroCutRelation A Q i j a),⟨i,j,a,rfl⟩,?_⟩
++    exact hAS.foundationZeroCutRelation_ring_comparison A Q i j a
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/TwoSidedSpanRingEquiv.lean b/ASGinzburg/TwoSidedSpanRingEquiv.lean
+new file mode 100644
+index 0000000..a222c6b
+--- /dev/null
++++ b/ASGinzburg/TwoSidedSpanRingEquiv.lean
+@@ -0,0 +1,31 @@
++import Mathlib.RingTheory.TwoSidedIdeal.Operations
++
++/-! A genuine ring equivalence preserves two-sided generation by
++the actual image of the generating set. -/
++namespace ASGinzburg
++universe u v
++variable {R : Type u} [Ring R] {S : Type v} [Ring S]
++
++theorem ringEquiv_mem_twoSidedSpan_image_iff (e : R ≃+* S) (T : Set R) (x : R) :
++    e x ∈ TwoSidedIdeal.span (e '' T) ↔ x ∈ TwoSidedIdeal.span T := by
++  constructor
++  · intro hx
++    have h : TwoSidedIdeal.span (e '' T) ≤
++        (TwoSidedIdeal.span T).comap e.symm := by
++      apply TwoSidedIdeal.span_le.mpr
++      rintro y ⟨t,ht,rfl⟩
++      apply (TwoSidedIdeal.mem_comap e.symm).mpr
++      rw [e.symm_apply_apply]
++      exact TwoSidedIdeal.subset_span ht
++    have ht := (TwoSidedIdeal.mem_comap e.symm).mp (h hx)
++    rwa [e.symm_apply_apply] at ht
++  · intro hx
++    have h : TwoSidedIdeal.span T ≤
++        (TwoSidedIdeal.span (e '' T)).comap e := by
++      apply TwoSidedIdeal.span_le.mpr
++      intro t ht
++      apply (TwoSidedIdeal.mem_comap e).mpr
++      exact TwoSidedIdeal.subset_span ⟨t,ht,rfl⟩
++    exact (TwoSidedIdeal.mem_comap e).mp (h hx)
++
++end ASGinzburg
+diff --git a/ASGinzburg/ASZeroCutRelationGeneration.lean b/ASGinzburg/ASZeroCutRelationGeneration.lean
+new file mode 100644
+index 0000000..e9f42d5
+--- /dev/null
++++ b/ASGinzburg/ASZeroCutRelationGeneration.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.ASZeroCutRingRelationGenerators
++import ASGinzburg.TwoSidedSpanRingEquiv
++
++/-! The actual non-cut relation ideal and presentation kernel are
++generated by the genuine finite chosen non-cut relation embeddings. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationZeroCutRelationIdeal_eq_span (hAS : A.ASRegular Q) :
++    hAS.foundationZeroCutRelationIdeal A Q=
++      (TwoSidedIdeal.span (hAS.foundationZeroCutRingRelationGenerators A Q)).asIdeal := by
++  ext x
++  change Q.zeroCutFoundationRingAlgEquiv k x ∈
++    (hAS.foundationRelationIdeal A Q).foundationIdeal Q ↔
++      x ∈ (TwoSidedIdeal.span (hAS.foundationZeroCutRingRelationGenerators A Q)).asIdeal
++  rw [hAS.foundationRingRelationIdeal_eq_span A Q,
++    ←hAS.foundationZeroCutRingRelationGenerators_image A Q]
++  exact ASGinzburg.ringEquiv_mem_twoSidedSpan_image_iff
++    (Q.zeroCutFoundationRingAlgEquiv k).toRingEquiv
++    (hAS.foundationZeroCutRingRelationGenerators A Q) x
++
++theorem ASRegular.foundationZeroCutKernel_eq_span (hAS : A.ASRegular Q) :
++    RingHom.ker (hAS.foundationZeroCutPresentation A Q).toRingHom=
++      (TwoSidedIdeal.span (hAS.foundationZeroCutRingRelationGenerators A Q)).asIdeal := by
++  rw [←hAS.foundationZeroCutRelationIdeal_eq_kernel A Q,hAS.foundationZeroCutRelationIdeal_eq_span A Q]
++
++noncomputable def ASRegular.foundationZeroCutGeneratedQuotientAlgEquiv (hAS : A.ASRegular Q) :
++    (Q.ZeroCutPathRing k ⧸
++      (TwoSidedIdeal.span (hAS.foundationZeroCutRingRelationGenerators A Q)).asIdeal) ≃ₐ[k]
++      A.FoundationAlgebra Q :=
++  (Ideal.quotientEquivAlgOfEq k (hAS.foundationZeroCutRelationIdeal_eq_span A Q).symm).trans
++    (hAS.foundationZeroCutQuotientAlgEquiv A Q)
++
++end ASGinzburg.ZAlgebra
+diff --git a/ASGinzburg/ZeroCutJacobianRing.lean b/ASGinzburg/ZeroCutJacobianRing.lean
+new file mode 100644
+index 0000000..e2bc48b
+--- /dev/null
++++ b/ASGinzburg/ZeroCutJacobianRing.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.ZeroCutPathAlgebra
++import ASGinzburg.FiniteComponentIdempotents
++import ASGinzburg.PathCutUnrollingComparison
++import Mathlib.RingTheory.TwoSidedIdeal.Operations
++import Mathlib.RingTheory.Ideal.Quotient.Operations
++
++/-! The actual non-cut Jacobian ring is the genuine non-cut path
++ring modulo the two-sided ideal of its cut-arrow cyclic derivatives. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def zeroCutCyclicDerivative (φ : Q.Potential k)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.pathCutComponent k (Q.target b.val) (Q.source b.val) 0 :=
++  ⟨Q.pathCyclicDerivative k b.val φ,by
++    simpa [cutDegree,b.property] using Q.pathCyclicDerivative_mem_pathCut k b.val φ⟩
++
++noncomputable def zeroCutJacobianGenerators (φ : Q.Potential k) : Set (Q.ZeroCutPathRing k) :=
++  Set.range (fun b : {a : Q.Arrow // Q.cut a=true} =>
++    (Q.zeroCutPathComponentAlgebra k).totalComponent (Q.target b.val) (Q.source b.val)
++      (Q.zeroCutCyclicDerivative k φ b))
++
++noncomputable def zeroCutJacobianIdeal (φ : Q.Potential k) : Ideal (Q.ZeroCutPathRing k) :=
++  (TwoSidedIdeal.span (Q.zeroCutJacobianGenerators k φ)).asIdeal
++
++noncomputable instance zeroCutJacobianIdealIsTwoSided (φ : Q.Potential k) :
++    (Q.zeroCutJacobianIdeal k φ).IsTwoSided := by
++  dsimp [zeroCutJacobianIdeal]
++  infer_instance
++
++noncomputable abbrev ZeroCutJacobianRing (φ : Q.Potential k) :=
++  Q.ZeroCutPathRing k ⧸ Q.zeroCutJacobianIdeal k φ
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ASFoundationJacobianRingEquiv.lean b/ASGinzburg/ASFoundationJacobianRingEquiv.lean
+new file mode 100644
+index 0000000..90fe617
+--- /dev/null
++++ b/ASGinzburg/ASFoundationJacobianRingEquiv.lean
+@@ -0,0 +1,49 @@
++import ASGinzburg.ZeroCutJacobianRing
++import ASGinzburg.ASZeroCutRelationGeneration
++import ASGinzburg.ASFoundationPotentialDerivatives
++
++/-! The original AS condition recovers the actual foundation algebra
++as the non-cut Jacobian ring of its chosen foundation potential.
++Ginzburg regularity and recovery of the whole Z-algebra remain unproved. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPotential_zeroCutCyclicDerivative (hAS : A.ASRegular Q)
++    (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.zeroCutCyclicDerivative k (hAS.foundationPotential A Q) b=
++      hAS.foundationZeroCutRelation A Q (Q.target b.val) (Q.source b.val)
++        ⟨b.val,rfl,rfl,b.property⟩ := by
++  apply Subtype.ext
++  exact hAS.foundationPotential_pathCyclicDerivative A Q b
++
++theorem ASRegular.foundationPotential_zeroCutJacobianGenerators (hAS : A.ASRegular Q) :
++    hAS.foundationZeroCutRingRelationGenerators A Q=
++      Q.zeroCutJacobianGenerators k (hAS.foundationPotential A Q) := by
++  ext x
++  constructor
++  · rintro ⟨i,j,⟨a,hs,ht,hc⟩,rfl⟩
++    subst i
++    subst j
++    refine ⟨⟨a,hc⟩,?_⟩
++    exact congrArg ((Q.zeroCutPathComponentAlgebra k).totalComponent (Q.target a) (Q.source a))
++      (hAS.foundationPotential_zeroCutCyclicDerivative A Q ⟨a,hc⟩)
++  · rintro ⟨b,rfl⟩
++    refine ⟨Q.target b.val,Q.source b.val,⟨b.val,rfl,rfl,b.property⟩,?_⟩
++    exact congrArg ((Q.zeroCutPathComponentAlgebra k).totalComponent (Q.target b.val) (Q.source b.val))
++      (hAS.foundationPotential_zeroCutCyclicDerivative A Q b).symm
++
++theorem ASRegular.foundationPotential_zeroCutJacobianIdeal (hAS : A.ASRegular Q) :
++    hAS.foundationZeroCutRelationIdeal A Q=
++      Q.zeroCutJacobianIdeal k (hAS.foundationPotential A Q) := by
++  rw [hAS.foundationZeroCutRelationIdeal_eq_span A Q,
++    hAS.foundationPotential_zeroCutJacobianGenerators A Q]
++  rfl
++
++noncomputable def ASRegular.foundationJacobianRingAlgEquiv (hAS : A.ASRegular Q) :
++    Q.ZeroCutJacobianRing k (hAS.foundationPotential A Q) ≃ₐ[k]
++      A.FoundationAlgebra Q :=
++  (Ideal.quotientEquivAlgOfEq k (hAS.foundationPotential_zeroCutJacobianIdeal A Q).symm).trans
++    (hAS.foundationZeroCutQuotientAlgEquiv A Q)
++
++end ASGinzburg.ZAlgebra

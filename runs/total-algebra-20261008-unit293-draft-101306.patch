@@ -1,0 +1,31 @@
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodInverseCancellation.lean
+@@ -0,0 +1,28 @@
++import work.ASGinzburgDraft.PeriodIterationFormulas
++
++/-! Both actual period-inverse cancellations, with their true
++component index transports, for negative-sheet coherence. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++
++theorem inverse_map_apply (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    E.inverse.map i j f=E.inverseComponent i j f := rfl
++
++theorem map_inverse_cancel (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    A.homTransport ((i-p)+p) ((j-p)+p) i j (sub_add_cancel i p) (sub_add_cancel j p)
++      (E.map (i-p) (j-p) (E.inverse.map i j f))=f := by
++  change E.shiftedMap i j (E.inverseComponent i j f)=f
++  exact (E.shiftedMap i j).apply_symm_apply f
++
++theorem inverse_map_cancel (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    E.inverse.map (i+p) (j+p) (E.map i j f)=
++      A.homTransport i j ((i+p)-p) ((j+p)-p) (by ring) (by ring) f := by
++  change E.inverseComponent (i+p) (j+p) (E.map i j f)=_
++  apply (E.shiftedMap (i+p) (j+p)).injective
++  rw [inverseComponent,LinearEquiv.apply_symm_apply]
++  dsimp only [shiftedMap,LinearEquiv.trans_apply]
++  rw [ASGinzburg.ZAlgebra.PeriodIso.map_homTransport,ASGinzburg.ZAlgebra.homTransport_trans]
++  rfl
++
++end ASGinzburg.ZAlgebra.PeriodIso

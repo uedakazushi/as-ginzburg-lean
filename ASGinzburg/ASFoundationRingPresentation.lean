@@ -1,0 +1,41 @@
+import ASGinzburg.FoundationAlgebraMaps
+import ASGinzburg.ASFoundationFullRelations
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+/-! The original AS path presentation is a genuine surjection of
+finite foundation rings. Its kernel is exactly the already proved
+two-sided ideal of actual chosen minimal relations in every component. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.foundationRingPresentation (hAS : A.ASRegular Q) :
+    (Q.unrolledPathZAlgebra k).FoundationAlgebra Q →ₐ[k] A.FoundationAlgebra Q :=
+  (hAS.unrolledPathPresentation A Q).foundationAlgebraMap Q
+
+theorem ASRegular.foundationRingPresentation_surjective (hAS : A.ASRegular Q) :
+    Function.Surjective (hAS.foundationRingPresentation A Q) :=
+  (hAS.unrolledPathPresentation A Q).foundationAlgebraMap_surjective Q
+    (hAS.unrolledPathPresentation_surjective A Q)
+
+theorem ASRegular.foundationRingPresentation_eq_zero_iff (hAS : A.ASRegular Q)
+    (x : (Q.unrolledPathZAlgebra k).FoundationAlgebra Q) :
+    hAS.foundationRingPresentation A Q x=0 ↔
+      ∀ i j : Q.Vertex,x i j ∈ (hAS.foundationRelationIdeal A Q).hom (i.val : ℤ) (j.val : ℤ) := by
+  constructor
+  · intro h i j
+    rw [hAS.foundationRelationIdeal_eq_kernel A Q i j]
+    change (hAS.unrolledPathPresentation A Q).map (i.val : ℤ) (j.val : ℤ) (x i j)=0
+    exact congrFun (congrFun h i) j
+  · intro h
+    funext i j
+    have hx := h i j
+    rw [hAS.foundationRelationIdeal_eq_kernel A Q i j] at hx
+    exact hx
+
+noncomputable def ASRegular.foundationRingKernelQuotientEquiv (hAS : A.ASRegular Q) :
+    ((Q.unrolledPathZAlgebra k).FoundationAlgebra Q ⧸
+      RingHom.ker (hAS.foundationRingPresentation A Q).toRingHom) ≃ₐ[k] A.FoundationAlgebra Q :=
+  Ideal.quotientKerAlgEquivOfSurjective (hAS.foundationRingPresentation_surjective A Q)
+
+end ASGinzburg.ZAlgebra

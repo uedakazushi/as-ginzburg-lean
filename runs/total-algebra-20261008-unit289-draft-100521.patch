@@ -1,0 +1,56 @@
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodZeroKernel.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.FoundationPeriodZeroSheet
++import work.ASGinzburgDraft.ASFoundationFullRelations
++
++/-! The zero-sheet kernel of the actual foundation-transported
++presentation is exactly the original minimal-relation ideal, without
++any additional relation-generation hypothesis. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet
++    (hAS : A.ASRegular Q) (x y : Q.LiftVertex) (hx : x.2=0) (hy : y.2=0)
++    (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y f=
++      A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) x y f := by
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp only [map_add,hf,hg]
++  | single p c =>
++    rw [A.arrowPathLinearEvaluation_single,A.unrolledPathLinearEvaluation_single,
++      hAS.foundationPeriodPathEvaluation_zeroSheet A Q p hx hy]
++
++theorem ASRegular.foundationPeriodPathPresentation_zeroSheet (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).map (i.val : ℤ) (j.val : ℤ)=
++      (hAS.unrolledPathPresentation A Q).map (i.val : ℤ) (j.val : ℤ) := by
++  have hs (t : Q.Vertex) : Q.heightEquiv.symm (t.val : ℤ)=(t,0) := by
++    apply Q.height_bijective.injective
++    rw [Q.height_heightEquiv_symm]
++    simp [CutQuiver.height]
++  apply LinearMap.ext
++  intro f
++  change A.homTransport _ _ (i.val : ℤ) (j.val : ℤ) _ _
++    (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) _ _ f)=
++      A.homTransport _ _ (i.val : ℤ) (j.val : ℤ) _ _
++        (A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) _ _ f)
++  apply congrArg (A.homTransport _ _ (i.val : ℤ) (j.val : ℤ) _ _)
++  exact hAS.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet A Q _ _
++    (by rw [hs]) (by rw [hs]) f
++
++theorem ASRegular.foundationPeriodPathKernel_zeroSheet (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom
++      (i.val : ℤ) (j.val : ℤ)=
++      (hAS.foundationRelationIdeal A Q).hom (i.val : ℤ) (j.val : ℤ) := by
++  rw [hAS.foundationRelationIdeal_eq_kernel A Q i j]
++  change LinearMap.ker
++    ((A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).map
++      (i.val : ℤ) (j.val : ℤ))=LinearMap.ker
++        ((hAS.unrolledPathPresentation A Q).map (i.val : ℤ) (j.val : ℤ))
++  rw [hAS.foundationPeriodPathPresentation_zeroSheet A Q i j]
++
++end ASGinzburg.ZAlgebra

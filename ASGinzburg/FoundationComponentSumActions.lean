@@ -1,0 +1,49 @@
+import ASGinzburg.FoundationRingComponentSum
+import ASGinzburg.FoundationTotalComponentActions
+
+/-! The finite component-sum map intertwines every original A.Hom
+action; this will imply its linearity over the actual total ring. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped ModuleCat.Algebra
+attribute [local instance 2000] ModuleCat.isModule
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+theorem foundationRingRightComponentSum_single
+    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (i : Q.Vertex)
+    (x : A.foundationRingRightComponentSpace Q M i) :
+    A.foundationRingRightComponentSum Q M (Pi.single i x)=x.val := by
+  classical
+  change (∑ j : Q.Vertex,((Pi.single i x :
+    A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) j).val)=_
+  rw [Finset.sum_eq_single i]
+  · simp
+  · intro j _ hj
+    rw [Pi.single_eq_of_ne hj]
+    rfl
+  · simp
+
+theorem foundationRingRightComponentSum_action
+    (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) {i j : Q.Vertex}
+    (a : A.Hom (i.val : ℤ) (j.val : ℤ))
+    (x : A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) :
+    A.foundationRingRightComponentSum Q M
+      (A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M)
+        ((A.foundationComponents Q).totalComponent i j a) x)=
+      A.foundationRingRightComponentAction Q M a (A.foundationRingRightComponentSum Q M x) := by
+  classical
+  rw [A.foundationRightTotalAction_component Q _ i j a,
+    A.foundationRingRightComponentSum_single Q M i]
+  change A.foundationRingRightComponentAction Q M a (x j).val=
+    A.foundationRingRightComponentAction Q M a (∑ l : Q.Vertex,(x l).val)
+  rw [map_sum,Finset.sum_eq_single j]
+  · intro l _ hl
+    have h := LinearMap.congr_fun
+      (A.foundationRingRightComponentAction_comp_off Q M a (A.id (l.val : ℤ)) (Ne.symm hl)) (x l).val
+    change A.foundationRingRightComponentAction Q M a (A.foundationRingRightProjection Q M l (x l).val)=0 at h
+    rw [A.foundationRingRightProjection_range_fixed Q M l (x l)] at h
+    exact h
+  · simp
+
+end ASGinzburg.ZAlgebra
