@@ -1,0 +1,52 @@
+import ASGinzburg.OppositeGinzburgSignedEquiv
+import ASGinzburg.GinzburgRegularity
+
+/-! Genuine mathlib cochain and homology isomorphisms, built from the
+proved signed differential comparison. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def oppositeGinzburgCochainIso (φ : Q.Potential k) (u v : Q.Vertex) :
+    Q.ginzburgCochainComplex k φ u v ≅
+      Q.opposite.ginzburgCochainComplex k (Q.oppositePotentialEquiv k φ) v.rev u.rev :=
+  HomologicalComplex.Hom.isoOfComponents
+    (fun q => (Q.oppositeGinzburgSignedEquiv k u v q).toModuleIso) (by
+      intro i j hij
+      have hj : i + 1 = j := hij
+      subst j
+      rw [Q.ginzburgCochainComplex_d, Q.opposite.ginzburgCochainComplex_d]
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro f
+      exact (Q.oppositeGinzburgSignedEquiv_differential k φ u v i f).symm)
+
+noncomputable def oppositeGinzburgHomologyIso (φ : Q.Potential k)
+    (u v : Q.Vertex) (q : ℤ) :
+    Q.ginzburgHomology k φ u v q ≅
+      Q.opposite.ginzburgHomology k (Q.oppositePotentialEquiv k φ) v.rev u.rev q :=
+  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).mapIso
+    (Q.oppositeGinzburgCochainIso k φ u v)
+
+theorem GinzburgRegular.opposite {φ : Q.Potential k} (h : Q.GinzburgRegular k φ) :
+    Q.opposite.GinzburgRegular k (Q.oppositePotentialEquiv k φ) := by
+  apply (Q.opposite.ginzburgRegular_iff_components k _).mpr
+  intro u v q hq
+  have hz := (Q.ginzburgRegular_iff_components k φ).mp h v.rev u.rev q hq
+  have he := Q.oppositeGinzburgHomologyIso k φ v.rev u.rev q
+  have hh := hz.of_iso he.symm
+  simpa only [Fin.rev_rev] using hh
+
+theorem ginzburgRegular_opposite_iff (φ : Q.Potential k) :
+    Q.opposite.GinzburgRegular k (Q.oppositePotentialEquiv k φ) ↔ Q.GinzburgRegular k φ := by
+  constructor
+  · intro h
+    apply (Q.ginzburgRegular_iff_components k φ).mpr
+    intro u v q hq
+    have hz := (Q.opposite.ginzburgRegular_iff_components k _).mp h v.rev u.rev q hq
+    exact hz.of_iso (Q.oppositeGinzburgHomologyIso k φ u v q)
+  · intro h
+    exact GinzburgRegular.opposite Q k h
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,242 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ZAlgebraObjectRigidity.lean
+@@ -0,0 +1,28 @@
++import ASGinzburg.LeftModules
++
++/-! Actual directed-algebra objects can be isomorphic only at equal
++integer indices; positivity and the nonzero identity prove this. -/
++namespace ASGinzburg.ZAlgebra
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem objIndex_eq_of_iso {X Y : A.Obj} (e : X ≅ Y) : X.index = Y.index := by
++  rcases lt_trichotomy X.index Y.index with h | h | h
++  · have hz : e.inv = 0 := A.positive h e.inv
++    have hh := e.hom_inv_id
++    rw [hz, comp_zero] at hh
++    exact False.elim (A.id_nonzero X.index hh.symm)
++  · exact h
++  · have hz : e.hom = 0 := A.positive h e.hom
++    have hh := e.hom_inv_id
++    rw [hz, zero_comp] at hh
++    exact False.elim (A.id_nonzero X.index hh.symm)
++
++theorem obj_eq_of_iso {X Y : A.Obj} (e : X ≅ Y) : X = Y := by
++  have h := A.objIndex_eq_of_iso e
++  cases X
++  cases Y
++  congr 1
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/OppositeJacobianModuleComponents.lean
+@@ -0,0 +1,43 @@
++import work.ASGinzburgDraft.OppositeJacobianRepresentables
++import work.ASGinzburgDraft.ZAlgebraObjectRigidity
++
++/-! The actual inverse category equivalence has the required reflected
++integer indices, so the actual left/right module equivalence has the
++required evaluation components. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory Opposite
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem oppositeJacobianLinearEquivalence_inverse_index (j : ℤ) :
++    ((Q.oppositeJacobianLinearEquivalence k φ).inverse.obj
++      (op (⟨j⟩ : (Q.opposite.unrolledJacobianZAlgebra k
++        (Q.oppositePotentialEquiv k φ)).Obj))).index = (Q.vertices : ℤ)-1-j := by
++  let E := Q.oppositeJacobianLinearEquivalence k φ
++  let B := Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)
++  have h := B.objIndex_eq_of_iso ((E.counitIso.app (op ⟨j⟩)).unop)
++  change j = (Q.vertices : ℤ)-1-(E.inverse.obj (op ⟨j⟩)).index at h
++  change (E.inverse.obj (op ⟨j⟩)).index = (Q.vertices : ℤ)-1-j
++  omega
++
++theorem oppositeJacobianLinearEquivalence_inverse_obj (j : ℤ) :
++    (Q.oppositeJacobianLinearEquivalence k φ).inverse.obj
++      (op (⟨j⟩ : (Q.opposite.unrolledJacobianZAlgebra k
++        (Q.oppositePotentialEquiv k φ)).Obj)) = ⟨(Q.vertices : ℤ)-1-j⟩ := by
++  have h := Q.oppositeJacobianLinearEquivalence_inverse_index k φ j
++  cases hx : (Q.oppositeJacobianLinearEquivalence k φ).inverse.obj
++      (op (⟨j⟩ : (Q.opposite.unrolledJacobianZAlgebra k
++        (Q.oppositePotentialEquiv k φ)).Obj)) with
++  | mk a =>
++    simp only [hx] at h
++    exact congrArg ZAlgebra.Obj.mk h
++
++noncomputable def oppositeJacobianLeftRightEvaluationIso
++    (M : (Q.unrolledJacobianZAlgebra k φ).LeftModule) (j : ℤ) :
++    ((Q.oppositeJacobianLeftRightEquivalence k φ).functor.obj M).obj.obj
++      (op (⟨j⟩ : (Q.opposite.unrolledJacobianZAlgebra k
++        (Q.oppositePotentialEquiv k φ)).Obj)) ≅
++      M.obj.obj ⟨(Q.vertices : ℤ)-1-j⟩ :=
++  eqToIso (congrArg M.obj.obj (Q.oppositeJacobianLinearEquivalence_inverse_obj k φ j))
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/OppositeJacobianSimpleModules.lean
+@@ -0,0 +1,68 @@
++import work.ASGinzburgDraft.OppositeJacobianModuleComponents
++import ASGinzburg.RightSingleSupportIsomorphism
++
++/-! The proved actual equivalence takes the existing simple quotients to
++the existing reflected simple quotients, using their proved components. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem oppositeJacobianLeftSimple_off_diagonal (i j : ℤ)
++    (hj : j ≠ (Q.vertices : ℤ)-1-i) :
++    IsZero (((Q.oppositeJacobianLeftRightEquivalence k φ).functor.obj
++      ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i)).obj.obj
++        (Opposite.op (⟨j⟩ : (Q.opposite.unrolledJacobianZAlgebra k
++          (Q.oppositePotentialEquiv k φ)).Obj))) := by
++  have h : (Q.vertices : ℤ)-1-j ≠ i := by omega
++  exact ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule_off_diagonal i _ h).of_iso
++    (Q.oppositeJacobianLeftRightEvaluationIso k φ _ j)
++
++noncomputable def oppositeJacobianLeftSimpleDiagonalIso (i : ℤ) :
++    ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++      ((Q.vertices : ℤ)-1-i)).obj
++        ((Q.oppositeJacobianLeftRightEquivalence k φ).functor.obj
++          ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i)) ≅
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
++        ((Q.vertices : ℤ)-1-i)).obj
++          ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).simpleRightModule
++            ((Q.vertices : ℤ)-1-i)) := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  let B := Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)
++  let M := A.simpleLeftModule i
++  have hi : (Q.vertices : ℤ)-1-((Q.vertices : ℤ)-1-i)=i := by ring
++  exact Q.oppositeJacobianLeftRightEvaluationIso k φ M ((Q.vertices : ℤ)-1-i) ≪≫
++    eqToIso (congrArg (fun t => M.obj.obj (⟨t⟩ : A.Obj)) hi) ≪≫
++    A.simpleLeftModuleDiagonalIso i ≪≫ (A.scalarEndEquiv i).symm.toModuleIso ≪≫
++    (B.scalarEndEquiv ((Q.vertices : ℤ)-1-i)).toModuleIso ≪≫
++    (B.simpleRightModuleDiagonalIso ((Q.vertices : ℤ)-1-i)).symm
++
++noncomputable def oppositeJacobianLeftSimpleIso (i : ℤ) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).functor.obj
++      ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i) ≅
++        (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).simpleRightModule
++          ((Q.vertices : ℤ)-1-i) :=
++  (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightSingleSupportIso
++    ((Q.vertices : ℤ)-1-i) _ _
++    (Q.oppositeJacobianLeftSimple_off_diagonal k φ i)
++    (fun j hj => (Q.opposite.unrolledJacobianZAlgebra k
++      (Q.oppositePotentialEquiv k φ)).simpleRightModule_off_diagonal _ j hj)
++    (Q.oppositeJacobianLeftSimpleDiagonalIso k φ i)
++
++noncomputable def oppositeJacobianRightSimpleInverseIso (i : ℤ) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).simpleRightModule
++        ((Q.vertices : ℤ)-1-i)) ≅ (Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i :=
++  ((Q.oppositeJacobianLeftRightEquivalence k φ).inverse.mapIso
++    (Q.oppositeJacobianLeftSimpleIso k φ i)).symm ≪≫
++    ((Q.oppositeJacobianLeftRightEquivalence k φ).unitIso.app _).symm
++
++noncomputable def oppositeJacobianRightRepresentableInverseIso (i : ℤ) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).representable
++        ((Q.vertices : ℤ)-1-i)) ≅ (Q.unrolledJacobianZAlgebra k φ).leftRepresentable i :=
++  ((Q.oppositeJacobianLeftRightEquivalence k φ).inverse.mapIso
++    (Q.oppositeJacobianLeftRepresentableIso k φ i)).symm ≪≫
++    ((Q.oppositeJacobianLeftRightEquivalence k φ).unitIso.app _).symm
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/EquivalenceProjectiveResolution.lean
+@@ -0,0 +1,24 @@
++import ASGinzburg.RightModuleExt
++import Mathlib.Algebra.Homology.Additive
++
++/-! An additive actual equivalence transports a genuine mathlib projective
++resolution, including its actual complex, augmentation and quasi-isomorphism. -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe v w u u'
++variable {C : Type u} [Category.{v} C] [Abelian C]
++variable {D : Type u'} [Category.{w} D] [Abelian D]
++variable (E : C ≌ D) [E.functor.Additive]
++
++noncomputable def equivalenceProjectiveResolution {X : C} (P : ProjectiveResolution X) :
++    ProjectiveResolution (E.functor.obj X) :=
++  E.functor.mapProjectiveResolution P
++
++theorem equivalenceProjectiveResolution_isZero {X : C} (P : ProjectiveResolution X) (n : ℕ)
++    (h : IsZero (P.complex.X n)) :
++    IsZero ((equivalenceProjectiveResolution E P).complex.X n) := by
++  rw [IsZero.iff_id_eq_zero]
++  change 𝟙 (E.functor.obj (P.complex.X n)) = 0
++  rw [← E.functor.map_id, h.eq_of_src (𝟙 _) 0, E.functor.map_zero]
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/ProjectiveResolutionTargetIso.lean
+@@ -0,0 +1,17 @@
++import ASGinzburg.RightModuleExt
++
++/-! An actual isomorphism of augmentation targets retargets a genuine
++mathlib projective resolution without changing any differential. -/
++namespace ASGinzburg
++open CategoryTheory
++universe u v
++variable {C : Type u} [Category.{v} C] [Abelian C]
++
++noncomputable def projectiveResolutionTargetIso {X Y : C} (P : ProjectiveResolution X)
++    (e : X ≅ Y) : ProjectiveResolution Y where
++  complex := P.complex
++  projective := P.projective
++  π := P.π ≫ (ChainComplex.single₀ C).map e.hom
++  quasiIso := by infer_instance
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgLeftSimpleProjectiveResolution.lean
+@@ -0,0 +1,44 @@
++import work.ASGinzburgDraft.OppositeJacobianSimpleModules
++import work.ASGinzburgDraft.GinzburgOppositeMinimalResolution
++import work.ASGinzburgDraft.EquivalenceProjectiveResolution
++import work.ASGinzburgDraft.ProjectiveResolutionTargetIso
++import work.ASGinzburgDraft.GinzburgASProjectiveResolution
++
++/-! Original Ginzburg regularity yields genuine projective resolutions
++of the original left simple quotients through the proved opposite
++regularity, category equivalence and actual simple-module isomorphism. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def GinzburgRegular.leftSimpleProjectiveResolution {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (i : ℤ) :
++    ProjectiveResolution ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i) := by
++  letI : (Q.oppositeJacobianLeftRightEquivalence k φ).symm.functor.Additive := by
++    change (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.Additive
++    infer_instance
++  let j := (Q.vertices : ℤ)-1-i
++  let v := Q.opposite.heightEquiv.symm j
++  let B := Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)
++  have hv : Q.opposite.height v = j := by
++    rw [← Q.opposite.heightEquiv_apply]
++    exact Q.opposite.heightEquiv.apply_symm_apply j
++  let P : ProjectiveResolution (B.simpleRightModule j) :=
++    projectiveResolutionTargetIso
++      (GinzburgRegular.simpleProjectiveResolution Q.opposite k (h.opposite Q k) v)
++      (eqToIso (congrArg B.simpleRightModule hv))
++  exact projectiveResolutionTargetIso
++    (equivalenceProjectiveResolution (Q.oppositeJacobianLeftRightEquivalence k φ).symm P)
++    (Q.oppositeJacobianRightSimpleInverseIso k φ i)
++
++theorem GinzburgRegular.leftSimpleProjectiveResolution_isZero_ge_four {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (i : ℤ) (n : ℕ) :
++    IsZero ((h.leftSimpleProjectiveResolution Q k i).complex.X (n+4)) := by
++  change IsZero ((Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj
++    ((GinzburgRegular.simpleProjectiveResolution Q.opposite k (h.opposite Q k)
++      (Q.opposite.heightEquiv.symm ((Q.vertices : ℤ)-1-i))).complex.X (n+4)))
++  exact (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.map_isZero
++    (GinzburgRegular.simpleProjectiveResolution_isZero_ge_four Q.opposite k (h.opposite Q k) _ n)
++
++end ASGinzburg.CutQuiver

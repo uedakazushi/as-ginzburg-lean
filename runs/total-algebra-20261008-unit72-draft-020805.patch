@@ -1,0 +1,154 @@
+--- /dev/null
++++ work/ASGinzburgDraft/OppositeJacobianFiniteProjectives.lean
+@@ -0,0 +1,60 @@
++import work.ASGinzburgDraft.OppositeJacobianSimpleModules
++import ASGinzburg.FiniteProjectiveClosure
++
++/-! The actual left/right equivalence preserves the existing finitely
++generated projectives in both directions by finite sums and retracts. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++noncomputable def oppositeJacobianRightRepresentableInverseAtIso (j : ℤ) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj
++      ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).representable j) ≅
++        (Q.unrolledJacobianZAlgebra k φ).leftRepresentable ((Q.vertices : ℤ)-1-j) := by
++  let B := Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)
++  have hj : j = (Q.vertices : ℤ)-1-((Q.vertices : ℤ)-1-j) := by ring
++  exact (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.mapIso
++    (eqToIso (congrArg B.representable hj)) ≪≫
++    Q.oppositeJacobianRightRepresentableInverseIso k φ ((Q.vertices : ℤ)-1-j)
++
++noncomputable def oppositeJacobianLeftFiniteSumIso (n : ℕ) (i : Fin n → ℤ) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).functor.obj
++      (∐ fun a => (Q.unrolledJacobianZAlgebra k φ).leftRepresentable (i a)) ≅
++        ∐ fun a => (Q.opposite.unrolledJacobianZAlgebra k
++          (Q.oppositePotentialEquiv k φ)).representable ((Q.vertices : ℤ)-1-i a) :=
++  PreservesCoproduct.iso (Q.oppositeJacobianLeftRightEquivalence k φ).functor _ ≪≫
++    HasColimit.isoOfNatIso (Discrete.natIso (fun a : Discrete (Fin n) =>
++      Q.oppositeJacobianLeftRepresentableIso k φ (i a.as)))
++
++noncomputable def oppositeJacobianRightFiniteSumInverseIso (n : ℕ) (i : Fin n → ℤ) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj
++      (∐ fun a => (Q.opposite.unrolledJacobianZAlgebra k
++        (Q.oppositePotentialEquiv k φ)).representable (i a)) ≅
++        ∐ fun a => (Q.unrolledJacobianZAlgebra k φ).leftRepresentable
++          ((Q.vertices : ℤ)-1-i a) :=
++  PreservesCoproduct.iso (Q.oppositeJacobianLeftRightEquivalence k φ).inverse _ ≪≫
++    HasColimit.isoOfNatIso (Discrete.natIso (fun a : Discrete (Fin n) =>
++      Q.oppositeJacobianRightRepresentableInverseAtIso k φ (i a.as)))
++
++theorem oppositeJacobianLeftFiniteProjective {P : (Q.unrolledJacobianZAlgebra k φ).LeftModule}
++    (hP : (Q.unrolledJacobianZAlgebra k φ).leftFiniteProjectiveProperty P) :
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightFiniteProjectiveProperty
++      ((Q.oppositeJacobianLeftRightEquivalence k φ).functor.obj P) := by
++  obtain ⟨n,i,⟨r⟩⟩ := hP
++  refine ⟨n, (fun a => (Q.vertices : ℤ)-1-i a), ⟨?_⟩⟩
++  exact (r.map (Q.oppositeJacobianLeftRightEquivalence k φ).functor).trans
++    (Retract.ofIso (Q.oppositeJacobianLeftFiniteSumIso k φ n i))
++
++theorem oppositeJacobianRightFiniteProjective
++    {P : (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).RightModule}
++    (hP : (Q.opposite.unrolledJacobianZAlgebra k
++      (Q.oppositePotentialEquiv k φ)).rightFiniteProjectiveProperty P) :
++    (Q.unrolledJacobianZAlgebra k φ).leftFiniteProjectiveProperty
++      ((Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj P) := by
++  obtain ⟨n,i,⟨r⟩⟩ := hP
++  refine ⟨n, (fun a => (Q.vertices : ℤ)-1-i a), ⟨?_⟩⟩
++  exact (r.map (Q.oppositeJacobianLeftRightEquivalence k φ).inverse).trans
++    (Retract.ofIso (Q.oppositeJacobianRightFiniteSumInverseIso k φ n i))
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgLeftFiniteProjectiveResolution.lean
+@@ -0,0 +1,32 @@
++import work.ASGinzburgDraft.GinzburgLeftSimpleProjectiveResolution
++import work.ASGinzburgDraft.OppositeJacobianFiniteProjectives
++import work.ASGinzburgDraft.GinzburgSimpleFiniteProjectiveResolution
++
++/-! Every term of the actual left simple resolution is finitely generated
++projective, using actual finite sums and retracts under the equivalence. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem GinzburgRegular.leftSimpleProjectiveResolution_finite {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (i : ℤ) (n : ℕ) :
++    (Q.unrolledJacobianZAlgebra k φ).leftFiniteProjectiveProperty
++      ((h.leftSimpleProjectiveResolution Q k i).complex.X n) := by
++  change (Q.unrolledJacobianZAlgebra k φ).leftFiniteProjectiveProperty
++    ((Q.oppositeJacobianLeftRightEquivalence k φ).inverse.obj
++      ((GinzburgRegular.simpleProjectiveResolution Q.opposite k (h.opposite Q k)
++        (Q.opposite.heightEquiv.symm ((Q.vertices : ℤ)-1-i))).complex.X n))
++  exact Q.oppositeJacobianRightFiniteProjective k φ
++    (GinzburgRegular.simpleProjectiveResolution_finite Q.opposite k (h.opposite Q k) _ n)
++
++theorem GinzburgRegular.simple_hasLeftFiniteProjectiveResolutionLength {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (i : ℤ) :
++    (Q.unrolledJacobianZAlgebra k φ).HasLeftFiniteProjectiveResolutionLength 3
++      ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i) :=
++  (Q.unrolledJacobianZAlgebra k φ).hasLeftFiniteProjectiveResolutionLength_of_fourTermResolution
++    (h.leftSimpleProjectiveResolution Q k i)
++    (h.leftSimpleProjectiveResolution_isZero_ge_four Q k i 0)
++    (fun n _ => h.leftSimpleProjectiveResolution_finite Q k i n)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/FourTermProjectiveDimension.lean
+@@ -0,0 +1,23 @@
++import ASGinzburg.ProjectiveResolutionSyzygies
++import Mathlib.CategoryTheory.Abelian.Projective.Dimension
++
++/-! Actual four-term projective resolutions bound projective dimension
++in any abelian category, by the three actual syzygy short exact sequences. -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u v
++variable {C : Type u} [Category.{v} C] [Abelian C]
++
++theorem fourTermProjectiveResolution_hasProjectiveDimensionLE {X : C}
++    (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4)) :
++    HasProjectiveDimensionLE X 3 := by
++  have h₂ : HasProjectiveDimensionLT (kernel P.firstCover) 2 :=
++    (P.shortExact₂ h₄).hasProjectiveDimensionLT_X₃ 1 inferInstance
++      (hasProjectiveDimensionLT_of_ge (P.complex.X 2) 1 2 (by decide))
++  have h₁ : HasProjectiveDimensionLT (kernel (P.π.f 0)) 3 :=
++    P.shortExact₁.hasProjectiveDimensionLT_X₃ 2 h₂
++      (hasProjectiveDimensionLT_of_ge (P.complex.X 1) 1 3 (by decide))
++  exact P.shortExact₀.hasProjectiveDimensionLT_X₃ 3 h₁
++    (hasProjectiveDimensionLT_of_ge (P.complex.X 0) 1 4 (by decide))
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgLeftSimpleExtBounds.lean
+@@ -0,0 +1,27 @@
++import work.ASGinzburgDraft.GinzburgLeftFiniteProjectiveResolution
++import work.ASGinzburgDraft.FourTermProjectiveDimension
++import ASGinzburg.LeftModuleExt
++
++/-! Genuine Ginzburg regularity alone gives projective dimension at most
++three and actual higher Ext vanishing for every original left simple. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem GinzburgRegular.leftSimple_hasProjectiveDimensionLE {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (i : ℤ) :
++    HasProjectiveDimensionLE ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i) 3 :=
++  fourTermProjectiveResolution_hasProjectiveDimensionLE
++    (h.leftSimpleProjectiveResolution Q k i)
++    (h.leftSimpleProjectiveResolution_isZero_ge_four Q k i 0)
++
++theorem GinzburgRegular.leftSimple_ext_ge_four_eq_zero {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (i : ℤ)
++    (N : (Q.unrolledJacobianZAlgebra k φ).LeftModule) (n : ℕ)
++    (e : Abelian.Ext.{u} ((Q.unrolledJacobianZAlgebra k φ).simpleLeftModule i) N (n+4)) :
++    e=0 := by
++  letI := h.leftSimple_hasProjectiveDimensionLE Q k i
++  exact e.eq_zero_of_hasProjectiveDimensionLT 4 (by omega)
++
++end ASGinzburg.CutQuiver

@@ -1,0 +1,60 @@
+import ASGinzburg.OppositeBetweenSheetPaths
+import ASGinzburg.OppositeJacobianIdeal
+
+/-! Actual homogeneous Jacobian quotients reverse both endpoints and their product. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem pathJacobianBetweenSheetIdeal_opposite_map (φ : Q.Potential k)
+    (u v : Q.LiftVertex) :
+    (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).map
+        (Q.oppositeBetweenSheetPathCutEquiv k u v).toLinearMap =
+      Q.opposite.pathJacobianCutIdeal k (Q.oppositePotentialEquiv k φ)
+        (Q.oppositeLiftVertexEquiv v).1 (Q.oppositeLiftVertexEquiv u).1
+        ((Q.oppositeLiftVertexEquiv u).2 - (Q.oppositeLiftVertexEquiv v).2) := by
+  ext f
+  rw [Submodule.mem_map]
+  constructor
+  · rintro ⟨g,hg,rfl⟩
+    change g.val ∈ (Q.pathJacobianIdeal k φ).hom u.1 v.1 at hg
+    change Q.oppositePathComponentEquiv k u.1 v.1 g.val ∈
+      (Q.opposite.pathJacobianIdeal k (Q.oppositePotentialEquiv k φ)).hom v.1.rev u.1.rev
+    exact (Q.pathJacobianIdeal_opposite_iff k φ u.1 v.1 g.val).mpr hg
+  · intro hf
+    obtain ⟨g,rfl⟩ := (Q.oppositeBetweenSheetPathCutEquiv k u v).surjective f
+    refine ⟨g, ?_, rfl⟩
+    change g.val ∈ (Q.pathJacobianIdeal k φ).hom u.1 v.1
+    exact (Q.pathJacobianIdeal_opposite_iff k φ u.1 v.1 g.val).mp hf
+
+noncomputable def oppositeBetweenSheetJacobianEquiv (φ : Q.Potential k)
+    (u v : Q.LiftVertex) :
+    Q.PathCutJacobianQuotient k φ u v ≃ₗ[k]
+      Q.opposite.PathCutJacobianQuotient k (Q.oppositePotentialEquiv k φ)
+        (Q.oppositeLiftVertexEquiv v) (Q.oppositeLiftVertexEquiv u) :=
+  Submodule.Quotient.equiv _ _ (Q.oppositeBetweenSheetPathCutEquiv k u v)
+    (Q.pathJacobianBetweenSheetIdeal_opposite_map k φ u v)
+
+@[simp] theorem oppositeBetweenSheetJacobianEquiv_mk (φ : Q.Potential k)
+    (u v : Q.LiftVertex) (f : Q.pathCutComponent k u.1 v.1 (v.2-u.2)) :
+    Q.oppositeBetweenSheetJacobianEquiv k φ u v (Submodule.Quotient.mk f) =
+      Submodule.Quotient.mk (Q.oppositeBetweenSheetPathCutEquiv k u v f) := rfl
+
+theorem oppositeBetweenSheetJacobianEquiv_comp (φ : Q.Potential k)
+    {u v w : Q.LiftVertex} (f : Q.PathCutJacobianQuotient k φ u v)
+    (g : Q.PathCutJacobianQuotient k φ v w) :
+    Q.oppositeBetweenSheetJacobianEquiv k φ u w (Q.cutJacobianQuotientComp k φ g f) =
+      Q.opposite.cutJacobianQuotientComp k (Q.oppositePotentialEquiv k φ)
+        (Q.oppositeBetweenSheetJacobianEquiv k φ u v f)
+        (Q.oppositeBetweenSheetJacobianEquiv k φ v w g) := by
+  obtain ⟨f,rfl⟩ := (Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)).mkQ_surjective f
+  obtain ⟨g,rfl⟩ := (Q.pathJacobianCutIdeal k φ v.1 w.1 (w.2-v.2)).mkQ_surjective g
+  change Q.oppositeBetweenSheetJacobianEquiv k φ u w
+    (Q.cutJacobianQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f)) =
+    Q.opposite.cutJacobianQuotientComp k (Q.oppositePotentialEquiv k φ)
+      (Q.oppositeBetweenSheetJacobianEquiv k φ u v (Submodule.Quotient.mk f))
+      (Q.oppositeBetweenSheetJacobianEquiv k φ v w (Submodule.Quotient.mk g))
+  simp only [cutJacobianQuotientComp_mk, oppositeBetweenSheetJacobianEquiv_mk]
+  rw [Q.oppositeBetweenSheetPathCutEquiv_comp]
+
+end ASGinzburg.CutQuiver

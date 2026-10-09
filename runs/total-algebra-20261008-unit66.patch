@@ -1,0 +1,574 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index af7e9eb..dd51078 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -460,6 +460,32 @@ import ASGinzburg.OppositeGinzburgGenerators
+ import ASGinzburg.OppositeGinzburgLoopDifferential
+ import ASGinzburg.OppositeGinzburgGeneratorDifferential
+ 
++import ASGinzburg.OppositeGinzburgGradings
++import ASGinzburg.OppositeGinzburgDifferentialTransport
++import ASGinzburg.OppositeGinzburgPathDifferential
++import ASGinzburg.GinzburgReflectionSign
++import ASGinzburg.OppositeGinzburgHomogeneousDifferential
++import ASGinzburg.OppositeGinzburgSignedEquiv
++import ASGinzburg.OppositeGinzburgCochainIso
++import ASGinzburg.GinzburgOppositeMinimalResolution
++import ASGinzburg.OppositeJacobianIdeal
++import ASGinzburg.OppositePathCutEquiv
++import ASGinzburg.OppositeJacobianCutQuotient
++import ASGinzburg.OppositeBetweenSheetPaths
++import ASGinzburg.OppositeBetweenSheetJacobian
++import ASGinzburg.OppositeUnrolledJacobianHom
++import ASGinzburg.ReflectedZAlgebra
++import ASGinzburg.ReindexedZAlgebraIsomorphism
++import ASGinzburg.OppositeReflectedJacobianComponents
++import ASGinzburg.OppositeReflectedJacobianIso
++import ASGinzburg.ReflectedLinearCategory
++import ASGinzburg.ZAlgebraLinearEquivalence
++import ASGinzburg.LinearRepresentationEquivalence
++import ASGinzburg.OppositeJacobianLinearEquivalence
++import ASGinzburg.OppositeJacobianExactness
++import ASGinzburg.LinearCoyonedaPrecomposition
++import ASGinzburg.OppositeCoyonedaYoneda
++import ASGinzburg.OppositeJacobianRepresentables
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 9ecc21f..39635b9 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -1420,6 +1420,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.asExtTotalRank_ge_one
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_eq_zero_of_nonempty_of_not_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.oppositeMinimalASResolution
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.opposite_exists_ASResolution
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix_f
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredLayer_supported_length
+@@ -1567,6 +1569,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualLayerHomologyTermTwoIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopLayerHomologyRepresentableIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgUpperFilteredHomologyTermOneIso
++#print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign
++#print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_ne_zero
++#print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_mul_self
++#print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_succ
++#print axioms ASGinzburg.CutQuiver.ginzburgReflectionSign_succ_mul
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalCochainComplex
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalCochainComplexTermIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalHomology
+@@ -1875,6 +1882,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.liftedModuleIndexWhiskerIsEquivalence
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHomOfLiftedComponents
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHomOfLiftedComponents_whisker
++#print axioms ASGinzburg.linearAdjunctionHomEquiv
++#print axioms ASGinzburg.linearCoyonedaPrecompositionIso
+ #print axioms ASGinzburg.additiveModuleTransportEquiv
+ #print axioms ASGinzburg.exactExt_smul_comp
+ #print axioms ASGinzburg.exactExt_comp_smul
+@@ -1889,6 +1898,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.productGenerators
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.mul
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.comp_mem_mul
++#print axioms ASGinzburg.linearModuleFunctorProperty
++#print axioms ASGinzburg.linearRepresentationPrecomposition
++#print axioms ASGinzburg.linearRepresentationPrecompositionAdditive
++#print axioms ASGinzburg.linearRepresentationPrecompositionLinear
++#print axioms ASGinzburg.linearRepresentationPrecompositionFaithful
++#print axioms ASGinzburg.linearRepresentationPrecompositionFull
++#print axioms ASGinzburg.linearRepresentationPrecompositionEssSurj
++#print axioms ASGinzburg.linearRepresentationPrecompositionIsEquivalence
++#print axioms ASGinzburg.linearRepresentationEquivalence
+ #print axioms ASGinzburg.ZAlgebra.leftTotalLocallyUnitalFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.rightTotalLocallyUnitalFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftLocallyUnitalComponentFunctorAdditive
+@@ -2075,6 +2093,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.normalizedProjectiveIso_hom_comp
+ #print axioms ASGinzburg.normalizedProjectiveIso_hom_unique
+ #print axioms ASGinzburg.epi_of_comp_epi_of_rigid_projective
++#print axioms ASGinzburg.CutQuiver.pathJacobianBetweenSheetIdeal_opposite_map
++#print axioms ASGinzburg.CutQuiver.oppositeBetweenSheetJacobianEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeBetweenSheetJacobianEquiv_mk
++#print axioms ASGinzburg.CutQuiver.oppositeBetweenSheetJacobianEquiv_comp
++#print axioms ASGinzburg.CutQuiver.oppositeBetweenSheetPathCutEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeBetweenSheetPathCutEquiv_coe
++#print axioms ASGinzburg.CutQuiver.oppositeBetweenSheetPathCutEquiv_comp
++#print axioms ASGinzburg.ZAlgebra.oppositeHomUnopEquiv
++#print axioms ASGinzburg.ZAlgebra.oppositeCoyonedaYonedaIso
+ #print axioms ASGinzburg.CutQuiver.opposite
+ #print axioms ASGinzburg.CutQuiver.oppositeVertexEquiv
+ #print axioms ASGinzburg.CutQuiver.oppositeLiftVertexEquiv
+@@ -2090,6 +2117,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_cohomologicalDegree
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_cutDegree
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_winding
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgCochainIso
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgHomologyIso
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.opposite
++#print axioms ASGinzburg.CutQuiver.ginzburgRegular_opposite_iff
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_transport
++#print axioms ASGinzburg.CutQuiver.ginzburgArrowPath_opposite
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_arrowDifferential
+ #print axioms ASGinzburg.CutQuiver.transportGinzburgPathComponent
+ #print axioms ASGinzburg.CutQuiver.transportGinzburgPathComponent_refl
+ #print axioms ASGinzburg.CutQuiver.transportGinzburgPathComponent_single
+@@ -2097,12 +2131,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_transport
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgArrowPath_opposite
+ #print axioms ASGinzburg.CutQuiver.dualGinzburgArrowPath_opposite
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_toLinearMap
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_cohomological_map
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgCohomologicalEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_homogeneousDifferential
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgCohomologicalEquiv_coe
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgCohomologicalEquiv_differential
+ #print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_loopDifferential
+ #print axioms ASGinzburg.CutQuiver.Path.opposite_originalGinzburg
+ #print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv
+ #print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_single
+ #print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_comp
+ #print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_original
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_pathDifferential
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite_source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite_target
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite_opposite
+@@ -2120,6 +2161,25 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_cutDegree
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_winding
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_comp
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgSignedEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgSignedEquiv_apply
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgSignedEquiv_differential
++#print axioms ASGinzburg.CutQuiver.pathJacobianCutIdeal_opposite_map
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianCutQuotientEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianCutQuotientEquiv_mk
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRight_shortExact
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightLeft_shortExact
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRight_exact
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightLeft_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_opposite_iff
++#print axioms ASGinzburg.CutQuiver.pathJacobianIdeal_opposite_iff
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLinearEquivalence
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLinearEquivalenceFunctorLinear
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLinearEquivalenceFunctorAdditive
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEquivalence
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEquivalenceFunctorLinear
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEquivalenceFunctorAdditive
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRepresentableIso
+ #print axioms ASGinzburg.CutQuiver.Path.opposite
+ #print axioms ASGinzburg.CutQuiver.Path.opposite_nil
+ #print axioms ASGinzburg.CutQuiver.Path.opposite_length
+@@ -2131,6 +2191,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_single
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_comp
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_id
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_toLinearMap
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_cut_map
++#print axioms ASGinzburg.CutQuiver.oppositePathCutEquiv
++#print axioms ASGinzburg.CutQuiver.oppositePathCutEquiv_coe
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_wordMap
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_cyclicDerivative
+ #print axioms ASGinzburg.CutQuiver.Path.unopposite
+@@ -2142,6 +2206,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.oppositePotentialMap
+ #print axioms ASGinzburg.CutQuiver.oppositePotentialEquiv
+ #print axioms ASGinzburg.CutQuiver.oppositePotentialEquiv_val
++#print axioms ASGinzburg.CutQuiver.oppositeReflectedJacobianComponentEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeReflectedJacobianComponentEquiv_comp
++#print axioms ASGinzburg.CutQuiver.oppositeReflectedJacobianComponentEquiv_id
++#print axioms ASGinzburg.CutQuiver.oppositeReflectedJacobianIso
++#print axioms ASGinzburg.CutQuiver.oppositeUnrolledJacobianHomEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeUnrolledJacobianHomEquiv_comp
++#print axioms ASGinzburg.CutQuiver.oppositeUnrolledJacobianHomEquiv_id
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+@@ -2348,6 +2419,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientMap
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientMap_surjective
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientMap_kernel
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctor
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctorFaithful
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctorFull
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctorEssSurj
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearFunctorIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.reflectedLinearEquivalence
++#print axioms ASGinzburg.ZAlgebra.reflected
++#print axioms ASGinzburg.ZAlgebra.reflected_comp
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproductProjection
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproduct_inclusion_projection
+ #print axioms ASGinzburg.ZAlgebra.rightRegularCoproduct_inclusion_projection_off
+@@ -2431,6 +2512,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightRegularMatrixElement_action_off
+ #print axioms ASGinzburg.ZAlgebra.rightRegularTotalAlgebraEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightRegularTotalAlgebraEquiv_representation
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.ofSurjectiveReindex
+ #print axioms ASGinzburg.ZAlgebra.representablePrecomposition
+ #print axioms ASGinzburg.ZAlgebra.representable_map_eq_precomposition
+ #print axioms ASGinzburg.ZAlgebra.representableHomEvaluationIso
+@@ -3093,3 +3175,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.Isomorphism.trans
+ #print axioms ASGinzburg.ZAlgebra.Homomorphism.quotientKernelIso
+ #print axioms ASGinzburg.ZAlgebra.Homomorphism.quotientKernelIso_apply_mk
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctor
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorAdditive
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorLinear
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorFaithful
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorFull
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorEssSurj
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.Isomorphism.linearEquivalence
+diff --git a/ASGinzburg/OppositeGinzburgGradings.lean b/ASGinzburg/OppositeGinzburgGradings.lean
+new file mode 100644
+index 0000000..d7d3410
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgGradings.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.OppositeGinzburgPathAlgebra
++import Mathlib.Algebra.Module.Submodule.Equiv
++
++/-! Reversal restricts to the actual homogeneous cohomological components. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem oppositeGinzburgPathComponentEquiv_toLinearMap (u v : Q.Vertex) :
++    (Q.oppositeGinzburgPathComponentEquiv k u v).toLinearMap =
++      Finsupp.lmapDomain k k (oppositeGinzburgPathEquiv u v) := by
++  apply Finsupp.lhom_ext
++  intro p c
++  simp only [LinearEquiv.coe_toLinearMap, oppositeGinzburgPathComponentEquiv_single,
++    Finsupp.lmapDomain_apply, Finsupp.mapDomain_single]
++  rfl
++
++theorem oppositeGinzburgPathComponentEquiv_cohomological_map
++    (u v : Q.Vertex) (q : ℤ) :
++    (Q.ginzburgCohomologicalComponent k u v q).map
++        (Q.oppositeGinzburgPathComponentEquiv k u v).toLinearMap =
++      Q.opposite.ginzburgCohomologicalComponent k v.rev u.rev q := by
++  rw [oppositeGinzburgPathComponentEquiv_toLinearMap,
++    ginzburgCohomologicalComponent, ginzburgCohomologicalComponent,
++    Finsupp.lmapDomain_supported]
++  congr 1
++  ext p
++  constructor
++  · rintro ⟨r, hr, rfl⟩
++    simpa [oppositeGinzburgPathEquiv, GinzburgPath.opposite_cohomologicalDegree] using hr
++  · intro hp
++    obtain ⟨r, rfl⟩ := (oppositeGinzburgPathEquiv u v).surjective p
++    refine ⟨r, ?_, rfl⟩
++    simpa [oppositeGinzburgPathEquiv, GinzburgPath.opposite_cohomologicalDegree] using hp
++
++noncomputable def oppositeGinzburgCohomologicalEquiv (u v : Q.Vertex) (q : ℤ) :
++    Q.ginzburgCohomologicalComponent k u v q ≃ₗ[k]
++      Q.opposite.ginzburgCohomologicalComponent k v.rev u.rev q :=
++  (Q.oppositeGinzburgPathComponentEquiv k u v).ofSubmodules _ _
++    (Q.oppositeGinzburgPathComponentEquiv_cohomological_map k u v q)
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgDifferentialTransport.lean b/ASGinzburg/OppositeGinzburgDifferentialTransport.lean
+new file mode 100644
+index 0000000..5456507
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgDifferentialTransport.lean
+@@ -0,0 +1,39 @@
++import ASGinzburg.OppositeGinzburgGeneratorDifferential
++
++/-! Endpoint transport commutes with the actual differential. This turns
++the proved generator formula into a formula on genuine arrow-path elements. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgDifferential_transport (φ : Q.Potential k) {u v u' v' : Q.Vertex}
++    (hu : u = u') (hv : v = v') (f : Q.GinzburgPathComponent k u v) :
++    Q.ginzburgDifferential k φ u' v' (Q.transportGinzburgPathComponent k hu hv f) =
++      Q.transportGinzburgPathComponent k hu hv (Q.ginzburgDifferential k φ u v f) := by
++  subst u' v'
++  rfl
++
++theorem ginzburgArrowPath_opposite (a : Q.GinzburgArrow) :
++    (Q.ginzburgArrowPath a).opposite =
++      (Q.opposite.ginzburgArrowPath a.opposite).transport Q.opposite
++        a.opposite_source a.opposite_target := by
++  apply GinzburgPath.toList_injective (Q := Q.opposite) (a.target Q).rev (a.source Q).rev
++  simp [ginzburgArrowPath, GinzburgPath.opposite_toList, GinzburgPath.toList]
++
++theorem oppositeGinzburgPathComponentEquiv_arrowDifferential
++    (φ : Q.Potential k) (a : Q.GinzburgArrow) :
++    Q.oppositeGinzburgPathComponentEquiv k (a.source Q) (a.target Q)
++        (Q.ginzburgDifferential k φ (a.source Q) (a.target Q)
++          (Finsupp.single (Q.ginzburgArrowPath a) 1)) =
++      ginzburgSign k (a.cohomologicalDegree Q + 1) •
++        Q.opposite.ginzburgDifferential k (Q.oppositePotentialEquiv k φ)
++          (a.target Q).rev (a.source Q).rev
++          (Q.oppositeGinzburgPathComponentEquiv k (a.source Q) (a.target Q)
++            (Finsupp.single (Q.ginzburgArrowPath a) 1)) := by
++  rw [Q.ginzburgDifferential_generator,
++    Q.oppositeGinzburgPathComponentEquiv_generatorDifferential,
++    Q.oppositeGinzburgPathComponentEquiv_single, Q.ginzburgArrowPath_opposite,
++    ← Q.opposite.transportGinzburgPathComponent_single,
++    Q.opposite.ginzburgDifferential_transport, Q.opposite.ginzburgDifferential_generator]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgPathDifferential.lean b/ASGinzburg/OppositeGinzburgPathDifferential.lean
+new file mode 100644
+index 0000000..f4625a3
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgPathDifferential.lean
+@@ -0,0 +1,41 @@
++import ASGinzburg.OppositeGinzburgDifferentialTransport
++import ASGinzburg.GinzburgSquareProducts
++
++/-! The generator comparison extends by the genuine graded Leibniz rule. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++set_option maxHeartbeats 800000 in
++theorem oppositeGinzburgPathComponentEquiv_pathDifferential (φ : Q.Potential k)
++    {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    Q.oppositeGinzburgPathComponentEquiv k u v
++        (Q.ginzburgDifferential k φ u v (Finsupp.single p 1)) =
++      ginzburgSign k (p.cohomologicalDegree + 1) •
++        Q.opposite.ginzburgDifferential k (Q.oppositePotentialEquiv k φ) v.rev u.rev
++          (Q.oppositeGinzburgPathComponentEquiv k u v (Finsupp.single p 1)) := by
++  classical
++  induction p with
++  | nil => simp [GinzburgPath.differential_nil]
++  | @snoc v p a h ih =>
++    subst h
++    have hpa : Finsupp.single (GinzburgPath.snoc p a rfl) (1 : k) =
++        Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1)
++          (Finsupp.single p 1) := by
++      simp [ginzburgArrowPath, GinzburgPath.comp]
++    have hdeg : (Q.ginzburgArrowPath a).cohomologicalDegree = a.cohomologicalDegree Q := by
++      simp [ginzburgArrowPath, GinzburgPath.cohomologicalDegree]
++    rw [hpa, Q.ginzburgDifferential_comp]
++    simp only [map_add, Q.oppositeGinzburgPathComponentEquiv_comp,
++      ginzburgSignMap_single, hdeg, map_smul, LinearMap.smul_apply,
++      Q.oppositeGinzburgPathComponentEquiv_arrowDifferential]
++    rw [ih]
++    rw [Q.opposite.ginzburgDifferential_comp]
++    simp only [Q.oppositeGinzburgPathComponentEquiv_single, ginzburgSignMap_single,
++      GinzburgPath.opposite_cohomologicalDegree, GinzburgPath.cohomologicalDegree,
++      map_smul, LinearMap.smul_apply, smul_add, smul_smul]
++    simp only [ginzburgSign_add, mul_left_comm, mul_comm,
++      ginzburgSign_mul_self, one_mul]
++    abel
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgReflectionSign.lean b/ASGinzburg/GinzburgReflectionSign.lean
+new file mode 100644
+index 0000000..56db77e
+--- /dev/null
++++ b/ASGinzburg/GinzburgReflectionSign.lean
+@@ -0,0 +1,28 @@
++import ASGinzburg.GinzburgSquareProducts
++
++/-! The triangular sign turns the reversed differential into a cochain map. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (k : Type u) [Field k]
++
++noncomputable def ginzburgReflectionSign (q : ℤ) : k :=
++  ginzburgSign k (q * (q + 1) / 2)
++
++theorem ginzburgReflectionSign_ne_zero (q : ℤ) : ginzburgReflectionSign k q ≠ 0 :=
++  zpow_ne_zero _ (neg_ne_zero.mpr (one_ne_zero : (1 : k) ≠ 0))
++
++theorem ginzburgReflectionSign_mul_self (q : ℤ) :
++    ginzburgReflectionSign k q * ginzburgReflectionSign k q = 1 :=
++  ginzburgSign_mul_self k _
++
++theorem ginzburgReflectionSign_succ (q : ℤ) :
++    ginzburgReflectionSign k (q + 1) = ginzburgReflectionSign k q * ginzburgSign k (q + 1) := by
++  unfold ginzburgReflectionSign
++  rw [show (q + 1) * (q + 1 + 1) = q * (q + 1) + (q + 1) * 2 by ring,
++    Int.add_mul_ediv_right _ _ (by decide), ginzburgSign_add]
++
++theorem ginzburgReflectionSign_succ_mul (q : ℤ) :
++    ginzburgReflectionSign k (q + 1) * ginzburgSign k (q + 1) = ginzburgReflectionSign k q := by
++  rw [ginzburgReflectionSign_succ, mul_assoc, ginzburgSign_mul_self, mul_one]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgHomogeneousDifferential.lean b/ASGinzburg/OppositeGinzburgHomogeneousDifferential.lean
+new file mode 100644
+index 0000000..3d035c8
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgHomogeneousDifferential.lean
+@@ -0,0 +1,46 @@
++import ASGinzburg.OppositeGinzburgGradings
++import ASGinzburg.OppositeGinzburgPathDifferential
++import ASGinzburg.GinzburgCochainComplex
++
++/-! The genuine differential comparison on every homogeneous finite sum. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem oppositeGinzburgPathComponentEquiv_homogeneousDifferential (φ : Q.Potential k)
++    {u v : Q.Vertex} {q : ℤ} {f : Q.GinzburgPathComponent k u v}
++    (hf : f ∈ Q.ginzburgCohomologicalComponent k u v q) :
++    Q.oppositeGinzburgPathComponentEquiv k u v (Q.ginzburgDifferential k φ u v f) =
++      ginzburgSign k (q + 1) •
++        Q.opposite.ginzburgDifferential k (Q.oppositePotentialEquiv k φ) v.rev u.rev
++          (Q.oppositeGinzburgPathComponentEquiv k u v f) := by
++  change f ∈ Finsupp.supported k k _ at hf
++  rw [Finsupp.supported_eq_span_single] at hf
++  induction hf using Submodule.span_induction with
++  | mem x hx =>
++    obtain ⟨p,hp,rfl⟩ := hx
++    change p.cohomologicalDegree = q at hp
++    rw [← hp]
++    exact Q.oppositeGinzburgPathComponentEquiv_pathDifferential k φ p
++  | zero => simp
++  | add f g hf hg ihf ihg => simp [map_add, ihf, ihg, smul_add]
++  | smul a f hf ih =>
++    simp only [map_smul, ih]
++    exact smul_comm a (ginzburgSign k (q + 1)) _
++
++@[simp] theorem oppositeGinzburgCohomologicalEquiv_coe
++    (u v : Q.Vertex) (q : ℤ) (f : Q.ginzburgCohomologicalComponent k u v q) :
++    (Q.oppositeGinzburgCohomologicalEquiv k u v q f).val =
++      Q.oppositeGinzburgPathComponentEquiv k u v f.val := rfl
++
++theorem oppositeGinzburgCohomologicalEquiv_differential (φ : Q.Potential k)
++    (u v : Q.Vertex) (q : ℤ) (f : Q.ginzburgCohomologicalComponent k u v q) :
++    Q.oppositeGinzburgCohomologicalEquiv k u v (q + 1)
++        (Q.ginzburgGradedDifferential k φ u v q f) =
++      ginzburgSign k (q + 1) •
++        Q.opposite.ginzburgGradedDifferential k (Q.oppositePotentialEquiv k φ) v.rev u.rev q
++          (Q.oppositeGinzburgCohomologicalEquiv k u v q f) := by
++  apply Subtype.ext
++  exact Q.oppositeGinzburgPathComponentEquiv_homogeneousDifferential k φ f.property
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgSignedEquiv.lean b/ASGinzburg/OppositeGinzburgSignedEquiv.lean
+new file mode 100644
+index 0000000..02e40ef
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgSignedEquiv.lean
+@@ -0,0 +1,30 @@
++import ASGinzburg.OppositeGinzburgHomogeneousDifferential
++import ASGinzburg.GinzburgReflectionSign
++
++/-! Triangular signs give genuine differential-compatible linear equivalences. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def oppositeGinzburgSignedEquiv (u v : Q.Vertex) (q : ℤ) :
++    Q.ginzburgCohomologicalComponent k u v q ≃ₗ[k]
++      Q.opposite.ginzburgCohomologicalComponent k v.rev u.rev q :=
++  (Q.oppositeGinzburgCohomologicalEquiv k u v q).trans
++    (LinearEquiv.smulOfNeZero k _ (ginzburgReflectionSign k q)
++      (ginzburgReflectionSign_ne_zero k q))
++
++@[simp] theorem oppositeGinzburgSignedEquiv_apply
++    (u v : Q.Vertex) (q : ℤ) (f : Q.ginzburgCohomologicalComponent k u v q) :
++    Q.oppositeGinzburgSignedEquiv k u v q f =
++      ginzburgReflectionSign k q • Q.oppositeGinzburgCohomologicalEquiv k u v q f := rfl
++
++theorem oppositeGinzburgSignedEquiv_differential (φ : Q.Potential k)
++    (u v : Q.Vertex) (q : ℤ) (f : Q.ginzburgCohomologicalComponent k u v q) :
++    Q.oppositeGinzburgSignedEquiv k u v (q + 1)
++        (Q.ginzburgGradedDifferential k φ u v q f) =
++      Q.opposite.ginzburgGradedDifferential k (Q.oppositePotentialEquiv k φ) v.rev u.rev q
++        (Q.oppositeGinzburgSignedEquiv k u v q f) := by
++  rw [oppositeGinzburgSignedEquiv_apply, oppositeGinzburgCohomologicalEquiv_differential,
++    smul_smul, ginzburgReflectionSign_succ_mul, oppositeGinzburgSignedEquiv_apply, map_smul]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgCochainIso.lean b/ASGinzburg/OppositeGinzburgCochainIso.lean
+new file mode 100644
+index 0000000..59f2273
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgCochainIso.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.OppositeGinzburgSignedEquiv
++import ASGinzburg.GinzburgRegularity
++
++/-! Genuine mathlib cochain and homology isomorphisms, built from the
++proved signed differential comparison. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def oppositeGinzburgCochainIso (φ : Q.Potential k) (u v : Q.Vertex) :
++    Q.ginzburgCochainComplex k φ u v ≅
++      Q.opposite.ginzburgCochainComplex k (Q.oppositePotentialEquiv k φ) v.rev u.rev :=
++  HomologicalComplex.Hom.isoOfComponents
++    (fun q => (Q.oppositeGinzburgSignedEquiv k u v q).toModuleIso) (by
++      intro i j hij
++      have hj : i + 1 = j := hij
++      subst j
++      rw [Q.ginzburgCochainComplex_d, Q.opposite.ginzburgCochainComplex_d]
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro f
++      exact (Q.oppositeGinzburgSignedEquiv_differential k φ u v i f).symm)
++
++noncomputable def oppositeGinzburgHomologyIso (φ : Q.Potential k)
++    (u v : Q.Vertex) (q : ℤ) :
++    Q.ginzburgHomology k φ u v q ≅
++      Q.opposite.ginzburgHomology k (Q.oppositePotentialEquiv k φ) v.rev u.rev q :=
++  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).mapIso
++    (Q.oppositeGinzburgCochainIso k φ u v)
++
++theorem GinzburgRegular.opposite {φ : Q.Potential k} (h : Q.GinzburgRegular k φ) :
++    Q.opposite.GinzburgRegular k (Q.oppositePotentialEquiv k φ) := by
++  apply (Q.opposite.ginzburgRegular_iff_components k _).mpr
++  intro u v q hq
++  have hz := (Q.ginzburgRegular_iff_components k φ).mp h v.rev u.rev q hq
++  have he := Q.oppositeGinzburgHomologyIso k φ v.rev u.rev q
++  have hh := hz.of_iso he.symm
++  simpa only [Fin.rev_rev] using hh
++
++theorem ginzburgRegular_opposite_iff (φ : Q.Potential k) :
++    Q.opposite.GinzburgRegular k (Q.oppositePotentialEquiv k φ) ↔ Q.GinzburgRegular k φ := by
++  constructor
++  · intro h
++    apply (Q.ginzburgRegular_iff_components k φ).mpr
++    intro u v q hq
++    have hz := (Q.opposite.ginzburgRegular_iff_components k _).mp h v.rev u.rev q hq
++    exact hz.of_iso (Q.oppositeGinzburgHomologyIso k φ u v q)
++  · intro h
++    exact GinzburgRegular.opposite Q k h
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgOppositeMinimalResolution.lean b/ASGinzburg/GinzburgOppositeMinimalResolution.lean
+new file mode 100644
+index 0000000..1e90a9f
+--- /dev/null
++++ b/ASGinzburg/GinzburgOppositeMinimalResolution.lean
+@@ -0,0 +1,23 @@
++import ASGinzburg.OppositeGinzburgCochainIso
++import ASGinzburg.GinzburgMinimalResolutionExt
++
++/-! Ginzburg regularity supplies a genuine minimal resolution on the
++reflected opposite Jacobian algebra. Identification with the original
++left-module category and the dual complex remains a separate obligation. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def GinzburgRegular.oppositeMinimalASResolution {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.opposite.LiftVertex) :
++    (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).ASResolution
++      Q.opposite v :=
++  (GinzburgRegular.opposite Q k h).minimalASResolution Q.opposite k v
++
++theorem GinzburgRegular.opposite_exists_ASResolution {φ : Q.Potential k}
++    (h : Q.GinzburgRegular k φ) (v : Q.opposite.LiftVertex) :
++    Nonempty ((Q.opposite.unrolledJacobianZAlgebra k
++      (Q.oppositePotentialEquiv k φ)).ASResolution Q.opposite v) :=
++  ⟨h.oppositeMinimalASResolution Q k v⟩
++
++end ASGinzburg.CutQuiver

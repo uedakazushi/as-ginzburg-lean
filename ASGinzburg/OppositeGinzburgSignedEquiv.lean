@@ -1,0 +1,30 @@
+import ASGinzburg.OppositeGinzburgHomogeneousDifferential
+import ASGinzburg.GinzburgReflectionSign
+
+/-! Triangular signs give genuine differential-compatible linear equivalences. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def oppositeGinzburgSignedEquiv (u v : Q.Vertex) (q : ℤ) :
+    Q.ginzburgCohomologicalComponent k u v q ≃ₗ[k]
+      Q.opposite.ginzburgCohomologicalComponent k v.rev u.rev q :=
+  (Q.oppositeGinzburgCohomologicalEquiv k u v q).trans
+    (LinearEquiv.smulOfNeZero k _ (ginzburgReflectionSign k q)
+      (ginzburgReflectionSign_ne_zero k q))
+
+@[simp] theorem oppositeGinzburgSignedEquiv_apply
+    (u v : Q.Vertex) (q : ℤ) (f : Q.ginzburgCohomologicalComponent k u v q) :
+    Q.oppositeGinzburgSignedEquiv k u v q f =
+      ginzburgReflectionSign k q • Q.oppositeGinzburgCohomologicalEquiv k u v q f := rfl
+
+theorem oppositeGinzburgSignedEquiv_differential (φ : Q.Potential k)
+    (u v : Q.Vertex) (q : ℤ) (f : Q.ginzburgCohomologicalComponent k u v q) :
+    Q.oppositeGinzburgSignedEquiv k u v (q + 1)
+        (Q.ginzburgGradedDifferential k φ u v q f) =
+      Q.opposite.ginzburgGradedDifferential k (Q.oppositePotentialEquiv k φ) v.rev u.rev q
+        (Q.oppositeGinzburgSignedEquiv k u v q f) := by
+  rw [oppositeGinzburgSignedEquiv_apply, oppositeGinzburgCohomologicalEquiv_differential,
+    smul_smul, ginzburgReflectionSign_succ_mul, oppositeGinzburgSignedEquiv_apply, map_smul]
+
+end ASGinzburg.CutQuiver

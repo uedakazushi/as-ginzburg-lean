@@ -1,0 +1,172 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgOriginalPrefixCoefficients.lean
+@@ -0,0 +1,35 @@
++import ASGinzburg.GinzburgOriginalFilteredPrefixes
++import ASGinzburg.GinzburgGeneratorLayerCoefficients
++
++/-! The native upper filtered-to-prefix map reads the actual
++last original generator coefficient of every representative. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgOriginalFilteredToPrefix_coefficient (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c)
++    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=0})
++    (p : {p : Q.GinzburgPath u (a.val.source Q) //
++      p.cohomologicalDegree=0-0 ∧ p.cutDegree=c-a.val.cutDegree Q}) :
++    (((Q.ginzburgOriginalFilteredToPrefix k φ u v c).f 0 z) a).val p.val=
++      z.val ((GinzburgLastGeneratorData.path Q) ⟨⟨a.val,a.property.1⟩,p.val⟩) := by
++  classical
++  let d : Q.GinzburgLastGeneratorData u v := ⟨⟨a.val,a.property.1⟩,p.val⟩
++  have hd : d.path Q ∈ {p : Q.GinzburgPath u v |
++      p ∈ Q.ginzburgGeneratorLayerPaths u v 0 ∧ p.cohomologicalDegree=0 ∧ p.cutDegree=c} := by
++    refine ⟨(d.path_mem_layer_iff Q 0).mpr a.property.2,?_,?_⟩
++    · rw [d.path_cohomologicalDegree Q]
++      have hp := p.property.1
++      have ha := a.property.2
++      change p.val.cohomologicalDegree+a.val.cohomologicalDegree Q=0
++      omega
++    · exact (d.path_cutDegree_iff Q c).mpr p.property.2
++  rw [Q.ginzburgOriginalFilteredToPrefix_f,
++    Q.ginzburgGeneratorLayerFreeEquiv_apply k u v 0 0 c _ a p,
++    Q.ginzburgGeneratorLayerQuotientEquiv_coe_mk]
++  exact Finsupp.filter_apply_pos _ _ hd
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgDualArrowRepresentative.lean
+@@ -0,0 +1,27 @@
++import work.ASGinzburgDraft.GinzburgDualLayerDifferential
++
++/-! A native dual arrow gives an actual filtered degree minus one
++representative; its derivative is the actual original path relation. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgDualArrow_mem_filtration (a : Q.Arrow) :
++    Finsupp.single (Q.ginzburgArrowPath (.dual a)) (1:k) ∈
++      Q.ginzburgGeneratorFiltrationAtDegree k (Q.target a) (Q.source a)
++        (-1) (-1) ((GinzburgArrow.dual a).cutDegree Q) := by
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf]
++  refine ⟨?_,?_,?_⟩
++  · apply Finsupp.single_mem_supported
++    exact ⟨⟨⟨.dual a,rfl⟩,.nil (Q.target a)⟩,rfl,by rfl⟩
++  · apply Finsupp.single_mem_supported
++    rfl
++  · apply Finsupp.single_mem_supported
++    simp [ginzburgArrowPath,GinzburgPath.cutDegree]
++
++noncomputable def ginzburgDualArrowRepresentative (a : Q.Arrow) :
++    Q.ginzburgGeneratorFiltrationAtDegree k (Q.target a) (Q.source a)
++      (-1) (-1) ((GinzburgArrow.dual a).cutDegree Q) :=
++  ⟨Finsupp.single (Q.ginzburgArrowPath (.dual a)) 1,Q.ginzburgDualArrow_mem_filtration k a⟩
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPathHessianCut.lean
+@@ -0,0 +1,22 @@
++import work.ASGinzburgDraft.PathCyclicHessianDegrees
++import ASGinzburg.GinzburgGeneratorGradings
++
++/-! The actual path Hessian lies in precisely the cut component
++needed for the native dual-arrow to original-arrow connecting matrix. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem pathCyclicHessian_ginzburg_cut (a b : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathCyclicHessian k a b φ ∈ Finsupp.supported k k
++      {p : Q.Path (Q.target a) (Q.source b) |
++        (p.cutDegree:ℤ)=(GinzburgArrow.dual a).cutDegree Q-
++          (GinzburgArrow.original b).cutDegree Q} := by
++  apply Finsupp.supported_mono _ (Q.pathCyclicHessian_supported_degrees k a b φ)
++  rintro p ⟨_,hp⟩
++  change (p.cutDegree:ℤ)=(1-(Q.cutDegree a:ℤ))-(Q.cutDegree b:ℤ)
++  have hi : (p.cutDegree:ℤ)+(Q.cutDegree b:ℤ)+(Q.cutDegree a:ℤ)=1 := by
++    exact_mod_cast hp
++  omega
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgDualArrowHessianPrefixes.lean
+@@ -0,0 +1,76 @@
++import work.ASGinzburgDraft.GinzburgDualArrowRepresentative
++import work.ASGinzburgDraft.GinzburgOriginalPrefixCoefficients
++import work.ASGinzburgDraft.GinzburgCyclicHessianCoefficients
++import work.ASGinzburgDraft.GinzburgPathHessianCut
++
++/-! The actual upper prefix of the differential of a native dual
++arrow has exactly the path-valued cyclic Hessian coefficients. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem GinzburgLastGeneratorData.original_path {u v : Q.Vertex}
++    (b : Q.Arrow) (hb : Q.target b=v) (p : Q.Path u (Q.source b)) :
++    (GinzburgLastGeneratorData.path Q)
++      ⟨⟨GinzburgArrow.original b,hb⟩,p.originalGinzburg Q⟩=
++      ((Path.snoc p b rfl).transport rfl hb).originalGinzburg Q := by
++  subst v
++  simp [GinzburgLastGeneratorData.path,Path.transport,GinzburgPath.transport,
++    Path.originalGinzburg]
++
++universe u
++variable (k : Type u) [Field k]
++
++theorem ginzburgDualArrowHessianPrefix_coeff (φ : Q.Potential k)
++    (a b : Q.Arrow) (hb : Q.target b=Q.source a)
++    (p : Q.Path (Q.target a) (Q.source b))
++    (hp : (p.cutDegree:ℤ)=(GinzburgArrow.dual a).cutDegree Q-
++      (GinzburgArrow.original b).cutDegree Q) :
++    (((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
++      ((GinzburgArrow.dual a).cutDegree Q)).f 0
++        (Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
++          ((GinzburgArrow.dual a).cutDegree Q) (Q.ginzburgDualArrowRepresentative k a)))
++      ⟨.original b,hb,rfl⟩).val (p.originalGinzburg Q)=
++      Q.pathCyclicHessian k a b φ p := by
++  let pr : {p : Q.GinzburgPath (Q.target a) (Q.source b) //
++      p.cohomologicalDegree=0-0 ∧ p.cutDegree=
++        (GinzburgArrow.dual a).cutDegree Q-(GinzburgArrow.original b).cutDegree Q} :=
++    ⟨p.originalGinzburg Q,by simp [p.originalGinzburg_cohomologicalDegree Q],by
++      simpa only [p.originalGinzburg_cutDegree Q] using hp⟩
++  have he := Q.ginzburgOriginalFilteredToPrefix_coefficient k φ (Q.target a)
++    (Q.source a) ((GinzburgArrow.dual a).cutDegree Q)
++    (Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
++      ((GinzburgArrow.dual a).cutDegree Q) (Q.ginzburgDualArrowRepresentative k a))
++    ⟨.original b,hb,rfl⟩ pr
++  change _=Q.ginzburgDifferential k φ (Q.target a) (Q.source a)
++    (Finsupp.single (Q.ginzburgArrowPath (.dual a)) 1)
++    ((GinzburgLastGeneratorData.path Q) ⟨⟨.original b,hb⟩,p.originalGinzburg Q⟩) at he
++  rw [GinzburgLastGeneratorData.original_path] at he
++  exact he.trans (Q.ginzburgDifferential_dualArrow_snoc_coeff k a b φ p hb)
++
++theorem ginzburgDualArrowHessianPrefix_coeff_all (φ : Q.Potential k)
++    (a b : Q.Arrow) (hb : Q.target b=Q.source a)
++    (p : Q.Path (Q.target a) (Q.source b)) :
++    (((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
++      ((GinzburgArrow.dual a).cutDegree Q)).f 0
++        (Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
++          ((GinzburgArrow.dual a).cutDegree Q) (Q.ginzburgDualArrowRepresentative k a)))
++      ⟨.original b,hb,rfl⟩).val (p.originalGinzburg Q)=
++      Q.pathCyclicHessian k a b φ p := by
++  by_cases hp : (p.cutDegree:ℤ)=(GinzburgArrow.dual a).cutDegree Q-
++      (GinzburgArrow.original b).cutDegree Q
++  · exact Q.ginzburgDualArrowHessianPrefix_coeff k φ a b hb p hp
++  · let z := Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
++      ((GinzburgArrow.dual a).cutDegree Q) (Q.ginzburgDualArrowRepresentative k a)
++    let f := ((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
++      ((GinzburgArrow.dual a).cutDegree Q)).f 0 z) ⟨.original b,hb,rfl⟩
++    change f.val (p.originalGinzburg Q)=_
++    have hL : f.val (p.originalGinzburg Q)=0 := by
++      apply (Finsupp.mem_supported' k _).mp f.property.2
++      intro h
++      apply hp
++      simpa only [Set.mem_setOf_eq,p.originalGinzburg_cutDegree Q] using h
++    have hR := (Finsupp.mem_supported' k _).mp
++      (Q.pathCyclicHessian_ginzburg_cut k a b φ) p hp
++    exact hL.trans hR.symm
++
++end ASGinzburg.CutQuiver

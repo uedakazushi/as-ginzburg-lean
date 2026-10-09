@@ -1,0 +1,42 @@
+import ASGinzburg.OppositePathCutEquiv
+import ASGinzburg.OppositeJacobianIdeal
+import ASGinzburg.PathJacobianGrading
+
+/-! Reversal descends to the actual homogeneous Jacobian quotients. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem pathJacobianCutIdeal_opposite_map (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    (Q.pathJacobianCutIdeal k φ u v c).map
+        (Q.oppositePathCutEquiv k u v c).toLinearMap =
+      Q.opposite.pathJacobianCutIdeal k (Q.oppositePotentialEquiv k φ) v.rev u.rev c := by
+  ext f
+  rw [Submodule.mem_map]
+  constructor
+  · rintro ⟨g,hg,rfl⟩
+    change g.val ∈ (Q.pathJacobianIdeal k φ).hom u v at hg
+    change Q.oppositePathComponentEquiv k u v g.val ∈
+      (Q.opposite.pathJacobianIdeal k (Q.oppositePotentialEquiv k φ)).hom v.rev u.rev
+    exact (Q.pathJacobianIdeal_opposite_iff k φ u v g.val).mpr hg
+  · intro hf
+    obtain ⟨g,rfl⟩ := (Q.oppositePathCutEquiv k u v c).surjective f
+    refine ⟨g, ?_, rfl⟩
+    change g.val ∈ (Q.pathJacobianIdeal k φ).hom u v
+    exact (Q.pathJacobianIdeal_opposite_iff k φ u v g.val).mp hf
+
+noncomputable def oppositeJacobianCutQuotientEquiv (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    (Q.pathCutComponent k u v c ⧸ Q.pathJacobianCutIdeal k φ u v c) ≃ₗ[k]
+      (Q.opposite.pathCutComponent k v.rev u.rev c ⧸
+        Q.opposite.pathJacobianCutIdeal k (Q.oppositePotentialEquiv k φ) v.rev u.rev c) :=
+  Submodule.Quotient.equiv _ _ (Q.oppositePathCutEquiv k u v c)
+    (Q.pathJacobianCutIdeal_opposite_map k φ u v c)
+
+@[simp] theorem oppositeJacobianCutQuotientEquiv_mk (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) (f : Q.pathCutComponent k u v c) :
+    Q.oppositeJacobianCutQuotientEquiv k φ u v c (Submodule.Quotient.mk f) =
+      Submodule.Quotient.mk (Q.oppositePathCutEquiv k u v c f) := rfl
+
+end ASGinzburg.CutQuiver

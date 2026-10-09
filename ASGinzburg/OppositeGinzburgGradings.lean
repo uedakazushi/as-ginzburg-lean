@@ -1,0 +1,42 @@
+import ASGinzburg.OppositeGinzburgPathAlgebra
+import Mathlib.Algebra.Module.Submodule.Equiv
+
+/-! Reversal restricts to the actual homogeneous cohomological components. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem oppositeGinzburgPathComponentEquiv_toLinearMap (u v : Q.Vertex) :
+    (Q.oppositeGinzburgPathComponentEquiv k u v).toLinearMap =
+      Finsupp.lmapDomain k k (oppositeGinzburgPathEquiv u v) := by
+  apply Finsupp.lhom_ext
+  intro p c
+  simp only [LinearEquiv.coe_toLinearMap, oppositeGinzburgPathComponentEquiv_single,
+    Finsupp.lmapDomain_apply, Finsupp.mapDomain_single]
+  rfl
+
+theorem oppositeGinzburgPathComponentEquiv_cohomological_map
+    (u v : Q.Vertex) (q : ℤ) :
+    (Q.ginzburgCohomologicalComponent k u v q).map
+        (Q.oppositeGinzburgPathComponentEquiv k u v).toLinearMap =
+      Q.opposite.ginzburgCohomologicalComponent k v.rev u.rev q := by
+  rw [oppositeGinzburgPathComponentEquiv_toLinearMap,
+    ginzburgCohomologicalComponent, ginzburgCohomologicalComponent,
+    Finsupp.lmapDomain_supported]
+  congr 1
+  ext p
+  constructor
+  · rintro ⟨r, hr, rfl⟩
+    simpa [oppositeGinzburgPathEquiv, GinzburgPath.opposite_cohomologicalDegree] using hr
+  · intro hp
+    obtain ⟨r, rfl⟩ := (oppositeGinzburgPathEquiv u v).surjective p
+    refine ⟨r, ?_, rfl⟩
+    simpa [oppositeGinzburgPathEquiv, GinzburgPath.opposite_cohomologicalDegree] using hp
+
+noncomputable def oppositeGinzburgCohomologicalEquiv (u v : Q.Vertex) (q : ℤ) :
+    Q.ginzburgCohomologicalComponent k u v q ≃ₗ[k]
+      Q.opposite.ginzburgCohomologicalComponent k v.rev u.rev q :=
+  (Q.oppositeGinzburgPathComponentEquiv k u v).ofSubmodules _ _
+    (Q.oppositeGinzburgPathComponentEquiv_cohomological_map k u v q)
+
+end ASGinzburg.CutQuiver

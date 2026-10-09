@@ -1,0 +1,45 @@
+import ASGinzburg.OppositeGinzburgHomogeneousDifferential
+import ASGinzburg.GinzburgJacobianBoundaries
+
+/-! The genuine Jacobian ideals correspond under reversal. This uses
+their proved identification with actual boundaries, not a quotient assumption. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgBoundarySpace_opposite_iff (φ : Q.Potential k) (u v : Q.Vertex)
+    (f : Q.PathComponent k u v) :
+    Q.oppositePathComponentEquiv k u v f ∈
+        Q.opposite.ginzburgBoundarySpace k (Q.oppositePotentialEquiv k φ) v.rev u.rev ↔
+      f ∈ Q.ginzburgBoundarySpace k φ u v := by
+  constructor
+  · intro hf
+    obtain ⟨y,hy⟩ := (Q.opposite.ginzburgBoundarySpace_mem_iff k _ _ _ _).mp hf
+    obtain ⟨x,hx⟩ := (Q.oppositeGinzburgCohomologicalEquiv k u v (-1)).surjective y
+    have hxy : Q.oppositeGinzburgPathComponentEquiv k u v x.val = y.val :=
+      congrArg Subtype.val hx
+    apply (Q.ginzburgBoundarySpace_mem_iff k φ u v f).mpr
+    refine ⟨x, ?_⟩
+    apply (Q.oppositeGinzburgPathComponentEquiv k u v).injective
+    rw [Q.oppositeGinzburgPathComponentEquiv_original,
+      Q.oppositeGinzburgPathComponentEquiv_homogeneousDifferential k φ x.property]
+    simpa only [Int.reduceNeg, Int.reduceAdd, ginzburgSign_zero, one_smul, hxy] using hy
+  · intro hf
+    obtain ⟨x,hx⟩ := (Q.ginzburgBoundarySpace_mem_iff k φ u v f).mp hf
+    apply (Q.opposite.ginzburgBoundarySpace_mem_iff k _ _ _ _).mpr
+    refine ⟨Q.oppositeGinzburgCohomologicalEquiv k u v (-1) x, ?_⟩
+    have he := congrArg (Q.oppositeGinzburgPathComponentEquiv k u v) hx
+    rw [Q.oppositeGinzburgPathComponentEquiv_homogeneousDifferential k φ x.property,
+      Q.oppositeGinzburgPathComponentEquiv_original] at he
+    simpa only [Int.reduceNeg, Int.reduceAdd, ginzburgSign_zero, one_smul] using he
+
+theorem pathJacobianIdeal_opposite_iff (φ : Q.Potential k) (u v : Q.Vertex)
+    (f : Q.PathComponent k u v) :
+    Q.oppositePathComponentEquiv k u v f ∈
+        (Q.opposite.pathJacobianIdeal k (Q.oppositePotentialEquiv k φ)).hom v.rev u.rev ↔
+      f ∈ (Q.pathJacobianIdeal k φ).hom u v := by
+  rw [← Q.ginzburgBoundarySpace_eq_pathJacobianIdeal,
+    ← Q.opposite.ginzburgBoundarySpace_eq_pathJacobianIdeal]
+  exact Q.ginzburgBoundarySpace_opposite_iff k φ u v f
+
+end ASGinzburg.CutQuiver

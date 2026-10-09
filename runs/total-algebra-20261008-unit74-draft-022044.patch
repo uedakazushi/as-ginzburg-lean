@@ -1,0 +1,138 @@
+--- /dev/null
++++ work/ASGinzburgDraft/PathWordLastArrow.lean
+@@ -0,0 +1,22 @@
++import ASGinzburg.PathCyclicDerivatives
++import ASGinzburg.PathUnrolling
++
++/-! Removing the actual last arrow of a composable path word gives
++a composable path with the required endpoint. -/
++namespace ASGinzburg.CutQuiver.Path
++variable {Q : CutQuiver}
++
++theorem exists_prefix_of_toList_append {u v : Q.Vertex} (p : Q.Path u v)
++    (w : List Q.Arrow) (b : Q.Arrow) (h : p.toList=w++[b]) :
++    ∃ q : Q.Path u (Q.source b), q.toList=w ∧ Q.target b=v := by
++  cases p with
++  | nil => simp [toList] at h
++  | @snoc x p a ha =>
++    have hlast := congrArg List.getLast? h
++    have hab : a=b := by simpa [toList] using hlast
++    subst a
++    refine ⟨p.transport rfl ha.symm, ?_, rfl⟩
++    rw [toList_transport]
++    exact List.append_cancel_right h
++
++end ASGinzburg.CutQuiver.Path
+--- /dev/null
++++ work/ASGinzburgDraft/PathCyclicHessian.lean
+@@ -0,0 +1,36 @@
++import work.ASGinzburgDraft.CyclicHessianReversal
++import work.ASGinzburgDraft.PathWordLastArrow
++
++/-! Actual cyclic Hessian entries are supported on composable paths,
++so they give actual path-valued linear maps on the original potential space. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem cyclicHessianWord_potential_mem (a b : Q.Arrow) (φ : Q.Potential k) :
++    cyclicHessianWord a b φ.val ∈ Q.pathWordSpace k (Q.target a) (Q.source b) := by
++  apply (Finsupp.mem_supported' k _).mpr
++  intro w hw
++  rw [cyclicHessianWord_apply]
++  apply (Finsupp.mem_supported' k _).mp (Q.cyclicDerivative_potential_mem k a φ)
++  rintro ⟨p,hp⟩
++  obtain ⟨q,hq,_⟩ := p.exists_prefix_of_toList_append w b hp
++  exact hw ⟨q,hq⟩
++
++noncomputable def pathCyclicHessian (a b : Q.Arrow) :
++    Q.Potential k →ₗ[k] Q.PathComponent k (Q.target a) (Q.source b) :=
++  (Q.pathWordEquiv k (Q.target a) (Q.source b)).symm.toLinearMap.comp
++    (((cyclicHessianWord a b).comp (Q.potentialSpace k).subtype).codRestrict
++      (Q.pathWordSpace k (Q.target a) (Q.source b))
++      (fun φ => Q.cyclicHessianWord_potential_mem k a b φ))
++
++theorem pathWordMap_pathCyclicHessian (a b : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathWordMap k (Q.target a) (Q.source b) (Q.pathCyclicHessian k a b φ)=
++      cyclicHessianWord a b φ.val := by
++  rw [←Q.pathWordEquiv_coe]
++  change ((Q.pathWordEquiv k (Q.target a) (Q.source b))
++    ((Q.pathWordEquiv k (Q.target a) (Q.source b)).symm _)).val = _
++  rw [LinearEquiv.apply_symm_apply]
++  rfl
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/PathCyclicHessianDegrees.lean
+@@ -0,0 +1,46 @@
++import work.ASGinzburgDraft.PathCyclicHessian
++import ASGinzburg.PathCyclicDerivativeDegrees
++
++/-! The original potential conditions force the actual Hessian entries
++to have positive path length and the complementary cut degree. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem cyclicHessianWord_potential_supported_degrees
++    (a b : Q.Arrow) (φ : Q.Potential k) :
++    cyclicHessianWord a b φ.val ∈ Finsupp.supported k k
++      {w | 1 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree b+Q.cutDegree a=1} := by
++  apply (Finsupp.mem_supported' k _).mpr
++  intro w hw
++  rw [cyclicHessianWord_apply]
++  apply (Finsupp.mem_supported' k _).mp
++    (Q.cyclicDerivative_potential_supported_degrees k a φ)
++  intro h
++  apply hw
++  simp only [Set.mem_setOf_eq,List.length_append,List.length_singleton,
++    wordCutDegree_append,wordCutDegree] at h
++  change 1 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree b+Q.cutDegree a=1
++  simpa only [CutQuiver.cutDegree,Nat.add_zero] using
++    (show 1 ≤ w.length ∧ wordCutDegree Q.cut w+(if Q.cut b then 1 else 0)+Q.cutDegree a=1 by
++      constructor
++      · omega
++      · simpa only [Nat.add_zero] using h.2)
++
++theorem pathCyclicHessian_supported_degrees (a b : Q.Arrow) (φ : Q.Potential k) :
++    Q.pathCyclicHessian k a b φ ∈ Finsupp.supported k k
++      {p : Q.Path (Q.target a) (Q.source b) |
++        1 ≤ p.length ∧ p.cutDegree+Q.cutDegree b+Q.cutDegree a=1} := by
++  apply (Finsupp.mem_supported' k _).mpr
++  intro p hp
++  have hword : p.toList ∉ {w : List Q.Arrow |
++      1 ≤ w.length ∧ wordCutDegree Q.cut w+Q.cutDegree b+Q.cutDegree a=1} := by
++    simpa only [Set.mem_setOf_eq,p.length_toList,path_word_cutDegree] using hp
++  have H := (Finsupp.mem_supported' k _).mp
++    (Q.cyclicHessianWord_potential_supported_degrees k a b φ) p.toList hword
++  rw [←Q.pathWordMap_pathCyclicHessian k a b φ] at H
++  change (Finsupp.mapDomain Path.toList (Q.pathCyclicHessian k a b φ)) p.toList=0 at H
++  rw [Finsupp.mapDomain_apply (Path.toList_injective (Q.target a) (Q.source b))] at H
++  exact H
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/OppositePathCyclicHessian.lean
+@@ -0,0 +1,22 @@
++import work.ASGinzburgDraft.PathCyclicHessian
++import work.ASGinzburgDraft.OppositePathCyclicDerivative
++
++/-! Reversal transposes the actual path-valued cyclic Hessian matrix. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem oppositePathComponentEquiv_cyclicHessian
++    (a b : Q.Arrow) (φ : Q.Potential k) :
++    Q.oppositePathComponentEquiv k (Q.target a) (Q.source b)
++        (Q.pathCyclicHessian k a b φ) =
++      Q.opposite.pathCyclicHessian k b a (Q.oppositePotentialEquiv k φ) := by
++  apply Q.opposite.pathWordMap_injective k (Q.source b).rev (Q.target a).rev
++  rw [Q.oppositePathComponentEquiv_wordMap,Q.pathWordMap_pathCyclicHessian]
++  change reverseWordPolynomial (cyclicHessianWord a b φ.val) =
++    Q.opposite.pathWordMap k (Q.opposite.target b) (Q.opposite.source a)
++      (Q.opposite.pathCyclicHessian k b a (Q.oppositePotentialEquiv k φ))
++  rw [Q.opposite.pathWordMap_pathCyclicHessian,oppositePotentialEquiv_val]
++  exact (cyclicHessianWord_reverse a b φ.val).symm
++
++end ASGinzburg.CutQuiver

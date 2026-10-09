@@ -1,8 +1,9 @@
 # Codexクラウドへの引継ぎ
 
-単位60〜65で元のPotentialの長さ≥3からactual巡回微分/境界の長さ≥2、prefix係数とnative filtration接続写像のrepresentativesを証明した。actual D₂のradical包含を導き、全3微分の最小性・exactness・左端Monoから、本来のGinzburgRegularだけで既存ASResolutionの全フィールドを構成した。ASRegularの分解条件(i)は完成。実際のExt³(s_(τv),P_v)≃ₗk、rank/finrank=1、全単純/representable/全次数のExt有限性とAS総rank≥1も完成。総rank=1/他の低次数・非対角Ext消滅/ASRegular(ii)は未証明。反対箙を矢/頂点順/sheetの反転から構成し、actual道・閉路cut=1/長さ≥3のPotential空間同値、積反転、actual巡回微分の反転を証明。拡張Ginzburg道の同値と3次数保存、生成元微分の(-1)^(degree+1)付き比較まで公開検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
-最新ローカル検証 20261009T011710Z-f26f3c33：439数学モジュール・3093異なる宣言・1620 theorem、全段階終了0。
-単位1〜65の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位66〜70で全道/全homogeneous sumsの微分反転と三角数signによるactual cochain/homology同型を証明し、native反対GinzburgRegularとの同値と反対最小ASResolutionを完成。actual Jacobianイデアルとcut/sheet商の反対同型、全整数成分での積反転・単位元保存、反射ZAlgebra同型を完成。既存の線形左加群圏と反対Jacobianの既存線形右加群圏の線形同値を構成し、両方向のexactness/短完全列の保存、left representable at i≅right representable at n-1-iのactual加群同型まで全体検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。
+本来のGinzburgRegularから既存ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
+最新ローカル検証 20261009T015846Z-8e6d60b9：465数学モジュール・3183異なる宣言・1659 theorem、全段階終了0。
+単位1〜70の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 
 
@@ -11,11 +12,19 @@
 
 
 
-## 現行のGinzburgからASへの証明状態（単位60〜65）
 
-単位60〜65で元のPotentialの長さ≥3からactual巡回微分/境界の長さ≥2、prefix係数とnative filtration接続写像のrepresentativesを証明した。actual D₂のradical包含を導き、全3微分の最小性・exactness・左端Monoから、本来のGinzburgRegularだけで既存ASResolutionの全フィールドを構成した。ASRegularの分解条件(i)は完成。実際のExt³(s_(τv),P_v)≃ₗk、rank/finrank=1、全単純/representable/全次数のExt有限性とAS総rank≥1も完成。総rank=1/他の低次数・非対角Ext消滅/ASRegular(ii)は未証明。反対箙を矢/頂点順/sheetの反転から構成し、actual道・閉路cut=1/長さ≥3のPotential空間同値、積反転、actual巡回微分の反転を証明。拡張Ginzburg道の同値と3次数保存、生成元微分の(-1)^(degree+1)付き比較まで公開検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
 
-次段のWORK66では全道/全homogeneous sumsの微分反転、三角数signによるactual cochain/homology同型、反対GinzburgRegularとの同値と反対最小ASResolutionを個別Lean終了0で完成。WORK67ではactual Jacobianイデアルとcut/sheet商の反対同型、lifted整数成分の積反転と単位元保存を個別終了0で完成。これらは公開65の全体監査には含まれず、差分/個別検査/利用先をRECENT_RUN.mdに保存している。WORK68〜70では全整数でactual Jacobian反射ZAlgebra同型、元の左加群圏と反対Jacobian右加群圏の線形同値、両方向のexactness/短完全列の保存、左representable at iと右representable at n-1-iの加群同型を個別終了0で完成。これらも公開65の全体監査には含まれない。次は単純商の比較と反対AS分解の移送、actual巡回Hessianとdual complexの一致から他のExt消滅を証明する。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位66〜70）
+
+単位66〜70で全道/全homogeneous sumsの微分反転と三角数signによるactual cochain/homology同型を証明し、native反対GinzburgRegularとの同値と反対最小ASResolutionを完成。actual Jacobianイデアルとcut/sheet商の反対同型、全整数成分での積反転・単位元保存、反射ZAlgebra同型を完成。既存の線形左加群圏と反対Jacobianの既存線形右加群圏の線形同値を構成し、両方向のexactness/短完全列の保存、left representable at i≅right representable at n-1-iのactual加群同型まで全体検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。
+
+WORK71〜72ではactual単純商とその逆像の比較、反対native右単純射影分解の元の左加群への移送、全左単純genuine ProjectiveResolution・全項有限生成射影性・射影次元≤3・任意標的への次数4以上Ext零性を個別Lean終了0で完成。WORK73〜74ではactual巡回微分交換子恒等式からmixed係数、word/path Hessian、元のPotentialの長さ≥3から正の道長さとcut次数、反対ポテンシャルの転置/道反転を個別終了0で完成。これらは公開70の全体監査には含まれず、差分/個別実測/利用先はRECENT_RUN.mdとdraft.evidence.jsonに保存する。actual Ginzburg D₂の明示係数とHessianの比較、およびそのdualとnative左分解の全微分の一致が次の義務。 WORK75〜78ではactual Ginzburg differentialとpath Hessianの全係数の一致、degree -1代表元からのactual quotient/differential cycle、native mathlib δのclass公式、上層prefix成分全体とembedded path Hessianの一致を個別終了0で完成。これらも全体監査前のdraftであり、native射影第2微分の標準Hessian行列とdual/左分解の比較の完成とは扱わない。
+
+本来のGinzburgRegularから既存ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
 
 過去の単位説明はその時点の状態である。完成判定にはこの段落と最新の実行終了コードを使う。
 
@@ -42,10 +51,10 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261009T011710Z-f26f3c33`、全段階終了0、2111.599379480秒。
-UTC 2026-10-09T01:17:10.623876+00:00 → 2026-10-09T01:52:22.223264+00:00。
-JST 2026-10-09T10:17:10.623876+09:00 → 2026-10-09T10:52:22.223264+09:00。
-439数学モジュール・3093異なる明示的宣言・全1620 theorem・299 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261009T015846Z-8e6d60b9`、全段階終了0、2139.196975498秒。
+UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
+JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
+465数学モジュール・3183異なる明示的宣言・全1659 theorem・321 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。

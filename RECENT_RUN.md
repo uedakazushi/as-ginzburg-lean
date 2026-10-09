@@ -1869,3 +1869,137 @@ JST 2026-10-09T10:17:10.623876+09:00 → 2026-10-09T10:52:22.223264+09:00。
 UTC 2026-10-09T01:17:10.623876+00:00 → 2026-10-09T01:52:22.223264+00:00。
 439数学モジュール・3093異なる宣言・1620 theorem。
 差分：runs/total-algebra-20261008-unit65.patch。全theoremを監査し、許容公理3種類のみ。
+
+## main保存と継続checkpoint UTC 2026-10-09T01:58:35.217744+00:00 / JST 2026-10-09T10:58:35.217744+09:00
+
+単位60〜65の32数学モジュールと全体検証20261009T011710Z-f26f3c33（439数学/3093異なる宣言/1620 theorem、6段階終了0、実測2111.599379480秒）をmain 76c1aaa625a737bd50e0e90909490b585b06be10へ通常fast-forward保存した。GitHub APIのexpected parent付きforce=false、公開treeとローカルstage tree一致、exact commit importとローカルmain/origin main fast-forwardは実際の終了0。PR/main履歴書換えなし。旧失敗60/重複修正前後差分、CI52全成功証拠、WORK66〜70の26個別Lean終了0/source SHA/実測時刻のdraft evidenceを保存。WORK66〜70は60bの全体監査には含まれない。次にこの26モジュールの現行全体検証へ進む。
+開始UTC2026-10-08T07:00:38から実測68277.217744秒。タスク終了時刻未確定。ASRegular(ii)/定理3.2/系5.2は未証明、両主結果の正式Lean文未実装。単純商とactual左分解/dual微分比較へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:05:20.126972+00:00 / JST 2026-10-09T11:05:20.126972+09:00
+
+本来のZAlgebraの同型対象は同じ整数添字を持つことから、actual左右圏同値の評価成分のi↦n-1-iを証明し、元の単純商と反対単純商/representableの加群同型を完成。mathlibのmapProjectiveResolutionを使い、本来のGinzburgRegularだけから元の全左単純商のgenuine ProjectiveResolutionと次数4以上の項の零性を証明。AS/Ext結論を新しい仮定にしていない。
+
+6最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit71-draft-020520.patch（11747bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': None}、status=running。全体成功が確定するまでdraft66〜71を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測68682.126972秒。タスク終了時刻未確定。左分解の有限生成射影性とactual dual微分比較へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:08:05.603034+00:00 / JST 2026-10-09T11:08:05.603034+09:00
+
+actual左右Jacobian圏同値が有限representable直和とretractを移すことから、既存の有限生成射影性を両方向に保存することを証明。GinzburgRegularからの全左単純genuine ProjectiveResolutionの全項有限生成射影性、長さ3の実際の有限射影cover列、射影次元≤3と任意標的への全次数4以上Ext零性を完成。ASRegularやExt表を新しい仮定にしていない。
+
+4最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit72-draft-020805.patch（8189bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': None}、status=running。全体成功が確定するまでdraft66〜72を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測68847.603034秒。タスク終了時刻未確定。actual右最小分解のdualと左分解の微分比較へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:13:36.508086+00:00 / JST 2026-10-09T11:13:36.508086+09:00
+
+既存のactual巡回微分交換子恒等式の係数から、∂aΦ(w b)=∂bΦ(a w)を証明。finite word polynomial上の本来のfirst/last矢除去線形写像とactual cyclic Hessian成分を定義し、first/last表示の一致、反転ポテンシャルのHessianが転置/word反転となることを証明。Hessian対称性やExt表を新しい仮定にしていない。
+
+3最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit73-draft-021336.patch（5564bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': None}、status=running。全体成功が確定するまでdraft66〜73を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測69178.508086秒。タスク終了時刻未確定。typed path Hessianの支持/長さ/cutとactual右最小分解のdual/左分解の微分比較へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:20:44.943626+00:00 / JST 2026-10-09T11:20:44.943626+09:00
+
+actual巡回HessianをQ.target a→Q.source bの道代数成分の線形写像として構成した。元のPotentialの長さ≥3からHessian係数の道の長さ≥1とcut degree+c(b)+c(a)=1を導き、反対ポテンシャルのactual path Hessianが転置/道反転で一致することを証明。独自公理・周期性・Ext表・Hessian対称性を新たな仮定にしていない。
+
+4最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit74-draft-022044.patch（5992bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}、status=running。全体成功が確定するまでdraft71〜74を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測69606.943626秒。タスク終了時刻未確定。actual Ginzburg D₂の係数とtyped Hessianの一致へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:26:52.033722+00:00 / JST 2026-10-09T11:26:52.033722+09:00
+
+actual path derivativeの最後の矢の係数がnative path Hessianに一致すること、originalGinzburg embeddingがactual係数を保存すること、dual矢のgenerator differentialと実際の全Ginzburg differentialの該当係数がactual path Hessianであることを証明。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+2最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit75-draft-022652.patch（3164bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}、status=running。全体成功が確定するまでdraft71〜75を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測69974.033722秒。タスク終了時刻未確定。actual Ginzburg D₂の係数とtyped Hessianの一致へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:26:52.305985+00:00 / JST 2026-10-09T11:26:52.305985+09:00
+
+元のPotential条件から、actual degree -1 filtered代表元の微分がoriginal F0に入ることを証明し、actual quotient cycleとdifferential cycleを構成。native mathlib δの代表元公式から、既存dual-to-original接続写像がactual D(x)のhomology classを与えること、および既存上層/射影係数比較後のactual prefix quotient class公式を証明。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+2最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit76-draft-022652.patch（6589bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}、status=running。全体成功が確定するまでdraft71〜76を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測69974.305985秒。タスク終了時刻未確定。actual Ginzburg D₂の係数とtyped Hessianの一致へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:31:54.625847+00:00 / JST 2026-10-09T11:31:54.625847+09:00
+
+actual上層filtered→prefix写像が最後のoriginal generator係数を読むことを証明。native dual矢の実際のfiltered代表元を構成し、そのactual微分の全original prefix係数がpath Hessianと一致することを、cut次数の一致を追加仮定せず全ての道に対して証明。元のPotential条件から必要な整数cut支持を導いた。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+4最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit77-draft-023154.patch（8299bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}、status=running。全体成功が確定するまでdraft71〜77を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測70276.625847秒。タスク終了時刻未確定。actual Ginzburg D₂の係数とtyped Hessianの一致へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:31:54.910435+00:00 / JST 2026-10-09T11:31:54.910435+09:00
+
+個々の係数比較から、native dual矢の微分の上層prefix成分全体がactual embedded path Hessianと一致することを証明。homogeneous Ginzburg componentへのactual path Hessianを構成し、degree 0以外の零性も用いて真の線形ベクトル等式を完成。 独自公理・周期性・Ext表・主結論を新たな仮定にしていない。
+
+1最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit78-draft-023154.patch（2665bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': None}、status=running。全体成功が確定するまでdraft71〜78を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測70276.910435秒。タスク終了時刻未確定。actual Ginzburg D₂の係数とtyped Hessianの一致へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T02:35:26.796828+00:00 / JST 2026-10-09T11:35:26.796828+09:00
+
+native quotient cycleからのactual射影係数classと微分係数族を構成し、既存dual-to-original projective componentおよび既存RightModule射の全評価成分が、actual D(x)のprefix quotient族を与える公式を証明。既存線形右加群の定義・native接続写像を保持し、独自公理・周期性・Ext表・主結論を仮定していない。
+
+1最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit79-draft-023526.patch（3612bytes）と利用先/次の義務/source SHA/実測時刻を保存。現行公開66の段階終了コード{'regression_tests': 0, 'source_audit': 0, 'environment': 0, 'build': 0, 'axioms': 0, 'report': 0}、status=success。全体成功が確定するまでdraft71〜79を含む成功とは扱わない。
+開始UTC2026-10-08T07:00:38から実測70488.796828秒。タスク終了時刻未確定。actual Ginzburg D₂の係数とtyped Hessianの一致へ継続する。
+
+## 単位66：signed反転とGinzburg正則性の保存
+
+actual extended generatorの比較をLeibniz則から全道/全homogeneous finite sumsへ拡張し、(-1)^(q+1)付き微分反転を証明。q(q+1)/2の三角数signと整数除算恒等式からactual differential-compatible線形同型を作り、mathlibのgenuine cochain/homology同型を構成。GinzburgRegularと反対箙/反転PotentialのGinzburgRegularの同値を追加仮定なしで証明。元の正則性から反対Jacobian ZAlgebraの最小ASResolutionも構成した。
+
+8最終個別Lean実際の終了0・診断なし。ログ/.exit.json：opposite-ginzburg-gradings1, opposite-ginzburg-differential-transport1, opposite-ginzburg-path-differential5, ginzburg-reflection-sign2, opposite-ginzburg-homogeneous-differential2, opposite-ginzburg-signed-equiv2, opposite-ginzburg-cochain-iso3, ginzburg-opposite-minimal-resolution2。失敗ログも保持。WORKと公開の48以降モジュールのimport衝突を修正し、三角数signの非零は直接zpowから証明した。元の数学ソースは無変更。利用先は反対Jacobian商を元の左加群圏に移し、actual右分解の双対との比較から残るExt消滅を導くこと。Jacobian/unrollingの反対比較、元の左加群圏同値、actual巡回Hessian/dual complexの一致とASRegular総rank=1は未証明。反対側ASResolutionを元の左側双対複体の完成とは扱わない。新しい正則性/periodicity/Ext/CY仮定なし。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T015846Z-8e6d60b9`、2139.196975498秒、全段階終了0。
+JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
+UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
+465数学モジュール・3183異なる宣言・1659 theorem。
+差分：runs/total-algebra-20261008-unit66.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位67：actual Jacobian商の反対比較
+
+actual境界＝Jacobianイデアルと全homogeneous微分反転から、普通のJacobianイデアルと反対箙側イデアルのmembership同値を証明。cutごとの道線形同型とJacobian商同型、反転したvertex/sheet間のactual同型と積反転、全lifted整数添字Jacobian成分のactual線形同型と積反転/単位元保存を完成した。正則性なしで成立。
+
+6最終個別Lean実際の終了0・診断なし。ログ/.exit.json：opposite-jacobian-ideal1, opposite-path-cut-equiv1, opposite-jacobian-cut-quotient2, opposite-between-sheet-paths1, opposite-between-sheet-jacobian2, opposite-unrolled-jacobian-hom3。失敗ログ保持。利用先は反射した整数添字での真のZAlgebra同型、反対Jacobianの右加群圏と元の左加群圏の線形exact同値、その上で反対AS分解を移すこと。全整数の再添字付け/代数圏同値/左加群圏比較/実際の巡回Hessianとdual complex比較/残るExt零性は未証明。商同型やExt表を仮定せずactual生成元/微分から導いた。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T015846Z-8e6d60b9`、2139.196975498秒、全段階終了0。
+JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
+UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
+465数学モジュール・3183異なる宣言・1659 theorem。
+差分：runs/total-algebra-20261008-unit67.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位68：整数添字Jacobian反射同型とactual反射圏同値
+
+本来の反射ZAlgebraと整数添字の全射再添字同型構成を定義し、actual Jacobian商から全整数でA(Φ)≅反射A(Φop)を証明した。actual反射代数圏と元の代数圏の反対圏のadditive/k-linear圏同値も完成。正則性や新しいExt仮定は不要。
+
+5最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：reflected-z-algebra1, reindexed-z-algebra-isomorphism1, opposite-reflected-jacobian-components2, opposite-reflected-jacobian-iso1, reflected-linear-category4。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先は既存線形加群の前合成同値と反対AS分解の元の左加群への移送。加群圏同値/左分解の微分比較/巡回Hessianとdual complex比較/ASRegular(ii)の残るExt零性は未証明。条件を新たに仮定して完成とは扱わない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T015846Z-8e6d60b9`、2139.196975498秒、全段階終了0。
+JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
+UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
+465数学モジュール・3183異なる宣言・1659 theorem。
+差分：runs/total-algebra-20261008-unit68.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位69：actual左右Jacobian加群圏同値とexactness
+
+actual ZAlgebra同型からadditive/k-linear代数圏同値を構成し、既存の加法的/k-linear加群値関手への前合成同値を証明した。元のJacobian左加群圏と反対Jacobian右加群圏のactual線形圏同値、および両方向のexactness/短完全列の保存を完成。正則性や新しいExt仮定は不要。
+
+4最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：z-algebra-linear-equivalence2, linear-representation-equivalence2, opposite-jacobian-linear-equivalence1, opposite-jacobian-exactness1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先は既存線形加群の前合成同値と反対AS分解の元の左加群への移送。representable/単純商の比較と左分解の微分比較/巡回Hessianとdual complex比較/ASRegular(ii)の残るExt零性は未証明。条件を新たに仮定して完成とは扱わない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T015846Z-8e6d60b9`、2139.196975498秒、全段階終了0。
+JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
+UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
+465数学モジュール・3183異なる宣言・1659 theorem。
+差分：runs/total-algebra-20261008-unit69.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位70：actual左右representable比較
+
+actual随伴のHom同型のk線形性とrepresentable前合成の自然同型、反対圏のcovariant representableと本来の右representableのunop自然同型を証明。actual Jacobian左右圏同値が左representable at iを反対Jacobian右representable at n-1-iへ送る加群同型を完成。正則性や新しいExt仮定は不要。
+
+3最終個別Leanは実際の終了0・診断なし。ログ/.exit.json：linear-coyoneda-precomposition3, opposite-coyoneda-yoneda1, opposite-jacobian-representables1。失敗ログも保持。全体ビルド・公理監査前のdraftである。利用先は既存線形加群の前合成同値と反対AS分解の元の左加群への移送。単純商の比較と左分解の微分比較/巡回Hessianとdual complex比較/ASRegular(ii)の残るExt零性は未証明。条件を新たに仮定して完成とは扱わない。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T015846Z-8e6d60b9`、2139.196975498秒、全段階終了0。
+JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
+UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
+465数学モジュール・3183異なる宣言・1659 theorem。
+差分：runs/total-algebra-20261008-unit70.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 継続checkpoint UTC 2026-10-09T02:36:03.202339+00:00 / JST 2026-10-09T11:36:03.202339+09:00
+
+単位66〜70の26新規数学モジュールを含む465数学/3183異なる宣言/1659 theorem/321 named instanceの全体検証 20261009T015846Z-8e6d60b9 は全6段階実際の終了0。UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00、単調時計2139.196975498秒。wrapperも実際の終了0、2139.241372109秒。build1090.728941351秒、独立全#print axioms1046.906072366秒。監査漏れ/重複/sorry/admit/独自axiom/禁止依存なし、許容3公理のみ。preserve.pyも実際の終了0：初期14・開始時60・過去577/PDF/recovery無変更。
+単位66〜70の各数学差分・README/HANDOFF/STATUS/GAPS/AGENTS・実測記録を保存。次のWORK71〜79は27個の最終個別Lean終了0とsource SHA/実測時刻/空ログSHA/草稿差分を別記し、今回の全体監査に含まれるとは扱わない。単位71〜79は6+4+3+4+2+2+4+1+1=27モジュール・27最終個別検査であり、26の全体検証モジュールと区別する。native左分解・高次Ext零性とactual path Hessian/接続写像/射影D₂ class公式は個別検査済み。native射影D₂の標準Hessian行列、dual/native左分解の微分一致、低次数/非対角Ext零性とASRegular(ii)は未証明。mainへの通常fast-forward保存を準備し、その後はWORK71〜79の全体ビルド/公理監査と残る微分比較へ継続する。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+開始UTC2026-10-08T07:00:38から実測70525.202339秒。タスク終了時刻未確定。
