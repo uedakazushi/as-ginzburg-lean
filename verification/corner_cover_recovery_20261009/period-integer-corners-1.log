@@ -1,0 +1,75 @@
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:34:8: error: Application type mismatch: The argument
+  E.cutHomogeneousCornerEquiv (fun t => ↑↑t) m.toNat i j
+has type
+  E.CutGradedHom m.toNat ↑↑i ↑↑j ≃ₗ[k] ↥(LinearMap.range (E.cutHomogeneousComponentLinear (fun t => ↑↑t) m.toNat i j))
+but is expected to have type
+  A.Hom (↑↑i) (↑↑j + ↑m.toNat * ↑Q.vertices) ≃ₗ[k]
+    ↥(if 0 ≤ m then LinearMap.range (E.cutHomogeneousComponentLinear (fun t => ↑↑t) m.toNat i j) else ⊥)
+in the application
+  (A.homTransport (↑↑i) (↑↑j + m * ↑Q.vertices) (↑↑i) (↑↑j + ↑m.toNat * ↑Q.vertices) ⋯ ?m.91).trans
+    (E.cutHomogeneousCornerEquiv (fun t => ↑↑t) m.toNat i j)
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:37:4: error: Type mismatch
+  LinearEquiv.ofSubsingleton (E.IntegerCutHom m ↑↑i ↑↑j) ↥⊥
+has type
+  E.IntegerCutHom m ↑↑i ↑↑j ≃ₗ[?m.171] ↥⊥
+but is expected to have type
+  E.IntegerCutHom m ↑↑i ↑↑j ≃ₗ[k]
+    ↥(if 0 ≤ m then LinearMap.range (E.cutHomogeneousComponentLinear (fun t => ↑↑t) m.toNat i j) else ⊥)
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:30:29: warning: This simp argument is unused:
+  if_pos hm
+
+Hint: Omit it from the simp argument list.
+  simp only [integerCorner,̵i̵f̵_̵p̵o̵s̵ ̵h̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:36:29: warning: This simp argument is unused:
+  if_neg hm
+
+Hint: Omit it from the simp argument list.
+  simp only [integerCorner,̵i̵f̵_̵n̵e̵g̵ ̵h̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:40:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:46:2: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:59:8: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a =>
+    (E.cutHomogeneousComponentLinear (fun t => ↑↑t) (m.toNat + n.toNat) i l) (((E.cutGradedComp m.toNat n.toNat) g) f) ∈
+      LinearMap.range (E.cutHomogeneousComponentLinear (fun t => ↑↑t) _a i l)
+Error: Application type mismatch: The argument
+  integerCorner._proof_1 Q E (m + n) i l
+has type
+  SemilinearMapClass (E.CutGradedHom (m + n).toNat ↑↑i ↑↑l →ₗ[k] E.CutGradedRing fun t => ↑↑t) (RingHom.id k)
+    (E.CutGradedHom (m + n).toNat ↑↑i ↑↑l) (E.CutGradedRing fun t => ↑↑t)
+but is expected to have type
+  SemilinearMapClass (E.CutGradedHom _a ↑↑i ↑↑l →ₗ[k] E.CutGradedRing fun t => ↑↑t) (RingHom.id k)
+    (E.CutGradedHom _a ↑↑i ↑↑l) (E.CutGradedRing fun t => ↑↑t)
+in the application
+  @LinearMap.range k k (E.CutGradedHom _a ↑↑i ↑↑l) (E.CutGradedRing fun t => ↑↑t)
+    Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring
+    (A.homAdd (↑↑i) (↑↑l + ↑_a * ↑Q.vertices)).toAddCommMonoid
+    (instAddCommMonoidDirectSum ℕ fun m => E.CutGradedBlock (fun t => ↑↑t) m)
+    (A.homModule (↑↑i) (↑↑l + ↑_a * ↑Q.vertices)) DirectSum.instModule (RingHom.id k)
+    (E.CutGradedHom _a ↑↑i ↑↑l →ₗ[k] E.CutGradedRing fun t => ↑↑t) LinearMap.instFunLike ⋯
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+m n : ℤ
+i j l : Q.Vertex
+hm : 0 ≤ m
+hn : 0 ≤ n
+f : E.CutGradedHom m.toNat ↑↑i ↑↑j
+g : E.CutGradedHom n.toNat ↑↑j ↑↑l
+⊢ (E.cutHomogeneousComponentLinear (fun t => ↑↑t) (m.toNat + n.toNat) i l) (((E.cutGradedComp m.toNat n.toNat) g) f) ∈
+    LinearMap.range (E.cutHomogeneousComponentLinear (fun t => ↑↑t) (m + n).toNat i l)
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:62:17: error(lean.unknownIdentifier): Unknown constant `Submodule.mem_bot.mp`
+work/ASGinzburgDraft/PeriodIntegerCorners.lean:67:15: error(lean.unknownIdentifier): Unknown constant `Submodule.mem_bot.mp`

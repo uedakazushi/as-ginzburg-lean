@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/PeriodHomSpacePermutation.lean:32:2: error: 'change' tactic failed, pattern
+  Eq.{v + 1} ⟨(i + 0 * p, j + 0 * p), ((E.powNat 0).map i j) f⟩ ⟨(i, j), f⟩
+is not definitionally equal to target
+  Eq.{1} ((E.powInt 0).homSpacePerm ⟨(i, j), f⟩).fst.1 (1 ⟨(i, j), f⟩).fst.1
+work/ASGinzburgDraft/PeriodHomSpacePermutation.lean:40:2: error: 'change' tactic failed, pattern
+  Eq.{v + 1} ⟨(i + (n + 1) * p, j + (n + 1) * p), ((E.powInt (n + 1)).map i j) f⟩
+    ⟨(i + n * p + p, j + n * p + p), (E.map (i + n * p) (j + n * p)) (((E.powInt n).map i j) f)⟩
+is not definitionally equal to target
+  Eq.{1} ((E.powInt (n + 1)).homSpacePerm ⟨(i, j), f⟩).fst.1
+    ((E.homSpacePerm * (E.powInt n).homSpacePerm) ⟨(i, j), f⟩).fst.1
+work/ASGinzburgDraft/PeriodHomSpacePermutation.lean:59:8: error: Type mismatch: After simplification, term
+  Eq.symm h
+ has type
+  E.homSpacePerm * (E.powInt (-↑n - 1)).homSpacePerm = (E.powInt (-↑n - 1 + 1)).homSpacePerm
+but is expected to have type
+  E.homSpacePerm * (E.powInt (-↑n - 1)).homSpacePerm = (E.powInt (-↑n)).homSpacePerm
+work/ASGinzburgDraft/PeriodHomSpacePermutation.lean:62:38: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a ^ ?m * ?a ^ ?n
+in the target expression
+  (E.homSpacePerm ^ 1) ^ (-↑n) = E.homSpacePerm ^ 1 * (E.homSpacePerm ^ 1) ^ (-↑n - 1)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+n : ℕ
+ih : (E.powInt (-↑n)).homSpacePerm = E.homSpacePerm ^ (-↑n)
+⊢ (E.homSpacePerm ^ 1) ^ (-↑n) = E.homSpacePerm ^ 1 * (E.homSpacePerm ^ 1) ^ (-↑n - 1)

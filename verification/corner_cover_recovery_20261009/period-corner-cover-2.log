@@ -1,0 +1,64 @@
+work/ASGinzburgDraft/PeriodCornerCover.lean:26:4: error: Tactic `apply` failed: could not unify the conclusion of `@Subtype.ext`
+  ?a1 = ?a2
+with the goal
+  ↑({ toFun := fun f => ⟨↑(g + h) * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ } f) i✝ x✝¹ x✝ =
+    ↑(({ toFun := fun f => ⟨↑g * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ } +
+            { toFun := fun f => ⟨↑h * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ })
+          f)
+      i✝ x✝¹ x✝
+
+Note: The full type of `@Subtype.ext` is
+  ∀ {α : Sort ?u.29847} {p : α → Prop} {a1 a2 : { x // p x }}, ↑a1 = ↑a2 → a1 = a2
+
+case h.a.w.h.h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y z : Q.LiftVertex
+g h : ↥(CornerCoverHom Q E y z)
+f : ↥(CornerCoverHom Q E x y)
+i✝ : ℕ
+x✝¹ x✝ : Q.Vertex
+⊢ ↑({ toFun := fun f => ⟨↑(g + h) * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ } f) i✝ x✝¹ x✝ =
+    ↑(({ toFun := fun f => ⟨↑g * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ } +
+            { toFun := fun f => ⟨↑h * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ })
+          f)
+      i✝ x✝¹ x✝
+work/ASGinzburgDraft/PeriodCornerCover.lean:31:4: error: Tactic `apply` failed: could not unify the conclusion of `@Subtype.ext`
+  ?a1 = ?a2
+with the goal
+  ↑({ toFun := fun f => ⟨↑(c • g) * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ } f) i✝ x✝¹ x✝ =
+    ↑(((RingHom.id k) c • { toFun := fun f => ⟨↑g * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ }) f) i✝ x✝¹ x✝
+
+Note: The full type of `@Subtype.ext` is
+  ∀ {α : Sort ?u.34430} {p : α → Prop} {a1 a2 : { x // p x }}, ↑a1 = ↑a2 → a1 = a2
+
+case h.a.w.h.h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y z : Q.LiftVertex
+c : k
+g : ↥(CornerCoverHom Q E y z)
+f : ↥(CornerCoverHom Q E x y)
+i✝ : ℕ
+x✝¹ x✝ : Q.Vertex
+⊢ ↑({ toFun := fun f => ⟨↑(c • g) * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ } f) i✝ x✝¹ x✝ =
+    ↑(((RingHom.id k) c • { toFun := fun f => ⟨↑g * ↑f, ⋯⟩, map_add' := ⋯, map_smul' := ⋯ }) f) i✝ x✝¹ x✝
+work/ASGinzburgDraft/PeriodCornerCover.lean:69:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑((integerCornerEquiv Q E ↑0 ?i ?j) ?f)
+in the target expression
+  ↑((integerCornerEquiv Q E 0 x.1 x.1) (E.cutGradedId ↑↑x.1)) = E.cutVertexIdempotent (fun t => ↑↑t) x.1
+
+case a
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : Q.LiftVertex
+⊢ ↑((integerCornerEquiv Q E 0 x.1 x.1) (E.cutGradedId ↑↑x.1)) = E.cutVertexIdempotent (fun t => ↑↑t) x.1

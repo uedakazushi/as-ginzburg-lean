@@ -1,0 +1,82 @@
+import work.ASGinzburgDraft.PeriodCutIdempotents
+
+/-! Actual homogeneous component embeddings into the cut-graded ring,
+their linear entry projections, and preservation by the two vertex
+idempotents. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+omit [Fintype ι] in
+theorem cutBlockTransport_component (m n : ℕ) (h : m=n) (i j : ι)
+    (f : E.CutGradedHom m (vertex i) (vertex j)) :
+    E.cutBlockTransport vertex m n h (E.cutMatrixComponent vertex m i j f)=
+      E.cutMatrixComponent vertex n i j
+        (A.homTransport (vertex i) (vertex j+(m:ℤ)*p)
+          (vertex i) (vertex j+(n:ℤ)*p) rfl (by rw [h]) f) := by
+  subst n
+  rfl
+
+noncomputable def cutHomogeneousComponentLinear (m : ℕ) (i j : ι) :
+    E.CutGradedHom m (vertex i) (vertex j) →ₗ[k] E.CutGradedRing vertex :=
+  (E.cutHomogeneousLinearInclusion vertex m).comp (E.cutMatrixComponentLinear vertex m i j)
+
+theorem cutHomogeneousComponentLinear_apply (m : ℕ) (i j : ι)
+    (f : E.CutGradedHom m (vertex i) (vertex j)) :
+    E.cutHomogeneousComponentLinear vertex m i j f=
+      E.cutHomogeneousInclusion vertex m (E.cutMatrixComponent vertex m i j f) := rfl
+
+noncomputable def cutHomogeneousEntryProjection (m : ℕ) (i j : ι) :
+    E.CutGradedRing vertex →ₗ[k] E.CutGradedHom m (vertex i) (vertex j) :=
+  (LinearMap.proj j).comp ((LinearMap.proj i).comp
+    (DirectSum.component k ℕ (E.CutGradedBlock vertex) m))
+
+theorem cutHomogeneousEntryProjection_component (m : ℕ) (i j : ι)
+    (f : E.CutGradedHom m (vertex i) (vertex j)) :
+    E.cutHomogeneousEntryProjection vertex m i j
+      (E.cutHomogeneousComponentLinear vertex m i j f)=f := by
+  change (E.cutHomogeneousInclusion vertex m (E.cutMatrixComponent vertex m i j f)) m i j=f
+  rw [cutHomogeneousInclusion,DirectSum.of_eq_same,E.cutMatrixComponent_apply_same]
+
+theorem cutHomogeneousComponentLinear_injective (m : ℕ) (i j : ι) :
+    Function.Injective (E.cutHomogeneousComponentLinear vertex m i j) := by
+  intro f g h
+  have he := congrArg (E.cutHomogeneousEntryProjection vertex m i j) h
+  simpa only [E.cutHomogeneousEntryProjection_component] using he
+
+theorem cutVertexIdempotent_mul_component (m : ℕ) (i j : ι)
+    (f : E.CutGradedHom m (vertex i) (vertex j)) :
+    E.cutVertexIdempotent vertex j * E.cutHomogeneousComponentLinear vertex m i j f=
+      E.cutHomogeneousComponentLinear vertex m i j f := by
+  rw [cutVertexIdempotent,cutHomogeneousComponentLinear_apply,E.cutHomogeneousInclusion_mul]
+  apply DirectSum.of_eq_of_gradedMonoid_eq
+  dsimp only [GradedMonoid.mk]
+  rw [E.cutBlockMul_sigma]
+  change (Sigma.mk (m+0)
+    (E.cutMatrixComp vertex m 0 (E.cutMatrixComponent vertex 0 j j (E.cutGradedId (vertex j)))
+      (E.cutMatrixComponent vertex m i j f)) : GradedMonoid (E.CutGradedBlock vertex))=
+    Sigma.mk m (E.cutMatrixComponent vertex m i j f)
+  rw [E.cutMatrixComp_component_same,E.cutGradedComp_id_right]
+  rfl
+
+theorem cutComponent_mul_vertexIdempotent (m : ℕ) (i j : ι)
+    (f : E.CutGradedHom m (vertex i) (vertex j)) :
+    E.cutHomogeneousComponentLinear vertex m i j f * E.cutVertexIdempotent vertex i=
+      E.cutHomogeneousComponentLinear vertex m i j f := by
+  rw [cutVertexIdempotent,cutHomogeneousComponentLinear_apply,E.cutHomogeneousInclusion_mul]
+  apply DirectSum.of_eq_of_gradedMonoid_eq
+  dsimp only [GradedMonoid.mk]
+  rw [E.cutBlockMul_sigma]
+  change (Sigma.mk (0+m)
+    (E.cutMatrixComp vertex 0 m (E.cutMatrixComponent vertex m i j f)
+      (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i)))) :
+        GradedMonoid (E.CutGradedBlock vertex))=Sigma.mk m (E.cutMatrixComponent vertex m i j f)
+  rw [E.cutMatrixComp_component_same]
+  calc
+    _ = Sigma.mk m (E.cutBlockTransport vertex (0+m) m (Nat.zero_add m)
+      (E.cutMatrixComponent vertex (0+m) i j (E.cutGradedComp 0 m f (E.cutGradedId (vertex i))))) :=
+      (E.cutBlockTransport_sigma vertex (0+m) m (Nat.zero_add m) _).symm
+    _ = _ := by rw [E.cutBlockTransport_component,E.cutGradedComp_id_left]
+
+end ASGinzburg.ZAlgebra.PeriodIso

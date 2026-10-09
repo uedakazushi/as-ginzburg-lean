@@ -1,0 +1,22 @@
+work/ASGinzburgDraft/ZAlgebraRightModuleRepresentables.lean:49:27: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  E.linearEquivalence.counitIso.inv.app (unop Y) ≫
+    (E.linearEquivalence.inverse ⋙ E.linearEquivalence.functor).map f.unop
+in the target expression
+  (E.linearEquivalence.counitIso.inv.app (unop Y) ≫
+        E.linearEquivalence.functor.map (E.linearEquivalence.inverse.map f.unop)) ≫
+      E.linearFunctor.map g =
+    f.unop ≫ E.linearEquivalence.counitIso.inv.app (unop X) ≫ E.linearFunctor.map g
+
+case hf.h
+k : Type u
+inst✝ : Field k
+A B : ZAlgebra k
+E : A.Isomorphism B
+i : ℤ
+X Y : B.Objᵒᵖ
+f : X ⟶ Y
+g : ↑((B.rightModuleProperty.ι.obj (E.rightModuleEquivalence.functor.obj (A.representable i))).obj X)
+⊢ (E.linearEquivalence.counitIso.inv.app (unop Y) ≫
+        E.linearEquivalence.functor.map (E.linearEquivalence.inverse.map f.unop)) ≫
+      E.linearFunctor.map g =
+    f.unop ≫ E.linearEquivalence.counitIso.inv.app (unop X) ≫ E.linearFunctor.map g

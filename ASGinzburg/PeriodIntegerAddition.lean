@@ -1,0 +1,60 @@
+import ASGinzburg.PeriodHomSpacePermutation
+
+/-! All signed integer iterates of the actual period satisfy the
+composition law, with explicit transports between component endpoints. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem periodHomSpace_eq_transport (i j i' j' : ℤ) (hi : i=i') (hj : j=j')
+    (f : A.Hom i j) (g : A.Hom i' j')
+    (h : (Sigma.mk (i,j) f : A.PeriodHomSpace)=Sigma.mk (i',j') g) :
+    A.homTransport i j i' j' hi hj f=g := by
+  subst i'
+  subst j'
+  exact eq_of_heq (Sigma.mk.inj_iff.mp h).2
+
+namespace PeriodIso
+variable {A} {p : ℤ} (E : A.PeriodIso p)
+
+theorem powInt_add_apply (r s i j : ℤ) (f : A.Hom i j) :
+    (E.powInt (r+s)).map i j f =
+      A.homTransport ((i+r*p)+s*p) ((j+r*p)+s*p)
+        (i+(r+s)*p) (j+(r+s)*p) (by ring) (by ring)
+        ((E.powInt s).map (i+r*p) (j+r*p) ((E.powInt r).map i j f)) := by
+  have h := congrArg (fun e : Equiv.Perm A.PeriodHomSpace => e ⟨(i,j),f⟩)
+    (E.powInt_homSpacePerm_add r s)
+  change (Sigma.mk (i+(r+s)*p,j+(r+s)*p) ((E.powInt (r+s)).map i j f) :
+    A.PeriodHomSpace)=
+      Sigma.mk ((i+r*p)+s*p,(j+r*p)+s*p)
+        ((E.powInt s).map (i+r*p) (j+r*p) ((E.powInt r).map i j f)) at h
+  exact (A.periodHomSpace_eq_transport _ _ _ _ (by ring) (by ring) _ _ h.symm).symm
+
+theorem powInt_add_apply_rev (r s i j : ℤ) (f : A.Hom i j) :
+    (E.powInt (r+s)).map i j f =
+      A.homTransport ((i+s*p)+r*p) ((j+s*p)+r*p)
+        (i+(r+s)*p) (j+(r+s)*p) (by ring) (by ring)
+        ((E.powInt r).map (i+s*p) (j+s*p) ((E.powInt s).map i j f)) := by
+  have h := congrArg (fun e : Equiv.Perm A.PeriodHomSpace => e ⟨(i,j),f⟩)
+    (E.powInt_homSpacePerm_add s r)
+  have hrs : s+r=r+s := add_comm s r
+  rw [hrs] at h
+  change (Sigma.mk (i+(r+s)*p,j+(r+s)*p) ((E.powInt (r+s)).map i j f) :
+    A.PeriodHomSpace)=
+      Sigma.mk ((i+s*p)+r*p,(j+s*p)+r*p)
+        ((E.powInt r).map (i+s*p) (j+s*p) ((E.powInt s).map i j f)) at h
+  exact (A.periodHomSpace_eq_transport _ _ _ _ (by ring) (by ring) _ _ h.symm).symm
+
+theorem powInt_neg_cancel (r i j : ℤ) (f : A.Hom i j) :
+    A.homTransport ((i+r*p)+(-r)*p) ((j+r*p)+(-r)*p) i j (by ring) (by ring)
+      ((E.powInt (-r)).map (i+r*p) (j+r*p) ((E.powInt r).map i j f))=f := by
+  have h := congrArg (fun e : Equiv.Perm A.PeriodHomSpace => e ⟨(i,j),f⟩)
+    (E.powInt_homSpacePerm_add r (-r))
+  rw [add_neg_cancel,E.powInt_homSpacePerm_zero] at h
+  change (Sigma.mk (i,j) f : A.PeriodHomSpace)=
+    Sigma.mk ((i+r*p)+(-r)*p,(j+r*p)+(-r)*p)
+      ((E.powInt (-r)).map (i+r*p) (j+r*p) ((E.powInt r).map i j f)) at h
+  exact A.periodHomSpace_eq_transport _ _ _ _ (by ring) (by ring) _ _ h.symm
+
+end PeriodIso
+end ASGinzburg.ZAlgebra

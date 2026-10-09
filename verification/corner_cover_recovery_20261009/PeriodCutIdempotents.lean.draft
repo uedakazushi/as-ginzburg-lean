@@ -1,0 +1,48 @@
+import work.ASGinzburgDraft.PeriodCutMatrixComponents
+
+/-! The actual cut-graded ring has the complete finite family of
+nonzero orthogonal vertex idempotents in its zero degree. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+theorem cutGradedId_ne_zero (i : ℤ) : E.cutGradedId i≠0 := by
+  intro h
+  apply A.id_nonzero i
+  apply (A.homTransport i i i (i+(0:ℤ)*p) rfl (by ring)).injective
+  simpa only [cutGradedId,map_zero] using h
+
+noncomputable def cutVertexIdempotent (i : ι) : E.CutGradedRing vertex :=
+  E.cutHomogeneousInclusion vertex 0
+    (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i)))
+
+theorem cutVertexIdempotent_mul_self (i : ι) :
+    E.cutVertexIdempotent vertex i * E.cutVertexIdempotent vertex i=
+      E.cutVertexIdempotent vertex i := by
+  rw [cutVertexIdempotent,E.cutHomogeneousInclusion_mul]
+  change E.cutHomogeneousInclusion vertex 0
+    (E.cutMatrixComp vertex 0 0 (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i)))
+      (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i))))=_
+  rw [E.cutMatrixComp_component_same,E.cutGradedComp_id_right]
+
+theorem cutVertexIdempotent_mul_ne (i j : ι) (h : i≠j) :
+    E.cutVertexIdempotent vertex i * E.cutVertexIdempotent vertex j=0 := by
+  rw [cutVertexIdempotent,cutVertexIdempotent,E.cutHomogeneousInclusion_mul]
+  change E.cutHomogeneousInclusion vertex 0
+    (E.cutMatrixComp vertex 0 0 (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i)))
+      (E.cutMatrixComponent vertex 0 j j (E.cutGradedId (vertex j))))=0
+  rw [E.cutMatrixComp_component_ne vertex 0 0 j j i i _ _ (Ne.symm h),map_zero]
+
+theorem sum_cutVertexIdempotent : (∑ i : ι,E.cutVertexIdempotent vertex i)=1 := by
+  simp only [cutVertexIdempotent]
+  rw [← map_sum,E.sum_cutMatrixComponent_id,E.cutHomogeneousInclusion_one]
+
+theorem cutVertexIdempotent_ne_zero (i : ι) : E.cutVertexIdempotent vertex i≠0 := by
+  intro h
+  have hc := congrArg (fun x : E.CutGradedRing vertex => x 0 i i) h
+  simp only [cutVertexIdempotent,cutHomogeneousInclusion,DirectSum.of_eq_same,
+    DirectSum.zero_apply,Pi.zero_apply,cutMatrixComponent_apply_same] at hc
+  exact E.cutGradedId_ne_zero (vertex i) hc
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,34 @@
+import ASGinzburg.PeriodIntegerCutComponents
+
+/-! Foundation vertices force every negative cut component to vanish.
+Thus the integer components used for the cover carry precisely the
+nonnegative component data of the actual cut-graded algebra. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem negativeCutComponent_zero {m : ℤ} (hm : m<0) (i j : Q.Vertex)
+    (f : A.Hom (i.val : ℤ) ((j.val : ℤ)+m*(Q.vertices:ℤ))) : f=0 := by
+  apply A.positive
+  have hj : (j.val : ℤ)<(Q.vertices:ℤ) := by exact_mod_cast j.isLt
+  have hi : 0≤(i.val : ℤ) := by positivity
+  have hp : 0≤(Q.vertices:ℤ) := by positivity
+  have hm' : m≤(-1:ℤ) := by omega
+  have hmp := mul_le_mul_of_nonneg_right hm' hp
+  have hn : m*(Q.vertices:ℤ)≤-(Q.vertices:ℤ) := by simpa only [neg_one_mul] using hmp
+  omega
+
+namespace PeriodIso
+variable {A} (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem integerCutHom_negative_zero {m : ℤ} (hm : m<0) (i j : Q.Vertex)
+    (f : E.IntegerCutHom m (i.val : ℤ) (j.val : ℤ)) : f=0 :=
+  A.negativeCutComponent_zero Q hm i j f
+
+instance integerCutNegativeSubsingleton {m : ℤ} [Fact (m<0)] (i j : Q.Vertex) :
+    Subsingleton (E.IntegerCutHom m (i.val : ℤ) (j.val : ℤ)) :=
+  ⟨fun f g => (E.integerCutHom_negative_zero Q (Fact.out) i j f).trans
+    (E.integerCutHom_negative_zero Q (Fact.out) i j g).symm⟩
+
+end PeriodIso
+end ASGinzburg.ZAlgebra

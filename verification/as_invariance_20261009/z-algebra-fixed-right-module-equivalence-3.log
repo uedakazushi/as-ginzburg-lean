@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/ZAlgebraFixedRightModuleEquivalence.lean:14:60: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A B : ZAlgebra k
+E : A.Isomorphism B
+M : A.RightModule
+X Y : A.Objᵒᵖ
+f : X ⟶ Y
+⊢ M.obj.map f =
+    M.obj.map
+      (have this := f.unop;
+        this).op

@@ -1,0 +1,101 @@
+import ASGinzburg.PeriodCutComponentProducts
+import ASGinzburg.PeriodIntegerCutPositivity
+
+/-! Integer homogeneous corners inside the actual cut-graded ring.
+Negative degrees are the zero submodule, and nonnegative degrees are
+the genuine homogeneous corners characterized by the idempotents. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def submoduleEqualityEquiv {V : Type v} [AddCommGroup V] [Module k V]
+    (U W : Submodule k V) (h : U=W) : U ≃ₗ[k] W := by
+  subst W
+  exact LinearEquiv.refl k U
+
+theorem submoduleEqualityEquiv_val {V : Type v} [AddCommGroup V] [Module k V]
+    (U W : Submodule k V) (h : U=W) (x : U) :
+    (submoduleEqualityEquiv U W h x).val=x.val := by
+  subst W
+  rfl
+
+noncomputable def integerCorner (m : ℤ) (i j : Q.Vertex) :
+    Submodule k (E.CutGradedRing (fun t : Q.Vertex => (t.val : ℤ))) :=
+  if 0≤m then LinearMap.range
+    (E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val : ℤ)) m.toNat i j) else ⊥
+
+theorem integerCorner_ofNat (n : ℕ) (i j : Q.Vertex) :
+    E.integerCorner Q (n:ℤ) i j=LinearMap.range
+      (E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val : ℤ)) n i j) := by
+  simp only [integerCorner,if_pos (Int.natCast_nonneg n),Int.toNat_natCast]
+
+theorem integerCorner_negative {m : ℤ} (hm : m<0) (i j : Q.Vertex) :
+    E.integerCorner Q m i j=⊥ := by
+  simp only [integerCorner,if_neg (not_le.mpr hm)]
+
+theorem integerCorner_nonneg {m : ℤ} (hm : 0≤m) (i j : Q.Vertex) :
+    E.integerCorner Q m i j=LinearMap.range
+      (E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val : ℤ)) m.toNat i j) := by
+  unfold integerCorner
+  exact if_pos hm
+
+theorem cutHomogeneousComponentRange_congr (m n : ℕ) (h : m=n) (i j : Q.Vertex) :
+    LinearMap.range (E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val : ℤ)) m i j)=
+      LinearMap.range (E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val : ℤ)) n i j) := by
+  subst n
+  rfl
+
+noncomputable def integerCornerEquiv (m : ℤ) (i j : Q.Vertex) :
+    E.IntegerCutHom m (i.val : ℤ) (j.val : ℤ) ≃ₗ[k] E.integerCorner Q m i j := by
+  classical
+  by_cases hm : 0≤m
+  · exact ((A.homTransport (i.val : ℤ) ((j.val : ℤ)+m*(Q.vertices:ℤ))
+      (i.val : ℤ) ((j.val : ℤ)+(m.toNat:ℤ)*(Q.vertices:ℤ)) rfl
+      (by rw [Int.toNat_of_nonneg hm])).trans
+        (E.cutHomogeneousCornerEquiv (fun t : Q.Vertex => (t.val : ℤ)) m.toNat i j)).trans
+          (submoduleEqualityEquiv _ _ (E.integerCorner_nonneg Q hm i j).symm)
+  · letI : Fact (m<0) := ⟨by omega⟩
+    exact (LinearEquiv.ofSubsingleton (E.IntegerCutHom m (i.val : ℤ) (j.val : ℤ))
+      (↥(⊥ : Submodule k (E.CutGradedRing (fun t : Q.Vertex => (t.val : ℤ)))))).trans
+        (submoduleEqualityEquiv _ _ (E.integerCorner_negative Q (by omega) i j).symm)
+
+theorem integerCornerEquiv_apply_ofNat (n : ℕ) (i j : Q.Vertex)
+    (f : E.IntegerCutHom (n:ℤ) (i.val : ℤ) (j.val : ℤ)) :
+    (E.integerCornerEquiv Q (n:ℤ) i j f).val=
+      E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val : ℤ)) n i j f := by
+  unfold integerCornerEquiv
+  simp only [dif_pos (Int.natCast_nonneg n)]
+  rw [LinearEquiv.trans_apply, submoduleEqualityEquiv_val]
+  rfl
+
+theorem integerCorner_product (m n : ℤ) (i j l : Q.Vertex)
+    (x y : E.CutGradedRing (fun t : Q.Vertex => (t.val : ℤ)))
+    (hx : x ∈ E.integerCorner Q m i j) (hy : y ∈ E.integerCorner Q n j l) :
+    y*x ∈ E.integerCorner Q (m+n) i l := by
+  by_cases hm : 0≤m
+  · by_cases hn : 0≤n
+    · rw [integerCorner,if_pos hm] at hx
+      rw [integerCorner,if_pos hn] at hy
+      rcases hx with ⟨f,rfl⟩
+      rcases hy with ⟨g,rfl⟩
+      rw [E.cutHomogeneousComponentLinear_mul,E.integerCorner_nonneg Q (add_nonneg hm hn),
+        E.cutHomogeneousComponentRange_congr Q _ _ (Int.toNat_add hm hn)]
+      exact LinearMap.mem_range_self _ _
+    · rw [E.integerCorner_negative Q (by omega)] at hy
+      have hz : y=0 := by simpa only [Submodule.mem_bot] using hy
+      subst y
+      rw [zero_mul]
+      exact Submodule.zero_mem _
+  · rw [E.integerCorner_negative Q (by omega)] at hx
+    have hz : x=0 := by simpa only [Submodule.mem_bot] using hx
+    subst x
+    rw [mul_zero]
+    exact Submodule.zero_mem _
+
+theorem cutVertexIdempotent_mem_integerCorner (i : Q.Vertex) :
+    E.cutVertexIdempotent (fun t : Q.Vertex => (t.val : ℤ)) i ∈ E.integerCorner Q 0 i i := by
+  rw [show (0:ℤ)=(0:ℕ) from rfl,E.integerCorner_ofNat]
+  exact ⟨E.cutGradedId (i.val : ℤ),rfl⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,74 @@
+work/ASGinzburgDraft/PeriodIntegerCornerProducts.lean:28:41: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.homTransport ?i (?l + (↑?m + ↑?n) * ↑Q.vertices) ?i (?l + ↑(?m + ?n) * ↑Q.vertices) ⋯ ⋯)
+    (((E.integerCutComp ↑?m ↑?n) ?g) ?f)
+in the target expression
+  (E.cutHomogeneousComponentLinear (fun t => ↑↑t) (a + b) i l)
+      ((A.homTransport (↑↑i) (↑↑l + (m + n) * ↑Q.vertices) (↑↑i) (↑↑l + ↑(a + b) * ↑Q.vertices) ⋯ ⋯)
+        (((E.integerCutComp m n) g✝) f✝)) =
+    ↑((integerCornerEquiv Q E n j l) g✝) * ↑((integerCornerEquiv Q E m i j) f✝)
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+m n : ℤ
+i j l : Q.Vertex
+f✝ : E.IntegerCutHom m ↑↑i ↑↑j
+g✝ : E.IntegerCutHom n ↑↑j ↑↑l
+a : ℕ
+ha : ↑a = m
+f : E.IntegerCutHom ↑a ↑↑i ↑↑j
+b : ℕ
+hb : ↑b = n
+g : E.IntegerCutHom ↑b ↑↑j ↑↑l
+⊢ (E.cutHomogeneousComponentLinear (fun t => ↑↑t) (a + b) i l)
+      ((A.homTransport (↑↑i) (↑↑l + (m + n) * ↑Q.vertices) (↑↑i) (↑↑l + ↑(a + b) * ↑Q.vertices) ⋯ ⋯)
+        (((E.integerCutComp m n) g✝) f✝)) =
+    ↑((integerCornerEquiv Q E n j l) g✝) * ↑((integerCornerEquiv Q E m i j) f✝)
+work/ASGinzburgDraft/PeriodIntegerCornerProducts.lean:31:4: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+m n : ℤ
+i j l : Q.Vertex
+f : E.IntegerCutHom m ↑↑i ↑↑j
+g : E.IntegerCutHom n ↑↑j ↑↑l
+hm : 0 ≤ m
+hn : ¬0 ≤ n
+this : Fact (n < 0) := { out := Decidable.byContradiction fun a => integerCornerEquiv_comp._proof_1_2 m n hn a }
+hg : g = 0
+⊢ ↑0 = ↑0 * ↑((integerCornerEquiv Q E m i j) f)
+work/ASGinzburgDraft/PeriodIntegerCornerProducts.lean:34:2: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+m n : ℤ
+i j l : Q.Vertex
+f : E.IntegerCutHom m ↑↑i ↑↑j
+g : E.IntegerCutHom n ↑↑j ↑↑l
+hm : ¬0 ≤ m
+this : Fact (m < 0) := { out := Decidable.byContradiction fun a => integerCornerEquiv_comp._proof_1_3 m hm a }
+hf : f = 0
+⊢ ↑0 = ↑((integerCornerEquiv Q E n j l) g) * ↑0
+work/ASGinzburgDraft/PeriodIntegerCornerProducts.lean:33:50: warning: This simp argument is unused:
+  zero_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵g̵,̵m̵a̵p̵_̵z̵e̵r̵o̵,̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵z̵e̵r̵o̵_̵a̵p̵p̵l̵y̵,̵z̵e̵r̵o̵_̵m̵u̵l̵]̵[̲h̲g̲,̲ ̲m̲a̲p̲_̲z̲e̲r̲o̲,̲ ̲L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲z̲e̲r̲o̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodIntegerCornerProducts.lean:36:27: warning: This simp argument is unused:
+  mul_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵f̵,̵m̵a̵p̵_̵z̵e̵r̵o̵,̵m̵u̵l̵_̵z̵e̵r̵o̵]̵[̲h̲f̲,̲ ̲m̲a̲p̲_̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

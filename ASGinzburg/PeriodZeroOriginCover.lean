@@ -1,0 +1,74 @@
+import ASGinzburg.PeriodIntegerCutPositivity
+import ASGinzburg.PeriodIntegerCompositionTransport
+
+/-! The genuine zero-origin cover components and their shifted product.
+The period gives componentwise linear equivalences back to the original
+algebra; the comparison below verifies the actual products. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+abbrev ZeroOriginCoverHom (x y : Q.LiftVertex) :=
+  E.IntegerCutHom (y.2-x.2) (x.1.val : ℤ) (y.1.val : ℤ)
+
+noncomputable def zeroOriginCoverComponentEquiv (x y : Q.LiftVertex) :
+    E.ZeroOriginCoverHom Q x y ≃ₗ[k] A.Hom (Q.height x) (Q.height y) :=
+  ((E.powInt x.2).map (x.1.val : ℤ) ((y.1.val : ℤ)+(y.2-x.2)*(Q.vertices:ℤ))).trans
+    (A.homTransport _ _ _ _ (by simp only [CutQuiver.height]; ring)
+      (by simp only [CutQuiver.height]; ring))
+
+noncomputable def zeroOriginCoverComp {x y z : Q.LiftVertex} :
+    E.ZeroOriginCoverHom Q y z →ₗ[k] E.ZeroOriginCoverHom Q x y →ₗ[k]
+      E.ZeroOriginCoverHom Q x z where
+  toFun g :=
+    (A.homTransport (x.1.val : ℤ)
+      ((z.1.val : ℤ)+((y.2-x.2)+(z.2-y.2))*(Q.vertices:ℤ))
+      (x.1.val : ℤ) ((z.1.val : ℤ)+(z.2-x.2)*(Q.vertices:ℤ))
+      rfl (by ring)).toLinearMap.comp (E.integerCutComp (y.2-x.2) (z.2-y.2) g)
+  map_add' := by
+    intro g h
+    ext f
+    simp only [LinearMap.comp_apply,map_add,LinearMap.add_apply]
+  map_smul' := by
+    intro c g
+    ext f
+    simp only [LinearMap.comp_apply,map_smul,LinearMap.smul_apply,RingHom.id_apply]
+
+theorem zeroOriginCoverComp_apply {x y z : Q.LiftVertex}
+    (f : E.ZeroOriginCoverHom Q x y) (g : E.ZeroOriginCoverHom Q y z) :
+    E.zeroOriginCoverComp Q g f =
+      A.homTransport (x.1.val : ℤ)
+        ((z.1.val : ℤ)+((y.2-x.2)+(z.2-y.2))*(Q.vertices:ℤ))
+        (x.1.val : ℤ) ((z.1.val : ℤ)+(z.2-x.2)*(Q.vertices:ℤ)) rfl (by ring)
+        (E.integerCutComp (y.2-x.2) (z.2-y.2) g f) := rfl
+
+theorem zeroOriginCoverComponentEquiv_comp {x y z : Q.LiftVertex}
+    (f : E.ZeroOriginCoverHom Q x y) (g : E.ZeroOriginCoverHom Q y z) :
+    E.zeroOriginCoverComponentEquiv Q x z (E.zeroOriginCoverComp Q g f)=
+      A.comp (E.zeroOriginCoverComponentEquiv Q y z g)
+        (E.zeroOriginCoverComponentEquiv Q x y f) := by
+  rw [zeroOriginCoverComp_apply,integerCutComp_apply]
+  dsimp only [zeroOriginCoverComponentEquiv,LinearEquiv.trans_apply]
+  rw [PeriodIso.map_homTransport,PeriodIso.map_homTransport,A.homTransport_trans,
+    A.homTransport_trans,(E.powInt x.2).map_comp]
+  rw [A.homTransport_comp _ _ _ (Q.height x) (Q.height y) (Q.height z)
+    (by simp only [CutQuiver.height]; ring)
+    (by simp only [CutQuiver.height]; ring)
+    (by simp only [CutQuiver.height]; ring)]
+  rw [E.powInt_composition_to x.2 (y.2-x.2) y.2 (by ring)
+    (y.1.val : ℤ) ((z.1.val : ℤ)+(z.2-y.2)*(Q.vertices:ℤ)) (Q.height y) (Q.height z)
+    (by simp only [CutQuiver.height]; ring)
+    (by simp only [CutQuiver.height]; ring)]
+
+noncomputable def zeroOriginCoverId (x : Q.LiftVertex) : E.ZeroOriginCoverHom Q x x :=
+  A.homTransport (x.1.val : ℤ) (x.1.val : ℤ)
+    (x.1.val : ℤ) ((x.1.val : ℤ)+(x.2-x.2)*(Q.vertices:ℤ)) rfl (by ring)
+    (A.id (x.1.val : ℤ))
+
+theorem zeroOriginCoverComponentEquiv_id (x : Q.LiftVertex) :
+    E.zeroOriginCoverComponentEquiv Q x x (E.zeroOriginCoverId Q x)=A.id (Q.height x) := by
+  dsimp only [zeroOriginCoverComponentEquiv,zeroOriginCoverId,LinearEquiv.trans_apply]
+  rw [PeriodIso.map_homTransport,(E.powInt x.2).map_id,A.homTransport_trans,A.homTransport_id]
+
+end ASGinzburg.ZAlgebra.PeriodIso

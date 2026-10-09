@@ -1,0 +1,73 @@
+import ASGinzburg.PeriodIntegerCornerProducts
+import ASGinzburg.PeriodZeroOriginCoverRecovery
+
+/-! The cover of the actual ring R: each morphism is a homogeneous
+idempotent corner, and composition is R's own multiplication. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable abbrev CornerCoverHom (x y : Q.LiftVertex) := E.integerCorner Q (y.2-x.2) x.1 y.1
+
+noncomputable def cornerCoverComp {x y z : Q.LiftVertex} :
+    E.CornerCoverHom Q y z →ₗ[k] E.CornerCoverHom Q x y →ₗ[k] E.CornerCoverHom Q x z where
+  toFun g :=
+    { toFun := fun f => ⟨g.val*f.val,by
+        have hs : (y.2-x.2)+(z.2-y.2)=z.2-x.2 := by ring
+        change g.val*f.val ∈ E.integerCorner Q (z.2-x.2) x.1 z.1
+        rw [← hs]
+        exact E.integerCorner_product Q _ _ _ _ _ _ _ f.property g.property⟩
+      map_add' := by intro f h; apply Subtype.ext; exact mul_add _ _ _
+      map_smul' := by intro c f; apply Subtype.ext; exact Algebra.mul_smul_comm _ _ _ }
+  map_add' := by
+    intro g h
+    apply LinearMap.ext
+    intro f
+    apply Subtype.ext
+    exact add_mul _ _ _
+  map_smul' := by
+    intro c g
+    apply LinearMap.ext
+    intro f
+    apply Subtype.ext
+    exact Algebra.smul_mul_assoc _ _ _
+
+theorem cornerCoverComp_val {x y z : Q.LiftVertex}
+    (f : E.CornerCoverHom Q x y) (g : E.CornerCoverHom Q y z) :
+    (E.cornerCoverComp Q g f).val=g.val*f.val := rfl
+
+noncomputable def cornerCoverId (x : Q.LiftVertex) : E.CornerCoverHom Q x x :=
+  ⟨E.cutVertexIdempotent (fun t : Q.Vertex => (t.val : ℤ)) x.1,by
+    change E.cutVertexIdempotent (fun t : Q.Vertex => (t.val : ℤ)) x.1 ∈
+      E.integerCorner Q (x.2-x.2) x.1 x.1
+    rw [sub_self]
+    exact E.cutVertexIdempotent_mem_integerCorner Q x.1⟩
+
+noncomputable def cornerCoverComponentEquiv (x y : Q.LiftVertex) :
+    E.ZeroOriginCoverHom Q x y ≃ₗ[k] E.CornerCoverHom Q x y :=
+  E.integerCornerEquiv Q (y.2-x.2) x.1 y.1
+
+theorem cornerCoverComponentEquiv_comp {x y z : Q.LiftVertex}
+    (f : E.ZeroOriginCoverHom Q x y) (g : E.ZeroOriginCoverHom Q y z) :
+    E.cornerCoverComponentEquiv Q x z (E.zeroOriginCoverComp Q g f)=
+      E.cornerCoverComp Q (E.cornerCoverComponentEquiv Q y z g)
+        (E.cornerCoverComponentEquiv Q x y f) := by
+  apply Subtype.ext
+  rw [cornerCoverComp_val]
+  dsimp only [cornerCoverComponentEquiv]
+  rw [E.zeroOriginCoverComp_apply]
+  rw [← E.integerCornerEquiv_gradeTransport Q
+    ((y.2-x.2)+(z.2-y.2)) (z.2-x.2) (by ring)]
+  exact E.integerCornerEquiv_comp Q _ _ _ _ _ f g
+
+theorem cornerCoverComponentEquiv_id (x : Q.LiftVertex) :
+    E.cornerCoverComponentEquiv Q x x (E.zeroOriginCoverId Q x)=E.cornerCoverId Q x := by
+  apply Subtype.ext
+  dsimp only [cornerCoverComponentEquiv,cornerCoverId]
+  rw [E.integerCornerEquiv_gradeTransport Q (x.2-x.2) 0 (sub_self x.2)]
+  rw [zeroOriginCoverId,A.homTransport_trans]
+  change (E.integerCornerEquiv Q (0:ℤ) x.1 x.1 (E.cutGradedId (x.1.val:ℤ))).val=_
+  exact E.integerCornerEquiv_apply_ofNat Q 0 x.1 x.1 (E.cutGradedId (x.1.val:ℤ))
+
+end ASGinzburg.ZAlgebra.PeriodIso

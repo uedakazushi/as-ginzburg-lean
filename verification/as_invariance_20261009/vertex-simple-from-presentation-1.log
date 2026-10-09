@@ -1,0 +1,51 @@
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:21:44: error(lean.unknownIdentifier): Unknown identifier `hoff`
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:29:5: error: Function expected at
+  vertexPresentation_radical_zero A i S β
+but this term has type
+  (A.representableRadical i).inclusion ≫ β = 0
+
+Note: Expected a function because this term is being applied to the argument
+  hoff
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:32:4: error: Function expected at
+  A.vertexPresentationDesc i S β
+but this term has type
+  A.simpleRightModule i ⟶ S
+
+Note: Expected a function because this term is being applied to the argument
+  hoff
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:35:11: error: Function expected at
+  A.vertexPresentationDesc i S β
+but this term has type
+  A.simpleRightModule i ⟶ S
+
+Note: Expected a function because this term is being applied to the argument
+  hoff
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:34:88: error: unsolved goals
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+i : ℤ
+S : A.RightModule
+β : A.representable i ⟶ S
+hoff : ∀ (j : ℤ), j ≠ i → IsZero ((A.rightModuleEvaluation j).obj S)
+inst✝ : Epi β
+hβ : β ≠ 0
+⊢ S ≅ A.simpleRightModule i
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:50:39: error: Application type mismatch: The argument
+  hoff
+has type
+  ∀ (j : ℤ), j ≠ i → IsZero ((A.rightModuleEvaluation j).obj S)
+but is expected to have type
+  β ≠ 0
+in the application
+  A.vertexPresentationIso i S β hoff
+work/ASGinzburgDraft/VertexSimpleFromPresentation.lean:50:78: error: unsolved goals
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+i : ℤ
+S : A.RightModule
+β : A.representable i ⟶ S
+inst✝ : Epi β
+hβ : β ≠ 0
+⊢ β ≫ sorry = A.simpleRightModuleπ i

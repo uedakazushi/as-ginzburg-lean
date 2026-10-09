@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/PeriodIntegerCornerProducts.lean:27:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑((integerCornerEquiv Q E (↑a + ↑b) ?i ?j) ?f)
+in the target expression
+  ↑((integerCornerEquiv Q E (Int.ofNat a + Int.ofNat b) i l) (((E.integerCutComp (Int.ofNat a) (Int.ofNat b)) g) f)) =
+    ↑((integerCornerEquiv Q E (Int.ofNat b) j l) g) * ↑((integerCornerEquiv Q E (Int.ofNat a) i j) f)
+
+case ofNat.ofNat
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+i j l : Q.Vertex
+a : ℕ
+f : E.IntegerCutHom (Int.ofNat a) ↑↑i ↑↑j
+b : ℕ
+g : E.IntegerCutHom (Int.ofNat b) ↑↑j ↑↑l
+⊢ ↑((integerCornerEquiv Q E (Int.ofNat a + Int.ofNat b) i l) (((E.integerCutComp (Int.ofNat a) (Int.ofNat b)) g) f)) =
+    ↑((integerCornerEquiv Q E (Int.ofNat b) j l) g) * ↑((integerCornerEquiv Q E (Int.ofNat a) i j) f)

@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/PeriodIntegerCutComponents.lean:45:45: error: Type mismatch
+  f
+has type
+  E.IntegerCutHom m i j
+but is expected to have type
+  E.IntegerCutHom (m + 0) i j
+work/ASGinzburgDraft/PeriodIntegerCutComponents.lean:61:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.comp ((A.homTransport i (j + m * p) (i + 0 * p) (j + m * p + 0 * p) ⋯ ⋯) f))
+    ((A.homTransport i i i (i + 0 * p) ⋯ ⋯) (A.id i))
+in the target expression
+  (A.homTransport i (j + (0 + m) * p) i (j + m * p) ⋯ ⋯)
+      ((A.homTransport i (j + m * p + 0 * p) i (j + (0 + m) * p) ⋯ ⋯)
+        ((A.comp ((A.homTransport i (j + m * p) (i + 0 * p) (j + m * p + 0 * p) ⋯ ⋯) f))
+          ((A.homTransport i i i (i + 0 * p) ⋯ ⋯) (A.id i)))) =
+    f
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+m i j : ℤ
+f : E.IntegerCutHom m i j
+hc :
+  (A.homTransport i (j + m * p) i (j + m * p + 0 * p) ⋯ ⋯) ((A.comp f) (A.id i)) =
+    (A.comp ((A.homTransport i (j + m * p) (i + 0 * p) (j + m * p + 0 * p) ⋯ ⋯) f))
+      ((A.homTransport i i i (i + 0 * p) ⋯ ⋯) (A.id i))
+⊢ (A.homTransport i (j + (0 + m) * p) i (j + m * p) ⋯ ⋯)
+      ((A.homTransport i (j + m * p + 0 * p) i (j + (0 + m) * p) ⋯ ⋯)
+        ((A.comp ((A.homTransport i (j + m * p) (i + 0 * p) (j + m * p + 0 * p) ⋯ ⋯) f))
+          ((A.homTransport i i i (i + 0 * p) ⋯ ⋯) (A.id i)))) =
+    f

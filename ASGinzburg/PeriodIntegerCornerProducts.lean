@@ -1,0 +1,44 @@
+import ASGinzburg.PeriodIntegerCorners
+
+/-! Integer corner equivalences preserve the actual ring product. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem integerCornerEquiv_gradeTransport (m n : ℤ) (h : m=n) (i j : Q.Vertex)
+    (f : E.IntegerCutHom m (i.val : ℤ) (j.val : ℤ)) :
+    (E.integerCornerEquiv Q m i j f).val=
+      (E.integerCornerEquiv Q n i j
+        (A.homTransport (i.val : ℤ) ((j.val : ℤ)+m*(Q.vertices:ℤ))
+          (i.val : ℤ) ((j.val : ℤ)+n*(Q.vertices:ℤ)) rfl (by rw [h]) f)).val := by
+  subst n
+  rfl
+
+theorem integerCornerEquiv_comp (m n : ℤ) (i j l : Q.Vertex)
+    (f : E.IntegerCutHom m (i.val : ℤ) (j.val : ℤ))
+    (g : E.IntegerCutHom n (j.val : ℤ) (l.val : ℤ)) :
+    (E.integerCornerEquiv Q (m+n) i l (E.integerCutComp m n g f)).val=
+      (E.integerCornerEquiv Q n j l g).val*(E.integerCornerEquiv Q m i j f).val := by
+  cases m with
+  | ofNat a =>
+    cases n with
+    | ofNat b =>
+      change (E.integerCornerEquiv Q ((a:ℤ)+(b:ℤ)) i l
+        (E.integerCutComp (a:ℤ) (b:ℤ) g f)).val=
+          (E.integerCornerEquiv Q (b:ℤ) j l g).val*
+            (E.integerCornerEquiv Q (a:ℤ) i j f).val
+      rw [E.integerCornerEquiv_gradeTransport Q _ ((a+b:ℕ):ℤ) (Int.natCast_add a b).symm,
+        E.integerCornerEquiv_apply_ofNat,E.integerCutComp_ofNat,
+        E.integerCornerEquiv_apply_ofNat,E.integerCornerEquiv_apply_ofNat,
+        E.cutHomogeneousComponentLinear_mul]
+    | negSucc b =>
+      letI : Fact (Int.negSucc b<0) := ⟨by omega⟩
+      have hg : g=0 := Subsingleton.elim _ _
+      simp only [hg,map_zero,LinearMap.zero_apply,Submodule.coe_zero,zero_mul]
+  | negSucc a =>
+    letI : Fact (Int.negSucc a<0) := ⟨by omega⟩
+    have hf : f=0 := Subsingleton.elim _ _
+    simp only [hf,map_zero,Submodule.coe_zero,mul_zero]
+
+end ASGinzburg.ZAlgebra.PeriodIso

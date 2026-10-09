@@ -1,0 +1,55 @@
+work/ASGinzburgDraft/PeriodCornerCover.lean:11:7: error(lean.dependsOnNoncomputable): failed to compile definition, consider marking it as 'noncomputable' because it depends on 'integerCorner', which is 'noncomputable'
+work/ASGinzburgDraft/PeriodCornerCover.lean:18:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  z.2 - x.2
+in the target expression
+  ↑g * ↑f ∈ CornerCoverHom Q E x z
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y z : Q.LiftVertex
+g : ↥(CornerCoverHom Q E y z)
+f : ↥(CornerCoverHom Q E x y)
+hs : y.2 - x.2 + (z.2 - y.2) = z.2 - x.2
+⊢ ↑g * ↑f ∈ CornerCoverHom Q E x z
+work/ASGinzburgDraft/PeriodCornerCover.lean:21:58: error: failed to synthesize
+  SMulCommClass k (E.CutGradedRing fun t => ↑↑t) (E.CutGradedRing fun t => ↑↑t)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCornerCover.lean:39:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a - ?a
+in the target expression
+  E.cutVertexIdempotent (fun t => ↑↑t) x.1 ∈ CornerCoverHom Q E x x
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : Q.LiftVertex
+⊢ E.cutVertexIdempotent (fun t => ↑↑t) x.1 ∈ CornerCoverHom Q E x x
+work/ASGinzburgDraft/PeriodCornerCover.lean:66:6: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a => ↑((integerCornerEquiv Q E _a x.1 x.1) (E.cutGradedId ↑↑x.1)) = E.cutVertexIdempotent (fun t => ↑↑t) x.1
+Error: Application type mismatch: The argument
+  E.cutGradedId ↑↑x.1
+has type
+  E.CutGradedHom 0 ↑↑x.1 ↑↑x.1
+but is expected to have type
+  E.IntegerCutHom _a ↑↑x.1 ↑↑x.1
+in the application
+  (integerCornerEquiv Q E _a x.1 x.1) (E.cutGradedId ↑↑x.1)
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+case a
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : Q.LiftVertex
+⊢ ↑((integerCornerEquiv Q E 0 x.1 x.1) (E.cutGradedId ↑↑x.1)) = E.cutVertexIdempotent (fun t => ↑↑t) x.1

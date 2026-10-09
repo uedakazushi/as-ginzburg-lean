@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/PeriodCutCornerProjection.lean:35:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ∑ x ∈ ?s, ?g (?f x)
+in the target expression
+  ∑ x_1, ∑ x_2, (E.cutHomogeneousInclusion vertex m) (E.cutMatrixComponent vertex m x_1 x_2 (x x_1 x_2)) =
+    (E.cutHomogeneousLinearInclusion vertex m) x
+
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+m : ℕ
+x : E.CutGradedBlock vertex m
+⊢ ∑ x_1, ∑ x_2, (E.cutHomogeneousInclusion vertex m) (E.cutMatrixComponent vertex m x_1 x_2 (x x_1 x_2)) =
+    (E.cutHomogeneousLinearInclusion vertex m) x

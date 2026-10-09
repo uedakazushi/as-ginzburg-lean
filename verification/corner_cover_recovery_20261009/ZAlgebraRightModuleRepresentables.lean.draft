@@ -1,0 +1,55 @@
+import work.ASGinzburgDraft.ZAlgebraRightModuleEquivalence
+
+/-! The actual module equivalence carries vertex representables to the
+corresponding vertex representables. Components are the linear adjunction
+bijections, with their naturality proved from the counit. -/
+namespace ASGinzburg.ZAlgebra.Isomorphism
+open CategoryTheory Opposite
+universe u v
+variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}
+variable (E : Isomorphism A B)
+
+noncomputable def representableComponentEquiv (X : B.Obj) (i : ℤ) :
+    (E.linearEquivalence.inverse.obj X ⟶ (⟨i⟩:A.Obj)) ≃ₗ[k] (X ⟶ (⟨i⟩:B.Obj)) :=
+  { E.linearEquivalence.symm.toAdjunction.homEquiv X (⟨i⟩:A.Obj) with
+    map_add' := by
+      intro f g
+      change E.linearEquivalence.counitIso.inv.app X ≫ E.linearFunctor.map (f+g)=
+        E.linearEquivalence.counitIso.inv.app X ≫ E.linearFunctor.map f+
+          E.linearEquivalence.counitIso.inv.app X ≫ E.linearFunctor.map g
+      rw [Functor.map_add,Preadditive.comp_add]
+    map_smul' := by
+      intro c f
+      change E.linearEquivalence.counitIso.inv.app X ≫ E.linearFunctor.map (c • f)=
+        c • (E.linearEquivalence.counitIso.inv.app X ≫ E.linearFunctor.map f)
+      rw [Functor.map_smul,Linear.comp_smul] }
+
+theorem representableComponentEquiv_apply (X : B.Obj) (i : ℤ)
+    (f : E.linearEquivalence.inverse.obj X ⟶ (⟨i⟩:A.Obj)) :
+    E.representableComponentEquiv X i f=
+      E.linearEquivalence.counitIso.inv.app X ≫ E.linearFunctor.map f := rfl
+
+noncomputable def rightModuleRepresentableIso (i : ℤ) :
+    E.rightModuleEquivalence.functor.obj (A.representable i) ≅ B.representable i :=
+  ObjectProperty.isoMk _ (NatIso.ofComponents
+    (fun X => (E.representableComponentEquiv X.unop i).toModuleIso) (by
+      intro X Y f
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro g
+      change E.representableComponentEquiv Y.unop i
+        (E.linearEquivalence.inverse.map f.unop ≫ g)=
+          f.unop ≫ E.representableComponentEquiv X.unop i g
+      rw [E.representableComponentEquiv_apply,E.representableComponentEquiv_apply,
+        Functor.map_comp]
+      change E.linearEquivalence.counitIso.inv.app Y.unop ≫
+        E.linearEquivalence.functor.map (E.linearEquivalence.inverse.map f.unop) ≫
+          E.linearFunctor.map g=
+            f.unop ≫ E.linearEquivalence.counitIso.inv.app X.unop ≫ E.linearFunctor.map g
+      have hn := E.linearEquivalence.counitIso.inv.naturality f.unop
+      change f.unop ≫ E.linearEquivalence.counitIso.inv.app X.unop=
+        E.linearEquivalence.counitIso.inv.app Y.unop ≫
+          E.linearEquivalence.functor.map (E.linearEquivalence.inverse.map f.unop) at hn
+      rw [← Category.assoc,← hn,Category.assoc]))
+
+end ASGinzburg.ZAlgebra.Isomorphism

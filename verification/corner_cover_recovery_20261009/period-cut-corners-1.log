@@ -1,0 +1,48 @@
+work/ASGinzburgDraft/PeriodCutCorners.lean:54:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ⟨?m + ?n, ((E.cutBlockMul ?vertex ?m ?n) ?x) ?y⟩
+in the target expression
+  GradedMonoid.mk (0 + m)
+      (((E.cutBlockMul vertex 0 m) (E.cutMatrixComponent vertex 0 j j (E.cutGradedId (vertex j))))
+        (E.cutMatrixComponent vertex m i j f)) =
+    GradedMonoid.mk m (E.cutMatrixComponent vertex m i j f)
+
+case h
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+m : ℕ
+i j : ι
+f : E.CutGradedHom m (vertex i) (vertex j)
+⊢ GradedMonoid.mk (0 + m)
+      (((E.cutBlockMul vertex 0 m) (E.cutMatrixComponent vertex 0 j j (E.cutGradedId (vertex j))))
+        (E.cutMatrixComponent vertex m i j f)) =
+    GradedMonoid.mk m (E.cutMatrixComponent vertex m i j f)
+work/ASGinzburgDraft/PeriodCutCorners.lean:68:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ⟨?m + ?n, ((E.cutBlockMul ?vertex ?m ?n) ?x) ?y⟩
+in the target expression
+  GradedMonoid.mk (m + 0)
+      (((E.cutBlockMul vertex m 0) (E.cutMatrixComponent vertex m i j f))
+        (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i)))) =
+    GradedMonoid.mk m (E.cutMatrixComponent vertex m i j f)
+
+case h
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+m : ℕ
+i j : ι
+f : E.CutGradedHom m (vertex i) (vertex j)
+⊢ GradedMonoid.mk (m + 0)
+      (((E.cutBlockMul vertex m 0) (E.cutMatrixComponent vertex m i j f))
+        (E.cutMatrixComponent vertex 0 i i (E.cutGradedId (vertex i)))) =
+    GradedMonoid.mk m (E.cutMatrixComponent vertex m i j f)
