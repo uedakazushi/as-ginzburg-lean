@@ -758,6 +758,20 @@ import ASGinzburg.ZeroCutJacobianEvaluation
 
 
 
+import ASGinzburg.UnrolledJacobianErasureEquality
+import ASGinzburg.PeriodIdealQuotient
+import ASGinzburg.UnrolledJacobianIntegerSheetShift
+import ASGinzburg.PeriodNaturalAddition
+import ASGinzburg.PeriodCutGradedComponents
+import ASGinzburg.PeriodCutGradedAssociativity
+import ASGinzburg.PeriodCutGradedUnits
+import ASGinzburg.PeriodCutGradedMatrix
+import ASGinzburg.PeriodCutGradedMonoid
+import ASGinzburg.PeriodCutGradedRing
+import ASGinzburg.PeriodCutGradedAlgebra
+import ASGinzburg.PeriodCutDegreeZero
+import ASGinzburg.ASCutGradedDescent
+
 /-!
 # AS--Ginzburg formalization checkpoint
 
@@ -765,5 +779,3 @@ All imports contain checked definitions and proofs. This checkpoint does
 not yet contain a formal statement or proof of Theorem 3.2 or Corollary
 5.2. See STATUS.md and GAPS.md for the exact scope and unresolved bridges.
 -/
-
-
