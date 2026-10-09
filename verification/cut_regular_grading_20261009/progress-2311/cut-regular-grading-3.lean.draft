@@ -1,0 +1,88 @@
+import ASGinzburg.PeriodCutIntegerHomogeneousSpaces
+import Mathlib.Algebra.DirectSum.Decomposition
+
+/-! The ring's actual nonnegative direct sum is an internal integer grading,
+with the negative components equal to zero. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutIntegerDegreeInsertion (n : ℕ) :
+    E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) n →ₗ[k]
+      E.cutIntegerHomogeneousSpace Q (n:ℤ) :=
+  (E.cutHomogeneousLinearInclusion (fun t : Q.Vertex => (t.val:ℤ)) n).codRestrict _
+    (fun a => by rw [E.cutIntegerHomogeneousSpace_ofNat];exact ⟨a,rfl⟩)
+
+noncomputable def cutIntegerRegularDecompose :
+    E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) →ₗ[k]
+      ⨁ q : ℤ,E.cutIntegerHomogeneousSpace Q q :=
+  DirectSum.toModule k ℕ _ (fun n =>
+    (DirectSum.lof k ℤ (fun q => ↥(E.cutIntegerHomogeneousSpace Q q)) (n:ℤ)).comp
+      (E.cutIntegerDegreeInsertion Q n))
+
+theorem cutIntegerRegularDecompose_lof (n : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) n) :
+    E.cutIntegerRegularDecompose Q
+      (DirectSum.lof k ℕ (E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ))) n a)=
+        DirectSum.lof k ℤ (fun q => ↥(E.cutIntegerHomogeneousSpace Q q)) (n:ℤ)
+          (E.cutIntegerDegreeInsertion Q n a) := by
+  exact DirectSum.toModule_lof k n a
+
+theorem cutIntegerRegularDecompose_leftInverse :
+    Function.LeftInverse (DirectSum.coeLinearMap (E.cutIntegerHomogeneousSpace Q))
+      (E.cutIntegerRegularDecompose Q) := by
+  intro r
+  refine DirectSum.induction_on r ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+  · intro n a
+    change DirectSum.coeLinearMap _ (E.cutIntegerRegularDecompose Q
+      (DirectSum.lof k ℕ (E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ))) n a))=_
+    rw [E.cutIntegerRegularDecompose_lof]
+    exact DirectSum.coeLinearMap_of _ _ _
+  · intro x y hx hy
+    rw [map_add,map_add,hx,hy]
+
+theorem cutIntegerRegularDecompose_rightInverse :
+    Function.RightInverse (DirectSum.coeLinearMap (E.cutIntegerHomogeneousSpace Q))
+      (E.cutIntegerRegularDecompose Q) := by
+  intro r
+  refine DirectSum.induction_on r ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+  · intro q a
+    change E.cutIntegerRegularDecompose Q (DirectSum.coeLinearMap _
+      (DirectSum.lof k ℤ (fun q => ↥(E.cutIntegerHomogeneousSpace Q q)) q a))=_
+    rw [show DirectSum.coeLinearMap (E.cutIntegerHomogeneousSpace Q)
+      (DirectSum.lof k ℤ (fun q => ↥(E.cutIntegerHomogeneousSpace Q q)) q a)=a.val from
+        DirectSum.coeLinearMap_of _ q a]
+    change E.cutIntegerRegularDecompose Q a.val=
+      DirectSum.lof k ℤ (fun q => ↥(E.cutIntegerHomogeneousSpace Q q)) q a
+    by_cases hq : 0≤q
+    · have hqn : q=(q.toNat:ℤ) := (Int.toNat_of_nonneg hq).symm
+      rw [hqn] at a ⊢
+      obtain ⟨b,hb⟩ := (show a.val∈LinearMap.range
+        (E.cutHomogeneousLinearInclusion (fun t : Q.Vertex => (t.val:ℤ)) q.toNat) by
+          simpa only [E.cutIntegerHomogeneousSpace_ofNat,Int.toNat_natCast] using a.property)
+      have ha : a=E.cutIntegerDegreeInsertion Q q.toNat b := by
+        apply Subtype.ext
+        exact hb.symm
+      rw [ha]
+      exact E.cutIntegerRegularDecompose_lof Q q.toNat b
+    · have hz : a=0 := by
+        apply Subtype.ext
+        have h := a.property
+        rw [E.cutIntegerHomogeneousSpace_negative Q (by omega)] at h
+        simpa only [Submodule.mem_bot] using h
+      rw [hz]
+      simp only [map_zero,ZeroMemClass.coe_zero]
+  · intro x y hx hy
+    rw [map_add,map_add,hx,hy]
+
+noncomputable def cutIntegerRegularGradeDecomposition :
+    DirectSum.Decomposition (E.cutIntegerHomogeneousSpace Q) where
+  decompose' := E.cutIntegerRegularDecompose Q
+  left_inv := E.cutIntegerRegularDecompose_leftInverse Q
+  right_inv := E.cutIntegerRegularDecompose_rightInverse Q
+
+end ASGinzburg.ZAlgebra.PeriodIso

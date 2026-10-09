@@ -1,0 +1,62 @@
+import work.ASGinzburgDraft.PeriodCutRightVertexDecomposition
+import ASGinzburg.PeriodCutRepresentableRightIdealGrading
+
+/-! The actual regular ring is the finite family of fixed-sheet graded
+representables, respecting the full right action and all integer degrees. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ)) (t : ℤ)
+
+noncomputable def cutRegularRepresentablesEquiv :
+    (∀ i : Q.Vertex,(E.cornerGradedRepresentable Q (i,t)).space) ≃ₗ[k]
+      E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) :=
+  (LinearEquiv.piCongrRight (fun i => E.cornerRepresentableRightIdealEquiv Q (i,t))).trans
+    (E.cutRightVertexDecompositionEquiv Q).symm
+
+theorem cutRegularRepresentablesEquiv_apply
+    (f : ∀ i : Q.Vertex,(E.cornerGradedRepresentable Q (i,t)).space) :
+    E.cutRegularRepresentablesEquiv Q t f=∑ i,E.cornerRepresentableValueMap Q (i,t) (f i) := rfl
+
+theorem cutRegularRepresentablesEquiv_symm_apply
+    (r : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))) (i : Q.Vertex) :
+    (E.cutRegularRepresentablesEquiv Q t).symm r i=E.cornerRepresentableActionMap Q (i,t) r := by
+  change E.cornerRepresentableActionMap Q (i,t)
+    (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i*r)=_
+  apply (E.cornerRepresentableRightIdealEquiv Q (i,t)).injective
+  apply Subtype.ext
+  change E.cornerRepresentableValueMap Q (i,t)
+    (E.cornerRepresentableActionMap Q (i,t)
+      (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i*r))=
+    E.cornerRepresentableValueMap Q (i,t) (E.cornerRepresentableActionMap Q (i,t) r)
+  rw [E.cornerRepresentableValueMap_actionMap,E.cornerRepresentableValueMap_actionMap,
+    ← mul_assoc,E.cutVertexIdempotent_mul_self]
+
+theorem cutRegularRepresentablesEquiv_right_action
+    (r : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+    (f : ∀ i : Q.Vertex,(E.cornerGradedRepresentable Q (i,t)).space) :
+    E.cutRegularRepresentablesEquiv Q t
+      (fun i => ((E.cornerGradedRepresentable Q (i,t)).representation r).unop (f i))=
+        E.cutRegularRepresentablesEquiv Q t f*r := by
+  rw [E.cutRegularRepresentablesEquiv_apply,E.cutRegularRepresentablesEquiv_apply]
+  simp_rw [E.cornerRepresentableValueMap_right_action]
+  rw [Finset.sum_mul]
+
+theorem cutRegularRepresentablesEquiv_mem_grade (q : ℤ)
+    (f : ∀ i : Q.Vertex,(E.cornerGradedRepresentable Q (i,t)).space)
+    (hf : ∀ i,f i∈(E.cornerGradedRepresentable Q (i,t)).grade q) :
+    E.cutRegularRepresentablesEquiv Q t f∈E.cutIntegerHomogeneousSpace Q (q+t) := by
+  rw [E.cutRegularRepresentablesEquiv_apply]
+  apply Submodule.sum_mem
+  intro i hi
+  exact E.cornerRepresentableValueMap_mem_grade Q (i,t) q (f i) (hf i)
+
+theorem cutRegularRepresentablesEquiv_symm_mem_grade (q : ℤ)
+    (r : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+    (hr : r∈E.cutIntegerHomogeneousSpace Q (q+t)) (i : Q.Vertex) :
+    (E.cutRegularRepresentablesEquiv Q t).symm r i∈(E.cornerGradedRepresentable Q (i,t)).grade q := by
+  rw [E.cutRegularRepresentablesEquiv_symm_apply]
+  apply E.cornerRepresentableActionMap_mem_grade Q (i,t) q r
+  exact hr
+
+end ASGinzburg.ZAlgebra.PeriodIso

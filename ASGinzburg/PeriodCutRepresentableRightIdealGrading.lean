@@ -1,0 +1,61 @@
+import ASGinzburg.PeriodCutRepresentableRightIdeal
+import ASGinzburg.PeriodCutIntegerHomogeneousSpaces
+
+/-! The actual right-ideal comparison shifts R's true homogeneous degree
+by minus the representable's sheet, in both directions. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cornerRepresentableValueMap_degreeInsertion_mem (z : Q.LiftVertex) (q : ℤ)
+    (v : E.CornerModuleDegreeSpace Q
+      ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) q) :
+    E.cornerRepresentableValueMap Q z
+      (E.cornerModuleDegreeInsertion Q
+        ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) q v)∈
+      E.cutIntegerHomogeneousSpace Q (q+z.2) := by
+  refine DirectSum.induction_on v ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+    exact Submodule.zero_mem _
+  · intro i w
+    change E.cornerRepresentableValueMap Q z
+      (E.cornerModuleDegreeInsertion Q
+        ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) q
+          (DirectSum.lof k Q.Vertex _ i w))∈_
+    rw [E.cornerModuleDegreeInsertion_lof,E.cornerRepresentableValueMap_lof]
+    have h := (E.cornerCoordinateHomEquiv Q (i,-q) z).symm w |>.property
+    change ((E.cornerCoordinateHomEquiv Q (i,-q) z).symm w).val∈
+      E.integerCorner Q (z.2-(-q)) i z.1 at h
+    rw [show z.2-(-q)=q+z.2 by ring] at h
+    exact E.integerCorner_le_integerHomogeneousSpace Q (q+z.2) i z.1 h
+  · intro v w hv hw
+    rw [map_add,map_add]
+    exact Submodule.add_mem _ hv hw
+
+theorem cornerRepresentableValueMap_mem_grade (z : Q.LiftVertex) (q : ℤ)
+    (v : (E.cornerGradedRepresentable Q z).space)
+    (hv : v∈(E.cornerGradedRepresentable Q z).grade q) :
+    E.cornerRepresentableValueMap Q z v∈E.cutIntegerHomogeneousSpace Q (q+z.2) := by
+  obtain ⟨w,rfl⟩ := hv
+  exact E.cornerRepresentableValueMap_degreeInsertion_mem Q z q w
+
+theorem cornerRepresentableActionMap_mem_grade (z : Q.LiftVertex) (q : ℤ)
+    (r : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+    (hr : r∈E.cutIntegerHomogeneousSpace Q (q+z.2)) :
+    E.cornerRepresentableActionMap Q z r∈(E.cornerGradedRepresentable Q z).grade q := by
+  by_cases hq : 0≤q+z.2
+  · rw [cutIntegerHomogeneousSpace,if_pos hq] at hr
+    obtain ⟨a,rfl⟩ := hr
+    have h := (E.cornerGradedRepresentable Q z).homogeneous (q+z.2).toNat a (-z.2)
+      (E.cornerRepresentableGenerator Q z) (E.cornerRepresentableGenerator_mem_grade Q z)
+    have hd : -z.2+((q+z.2).toNat:ℤ)=q := by rw [Int.toNat_of_nonneg hq];ring
+    rw [hd] at h
+    exact h
+  · rw [E.cutIntegerHomogeneousSpace_negative Q (by omega)] at hr
+    have hz : r=0 := by simpa only [Submodule.mem_bot] using hr
+    rw [hz,map_zero]
+    exact Submodule.zero_mem _
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,47 @@
+import work.ASGinzburgDraft.PeriodCutGradedShiftIsomorphisms
+import Mathlib.CategoryTheory.Shift.Basic
+
+/-! The concrete grading shifts satisfy the coherence required by mathlib's
+integer shift structure. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem shifted_eqToHom_val (M : E.CutGradedRightModule Q) (s t : ℤ) (h : s=t) :
+    (eqToHom (congrArg (fun a => M.shifted a) h)).val=LinearMap.id := by
+  subst t
+  rfl
+
+noncomputable def gradingShiftCore : ShiftMkCore (E.CutGradedRightModule Q) ℤ where
+  F := shiftedFunctor
+  zero := shiftedFunctorZeroIso
+  add := shiftedFunctorAddIso
+  assoc_hom_app s t u M := by
+    apply Subtype.ext
+    change LinearMap.id=
+      LinearMap.id.comp (LinearMap.id.comp
+        (eqToHom (congrArg (fun a => M.shifted a) (add_assoc s t u))).val)
+    rw [shifted_eqToHom_val]
+    rfl
+    all_goals omega
+  zero_add_hom_app t M := by
+    apply Subtype.ext
+    change LinearMap.id=LinearMap.id.comp
+      (eqToHom (congrArg (fun a => M.shifted a) (zero_add t))).val
+    rw [shifted_eqToHom_val]
+    rfl
+    all_goals omega
+  add_zero_hom_app t M := by
+    apply Subtype.ext
+    change LinearMap.id=LinearMap.id.comp
+      (eqToHom (congrArg (fun a => M.shifted a) (add_zero t))).val
+    rw [shifted_eqToHom_val]
+    rfl
+    all_goals omega
+
+noncomputable instance hasGradingShift : HasShift (E.CutGradedRightModule Q) ℤ :=
+  hasShiftMk (E.CutGradedRightModule Q) ℤ gradingShiftCore
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

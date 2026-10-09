@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/PeriodCutGradedShift.lean:38:16: error: Tactic `rfl` failed: Expected the goal to be a binary relation
+
+Hint: Reflexivity tactics can only be used on goals of the form `x ~ x` or `R x x`
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+t : ℤ
+⊢ ∀ {X Y : CutGradedRightModule Q E} {f g : X ⟶ Y},
+    (shiftedFunctor t).map (f + g) = (shiftedFunctor t).map f + (shiftedFunctor t).map g

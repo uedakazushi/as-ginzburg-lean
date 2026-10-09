@@ -1,0 +1,54 @@
+import work.ASGinzburgDraft.PeriodCutRegularGrading
+import ASGinzburg.PeriodCutGradedModuleEnrichment
+import Mathlib.Algebra.Algebra.Bilinear
+
+/-! R itself, with actual right multiplication and its usual homogeneous
+subspaces, is an object of the genuine graded right module category. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutRegularRightRepresentation :
+    E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) →ₐ[k]
+      (Module.End k (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))))ᵐᵒᵖ where
+  toFun r := MulOpposite.op (LinearMap.mulRight k r)
+  map_zero' := by apply MulOpposite.unop_injective;ext x;exact mul_zero x
+  map_one' := by apply MulOpposite.unop_injective;ext x;exact mul_one x
+  map_add' r s := by apply MulOpposite.unop_injective;ext x;exact mul_add x r s
+  map_mul' r s := by apply MulOpposite.unop_injective;ext x;exact mul_assoc x r s
+  commutes' c := by
+    apply MulOpposite.unop_injective
+    apply LinearMap.ext
+    intro x
+    change x*algebraMap k _ c=c • x
+    rw [Algebra.algebraMap_eq_smul_one,Algebra.mul_smul_comm,mul_one]
+
+theorem cutIntegerHomogeneousSpace_mul_right (q : ℤ)
+    (x : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+    (hx : x∈E.cutIntegerHomogeneousSpace Q q) (m : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m) :
+    x*E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a∈
+      E.cutIntegerHomogeneousSpace Q (q+(m:ℤ)) := by
+  by_cases hq : 0≤q
+  · rw [cutIntegerHomogeneousSpace,if_pos hq] at hx
+    obtain ⟨b,rfl⟩ := hx
+    rw [cutIntegerHomogeneousSpace,if_pos (by omega),
+      show (q+(m:ℤ)).toNat=q.toNat+m by omega]
+    refine ⟨E.cutBlockMul (fun t : Q.Vertex => (t.val:ℤ)) q.toNat m b a,?_⟩
+    exact (E.cutHomogeneousInclusion_mul _ q.toNat m b a).symm
+  · have hz : x=0 := by
+      have h : x∈(⊥ : Submodule k (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))) := by
+        simpa only [E.cutIntegerHomogeneousSpace_negative Q (q:=q) (by omega)] using hx
+      simpa only [Submodule.mem_bot] using h
+    rw [hz,zero_mul]
+    exact Submodule.zero_mem _
+
+noncomputable def cutRegularGradedRightModule : E.CutGradedRightModule Q where
+  space := ModuleCat.of k (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+  representation := E.cutRegularRightRepresentation Q
+  grade := E.cutIntegerHomogeneousSpace Q
+  decomposition := E.cutIntegerRegularGradeDecomposition Q
+  homogeneous m a q x hx := E.cutIntegerHomogeneousSpace_mul_right Q q x hx m a
+
+end ASGinzburg.ZAlgebra.PeriodIso

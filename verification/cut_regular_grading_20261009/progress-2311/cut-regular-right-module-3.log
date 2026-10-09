@@ -1,0 +1,10 @@
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:22:82: error: Type mismatch
+  mul_assoc x r s
+has type
+  x * r * s = x * (r * s)
+but is expected to have type
+  (MulOpposite.unop (MulOpposite.op { toFun := fun x => x * (r * s), map_add' := ⋯, map_smul' := ⋯ })) x =
+    (MulOpposite.unop
+        (MulOpposite.op { toFun := fun x => x * r, map_add' := ⋯, map_smul' := ⋯ } *
+          MulOpposite.op { toFun := fun x => x * s, map_add' := ⋯, map_smul' := ⋯ }))
+      x

@@ -1,0 +1,57 @@
+import work.ASGinzburgDraft.PeriodCutRegularRightModule
+import work.ASGinzburgDraft.PeriodCutGradedShift
+import work.ASGinzburgDraft.PeriodCutRepresentableValueOrthogonality
+import Mathlib.CategoryTheory.Preadditive.Biproducts
+
+/-! The usual grading shift of R is the genuine finite categorical
+biproduct of the actual vertex representables at that sheet. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutRegularRepresentableInclusion (t : ℤ) (i : Q.Vertex) :
+    E.cornerGradedRepresentable Q (i,t) ⟶ (E.cutRegularGradedRightModule Q).shifted t :=
+  ⟨E.cornerRepresentableValueMap Q (i,t),⟨
+    E.cornerRepresentableValueMap_right_action Q (i,t),
+    E.cornerRepresentableValueMap_mem_grade Q (i,t)⟩⟩
+
+noncomputable def cutRegularRepresentableProjection (t : ℤ) (i : Q.Vertex) :
+    (E.cutRegularGradedRightModule Q).shifted t ⟶ E.cornerGradedRepresentable Q (i,t) :=
+  ⟨E.cornerRepresentableActionMap Q (i,t),⟨
+    fun r x => E.cornerRepresentableActionMap_mul Q (i,t) x r,
+    E.cornerRepresentableActionMap_mem_grade Q (i,t)⟩⟩
+
+noncomputable def cutRegularRepresentableBicone (t : ℤ) :
+    Bicone (fun i : Q.Vertex => E.cornerGradedRepresentable Q (i,t)) where
+  pt := (E.cutRegularGradedRightModule Q).shifted t
+  π := E.cutRegularRepresentableProjection Q t
+  ι := E.cutRegularRepresentableInclusion Q t
+  ι_π i j := by
+    classical
+    by_cases h : i=j
+    · subst j
+      rw [dif_pos rfl,eqToHom_refl]
+      apply Subtype.ext
+      apply LinearMap.ext
+      intro x
+      exact LinearMap.congr_fun (E.cornerRepresentableActionMap_valueMap Q (i,t)) x
+    · rw [dif_neg h]
+      apply Subtype.ext
+      apply LinearMap.ext
+      intro x
+      exact E.cornerRepresentableActionMap_valueMap_off Q j i t (Ne.symm h) x
+
+noncomputable def cutRegularRepresentableBiconeIsBilimit (t : ℤ) :
+    (E.cutRegularRepresentableBicone Q t).IsBilimit := by
+  apply isBilimitOfTotal
+  apply Subtype.ext
+  apply LinearMap.ext
+  intro r
+  change (∑ i,E.cutRegularRepresentableProjection Q t i ≫
+    E.cutRegularRepresentableInclusion Q t i).val r=r
+  rw [Submodule.coe_sum,LinearMap.sum_apply]
+  exact E.sum_cornerRepresentableValueMap_actionMap Q t r
+
+end ASGinzburg.ZAlgebra.PeriodIso

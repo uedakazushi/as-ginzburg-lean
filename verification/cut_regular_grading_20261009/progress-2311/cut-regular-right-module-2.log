@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:20:56: error: Type mismatch
+  mul_one x
+has type
+  Eq.{1} (x * 1) x
+but is expected to have type
+  Eq.{v + 1}
+    (((((MulOpposite.unop (MulOpposite.op { toFun := fun x => x * 1, map_add' := ⋯, map_smul' := ⋯ }) ∘ₗ
+              DirectSum.lof k ℕ (E.CutGradedBlock fun t => ↑↑t) x) ∘ₗ
+            LinearMap.single k (fun i => (j : Q.Vertex) → E.CutGradedHom x ((fun t => ↑↑t) i) ((fun t => ↑↑t) j))
+              i✝²) ∘ₗ
+          LinearMap.single k (fun i => E.CutGradedHom x ((fun t => ↑↑t) i✝²) ((fun t => ↑↑t) i)) i✝¹)
+        x✝²)
+      i✝ x✝¹ x✝)
+    (((((MulOpposite.unop 1 ∘ₗ DirectSum.lof k ℕ (E.CutGradedBlock fun t => ↑↑t) x) ∘ₗ
+            LinearMap.single k (fun i => (j : Q.Vertex) → E.CutGradedHom x ((fun t => ↑↑t) i) ((fun t => ↑↑t) j))
+              i✝²) ∘ₗ
+          LinearMap.single k (fun i => E.CutGradedHom x ((fun t => ↑↑t) i✝²) ((fun t => ↑↑t) i)) i✝¹)
+        x✝²)
+      i✝ x✝¹ x✝)
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:22:78: error: Application type mismatch: The argument
+  r
+has type
+  E.CutGradedRing fun t => ↑↑t
+of sort `Type v` but is expected to have type
+  ℕ
+of sort `Type` in the application
+  mul_assoc x r
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:19:57: error: Type mismatch
+  mul_zero x
+has type
+  Eq.{1} (x * 0) 0
+but is expected to have type
+  Eq.{v + 1}
+    (((((MulOpposite.unop (MulOpposite.op { toFun := fun x => x * 0, map_add' := ⋯, map_smul' := ⋯ }) ∘ₗ
+              DirectSum.lof k ℕ (E.CutGradedBlock fun t => ↑↑t) x) ∘ₗ
+            LinearMap.single k (fun i => (j : Q.Vertex) → E.CutGradedHom x ((fun t => ↑↑t) i) ((fun t => ↑↑t) j))
+              i✝²) ∘ₗ
+          LinearMap.single k (fun i => E.CutGradedHom x ((fun t => ↑↑t) i✝²) ((fun t => ↑↑t) i)) i✝¹)
+        x✝²)
+      i✝ x✝¹ x✝)
+    (((((MulOpposite.unop 0 ∘ₗ DirectSum.lof k ℕ (E.CutGradedBlock fun t => ↑↑t) x) ∘ₗ
+            LinearMap.single k (fun i => (j : Q.Vertex) → E.CutGradedHom x ((fun t => ↑↑t) i) ((fun t => ↑↑t) j))
+              i✝²) ∘ₗ
+          LinearMap.single k (fun i => E.CutGradedHom x ((fun t => ↑↑t) i✝²) ((fun t => ↑↑t) i)) i✝¹)
+        x✝²)
+      i✝ x✝¹ x✝)
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:21:76: error: Application type mismatch: The argument
+  r
+has type
+  E.CutGradedRing fun t => ↑↑t
+of sort `Type v` but is expected to have type
+  ℕ
+of sort `Type` in the application
+  mul_add x r

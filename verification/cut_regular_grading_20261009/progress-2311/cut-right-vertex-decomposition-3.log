@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/PeriodCutRightVertexDecomposition.lean:41:4: error: Type mismatch: After simplification, term
+  have this :=
+    of_eq_true
+      (Eq.trans
+        (congrArg (fun x => x = ↑(f i))
+          (Eq.trans
+            (Eq.trans
+              (Finset.sum_congr (Eq.refl Finset.univ) fun x a =>
+                Eq.trans ((fun i j r => cutRightVertexProjection_value Q E i j r) i x (f x))
+                  (ite_congr (Eq.refl (i = x)) (fun a => Eq.refl ↑(f x)) fun a => Eq.refl 0))
+              (Finset.sum_ite_eq Finset.univ i fun x => ↑(f x)))
+            (ite_cond_eq_true (↑(f i)) 0 (Finset.mem_univ._simp_1 i))))
+        (eq_self ↑(f i)));
+  this
+ has type
+  (∑ x, if i = x then ↑(f x) else 0) = ↑(f i)
+but is expected to have type
+  ∑ x, E.cutVertexIdempotent (fun t => ↑↑t) i * ↑(f x) = ↑(f i)
+work/ASGinzburgDraft/PeriodCutRightVertexDecomposition.lean:43:47: warning: This simp argument is unused:
+  eq_comm
+
+Hint: Omit it from the simp argument list.
+  simp [E.cutRightVertexProjection_value,̵e̵q̵_̵c̵o̵m̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

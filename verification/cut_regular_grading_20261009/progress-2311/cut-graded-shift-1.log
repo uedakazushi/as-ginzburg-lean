@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/PeriodCutGradedShift.lean:38:2: error: Type mismatch
+  fun x x_1 => rfl
+has type
+  ∀ (x : ?m.20) (x_1 : ?m.24 x), ?m.26 x x_1 = ?m.26 x x_1
+but is expected to have type
+  (shiftedFunctor t).map (f✝ + g✝) = (shiftedFunctor t).map f✝ + (shiftedFunctor t).map g✝
+the following variables have been introduced by the implicit lambda feature
+  X✝ : CutGradedRightModule Q E
+  Y✝ : CutGradedRightModule Q E
+  f✝ : X✝ ⟶ Y✝
+  g✝ : X✝ ⟶ Y✝
+you can disable implicit lambdas using `@` or writing a lambda expression with `{}` or `[]` binder annotations.

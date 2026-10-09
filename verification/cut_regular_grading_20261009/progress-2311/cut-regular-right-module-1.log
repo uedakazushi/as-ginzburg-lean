@@ -1,0 +1,63 @@
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:15:29: error: failed to synthesize
+  IsScalarTower k (E.CutGradedRing fun t => ↑↑t) (E.CutGradedRing fun t => ↑↑t)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:19:78: error: Application type mismatch: The argument
+  r
+has type
+  E.CutGradedRing fun t => ↑↑t
+of sort `Type v` but is expected to have type
+  ℕ
+of sort `Type` in the application
+  mul_assoc x r
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:18:76: error: Application type mismatch: The argument
+  r
+has type
+  E.CutGradedRing fun t => ↑↑t
+of sort `Type v` but is expected to have type
+  ℕ
+of sort `Type` in the application
+  mul_add x r
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:37:6: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a =>
+    (E.cutHomogeneousLinearInclusion (fun t => ↑↑t) q.toNat) b * (E.cutHomogeneousInclusion (fun t => ↑↑t) m) a ∈
+      LinearMap.range (E.cutHomogeneousLinearInclusion (fun t => ↑↑t) _a)
+Error: Application type mismatch: The argument
+  cutIntegerHomogeneousSpace._proof_1 Q E (q + ↑m)
+has type
+  SemilinearMapClass (E.CutGradedBlock (fun t => ↑↑t) (q + ↑m).toNat →ₗ[k] E.CutGradedRing fun t => ↑↑t) (RingHom.id k)
+    (E.CutGradedBlock (fun t => ↑↑t) (q + ↑m).toNat) (E.CutGradedRing fun t => ↑↑t)
+but is expected to have type
+  SemilinearMapClass (E.CutGradedBlock (fun t => ↑↑t) _a →ₗ[k] E.CutGradedRing fun t => ↑↑t) (RingHom.id k)
+    (E.CutGradedBlock (fun t => ↑↑t) _a) (E.CutGradedRing fun t => ↑↑t)
+in the application
+  @LinearMap.range k k (E.CutGradedBlock (fun t => ↑↑t) _a) (E.CutGradedRing fun t => ↑↑t)
+    Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring Pi.addCommMonoid
+    (instAddCommMonoidDirectSum ℕ fun m => E.CutGradedBlock (fun t => ↑↑t) m)
+    (Pi.module Q.Vertex (fun i => (j : Q.Vertex) → E.CutGradedHom _a ↑↑i ↑↑j) k) DirectSum.instModule (RingHom.id k)
+    (E.CutGradedBlock (fun t => ↑↑t) _a →ₗ[k] E.CutGradedRing fun t => ↑↑t) LinearMap.instFunLike ⋯
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+q : ℤ
+m : ℕ
+a : E.CutGradedBlock (fun t => ↑↑t) m
+hq : 0 ≤ q
+b : E.CutGradedBlock (fun t => ↑↑t) q.toNat
+⊢ (E.cutHomogeneousLinearInclusion (fun t => ↑↑t) q.toNat) b * (E.cutHomogeneousInclusion (fun t => ↑↑t) m) a ∈
+    LinearMap.range (E.cutHomogeneousLinearInclusion (fun t => ↑↑t) (q + ↑m).toNat)
+work/ASGinzburgDraft/PeriodCutRegularRightModule.lean:52:28: error: Type mismatch
+  cutIntegerHomogeneousSpace_mul_right Q E q x hx m a
+has type
+  x * (E.cutHomogeneousInclusion (fun t => ↑↑t) m) a ∈ cutIntegerHomogeneousSpace Q E (q + ↑m)
+but is expected to have type
+  (MulOpposite.unop ((cutRegularRightRepresentation Q E) ((E.cutHomogeneousInclusion (fun i => ↑↑i) m) a))) x ∈
+    cutIntegerHomogeneousSpace Q E (q + ↑m)

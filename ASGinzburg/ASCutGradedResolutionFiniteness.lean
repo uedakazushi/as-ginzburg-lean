@@ -1,0 +1,22 @@
+import ASGinzburg.PeriodCutFiniteProjectives
+import ASGinzburg.ASCutGradedResolutions
+import ASGinzburg.ASFiniteProjectiveComplex
+
+/-! Every term of the actual graded-R AS simple resolution is finitely
+generated as an ordinary right R module; no finiteness is assumed. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutGradedSimpleProjectiveResolution_finite
+    (hAS : A.ASRegular Q) (x : Q.LiftVertex) (n : ℕ) :
+    Module.Finite (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutGradedSimpleProjectiveResolution A Q x).complex.X n).space := by
+  change Module.Finite (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+    (((hAS.periodIso A Q).cornerModuleRingFunctor Q).obj
+      (((hAS.cutCornerASRegular Q).resolution (hAS.cutCornerCover A Q) Q x).complexTerm n))
+  exact (hAS.periodIso A Q).cornerFiniteProjective_ring_finite Q
+    (((hAS.cutCornerASRegular Q).resolution (hAS.cutCornerCover A Q) Q x).complexTermFiniteProjective n)
+
+end ASGinzburg.ZAlgebra
