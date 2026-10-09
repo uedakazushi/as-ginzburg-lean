@@ -1,0 +1,39 @@
+import ASGinzburg.PeriodCutRecoveredTotalGrading
+
+/-! The genuine recovered total-space comparison also preserves grading in its inverse direction. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem recoveredTotalEquiv_degreeInsertion (M : E.CutGradedRightModule Q) (q : ℤ) :
+    M.recoveredTotalEquiv.toLinearMap.comp
+      (E.cornerModuleDegreeInsertion Q M.recoveredRightModule q)=
+      (M.grade q).subtype.comp
+        ((M.degreeComponentEquiv q).symm.toLinearMap.comp
+          (M.recoveredDegreeSpaceEquiv q).toLinearMap) := by
+  apply DFinsupp.lhom_ext
+  intro i v
+  change M.recoveredTotalEquiv
+    (E.cornerModuleDegreeInsertion Q M.recoveredRightModule q
+      (DirectSum.lof k Q.Vertex (fun i => E.CornerModuleSpace Q M.recoveredRightModule (i,-q)) i v))=
+    ((M.degreeComponentEquiv q).symm (M.recoveredDegreeSpaceEquiv q
+      (DirectSum.lof k Q.Vertex (fun i => E.CornerModuleSpace Q M.recoveredRightModule (i,-q)) i v))).val
+  rw [E.cornerModuleDegreeInsertion_lof,M.recoveredTotalEquiv_lof,
+    M.recoveredDegreeSpaceEquiv_lof,M.degreeComponentEquiv_symm_lof_val]
+
+theorem recoveredTotalEquiv_symm_mem_grade (M : E.CutGradedRightModule Q)
+    (q : ℤ) (v : M.space) (hv : v∈M.grade q) :
+    M.recoveredTotalEquiv.symm v∈E.cornerModuleGrade Q M.recoveredRightModule q := by
+  obtain ⟨w,hw⟩ := (M.recoveredDegreeSpaceEquiv q).surjective (M.degreeComponentEquiv q ⟨v,hv⟩)
+  have he := LinearMap.congr_fun (M.recoveredTotalEquiv_degreeInsertion q) w
+  change M.recoveredTotalEquiv (E.cornerModuleDegreeInsertion Q M.recoveredRightModule q w)=
+    ((M.degreeComponentEquiv q).symm (M.recoveredDegreeSpaceEquiv q w)).val at he
+  rw [hw,(M.degreeComponentEquiv q).symm_apply_apply] at he
+  change M.recoveredTotalEquiv (E.cornerModuleDegreeInsertion Q M.recoveredRightModule q w)=v at he
+  rw [← he,M.recoveredTotalEquiv.symm_apply_apply]
+  exact LinearMap.mem_range_self _ _
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

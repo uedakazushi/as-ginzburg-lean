@@ -1,0 +1,43 @@
+import work.ASGinzburgDraft.PeriodCutComponentTotalRecomposition
+import work.ASGinzburgDraft.PeriodCutRecoveredRightModules
+
+/-! The total space of the actual recovered cover module recombines
+to the original graded R-module space. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+noncomputable def recoveredCoordinateSpaceEquiv (M : E.CutGradedRightModule Q)
+    (x : Q.LiftVertex) : E.CornerModuleSpace Q M.recoveredRightModule x ≃ₗ[k]
+      M.componentSubmodule x :=
+  submoduleEqualityEquiv _ _ (congrArg M.componentSubmodule (Q.heightEquiv.symm_apply_apply x))
+
+noncomputable def recoveredCoordinateTotalEquiv (M : E.CutGradedRightModule Q) :
+    E.CornerModuleTotalSpace Q M.recoveredRightModule ≃ₗ[k]
+      ⨁ x : Q.LiftVertex,M.componentSubmodule x :=
+  DFinsupp.mapRange.linearEquiv M.recoveredCoordinateSpaceEquiv
+
+theorem recoveredCoordinateTotalEquiv_lof (M : E.CutGradedRightModule Q)
+    (x : Q.LiftVertex) (v : E.CornerModuleSpace Q M.recoveredRightModule x) :
+    M.recoveredCoordinateTotalEquiv
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) x v)=
+    DirectSum.lof k Q.LiftVertex (fun x => ↥(M.componentSubmodule x)) x
+      (M.recoveredCoordinateSpaceEquiv x v) :=
+  DFinsupp.mapRange_single (hf:=fun x => (M.recoveredCoordinateSpaceEquiv x).map_zero)
+
+noncomputable def recoveredTotalEquiv (M : E.CutGradedRightModule Q) :
+    E.CornerModuleTotalSpace Q M.recoveredRightModule ≃ₗ[k] M.space :=
+  M.recoveredCoordinateTotalEquiv.trans M.componentTotalEquiv.symm
+
+theorem recoveredTotalEquiv_lof (M : E.CutGradedRightModule Q)
+    (x : Q.LiftVertex) (v : E.CornerModuleSpace Q M.recoveredRightModule x) :
+    M.recoveredTotalEquiv
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) x v)=
+      (M.recoveredCoordinateSpaceEquiv x v).val := by
+  rw [recoveredTotalEquiv,LinearEquiv.trans_apply,M.recoveredCoordinateTotalEquiv_lof,
+    M.componentTotalEquiv_symm_lof]
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

@@ -1,0 +1,63 @@
+import work.ASGinzburgDraft.PeriodCutModuleVertexProjections
+
+/-! A genuine graded R-module degree is the finite sum of its vertex components. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+noncomputable def degreeVertexMap (M : E.CutGradedRightModule Q) (q : ℤ) :
+    M.grade q →ₗ[k] ∀ i : Q.Vertex,M.componentSubmodule (i,-q) where
+  toFun v i := ⟨M.vertexProjection i v.val,M.vertexProjection_mem_component i (-q) v.val
+    (by simpa only [neg_neg] using v.property)⟩
+  map_add' := by intro v w;funext i;apply Subtype.ext;exact (M.vertexProjection i).map_add v.val w.val
+  map_smul' := by intro c v;funext i;apply Subtype.ext;exact (M.vertexProjection i).map_smul c v.val
+
+noncomputable def degreeVertexSum (M : E.CutGradedRightModule Q) (q : ℤ) :
+    (∀ i : Q.Vertex,M.componentSubmodule (i,-q)) →ₗ[k] M.grade q where
+  toFun v := ⟨∑ i : Q.Vertex,(v i).val,by
+    apply Submodule.sum_mem
+    intro i hi
+    have h := ((M.mem_componentSubmodule_iff (i,-q) (v i).val).mp (v i).property).1
+    simpa only [neg_neg] using h⟩
+  map_add' := by
+    intro v w
+    apply Subtype.ext
+    change (∑ i : Q.Vertex,(v i).val+(w i).val)=
+      (∑ i : Q.Vertex,(v i).val)+(∑ i : Q.Vertex,(w i).val)
+    rw [Finset.sum_add_distrib]
+  map_smul' := by
+    intro c v
+    apply Subtype.ext
+    change (∑ i : Q.Vertex,c • (v i).val)=c • (∑ i : Q.Vertex,(v i).val)
+    rw [Finset.smul_sum]
+
+theorem degreeVertexSum_map (M : E.CutGradedRightModule Q) (q : ℤ) (v : M.grade q) :
+    M.degreeVertexSum q (M.degreeVertexMap q v)=v := by
+  apply Subtype.ext
+  exact M.sum_vertexProjection_apply v.val
+
+theorem degreeVertexMap_sum (M : E.CutGradedRightModule Q) (q : ℤ)
+    (v : ∀ i : Q.Vertex,M.componentSubmodule (i,-q)) :
+    M.degreeVertexMap q (M.degreeVertexSum q v)=v := by
+  funext i
+  apply Subtype.ext
+  change M.vertexProjection i (∑ j : Q.Vertex,(v j).val)=(v i).val
+  rw [map_sum,Finset.sum_eq_single i]
+  · exact ((M.mem_componentSubmodule_iff (i,-q) (v i).val).mp (v i).property).2
+  · intro j hj hji
+    have hjv := ((M.mem_componentSubmodule_iff (j,-q) (v j).val).mp (v j).property).2
+    rw [← hjv]
+    exact LinearMap.congr_fun (M.vertexProjection_orthogonal i j hji.symm) (v j).val
+  · simp
+
+noncomputable def degreeVertexEquiv (M : E.CutGradedRightModule Q) (q : ℤ) :
+    M.grade q ≃ₗ[k] ∀ i : Q.Vertex,M.componentSubmodule (i,-q) :=
+  { M.degreeVertexMap q with
+    invFun := M.degreeVertexSum q
+    left_inv := M.degreeVertexSum_map q
+    right_inv := M.degreeVertexMap_sum q }
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

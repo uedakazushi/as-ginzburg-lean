@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/PeriodCutModuleComparisonValues.lean:19:2: error: Tactic `subst` failed: invalid equality proof, it is not of the form (x = t) or (t = x)
+  op (cornerCoordinateObject Q E x) = op (cornerCoordinateObject Q E x)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x : Q.LiftVertex
+v : CornerModuleSpace Q E M x
+h : op (cornerCoordinateObject Q E x) = op (cornerCoordinateObject Q E x)
+hh : h = ⋯
+⊢ ↑((cornerComponentEquiv Q E M x) ((M.obj.mapIso (eqToIso h)).toLinearEquiv v)) =
+    (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x) v

@@ -1,0 +1,61 @@
+import ASGinzburg.PeriodCutGradedModuleYoneda
+import ASGinzburg.PeriodCutCornerTotalActions
+import Mathlib.RingTheory.Finiteness.Basic
+
+/-! Each concrete graded representable is generated, as an actual unital
+right R module, by the identity at its vertex-degree coordinate. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cornerRepresentableGenerator (z : Q.LiftVertex) :
+    (E.cornerGradedRepresentable Q z).space :=
+  DirectSum.lof k Q.LiftVertex
+    (E.CornerModuleSpace Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z))) z
+    ((E.cornerCoverZAlgebra Q).id (Q.heightEquiv z))
+
+theorem cornerRepresentableGenerator_corner_action (z x : Q.LiftVertex)
+    (a : E.CornerCoverHom Q x z) :
+    ((E.cornerGradedRepresentable Q z).representation a.val).unop
+      (E.cornerRepresentableGenerator Q z)=
+    DirectSum.lof k Q.LiftVertex
+      (E.CornerModuleSpace Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z))) x
+      (E.cornerCoordinateHomEquiv Q x z a) := by
+  change (E.cutRightRepresentation Q
+    ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) a.val).unop
+      (DirectSum.lof k Q.LiftVertex _ z ((E.cornerCoverZAlgebra Q).id (Q.heightEquiv z)))=_
+  rw [E.cutRightRepresentation_corner_lof]
+  congr 1
+  exact (E.cornerCoverZAlgebra Q).comp_id (E.cornerCoordinateHomEquiv Q x z a)
+
+theorem cornerRepresentableGenerator_mem_grade (z : Q.LiftVertex) :
+    E.cornerRepresentableGenerator Q z∈(E.cornerGradedRepresentable Q z).grade (-z.2) :=
+  E.cornerModule_lof_mem_grade Q
+    ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) (-z.2) z (by simp) _
+
+theorem cornerRepresentableGenerator_span_top (z : Q.LiftVertex) :
+    Submodule.span (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ
+      {E.cornerRepresentableGenerator Q z}=⊤ := by
+  apply top_unique
+  intro v hv
+  refine DirectSum.induction_on v ?_ ?_ ?_
+  · exact Submodule.zero_mem _
+  · intro x w
+    obtain ⟨a,rfl⟩ := (E.cornerCoordinateHomEquiv Q x z).surjective w
+    rw [← E.cornerRepresentableGenerator_corner_action]
+    exact Submodule.smul_mem _ (MulOpposite.op a.val)
+      (Submodule.mem_span_singleton_self (E.cornerRepresentableGenerator Q z))
+  · intro v w hv hw
+    exact Submodule.add_mem _ hv hw
+
+theorem cornerGradedRepresentable_finite (z : Q.LiftVertex) :
+    Module.Finite (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ
+      (E.cornerGradedRepresentable Q z).space := by
+  apply Module.finite_def.mpr
+  rw [← E.cornerRepresentableGenerator_span_top Q z]
+  exact Submodule.fg_span_singleton _
+
+end ASGinzburg.ZAlgebra.PeriodIso

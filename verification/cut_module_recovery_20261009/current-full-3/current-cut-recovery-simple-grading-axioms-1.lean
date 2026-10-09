@@ -1,0 +1,5 @@
+import work.ASGinzburgDraft.PeriodCutGradedSimpleGrading
+
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cornerSimpleDegreeSpace_subsingleton
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cornerSimpleGrade_off
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cornerSimpleGrade_diagonal

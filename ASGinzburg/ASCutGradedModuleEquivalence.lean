@@ -1,0 +1,49 @@
+import ASGinzburg.PeriodCutGradedModuleExt
+import ASGinzburg.ASCutCornerModuleComparison
+
+/-! Original AS regularity provides the period and hence the concrete
+graded-R equivalence, without any additional periodicity assumption. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutGradedModuleEquivalence (hAS : A.ASRegular Q) :
+    A.RightModule ≌ (hAS.periodIso A Q).CutGradedRightModule Q :=
+  (hAS.cutCornerRightModuleEquivalence A Q).symm.trans
+    ((hAS.periodIso A Q).cornerGradedModuleEquivalence Q)
+
+instance ASRegular.cutGradedModuleEquivalence_functor_additive (hAS : A.ASRegular Q) :
+    (hAS.cutGradedModuleEquivalence A Q).functor.Additive := by
+  change ((hAS.cutCornerRightModuleEquivalence A Q).inverse ⋙
+    (hAS.periodIso A Q).cornerGradedModuleFunctor Q).Additive
+  letI : (hAS.cutCornerRightModuleEquivalence A Q).inverse.Additive :=
+    hAS.cutCornerRightModuleInverseAdditive A Q
+  letI := (hAS.periodIso A Q).cornerGradedModuleFunctorAdditive Q
+  infer_instance
+
+instance ASRegular.cutGradedModuleEquivalence_functor_linear (hAS : A.ASRegular Q) :
+    (hAS.cutGradedModuleEquivalence A Q).functor.Linear k := by
+  change ((hAS.cutCornerCoverRecovery A Q).rightModuleEquivalence.inverse ⋙
+    (hAS.periodIso A Q).cornerGradedModuleFunctor Q).Linear k
+  letI := (hAS.cutCornerCoverRecovery A Q).rightModuleEquivalenceInverseLinear
+  letI := (hAS.periodIso A Q).cornerGradedModuleFunctorLinear Q
+  infer_instance
+
+instance ASRegular.cutGradedModuleEquivalence_inverse_additive (hAS : A.ASRegular Q) :
+    (hAS.cutGradedModuleEquivalence A Q).inverse.Additive := by
+  change (PeriodIso.CutGradedRightModule.recoveredModuleFunctor (E:=hAS.periodIso A Q) ⋙
+    (hAS.cutCornerRightModuleEquivalence A Q).functor).Additive
+  letI := hAS.cutCornerRightModuleFunctorAdditive A Q
+  infer_instance
+
+noncomputable def ASRegular.cutGradedExtLinearEquiv (hAS : A.ASRegular Q)
+    (M N : A.RightModule) (n : ℕ) :
+    Abelian.Ext.{v} M N n ≃ₗ[k]
+      Abelian.Ext.{v} ((hAS.cutGradedModuleEquivalence A Q).functor.obj M)
+        ((hAS.cutGradedModuleEquivalence A Q).functor.obj N) n := by
+  letI := HasDerivedCategory.standard A.RightModule
+  letI := HasDerivedCategory.standard ((hAS.periodIso A Q).CutGradedRightModule Q)
+  exact ASGinzburg.exactEquivalenceExtLinearEquiv (hAS.cutGradedModuleEquivalence A Q) k M N n
+
+end ASGinzburg.ZAlgebra

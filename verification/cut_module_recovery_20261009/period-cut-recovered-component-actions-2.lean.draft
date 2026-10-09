@@ -1,0 +1,75 @@
+import work.ASGinzburgDraft.PeriodCutGradedModuleComponents
+import work.ASGinzburgDraft.PeriodCutGradedCornerActions
+
+/-! Restrict the real R action to the recovered vertex/sheet components. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem corner_action_mem_component (M : E.CutGradedRightModule Q)
+    {x y : Q.LiftVertex} (a : E.CornerCoverHom Q x y)
+    (v : M.space) (hv : v∈M.componentSubmodule y) :
+    (M.representation a.val).unop v∈M.componentSubmodule x := by
+  rw [M.mem_componentSubmodule_iff] at hv ⊢
+  constructor
+  · have h := M.integerCorner_action_mem_grade (y.2-x.2) x.1 y.1 a.val a.property
+      (-y.2) v hv.1
+    convert h using 1
+    congr 1
+    ring
+  · change (M.representation
+      (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) x.1)).unop
+      ((M.representation a.val).unop v)=(M.representation a.val).unop v
+    rw [← M.representation_mul_apply,
+      E.integerCorner_source_absorption Q (y.2-x.2) x.1 y.1 a.val a.property]
+
+noncomputable def recoveredComponentAction (M : E.CutGradedRightModule Q)
+    (x y : Q.LiftVertex) : E.CornerCoverHom Q x y →ₗ[k]
+      (M.componentSubmodule y →ₗ[k] M.componentSubmodule x) where
+  toFun a :=
+    { toFun := fun v => ⟨(M.representation a.val).unop v.val,
+        M.corner_action_mem_component a v.val v.property⟩
+      map_add' := by
+        intro v w
+        apply Subtype.ext
+        exact (M.representation a.val).unop.map_add v.val w.val
+      map_smul' := by
+        intro c v
+        apply Subtype.ext
+        exact (M.representation a.val).unop.map_smul c v.val }
+  map_add' := by
+    intro a b
+    apply LinearMap.ext
+    intro v
+    apply Subtype.ext
+    change (M.representation (a.val+b.val)).unop v.val=
+      (M.representation a.val).unop v.val+(M.representation b.val).unop v.val
+    rw [map_add,MulOpposite.unop_add,LinearMap.add_apply]
+  map_smul' := by
+    intro c a
+    apply LinearMap.ext
+    intro v
+    apply Subtype.ext
+    change (M.representation (c • a.val)).unop v.val=
+      c • (M.representation a.val).unop v.val
+    rw [map_smul,MulOpposite.unop_smul,LinearMap.smul_apply]
+
+theorem recoveredComponentAction_comp (M : E.CutGradedRightModule Q)
+    {x y z : Q.LiftVertex} (a : E.CornerCoverHom Q x y) (b : E.CornerCoverHom Q y z) :
+    (M.recoveredComponentAction x y a).comp (M.recoveredComponentAction y z b)=
+      M.recoveredComponentAction x z (E.cornerCoverComp Q b a) := by
+  apply LinearMap.ext
+  intro v
+  apply Subtype.ext
+  exact (M.representation_mul_apply b.val a.val v.val).symm
+
+theorem recoveredComponentAction_id (M : E.CutGradedRightModule Q) (x : Q.LiftVertex) :
+    M.recoveredComponentAction x x (E.cornerCoverId Q x)=LinearMap.id := by
+  apply LinearMap.ext
+  intro v
+  apply Subtype.ext
+  exact ((M.mem_componentSubmodule_iff x v.val).mp v.property).2
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

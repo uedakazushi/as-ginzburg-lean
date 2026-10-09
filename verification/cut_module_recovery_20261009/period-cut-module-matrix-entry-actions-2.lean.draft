@@ -1,0 +1,51 @@
+import ASGinzburg.PeriodCutGradedFunctorLinear
+
+/-! A single actual R matrix entry acts only on its target vertex. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutMatrixComponent_target_ne (m : ℕ) (i j a b : Q.Vertex)
+    (f : E.CutGradedHom m (i.val:ℤ) (j.val:ℤ)) (h : b≠j) :
+    E.cutMatrixComponent (fun t : Q.Vertex => (t.val:ℤ)) m i j f a b=0 := by
+  classical
+  by_cases ha : a=i
+  · subst a
+    simp [cutMatrixComponent,h]
+  · simp [cutMatrixComponent,ha]
+
+theorem cutHomogeneousRightOperator_component_lof
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (m : ℕ) (i j : Q.Vertex)
+    (f : E.CutGradedHom m (i.val:ℤ) (j.val:ℤ)) (s : ℤ)
+    (v : E.CornerModuleSpace Q M (j,s)) :
+    E.cutHomogeneousRightOperator Q M m
+      (E.cutMatrixComponent (fun t : Q.Vertex => (t.val:ℤ)) m i j f)
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (j,s) v)=
+    DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (cutRightSource Q m (j,s) i)
+      (E.cornerModuleMap Q M (cutRightSource Q m (j,s) i) (j,s)
+        (E.cutCornerEntry Q m (cutRightSource Q m (j,s) i) (j,s)
+          (cutRightSource_difference Q m (j,s) i) f) v) := by
+  rw [E.cutHomogeneousRightOperator_lof,E.cutRightColumnMap_apply,Finset.sum_eq_single i]
+  · rw [E.cutMatrixComponent_apply_same]
+  · intro a ha hai
+    rw [E.cutMatrixComponent_source_ne (fun t : Q.Vertex => (t.val:ℤ)) m i j a j f hai,
+      map_zero,map_zero,LinearMap.zero_apply,map_zero]
+  · simp
+
+theorem cutHomogeneousRightOperator_component_lof_off
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (m : ℕ) (i j : Q.Vertex)
+    (f : E.CutGradedHom m (i.val:ℤ) (j.val:ℤ)) (y : Q.LiftVertex)
+    (h : y.1≠j) (v : E.CornerModuleSpace Q M y) :
+    E.cutHomogeneousRightOperator Q M m
+      (E.cutMatrixComponent (fun t : Q.Vertex => (t.val:ℤ)) m i j f)
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) y v)=0 := by
+  rw [E.cutHomogeneousRightOperator_lof,E.cutRightColumnMap_apply]
+  apply Finset.sum_eq_zero
+  intro a ha
+  rw [E.cutMatrixComponent_target_ne Q m i j a y.1 f h,
+    map_zero,map_zero,LinearMap.zero_apply,map_zero]
+
+end ASGinzburg.ZAlgebra.PeriodIso

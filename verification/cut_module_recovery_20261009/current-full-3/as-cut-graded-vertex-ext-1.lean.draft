@@ -1,0 +1,42 @@
+import work.ASGinzburgDraft.PeriodCutGradedModuleExt
+import ASGinzburg.ASCutCornerVertexExt
+
+/-! The concrete images of cover vertex simples and projectives have the
+actual graded-R Ext table, derived from the original AS conditions. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutGradedSimple (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    (hAS.periodIso A Q).CutGradedRightModule Q :=
+  (hAS.periodIso A Q).cornerGradedRightModule Q
+    ((hAS.cutCornerCover A Q).simpleRightModule (Q.height x))
+
+noncomputable def ASRegular.cutGradedProjective (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    (hAS.periodIso A Q).CutGradedRightModule Q :=
+  (hAS.periodIso A Q).cornerGradedRightModule Q
+    ((hAS.cutCornerCover A Q).representable (Q.height x))
+
+noncomputable def ASRegular.cutGradedVertexExtLinearEquiv (hAS : A.ASRegular Q)
+    (x y : Q.LiftVertex) (n : ℕ) :
+    Abelian.Ext.{v} (hAS.cutGradedSimple A Q x) (hAS.cutGradedProjective A Q y) n ≃ₗ[k]
+      Abelian.Ext.{v} (A.simpleRightModule (Q.height x)) (A.representable (Q.height y)) n :=
+  ((hAS.periodIso A Q).cornerGradedModuleExtLinearEquiv Q
+    ((hAS.cutCornerCover A Q).simpleRightModule (Q.height x))
+    ((hAS.cutCornerCover A Q).representable (Q.height y)) n).symm.trans
+      (hAS.cutCornerVertexExtLinearEquiv A Q (Q.height x) (Q.height y) n)
+
+noncomputable def ASRegular.cutGradedExtThreeEquiv (hAS : A.ASRegular Q)
+    (x : Q.LiftVertex) :
+    Abelian.Ext.{v} (hAS.cutGradedSimple A Q (Q.tau x)) (hAS.cutGradedProjective A Q x) 3 ≃ₗ[k] k :=
+  (hAS.cutGradedVertexExtLinearEquiv A Q (Q.tau x) x 3).trans (hAS.extThreeEquiv A Q x)
+
+theorem ASRegular.cutGradedExt_other_eq_zero (hAS : A.ASRegular Q)
+    (x y : Q.LiftVertex) (n : ℕ) (hne : (n,y)≠(3,Q.tau x))
+    (e : Abelian.Ext.{v} (hAS.cutGradedSimple A Q y) (hAS.cutGradedProjective A Q x) n) : e=0 := by
+  apply (hAS.cutGradedVertexExtLinearEquiv A Q y x n).injective
+  rw [map_zero]
+  exact hAS.ext_other_eq_zero A Q x y n hne _
+
+end ASGinzburg.ZAlgebra

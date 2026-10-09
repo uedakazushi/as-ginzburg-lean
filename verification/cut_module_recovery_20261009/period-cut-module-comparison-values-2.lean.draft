@@ -1,0 +1,19 @@
+import work.ASGinzburgDraft.PeriodCutModuleObjectComparison
+
+/-! At a coordinate object the actual component comparison is the canonical inclusion. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cornerAtObjectEquiv_coordinate_val
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (x : Q.LiftVertex)
+    (v : E.CornerModuleSpace Q M x) :
+    (E.cornerAtObjectEquiv Q M (E.cornerCoordinateObject Q x) v).val=
+      DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x v := by
+  dsimp only [cornerAtObjectEquiv,LinearEquiv.trans_apply,cornerCoordinateObject]
+  rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

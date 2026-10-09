@@ -1,0 +1,57 @@
+import work.ASGinzburgDraft.PeriodCutRepresentableValues
+import work.ASGinzburgDraft.PeriodCutGradedRepresentableGenerators
+
+/-! Acting on the actual homogeneous generator is a linear map from R,
+and is a left inverse of the genuine corner-value map. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cornerRepresentableActionMap (z : Q.LiftVertex) :
+    E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) →ₗ[k]
+      (E.cornerGradedRepresentable Q z).space where
+  toFun r := ((E.cornerGradedRepresentable Q z).representation r).unop
+    (E.cornerRepresentableGenerator Q z)
+  map_add' r s := by rw [map_add,MulOpposite.unop_add,LinearMap.add_apply]
+  map_smul' c r := by
+    rw [map_smul,MulOpposite.unop_smul,LinearMap.smul_apply]
+    rfl
+
+theorem cornerRepresentableActionMap_valueMap (z : Q.LiftVertex) :
+    (E.cornerRepresentableActionMap Q z).comp (E.cornerRepresentableValueMap Q z)=
+      LinearMap.id := by
+  apply DFinsupp.lhom_ext
+  intro x v
+  change E.cornerRepresentableActionMap Q z
+    (E.cornerRepresentableValueMap Q z (DirectSum.lof k Q.LiftVertex _ x v))=
+      DirectSum.lof k Q.LiftVertex _ x v
+  rw [E.cornerRepresentableValueMap_lof]
+  change ((E.cornerGradedRepresentable Q z).representation
+    ((E.cornerCoordinateHomEquiv Q x z).symm v).val).unop
+      (E.cornerRepresentableGenerator Q z)=_
+  rw [E.cornerRepresentableGenerator_corner_action,LinearEquiv.apply_symm_apply]
+
+theorem cornerRepresentableValueMap_injective (z : Q.LiftVertex) :
+    Function.Injective (E.cornerRepresentableValueMap Q z) := by
+  apply Function.LeftInverse.injective (g:=E.cornerRepresentableActionMap Q z)
+  intro x
+  exact LinearMap.congr_fun (E.cornerRepresentableActionMap_valueMap Q z) x
+
+theorem cornerRepresentableValueMap_generator (z : Q.LiftVertex) :
+    E.cornerRepresentableValueMap Q z (E.cornerRepresentableGenerator Q z)=
+      E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) z.1 := by
+  change E.cornerRepresentableValueMap Q z
+    (DirectSum.lof k Q.LiftVertex _ z ((E.cornerCoverZAlgebra Q).id (Q.heightEquiv z)))=_
+  rw [E.cornerRepresentableValueMap_lof]
+  have h : (E.cornerCoordinateHomEquiv Q z z).symm
+    ((E.cornerCoverZAlgebra Q).id (Q.heightEquiv z))=E.cornerCoverId Q z := by
+    apply (E.cornerCoordinateHomEquiv Q z z).injective
+    rw [LinearEquiv.apply_symm_apply,E.cornerCoordinateHomEquiv_id]
+    rfl
+  rw [h]
+  rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

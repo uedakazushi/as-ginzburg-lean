@@ -1,0 +1,58 @@
+import ASGinzburg.PeriodCutGradedJacobson
+import ASGinzburg.PeriodCornerCover
+
+/-! Every off-diagonal lifted corner belongs to the genuine graded
+Jacobson radical of R, by the proved degree-zero diagonal criterion. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutHomogeneousComponent_mem_gradedJacobson
+    (m : ℕ) (i j : Q.Vertex)
+    (f : E.CutGradedHom m (i.val:ℤ) (j.val:ℤ)) (h : m≠0 ∨ i≠j) :
+    E.cutHomogeneousComponentLinear (fun t : Q.Vertex => (t.val:ℤ)) m i j f∈
+      E.cutGradedJacobson Q := by
+  rw [E.mem_cutGradedJacobson_iff]
+  intro t
+  rw [cutHomogeneousComponentLinear_apply]
+  change (DirectSum.of (E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ))) m
+    (E.cutMatrixComponent (fun t : Q.Vertex => (t.val:ℤ)) m i j f)) 0 t t=0
+  by_cases hm : m=0
+  · subst m
+    rw [DirectSum.of_eq_same]
+    have hij : i≠j := h.resolve_left (by simp)
+    by_cases hti : t=i
+    · subst t
+      exact E.cutMatrixComponent_target_ne (fun t : Q.Vertex => (t.val:ℤ)) 0 i j i i f hij
+    · exact E.cutMatrixComponent_source_ne (fun t : Q.Vertex => (t.val:ℤ)) 0 i j t t f hti
+  · rw [DirectSum.of_eq_of_ne _ _ _ (Ne.symm hm)]
+    rfl
+
+theorem cornerCoverHom_mem_gradedJacobson {x y : Q.LiftVertex} (hxy : x≠y)
+    (a : E.CornerCoverHom Q x y) : a.val∈E.cutGradedJacobson Q := by
+  by_cases hm : 0≤y.2-x.2
+  · have ha := a.property
+    rw [E.integerCorner_nonneg Q hm] at ha
+    obtain ⟨f,hf⟩ := ha
+    rw [← hf]
+    apply E.cutHomogeneousComponent_mem_gradedJacobson Q
+    by_cases ht : (y.2-x.2).toNat=0
+    · right
+      intro h
+      apply hxy
+      apply Prod.ext h
+      have hs : (y.2-x.2)=0 := by
+        have hh := Int.toNat_of_nonneg hm
+        rw [ht] at hh
+        omega
+      omega
+    · exact Or.inl ht
+  · have ha := a.property
+    rw [E.integerCorner_negative Q (by omega)] at ha
+    have hz : a.val=0 := by simpa only [Submodule.mem_bot] using ha
+    rw [hz]
+    exact Ideal.zero_mem _
+
+end ASGinzburg.ZAlgebra.PeriodIso

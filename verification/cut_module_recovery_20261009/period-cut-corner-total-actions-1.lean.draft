@@ -1,0 +1,53 @@
+import work.ASGinzburgDraft.PeriodCutModuleMatrixEntryActions
+
+/-! Each genuine homogeneous ring corner acts on its target sheet by
+exactly the original cover-module morphism. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutRightRepresentation_corner_lof
+    (M : (E.cornerCoverZAlgebra Q).RightModule) {x y : Q.LiftVertex}
+    (a : E.CornerCoverHom Q x y) (v : E.CornerModuleSpace Q M y) :
+    (E.cutRightRepresentation Q M a.val).unop
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) y v)=
+        DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x
+          (E.cornerModuleMap Q M x y a v) := by
+  by_cases hm : 0≤y.2-x.2
+  · have ha := a.property
+    change a.val∈E.integerCorner Q (y.2-x.2) x.1 y.1 at ha
+    rw [E.integerCorner_nonneg Q hm] at ha
+    obtain ⟨f,hf⟩ := ha
+    rw [← hf,E.cutHomogeneousComponentLinear_apply,E.cutRightRepresentation_homogeneous]
+    rcases y with ⟨j,s⟩
+    rw [E.cutHomogeneousRightOperator_component_lof]
+    have hs : cutRightSource Q (s-x.2).toNat (j,s) x.1=x := by
+      apply Prod.ext
+      · rfl
+      · dsimp [cutRightSource]
+        rw [Int.toNat_of_nonneg hm]
+        ring
+    have he := E.cornerInsertionMap_congr_source Q M
+      (cutRightSource Q (s-x.2).toNat (j,s) x.1) x (j,s) hs
+      (E.cutCornerEntry Q (s-x.2).toNat (cutRightSource Q (s-x.2).toNat (j,s) x.1)
+        (j,s) (cutRightSource_difference Q (s-x.2).toNat (j,s) x.1) f) a
+      (by exact hf)
+    change E.cornerInsertionMap Q M (cutRightSource Q (s-x.2).toNat (j,s) x.1) (j,s) _ v=_
+    rw [he]
+    rfl
+  · have ha := a.property
+    change a.val∈E.integerCorner Q (y.2-x.2) x.1 y.1 at ha
+    rw [E.integerCorner_negative Q (by omega)] at ha
+    have hz : a=0 := Subtype.ext (by simpa only [Submodule.mem_bot] using ha)
+    rw [hz]
+    change (E.cutRightRepresentation Q M 0).unop
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) y v)=
+        DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x
+          (E.cornerModuleMap Q M x y 0 v)
+    rw [map_zero,MulOpposite.unop_zero,LinearMap.zero_apply,map_zero,
+      LinearMap.zero_apply,map_zero]
+
+end ASGinzburg.ZAlgebra.PeriodIso

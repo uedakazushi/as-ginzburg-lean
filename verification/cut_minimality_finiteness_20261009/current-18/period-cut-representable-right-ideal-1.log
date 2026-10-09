@@ -1,0 +1,14 @@
+work/ASGinzburgDraft/PeriodCutRepresentableRightIdeal.lean:19:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cornerRepresentableValueMap Q E ?z) ((cornerRepresentableActionMap Q E ?z) ?r)
+in the target expression
+  ↑((fun v => ⟨(cornerRepresentableValueMap Q E z) v, ⋯⟩) ((fun r => (cornerRepresentableActionMap Q E z) ↑r) r)) = ↑r
+
+case a
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+z : Q.LiftVertex
+r : ↥(cutRightVertexSpace Q E z.1)
+⊢ ↑((fun v => ⟨(cornerRepresentableValueMap Q E z) v, ⋯⟩) ((fun r => (cornerRepresentableActionMap Q E z) ↑r) r)) = ↑r

@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/PeriodCutRepresentableValues.lean:17:4: error: Application type mismatch: The argument
+  CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z))
+has type
+  Q.LiftVertex → Type v
+but is expected to have type
+  Type v
+in the application
+  @DirectSum.toModule k ?m.27 Q.LiftVertex ?m.28 ?m.29 ?m.30 ?m.31
+    (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z)))
+work/ASGinzburgDraft/PeriodCutRepresentableValues.lean:26:2: error: Type mismatch
+  DirectSum.toModule_lof k x v
+has type
+  (DirectSum.toModule k Q.LiftVertex ?m.50 ?m.53)
+      ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z)))
+          x)
+        v) =
+    (?m.53 x) v
+but is expected to have type
+  (cornerRepresentableValueMap Q E z)
+      ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z)))
+          x)
+        v) =
+    ↑((cornerCoordinateHomEquiv Q E x z).symm v)
+work/ASGinzburgDraft/PeriodCutRepresentableValues.lean:55:4: error: Type mismatch
+  integerCorner_target_absorption Q E (z.2 - x.2) x.1 z.1 (↑((cornerCoordinateHomEquiv Q E x z).symm w))
+    ((cornerCoordinateHomEquiv Q E x z).symm w).property
+has type
+  E.cutVertexIdempotent (fun t => ↑↑t) z.1 * ↑((cornerCoordinateHomEquiv Q E x z).symm w) =
+    ↑((cornerCoordinateHomEquiv Q E x z).symm w)
+but is expected to have type
+  E.cutVertexIdempotent (fun t => ↑↑t) z.1 * ↑((cornerCoordinateHomEquiv Q E x z).symm w) =
+    (cornerRepresentableValueMap Q E z)
+      ((DirectSum.of (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z))) x) w)

@@ -1,0 +1,33 @@
+import work.ASGinzburgDraft.PeriodCutModuleIdempotentAction
+
+/-! On one actual module grade, a vertex idempotent selects its single vertex summand. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutRightRepresentation_vertex_degreeInsertion
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (q : ℤ) (i : Q.Vertex) :
+    (E.cutRightRepresentation Q M
+      (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i)).unop.comp
+      (E.cornerModuleDegreeInsertion Q M q)=
+        (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,-q)).comp
+          (DirectSum.component k Q.Vertex (fun j => E.CornerModuleSpace Q M (j,-q)) i) := by
+  apply DFinsupp.lhom_ext
+  intro j v
+  change (E.cutRightRepresentation Q M
+    (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i)).unop
+      (E.cornerModuleDegreeInsertion Q M q
+        (DirectSum.lof k Q.Vertex (fun j => E.CornerModuleSpace Q M (j,-q)) j v))=
+    DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,-q)
+      ((DirectSum.lof k Q.Vertex (fun j => E.CornerModuleSpace Q M (j,-q)) j v) i)
+  rw [E.cornerModuleDegreeInsertion_lof]
+  by_cases h : j=i
+  · subst j
+    rw [E.cutRightRepresentation_vertex_lof_self,DirectSum.lof_apply]
+  · rw [E.cutRightRepresentation_vertex_lof_off Q M i (j,-q) h v]
+    rw [DirectSum.lof_eq_of,DirectSum.of_eq_of_ne _ _ _ h.symm,map_zero]
+
+end ASGinzburg.ZAlgebra.PeriodIso

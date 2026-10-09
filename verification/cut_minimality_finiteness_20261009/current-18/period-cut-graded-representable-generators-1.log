@@ -1,0 +1,22 @@
+work/ASGinzburgDraft/PeriodCutGradedRepresentableGenerators.lean:48:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv ?z))) ?x)
+    ((cornerCoordinateHomEquiv Q E ?x ?z) ?a)
+in the target expression
+  (DirectSum.of (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z))) x)
+      ((cornerCoordinateHomEquiv Q E x z) a) ∈
+    Submodule.span (E.CutGradedRing fun t => ↑↑t)ᵐᵒᵖ {cornerRepresentableGenerator Q E z}
+
+case h.refine_2
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+z : Q.LiftVertex
+v : ↑(cornerGradedRepresentable Q E z).space
+hv : v ∈ ⊤
+x : Q.LiftVertex
+a : ↥(CornerCoverHom Q E x z)
+⊢ (DirectSum.of (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z))) x)
+      ((cornerCoordinateHomEquiv Q E x z) a) ∈
+    Submodule.span (E.CutGradedRing fun t => ↑↑t)ᵐᵒᵖ {cornerRepresentableGenerator Q E z}

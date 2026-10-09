@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/PeriodCutModuleDegreeVertexAction.lean:31:28: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((DirectSum.of ?m.226 j) ?m.231) i
+in the target expression
+  0 =
+    (DirectSum.of (CornerModuleSpace Q E M) (i, -q))
+      (((DirectSum.lof k Q.Vertex (fun j => CornerModuleSpace Q E M (j, -q)) j) v) i)
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+q : ℤ
+i j : Q.Vertex
+v : CornerModuleSpace Q E M (j, -q)
+h : ¬j = i
+⊢ 0 =
+    (DirectSum.of (CornerModuleSpace Q E M) (i, -q))
+      (((DirectSum.lof k Q.Vertex (fun j => CornerModuleSpace Q E M (j, -q)) j) v) i)

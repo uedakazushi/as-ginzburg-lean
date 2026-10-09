@@ -1,0 +1,45 @@
+import ASGinzburg.PeriodCutRecoveredTotalHomogeneousActions
+
+/-! The genuine recovered total-space equivalence preserves the whole R action. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem recoveredTotalEquiv_representation_action (M : E.CutGradedRightModule Q)
+    (r : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))) :
+    M.recoveredTotalEquiv.toLinearMap.comp
+      (E.cutRightRepresentation Q M.recoveredRightModule r).unop=
+      (M.representation r).unop.comp M.recoveredTotalEquiv.toLinearMap := by
+  refine DirectSum.induction_on r ?_ ?_ ?_
+  · simp only [map_zero,MulOpposite.unop_zero,LinearMap.comp_zero,LinearMap.zero_comp]
+  · intro m x
+    change M.recoveredTotalEquiv.toLinearMap.comp
+      (E.cutRightRepresentation Q M.recoveredRightModule
+        (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m x)).unop=
+      (M.representation (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m x)).unop.comp _
+    rw [E.cutRightRepresentation_homogeneous]
+    exact M.recoveredTotalEquiv_homogeneous_action m x
+  · intro x y hx hy
+    rw [map_add,map_add,MulOpposite.unop_add,MulOpposite.unop_add,
+      LinearMap.comp_add,LinearMap.add_comp,hx,hy]
+
+theorem recoveredTotalEquiv_symm_representation_action (M : E.CutGradedRightModule Q)
+    (r : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))) (v : M.space) :
+    M.recoveredTotalEquiv.symm ((M.representation r).unop v)=
+      (E.cutRightRepresentation Q M.recoveredRightModule r).unop
+        (M.recoveredTotalEquiv.symm v) := by
+  apply M.recoveredTotalEquiv.injective
+  rw [M.recoveredTotalEquiv.apply_symm_apply]
+  have h := LinearMap.congr_fun (M.recoveredTotalEquiv_representation_action r)
+    (M.recoveredTotalEquiv.symm v)
+  change M.recoveredTotalEquiv
+    ((E.cutRightRepresentation Q M.recoveredRightModule r).unop
+      (M.recoveredTotalEquiv.symm v))=
+    (M.representation r).unop (M.recoveredTotalEquiv (M.recoveredTotalEquiv.symm v)) at h
+  rw [M.recoveredTotalEquiv.apply_symm_apply] at h
+  exact h.symm
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

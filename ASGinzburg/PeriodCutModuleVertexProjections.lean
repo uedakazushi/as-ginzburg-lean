@@ -1,0 +1,37 @@
+import ASGinzburg.PeriodCutGradedModuleComponents
+
+/-! The genuine finite family of R vertex projections is complete and orthogonal. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem vertexProjection_orthogonal (M : E.CutGradedRightModule Q) (i j : Q.Vertex)
+    (h : i≠j) : (M.vertexProjection i).comp (M.vertexProjection j)=0 := by
+  have hz := congrArg (fun r => (M.representation r).unop)
+    (E.cutVertexIdempotent_mul_ne (fun t : Q.Vertex => (t.val:ℤ)) j i h.symm)
+  simpa only [vertexProjection,map_mul,MulOpposite.unop_mul,map_zero,MulOpposite.unop_zero] using hz
+
+theorem sum_vertexProjection (M : E.CutGradedRightModule Q) :
+    (∑ i : Q.Vertex,M.vertexProjection i)=LinearMap.id := by
+  let f : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) →ₗ[k] Module.End k M.space :=
+    (MulOpposite.opLinearEquiv k).symm.toLinearMap.comp M.representation.toLinearMap
+  have h := congrArg f (E.sum_cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)))
+  rw [map_sum] at h
+  change (∑ i : Q.Vertex,M.vertexProjection i)=(M.representation 1).unop at h
+  simpa only [map_one,MulOpposite.unop_one] using h
+
+theorem sum_vertexProjection_apply (M : E.CutGradedRightModule Q) (v : M.space) :
+    (∑ i : Q.Vertex,M.vertexProjection i v)=v := by
+  have h := LinearMap.congr_fun M.sum_vertexProjection v
+  simpa only [LinearMap.sum_apply,LinearMap.id_apply] using h
+
+theorem vertexProjection_mem_component (M : E.CutGradedRightModule Q)
+    (i : Q.Vertex) (s : ℤ) (v : M.space) (hv : v∈M.grade (-s)) :
+    M.vertexProjection i v∈M.componentSubmodule (i,s) := by
+  rw [M.mem_componentSubmodule_iff]
+  exact ⟨M.vertexProjection_preserves_grade i (-s) v hv,
+    LinearMap.congr_fun (M.vertexProjection_idempotent i) v⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

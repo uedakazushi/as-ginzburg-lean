@@ -1,0 +1,50 @@
+import ASGinzburg.PeriodCutRecoveredTotalComparison
+
+/-! The actual recovered total-space equivalence preserves every integer grade. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem recoveredTotalEquiv_degreeInsertion_mem (M : E.CutGradedRightModule Q)
+    (q : ℤ) (v : E.CornerModuleDegreeSpace Q M.recoveredRightModule q) :
+    M.recoveredTotalEquiv (E.cornerModuleDegreeInsertion Q M.recoveredRightModule q v)∈
+      M.grade q := by
+  refine DirectSum.induction_on v ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+    exact Submodule.zero_mem _
+  · intro i x
+    change M.recoveredTotalEquiv
+      (E.cornerModuleDegreeInsertion Q M.recoveredRightModule q
+        (DirectSum.lof k Q.Vertex (fun i => E.CornerModuleSpace Q M.recoveredRightModule (i,-q)) i x))∈_
+    rw [E.cornerModuleDegreeInsertion_lof,M.recoveredTotalEquiv_lof]
+    have h := ((M.mem_componentSubmodule_iff (i,-q) _).mp
+      (M.recoveredCoordinateSpaceEquiv (i,-q) x).property).1
+    simpa only [neg_neg] using h
+  · intro x y hx hy
+    rw [map_add,map_add]
+    exact Submodule.add_mem _ hx hy
+
+theorem recoveredTotalEquiv_mem_grade (M : E.CutGradedRightModule Q)
+    (q : ℤ) (v : E.CornerModuleTotalSpace Q M.recoveredRightModule)
+    (hv : v∈E.cornerModuleGrade Q M.recoveredRightModule q) :
+    M.recoveredTotalEquiv v∈M.grade q := by
+  rcases hv with ⟨x,rfl⟩
+  exact M.recoveredTotalEquiv_degreeInsertion_mem q x
+
+noncomputable def recoveredDegreeSpaceEquiv (M : E.CutGradedRightModule Q) (q : ℤ) :
+    E.CornerModuleDegreeSpace Q M.recoveredRightModule q ≃ₗ[k]
+      ⨁ i : Q.Vertex,M.componentSubmodule (i,-q) :=
+  DFinsupp.mapRange.linearEquiv (fun i => M.recoveredCoordinateSpaceEquiv (i,-q))
+
+theorem recoveredDegreeSpaceEquiv_lof (M : E.CutGradedRightModule Q) (q : ℤ)
+    (i : Q.Vertex) (v : E.CornerModuleSpace Q M.recoveredRightModule (i,-q)) :
+    M.recoveredDegreeSpaceEquiv q
+      (DirectSum.lof k Q.Vertex (fun i => E.CornerModuleSpace Q M.recoveredRightModule (i,-q)) i v)=
+    DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i
+      (M.recoveredCoordinateSpaceEquiv (i,-q) v) :=
+  DFinsupp.mapRange_single (hf:=fun i => (M.recoveredCoordinateSpaceEquiv (i,-q)).map_zero)
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

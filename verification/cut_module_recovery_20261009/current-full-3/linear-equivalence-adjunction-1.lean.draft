@@ -1,0 +1,22 @@
+import Mathlib.CategoryTheory.Adjunction.Equivalence
+import Mathlib.CategoryTheory.Linear.LinearFunctor
+
+/-! The adjunction hom bijection of a linear equivalence is linear. -/
+namespace ASGinzburg
+open CategoryTheory
+universe u v w w'
+variable {k : Type u} [Field k] {C : Type v} [Category.{w} C] [Preadditive C] [Linear k C]
+  {D : Type v} [Category.{w'} D] [Preadditive D] [Linear k D]
+  (E : C ≌ D) [E.inverse.Additive] [E.inverse.Linear k]
+
+noncomputable def equivalenceAdjunctionHomLinearEquiv (X : C) (Y : D) :
+    (E.functor.obj X ⟶ Y) ≃ₗ[k] (X ⟶ E.inverse.obj Y) :=
+  { E.toAdjunction.homEquiv X Y with
+    map_add' := by
+      intro f g
+      simp only [Adjunction.homEquiv_apply,Functor.map_add,Preadditive.comp_add]
+    map_smul' := by
+      intro c f
+      simp only [Adjunction.homEquiv_apply,Functor.map_smul,Linear.comp_smul] }
+
+end ASGinzburg

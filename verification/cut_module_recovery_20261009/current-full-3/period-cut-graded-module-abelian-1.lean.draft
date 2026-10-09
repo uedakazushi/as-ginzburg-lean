@@ -1,0 +1,43 @@
+import work.ASGinzburgDraft.PeriodCutGradedModuleEquivalence
+import ASGinzburg.RightModuleExt
+import Mathlib.CategoryTheory.Abelian.Transfer
+
+/-! The actual graded R-module category is Abelian and has enough
+projectives, by the proved additive equivalence with cover right modules. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+instance cornerGradedModuleEquivalence_functor_additive :
+    (E.cornerGradedModuleEquivalence Q).functor.Additive :=
+  inferInstanceAs (E.cornerGradedModuleFunctor Q).Additive
+
+instance cornerGradedModuleEquivalence_inverse_additive :
+    (E.cornerGradedModuleEquivalence Q).inverse.Additive :=
+  inferInstanceAs (CutGradedRightModule.recoveredModuleFunctor (E:=E)).Additive
+
+instance recoveredModuleFunctorIsEquivalence :
+    (CutGradedRightModule.recoveredModuleFunctor (E:=E)).IsEquivalence :=
+  (E.cornerGradedModuleEquivalence Q).isEquivalence_inverse
+
+noncomputable instance cutGradedModuleHasFiniteProducts :
+    HasFiniteProducts (E.CutGradedRightModule Q) :=
+  ⟨fun n => by
+    letI : HasLimitsOfShape (Discrete (Fin n))
+      (E.cornerCoverZAlgebra Q).RightModule :=
+      (E.cornerCoverZAlgebra Q).rightModuleHasFiniteProducts.out n
+    exact Adjunction.hasLimitsOfShape_of_equivalence (J:=Discrete (Fin n))
+      (CutGradedRightModule.recoveredModuleFunctor (E:=E))⟩
+
+noncomputable instance cutGradedModuleAbelian : Abelian (E.CutGradedRightModule Q) :=
+  abelianOfEquivalence (CutGradedRightModule.recoveredModuleFunctor (E:=E))
+
+instance cutGradedModuleEnoughProjectives : EnoughProjectives (E.CutGradedRightModule Q) :=
+  (E.cornerGradedModuleEquivalence Q).enoughProjectives_iff.mp inferInstance
+
+instance cutGradedModuleHasExt : HasExt.{v} (E.CutGradedRightModule Q) :=
+  hasExt_of_enoughProjectives (E.CutGradedRightModule Q)
+
+end ASGinzburg.ZAlgebra.PeriodIso

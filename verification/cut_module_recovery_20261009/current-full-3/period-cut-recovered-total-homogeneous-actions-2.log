@@ -1,0 +1,26 @@
+work/ASGinzburgDraft/PeriodCutRecoveredTotalHomogeneousActions.lean:47:31: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (M.vertexProjection ?y.1)
+    (M.recoveredTotalEquiv ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M.recoveredRightModule) ?y) ?v))
+in the target expression
+  (MulOpposite.unop (M.representation ((E.cutHomogeneousLinearInclusion (fun t => ↑↑t) m) r)))
+      ((MulOpposite.unop (M.representation (E.cutVertexIdempotent (fun t => ↑↑t) y.1)))
+        (M.recoveredTotalEquiv ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M.recoveredRightModule) y) v))) =
+    (MulOpposite.unop (M.representation ((E.cutHomogeneousInclusion (fun t => ↑↑t) m) r)))
+      (M.recoveredTotalEquiv ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M.recoveredRightModule) y) v))
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : CutGradedRightModule Q E
+m : ℕ
+r : E.CutGradedBlock (fun t => ↑↑t) m
+y : Q.LiftVertex
+v : CornerModuleSpace Q E M.recoveredRightModule y
+⊢ (MulOpposite.unop (M.representation ((E.cutHomogeneousLinearInclusion (fun t => ↑↑t) m) r)))
+      ((MulOpposite.unop (M.representation (E.cutVertexIdempotent (fun t => ↑↑t) y.1)))
+        (M.recoveredTotalEquiv ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M.recoveredRightModule) y) v))) =
+    (MulOpposite.unop (M.representation ((E.cutHomogeneousInclusion (fun t => ↑↑t) m) r)))
+      (M.recoveredTotalEquiv ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M.recoveredRightModule) y) v))

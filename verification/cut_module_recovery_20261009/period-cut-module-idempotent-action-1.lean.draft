@@ -1,0 +1,41 @@
+import work.ASGinzburgDraft.PeriodCutModuleMatrixEntryActions
+
+/-! On a genuine cover module total space, each R vertex idempotent
+is the actual coordinate projection to that vertex, on every sheet. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutRightRepresentation_vertex_lof_self
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (i : Q.Vertex) (s : ℤ)
+    (v : E.CornerModuleSpace Q M (i,s)) :
+    (E.cutRightRepresentation Q M
+      (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i)).unop
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,s) v)=
+        DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,s) v := by
+  rw [cutVertexIdempotent,E.cutRightRepresentation_homogeneous,
+    E.cutHomogeneousRightOperator_component_lof]
+  have hs : cutRightSource Q 0 (i,s) i=(i,s) := by simp [cutRightSource]
+  have he := E.cornerInsertionMap_congr_source Q M (cutRightSource Q 0 (i,s) i) (i,s) (i,s)
+    hs (E.cutCornerEntry Q 0 (cutRightSource Q 0 (i,s) i) (i,s)
+      (cutRightSource_difference Q 0 (i,s) i) (E.cutGradedId (i.val:ℤ)))
+    (E.cornerCoverId Q (i,s)) (by rfl)
+  change E.cornerInsertionMap Q M (cutRightSource Q 0 (i,s) i) (i,s) _ v=_
+  rw [he]
+  change DirectSum.lof k Q.LiftVertex _ (i,s)
+    (E.cornerModuleMap Q M (i,s) (i,s) (E.cornerCoverId Q (i,s)) v)=_
+  rw [E.cornerModuleMap_id,LinearMap.id_apply]
+
+theorem cutRightRepresentation_vertex_lof_off
+    (M : (E.cornerCoverZAlgebra Q).RightModule) (i : Q.Vertex) (y : Q.LiftVertex)
+    (h : y.1≠i) (v : E.CornerModuleSpace Q M y) :
+    (E.cutRightRepresentation Q M
+      (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i)).unop
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) y v)=0 := by
+  rw [cutVertexIdempotent,E.cutRightRepresentation_homogeneous]
+  exact E.cutHomogeneousRightOperator_component_lof_off Q M 0 i i _ y h v
+
+end ASGinzburg.ZAlgebra.PeriodIso

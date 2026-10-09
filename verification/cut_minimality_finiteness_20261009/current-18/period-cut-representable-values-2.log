@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/PeriodCutRepresentableValues.lean:55:42: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cornerRepresentableValueMap Q E ?z)
+    ((DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv ?z)))
+        ?x)
+      ?v)
+in the target expression
+  E.cutVertexIdempotent (fun t => ↑↑t) z.1 * ↑((cornerCoordinateHomEquiv Q E x z).symm w) =
+    ↑((cornerCoordinateHomEquiv Q E x z).symm w)
+
+case refine_2
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+z : Q.LiftVertex
+v : ↑(cornerGradedRepresentable Q E z).space
+x : Q.LiftVertex
+w : CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).representable (Q.heightEquiv z)) x
+⊢ E.cutVertexIdempotent (fun t => ↑↑t) z.1 * ↑((cornerCoordinateHomEquiv Q E x z).symm w) =
+    ↑((cornerCoordinateHomEquiv Q E x z).symm w)

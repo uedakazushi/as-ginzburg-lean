@@ -1,0 +1,65 @@
+import work.ASGinzburgDraft.PeriodCutModuleDegreeVertexAction
+import work.ASGinzburgDraft.PeriodCutGradedModuleComponents
+
+/-! Recovering a cover module's vertex/sheet components returns its original spaces. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cornerComponentInjection (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (x : Q.LiftVertex) : E.CornerModuleSpace Q M x →ₗ[k]
+      (E.cornerGradedRightModule Q M).componentSubmodule x where
+  toFun v := ⟨DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x v,by
+    rw [CutGradedRightModule.mem_componentSubmodule_iff]
+    constructor
+    · exact E.cornerModule_lof_mem_grade Q M (-x.2) x (by simp) v
+    · rcases x with ⟨i,s⟩
+      exact E.cutRightRepresentation_vertex_lof_self Q M i s v⟩
+  map_add' := by intro v w;apply Subtype.ext;exact (DirectSum.lof k Q.LiftVertex _ x).map_add v w
+  map_smul' := by intro c v;apply Subtype.ext;exact (DirectSum.lof k Q.LiftVertex _ x).map_smul c v
+
+noncomputable def cornerComponentProjection (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (x : Q.LiftVertex) :
+    (E.cornerGradedRightModule Q M).componentSubmodule x →ₗ[k] E.CornerModuleSpace Q M x :=
+  (DirectSum.component k Q.LiftVertex (E.CornerModuleSpace Q M) x).comp
+    ((E.cornerGradedRightModule Q M).componentSubmodule x).subtype
+
+theorem cornerComponentProjection_injection (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (x : Q.LiftVertex) (v : E.CornerModuleSpace Q M x) :
+    E.cornerComponentProjection Q M x (E.cornerComponentInjection Q M x v)=v :=
+  DirectSum.lof_apply k x v
+
+theorem cornerComponentInjection_projection (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (x : Q.LiftVertex) (v : (E.cornerGradedRightModule Q M).componentSubmodule x) :
+    E.cornerComponentInjection Q M x (E.cornerComponentProjection Q M x v)=v := by
+  obtain ⟨⟨q,i⟩,rfl⟩ := Q.moduleDegreeVertexEquiv.symm.surjective x
+  have hv := ((E.cornerGradedRightModule Q M).mem_componentSubmodule_iff (i,-q) v.val).mp v.property
+  have hg : v.val∈E.cornerModuleGrade Q M q := by simpa only [neg_neg] using hv.1
+  rcases hg with ⟨d,hd⟩
+  have h := LinearMap.congr_fun (E.cutRightRepresentation_vertex_degreeInsertion Q M q i) d
+  change (E.cutRightRepresentation Q M
+    (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) i)).unop
+      (E.cornerModuleDegreeInsertion Q M q d)=
+    DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,-q) (d i) at h
+  rw [hd] at h
+  have he : DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,-q) (d i)=v.val :=
+    h.symm.trans hv.2
+  have hc : v.val (i,-q)=d i := by
+    simpa only [DirectSum.lof_apply] using congrArg (fun z => z (i,-q)) he.symm
+  apply Subtype.ext
+  change DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) (i,-q) (v.val (i,-q))=v.val
+  rw [hc]
+  exact he
+
+noncomputable def cornerComponentEquiv (M : (E.cornerCoverZAlgebra Q).RightModule)
+    (x : Q.LiftVertex) : E.CornerModuleSpace Q M x ≃ₗ[k]
+      (E.cornerGradedRightModule Q M).componentSubmodule x :=
+  { E.cornerComponentInjection Q M x with
+    invFun := E.cornerComponentProjection Q M x
+    left_inv := E.cornerComponentProjection_injection Q M x
+    right_inv := E.cornerComponentInjection_projection Q M x }
+
+end ASGinzburg.ZAlgebra.PeriodIso

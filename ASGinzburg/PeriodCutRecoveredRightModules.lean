@@ -1,0 +1,44 @@
+import ASGinzburg.PeriodCutRecoveredComponentActions
+
+/-! Recover an actual additive k-linear presheaf, hence a cover right module,
+from any genuine graded right module over R. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory Opposite
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+noncomputable def recoveredRightPresheaf (M : E.CutGradedRightModule Q) :
+    (E.cornerCoverZAlgebra Q).Objᵒᵖ ⥤ ModuleCat.{v} k where
+  obj X := ModuleCat.of k (M.componentSubmodule (Q.heightEquiv.symm X.unop.index))
+  map {X Y} a := ModuleCat.ofHom
+    (M.recoveredComponentAction (Q.heightEquiv.symm Y.unop.index)
+      (Q.heightEquiv.symm X.unop.index) a.unop)
+  map_id X := by
+    apply ModuleCat.hom_ext
+    exact M.recoveredComponentAction_id (Q.heightEquiv.symm X.unop.index)
+  map_comp a b := by
+    apply ModuleCat.hom_ext
+    exact (M.recoveredComponentAction_comp b.unop a.unop).symm
+
+instance recoveredRightPresheafAdditive (M : E.CutGradedRightModule Q) :
+    M.recoveredRightPresheaf.Additive where
+  map_add := by
+    intro X Y a b
+    apply ModuleCat.hom_ext
+    exact (M.recoveredComponentAction (Q.heightEquiv.symm Y.unop.index)
+      (Q.heightEquiv.symm X.unop.index)).map_add a.unop b.unop
+
+instance recoveredRightPresheafLinear (M : E.CutGradedRightModule Q) :
+    M.recoveredRightPresheaf.Linear k where
+  map_smul := by
+    intro X Y a c
+    apply ModuleCat.hom_ext
+    exact (M.recoveredComponentAction (Q.heightEquiv.symm Y.unop.index)
+      (Q.heightEquiv.symm X.unop.index)).map_smul c a.unop
+
+noncomputable def recoveredRightModule (M : E.CutGradedRightModule Q) :
+    (E.cornerCoverZAlgebra Q).RightModule :=
+  ⟨M.recoveredRightPresheaf,⟨inferInstance,inferInstance⟩⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

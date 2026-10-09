@@ -1,0 +1,48 @@
+import work.ASGinzburgDraft.PeriodCutRecoveredTotalCornerActions
+import work.ASGinzburgDraft.PeriodCutComponentTargetSum
+
+/-! The actual recovered total-space comparison intertwines every
+homogeneous R action. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem representation_sum_apply (M : E.CutGradedRightModule Q)
+    (r : Q.Vertex → E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))) (v : M.space) :
+    (M.representation (∑ i : Q.Vertex,r i)).unop v=
+      ∑ i : Q.Vertex,(M.representation (r i)).unop v := by
+  rw [map_sum,Finset.unop_sum,LinearMap.sum_apply]
+
+theorem recoveredTotalEquiv_lof_vertex_fixed (M : E.CutGradedRightModule Q)
+    (y : Q.LiftVertex) (v : E.CornerModuleSpace Q M.recoveredRightModule y) :
+    M.vertexProjection y.1
+      (M.recoveredTotalEquiv
+        (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) y v))=
+      M.recoveredTotalEquiv
+        (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) y v) := by
+  rw [M.recoveredTotalEquiv_lof]
+  exact ((M.mem_componentSubmodule_iff y _).mp (M.recoveredCoordinateSpaceEquiv y v).property).2
+
+theorem recoveredTotalEquiv_homogeneous_action (M : E.CutGradedRightModule Q)
+    (m : ℕ) (r : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m) :
+    M.recoveredTotalEquiv.toLinearMap.comp
+      (E.cutHomogeneousRightOperator Q M.recoveredRightModule m r)=
+      (M.representation (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m r)).unop.comp
+        M.recoveredTotalEquiv.toLinearMap := by
+  apply DFinsupp.lhom_ext
+  intro y v
+  change M.recoveredTotalEquiv
+    (E.cutHomogeneousRightOperator Q M.recoveredRightModule m r
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) y v))=
+      (M.representation (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m r)).unop
+        (M.recoveredTotalEquiv
+          (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) y v))
+  rw [E.cutHomogeneousRightOperator_lof,E.cutRightColumnMap_apply,map_sum]
+  simp only [M.recoveredTotalEquiv_corner_lof,cutCornerEntry_val]
+  rw [← M.representation_sum_apply,E.sum_cutHomogeneousComponentLinear_target Q m y.1 r,
+    M.representation_mul_apply,M.recoveredTotalEquiv_lof_vertex_fixed]
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

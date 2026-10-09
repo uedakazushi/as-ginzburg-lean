@@ -1,0 +1,26 @@
+import ASGinzburg.PeriodCutModuleComponentTotalEquiv
+
+/-! The finite degree-component equivalence recombines each vertex
+inclusion by its actual underlying vector. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem degreeComponentEquiv_symm_lof_val (M : E.CutGradedRightModule Q)
+    (q : ℤ) (i : Q.Vertex) (v : M.componentSubmodule (i,-q)) :
+    ((M.degreeComponentEquiv q).symm
+      (DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i v)).val=v.val := by
+  change (∑ j : Q.Vertex,
+    ((DirectSum.linearEquivFunOnFintype k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))))
+      (DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i v) j).val)=v.val
+  rw [DirectSum.linearEquivFunOnFintype_lof,Finset.sum_eq_single i]
+  · rw [Pi.single_eq_same]
+  · intro j hj hji
+    simp only [Pi.single_eq_of_ne hji]
+    rfl
+  · simp
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

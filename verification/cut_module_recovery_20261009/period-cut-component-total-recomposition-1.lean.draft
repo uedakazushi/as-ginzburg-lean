@@ -1,0 +1,58 @@
+import work.ASGinzburgDraft.PeriodCutComponentRegrouping
+
+/-! The inverse total-space equivalence is the real sum of the recovered component inclusions. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem totalDegreeComponentEquiv_symm_lof (M : E.CutGradedRightModule Q)
+    (q : ℤ) (i : Q.Vertex) (v : M.componentSubmodule (i,-q)) :
+    M.totalDegreeComponentEquiv.symm
+      (DirectSum.lof k ℤ (fun q => ⨁ i : Q.Vertex,M.componentSubmodule (i,-q)) q
+        (DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i v))=v.val := by
+  letI : DirectSum.Decomposition M.grade := M.decomposition
+  change (DirectSum.decomposeLinearEquiv M.grade).symm
+    (DFinsupp.mapRange (fun q x => (M.degreeComponentEquiv q).symm x)
+      (fun q => (M.degreeComponentEquiv q).symm.map_zero)
+      (DFinsupp.single q
+        (DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i v)))=v.val
+  rw [DFinsupp.mapRange_single]
+  have h := LinearMap.congr_fun
+    (DirectSum.decomposeLinearEquiv_symm_comp_lof M.grade q)
+    ((M.degreeComponentEquiv q).symm
+      (DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i v))
+  exact h.trans (M.degreeComponentEquiv_symm_lof_val q i v)
+
+theorem componentTotalEquiv_symm_lof (M : E.CutGradedRightModule Q)
+    (x : Q.LiftVertex) (v : M.componentSubmodule x) :
+    M.componentTotalEquiv.symm
+      (DirectSum.lof k Q.LiftVertex (fun x => ↥(M.componentSubmodule x)) x v)=v.val := by
+  obtain ⟨⟨q,i⟩,rfl⟩ := Q.moduleDegreeVertexEquiv.symm.surjective x
+  change M.totalDegreeComponentEquiv.symm
+    (M.componentRegroupEquiv
+      (DirectSum.lof k Q.LiftVertex (fun x => ↥(M.componentSubmodule x)) (i,-q) v))=v.val
+  rw [M.componentRegroupEquiv_lof]
+  exact M.totalDegreeComponentEquiv_symm_lof q i v
+
+noncomputable def componentRecomposition (M : E.CutGradedRightModule Q) :
+    (⨁ x : Q.LiftVertex,M.componentSubmodule x) →ₗ[k] M.space :=
+  DirectSum.toModule k Q.LiftVertex _ (fun x => (M.componentSubmodule x).subtype)
+
+theorem componentRecomposition_eq_symm (M : E.CutGradedRightModule Q) :
+    M.componentRecomposition=M.componentTotalEquiv.symm.toLinearMap := by
+  apply DFinsupp.lhom_ext
+  intro x v
+  change DirectSum.toModule k Q.LiftVertex _ (fun x => (M.componentSubmodule x).subtype)
+    (DirectSum.lof k Q.LiftVertex (fun x => ↥(M.componentSubmodule x)) x v)=_
+  rw [DirectSum.toModule_lof]
+  exact (M.componentTotalEquiv_symm_lof x v).symm
+
+theorem componentRecomposition_bijective (M : E.CutGradedRightModule Q) :
+    Function.Bijective M.componentRecomposition := by
+  rw [M.componentRecomposition_eq_symm]
+  exact M.componentTotalEquiv.symm.bijective
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

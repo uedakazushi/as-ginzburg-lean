@@ -1,0 +1,49 @@
+import work.ASGinzburgDraft.PeriodCutRecoveredCounitNaturalIso
+import work.ASGinzburgDraft.PeriodCutRecoveredUnitNaturalIso
+
+/-! The actual cover right modules and ordinary internally graded right R
+modules are equivalent. Both functors and comparison isomorphisms are the
+component constructions, and their triangle identity is proved on vectors. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cornerGradedModule_triangle
+    (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    (E.cornerGradedModuleFunctor Q).map
+        ((E.cornerRecoveredUnitNaturalIso Q).hom.app M) ≫
+      (CutGradedRightModule.recoveredCounitNaturalIso (E:=E)).hom.app
+        ((E.cornerGradedModuleFunctor Q).obj M)=
+      𝟙 ((E.cornerGradedModuleFunctor Q).obj M) := by
+  apply Subtype.ext
+  apply DFinsupp.lhom_ext
+  intro x v
+  change (E.cornerGradedRightModule Q M).recoveredTotalEquiv
+    (E.cornerTotalModuleLinearMap Q (E.cornerRecoveredModuleIso Q M).hom
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x v))=
+    DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x v
+  rw [E.cornerTotalModuleLinearMap_lof,
+    CutGradedRightModule.recoveredTotalEquiv_lof,
+    CutGradedRightModule.recoveredCoordinateSpaceEquiv_val]
+  exact E.cornerAtObjectEquiv_coordinate_val Q M x v
+
+noncomputable def cornerGradedModuleEquivalence :
+    (E.cornerCoverZAlgebra Q).RightModule ≌ E.CutGradedRightModule Q where
+  functor := E.cornerGradedModuleFunctor Q
+  inverse := CutGradedRightModule.recoveredModuleFunctor
+  unitIso := E.cornerRecoveredUnitNaturalIso Q
+  counitIso := CutGradedRightModule.recoveredCounitNaturalIso
+  functor_unitIso_comp := E.cornerGradedModule_triangle Q
+
+instance cornerGradedModuleEquivalence_functor_linear :
+    (E.cornerGradedModuleEquivalence Q).functor.Linear k :=
+  inferInstanceAs (E.cornerGradedModuleFunctor Q).Linear k
+
+instance cornerGradedModuleEquivalence_inverse_linear :
+    (E.cornerGradedModuleEquivalence Q).inverse.Linear k :=
+  inferInstanceAs (CutGradedRightModule.recoveredModuleFunctor (E:=E)).Linear k
+
+end ASGinzburg.ZAlgebra.PeriodIso

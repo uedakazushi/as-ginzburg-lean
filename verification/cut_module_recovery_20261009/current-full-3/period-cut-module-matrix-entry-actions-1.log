@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/PeriodCutModuleMatrixEntryActions.lean:34:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  E.cutMatrixComponent Nat.cast m (↑i) (↑j) f ?m.126 ?m.127
+in the target expression
+  (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m (j, s) a))
+      (((cornerModuleMap Q E M (cutRightSource Q m (j, s) a) (j, s))
+          ((cutCornerEntry Q E m (cutRightSource Q m (j, s) a) (j, s) ⋯)
+            (E.cutMatrixComponent (fun t => ↑↑t) m i j f a (j, s).1)))
+        v) =
+    0
+
+case h₀
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+m : ℕ
+i j : Q.Vertex
+f : E.CutGradedHom m ↑↑i ↑↑j
+s : ℤ
+v : CornerModuleSpace Q E M (j, s)
+a : Q.Vertex
+ha : a ∈ Finset.univ
+hai : a ≠ i
+⊢ (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) (cutRightSource Q m (j, s) a))
+      (((cornerModuleMap Q E M (cutRightSource Q m (j, s) a) (j, s))
+          ((cutCornerEntry Q E m (cutRightSource Q m (j, s) a) (j, s) ⋯)
+            (E.cutMatrixComponent (fun t => ↑↑t) m i j f a (j, s).1)))
+        v) =
+    0
+work/ASGinzburgDraft/PeriodCutModuleMatrixEntryActions.lean:34:53: error: Application type mismatch: The argument
+  hai
+has type
+  a ≠ i
+but is expected to have type
+  ?m.126 ≠ ↑i
+in the application
+  cutMatrixComponent_source_ne E Nat.cast m ↑i ↑j ?m.126 ?m.127 f hai

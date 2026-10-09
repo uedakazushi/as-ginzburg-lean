@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/PeriodCutRepresentableActionMap.lean:19:19: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+z : Q.LiftVertex
+c : k
+r : E.CutGradedRing fun t => ↑↑t
+⊢ c • (MulOpposite.unop ((cornerGradedRepresentable Q E z).representation r)) (cornerRepresentableGenerator Q E z) =
+    (RingHom.id k) c •
+      (MulOpposite.unop ((cornerGradedRepresentable Q E z).representation r)) (cornerRepresentableGenerator Q E z)

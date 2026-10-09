@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/PeriodCutRecoveredInverseGrading.lean:35:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑⟨v, hv⟩
+in the target expression
+  M.recoveredTotalEquiv.symm v ∈ cornerModuleGrade Q E M.recoveredRightModule q
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : CutGradedRightModule Q E
+q : ℤ
+v : ↑M.space
+hv : v ∈ M.grade q
+w : CornerModuleDegreeSpace Q E M.recoveredRightModule q
+hw : (M.recoveredDegreeSpaceEquiv q) w = (M.degreeComponentEquiv q) ⟨v, hv⟩
+he : M.recoveredTotalEquiv ((cornerModuleDegreeInsertion Q E M.recoveredRightModule q) w) = ↑⟨v, hv⟩
+⊢ M.recoveredTotalEquiv.symm v ∈ cornerModuleGrade Q E M.recoveredRightModule q

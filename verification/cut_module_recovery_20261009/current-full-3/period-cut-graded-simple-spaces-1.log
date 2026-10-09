@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/PeriodCutGradedSimpleSpaces.lean:17:2: error: Type mismatch
+  simpleRightModule_off_diagonal (cornerCoverZAlgebra Q E) (Q.height z) (Q.height x) fun h =>
+    hx (Function.Bijective.injective (CutQuiver.height_bijective Q) h)
+has type
+  IsZero
+    (Functor.obj.{v, v, max u (v + 1), max u (v + 1)} ((cornerCoverZAlgebra Q E).rightModuleEvaluation (Q.height x))
+      ((cornerCoverZAlgebra Q E).simpleRightModule (Q.height z)))
+but is expected to have type
+  IsZero
+    (Functor.obj.{v, v, 0, max u (v + 1)} ((cornerCoverZAlgebra Q E).simpleRightModule (Q.height z)).obj
+      (op (cornerCoordinateObject Q E x)))
+work/ASGinzburgDraft/PeriodCutGradedSimpleSpaces.lean:46:4: error: Application type mismatch: The argument
+  simpleRightModule_diagonal_finrank (cornerCoverZAlgebra Q E) (Q.height z)
+has type
+  Module.finrank k
+      ↑(((cornerCoverZAlgebra Q E).rightModuleEvaluation (Q.height z)).obj
+          ((cornerCoverZAlgebra Q E).simpleRightModule (Q.height z))) =
+    1
+but is expected to have type
+  Module.finrank k (CornerModuleSpace Q E ((cornerCoverZAlgebra Q E).simpleRightModule (Q.height z)) z) = 1
+in the application
+  Eq.trans (LinearEquiv.finrank_eq (cornerSimpleTotalSpaceEquiv Q E z))
+    (simpleRightModule_diagonal_finrank (cornerCoverZAlgebra Q E) (Q.height z))

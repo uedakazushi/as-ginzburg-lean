@@ -1,0 +1,46 @@
+work/ASGinzburgDraft/PeriodCutRadicalCornerEntries.lean:28:12: error: Invalid field `cutMatrixComponent_target_ne`: The environment does not contain `ASGinzburg.ZAlgebra.PeriodIso.cutMatrixComponent_target_ne`
+  E
+has type
+  A.PeriodIso ↑Q.vertices
+work/ASGinzburgDraft/PeriodCutRadicalCornerEntries.lean:37:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  integerCorner Q E (y.2 - x.2) ?i ?j
+in the target expression
+  ↑a ∈ CornerCoverHom Q E x y
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y : Q.LiftVertex
+hxy : x ≠ y
+a : ↥(CornerCoverHom Q E x y)
+hm : 0 ≤ y.2 - x.2
+ha : ↑a ∈ CornerCoverHom Q E x y
+⊢ ↑a ∈ cutGradedJacobson Q E
+work/ASGinzburgDraft/PeriodCutRadicalCornerEntries.lean:53:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  integerCorner Q E ?m.58 ?i ?j
+in the target expression
+  ↑a ∈ CornerCoverHom Q E x y
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y : Q.LiftVertex
+hxy : x ≠ y
+a : ↥(CornerCoverHom Q E x y)
+hm : ¬0 ≤ y.2 - x.2
+ha : ↑a ∈ CornerCoverHom Q E x y
+⊢ ↑a ∈ cutGradedJacobson Q E
+work/ASGinzburgDraft/PeriodCutRadicalCornerEntries.lean:53:39: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  d ≥ 0
+  b - c ≤ -1
+where
+ b := y.2
+ c := x.2
+ d := ?m.58

@@ -1,0 +1,60 @@
+import ASGinzburg.PeriodCutGradedModuleYoneda
+import ASGinzburg.PeriodIntegerCornerAbsorption
+
+/-! The total-space value of a concrete graded representable is the sum
+of its genuine homogeneous ring corners in R. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cornerRepresentableValueMap (z : Q.LiftVertex) :
+    (E.cornerGradedRepresentable Q z).space →ₗ[k]
+      E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) :=
+  DirectSum.toModule k Q.LiftVertex
+    (E.CornerModuleSpace Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)))
+    (fun x => (E.CornerCoverHom Q x z).subtype.comp
+      (E.cornerCoordinateHomEquiv Q x z).symm.toLinearMap)
+
+theorem cornerRepresentableValueMap_lof (z x : Q.LiftVertex)
+    (v : E.CornerModuleSpace Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) x) :
+    E.cornerRepresentableValueMap Q z
+      (DirectSum.lof k Q.LiftVertex _ x v)=
+        ((E.cornerCoordinateHomEquiv Q x z).symm v).val :=
+  DirectSum.toModule_lof k x v
+
+theorem cornerRepresentableValueMap_corner_action (z : Q.LiftVertex) {x y : Q.LiftVertex}
+    (a : E.CornerCoverHom Q x y)
+    (v : E.CornerModuleSpace Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) y) :
+    E.cornerRepresentableValueMap Q z
+      (DirectSum.lof k Q.LiftVertex _ x
+        (E.cornerModuleMap Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) x y a v))=
+      E.cornerRepresentableValueMap Q z (DirectSum.lof k Q.LiftVertex _ y v)*a.val := by
+  rw [E.cornerRepresentableValueMap_lof,E.cornerRepresentableValueMap_lof]
+  have he : (E.cornerCoordinateHomEquiv Q x z).symm
+      (E.cornerModuleMap Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z)) x y a v)=
+    E.cornerCoverComp Q ((E.cornerCoordinateHomEquiv Q y z).symm v) a := by
+    apply (E.cornerCoordinateHomEquiv Q x z).injective
+    rw [LinearEquiv.apply_symm_apply,E.cornerCoordinateHomEquiv_comp,
+      LinearEquiv.apply_symm_apply]
+    rfl
+  rw [he,cornerCoverComp_val]
+
+theorem cornerRepresentableValueMap_target_absorption (z : Q.LiftVertex)
+    (v : (E.cornerGradedRepresentable Q z).space) :
+    E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) z.1*
+      E.cornerRepresentableValueMap Q z v=E.cornerRepresentableValueMap Q z v := by
+  refine DirectSum.induction_on v ?_ ?_ ?_
+  · rw [map_zero,mul_zero]
+  · intro x w
+    change E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) z.1*
+      E.cornerRepresentableValueMap Q z (DirectSum.lof k Q.LiftVertex _ x w)=_
+    rw [E.cornerRepresentableValueMap_lof]
+    exact E.integerCorner_target_absorption Q _ _ _ _
+      ((E.cornerCoordinateHomEquiv Q x z).symm w).property
+  · intro v w hv hw
+    rw [map_add,mul_add,hv,hw]
+
+end ASGinzburg.ZAlgebra.PeriodIso

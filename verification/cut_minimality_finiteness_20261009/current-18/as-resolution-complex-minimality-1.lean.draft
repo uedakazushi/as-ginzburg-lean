@@ -1,0 +1,24 @@
+import ASGinzburg.ASResolutionComplex
+
+/-! Every differential of the actual infinite extension of an AS minimal
+sequence is minimal, including its proved zero tail. -/
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+variable {x : Q.LiftVertex} (R : A.ASResolution Q x)
+
+theorem complexDifferential_minimal (n : ℕ) : A.IsMinimalMorphism (R.complexDifferential n) := by
+  rcases n with _|_|_|n
+  · exact R.minimal₁
+  · exact R.minimal₂
+  · exact R.minimal₃
+  · exact A.isMinimalMorphism_zero _ _
+
+theorem complex_d_succ_minimal (n : ℕ) : A.IsMinimalMorphism (R.complex.d (n+1) n) := by
+  change A.IsMinimalMorphism
+    ((ChainComplex.of R.complexTerm R.complexDifferential R.complexDifferential_sq).d (n+1) n)
+  rw [ChainComplex.of_d]
+  exact R.complexDifferential_minimal n
+
+end ASGinzburg.ZAlgebra.ASResolution

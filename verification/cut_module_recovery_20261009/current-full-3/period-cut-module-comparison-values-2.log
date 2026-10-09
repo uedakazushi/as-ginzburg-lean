@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/PeriodCutModuleComparisonValues.lean:17:2: error: Tactic `rfl` failed: The left-hand side
+  ↑((cornerComponentEquiv Q E M (Q.heightEquiv.symm (Q.heightEquiv x))) ((M.obj.mapIso (eqToIso ⋯)).toLinearEquiv v))
+is not definitionally equal to the right-hand side
+  (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x) v
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x : Q.LiftVertex
+v : CornerModuleSpace Q E M x
+⊢ ↑((cornerComponentEquiv Q E M (Q.heightEquiv.symm (Q.heightEquiv x))) ((M.obj.mapIso (eqToIso ⋯)).toLinearEquiv v)) =
+    (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x) v

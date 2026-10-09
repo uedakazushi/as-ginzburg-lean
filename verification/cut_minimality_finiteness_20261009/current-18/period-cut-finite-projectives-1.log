@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/PeriodCutFiniteProjectives.lean:46:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  fun x => _root_.id <$> x
+in the target expression
+  (cornerModuleRingFunctor Q E).map (𝟙 P) =
+    (cornerModuleRingFunctor Q E).map r.i ≫ (cornerModuleRingFunctor Q E).map r.r
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+P : (cornerCoverZAlgebra Q E).RightModule
+n : ℕ
+i : Fin n → ℤ
+r : Retract P (∐ fun j => (cornerCoverZAlgebra Q E).representable (i j))
+this : Module.Finite (E.CutGradedRing fun t => ↑↑t)ᵐᵒᵖ
+  ↑((cornerModuleRingFunctor Q E).obj (∐ fun j => (cornerCoverZAlgebra Q E).representable (i j))) :=
+  cornerFiniteRepresentableSum_ring_finite Q E n i
+x : ↑((cornerModuleRingFunctor Q E).obj P)
+h :
+  (cornerModuleRingFunctor Q E).map (𝟙 P) =
+    (cornerModuleRingFunctor Q E).map r.i ≫ (cornerModuleRingFunctor Q E).map r.r
+⊢ (ModuleCat.Hom.hom ((cornerModuleRingFunctor Q E).map r.r))
+      ((ModuleCat.Hom.hom ((cornerModuleRingFunctor Q E).map r.i)) x) =
+    x

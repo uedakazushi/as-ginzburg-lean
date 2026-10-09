@@ -1,0 +1,49 @@
+import work.ASGinzburgDraft.PeriodCutForgetGrading
+import work.ASGinzburgDraft.PeriodCutGradedRepresentableGenerators
+import work.ASGinzburgDraft.FiniteModuleCatCoproduct
+import ASGinzburg.FiniteProjectiveClosure
+
+/-! Actual finite representable sums and their retracts become genuinely
+finitely generated unital right R modules, after forgetting the grading. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cornerRepresentable_ring_finite (i : ℤ) :
+    Module.Finite (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ
+      ((E.cornerModuleRingFunctor Q).obj ((E.cornerCoverZAlgebra Q).representable i)) := by
+  obtain ⟨z,rfl⟩ := Q.heightEquiv.surjective i
+  exact E.cornerGradedRepresentable_finite Q z
+
+theorem cornerFiniteRepresentableSum_ring_finite (n : ℕ) (i : Fin n → ℤ) :
+    Module.Finite (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ
+      ((E.cornerModuleRingFunctor Q).obj
+        (∐ fun j : Fin n => (E.cornerCoverZAlgebra Q).representable (i j))) := by
+  letI : ∀ j : Fin n,Module.Finite
+    (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ
+    ((E.cornerModuleRingFunctor Q).obj ((E.cornerCoverZAlgebra Q).representable (i j))) :=
+    fun j => E.cornerRepresentable_ring_finite Q (i j)
+  let e := PreservesCoproduct.iso (E.cornerModuleRingFunctor Q)
+    (fun j : Fin n => (E.cornerCoverZAlgebra Q).representable (i j))
+  letI := ASGinzburg.finiteModuleCatCoproduct
+    (fun j : Fin n => (E.cornerModuleRingFunctor Q).obj
+      ((E.cornerCoverZAlgebra Q).representable (i j)))
+  exact Module.Finite.of_surjective e.symm.toLinearEquiv.toLinearMap
+    e.symm.toLinearEquiv.surjective
+
+theorem cornerFiniteProjective_ring_finite {P : (E.cornerCoverZAlgebra Q).RightModule}
+    (hP : (E.cornerCoverZAlgebra Q).rightFiniteProjectiveProperty P) :
+    Module.Finite (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ
+      ((E.cornerModuleRingFunctor Q).obj P) := by
+  obtain ⟨n,i,⟨r⟩⟩ := hP
+  letI := E.cornerFiniteRepresentableSum_ring_finite Q n i
+  apply Module.Finite.of_surjective ((E.cornerModuleRingFunctor Q).map r.r).hom
+  intro x
+  refine ⟨((E.cornerModuleRingFunctor Q).map r.i).hom x,?_⟩
+  have h := (E.cornerModuleRingFunctor Q).map_comp r.i r.r
+  rw [r.retract,CategoryTheory.Functor.map_id] at h
+  exact LinearMap.congr_fun (congrArg ModuleCat.Hom.hom h.symm) x
+
+end ASGinzburg.ZAlgebra.PeriodIso

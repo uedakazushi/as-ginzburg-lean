@@ -1,0 +1,42 @@
+import ASGinzburg.PeriodCutDegreeComponentRecomposition
+
+/-! The actual component regrouping carries each vertex/sheet inclusion
+to its degree and vertex inclusion. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem componentRegroupEquiv_apply (M : E.CutGradedRightModule Q)
+    (x : ⨁ x : Q.LiftVertex,M.componentSubmodule x) (q : ℤ) (i : Q.Vertex) :
+    M.componentRegroupEquiv x q i=x (i,-q) :=
+  DirectSum.lequivCongrLeft_apply k Q.moduleDegreeVertexEquiv x ⟨q,i⟩
+
+theorem componentRegroupEquiv_lof (M : E.CutGradedRightModule Q)
+    (q : ℤ) (i : Q.Vertex) (v : M.componentSubmodule (i,-q)) :
+    M.componentRegroupEquiv
+      (DirectSum.lof k Q.LiftVertex (fun x => ↥(M.componentSubmodule x)) (i,-q) v)=
+    DirectSum.lof k ℤ (fun q => ⨁ i : Q.Vertex,M.componentSubmodule (i,-q)) q
+      (DirectSum.lof k Q.Vertex (fun i => ↥(M.componentSubmodule (i,-q))) i v) := by
+  apply DFinsupp.ext
+  intro p
+  apply DFinsupp.ext
+  intro j
+  rw [M.componentRegroupEquiv_apply]
+  by_cases hp : p=q
+  · subst p
+    by_cases hj : j=i
+    · subst j
+      simp only [DirectSum.lof_eq_of,DirectSum.of_eq_same]
+    · have hji : (j,-q)≠(i,-q) := by simpa using hj
+      simp only [DirectSum.lof_eq_of,DirectSum.of_eq_same,
+        DirectSum.of_eq_of_ne _ _ _ hj,DirectSum.of_eq_of_ne _ _ _ hji]
+  · have hji : (j,-p)≠(i,-q) := by
+      intro h
+      exact hp (neg_inj.mp (congrArg Prod.snd h))
+    simp only [DirectSum.lof_eq_of,DirectSum.of_eq_of_ne _ _ _ hp,
+      DirectSum.of_eq_of_ne _ _ _ hji,DirectSum.zero_apply]
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

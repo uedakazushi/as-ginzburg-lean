@@ -1,0 +1,30 @@
+import work.ASGinzburgDraft.ASCutGradedVertexExt
+import ASGinzburg.ASRegularIsomorphismInvariance
+import ASGinzburg.EquivalenceProjectiveResolution
+
+/-! Original minimal AS resolutions yield genuine mathlib projective
+resolutions of the actual graded-R simple images, bounded in degrees 0–3. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+instance ASRegular.cutGradedProjective_projective (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    Projective (hAS.cutGradedProjective A Q x) :=
+  ((hAS.periodIso A Q).cornerGradedModuleEquivalence Q).map_projective_iff
+    ((hAS.cutCornerCover A Q).representable (Q.height x)) |>.mpr inferInstance
+
+noncomputable def ASRegular.cutGradedSimpleProjectiveResolution (hAS : A.ASRegular Q)
+    (x : Q.LiftVertex) : ProjectiveResolution (hAS.cutGradedSimple A Q x) :=
+  equivalenceProjectiveResolution ((hAS.periodIso A Q).cornerGradedModuleEquivalence Q)
+    ((hAS.cutCornerASRegular A Q).projectiveResolution (hAS.cutCornerCover A Q) Q x)
+
+theorem ASRegular.cutGradedSimpleProjectiveResolution_isZero_ge_four (hAS : A.ASRegular Q)
+    (x : Q.LiftVertex) (n : ℕ) :
+    IsZero ((hAS.cutGradedSimpleProjectiveResolution A Q x).complex.X (n+4)) :=
+  equivalenceProjectiveResolution_isZero ((hAS.periodIso A Q).cornerGradedModuleEquivalence Q)
+    ((hAS.cutCornerASRegular A Q).projectiveResolution (hAS.cutCornerCover A Q) Q x)
+    (n+4) ((hAS.cutCornerASRegular A Q).projectiveResolution_isZero_ge_four
+      (hAS.cutCornerCover A Q) Q x n)
+
+end ASGinzburg.ZAlgebra

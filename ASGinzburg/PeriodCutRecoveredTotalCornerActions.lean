@@ -1,0 +1,34 @@
+import ASGinzburg.PeriodCutRecoveredTotalComparison
+
+/-! The canonical recovered total-space comparison respects each
+actual homogeneous ring-corner action. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+theorem recoveredCoordinateSpaceEquiv_val (M : E.CutGradedRightModule Q)
+    (x : Q.LiftVertex) (v : M.componentSubmodule (Q.heightEquiv.symm (Q.heightEquiv x))) :
+    (M.recoveredCoordinateSpaceEquiv x v).val=v.val :=
+  submoduleEqualityEquiv_val _ _ _ v
+
+theorem recoveredTotalEquiv_corner_lof (M : E.CutGradedRightModule Q)
+    {x y : Q.LiftVertex} (a : E.CornerCoverHom Q x y)
+    (v : E.CornerModuleSpace Q M.recoveredRightModule y) :
+    M.recoveredTotalEquiv
+      (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) x
+        (E.cornerModuleMap Q M.recoveredRightModule x y a v))=
+      (M.representation a.val).unop
+        (M.recoveredTotalEquiv
+          (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M.recoveredRightModule) y v)) := by
+  rw [M.recoveredTotalEquiv_lof,M.recoveredTotalEquiv_lof,
+    M.recoveredCoordinateSpaceEquiv_val,M.recoveredCoordinateSpaceEquiv_val]
+  change (M.representation (E.cornerCoordinateHomEquiv Q x y a).val).unop
+    (v : M.componentSubmodule (Q.heightEquiv.symm (Q.heightEquiv y))).val=
+      (M.representation a.val).unop
+        (v : M.componentSubmodule (Q.heightEquiv.symm (Q.heightEquiv y))).val
+  rw [E.cornerCoordinateHomEquiv_val]
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
