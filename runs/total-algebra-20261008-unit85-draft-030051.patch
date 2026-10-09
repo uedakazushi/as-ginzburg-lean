@@ -1,0 +1,77 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgLoopArrowRepresentative.lean
+@@ -0,0 +1,30 @@
++import work.ASGinzburgDraft.GinzburgLoopLayerDifferential
++
++/-! A native loop gives a genuine bottom filtered representative,
++whose intrinsic derivative is precisely the actual loop commutator sum. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgLoopArrow_mem_filtration (v : Q.Vertex) :
++    Finsupp.single (Q.ginzburgArrowPath (.loop v)) (1:k) ∈
++      Q.ginzburgGeneratorFiltrationAtDegree k v v (-2) (-2) 1 := by
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf]
++  refine ⟨?_,?_,?_⟩
++  · apply Finsupp.single_mem_supported
++    exact ⟨⟨⟨.loop v,rfl⟩,.nil v⟩,rfl,by rfl⟩
++  · apply Finsupp.single_mem_supported
++    rfl
++  · apply Finsupp.single_mem_supported
++    rfl
++
++noncomputable def ginzburgLoopArrowRepresentative (v : Q.Vertex) :
++    Q.ginzburgGeneratorFiltrationAtDegree k v v (-2) (-2) 1 :=
++  ⟨Finsupp.single (Q.ginzburgArrowPath (.loop v)) 1,Q.ginzburgLoopArrow_mem_filtration k v⟩
++
++theorem ginzburgLoopArrowDifferential_val (φ : Q.Potential k) (v : Q.Vertex) :
++    (Q.ginzburgLoopLayerDifferential k φ v v 1
++      (Q.ginzburgLoopArrowRepresentative k v)).val=Q.ginzburgLoopDifferential k v := by
++  exact Q.ginzburgDifferential_generator k φ (.loop v)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgLoopArrowDualPrefixes.lean
+@@ -0,0 +1,41 @@
++import work.ASGinzburgDraft.GinzburgLoopArrowRepresentative
++import work.ASGinzburgDraft.GinzburgLoopPathCoefficients
++import work.ASGinzburgDraft.GinzburgFilteredPrefixCoefficients
++
++/-! The full native dual prefix component of a differentiated loop
++is exactly the actual original arrow, with its true cut degree. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgLoopOriginalArrowComponent (v : Q.Vertex)
++    (b : Q.Arrow) (hb : Q.source b=v) :
++    Q.ginzburgCutCohomologicalComponent k v (Q.target b) (-1-(-1))
++      (1-(GinzburgArrow.dual b).cutDegree Q) := by
++  refine ⟨Finsupp.single ((Q.originalGinzburgArrowPath b).transport Q hb rfl) 1,?_,?_⟩
++  · apply Finsupp.single_mem_supported
++    simp [GinzburgPath.cohomologicalDegree_transport,originalGinzburgArrowPath,
++      GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree]
++  · apply Finsupp.single_mem_supported
++    simp [originalGinzburgArrowPath,GinzburgPath.cutDegree,GinzburgArrow.cutDegree]
++
++theorem ginzburgLoopArrowDualPrefix_eq (φ : Q.Potential k)
++    (v : Q.Vertex) (b : Q.Arrow) (hb : Q.source b=v) :
++    (((Q.ginzburgFilteredToPrefix k φ v v (-1) 1).f (-1)
++      (Q.ginzburgLoopLayerDifferential k φ v v 1 (Q.ginzburgLoopArrowRepresentative k v)))
++      ⟨.dual b,hb,rfl⟩)=Q.ginzburgLoopOriginalArrowComponent k v b hb := by
++  let z := Q.ginzburgLoopLayerDifferential k φ v v 1 (Q.ginzburgLoopArrowRepresentative k v)
++  apply (Q.ginzburgCutComponentBasisEquiv k v (Q.target b) (-1-(-1))
++    (1-(GinzburgArrow.dual b).cutDegree Q)).injective
++  apply Finsupp.ext
++  intro p
++  simp only [Q.ginzburgCutComponentBasisEquiv_apply]
++  change _=(Finsupp.single ((Q.originalGinzburgArrowPath b).transport Q hb rfl) (1:k)) p.val
++  exact (Q.ginzburgFilteredToPrefix_coefficient k φ v v (-1) (-1) 1 z
++    ⟨.dual b,hb,rfl⟩ p).trans
++      ((congrArg (fun f : Q.GinzburgPathComponent k v v =>
++        f ((GinzburgLastGeneratorData.path Q) ⟨⟨.dual b,hb⟩,p.val⟩))
++        (Q.ginzburgLoopArrowDifferential_val k φ v)).trans
++          (Q.ginzburgLoopDifferential_dual_path_coeff k v b hb p.val))
++
++end ASGinzburg.CutQuiver

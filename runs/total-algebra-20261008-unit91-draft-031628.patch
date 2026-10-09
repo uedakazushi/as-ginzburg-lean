@@ -1,0 +1,73 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgSingleGeneratorProjectiveBasis.lean
+@@ -0,0 +1,70 @@
++import work.ASGinzburgDraft.GinzburgGeneratorUnitRepresentatives
++import work.ASGinzburgDraft.GinzburgProjectiveConnectingClasses
++import work.ASGinzburgDraft.GinzburgLoopProjectiveConnectingClasses
++
++/-! Actual single dual-arrow and loop representatives are the genuine
++identity basis elements of the existing projective coproducts. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgLayerProjectiveComponentIso_single_coefficients (φ : Q.Potential k)
++    (v : Q.LiftVertex) (r : ℤ) (a : Q.GinzburgIncomingDegree v.1 r)
++    (f : Q.ginzburgGeneratorFiltrationAtDegree k
++      (Q.ginzburgPrefixGeneratorEndpoint v a.val).1 v.1 r r
++      (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2))
++    (hf : f.val=Q.ginzburgIncomingArrowPolynomial k v.1 r a)
++    (hcycle : (Q.ginzburgAssociatedGradedComplex k φ
++      (Q.ginzburgPrefixGeneratorEndpoint v a.val).1 v.1 r
++      (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2)).d r (r+1)
++        (Submodule.Quotient.mk f)=0) :
++    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v r
++      (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++      ((Q.ginzburgLayerProjectiveComponentIso k φ
++        (Q.ginzburgPrefixGeneratorEndpoint v a.val) v r).hom
++        (moduleCochainHomologyClass
++          (Q.ginzburgAssociatedGradedComplex k φ
++            (Q.ginzburgPrefixGeneratorEndpoint v a.val).1 v.1 r
++            (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2)) r
++          (Submodule.Quotient.mk f) hcycle))=
++      Pi.single a ((Q.unrolledJacobianZAlgebra k φ).id
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) := by
++  have he := Q.ginzburgGeneratorUnitLayer_eq_quotient_single k φ v r a f hf
++  simpa only [he] using Q.ginzburgGeneratorUnitLayer_coefficients k φ v r a
++
++set_option maxRecDepth 2000 in
++theorem ginzburgDualCoefficientClass_single (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 (-1))
++    (f : Q.ginzburgGeneratorFiltrationAtDegree k
++      (Q.ginzburgPrefixGeneratorEndpoint v a.val).1 v.1 (-1) (-1)
++      (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2))
++    (hf : f.val=Q.ginzburgIncomingArrowPolynomial k v.1 (-1) a) :
++    Q.ginzburgDualCoefficientClass k φ (Q.ginzburgPrefixGeneratorEndpoint v a.val) v f=
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-1)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).symm
++        (Pi.single a ((Q.unrolledJacobianZAlgebra k φ).id
++          (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))) := by
++  apply ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-1)
++    (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).injective
++  rw [LinearEquiv.apply_symm_apply]
++  exact Q.ginzburgLayerProjectiveComponentIso_single_coefficients k φ v (-1) a f hf _
++
++set_option maxRecDepth 2000 in
++theorem ginzburgLoopCoefficientClass_single (φ : Q.Potential k)
++    (v : Q.LiftVertex) (a : Q.GinzburgIncomingDegree v.1 (-2))
++    (f : Q.ginzburgGeneratorFiltrationAtDegree k
++      (Q.ginzburgPrefixGeneratorEndpoint v a.val).1 v.1 (-2) (-2)
++      (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2))
++    (hf : f.val=Q.ginzburgIncomingArrowPolynomial k v.1 (-2) a) :
++    Q.ginzburgLoopCoefficientClass k φ (Q.ginzburgPrefixGeneratorEndpoint v a.val) v f=
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-2)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).symm
++        (Pi.single a ((Q.unrolledJacobianZAlgebra k φ).id
++          (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))) := by
++  apply ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v (-2)
++    (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).injective
++  rw [LinearEquiv.apply_symm_apply]
++  exact Q.ginzburgLayerProjectiveComponentIso_single_coefficients k φ v (-2) a f hf _
++
++end ASGinzburg.CutQuiver

@@ -1,0 +1,60 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPrefixFamilyUnits.lean
+@@ -0,0 +1,57 @@
++import work.ASGinzburgDraft.GinzburgPrefixUnitCoefficients
++import ASGinzburg.GinzburgGeneratorProjectiveModules
++
++/-! A genuine unit in one prefix generator summand maps to the
++actual identity basis vector of the corresponding representable coproduct. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgGeneratorUnitPrefix (v : Q.LiftVertex) (r : ℤ)
++    (a : Q.GinzburgIncomingDegree v.1 r) :
++    Q.ginzburgCutCohomologicalComponent k (Q.ginzburgPrefixGeneratorEndpoint v a.val).1
++      (a.val.source Q) (r-r)
++        (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a.val).2-a.val.cutDegree Q) :=
++  (LinearEquiv.ofEq _ _ (by rw [sub_self])) (Q.ginzburgPrefixCoefficientUnit k v a.val)
++
++theorem ginzburgGeneratorUnitPrefix_val (v : Q.LiftVertex) (r : ℤ)
++    (a : Q.GinzburgIncomingDegree v.1 r) :
++    (Q.ginzburgGeneratorUnitPrefix k v r a).val=
++      (Q.ginzburgPrefixCoefficientUnit k v a.val).val := by
++  rw [ginzburgGeneratorUnitPrefix,LinearEquiv.coe_ofEq_apply]
++
++theorem ginzburgPrefixTopFixedUnrolledEquiv_unit (φ : Q.Potential k)
++    (v : Q.LiftVertex) (r : ℤ) (a : Q.GinzburgIncomingDegree v.1 r) :
++    Q.ginzburgPrefixTopFixedUnrolledEquiv k φ (Q.ginzburgPrefixGeneratorEndpoint v a.val) v r
++      (Submodule.Quotient.mk (Pi.single a (Q.ginzburgGeneratorUnitPrefix k v r a)))=
++      Pi.single a ((Q.unrolledJacobianZAlgebra k φ).id
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) := by
++  classical
++  let x := Q.ginzburgPrefixGeneratorEndpoint v a.val
++  funext b
++  change Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v b.val
++    (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2-x.2)
++      (Submodule.Quotient.mk (Pi.single a (Q.ginzburgGeneratorUnitPrefix k v r a))) b)=_
++  rw [Q.ginzburgPrefixTopQuotientFamilyEquiv_mk]
++  dsimp only
++  by_cases hb : b=a
++  · subst b
++    rw [Pi.single_eq_same]
++    have hu : Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
++        (Pi.single a (Q.ginzburgGeneratorUnitPrefix k v r a)) a=
++        Q.ginzburgPrefixCoefficientUnit k v a.val := by
++      apply Subtype.ext
++      rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe]
++      simp only [Pi.single_eq_same,Q.ginzburgGeneratorUnitPrefix_val]
++    rw [hu]
++    exact Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_unit k φ v a.val
++  · rw [Pi.single_eq_of_ne hb]
++    have hz : Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
++        (Pi.single a (Q.ginzburgGeneratorUnitPrefix k v r a)) b=0 := by
++      apply Subtype.ext
++      rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe]
++      simp only [Pi.single_eq_of_ne hb,ZeroMemClass.coe_zero]
++    rw [hz]
++    simp
++
++end ASGinzburg.CutQuiver

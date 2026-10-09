@@ -1,0 +1,378 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index dd51078..a98b2be 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -486,6 +486,34 @@ import ASGinzburg.OppositeJacobianExactness
+ import ASGinzburg.LinearCoyonedaPrecomposition
+ import ASGinzburg.OppositeCoyonedaYoneda
+ import ASGinzburg.OppositeJacobianRepresentables
++import ASGinzburg.ZAlgebraObjectRigidity
++import ASGinzburg.OppositeJacobianModuleComponents
++import ASGinzburg.OppositeJacobianSimpleModules
++import ASGinzburg.EquivalenceProjectiveResolution
++import ASGinzburg.ProjectiveResolutionTargetIso
++import ASGinzburg.GinzburgLeftSimpleProjectiveResolution
++import ASGinzburg.OppositeJacobianFiniteProjectives
++import ASGinzburg.GinzburgLeftFiniteProjectiveResolution
++import ASGinzburg.FourTermProjectiveDimension
++import ASGinzburg.GinzburgLeftSimpleExtBounds
++import ASGinzburg.CyclicDerivativeMixedCoefficients
++import ASGinzburg.CyclicHessianWords
++import ASGinzburg.CyclicHessianReversal
++import ASGinzburg.PathWordLastArrow
++import ASGinzburg.PathCyclicHessian
++import ASGinzburg.PathCyclicHessianDegrees
++import ASGinzburg.OppositePathCyclicHessian
++import ASGinzburg.PathCyclicHessianCoefficients
++import ASGinzburg.GinzburgCyclicHessianCoefficients
++import ASGinzburg.GinzburgDualLayerDifferential
++import ASGinzburg.GinzburgDualOriginalClassFormula
++import ASGinzburg.GinzburgOriginalPrefixCoefficients
++import ASGinzburg.GinzburgDualArrowRepresentative
++import ASGinzburg.GinzburgPathHessianCut
++import ASGinzburg.GinzburgDualArrowHessianPrefixes
++import ASGinzburg.GinzburgDualArrowHessianMatrix
++import ASGinzburg.GinzburgProjectiveConnectingClasses
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 39635b9..92fd50d 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -383,12 +383,25 @@ import ASGinzburg
+ #print axioms ASGinzburg.cyclicDerivative_commutator
+ #print axioms ASGinzburg.derivativeAux_supported_degrees
+ #print axioms ASGinzburg.derivativeWord_supported_degrees
++#print axioms ASGinzburg.prependWord_coeff
++#print axioms ASGinzburg.appendWord_coeff
++#print axioms ASGinzburg.cyclicDerivative_mixed_coeff
+ #print axioms ASGinzburg.reverseWordPolynomial
+ #print axioms ASGinzburg.reverseWordPolynomial_single
+ #print axioms ASGinzburg.derivativeAux_reverse
+ #print axioms ASGinzburg.derivativeWord_reverse
+ #print axioms ASGinzburg.derivativeCyclicWord_reverse
+ #print axioms ASGinzburg.cyclicDerivative_reverse
++#print axioms ASGinzburg.reverseWordPolynomial_apply
++#print axioms ASGinzburg.cyclicHessianWord_reverse
++#print axioms ASGinzburg.stripFirstWord
++#print axioms ASGinzburg.stripLastWord
++#print axioms ASGinzburg.stripFirstWord_apply
++#print axioms ASGinzburg.stripLastWord_apply
++#print axioms ASGinzburg.cyclicHessianWord
++#print axioms ASGinzburg.cyclicHessianWord_apply
++#print axioms ASGinzburg.cyclicHessianWord_eq_stripFirst
++#print axioms ASGinzburg.cyclicHessianWord_linearMap_eq
+ #print axioms ASGinzburg.reverseCyclicWord
+ #print axioms ASGinzburg.reverseCyclicWord_wordClass
+ #print axioms ASGinzburg.reverseCyclicWord_involutive
+@@ -415,6 +428,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftResolutionDualComplexMap_augmentation
+ #print axioms ASGinzburg.ZAlgebra.representableRadicalInclusion_minimal
+ #print axioms ASGinzburg.ZAlgebra.representable_to_finiteCoproduct_minimal
++#print axioms ASGinzburg.equivalenceProjectiveResolution
++#print axioms ASGinzburg.equivalenceProjectiveResolution_isZero
+ #print axioms ASGinzburg.equivalenceMapDerivedIsEquivalence
+ #print axioms ASGinzburg.exactDerivedEquivalence
+ #print axioms ASGinzburg.exactDerivedSingleIso
+@@ -780,6 +795,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.supportedDifferenceProjection_ker
+ #print axioms ASGinzburg.supportedQuotientDifferenceEquiv
+ #print axioms ASGinzburg.supportedQuotientDifferenceEquiv_mk
++#print axioms ASGinzburg.fourTermProjectiveResolution_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.exact_epi_comp_iff
+ #print axioms ASGinzburg.FourTermProjectiveResolution
+ #print axioms ASGinzburg.FourTermProjectiveResolution.term
+@@ -1054,6 +1070,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientEquivOfCutEq_mk
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomology_succ_isZero_iff_cycles
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_apply_original
++#print axioms ASGinzburg.CutQuiver.ginzburgDualGeneratorDifferential_snoc_coeff
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_dualArrow_snoc_coeff
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.degreeNegOne_decomposition
+ #print axioms ASGinzburg.CutQuiver.ginzburgCohomologicalComponent
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap
+@@ -1079,8 +1098,21 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap_homogeneous
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_sign
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_comp_homogeneous
++#print axioms ASGinzburg.CutQuiver.ginzburgPathHessianComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgDualArrowHessianPrefix_eq
++#print axioms ASGinzburg.CutQuiver.GinzburgLastGeneratorData.original_path
++#print axioms ASGinzburg.CutQuiver.ginzburgDualArrowHessianPrefix_coeff
++#print axioms ASGinzburg.CutQuiver.ginzburgDualArrowHessianPrefix_coeff_all
++#print axioms ASGinzburg.CutQuiver.ginzburgDualArrow_mem_filtration
++#print axioms ASGinzburg.CutQuiver.ginzburgDualArrowRepresentative
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_dualContext
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_dualContext
++#print axioms ASGinzburg.CutQuiver.ginzburgDualLayerDifferential_mem
++#print axioms ASGinzburg.CutQuiver.ginzburgDualLayerDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgDualLayerDifferential_cycle
++#print axioms ASGinzburg.CutQuiver.ginzburgDualLayerQuotient_cycle
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalHomology_on_representative
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalHomology_coefficients
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFilteredComplex_d
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalHomology_representative
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationAtDegree_leftComp
+@@ -1399,6 +1431,12 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedPrefixHomologyIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgLayerProjectiveComponentIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgLayerProjectiveComponentIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.leftSimpleProjectiveResolution_finite
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simple_hasLeftFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.leftSimple_hasProjectiveDimensionLE
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.leftSimple_ext_ge_four_eq_zero
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.leftSimpleProjectiveResolution
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.leftSimpleProjectiveResolution_isZero_ge_four
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap_single
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_comp
+@@ -1425,6 +1463,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix_f
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredLayer_supported_length
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix_coefficient
+ #print axioms ASGinzburg.CutQuiver.GinzburgPathComponent
+ #print axioms ASGinzburg.CutQuiver.ginzburgPathComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgPathComp_single
+@@ -1453,6 +1492,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.finiteFixedWinding
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.finiteFixedCut
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_finite
++#print axioms ASGinzburg.CutQuiver.pathCyclicHessian_ginzburg_cut
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_sigma_injective
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_injective
+ #print axioms ASGinzburg.CutQuiver.ginzburgPathWordMap
+@@ -1519,6 +1559,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopHomologyQuotientIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopShortComplexLeftMap
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopShortComplexCokernel_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgDualCoefficientClass
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalDifferentialCoefficients
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_class
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_class
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent_left_naturality
+@@ -2171,6 +2215,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianRightLeft_shortExact
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRight_exact
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianRightLeft_exact
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightRepresentableInverseAtIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftFiniteSumIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightFiniteSumInverseIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftFiniteProjective
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightFiniteProjective
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_opposite_iff
+ #print axioms ASGinzburg.CutQuiver.pathJacobianIdeal_opposite_iff
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianLinearEquivalence
+@@ -2179,7 +2228,15 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEquivalence
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEquivalenceFunctorLinear
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEquivalenceFunctorAdditive
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLinearEquivalence_inverse_index
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLinearEquivalence_inverse_obj
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRightEvaluationIso
+ #print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftRepresentableIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftSimple_off_diagonal
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftSimpleDiagonalIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianLeftSimpleIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightSimpleInverseIso
++#print axioms ASGinzburg.CutQuiver.oppositeJacobianRightRepresentableInverseIso
+ #print axioms ASGinzburg.CutQuiver.Path.opposite
+ #print axioms ASGinzburg.CutQuiver.Path.opposite_nil
+ #print axioms ASGinzburg.CutQuiver.Path.opposite_length
+@@ -2197,6 +2254,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.oppositePathCutEquiv_coe
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_wordMap
+ #print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_cyclicDerivative
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_cyclicHessian
+ #print axioms ASGinzburg.CutQuiver.Path.unopposite
+ #print axioms ASGinzburg.CutQuiver.Path.unopposite_nil
+ #print axioms ASGinzburg.CutQuiver.Path.unopposite_toList
+@@ -2269,6 +2327,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathWordEquiv_coe
+ #print axioms ASGinzburg.CutQuiver.pathCyclicDerivative
+ #print axioms ASGinzburg.CutQuiver.pathWordMap_pathCyclicDerivative
++#print axioms ASGinzburg.CutQuiver.cyclicHessianWord_potential_mem
++#print axioms ASGinzburg.CutQuiver.pathCyclicHessian
++#print axioms ASGinzburg.CutQuiver.pathWordMap_pathCyclicHessian
++#print axioms ASGinzburg.CutQuiver.pathWordMap_apply_toList
++#print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_snoc_coeff
++#print axioms ASGinzburg.CutQuiver.cyclicHessianWord_potential_supported_degrees
++#print axioms ASGinzburg.CutQuiver.pathCyclicHessian_supported_degrees
+ #print axioms ASGinzburg.CutQuiver.Path.CutDegreePath
+ #print axioms ASGinzburg.CutQuiver.Path.unrollDegree
+ #print axioms ASGinzburg.CutQuiver.Path.unrollDegree_erase_toList
+@@ -2350,6 +2415,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.Path.toList_injective
+ #print axioms ASGinzburg.CutQuiver.pathWordMap
+ #print axioms ASGinzburg.CutQuiver.pathWordMap_injective
++#print axioms ASGinzburg.CutQuiver.Path.exists_prefix_of_toList_append
+ #print axioms ASGinzburg.ZAlgebra.homTransport
+ #print axioms ASGinzburg.ZAlgebra.homTransport_id
+ #print axioms ASGinzburg.ZAlgebra.homTransport_comp
+@@ -2409,6 +2475,7 @@ import ASGinzburg
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₀Hom
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₁Hom
+ #print axioms CategoryTheory.ProjectiveResolution.shortExact₂Hom
++#print axioms ASGinzburg.projectiveResolutionTargetIso
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.QuotientComponent
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompRight
+ #print axioms ASGinzburg.ZAlgebra.LinearIdeal.quotientCompRight_mk
+@@ -3183,3 +3250,5 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorEssSurj
+ #print axioms ASGinzburg.ZAlgebra.Isomorphism.linearFunctorIsEquivalence
+ #print axioms ASGinzburg.ZAlgebra.Isomorphism.linearEquivalence
++#print axioms ASGinzburg.ZAlgebra.objIndex_eq_of_iso
++#print axioms ASGinzburg.ZAlgebra.obj_eq_of_iso
+diff --git a/ASGinzburg/CyclicDerivativeMixedCoefficients.lean b/ASGinzburg/CyclicDerivativeMixedCoefficients.lean
+new file mode 100644
+index 0000000..781d8c4
+--- /dev/null
++++ b/ASGinzburg/CyclicDerivativeMixedCoefficients.lean
+@@ -0,0 +1,57 @@
++import ASGinzburg.CyclicDerivativeCommutators
++
++/-! The actual cyclic derivative's mixed coefficient identity follows
++from its proved commutator identity, without any Hessian or Ext assumption. -/
++namespace ASGinzburg
++universe u v
++variable {A : Type u} [DecidableEq A] [Fintype A] {k : Type v} [Field k]
++
++omit [Fintype A] in
++theorem prependWord_coeff (c a : A) (f : WordPolynomial k A) (w : List A) :
++    prependWord c f (a::w) = if c=a then f w else 0 := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg =>
++    rw [map_add,Finsupp.add_apply,hf,hg]
++    split_ifs <;> simp
++  | single l t =>
++    by_cases h : c=a
++    · subst c
++      simp [prependWord,Finsupp.lmapDomain_apply,Finsupp.mapDomain_single,Finsupp.single_apply]
++    · have hne : c::l ≠ a::w := by intro he; exact h (List.cons.inj he).1
++      simp [prependWord,Finsupp.lmapDomain_apply,Finsupp.mapDomain_single,h,Ne.symm hne]
++
++omit [Fintype A] in
++theorem appendWord_coeff (c b : A) (f : WordPolynomial k A) (w : List A) :
++    appendWord c f (w++[b]) = if c=b then f w else 0 := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg =>
++    rw [map_add,Finsupp.add_apply,hf,hg]
++    split_ifs <;> simp
++  | single l t =>
++    by_cases h : c=b
++    · subst c
++      simp [appendWord,Finsupp.lmapDomain_apply,Finsupp.mapDomain_single,Finsupp.single_apply]
++    · have hne : l++[c] ≠ w++[b] := by
++        intro he
++        have hl := congrArg List.getLast? he
++        exact h (by simpa using hl)
++      simp [appendWord,Finsupp.lmapDomain_apply,Finsupp.mapDomain_single,h,Ne.symm hne]
++
++theorem cyclicDerivative_mixed_coeff (φ : CyclicPolynomial k A)
++    (a b : A) (w : List A) :
++    cyclicDerivative a φ (w++[b]) = cyclicDerivative b φ (a::w) := by
++  have h := congrArg (fun f : WordPolynomial k A => f (a::(w++[b])))
++    (cyclicDerivative_commutator φ)
++  simp only [wordCommutator,LinearMap.sub_apply,Finsupp.sub_apply,Finset.sum_sub_distrib] at h
++  simp only [Finsupp.finset_sum_apply,prependWord_coeff] at h
++  change (∑ c, if c=a then cyclicDerivative c φ (w++[b]) else 0) -
++    (∑ c, appendWord c (cyclicDerivative c φ) ((a::w)++[b])) = 0 at h
++  simp only [appendWord_coeff,
++    Finset.sum_ite_eq',Finset.mem_univ,if_true] at h
++  exact sub_eq_zero.mp h
++
++end ASGinzburg
+diff --git a/ASGinzburg/CyclicHessianWords.lean b/ASGinzburg/CyclicHessianWords.lean
+new file mode 100644
+index 0000000..7b9bed6
+--- /dev/null
++++ b/ASGinzburg/CyclicHessianWords.lean
+@@ -0,0 +1,48 @@
++import ASGinzburg.CyclicDerivativeMixedCoefficients
++
++/-! Actual first/last arrow coefficient operators and cyclic Hessian
++entries are linear maps on finite word polynomials. Their equality is
++proved from the actual cyclic derivative, not added as a hypothesis. -/
++namespace ASGinzburg
++universe u v
++variable {A : Type u} [DecidableEq A] {k : Type v} [Field k]
++
++noncomputable def stripFirstWord (a : A) : WordPolynomial k A →ₗ[k] WordPolynomial k A :=
++  Finsupp.lcomapDomain (R := k) (M := k) (List.cons a) (by
++    intro x y h
++    exact (List.cons.inj h).2)
++
++noncomputable def stripLastWord (b : A) : WordPolynomial k A →ₗ[k] WordPolynomial k A :=
++  Finsupp.lcomapDomain (R := k) (M := k) (fun w => w++[b]) (by
++    intro x y h
++    exact List.append_cancel_right h)
++
++omit [DecidableEq A] in
++@[simp] theorem stripFirstWord_apply (a : A) (f : WordPolynomial k A) (w : List A) :
++    stripFirstWord a f w = f (a::w) := rfl
++
++omit [DecidableEq A] in
++@[simp] theorem stripLastWord_apply (b : A) (f : WordPolynomial k A) (w : List A) :
++    stripLastWord b f w = f (w++[b]) := rfl
++
++noncomputable def cyclicHessianWord (a b : A) :
++    CyclicPolynomial k A →ₗ[k] WordPolynomial k A :=
++  (stripLastWord b).comp (cyclicDerivative a)
++
++@[simp] theorem cyclicHessianWord_apply (a b : A) (φ : CyclicPolynomial k A) (w : List A) :
++    cyclicHessianWord a b φ w = cyclicDerivative a φ (w++[b]) := rfl
++
++variable [Fintype A]
++
++theorem cyclicHessianWord_eq_stripFirst (a b : A) (φ : CyclicPolynomial k A) :
++    cyclicHessianWord a b φ = stripFirstWord a (cyclicDerivative b φ) := by
++  ext w
++  exact cyclicDerivative_mixed_coeff φ a b w
++
++theorem cyclicHessianWord_linearMap_eq (a b : A) :
++    cyclicHessianWord (k := k) a b = (stripFirstWord a).comp (cyclicDerivative b) := by
++  apply LinearMap.ext
++  intro φ
++  exact cyclicHessianWord_eq_stripFirst a b φ
++
++end ASGinzburg
+diff --git a/ASGinzburg/CyclicHessianReversal.lean b/ASGinzburg/CyclicHessianReversal.lean
+new file mode 100644
+index 0000000..d13038e
+--- /dev/null
++++ b/ASGinzburg/CyclicHessianReversal.lean
+@@ -0,0 +1,25 @@
++import ASGinzburg.CyclicHessianWords
++import ASGinzburg.CyclicDerivativeReversal
++
++/-! Reversal of the actual potential transposes and reverses its actual
++cyclic Hessian entries. -/
++namespace ASGinzburg
++universe u v
++variable {A : Type u} [DecidableEq A] {k : Type v} [Field k]
++
++omit [DecidableEq A] in
++@[simp] theorem reverseWordPolynomial_apply (f : WordPolynomial k A) (w : List A) :
++    reverseWordPolynomial f w = f w.reverse := rfl
++
++variable [Fintype A]
++
++theorem cyclicHessianWord_reverse (a b : A) (φ : CyclicPolynomial k A) :
++    cyclicHessianWord b a (reverseCyclicPolynomial φ) =
++      reverseWordPolynomial (cyclicHessianWord a b φ) := by
++  ext w
++  rw [cyclicHessianWord_apply,←cyclicDerivative_reverse,reverseWordPolynomial_apply,
++    List.reverse_append,List.reverse_singleton,List.singleton_append,
++    reverseWordPolynomial_apply,cyclicHessianWord_apply]
++  exact (cyclicDerivative_mixed_coeff φ a b w.reverse).symm
++
++end ASGinzburg

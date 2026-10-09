@@ -1,0 +1,58 @@
+import ASGinzburg.GinzburgDualLayerDifferential
+import ASGinzburg.GinzburgUpperHomologyClasses
+
+/-! The native dual-to-original connecting morphism sends an actual
+quotient cycle to the class of its actual Ginzburg differential. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgDualOriginalHomology_on_representative
+    (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ)
+    (x : Q.ginzburgGeneratorFiltrationAtDegree k u v (-1) (-1) c) :
+    Q.ginzburgGeneratorDualToOriginalHomology k φ u v c
+      (moduleCochainHomologyClass
+        (Q.ginzburgAssociatedGradedComplex k φ u v (-1) c) (-1)
+        (Submodule.Quotient.mk x) (Q.ginzburgDualLayerQuotient_cycle k φ u v c x))=
+      moduleCochainHomologyClass
+        (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c) 0
+        (Q.ginzburgDualLayerDifferential k φ u v c x)
+        (Q.ginzburgDualLayerDifferential_cycle k φ u v c x) := by
+  let hS := Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v (-1) c
+  have hx : (Q.ginzburgGeneratorFilteredShortComplex k φ u v (-1) c).g.f (-1) x=
+      Submodule.Quotient.mk x := rfl
+  have hdx : (Q.ginzburgGeneratorFilteredShortComplex k φ u v (-1) c).f.f (-1+1)
+      (Q.ginzburgDualLayerDifferential k φ u v c x)=
+      (Q.ginzburgGeneratorFilteredShortComplex k φ u v (-1) c).X₂.d (-1) (-1+1) x := by
+    change (Submodule.inclusion
+      (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v (-1) 0 c))
+        (Q.ginzburgDualLayerDifferential k φ u v c x)=
+      (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) (-1+1) x
+    rw [Q.ginzburgGeneratorFilteredComplex_d k φ u v (-1) c (-1)]
+    apply Subtype.ext
+    rfl
+  simpa only [ginzburgGeneratorDualToOriginalHomology,ginzburgGeneratorFiltrationConnecting,
+    show (-1:ℤ)+1=0 by norm_num] using
+      moduleCochainConnecting_class hS (-1) (Submodule.Quotient.mk x)
+        (Q.ginzburgDualLayerQuotient_cycle k φ u v c x) x hx
+        (Q.ginzburgDualLayerDifferential k φ u v c x) hdx
+
+theorem ginzburgDualOriginalHomology_coefficients
+    (φ : Q.Potential k) (x v : Q.LiftVertex)
+    (f : Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 (-1) (-1) (v.2-x.2)) :
+    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
+      (Q.height x) ((Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
+        (Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2)
+          (moduleCochainHomologyClass
+            (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 (-1) (v.2-x.2)) (-1)
+            (Submodule.Quotient.mk f)
+            (Q.ginzburgDualLayerQuotient_cycle k φ x.1 v.1 (v.2-x.2) f))))=
+      Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v 0
+        (Submodule.Quotient.mk
+          ((Q.ginzburgOriginalFilteredToPrefix k φ x.1 v.1 (v.2-x.2)).f 0
+            (Q.ginzburgDualLayerDifferential k φ x.1 v.1 (v.2-x.2) f))) := by
+  rw [Q.ginzburgDualOriginalHomology_on_representative]
+  exact Q.ginzburgUpperProjectiveComponentIso_class k φ x v _ _
+
+end ASGinzburg.CutQuiver

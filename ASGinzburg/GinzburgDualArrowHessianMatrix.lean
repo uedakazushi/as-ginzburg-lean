@@ -1,0 +1,48 @@
+import ASGinzburg.GinzburgDualArrowHessianPrefixes
+import ASGinzburg.GinzburgBoundaryProducts
+
+/-! The full native upper prefix component of a differentiated dual
+arrow is the actual embedded path Hessian, not just an abstract class. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgPathHessianComponent (φ : Q.Potential k) (a b : Q.Arrow) :
+    Q.ginzburgCutCohomologicalComponent k (Q.target a) (Q.source b) (0-0)
+      ((GinzburgArrow.dual a).cutDegree Q-(GinzburgArrow.original b).cutDegree Q) :=
+  ⟨Q.originalGinzburgLinearMap k (Q.target a) (Q.source b) (Q.pathCyclicHessian k a b φ),
+    by simpa only [sub_self] using
+      Q.originalGinzburgLinearMap_degreeZero k (Q.pathCyclicHessian k a b φ),
+    Q.originalGinzburgLinearMap_cut k (Q.pathCyclicHessian_ginzburg_cut k a b φ)⟩
+
+theorem ginzburgDualArrowHessianPrefix_eq (φ : Q.Potential k)
+    (a b : Q.Arrow) (hb : Q.target b=Q.source a) :
+    (((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
+      ((GinzburgArrow.dual a).cutDegree Q)).f 0
+        (Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
+          ((GinzburgArrow.dual a).cutDegree Q) (Q.ginzburgDualArrowRepresentative k a)))
+      ⟨.original b,hb,rfl⟩)=Q.ginzburgPathHessianComponent k φ a b := by
+  let z := Q.ginzburgDualLayerDifferential k φ (Q.target a) (Q.source a)
+    ((GinzburgArrow.dual a).cutDegree Q) (Q.ginzburgDualArrowRepresentative k a)
+  let f := ((Q.ginzburgOriginalFilteredToPrefix k φ (Q.target a) (Q.source a)
+    ((GinzburgArrow.dual a).cutDegree Q)).f 0 z) ⟨.original b,hb,rfl⟩
+  change f=Q.ginzburgPathHessianComponent k φ a b
+  apply Subtype.ext
+  apply Finsupp.ext
+  intro p
+  by_cases hp : p.cohomologicalDegree=0
+  · obtain ⟨q,rfl⟩ := p.degreeZero_existsOriginal Q hp
+    change f.val (q.originalGinzburg Q)=
+      Q.originalGinzburgLinearMap k (Q.target a) (Q.source b)
+        (Q.pathCyclicHessian k a b φ) (q.originalGinzburg Q)
+    rw [Q.originalGinzburgLinearMap_apply_original]
+    exact Q.ginzburgDualArrowHessianPrefix_coeff_all k φ a b hb q
+  · have hL : f.val p=0 := by
+      apply (Finsupp.mem_supported' k _).mp f.property.1
+      simpa only [sub_self] using hp
+    have hR : (Q.ginzburgPathHessianComponent k φ a b).val p=0 := by
+      apply (Finsupp.mem_supported' k _).mp (Q.ginzburgPathHessianComponent k φ a b).property.1
+      simpa only [sub_self] using hp
+    exact hL.trans hR.symm
+
+end ASGinzburg.CutQuiver

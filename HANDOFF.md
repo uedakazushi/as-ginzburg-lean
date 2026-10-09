@@ -1,9 +1,9 @@
 # Codexクラウドへの引継ぎ
 
-単位66〜70で全道/全homogeneous sumsの微分反転と三角数signによるactual cochain/homology同型を証明し、native反対GinzburgRegularとの同値と反対最小ASResolutionを完成。actual Jacobianイデアルとcut/sheet商の反対同型、全整数成分での積反転・単位元保存、反射ZAlgebra同型を完成。既存の線形左加群圏と反対Jacobianの既存線形右加群圏の線形同値を構成し、両方向のexactness/短完全列の保存、left representable at i≅right representable at n-1-iのactual加群同型まで全体検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。
-本来のGinzburgRegularから既存ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
-最新ローカル検証 20261009T015846Z-8e6d60b9：465数学モジュール・3183異なる宣言・1659 theorem、全段階終了0。
-単位1〜70の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位71〜79でactual反対Jacobian圏同値による単純商/representableの逆像同型と全評価成分比較を証明。native反対GinzburgRegularから全整数iの元の左単純加群のgenuine ProjectiveResolutionを構成し、全項の既存有限生成射影性・長さ3のfinite cover列・射影次元≤3・任意標的への次数4以上Ext零性を完成。actual巡回微分交換子恒等式からmixed係数一致を導き、native word/path Hessian、元のPotentialの長さ≥3から正の道長さと本来のcut支持、反対ポテンシャルの転置/道反転を証明。actual Ginzburg differentialとHessianの全係数、dual矢の上層prefix成分全体とembedded path Hessianの一致、actual degree -1代表元のquotient/differential cycle、native δのclass公式と既存射影第2微分の各評価成分のactual prefix quotient class公式まで全体検証した。周期性・必要Ext表・Calabi–Yau性・ASRegularを追加仮定にしていない。
+本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。左単純分解の存在や高次零性をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
+最新ローカル検証 20261009T024034Z-d8751382：492数学モジュール・3252異なる宣言・1708 theorem、全段階終了0。
+単位1〜79の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 
 
@@ -18,13 +18,21 @@
 
 
 
-## 現行のGinzburgからASへの証明状態（単位66〜70）
 
-単位66〜70で全道/全homogeneous sumsの微分反転と三角数signによるactual cochain/homology同型を証明し、native反対GinzburgRegularとの同値と反対最小ASResolutionを完成。actual Jacobianイデアルとcut/sheet商の反対同型、全整数成分での積反転・単位元保存、反射ZAlgebra同型を完成。既存の線形左加群圏と反対Jacobianの既存線形右加群圏の線形同値を構成し、両方向のexactness/短完全列の保存、left representable at i≅right representable at n-1-iのactual加群同型まで全体検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。
 
-WORK71〜72ではactual単純商とその逆像の比較、反対native右単純射影分解の元の左加群への移送、全左単純genuine ProjectiveResolution・全項有限生成射影性・射影次元≤3・任意標的への次数4以上Ext零性を個別Lean終了0で完成。WORK73〜74ではactual巡回微分交換子恒等式からmixed係数、word/path Hessian、元のPotentialの長さ≥3から正の道長さとcut次数、反対ポテンシャルの転置/道反転を個別終了0で完成。これらは公開70の全体監査には含まれず、差分/個別実測/利用先はRECENT_RUN.mdとdraft.evidence.jsonに保存する。actual Ginzburg D₂の明示係数とHessianの比較、およびそのdualとnative左分解の全微分の一致が次の義務。 WORK75〜78ではactual Ginzburg differentialとpath Hessianの全係数の一致、degree -1代表元からのactual quotient/differential cycle、native mathlib δのclass公式、上層prefix成分全体とembedded path Hessianの一致を個別終了0で完成。これらも全体監査前のdraftであり、native射影第2微分の標準Hessian行列とdual/左分解の比較の完成とは扱わない。
 
-本来のGinzburgRegularから既存ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
+
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位71〜79）
+
+単位71〜79でactual反対Jacobian圏同値による単純商/representableの逆像同型と全評価成分比較を証明。native反対GinzburgRegularから全整数iの元の左単純加群のgenuine ProjectiveResolutionを構成し、全項の既存有限生成射影性・長さ3のfinite cover列・射影次元≤3・任意標的への次数4以上Ext零性を完成。actual巡回微分交換子恒等式からmixed係数一致を導き、native word/path Hessian、元のPotentialの長さ≥3から正の道長さと本来のcut支持、反対ポテンシャルの転置/道反転を証明。actual Ginzburg differentialとHessianの全係数、dual矢の上層prefix成分全体とembedded path Hessianの一致、actual degree -1代表元のquotient/differential cycle、native δのclass公式と既存射影第2微分の各評価成分のactual prefix quotient class公式まで全体検証した。周期性・必要Ext表・Calabi–Yau性・ASRegularを追加仮定にしていない。
+
+WORK80〜91では全層のactual homology/projective class係数と全dual/loop射影項の代表元の全射性、native loop→dual接続写像のactual differential quotient class、ループ微分のword/path係数、全filtered層のprefix係数、nativeループ微分のdual prefix成分全体＝original arrow、既存射影第3微分の全評価成分のactual class公式を個別Lean終了0で完成。actual零道商類とrepresentable恒等成分、有限prefix単位族とcoproduct恒等元基底、actual単一矢/ループ代表元とnative射影基底の同定も個別終了0で完成。これらは公開79の全体監査には含まれず、各差分/source SHA/個別実測/evidenceを別記した。次は標準基底上のHessian/矢の行列、native右分解のdualと左分解の全微分の一致。
+
+本来のGinzburgRegularから既存最小ASResolution(i)とExt³(s_(τv),P_v)≃ₗk/全次数有限性/AS総rank≥1は完成。総rank=1/他の低次数・非対角Ext零性/ASRegular(ii)は未証明。左単純分解の存在や高次零性をAS(ii)完成とは扱わない。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。定理3.2と系5.2は未証明で、正式Lean定理文も未実装。
 
 過去の単位説明はその時点の状態である。完成判定にはこの段落と最新の実行終了コードを使う。
 
@@ -51,10 +59,10 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261009T015846Z-8e6d60b9`、全段階終了0、2139.196975498秒。
-UTC 2026-10-09T01:58:46.217317+00:00 → 2026-10-09T02:34:25.414300+00:00。
-JST 2026-10-09T10:58:46.217317+09:00 → 2026-10-09T11:34:25.414300+09:00。
-465数学モジュール・3183異なる明示的宣言・全1659 theorem・321 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261009T024034Z-d8751382`、全段階終了0、2119.995421489秒。
+UTC 2026-10-09T02:40:34.538389+00:00 → 2026-10-09T03:15:54.533839+00:00。
+JST 2026-10-09T11:40:34.538389+09:00 → 2026-10-09T12:15:54.533839+09:00。
+492数学モジュール・3252異なる明示的宣言・全1708 theorem・321 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。

@@ -1,0 +1,149 @@
+{
+  "unit": "53ci",
+  "repository": "uedakazushi/as-ginzburg-lean",
+  "workflow_run_id": 37870923572,
+  "job_id": 113628578982,
+  "head_sha": "7aa4b4b0f04aad726c9cf23afe75bd6fe620a051",
+  "conclusion": "success",
+  "verifier_result": {
+    "run_id": "20261009T014103Z-4826d4a2",
+    "exit_code": 0,
+    "started_at_utc": "2026-10-09T01:41:03.337185+00:00",
+    "ended_at_utc": "2026-10-09T02:24:13.645252+00:00",
+    "elapsed_seconds": 2590.308060253
+  },
+  "log_bytes": 1088775,
+  "log_sha256": "2066c2c540fe4611e2d37330ae0c0fce3a5356040509621376d236c7816d085a",
+  "log_parts": [
+    {
+      "path": "verification/total_algebra_unit53ci_github_ci_part0.log",
+      "bytes": 544813,
+      "sha256": "2a48fb18f6fb97a911f2310b190a336a90f9e01ef1fa5cd80fe4f736c8ff3565"
+    },
+    {
+      "path": "verification/total_algebra_unit53ci_github_ci_part1.log",
+      "bytes": 543962,
+      "sha256": "0d3a73f0b0348c3bbb1a95d399f5fc2712745654d7d22683ca2602634df38303"
+    }
+  ],
+  "stage_log_exits": [
+    [
+      "2026-10-09T01:41:05.241213+00:00",
+      "regression_tests",
+      "0",
+      "1.889827"
+    ],
+    [
+      "2026-10-09T01:41:05.869358+00:00",
+      "source_audit",
+      "0",
+      "0.520234"
+    ],
+    [
+      "2026-10-09T01:42:21.034715+00:00",
+      "cache",
+      "0",
+      "75.002638"
+    ],
+    [
+      "2026-10-09T01:42:23.638179+00:00",
+      "environment",
+      "0",
+      "2.429569"
+    ],
+    [
+      "2026-10-09T02:11:13.750516+00:00",
+      "build",
+      "0",
+      "1729.929032"
+    ],
+    [
+      "2026-10-09T02:24:13.142090+00:00",
+      "axioms",
+      "0",
+      "779.389857"
+    ],
+    [
+      "2026-10-09T02:24:13.644526+00:00",
+      "report",
+      "0",
+      "0.501250"
+    ]
+  ],
+  "jobs": [
+    {
+      "id": 113628578982,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37870923572,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Install elan and pinned Lean",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Fresh build and exhaustive axiom audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Save this run's logs, even on failure",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11591118798,
+      "name": "lean-verification-37870923572-1",
+      "size_in_bytes": 138945,
+      "url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11591118798",
+      "archive_download_url": "https://api.github.com/repos/uedakazushi/as-ginzburg-lean/actions/artifacts/11591118798/zip",
+      "expired": false,
+      "created_at": "2026-10-09T02:24:14Z",
+      "expires_at": "2026-11-08T02:24:13Z",
+      "updated_at": "2026-10-09T02:24:14Z",
+      "digest": "sha256:dd65d0dae0f37d222a9a8ebc20168e513d853bedd98eaefaa5870968df13e69b",
+      "workflow_run": {
+        "id": 37870923572,
+        "repository_id": 1409469011,
+        "head_repository_id": 1409469011,
+        "head_branch": "main",
+        "head_sha": "7aa4b4b0f04aad726c9cf23afe75bd6fe620a051"
+      }
+    }
+  ],
+  "restoration": "Concatenate log_parts in order without modifying bytes."
+}

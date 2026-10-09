@@ -1,0 +1,24 @@
+import ASGinzburg.PathCyclicHessianDegrees
+
+/-! Reading an actual derivative coefficient after its last arrow
+is exactly reading the corresponding actual path Hessian entry. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem pathWordMap_apply_toList {u v : Q.Vertex}
+    (f : Q.PathComponent k u v) (p : Q.Path u v) :
+    Q.pathWordMap k u v f p.toList=f p :=
+  Finsupp.mapDomain_apply (Path.toList_injective u v) f p
+
+theorem pathCyclicDerivative_snoc_coeff (a b : Q.Arrow) (φ : Q.Potential k)
+    (p : Q.Path (Q.target a) (Q.source b)) (hb : Q.target b=Q.source a) :
+    Q.pathCyclicDerivative k a φ ((Path.snoc p b rfl).transport rfl hb)=
+      Q.pathCyclicHessian k a b φ p := by
+  rw [←Q.pathWordMap_apply_toList k _ ((Path.snoc p b rfl).transport rfl hb),
+    Q.pathWordMap_pathCyclicDerivative,
+    ←Q.pathWordMap_apply_toList k _ p,Q.pathWordMap_pathCyclicHessian,
+    cyclicHessianWord_apply]
+  simp only [Path.toList_transport,Path.toList]
+
+end ASGinzburg.CutQuiver

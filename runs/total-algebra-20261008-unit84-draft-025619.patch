@@ -1,0 +1,55 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgFilteredPrefixCoefficients.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.GinzburgGradedPrefixInverse
++import ASGinzburg.GinzburgGeneratorLayerCoefficients
++
++/-! The actual filtered-to-prefix comparison reads each actual
++last-generator coefficient at every genuine generator layer. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgFilteredToPrefix (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v r c ⟶
++      Q.ginzburgGeneratorPrefixComplex k φ u v r c :=
++  Q.ginzburgFilteredToAssociatedGraded k φ u v r c ≫
++    (Q.ginzburgGeneratorPrefixGradedIso k φ u v r c).inv
++
++theorem ginzburgFilteredToPrefix_f (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k u v r q c) :
++    (Q.ginzburgFilteredToPrefix k φ u v r c).f q z=
++      Q.ginzburgGeneratorLayerFreeEquiv k u v r q c
++        (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c (Submodule.Quotient.mk z)) := by
++  change (Q.ginzburgGeneratorPrefixGradedIso k φ u v r c).inv.f q
++    (Submodule.Quotient.mk z)=_
++  exact Q.ginzburgGeneratorPrefixGradedIso_inv_f k φ u v r c q _
++
++theorem ginzburgFilteredToPrefix_coefficient (φ : Q.Potential k)
++    (u v : Q.Vertex) (r q c : ℤ)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k u v r q c)
++    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r})
++    (p : {p : Q.GinzburgPath u (a.val.source Q) //
++      p.cohomologicalDegree=q-r ∧ p.cutDegree=c-a.val.cutDegree Q}) :
++    (((Q.ginzburgFilteredToPrefix k φ u v r c).f q z) a).val p.val=
++      z.val ((GinzburgLastGeneratorData.path Q) ⟨⟨a.val,a.property.1⟩,p.val⟩) := by
++  classical
++  let d : Q.GinzburgLastGeneratorData u v := ⟨⟨a.val,a.property.1⟩,p.val⟩
++  have hd : d.path Q ∈ {p : Q.GinzburgPath u v |
++      p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧ p.cohomologicalDegree=q ∧ p.cutDegree=c} := by
++    refine ⟨(d.path_mem_layer_iff Q r).mpr a.property.2,?_,?_⟩
++    · rw [d.path_cohomologicalDegree Q]
++      have hp := p.property.1
++      have ha := a.property.2
++      change p.val.cohomologicalDegree+a.val.cohomologicalDegree Q=q
++      omega
++    · exact (d.path_cutDegree_iff Q c).mpr p.property.2
++  rw [Q.ginzburgFilteredToPrefix_f,
++    Q.ginzburgGeneratorLayerFreeEquiv_apply k u v r q c _ a p,
++    Q.ginzburgGeneratorLayerQuotientEquiv_coe_mk]
++  exact Finsupp.filter_apply_pos _ _ hd
++
++end ASGinzburg.CutQuiver
