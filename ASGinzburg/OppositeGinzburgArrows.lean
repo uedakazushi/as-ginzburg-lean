@@ -1,0 +1,47 @@
+import ASGinzburg.OppositeCutQuiver
+import ASGinzburg.GinzburgGrading
+
+/-! Reflection reverses all genuine extended arrows and preserves their
+three gradings. The sign on loop generators belongs to the later linear map. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+def GinzburgArrow.opposite : Q.GinzburgArrow → Q.opposite.GinzburgArrow
+  | .original a => .original a
+  | .dual a => .dual a
+  | .loop v => .loop v.rev
+
+def GinzburgArrow.unopposite : Q.opposite.GinzburgArrow → Q.GinzburgArrow
+  | .original a => .original a
+  | .dual a => .dual a
+  | .loop v => .loop v.rev
+
+def oppositeGinzburgArrowEquiv : Q.GinzburgArrow ≃ Q.opposite.GinzburgArrow where
+  toFun := GinzburgArrow.opposite
+  invFun := GinzburgArrow.unopposite
+  left_inv a := by cases a <;> simp [GinzburgArrow.opposite, GinzburgArrow.unopposite]
+  right_inv a := by cases a <;> simp [GinzburgArrow.opposite, GinzburgArrow.unopposite]
+
+@[simp] theorem GinzburgArrow.opposite_source (a : Q.GinzburgArrow) :
+    a.opposite.source Q.opposite = (a.target Q).rev := by cases a <;> rfl
+
+@[simp] theorem GinzburgArrow.opposite_target (a : Q.GinzburgArrow) :
+    a.opposite.target Q.opposite = (a.source Q).rev := by cases a <;> rfl
+
+@[simp] theorem GinzburgArrow.opposite_cohomologicalDegree (a : Q.GinzburgArrow) :
+    a.opposite.cohomologicalDegree Q.opposite = a.cohomologicalDegree Q := by
+  cases a <;> rfl
+
+@[simp] theorem GinzburgArrow.opposite_cutDegree (a : Q.GinzburgArrow) :
+    a.opposite.cutDegree Q.opposite = a.cutDegree Q := by cases a <;> rfl
+
+@[simp] theorem GinzburgArrow.opposite_winding (a : Q.GinzburgArrow) :
+    a.opposite.winding Q.opposite = a.winding Q := by
+  cases a with
+  | original a => exact CutQuiver.opposite_winding Q a
+  | dual a =>
+    change (Q.vertices : ℤ) - Q.opposite.winding a = (Q.vertices : ℤ) - Q.winding a
+    rw [CutQuiver.opposite_winding]
+  | loop v => rfl
+
+end ASGinzburg.CutQuiver

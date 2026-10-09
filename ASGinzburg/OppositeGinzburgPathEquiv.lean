@@ -1,0 +1,56 @@
+import ASGinzburg.OppositeGinzburgPaths
+
+/-! Actual inverses for the reflected extended paths. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+@[simp] theorem GinzburgArrow.unopposite_source (a : Q.opposite.GinzburgArrow) :
+    a.unopposite.source Q = (a.target Q.opposite).rev := by
+  cases a <;> simp [GinzburgArrow.unopposite, GinzburgArrow.source,
+    GinzburgArrow.target, CutQuiver.opposite]
+
+@[simp] theorem GinzburgArrow.unopposite_target (a : Q.opposite.GinzburgArrow) :
+    a.unopposite.target Q = (a.source Q.opposite).rev := by
+  cases a <;> simp [GinzburgArrow.unopposite, GinzburgArrow.source,
+    GinzburgArrow.target, CutQuiver.opposite]
+
+@[simp] theorem GinzburgArrow.unopposite_opposite (a : Q.GinzburgArrow) :
+    a.opposite.unopposite = a := oppositeGinzburgArrowEquiv.left_inv a
+
+@[simp] theorem GinzburgArrow.opposite_unopposite (a : Q.opposite.GinzburgArrow) :
+    a.unopposite.opposite = a := oppositeGinzburgArrowEquiv.right_inv a
+
+def GinzburgPath.unopposite : {u v : Q.opposite.Vertex} → Q.opposite.GinzburgPath u v →
+    Q.GinzburgPath v.rev u.rev
+  | _, _, .nil v => GinzburgPath.nil (Q := Q) v.rev
+  | _, _, .snoc p a h =>
+    ((GinzburgPath.snoc (Q := Q)
+      (GinzburgPath.nil (Q := Q) (a.target Q.opposite).rev) a.unopposite
+      a.unopposite_source).transport Q rfl
+        (a.unopposite_target.trans (congrArg Fin.rev h))).comp p.unopposite
+
+@[simp] theorem GinzburgPath.unopposite_nil (v : Q.opposite.Vertex) :
+    (GinzburgPath.nil (Q := Q.opposite) v).unopposite = GinzburgPath.nil (Q := Q) v.rev := by
+  rw [GinzburgPath.unopposite]
+
+theorem GinzburgPath.unopposite_toList {u v : Q.opposite.Vertex}
+    (p : Q.opposite.GinzburgPath u v) :
+    p.unopposite.toList = p.toList.reverse.map GinzburgArrow.unopposite := by
+  induction p with
+  | nil => simp [toList]
+  | snoc p a h ih => simp [unopposite, toList, ih]
+
+def oppositeGinzburgPathEquiv (u v : Q.Vertex) :
+    Q.GinzburgPath u v ≃ Q.opposite.GinzburgPath v.rev u.rev where
+  toFun := GinzburgPath.opposite
+  invFun p := p.unopposite.transport Q (Fin.rev_rev u) (Fin.rev_rev v)
+  left_inv p := by
+    apply GinzburgPath.toList_injective (Q := Q) u v
+    simp [GinzburgPath.unopposite_toList, GinzburgPath.opposite_toList,
+      List.map_reverse, List.map_map, Function.comp_def]
+  right_inv p := by
+    apply GinzburgPath.toList_injective (Q := Q.opposite) v.rev u.rev
+    simp [GinzburgPath.unopposite_toList, GinzburgPath.opposite_toList,
+      List.map_reverse, List.map_map, Function.comp_def]
+
+end ASGinzburg.CutQuiver

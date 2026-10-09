@@ -1,0 +1,44 @@
+{
+  "run_id": "20261009T011609Z-700db754",
+  "started_at_utc": "2026-10-09T01:16:09.491719+00:00",
+  "status": "failed",
+  "steps": [
+    {
+      "stage": "regression_tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "regression_tests.log",
+      "started_at_utc": "2026-10-09T01:16:09.493862+00:00",
+      "exit_code": 0,
+      "ended_at_utc": "2026-10-09T01:16:09.754018+00:00",
+      "elapsed_seconds": 0.2601797980023548,
+      "log_sha256": "23c4ee4c6e0ccdb78e5ffee0980782b3c53f6dfef1adbcf0b5688f5debb6a6bc"
+    },
+    {
+      "stage": "source_audit",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/audit_sources.py",
+        "--output-dir",
+        "/workspace/as-ginzburg-lean/verification/runs/20261009T011609Z-700db754"
+      ],
+      "log": "source_audit.log",
+      "started_at_utc": "2026-10-09T01:16:09.754389+00:00",
+      "exit_code": 1,
+      "ended_at_utc": "2026-10-09T01:16:10.303068+00:00",
+      "elapsed_seconds": 0.5487055489938939,
+      "log_sha256": "df1619575b7ecdac7d1b796d18d8ac669a68894f1acd018d852679217188a47f"
+    }
+  ],
+  "git_head_before_run": "423835a8f0d79e9a48bcef879f54497d029fb553",
+  "ended_at_utc": "2026-10-09T01:16:10.303461+00:00",
+  "elapsed_seconds": 0.8117371000116691,
+  "exit_code": 1
+}

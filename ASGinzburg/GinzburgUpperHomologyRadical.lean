@@ -1,0 +1,60 @@
+import ASGinzburg.GinzburgUpperHomologyClasses
+import ASGinzburg.GinzburgNonemptyPrefixHeight
+
+/-! The actual projective image of a length-two upper homology cycle
+lies in the genuine positive-action radical, component by component. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory Opposite
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgUpperProjectiveComponentIso_class_mem_radical (φ : Q.Potential k)
+    (x v : Q.LiftVertex)
+    (z : Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 0 0 (v.2-x.2))
+    (hz : (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)).d 0 1 z=0)
+    (hlen : z.val ∈ Finsupp.supported k k
+      {p : Q.GinzburgPath x.1 v.1 | 2 ≤ p.length}) :
+    (Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
+      (moduleCochainHomologyClass
+        (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz) ∈
+      (Q.unrolledJacobianZAlgebra k φ).positiveActionSpan
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0)
+        (Q.height x) := by
+  classical
+  let A := Q.unrolledJacobianZAlgebra k φ
+  let g := fun a : Q.GinzburgIncomingDegree v.1 0 =>
+    A.representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
+  apply (A.rightFiniteCoproduct_radical_iff g (Q.height x) _).mpr
+  intro a
+  rw [←A.representableRadical_eq_positiveActionSpan]
+  by_cases ha : Q.height x<Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)
+  · simp [ZAlgebra.representableRadical,ha]
+  · change _ ∈ (if Q.height x<Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)
+      then ⊤ else ⊥ : Submodule k (A.Hom (Q.height x)
+        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))))
+    rw [if_neg ha,Submodule.mem_bot]
+    change (A.ginzburgGeneratorCoefficientComponentEquiv Q v 0 (Q.height x)
+      ((Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
+        (moduleCochainHomologyClass
+          (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz))) a=0
+    rw [Q.ginzburgUpperProjectiveComponentIso_class]
+    let f := Q.ginzburgGeneratorLayerQuotientEquiv k x.1 v.1 0 0 (v.2-x.2)
+      (Submodule.Quotient.mk z)
+    have hf : f.val ∈ Finsupp.supported k k
+        {p : Q.GinzburgPath x.1 v.1 | 2 ≤ p.length} :=
+      Q.ginzburgOriginalFilteredLayer_supported_length k x.1 v.1 (v.2-x.2) 2 z hlen
+    have hzero : Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f a=0 :=
+      Q.ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt k x v f hf a ha
+    rw [Q.ginzburgOriginalFilteredToPrefix_f]
+    change Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
+      (Submodule.Quotient.mk
+        (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 0 (v.2-x.2)
+          (Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f) a))=0
+    have ht : Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 0 (v.2-x.2)
+        (Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f) a=0 := by
+      apply Subtype.ext
+      rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe,hzero]
+    rw [ht]
+    simp only [Submodule.Quotient.mk_zero,map_zero]
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,48 @@
+import ASGinzburg.OppositeGinzburgLoopDifferential
+
+/-! Transport only changes the endpoint indices. All differential
+comparisons use the genuine cyclic derivative and commutator formulas. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+def transportGinzburgPathComponent {u v u' v' : Q.Vertex}
+    (hu : u = u') (hv : v = v') :
+    Q.GinzburgPathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u' v' :=
+  hu ▸ hv ▸ LinearMap.id
+
+@[simp] theorem transportGinzburgPathComponent_refl {u v : Q.Vertex}
+    (f : Q.GinzburgPathComponent k u v) :
+    Q.transportGinzburgPathComponent k rfl rfl f = f := rfl
+
+@[simp] theorem transportGinzburgPathComponent_single {u v u' v' : Q.Vertex}
+    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) (a : k) :
+    Q.transportGinzburgPathComponent k hu hv (Finsupp.single p a) =
+      Finsupp.single (p.transport Q hu hv) a := by subst u' v'; rfl
+
+theorem oppositeGinzburgPathComponentEquiv_generatorDifferential
+    (φ : Q.Potential k) (a : Q.GinzburgArrow) :
+    Q.oppositeGinzburgPathComponentEquiv k (a.source Q) (a.target Q)
+        (Q.ginzburgGeneratorDifferential k φ a) =
+      ginzburgSign k (a.cohomologicalDegree Q + 1) •
+        Q.opposite.transportGinzburgPathComponent k a.opposite_source a.opposite_target
+          (Q.opposite.ginzburgGeneratorDifferential k (Q.oppositePotentialEquiv k φ)
+            a.opposite) := by
+  cases a with
+  | original a =>
+    simp [ginzburgGeneratorDifferential, GinzburgArrow.opposite,
+      GinzburgArrow.source, GinzburgArrow.target]
+  | dual a =>
+    change Q.oppositeGinzburgPathComponentEquiv k (Q.target a) (Q.source a)
+      (Q.originalGinzburgLinearMap k (Q.target a) (Q.source a) (Q.pathCyclicDerivative k a φ)) =
+      ginzburgSign k 0 • Q.opposite.originalGinzburgLinearMap k (Q.source a).rev
+        (Q.target a).rev (Q.opposite.pathCyclicDerivative k a (Q.oppositePotentialEquiv k φ))
+    rw [ginzburgSign_zero, one_smul, Q.oppositeGinzburgPathComponentEquiv_original,
+      Q.oppositePathComponentEquiv_cyclicDerivative]
+  | loop v =>
+    change Q.oppositeGinzburgPathComponentEquiv k v v (Q.ginzburgLoopDifferential k v) =
+      ginzburgSign k (-1) • Q.opposite.ginzburgLoopDifferential k v.rev
+    rw [Q.oppositeGinzburgPathComponentEquiv_loopDifferential]
+    simp [ginzburgSign]
+
+end ASGinzburg.CutQuiver

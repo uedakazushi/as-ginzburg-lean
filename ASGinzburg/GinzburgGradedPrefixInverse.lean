@@ -1,0 +1,28 @@
+import ASGinzburg.GinzburgGeneratorLayerHomology
+
+/-! The inverse of the actual append-generator cochain isomorphism
+is the genuine last-generator coefficient equivalence. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorPrefixGradedIso_inv_f (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c q : ℤ) (z : Q.GinzburgAssociatedGraded k u v r q c) :
+    (Q.ginzburgGeneratorPrefixGradedIso k φ u v r c).inv.f q z=
+      Q.ginzburgGeneratorLayerFreeEquiv k u v r q c
+        (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c z) := by
+  let e := Q.ginzburgGeneratorPrefixGradedIso k φ u v r c
+  have hi : e.hom.f q (e.inv.f q z)=z :=
+    congrArg (fun f => f z) ((HomologicalComplex.eval (ModuleCat k) (ComplexShape.up ℤ) q).mapIso e).inv_hom_id
+  apply (Q.ginzburgGeneratorPrefixToGradedRow_bijective k u v r q c).1
+  change Q.ginzburgGeneratorPrefixToGradedRow k u v r q c (e.inv.f q z)=_
+  rw [show Q.ginzburgGeneratorPrefixToGradedRow k u v r q c (e.inv.f q z)=z from hi]
+  rw [Q.ginzburgGeneratorPrefixToGradedRow_eq_equiv]
+  change z=(Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c).symm
+    ((Q.ginzburgGeneratorLayerFreeEquiv k u v r q c).symm
+      (Q.ginzburgGeneratorLayerFreeEquiv k u v r q c
+        (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c z)))
+  rw [LinearEquiv.symm_apply_apply,LinearEquiv.symm_apply_apply]
+
+end ASGinzburg.CutQuiver

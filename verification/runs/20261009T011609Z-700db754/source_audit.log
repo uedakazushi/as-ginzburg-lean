@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/as-ginzburg-lean/scripts/audit_sources.py", line 115, in <module>
+    main()
+  File "/workspace/as-ginzburg-lean/scripts/audit_sources.py", line 104, in main
+    entries = inventory()
+              ^^^^^^^^^^^
+  File "/workspace/as-ginzburg-lean/scripts/audit_sources.py", line 94, in inventory
+    require_unique([e['name'] for e in entries], 'source declaration names')
+  File "/workspace/as-ginzburg-lean/scripts/audit_sources.py", line 66, in require_unique
+    raise ValueError(f'Duplicate {label}: {duplicates}')
+ValueError: Duplicate source declaration names: {'ASGinzburg.CutQuiver.GinzburgPath.cutDegree_transport': 2}

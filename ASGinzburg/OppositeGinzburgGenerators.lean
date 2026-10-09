@@ -1,0 +1,27 @@
+import ASGinzburg.OppositeGinzburgPathAlgebra
+import ASGinzburg.GinzburgPathDifferential
+
+/-! Actual generator-path identities required by the differential comparison. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+theorem GinzburgPath.opposite_transport {u v u' v' : Q.Vertex}
+    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) :
+    (p.transport Q hu hv).opposite =
+      p.opposite.transport Q.opposite (congrArg Fin.rev hv) (congrArg Fin.rev hu) := by
+  subst u' v'
+  rfl
+
+@[simp] theorem originalGinzburgArrowPath_opposite (a : Q.Arrow) :
+    (Q.originalGinzburgArrowPath a).opposite = Q.opposite.originalGinzburgArrowPath a := by
+  apply GinzburgPath.toList_injective (Q := Q.opposite) (Q.target a).rev (Q.source a).rev
+  simp [originalGinzburgArrowPath, GinzburgPath.opposite_toList, GinzburgPath.toList,
+    GinzburgArrow.opposite]
+
+@[simp] theorem dualGinzburgArrowPath_opposite (a : Q.Arrow) :
+    (Q.dualGinzburgArrowPath a).opposite = Q.opposite.dualGinzburgArrowPath a := by
+  apply GinzburgPath.toList_injective (Q := Q.opposite) (Q.source a).rev (Q.target a).rev
+  simp [dualGinzburgArrowPath, GinzburgPath.opposite_toList, GinzburgPath.toList,
+    GinzburgArrow.opposite]
+
+end ASGinzburg.CutQuiver

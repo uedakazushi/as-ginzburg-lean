@@ -1,0 +1,62 @@
+import ASGinzburg.OppositeGinzburgArrows
+import ASGinzburg.GinzburgGeneratorDifferentials
+import ASGinzburg.GinzburgGeneratorGradings
+import ASGinzburg.GinzburgPathWords
+
+/-! Reversal of actual composable extended Ginzburg paths. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+@[simp] theorem GinzburgPath.winding_transport {u v u' v' : Q.Vertex}
+    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) :
+    (p.transport Q hu hv).winding = p.winding := by subst u' v'; rfl
+
+@[simp] theorem GinzburgPath.toList_transport {u v u' v' : Q.Vertex}
+    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) :
+    (p.transport Q hu hv).toList = p.toList := by subst u' v'; rfl
+
+def GinzburgPath.opposite : {u v : Q.Vertex} → Q.GinzburgPath u v →
+    Q.opposite.GinzburgPath v.rev u.rev
+  | _, _, .nil v => GinzburgPath.nil (Q := Q.opposite) v.rev
+  | _, _, .snoc p a h =>
+    ((GinzburgPath.snoc (Q := Q.opposite)
+      (GinzburgPath.nil (Q := Q.opposite) (a.target Q).rev) a.opposite
+      a.opposite_source).transport Q.opposite rfl
+        (a.opposite_target.trans (congrArg Fin.rev h))).comp p.opposite
+
+@[simp] theorem GinzburgPath.opposite_nil (v : Q.Vertex) :
+    (GinzburgPath.nil (Q := Q) v).opposite = GinzburgPath.nil (Q := Q.opposite) v.rev := by
+  rw [GinzburgPath.opposite]
+
+theorem GinzburgPath.opposite_toList {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    p.opposite.toList = p.toList.reverse.map GinzburgArrow.opposite := by
+  induction p with
+  | nil => simp [toList]
+  | snoc p a h ih => simp [opposite, toList, ih]
+
+theorem GinzburgPath.opposite_cohomologicalDegree {u v : Q.Vertex}
+    (p : Q.GinzburgPath u v) : p.opposite.cohomologicalDegree = p.cohomologicalDegree := by
+  induction p with
+  | nil => simp [cohomologicalDegree]
+  | snoc p a h ih =>
+    simp [opposite, cohomologicalDegree_comp, cohomologicalDegree, ih, add_comm]
+
+theorem GinzburgPath.opposite_cutDegree {u v : Q.Vertex}
+    (p : Q.GinzburgPath u v) : p.opposite.cutDegree = p.cutDegree := by
+  induction p with
+  | nil => simp [cutDegree]
+  | snoc p a h ih => simp [opposite, cutDegree_comp, cutDegree, ih, add_comm]
+
+theorem GinzburgPath.opposite_winding {u v : Q.Vertex}
+    (p : Q.GinzburgPath u v) : p.opposite.winding = p.winding := by
+  induction p with
+  | nil => simp [winding]
+  | snoc p a h ih => simp [opposite, winding_comp, winding, ih, add_comm]
+
+theorem GinzburgPath.opposite_comp {u v w : Q.Vertex}
+    (p : Q.GinzburgPath u v) (q : Q.GinzburgPath v w) :
+    (p.comp q).opposite = q.opposite.comp p.opposite := by
+  apply GinzburgPath.toList_injective (Q := Q.opposite) w.rev u.rev
+  simp [opposite_toList, List.reverse_append]
+
+end ASGinzburg.CutQuiver

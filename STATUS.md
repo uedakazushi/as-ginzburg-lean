@@ -1,8 +1,8 @@
 # 現在の状況
 
-単位53〜59で実際のA(Φ)作用とfiltration接続写像の自然性を証明し、四項RightModule射影複体と単純商augmentationを構成した。本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolution、全項の有限生成射影性、任意標的へのExt≥4零/射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を完成した。D₁/D₃の最小性を証明した。D₂最小性とminimal ASResolution、双対左複体比較、Ext³のAS双対性/ASRegular全体は未検証・未公開。正則性やAS結論に等しい追加仮定なし。定理3.2/系5.2は未証明・正式Lean定理文未実装。
-最新ローカル検証 20261009T003424Z-559134b0：407数学モジュール・2972異なる宣言・1526 theorem、全段階終了0。
-単位1〜59の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位60〜65で元のPotentialの長さ≥3からactual巡回微分/境界の長さ≥2、prefix係数とnative filtration接続写像のrepresentativesを証明した。actual D₂のradical包含を導き、全3微分の最小性・exactness・左端Monoから、本来のGinzburgRegularだけで既存ASResolutionの全フィールドを構成した。ASRegularの分解条件(i)は完成。実際のExt³(s_(τv),P_v)≃ₗk、rank/finrank=1、全単純/representable/全次数のExt有限性とAS総rank≥1も完成。総rank=1/他の低次数・非対角Ext消滅/ASRegular(ii)は未証明。反対箙を矢/頂点順/sheetの反転から構成し、actual道・閉路cut=1/長さ≥3のPotential空間同値、積反転、actual巡回微分の反転を証明。拡張Ginzburg道の同値と3次数保存、生成元微分の(-1)^(degree+1)付き比較まで公開検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+最新ローカル検証 20261009T011710Z-f26f3c33：439数学モジュール・3093異なる宣言・1620 theorem、全段階終了0。
+単位1〜65の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,25 +20,33 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2972異なる名前、全明示的宣言・299 named instanceを含む、終了0 |
-| theorem | 1526、全件が監査対象 |
+| 個別公理監査 | 3093異なる名前、全明示的宣言・299 named instanceを含む、終了0 |
+| theorem | 1620、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261009T003424Z-559134b0`、全段階終了0、2129.311985680秒。
-UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
-JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+最新ローカル検証 `20261009T011710Z-f26f3c33`、全段階終了0、2111.599379480秒。
+UTC 2026-10-09T01:17:10.623876+00:00 → 2026-10-09T01:52:22.223264+00:00。
+JST 2026-10-09T10:17:10.623876+09:00 → 2026-10-09T10:52:22.223264+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 
-## 現行のGinzburgからASへの証明状態（単位54〜59）
 
-単位54〜59で固定endpointのactual A(Φ)係数比較と積作用、全RightModule morphismsへの自然性、augmentation H⁰/radical自然性を完成した。実際のD₁/D₂/D₃による四項射影複体と単純商augmentationを構成し、本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolutionと全項の有限生成射影性を証明した。実際のsyzygyとExt長完全列から任意標的への次数4以上のExt零性・射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を導いた。D₁/D₃の最小性はactual radical因子分解とendpoint高さから完成。D₂の最小性、既存minimal ASResolution、標準巡回微分行列/双対左複体の比較、Ext³のAS左単純同型とASRegular全体は未証明。直和交換・周期性・AS結論を新しい仮定に追加していない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
 
-次は元のPotentialの長さ≥3からactual D₂のradical包含を導き、最小AS分解を構成する。その後、実際の微分の双対比較からExt³左単純同型を証明する。AS→Φ、基底/最小関係/選択独立性、標準RHom/外部結果、§5quadraticと同型類対応も残る。過去の単位43〜53の記載は各単位時点の証明状態であり、現行の完成/未証明の判定にはこの段落と最新検証を使う。
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位60〜65）
+
+単位60〜65で元のPotentialの長さ≥3からactual巡回微分/境界の長さ≥2、prefix係数とnative filtration接続写像のrepresentativesを証明した。actual D₂のradical包含を導き、全3微分の最小性・exactness・左端Monoから、本来のGinzburgRegularだけで既存ASResolutionの全フィールドを構成した。ASRegularの分解条件(i)は完成。実際のExt³(s_(τv),P_v)≃ₗk、rank/finrank=1、全単純/representable/全次数のExt有限性とAS総rank≥1も完成。総rank=1/他の低次数・非対角Ext消滅/ASRegular(ii)は未証明。反対箙を矢/頂点順/sheetの反転から構成し、actual道・閉路cut=1/長さ≥3のPotential空間同値、積反転、actual巡回微分の反転を証明。拡張Ginzburg道の同値と3次数保存、生成元微分の(-1)^(degree+1)付き比較まで公開検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+
+次段のWORK66では全道/全homogeneous sumsの微分反転、三角数signによるactual cochain/homology同型、反対GinzburgRegularとの同値と反対最小ASResolutionを個別Lean終了0で完成。WORK67ではactual Jacobianイデアルとcut/sheet商の反対同型、lifted整数成分の積反転と単位元保存を個別終了0で完成。これらは公開65の全体監査には含まれず、差分/個別検査/利用先をRECENT_RUN.mdに保存している。WORK68〜70では全整数でactual Jacobian反射ZAlgebra同型、元の左加群圏と反対Jacobian右加群圏の線形同値、両方向のexactness/短完全列の保存、左representable at iと右representable at n-1-iの加群同型を個別終了0で完成。これらも公開65の全体監査には含まれない。次は単純商の比較と反対AS分解の移送、actual巡回Hessianとdual complexの一致から他のExt消滅を証明する。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。
+
+過去の単位説明はその時点の状態である。完成判定にはこの段落と最新の実行終了コードを使う。
 
 
 ## 形式化状況
@@ -132,7 +140,9 @@ JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
 
 | 実際の道作用とfiltration/prefix homology自然性 | GinzburgFilteredLeftAction、GinzburgAssociatedLeftAction、GinzburgFiltrationLeftNaturality、GinzburgGeneratorDifferentialNaturality、GinzburgPrefixLeftAction、GinzburgPrefixComparisonNaturality、GinzburgLayerHomologyNaturality、ModuleCatCokernelHomologyNaturality、GinzburgPrefixTopNaturality、GinzburgPrefixTopHomologyNaturality、GinzburgPrefixFamilyClasses | 実際のdegree0 path chain maps/δ自然性、append比較と逆homology同型、top homology quotient自然性とclass係数 | A(Φ)積作用/全加群の射、標準微分/最小性、AS分解/Ext表/AS対応 |
 
-| Ginzburgからの実際の有限単純射影分解 | GinzburgASProjectiveResolution、GinzburgSimpleProjectiveDimension、GinzburgSimpleFiniteProjectiveResolution、GinzburgSimpleExtColimits、GinzburgASEndpointMinimality | 本来のGinzburgRegularからactual simple ProjectiveResolution、有限生成射影全項、Ext≥4零/PD≤3、actual Ext余極限/直和交換、D₁/D₃最小性 | D₂最小性、minimal ASResolution、Ext³ AS双対性/ASRegular全体 |
+| Ginzburgからの実際の有限単純射影分解 | GinzburgASProjectiveResolution、GinzburgSimpleProjectiveDimension、GinzburgSimpleFiniteProjectiveResolution、GinzburgSimpleExtColimits、GinzburgASEndpointMinimality | 本来のGinzburgRegularからactual simple ProjectiveResolution、有限生成射影全項、Ext≥4零/PD≤3、actual Ext余極限/直和交換、D₁/D₃最小性 | 他の低次数/非対角Ext零性、AS総rank=1とASRegular(ii)、actual双対左複体の比較 |
+
+| Ginzburgからの最小AS分解と本来のExt | GinzburgASMiddleMinimality、GinzburgMinimalASResolution、GinzburgMinimalResolutionExt、OppositePotential、OppositeGinzburgGeneratorDifferential | original Φ条件からD₂最小性、本来のGinzburgRegularからASResolution(i)、actual Ext³≃k/全次数有限性/総rank≥1 | 他のExt消滅・総rank=1/ASRegular(ii)、actual dual左複体 |
 
 ## 主結果の状態
 

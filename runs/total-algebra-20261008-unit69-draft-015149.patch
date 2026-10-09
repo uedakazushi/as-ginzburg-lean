@@ -1,0 +1,207 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ZAlgebraLinearEquivalence.lean
+@@ -0,0 +1,42 @@
++import ASGinzburg.ZAlgebraIsomorphisms
++import ASGinzburg.LeftModules
++
++/-! Vertex-fixing actual algebra isomorphisms give additive k-linear
++equivalences of the original, concrete linear categories. -/
++namespace ASGinzburg.ZAlgebra.Isomorphism
++open CategoryTheory
++universe u v w
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {B : ZAlgebra.{u,w} k}
++
++noncomputable def linearFunctor (E : Isomorphism A B) : A.Obj ⥤ B.Obj where
++  obj X := ⟨X.index⟩
++  map f := E.map _ _ f
++  map_id X := E.map_id X.index
++  map_comp f g := E.map_comp f g
++
++instance linearFunctorAdditive (E : Isomorphism A B) : E.linearFunctor.Additive where
++  map_add := by intro X Y f g; exact (E.map X.index Y.index).map_add f g
++
++instance linearFunctorLinear (E : Isomorphism A B) : E.linearFunctor.Linear k where
++  map_smul := by intro X Y f r; exact (E.map X.index Y.index).map_smul r f
++
++instance linearFunctorFaithful (E : Isomorphism A B) : E.linearFunctor.Faithful where
++  map_injective := by
++    intro X Y f g h
++    exact (E.map X.index Y.index).injective h
++
++instance linearFunctorFull (E : Isomorphism A B) : E.linearFunctor.Full where
++  map_surjective := (E.map _ _).surjective
++
++instance linearFunctorEssSurj (E : Isomorphism A B) : E.linearFunctor.EssSurj where
++  mem_essImage Y := by
++    refine ⟨⟨Y.index⟩, ?_⟩
++    cases Y
++    exact ⟨Iso.refl _⟩
++
++instance linearFunctorIsEquivalence (E : Isomorphism A B) : E.linearFunctor.IsEquivalence where
++
++noncomputable def linearEquivalence (E : Isomorphism A B) : A.Obj ≌ B.Obj :=
++  E.linearFunctor.asEquivalence
++
++end ASGinzburg.ZAlgebra.Isomorphism
+--- /dev/null
++++ work/ASGinzburgDraft/LinearRepresentationEquivalence.lean
+@@ -0,0 +1,66 @@
++import ASGinzburg.LeftModules
++
++/-! Precomposition by an additive linear equivalence preserves the actual
++full subcategories of additive linear module-valued functors. -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Functor
++universe u v v' w w' z
++variable (k : Type u) [Field k]
++variable (C : Type v) [Category.{v'} C] [Preadditive C] [Linear k C]
++
++def linearModuleFunctorProperty : ObjectProperty (C ⥤ ModuleCat.{z} k) :=
++  fun F => F.Additive ∧ F.Linear k
++
++variable {k C} {D : Type w} [Category.{w'} D] [Preadditive D] [Linear k D]
++variable (E : C ≌ D) [E.functor.Linear k] [E.functor.Additive]
++
++noncomputable def linearRepresentationPrecomposition :
++    (linearModuleFunctorProperty k C).FullSubcategory ⥤
++      (linearModuleFunctorProperty k D).FullSubcategory where
++  obj M := by
++    letI : M.obj.Additive := M.property.1
++    letI : M.obj.Linear k := M.property.2
++    exact ⟨E.inverse ⋙ M.obj, ⟨inferInstance, inferInstance⟩⟩
++  map f := whiskerLeft E.inverse f
++  map_id _ := rfl
++  map_comp _ _ := rfl
++
++instance linearRepresentationPrecompositionAdditive :
++    (linearRepresentationPrecomposition (k := k) E).Additive where
++  map_add := by intro M N f g; rfl
++
++instance linearRepresentationPrecompositionLinear :
++    (linearRepresentationPrecomposition (k := k) E).Linear k where
++  map_smul := by intro M N f r; rfl
++
++instance linearRepresentationPrecompositionFaithful :
++    (linearRepresentationPrecomposition (k := k) E).Faithful where
++  map_injective := by
++    intro M N f g h
++    exact (Equivalence.congrLeft E).functor.map_injective h
++
++instance linearRepresentationPrecompositionFull :
++    (linearRepresentationPrecomposition (k := k) E).Full where
++  map_surjective := by
++    intro M N f
++    exact (Equivalence.congrLeft E).functor.map_surjective f
++
++instance linearRepresentationPrecompositionEssSurj :
++    (linearRepresentationPrecomposition (k := k) E).EssSurj where
++  mem_essImage M := by
++    letI : M.obj.Additive := M.property.1
++    letI : M.obj.Linear k := M.property.2
++    let N : (linearModuleFunctorProperty k C).FullSubcategory :=
++      ⟨E.functor ⋙ M.obj, ⟨inferInstance, inferInstance⟩⟩
++    refine ⟨N, ⟨?_⟩⟩
++    exact ObjectProperty.isoMk _ ((Equivalence.congrLeft E).counitIso.app M.obj)
++
++instance linearRepresentationPrecompositionIsEquivalence :
++    (linearRepresentationPrecomposition (k := k) E).IsEquivalence where
++
++noncomputable def linearRepresentationEquivalence :
++    (linearModuleFunctorProperty k C).FullSubcategory ≌
++      (linearModuleFunctorProperty k D).FullSubcategory :=
++  (linearRepresentationPrecomposition (k := k) E).asEquivalence
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/OppositeJacobianLinearEquivalence.lean
+@@ -0,0 +1,50 @@
++import work.ASGinzburgDraft.OppositeReflectedJacobianIso
++import work.ASGinzburgDraft.ReflectedLinearCategory
++import work.ASGinzburgDraft.ZAlgebraLinearEquivalence
++import work.ASGinzburgDraft.LinearRepresentationEquivalence
++import ASGinzburg.LeftModuleAbelian
++
++/-! The actual left modules of the original Jacobian algebra are equivalent
++to the existing right modules of the reversed Jacobian algebra. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def oppositeJacobianLinearEquivalence (φ : Q.Potential k) :
++    (Q.unrolledJacobianZAlgebra k φ).Obj ≌
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).Objᵒᵖ :=
++  (Q.oppositeReflectedJacobianIso k φ).linearEquivalence.trans
++    ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).reflectedLinearEquivalence
++      ((Q.vertices : ℤ)-1))
++
++instance oppositeJacobianLinearEquivalenceFunctorLinear (φ : Q.Potential k) :
++    (Q.oppositeJacobianLinearEquivalence k φ).functor.Linear k := by
++  dsimp [oppositeJacobianLinearEquivalence, ZAlgebra.Isomorphism.linearEquivalence,
++    ZAlgebra.reflectedLinearEquivalence]
++  infer_instance
++
++instance oppositeJacobianLinearEquivalenceFunctorAdditive (φ : Q.Potential k) :
++    (Q.oppositeJacobianLinearEquivalence k φ).functor.Additive := by
++  dsimp [oppositeJacobianLinearEquivalence, ZAlgebra.Isomorphism.linearEquivalence,
++    ZAlgebra.reflectedLinearEquivalence]
++  infer_instance
++
++noncomputable def oppositeJacobianLeftRightEquivalence (φ : Q.Potential k) :
++    (Q.unrolledJacobianZAlgebra k φ).LeftModule ≌
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).RightModule :=
++  linearRepresentationEquivalence (k := k) (Q.oppositeJacobianLinearEquivalence k φ)
++
++instance oppositeJacobianLeftRightEquivalenceFunctorLinear (φ : Q.Potential k) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).functor.Linear k := by
++  change (linearRepresentationPrecomposition
++    (k := k) (Q.oppositeJacobianLinearEquivalence k φ)).Linear k
++  infer_instance
++
++instance oppositeJacobianLeftRightEquivalenceFunctorAdditive (φ : Q.Potential k) :
++    (Q.oppositeJacobianLeftRightEquivalence k φ).functor.Additive := by
++  change (linearRepresentationPrecomposition
++    (k := k) (Q.oppositeJacobianLinearEquivalence k φ)).Additive
++  infer_instance
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/OppositeJacobianExactness.lean
+@@ -0,0 +1,37 @@
++import work.ASGinzburgDraft.OppositeJacobianLinearEquivalence
++import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
++
++/-! Short exact sequences of the existing Jacobian left and right modules
++are preserved in both directions by the proved actual equivalence. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)
++
++theorem oppositeJacobianLeftRight_shortExact
++    (S : ShortComplex (Q.unrolledJacobianZAlgebra k φ).LeftModule)
++    (hS : S.ShortExact) :
++    (S.map (Q.oppositeJacobianLeftRightEquivalence k φ).functor).ShortExact :=
++  hS.map_of_exact _
++
++theorem oppositeJacobianRightLeft_shortExact
++    (S : ShortComplex
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).RightModule)
++    (hS : S.ShortExact) :
++    (S.map (Q.oppositeJacobianLeftRightEquivalence k φ).inverse).ShortExact :=
++  hS.map_of_exact _
++
++theorem oppositeJacobianLeftRight_exact
++    (S : ShortComplex (Q.unrolledJacobianZAlgebra k φ).LeftModule)
++    (hS : S.Exact) :
++    (S.map (Q.oppositeJacobianLeftRightEquivalence k φ).functor).Exact :=
++  hS.map _
++
++theorem oppositeJacobianRightLeft_exact
++    (S : ShortComplex
++      (Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).RightModule)
++    (hS : S.Exact) :
++    (S.map (Q.oppositeJacobianLeftRightEquivalence k φ).inverse).Exact :=
++  hS.map _
++
++end ASGinzburg.CutQuiver

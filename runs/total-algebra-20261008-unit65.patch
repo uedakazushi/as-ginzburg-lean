@@ -1,0 +1,622 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 545a405..af7e9eb 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -427,6 +427,39 @@ import ASGinzburg.GinzburgSimpleExtColimits
+ import ASGinzburg.EndpointProjectiveMinimality
+ import ASGinzburg.GinzburgASEndpointMinimality
+ 
++import ASGinzburg.PathLengthFiltration
++import ASGinzburg.PathJacobianLengthSupport
++import ASGinzburg.GinzburgBoundaryLengthSupport
++import ASGinzburg.GinzburgPrefixLengthSupport
++import ASGinzburg.ModuleCochainHomologyClasses
++import ASGinzburg.ModuleCochainConnectingRepresentatives
++import ASGinzburg.ModuleCokernelHomologyClasses
++import ASGinzburg.GinzburgDualOriginalRepresentatives
++import ASGinzburg.GinzburgNonemptyPrefixHeight
++import ASGinzburg.GinzburgPrefixHomologyClasses
++import ASGinzburg.GinzburgGradedPrefixInverse
++import ASGinzburg.GinzburgOriginalFilteredPrefixes
++import ASGinzburg.GinzburgUpperHomologyClasses
++import ASGinzburg.GinzburgUpperHomologyRadical
++import ASGinzburg.GinzburgASMiddleMinimality
++import ASGinzburg.GinzburgMinimalASResolution
++import ASGinzburg.GinzburgMinimalResolutionExt
++import ASGinzburg.OppositeCutQuiver
++import ASGinzburg.OppositePath
++import ASGinzburg.CyclicWordReversal
++import ASGinzburg.OppositePathEquiv
++import ASGinzburg.OppositePotential
++import ASGinzburg.OppositePathAlgebra
++import ASGinzburg.CyclicDerivativeReversal
++import ASGinzburg.OppositePathCyclicDerivative
++import ASGinzburg.OppositeGinzburgArrows
++import ASGinzburg.OppositeGinzburgPaths
++import ASGinzburg.OppositeGinzburgPathEquiv
++import ASGinzburg.OppositeGinzburgPathAlgebra
++import ASGinzburg.OppositeGinzburgGenerators
++import ASGinzburg.OppositeGinzburgLoopDifferential
++import ASGinzburg.OppositeGinzburgGeneratorDifferential
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 2d141eb..9ecc21f 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -383,6 +383,19 @@ import ASGinzburg
+ #print axioms ASGinzburg.cyclicDerivative_commutator
+ #print axioms ASGinzburg.derivativeAux_supported_degrees
+ #print axioms ASGinzburg.derivativeWord_supported_degrees
++#print axioms ASGinzburg.reverseWordPolynomial
++#print axioms ASGinzburg.reverseWordPolynomial_single
++#print axioms ASGinzburg.derivativeAux_reverse
++#print axioms ASGinzburg.derivativeWord_reverse
++#print axioms ASGinzburg.derivativeCyclicWord_reverse
++#print axioms ASGinzburg.cyclicDerivative_reverse
++#print axioms ASGinzburg.reverseCyclicWord
++#print axioms ASGinzburg.reverseCyclicWord_wordClass
++#print axioms ASGinzburg.reverseCyclicWord_involutive
++#print axioms ASGinzburg.reverseCyclicWordEquiv
++#print axioms ASGinzburg.reverseCyclicPolynomial
++#print axioms ASGinzburg.reverseCyclicPolynomial_involutive
++#print axioms ASGinzburg.reverseCyclicPolynomial_traceWord
+ #print axioms ASGinzburg.directSumDualInto
+ #print axioms ASGinzburg.directSumDualInto_lof
+ #print axioms ASGinzburg.directSumDualInto_eval_lof
+@@ -818,6 +831,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentOriginalSimpleShortComplex_exact
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₁_minimal
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₃_minimal
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_mem_radical
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_minimal
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₂_minimal
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexTerm
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexDifferential_square
+@@ -911,6 +927,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationCochainInclusion
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.augmentationHomology_succ_isZero
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.augmentationHomology_isZero
++#print axioms ASGinzburg.CutQuiver.Path.originalGinzburg_length
++#print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_mem_lengthFiltration
++#print axioms ASGinzburg.CutQuiver.ginzburgDifferential_negOne_supported_length
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgLinearMap_degreeZero
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_comp_left
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundarySpace_comp_right
+@@ -1062,6 +1081,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_comp_homogeneous
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_dualContext
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_dualContext
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFilteredComplex_d
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalHomology_representative
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationAtDegree_leftComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm_differential
+@@ -1298,6 +1319,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFilteredZeroIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFilteredZeroHomologyIso
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.generatorFilteredZeroHomology_isZero
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixGradedIso_inv_f
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.source
+ #print axioms ASGinzburg.CutQuiver.GinzburgArrow.target
+@@ -1389,6 +1411,18 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential_square_as_commutator
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopDifferential_square
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorDifferential_square
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.minimalASResolution
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.exists_ASResolution
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.distinguishedExtThreeEquiv
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExtFinite_representable
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.distinguishedExtThree_finrank
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.distinguishedExtThree_rank
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asExtTotalRank_ge_one
++#print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_eq_zero_of_nonempty_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredToPrefix_f
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalFilteredLayer_supported_length
+ #print axioms ASGinzburg.CutQuiver.GinzburgPathComponent
+ #print axioms ASGinzburg.CutQuiver.ginzburgPathComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgPathComp_single
+@@ -1470,11 +1504,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixFixedFamilyPrecomposition
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopFixedUnrolledEquiv_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixFixedCoefficient_leftClass
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopHomologyQuotientIso_π
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopHomologyQuotientIso_class
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm_apply_coe
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm_differential
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftCochainMap
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorLayerFreeEquiv_supported_length
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopShortComplexIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopCanonicalShortComplexIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopHomologyQuotientIso_left_naturality
+@@ -1558,6 +1595,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgUnrolledAugmentation
+ #print axioms ASGinzburg.CutQuiver.ginzburgUnrolledAugmentation_quasiIso_iff
+ #print axioms ASGinzburg.CutQuiver.ginzburgRegular_iff_unrolledAugmentation_quasiIso
++#print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso_coefficients
++#print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso_class
++#print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso_class_mem_radical
+ #print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroComp
+@@ -1948,6 +1988,13 @@ import ASGinzburg
+ #print axioms ASGinzburg.moduleCatShortComplex_map_range
+ #print axioms ASGinzburg.moduleCatShortComplexQuotientMap
+ #print axioms ASGinzburg.moduleCatCokernelHomologyIso_naturality
++#print axioms ASGinzburg.moduleCochainConnecting_exists
++#print axioms ASGinzburg.moduleCochainHomologyClass
++#print axioms ASGinzburg.moduleCochainHomologyClass_exists
++#print axioms ASGinzburg.moduleCochainHomologyClass_naturality
++#print axioms ASGinzburg.moduleCochainConnecting_class
++#print axioms ASGinzburg.moduleCatCokernelHomologyIso_π
++#print axioms ASGinzburg.moduleCochainCokernelHomologyIso_class
+ #print axioms ASGinzburg.ZAlgebra.rightModuleVectorDual
+ #print axioms ASGinzburg.ZAlgebra.leftModuleVectorDual
+ #print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualMap
+@@ -2028,6 +2075,73 @@ import ASGinzburg
+ #print axioms ASGinzburg.normalizedProjectiveIso_hom_comp
+ #print axioms ASGinzburg.normalizedProjectiveIso_hom_unique
+ #print axioms ASGinzburg.epi_of_comp_epi_of_rigid_projective
++#print axioms ASGinzburg.CutQuiver.opposite
++#print axioms ASGinzburg.CutQuiver.oppositeVertexEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeLiftVertexEquiv
++#print axioms ASGinzburg.CutQuiver.opposite_cutDegree
++#print axioms ASGinzburg.CutQuiver.opposite_winding
++#print axioms ASGinzburg.CutQuiver.oppositeLiftVertexEquiv_height
++#print axioms ASGinzburg.CutQuiver.oppositeLiftVertexEquiv_tau
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgArrowEquiv
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_source
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_target
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_cohomologicalDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_cutDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_winding
++#print axioms ASGinzburg.CutQuiver.transportGinzburgPathComponent
++#print axioms ASGinzburg.CutQuiver.transportGinzburgPathComponent_refl
++#print axioms ASGinzburg.CutQuiver.transportGinzburgPathComponent_single
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_generatorDifferential
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_transport
++#print axioms ASGinzburg.CutQuiver.originalGinzburgArrowPath_opposite
++#print axioms ASGinzburg.CutQuiver.dualGinzburgArrowPath_opposite
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_loopDifferential
++#print axioms ASGinzburg.CutQuiver.Path.opposite_originalGinzburg
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_single
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_comp
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathComponentEquiv_original
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite_source
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite_target
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.unopposite_opposite
++#print axioms ASGinzburg.CutQuiver.GinzburgArrow.opposite_unopposite
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.unopposite
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.unopposite_nil
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.unopposite_toList
++#print axioms ASGinzburg.CutQuiver.oppositeGinzburgPathEquiv
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.winding_transport
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.toList_transport
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_nil
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_toList
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_cohomologicalDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_cutDegree
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_winding
++#print axioms ASGinzburg.CutQuiver.GinzburgPath.opposite_comp
++#print axioms ASGinzburg.CutQuiver.Path.opposite
++#print axioms ASGinzburg.CutQuiver.Path.opposite_nil
++#print axioms ASGinzburg.CutQuiver.Path.opposite_length
++#print axioms ASGinzburg.CutQuiver.Path.opposite_cutDegree
++#print axioms ASGinzburg.CutQuiver.Path.opposite_toList
++#print axioms ASGinzburg.CutQuiver.Path.opposite_injective
++#print axioms ASGinzburg.CutQuiver.Path.opposite_comp
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_single
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_comp
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_id
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_wordMap
++#print axioms ASGinzburg.CutQuiver.oppositePathComponentEquiv_cyclicDerivative
++#print axioms ASGinzburg.CutQuiver.Path.unopposite
++#print axioms ASGinzburg.CutQuiver.Path.unopposite_nil
++#print axioms ASGinzburg.CutQuiver.Path.unopposite_toList
++#print axioms ASGinzburg.CutQuiver.oppositePathEquiv
++#print axioms ASGinzburg.CutQuiver.reverseCyclicPolynomial_mem_oppositePotentialSpace
++#print axioms ASGinzburg.CutQuiver.reverseCyclicPolynomial_mem_originalPotentialSpace
++#print axioms ASGinzburg.CutQuiver.oppositePotentialMap
++#print axioms ASGinzburg.CutQuiver.oppositePotentialEquiv
++#print axioms ASGinzburg.CutQuiver.oppositePotentialEquiv_val
+ #print axioms ASGinzburg.CutQuiver.Path.comp
+ #print axioms ASGinzburg.CutQuiver.Path.comp_nil
+ #print axioms ASGinzburg.CutQuiver.Path.nil_comp
+@@ -2111,6 +2225,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryIdeal
+ #print axioms ASGinzburg.CutQuiver.pathCyclicDerivative_mem_boundary
+ #print axioms ASGinzburg.CutQuiver.pathJacobianIdeal_le_boundary
++#print axioms ASGinzburg.CutQuiver.pathJacobianIdeal_le_lengthFiltration
++#print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_mem_lengthFiltration
+ #print axioms ASGinzburg.CutQuiver.pathComponentAlgebra
+ #print axioms ASGinzburg.CutQuiver.pathQuotientComponentAlgebra
+ #print axioms ASGinzburg.CutQuiver.PathRing
+@@ -2124,6 +2240,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.pathQuotientRingKernelAlgEquiv
+ #print axioms ASGinzburg.CutQuiver.pathJacobianRingMap_eq_zero_iff
+ #print axioms ASGinzburg.CutQuiver.pathJacobianRingKernelAlgEquiv
++#print axioms ASGinzburg.CutQuiver.Path.length_comp
++#print axioms ASGinzburg.CutQuiver.pathLengthFiltration
++#print axioms ASGinzburg.CutQuiver.pathComp_mem_lengthFiltration
++#print axioms ASGinzburg.CutQuiver.mem_pathLengthFiltration_zero
++#print axioms ASGinzburg.CutQuiver.pathLengthIdeal
+ #print axioms ASGinzburg.CutQuiver.PathLinearIdeal
+ #print axioms ASGinzburg.CutQuiver.PathLinearIdeal.top
+ #print axioms ASGinzburg.CutQuiver.generatedPathIdeal
+diff --git a/ASGinzburg/OppositeGinzburgArrows.lean b/ASGinzburg/OppositeGinzburgArrows.lean
+new file mode 100644
+index 0000000..9bec72f
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgArrows.lean
+@@ -0,0 +1,47 @@
++import ASGinzburg.OppositeCutQuiver
++import ASGinzburg.GinzburgGrading
++
++/-! Reflection reverses all genuine extended arrows and preserves their
++three gradings. The sign on loop generators belongs to the later linear map. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++def GinzburgArrow.opposite : Q.GinzburgArrow → Q.opposite.GinzburgArrow
++  | .original a => .original a
++  | .dual a => .dual a
++  | .loop v => .loop v.rev
++
++def GinzburgArrow.unopposite : Q.opposite.GinzburgArrow → Q.GinzburgArrow
++  | .original a => .original a
++  | .dual a => .dual a
++  | .loop v => .loop v.rev
++
++def oppositeGinzburgArrowEquiv : Q.GinzburgArrow ≃ Q.opposite.GinzburgArrow where
++  toFun := GinzburgArrow.opposite
++  invFun := GinzburgArrow.unopposite
++  left_inv a := by cases a <;> simp [GinzburgArrow.opposite, GinzburgArrow.unopposite]
++  right_inv a := by cases a <;> simp [GinzburgArrow.opposite, GinzburgArrow.unopposite]
++
++@[simp] theorem GinzburgArrow.opposite_source (a : Q.GinzburgArrow) :
++    a.opposite.source Q.opposite = (a.target Q).rev := by cases a <;> rfl
++
++@[simp] theorem GinzburgArrow.opposite_target (a : Q.GinzburgArrow) :
++    a.opposite.target Q.opposite = (a.source Q).rev := by cases a <;> rfl
++
++@[simp] theorem GinzburgArrow.opposite_cohomologicalDegree (a : Q.GinzburgArrow) :
++    a.opposite.cohomologicalDegree Q.opposite = a.cohomologicalDegree Q := by
++  cases a <;> rfl
++
++@[simp] theorem GinzburgArrow.opposite_cutDegree (a : Q.GinzburgArrow) :
++    a.opposite.cutDegree Q.opposite = a.cutDegree Q := by cases a <;> rfl
++
++@[simp] theorem GinzburgArrow.opposite_winding (a : Q.GinzburgArrow) :
++    a.opposite.winding Q.opposite = a.winding Q := by
++  cases a with
++  | original a => exact CutQuiver.opposite_winding Q a
++  | dual a =>
++    change (Q.vertices : ℤ) - Q.opposite.winding a = (Q.vertices : ℤ) - Q.winding a
++    rw [CutQuiver.opposite_winding]
++  | loop v => rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgPaths.lean b/ASGinzburg/OppositeGinzburgPaths.lean
+new file mode 100644
+index 0000000..597ced4
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgPaths.lean
+@@ -0,0 +1,62 @@
++import ASGinzburg.OppositeGinzburgArrows
++import ASGinzburg.GinzburgGeneratorDifferentials
++import ASGinzburg.GinzburgGeneratorGradings
++import ASGinzburg.GinzburgPathWords
++
++/-! Reversal of actual composable extended Ginzburg paths. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++@[simp] theorem GinzburgPath.winding_transport {u v u' v' : Q.Vertex}
++    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) :
++    (p.transport Q hu hv).winding = p.winding := by subst u' v'; rfl
++
++@[simp] theorem GinzburgPath.toList_transport {u v u' v' : Q.Vertex}
++    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) :
++    (p.transport Q hu hv).toList = p.toList := by subst u' v'; rfl
++
++def GinzburgPath.opposite : {u v : Q.Vertex} → Q.GinzburgPath u v →
++    Q.opposite.GinzburgPath v.rev u.rev
++  | _, _, .nil v => GinzburgPath.nil (Q := Q.opposite) v.rev
++  | _, _, .snoc p a h =>
++    ((GinzburgPath.snoc (Q := Q.opposite)
++      (GinzburgPath.nil (Q := Q.opposite) (a.target Q).rev) a.opposite
++      a.opposite_source).transport Q.opposite rfl
++        (a.opposite_target.trans (congrArg Fin.rev h))).comp p.opposite
++
++@[simp] theorem GinzburgPath.opposite_nil (v : Q.Vertex) :
++    (GinzburgPath.nil (Q := Q) v).opposite = GinzburgPath.nil (Q := Q.opposite) v.rev := by
++  rw [GinzburgPath.opposite]
++
++theorem GinzburgPath.opposite_toList {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
++    p.opposite.toList = p.toList.reverse.map GinzburgArrow.opposite := by
++  induction p with
++  | nil => simp [toList]
++  | snoc p a h ih => simp [opposite, toList, ih]
++
++theorem GinzburgPath.opposite_cohomologicalDegree {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) : p.opposite.cohomologicalDegree = p.cohomologicalDegree := by
++  induction p with
++  | nil => simp [cohomologicalDegree]
++  | snoc p a h ih =>
++    simp [opposite, cohomologicalDegree_comp, cohomologicalDegree, ih, add_comm]
++
++theorem GinzburgPath.opposite_cutDegree {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) : p.opposite.cutDegree = p.cutDegree := by
++  induction p with
++  | nil => simp [cutDegree]
++  | snoc p a h ih => simp [opposite, cutDegree_comp, cutDegree, ih, add_comm]
++
++theorem GinzburgPath.opposite_winding {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) : p.opposite.winding = p.winding := by
++  induction p with
++  | nil => simp [winding]
++  | snoc p a h ih => simp [opposite, winding_comp, winding, ih, add_comm]
++
++theorem GinzburgPath.opposite_comp {u v w : Q.Vertex}
++    (p : Q.GinzburgPath u v) (q : Q.GinzburgPath v w) :
++    (p.comp q).opposite = q.opposite.comp p.opposite := by
++  apply GinzburgPath.toList_injective (Q := Q.opposite) w.rev u.rev
++  simp [opposite_toList, List.reverse_append]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgPathEquiv.lean b/ASGinzburg/OppositeGinzburgPathEquiv.lean
+new file mode 100644
+index 0000000..4ae644b
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgPathEquiv.lean
+@@ -0,0 +1,56 @@
++import ASGinzburg.OppositeGinzburgPaths
++
++/-! Actual inverses for the reflected extended paths. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++@[simp] theorem GinzburgArrow.unopposite_source (a : Q.opposite.GinzburgArrow) :
++    a.unopposite.source Q = (a.target Q.opposite).rev := by
++  cases a <;> simp [GinzburgArrow.unopposite, GinzburgArrow.source,
++    GinzburgArrow.target, CutQuiver.opposite]
++
++@[simp] theorem GinzburgArrow.unopposite_target (a : Q.opposite.GinzburgArrow) :
++    a.unopposite.target Q = (a.source Q.opposite).rev := by
++  cases a <;> simp [GinzburgArrow.unopposite, GinzburgArrow.source,
++    GinzburgArrow.target, CutQuiver.opposite]
++
++@[simp] theorem GinzburgArrow.unopposite_opposite (a : Q.GinzburgArrow) :
++    a.opposite.unopposite = a := oppositeGinzburgArrowEquiv.left_inv a
++
++@[simp] theorem GinzburgArrow.opposite_unopposite (a : Q.opposite.GinzburgArrow) :
++    a.unopposite.opposite = a := oppositeGinzburgArrowEquiv.right_inv a
++
++def GinzburgPath.unopposite : {u v : Q.opposite.Vertex} → Q.opposite.GinzburgPath u v →
++    Q.GinzburgPath v.rev u.rev
++  | _, _, .nil v => GinzburgPath.nil (Q := Q) v.rev
++  | _, _, .snoc p a h =>
++    ((GinzburgPath.snoc (Q := Q)
++      (GinzburgPath.nil (Q := Q) (a.target Q.opposite).rev) a.unopposite
++      a.unopposite_source).transport Q rfl
++        (a.unopposite_target.trans (congrArg Fin.rev h))).comp p.unopposite
++
++@[simp] theorem GinzburgPath.unopposite_nil (v : Q.opposite.Vertex) :
++    (GinzburgPath.nil (Q := Q.opposite) v).unopposite = GinzburgPath.nil (Q := Q) v.rev := by
++  rw [GinzburgPath.unopposite]
++
++theorem GinzburgPath.unopposite_toList {u v : Q.opposite.Vertex}
++    (p : Q.opposite.GinzburgPath u v) :
++    p.unopposite.toList = p.toList.reverse.map GinzburgArrow.unopposite := by
++  induction p with
++  | nil => simp [toList]
++  | snoc p a h ih => simp [unopposite, toList, ih]
++
++def oppositeGinzburgPathEquiv (u v : Q.Vertex) :
++    Q.GinzburgPath u v ≃ Q.opposite.GinzburgPath v.rev u.rev where
++  toFun := GinzburgPath.opposite
++  invFun p := p.unopposite.transport Q (Fin.rev_rev u) (Fin.rev_rev v)
++  left_inv p := by
++    apply GinzburgPath.toList_injective (Q := Q) u v
++    simp [GinzburgPath.unopposite_toList, GinzburgPath.opposite_toList,
++      List.map_reverse, List.map_map, Function.comp_def]
++  right_inv p := by
++    apply GinzburgPath.toList_injective (Q := Q.opposite) v.rev u.rev
++    simp [GinzburgPath.unopposite_toList, GinzburgPath.opposite_toList,
++      List.map_reverse, List.map_map, Function.comp_def]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgPathAlgebra.lean b/ASGinzburg/OppositeGinzburgPathAlgebra.lean
+new file mode 100644
+index 0000000..d9f0736
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgPathAlgebra.lean
+@@ -0,0 +1,56 @@
++import ASGinzburg.OppositeGinzburgPathEquiv
++import ASGinzburg.OppositePathCyclicDerivative
++
++/-! Anti-multiplicative reversal of the genuine extended linear paths,
++including compatibility with the original-path inclusion. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable {Q : CutQuiver}
++
++theorem Path.opposite_originalGinzburg {u v : Q.Vertex} (p : Q.Path u v) :
++    (p.originalGinzburg Q).opposite = p.opposite.originalGinzburg Q.opposite := by
++  apply GinzburgPath.toList_injective (Q := Q.opposite) v.rev u.rev
++  simp [GinzburgPath.opposite_toList, originalGinzburg_toList, opposite_toList,
++    List.map_reverse, List.map_map, Function.comp_def, GinzburgArrow.opposite]
++
++variable (Q) (k : Type u) [Field k]
++
++noncomputable def oppositeGinzburgPathComponentEquiv (u v : Q.Vertex) :
++    Q.GinzburgPathComponent k u v ≃ₗ[k] Q.opposite.GinzburgPathComponent k v.rev u.rev :=
++  Finsupp.domLCongr (oppositeGinzburgPathEquiv u v)
++
++@[simp] theorem oppositeGinzburgPathComponentEquiv_single {u v : Q.Vertex}
++    (p : Q.GinzburgPath u v) (a : k) :
++    Q.oppositeGinzburgPathComponentEquiv k u v (Finsupp.single p a) =
++      Finsupp.single p.opposite a := by
++  simp only [oppositeGinzburgPathComponentEquiv, Finsupp.domLCongr_single]
++  rfl
++
++theorem oppositeGinzburgPathComponentEquiv_comp {u v w : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) (g : Q.GinzburgPathComponent k v w) :
++    Q.oppositeGinzburgPathComponentEquiv k u w (Q.ginzburgPathComp k g f) =
++      Q.opposite.ginzburgPathComp k (Q.oppositeGinzburgPathComponentEquiv k u v f)
++        (Q.oppositeGinzburgPathComponentEquiv k v w g) := by
++  classical
++  induction g using Finsupp.induction_linear with
++  | zero => simp
++  | add g h ihg ihh => simp [map_add, ihg, ihh]
++  | single q b =>
++    induction f using Finsupp.induction_linear with
++    | zero => simp
++    | add f h ihf ihh => simp [map_add, LinearMap.add_apply, ihf, ihh]
++    | single p a => simp [GinzburgPath.opposite_comp, mul_comm]
++
++theorem oppositeGinzburgPathComponentEquiv_original {u v : Q.Vertex}
++    (f : Q.PathComponent k u v) :
++    Q.oppositeGinzburgPathComponentEquiv k u v (Q.originalGinzburgLinearMap k u v f) =
++      Q.opposite.originalGinzburgLinearMap k v.rev u.rev
++        (Q.oppositePathComponentEquiv k u v f) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g ihf ihg => simp [map_add, ihf, ihg]
++  | single p a =>
++    simp [originalGinzburgLinearMap, Finsupp.mapDomain_single, Path.opposite_originalGinzburg]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgGenerators.lean b/ASGinzburg/OppositeGinzburgGenerators.lean
+new file mode 100644
+index 0000000..59b1d44
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgGenerators.lean
+@@ -0,0 +1,27 @@
++import ASGinzburg.OppositeGinzburgPathAlgebra
++import ASGinzburg.GinzburgPathDifferential
++
++/-! Actual generator-path identities required by the differential comparison. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem GinzburgPath.opposite_transport {u v u' v' : Q.Vertex}
++    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) :
++    (p.transport Q hu hv).opposite =
++      p.opposite.transport Q.opposite (congrArg Fin.rev hv) (congrArg Fin.rev hu) := by
++  subst u' v'
++  rfl
++
++@[simp] theorem originalGinzburgArrowPath_opposite (a : Q.Arrow) :
++    (Q.originalGinzburgArrowPath a).opposite = Q.opposite.originalGinzburgArrowPath a := by
++  apply GinzburgPath.toList_injective (Q := Q.opposite) (Q.target a).rev (Q.source a).rev
++  simp [originalGinzburgArrowPath, GinzburgPath.opposite_toList, GinzburgPath.toList,
++    GinzburgArrow.opposite]
++
++@[simp] theorem dualGinzburgArrowPath_opposite (a : Q.Arrow) :
++    (Q.dualGinzburgArrowPath a).opposite = Q.opposite.dualGinzburgArrowPath a := by
++  apply GinzburgPath.toList_injective (Q := Q.opposite) (Q.source a).rev (Q.target a).rev
++  simp [dualGinzburgArrowPath, GinzburgPath.opposite_toList, GinzburgPath.toList,
++    GinzburgArrow.opposite]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgLoopDifferential.lean b/ASGinzburg/OppositeGinzburgLoopDifferential.lean
+new file mode 100644
+index 0000000..4f10947
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgLoopDifferential.lean
+@@ -0,0 +1,26 @@
++import ASGinzburg.OppositeGinzburgGenerators
++
++/-! The actual sum of arrow/dual-arrow commutators changes sign on reversal. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem oppositeGinzburgPathComponentEquiv_loopDifferential (v : Q.Vertex) :
++    Q.oppositeGinzburgPathComponentEquiv k v v (Q.ginzburgLoopDifferential k v) =
++      -Q.opposite.ginzburgLoopDifferential k v.rev := by
++  classical
++  rw [ginzburgLoopDifferential, map_sum, ginzburgLoopDifferential,
++    ← Finset.sum_neg_distrib]
++  apply Finset.sum_congr rfl
++  intro a _
++  have hs : (Q.opposite.source a = v.rev) ↔ Q.target a = v := by
++    change (Q.target a).rev = v.rev ↔ _
++    exact Fin.rev_inj
++  have ht : (Q.opposite.target a = v.rev) ↔ Q.source a = v := by
++    change (Q.source a).rev = v.rev ↔ _
++    exact Fin.rev_inj
++  by_cases hsa : Q.source a = v <;> by_cases hta : Q.target a = v <;>
++    simp [map_sub, hsa, hta, hs, ht, oppositeGinzburgPathComponentEquiv_single,
++      GinzburgPath.opposite_transport, GinzburgPath.opposite_comp]
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/OppositeGinzburgGeneratorDifferential.lean b/ASGinzburg/OppositeGinzburgGeneratorDifferential.lean
+new file mode 100644
+index 0000000..6c397ea
+--- /dev/null
++++ b/ASGinzburg/OppositeGinzburgGeneratorDifferential.lean
+@@ -0,0 +1,48 @@
++import ASGinzburg.OppositeGinzburgLoopDifferential
++
++/-! Transport only changes the endpoint indices. All differential
++comparisons use the genuine cyclic derivative and commutator formulas. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++def transportGinzburgPathComponent {u v u' v' : Q.Vertex}
++    (hu : u = u') (hv : v = v') :
++    Q.GinzburgPathComponent k u v →ₗ[k] Q.GinzburgPathComponent k u' v' :=
++  hu ▸ hv ▸ LinearMap.id
++
++@[simp] theorem transportGinzburgPathComponent_refl {u v : Q.Vertex}
++    (f : Q.GinzburgPathComponent k u v) :
++    Q.transportGinzburgPathComponent k rfl rfl f = f := rfl
++
++@[simp] theorem transportGinzburgPathComponent_single {u v u' v' : Q.Vertex}
++    (hu : u = u') (hv : v = v') (p : Q.GinzburgPath u v) (a : k) :
++    Q.transportGinzburgPathComponent k hu hv (Finsupp.single p a) =
++      Finsupp.single (p.transport Q hu hv) a := by subst u' v'; rfl
++
++theorem oppositeGinzburgPathComponentEquiv_generatorDifferential
++    (φ : Q.Potential k) (a : Q.GinzburgArrow) :
++    Q.oppositeGinzburgPathComponentEquiv k (a.source Q) (a.target Q)
++        (Q.ginzburgGeneratorDifferential k φ a) =
++      ginzburgSign k (a.cohomologicalDegree Q + 1) •
++        Q.opposite.transportGinzburgPathComponent k a.opposite_source a.opposite_target
++          (Q.opposite.ginzburgGeneratorDifferential k (Q.oppositePotentialEquiv k φ)
++            a.opposite) := by
++  cases a with
++  | original a =>
++    simp [ginzburgGeneratorDifferential, GinzburgArrow.opposite,
++      GinzburgArrow.source, GinzburgArrow.target]
++  | dual a =>
++    change Q.oppositeGinzburgPathComponentEquiv k (Q.target a) (Q.source a)
++      (Q.originalGinzburgLinearMap k (Q.target a) (Q.source a) (Q.pathCyclicDerivative k a φ)) =
++      ginzburgSign k 0 • Q.opposite.originalGinzburgLinearMap k (Q.source a).rev
++        (Q.target a).rev (Q.opposite.pathCyclicDerivative k a (Q.oppositePotentialEquiv k φ))
++    rw [ginzburgSign_zero, one_smul, Q.oppositeGinzburgPathComponentEquiv_original,
++      Q.oppositePathComponentEquiv_cyclicDerivative]
++  | loop v =>
++    change Q.oppositeGinzburgPathComponentEquiv k v v (Q.ginzburgLoopDifferential k v) =
++      ginzburgSign k (-1) • Q.opposite.ginzburgLoopDifferential k v.rev
++    rw [Q.oppositeGinzburgPathComponentEquiv_loopDifferential]
++    simp [ginzburgSign]
++
++end ASGinzburg.CutQuiver

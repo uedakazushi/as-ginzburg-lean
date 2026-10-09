@@ -1,8 +1,8 @@
 # AS–Ginzburg対応のLean形式化：Codexクラウドでの継続
 
-単位53〜59で実際のA(Φ)作用とfiltration接続写像の自然性を証明し、四項RightModule射影複体と単純商augmentationを構成した。本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolution、全項の有限生成射影性、任意標的へのExt≥4零/射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を完成した。D₁/D₃の最小性を証明した。D₂最小性とminimal ASResolution、双対左複体比較、Ext³のAS双対性/ASRegular全体は未検証・未公開。正則性やAS結論に等しい追加仮定なし。定理3.2/系5.2は未証明・正式Lean定理文未実装。
-最新ローカル検証 20261009T003424Z-559134b0：407数学モジュール・2972異なる宣言・1526 theorem、全段階終了0。
-単位1〜59の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位60〜65で元のPotentialの長さ≥3からactual巡回微分/境界の長さ≥2、prefix係数とnative filtration接続写像のrepresentativesを証明した。actual D₂のradical包含を導き、全3微分の最小性・exactness・左端Monoから、本来のGinzburgRegularだけで既存ASResolutionの全フィールドを構成した。ASRegularの分解条件(i)は完成。実際のExt³(s_(τv),P_v)≃ₗk、rank/finrank=1、全単純/representable/全次数のExt有限性とAS総rank≥1も完成。総rank=1/他の低次数・非対角Ext消滅/ASRegular(ii)は未証明。反対箙を矢/頂点順/sheetの反転から構成し、actual道・閉路cut=1/長さ≥3のPotential空間同値、積反転、actual巡回微分の反転を証明。拡張Ginzburg道の同値と3次数保存、生成元微分の(-1)^(degree+1)付き比較まで公開検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+最新ローカル検証 20261009T011710Z-f26f3c33：439数学モジュール・3093異なる宣言・1620 theorem、全段階終了0。
+単位1〜65の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 **主定理全体は未完成です。定理3.2と系5.2の形式的な文も、まだ実装していません。**
 
@@ -13,17 +13,25 @@ p≠3で零、p=3でs^left_(tau^{-1}w)に同型であることを左作用ごと
 Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjectives・実際のExtの存在も完成しました。
 左A-dualも構成し、左右のrepresentableが二重A-dualで元に戻る同型を証明しました。
 既存モデルのExt(s_w,⊕P_i)への直和交換は完成。具体的局所単位付きGr(A)モデルへの圏同値・Abelian構造は完成。実際のExtのk線形同型は完成。前合成・後合成の自然性は完成。(1.12)の左加群としての移送と総ベクトル双対の自然比較・全作用適合性も完成。AS条件からの正負周期性は証明済み。主定理は未証明です。
-407数学モジュール、2972異なる明示的宣言、1526 theorem、299 named instanceを監査します。初期161宣言も含みます。
+439数学モジュール、3093異なる明示的宣言、1620 theorem、299 named instanceを監査します。初期161宣言も含みます。
 現在の実行結果は`verification/results.json`と`RECENT_RUN.md`を参照してください。
 数学的な証明に使う定義・仮定は各宣言の型に明記してあります。
 独自公理、`sorry`、`admit`を使って主定理を完成扱いにすることはしていません。
 
 
-## 現行のGinzburgからASへの証明状態（単位54〜59）
 
-単位54〜59で固定endpointのactual A(Φ)係数比較と積作用、全RightModule morphismsへの自然性、augmentation H⁰/radical自然性を完成した。実際のD₁/D₂/D₃による四項射影複体と単純商augmentationを構成し、本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolutionと全項の有限生成射影性を証明した。実際のsyzygyとExt長完全列から任意標的への次数4以上のExt零性・射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を導いた。D₁/D₃の最小性はactual radical因子分解とendpoint高さから完成。D₂の最小性、既存minimal ASResolution、標準巡回微分行列/双対左複体の比較、Ext³のAS左単純同型とASRegular全体は未証明。直和交換・周期性・AS結論を新しい仮定に追加していない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
 
-次は元のPotentialの長さ≥3からactual D₂のradical包含を導き、最小AS分解を構成する。その後、実際の微分の双対比較からExt³左単純同型を証明する。AS→Φ、基底/最小関係/選択独立性、標準RHom/外部結果、§5quadraticと同型類対応も残る。過去の単位43〜53の記載は各単位時点の証明状態であり、現行の完成/未証明の判定にはこの段落と最新検証を使う。
+
+
+
+
+## 現行のGinzburgからASへの証明状態（単位60〜65）
+
+単位60〜65で元のPotentialの長さ≥3からactual巡回微分/境界の長さ≥2、prefix係数とnative filtration接続写像のrepresentativesを証明した。actual D₂のradical包含を導き、全3微分の最小性・exactness・左端Monoから、本来のGinzburgRegularだけで既存ASResolutionの全フィールドを構成した。ASRegularの分解条件(i)は完成。実際のExt³(s_(τv),P_v)≃ₗk、rank/finrank=1、全単純/representable/全次数のExt有限性とAS総rank≥1も完成。総rank=1/他の低次数・非対角Ext消滅/ASRegular(ii)は未証明。反対箙を矢/頂点順/sheetの反転から構成し、actual道・閉路cut=1/長さ≥3のPotential空間同値、積反転、actual巡回微分の反転を証明。拡張Ginzburg道の同値と3次数保存、生成元微分の(-1)^(degree+1)付き比較まで公開検証した。周期性/Ext表/Calabi–Yau性/主結論を新しい仮定にしていない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+
+次段のWORK66では全道/全homogeneous sumsの微分反転、三角数signによるactual cochain/homology同型、反対GinzburgRegularとの同値と反対最小ASResolutionを個別Lean終了0で完成。WORK67ではactual Jacobianイデアルとcut/sheet商の反対同型、lifted整数成分の積反転と単位元保存を個別終了0で完成。これらは公開65の全体監査には含まれず、差分/個別検査/利用先をRECENT_RUN.mdに保存している。WORK68〜70では全整数でactual Jacobian反射ZAlgebra同型、元の左加群圏と反対Jacobian右加群圏の線形同値、両方向のexactness/短完全列の保存、左representable at iと右representable at n-1-iの加群同型を個別終了0で完成。これらも公開65の全体監査には含まれない。次は単純商の比較と反対AS分解の移送、actual巡回Hessianとdual complexの一致から他のExt消滅を証明する。AS→Φ/最小関係/選択独立性/標準RHom/外部結果/§5quadratic/同型類対応も未証明。
+
+過去の単位説明はその時点の状態である。完成判定にはこの段落と最新の実行終了コードを使う。
 
 
 ## 確認済みの代表的な内容
@@ -119,9 +127,9 @@ GitHub Actionsの`.github/workflows/lean.yml`はpushとpull_requestで同じ検�
 
 **ビルド成功は実装済み補題の検証を意味します。主定理の完成を意味しません。**
 
-最新ローカル検証 `20261009T003424Z-559134b0`、全段階終了0、2129.311985680秒。
-UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
-JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+最新ローカル検証 `20261009T011710Z-f26f3c33`、全段階終了0、2111.599379480秒。
+UTC 2026-10-09T01:17:10.623876+00:00 → 2026-10-09T01:52:22.223264+00:00。
+JST 2026-10-09T10:17:10.623876+09:00 → 2026-10-09T10:52:22.223264+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
 
 証明単位ごとのmainへの保存・Actions・実測時間はRECENT_RUN.md参照。
