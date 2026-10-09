@@ -25,7 +25,10 @@ def write_json(path, value):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--prepare-cache', action='store_true', help='Fetch locked dependencies and mathlib cache')
+    parser.add_argument('--axiom-jobs', type=int, default=1, help='Concurrent exhaustive axiom audit shards')
     args = parser.parse_args()
+    if args.axiom_jobs < 1:
+        parser.error('--axiom-jobs must be positive')
     start, tick = now(), time.monotonic()
     run_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid4().hex[:8]
     run_dir = ROOT / 'verification/runs' / run_id
@@ -49,8 +52,9 @@ def main():
             raise ValueError('No mathlib imports found for cache preparation')
         stages.append(('cache', [*wrapper, 'lake', 'exe', 'cache', 'get', *imports], 'cache.log'))
     stages += [('environment', [*py, 'scripts/check_environment.py', '--output-dir', str(run_dir)], 'environment.log'),
-               ('build', [*wrapper, 'lake', 'build'], 'build.log'),
-               ('axioms', [*wrapper, 'lake', 'env', 'lean', 'AxiomAudit.lean'], 'axioms.log'),
+               ('build', [*wrapper, 'lake', 'build', 'ASGinzburg'], 'build.log'),
+               ('axioms', [*wrapper, 'lake', 'env', *py, 'scripts/run_axiom_audit.py',
+                          '--run-dir', str(run_dir), '--jobs', str(args.axiom_jobs)], 'axioms.log'),
                ('report', [*py, 'scripts/report_verification.py', '--run-dir', str(run_dir)], 'report.log')]
     exit_code = 1
     try:

@@ -1,0 +1,76 @@
+import ASGinzburg.PeriodGeneratorClasses
+
+/-! The actual sheet-transported arrow family has precisely the
+transported AS indecomposable bases; arbitrary independent lifts are not
+substituted for these concrete representatives. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+def foundationSheetGeneratorIndexEquiv (w : Q.LiftVertex) (i : ℤ) :
+    ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=(w.1,0)) (i-Q.vertices*w.2) ≃
+      ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=w) i where
+  toFun a := ⟨a.val,by
+    have hs := Q.incomingSource_height_zeroSheet_period w a.val
+    rw [a.property] at hs
+    nlinarith⟩
+  invFun a := ⟨a.val,by
+    have hs := Q.incomingSource_height_zeroSheet_period w a.val
+    rw [a.property] at hs
+    nlinarith⟩
+  left_inv a := rfl
+  right_inv a := rfl
+
+end ASGinzburg.CutQuiver
+
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem homTransport_trans (i j i' j' i'' j'' : ℤ)
+    (hi : i=i') (hj : j=j') (hi' : i'=i'') (hj' : j'=j'') (f : A.Hom i j) :
+    A.homTransport i' j' i'' j'' hi' hj' (A.homTransport i j i' j' hi hj f)=
+      A.homTransport i j i'' j'' (hi.trans hi') (hj.trans hj') f := by
+  subst i'
+  subst j'
+  subst i''
+  subst j''
+  rfl
+
+theorem PeriodIso.map_homTransport {p : ℤ} (E : A.PeriodIso p)
+    (i j i' j' : ℤ) (hi : i=i') (hj : j=j') (f : A.Hom i j) :
+    E.map i' j' (A.homTransport i j i' j' hi hj f)=
+      A.homTransport (i+p) (j+p) (i'+p) (j'+p)
+        (congrArg (fun t => t+p) hi) (congrArg (fun t => t+p) hj) (E.map i j f) := by
+  subst i'
+  subst j'
+  rfl
+
+noncomputable def ASRegular.foundationRepresentativeGeneratorBasis (hAS : A.ASRegular Q)
+    (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w) :
+    Module.Basis (ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) k
+      (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) :=
+  let w₀ : Q.LiftVertex := (w.1,0)
+  let i₀ : ℤ := i-Q.vertices*w.2
+  let hi₀ : i₀<Q.height w₀ := by
+    dsimp [i₀,w₀,CutQuiver.height] at *
+    omega
+  let h₁ : i₀+w.2*Q.vertices=i := by dsimp [i₀];ring
+  (((hAS.resolution A Q w₀).transportedGeneratorBasis (hAS.periodIso A Q)
+    w.2 i₀ hi₀ i (Q.height w) h₁ (Q.height_zeroSheet_period w))).reindex
+      (Q.foundationSheetGeneratorIndexEquiv w i)
+
+theorem ASRegular.foundationRepresentativeGeneratorBasis_apply (hAS : A.ASRegular Q)
+    (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
+    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) :
+    hAS.foundationRepresentativeGeneratorBasis A Q w i hi a=
+      Submodule.Quotient.mk (A.homTransport _ _ i (Q.height w) a.property rfl
+        (hAS.foundationPeriodIncomingElement A Q w a.val)) := by
+  rw [foundationRepresentativeGeneratorBasis,Module.Basis.reindex_apply,
+    ASResolution.transportedGeneratorBasis_apply]
+  apply congrArg (Submodule.Quotient.mk (p:=Submodule.span k (A.products i (Q.height w))))
+  dsimp only [ASResolution.incomingGenerator,CutQuiver.foundationSheetGeneratorIndexEquiv,
+    foundationPeriodIncomingElement,LinearEquiv.trans_apply]
+  rw [PeriodIso.map_homTransport,A.homTransport_trans,A.homTransport_trans]
+  rfl
+
+end ASGinzburg.ZAlgebra

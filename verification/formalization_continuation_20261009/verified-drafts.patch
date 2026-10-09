@@ -1,0 +1,2238 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ArbitraryArrowKernelHeights.lean
+@@ -0,0 +1,25 @@
++import work.ASGinzburgDraft.PeriodicArrowIntegerLinearKernels
++import ASGinzburg.ASPathKernelHeights
++import ASGinzburg.ArbitraryArrowPresentation
++
++/-! The concrete evaluation kernel of any arrow family is exactly
++the kernel of its integer-indexed presentation under the height equivalence. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q)
++
++theorem unrolledComponentHeightEquiv_mem_arrowPresentation_kernel_iff
++    (x y : Q.LiftVertex) (f : Q.UnrolledPathComponent k x y) :
++    Q.unrolledComponentHeightEquiv k x y f ∈
++        (A.arrowPathPresentation Q G).kernel.hom (Q.height x) (Q.height y) ↔
++      A.arrowPathLinearEvaluation Q G x y f = 0 := by
++  change A.homTransport _ _ (Q.height x) (Q.height y)
++    (Q.height_heightEquiv_symm (Q.height x)) (Q.height_heightEquiv_symm (Q.height y))
++      (A.arrowPathLinearEvaluation Q G _ _
++        (Finsupp.mapDomain (Q.unrolledPathHeightEquiv x y) f)) = 0 ↔ _
++  rw [LinearEquiv.map_eq_zero_iff]
++  exact A.arrowPathLinearEvaluation_transport_eq_zero_iff Q G
++    (Q.heightEquiv_symm_height x).symm (Q.heightEquiv_symm_height y).symm f
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/BasedArrowIndecomposables.lean
+@@ -0,0 +1,44 @@
++import work.ASGinzburgDraft.BasedArrowPathSurjectivity
++import ASGinzburg.ArbitraryArrowIndecomposables
++
++/-! The one-arrow quotient classes are independent for the specified
++actual family whenever its generator classes are the genuine basis. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q) (B : A.IncomingBasisSystem Q)
++  (hclass : ∀ (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
++    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i),
++    (Submodule.span k (A.products i (Q.height w))).mkQ
++      (A.incomingElementGenerator Q G w i a)=B.basis w i hi a)
++open CutQuiver.UnrolledPath
++
++include hclass in
++theorem basedArrowIndecomposableMap_singleArrow (u v : Q.LiftVertex)
++    (huv : Q.height u<Q.height v) (a : SingleArrowIndex u v) :
++    A.arrowPathIndecomposableMap Q G u v (Finsupp.single (singleArrow u v a) 1)=
++      B.basis v (Q.height u) huv (singleArrowHeightEquiv u v a) := by
++  obtain ⟨a,ha⟩ := a
++  subst u
++  have h := hclass v (Q.height (Q.incomingSource v a)) huv ⟨a,rfl⟩
++  simpa [arrowPathIndecomposableMap,arrowPathEvaluation,arrowPathLinearEvaluation,
++    incomingElementGenerator,homTransport,singleArrow,singleArrowHeightEquiv,A.id_comp] using h
++
++include hclass in
++theorem basedArrow_oneArrow_class_independent (u v : Q.LiftVertex)
++    (huv : Q.height u<Q.height v) :
++    LinearIndependent k (fun p : {p : Q.UnrolledPath u v // p.length=1} =>
++      A.arrowPathIndecomposableMap Q G u v (Finsupp.single p.val 1)) := by
++  let e := (singleArrowEquiv u v).symm.trans (singleArrowHeightEquiv u v)
++  have heval (p : {p : Q.UnrolledPath u v // p.length=1}) :
++      A.arrowPathIndecomposableMap Q G u v (Finsupp.single p.val 1)=
++        B.basis v (Q.height u) huv (e p) := by
++    have h := A.basedArrowIndecomposableMap_singleArrow Q G B hclass u v huv ((singleArrowEquiv u v).symm p)
++    have hp : singleArrow u v ((singleArrowEquiv u v).symm p)=p.val :=
++      singleArrow_singleArrowOfPath p.val p.property
++    rw [hp] at h
++    exact h
++  simp_rw [heval]
++  exact (B.basis v (Q.height u) huv).linearIndependent.comp e e.injective
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/BasedArrowKernelSupport.lean
+@@ -0,0 +1,93 @@
++import work.ASGinzburgDraft.BasedArrowIndecomposables
++import ASGinzburg.FreeLinearKernelSupport
++
++/-! For the specified actual family whose quotient classes are a basis, all relations in the genuine
++free-path evaluation have support on paths of length at least two. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q) (B : A.IncomingBasisSystem Q)
++  (hclass : ∀ (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
++    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i),
++    (Submodule.span k (A.products i (Q.height w))).mkQ
++      (A.incomingElementGenerator Q G w i a)=B.basis w i hi a)
++open CutQuiver.UnrolledPath
++
++theorem basedArrowPathIndecomposableMap_eq_linearCombination (u v : Q.LiftVertex) :
++    A.arrowPathIndecomposableMap Q G u v =
++      Finsupp.linearCombination k (fun p =>
++        (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
++          (A.arrowPathEvaluation Q G p)) := by
++  rw [arrowPathIndecomposableMap,arrowPathLinearEvaluation,
++    ← Finsupp.linearCombination_linear_comp]
++  rfl
++
++include hclass in
++theorem basedArrowPathIndecomposableMap_ker_le_long (u v : Q.LiftVertex)
++    (huv : Q.height u < Q.height v) :
++    LinearMap.ker (A.arrowPathIndecomposableMap Q G u v) ≤
++      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
++  classical
++  let S : Set (Q.UnrolledPath u v) := {p | 2 ≤ p.length}
++  rw [A.basedArrowPathIndecomposableMap_eq_linearCombination]
++  apply linearCombination_ker_le_supported
++  · intro p hp
++    have H := A.arrowPathIndecomposableMap_single_long Q G p hp
++    simpa [arrowPathIndecomposableMap,A.arrowPathLinearEvaluation_single] using H
++  · have hlen (p : {p : Q.UnrolledPath u v // p ∉ S}) : p.val.length=1 := by
++      have hn : ¬2 ≤ p.val.length := p.property
++      have hp : p.val.length ≠ 0 := by
++        intro hzero
++        have heq := p.val.height_eq_of_length_zero hzero
++        omega
++      omega
++    let e : {p : Q.UnrolledPath u v // p ∉ S} →
++        {p : Q.UnrolledPath u v // p.length=1} := fun p => ⟨p.val,hlen p⟩
++    have he : Function.Injective e := by
++      intro p q h
++      exact Subtype.ext (congrArg (fun x : {p : Q.UnrolledPath u v // p.length=1} => x.val) h)
++    have H := (A.basedArrow_oneArrow_class_independent Q G B hclass u v huv).comp e he
++    simpa [LinearIndepOn,arrowPathIndecomposableMap,A.arrowPathLinearEvaluation_single,e]
++      using H
++
++include hclass in
++theorem basedArrowPathLinearEvaluation_ker_le_long_of_lt (u v : Q.LiftVertex)
++    (huv : Q.height u < Q.height v) :
++    LinearMap.ker (A.arrowPathLinearEvaluation Q G u v) ≤
++      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
++  apply le_trans _ (A.basedArrowPathIndecomposableMap_ker_le_long Q G B hclass u v huv)
++  intro f hf
++  change (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
++    (A.arrowPathLinearEvaluation Q G u v f) = 0
++  rw [hf,map_zero]
++
++include hclass in
++theorem basedArrowPathLinearEvaluation_ker_le_long (u v : Q.LiftVertex) :
++    LinearMap.ker (A.arrowPathLinearEvaluation Q G u v) ≤
++      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
++  by_cases huv : Q.height u < Q.height v
++  · exact A.basedArrowPathLinearEvaluation_ker_le_long_of_lt Q G B hclass u v huv
++  by_cases heq : Q.height u = Q.height v
++  · have huv := Q.height_bijective.injective heq
++    subst v
++    intro f hf
++    change A.arrowPathLinearEvaluation Q G u u f = 0 at hf
++    have hrep : f = f (.nil u) • Q.unrolledPathId k u := by
++      ext p
++      rw [p.diagonal_eq_nil]
++      simp [CutQuiver.unrolledPathId,Finsupp.smul_single,smul_eq_mul]
++    have hz : f (.nil u) • A.id (Q.height u) = 0 := by
++      rw [hrep,map_smul,A.arrowPathLinearEvaluation_id] at hf
++      exact hf
++    have hc : f (.nil u) = 0 := (smul_eq_zero.mp hz).resolve_right
++      (A.id_nonzero (Q.height u))
++    rw [hrep,hc,zero_smul]
++    exact Submodule.zero_mem _
++  · haveI : IsEmpty (Q.UnrolledPath u v) :=
++      ⟨fun p => by have := p.height_le; omega⟩
++    intro f _
++    have hf : f=0 := Subsingleton.elim _ _
++    rw [hf]
++    exact Submodule.zero_mem _
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean
+@@ -0,0 +1,92 @@
++import ASGinzburg.ArbitraryArrowPresentation
++
++/-! Actual incoming families whose quotient classes are a specified
++basis give surjective free-path presentations. This retains the actual
++family, including its chosen representatives, throughout the proof. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q)
++
++noncomputable def incomingElementGenerator (w : Q.LiftVertex) (i : ℤ)
++    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) : A.Hom i (Q.height w) :=
++  A.homTransport _ _ i (Q.height w) a.property rfl (G w a.val)
++
++variable (B : A.IncomingBasisSystem Q)
++  (hclass : ∀ (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
++    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i),
++    (Submodule.span k (A.products i (Q.height w))).mkQ
++      (A.incomingElementGenerator Q G w i a)=B.basis w i hi a)
++
++include hclass in
++theorem incomingElementGenerator_decomposition (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w) :
++    Submodule.span k (Set.range (A.incomingElementGenerator Q G w i)) ⊔
++      Submodule.span k (A.products i (Q.height w))=⊤ := by
++  let p := Submodule.span k (A.products i (Q.height w))
++  have hm : Submodule.map p.mkQ
++      (Submodule.span k (Set.range (A.incomingElementGenerator Q G w i)))=⊤ := by
++    rw [Submodule.map_span,←Set.range_comp]
++    have hf : p.mkQ ∘ A.incomingElementGenerator Q G w i=B.basis w i hi :=
++      funext (hclass w i hi)
++    rw [hf]
++    exact (B.basis w i hi).span_eq
++  have hs := (p.map_mkQ_eq_top _).mp hm
++  simpa only [sup_comm] using hs
++
++theorem incomingElementGenerator_mem_path_range (u w : Q.LiftVertex)
++    (a : ASResolution.GeneratorIndex (Q := Q) (w := w) (Q.height u)) :
++    A.incomingElementGenerator Q G w (Q.height u) a ∈
++      LinearMap.range (A.arrowPathLinearEvaluation Q G u w) := by
++  rcases a with ⟨a,ha⟩
++  have hu : Q.incomingSource w a=u := Q.height_bijective.injective ha
++  subst u
++  refine ⟨Finsupp.single (.snoc a (.nil (Q.incomingSource w a))) 1,?_⟩
++  simp [incomingElementGenerator,homTransport,arrowPathEvaluation,A.id_comp]
++
++include hclass in
++theorem basedArrowPathLinearEvaluation_surjective (u v : Q.LiftVertex) :
++    Function.Surjective (A.arrowPathLinearEvaluation Q G u v) := by
++  have hmain : ∀ d : ℕ, ∀ u v : Q.LiftVertex, (Q.height v-Q.height u).toNat=d →
++      ∀ f : A.Hom (Q.height u) (Q.height v),
++        f ∈ LinearMap.range (A.arrowPathLinearEvaluation Q G u v) := by
++    intro d
++    induction d using Nat.strong_induction_on with
++    | h d ih =>
++      intro u v hd f
++      rcases lt_trichotomy (Q.height v) (Q.height u) with hlt|heq|hlt
++      · rw [A.positive hlt f]
++        exact Submodule.zero_mem _
++      · have hvu := Q.height_bijective.injective heq
++        subst v
++        obtain ⟨c,rfl⟩ := A.connected (Q.height u) f
++        exact ⟨Finsupp.single (.nil u) c,by simp [arrowPathEvaluation]⟩
++      · have hgen : Submodule.span k (Set.range (A.incomingElementGenerator Q G v (Q.height u))) ≤
++            LinearMap.range (A.arrowPathLinearEvaluation Q G u v) := by
++          apply Submodule.span_le.mpr
++          rintro _ ⟨a,rfl⟩
++          exact A.incomingElementGenerator_mem_path_range Q G u v a
++        have hprod : Submodule.span k (A.products (Q.height u) (Q.height v)) ≤
++            LinearMap.range (A.arrowPathLinearEvaluation Q G u v) := by
++          apply Submodule.span_le.mpr
++          rintro _ ⟨i,hui,hiv,a,b,rfl⟩
++          obtain ⟨w,rfl⟩ := Q.height_bijective.surjective i
++          obtain ⟨p,hp⟩ := ih (Q.height w-Q.height u).toNat (by omega) u w rfl a
++          obtain ⟨q,hq⟩ := ih (Q.height v-Q.height w).toNat (by omega) w v rfl b
++          exact ⟨Q.unrolledPathComp k q p,by rw [A.arrowPathLinearEvaluation_comp,hp,hq]⟩
++        have ht : (⊤ : Submodule k (A.Hom (Q.height u) (Q.height v))) ≤
++            LinearMap.range (A.arrowPathLinearEvaluation Q G u v) := by
++          rw [←A.incomingElementGenerator_decomposition Q G B hclass v (Q.height u) hlt]
++          exact sup_le hgen hprod
++        exact ht Submodule.mem_top
++  intro f
++  exact hmain (Q.height v-Q.height u).toNat u v rfl f
++
++include hclass in
++theorem basedArrowPathPresentation_surjective (i j : ℤ) :
++    Function.Surjective ((A.arrowPathPresentation Q G).map i j) :=
++  (A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)).surjective.comp
++      (A.basedArrowPathLinearEvaluation_surjective Q G B hclass
++        (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodBasisSystem.lean
+@@ -0,0 +1,25 @@
++import work.ASGinzburgDraft.PeriodGeneratorIndex
++
++/-! A basis system for all unrolled indecomposables obtained solely
++from the finite set of basis choices at the zero sheet and the AS period.
++Coherence of chosen representative lifts is a further proof obligation. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationPeriodBasisSystem (hAS : A.ASRegular Q) :
++    A.IncomingBasisSystem Q where
++  basis w i hi := by
++    let w₀ : Q.LiftVertex := (w.1,0)
++    let i₀ : ℤ := i-Q.vertices*w.2
++    have hi₀ : i₀<Q.height w₀ := by
++      dsimp [i₀,w₀,CutQuiver.height] at *
++      omega
++    have h := hAS.periodShiftGeneratorBasis A Q w.2 w₀ i₀ hi₀
++    have hw : Q.shift w.2 w₀=w := by
++      simp [w₀,CutQuiver.shift]
++    have he : i₀+Q.vertices*w.2=i := sub_add_cancel _ _
++    rw [hw,he] at h
++    exact h
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodCutIdealKernel.lean
+@@ -0,0 +1,25 @@
++import work.ASGinzburgDraft.FoundationPeriodJacobianCutKernel
++import work.ASGinzburgDraft.UnrolledCutJacobianIdeal
++
++/-! Without additional relation hypotheses, the original AS condition
++annihilates the two-sided ideal of all sheet lifts of cut derivatives. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodCutJacobianGenerators_mem_kernel
++    (hAS : A.ASRegular Q) (i j : ℤ) :
++    Q.cutJacobianGenerators k (hAS.foundationPotential A Q) i j ⊆
++      (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom i j := by
++  rintro f ⟨a,m,ha,hi,hj,rfl⟩
++  subst i
++  subst j
++  exact hAS.foundationPeriodIntegerJacobianRelation_cut_mem_kernel A Q a ha m
++
++theorem ASRegular.foundationPeriodCutJacobianIdeal_le_kernel
++    (hAS : A.ASRegular Q) (i j : ℤ) :
++    (Q.unrolledCutJacobianIdeal k (hAS.foundationPotential A Q)).hom i j ≤
++      (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom i j :=
++  LinearIdeal.generated_le _ _ (hAS.foundationPeriodCutJacobianGenerators_mem_kernel A Q) i j
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodCutRelations.lean
+@@ -0,0 +1,36 @@
++import work.ASGinzburgDraft.FoundationPeriodEvaluationCoherence
++import work.ASGinzburgDraft.FoundationPeriodZeroKernel
++import work.ASGinzburgDraft.UnrolledSheetShiftErasure
++import ASGinzburg.ASFoundationDerivativeUnrolling
++
++/-! The actual cut derivatives of the original AS foundation potential,
++lifted to every integer sheet by the native path shift, vanish in the
++concrete periodic presentation. No statement is made about the other derivatives. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationCutDerivativeUnroll_period_eval_zero (hAS : A.ASRegular Q)
++    (r : ℤ) (b : {a : Q.Arrow // Q.cut a=true}) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (Q.shift r (Q.target b.val,0)) (Q.shift r (Q.source b.val,0))
++      (Q.unrolledSheetShiftLinearEquiv k r (Q.target b.val,0) (Q.source b.val,0)
++        (hAS.foundationCutDerivativeUnroll A Q b)) = 0 := by
++  apply (hAS.foundationPeriodPathLinearEvaluation_integer_shift_eq_zero_iff A Q r _).mpr
++  rw [hAS.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet A Q _ _ rfl rfl]
++  exact hAS.foundationCutDerivativeUnroll_eval_zero A Q b
++
++theorem ASRegular.foundationCutDerivativeUnroll_period_erase (hAS : A.ASRegular Q)
++    (r : ℤ) (b : {a : Q.Arrow // Q.cut a=true}) :
++    Q.unrolledPathEraseLinearMap k
++      (Q.shift r (Q.target b.val,0)) (Q.shift r (Q.source b.val,0))
++      (Q.unrolledSheetShiftLinearEquiv k r (Q.target b.val,0) (Q.source b.val,0)
++        (hAS.foundationCutDerivativeUnroll A Q b)) =
++      Q.pathCyclicDerivative k b.val (hAS.foundationPotential A Q) := by
++  rw [Q.unrolledSheetShiftLinearEquiv_erase k]
++  exact Q.pathCutUnrollingEquiv_erase k (Q.target b.val) (Q.source b.val) 0 0
++    ⟨Q.pathCyclicDerivative k b.val (hAS.foundationPotential A Q),by
++      rw [hAS.foundationPotential_pathCyclicDerivative A Q b]
++      exact hAS.cutPathRelation_cut A Q b⟩
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean
+@@ -0,0 +1,51 @@
++import work.ASGinzburgDraft.FoundationPeriodIntegerCoherence
++import work.ASGinzburgDraft.PeriodicArrowIntegerLinearKernels
++
++/-! The original AS condition discharges the coherence hypothesis for
++its concrete foundation-transported arrow family. Therefore its true
++presentation kernels are periodic on every integer sheet. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodIncomingElement_periodCoherent (hAS : A.ASRegular Q) :
++    (hAS.foundationPeriodIncomingElement A Q).PeriodCoherent A Q (hAS.periodIso A Q) := by
++  rintro ⟨j,m⟩ a
++  exact hAS.foundationPeriodIncomingElement_int_succ A Q m j a
++
++theorem ASRegular.foundationPeriodPathEvaluation_shift (hAS : A.ASRegular Q)
++    {x y : Q.LiftVertex} (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q (hAS.foundationPeriodIncomingElement A Q) (p.shift 1) =
++      (hAS.periodIso A Q).liftedStepMap A Q x y
++        (A.arrowPathEvaluation Q (hAS.foundationPeriodIncomingElement A Q) p) :=
++  A.arrowPathEvaluation_shift Q (hAS.foundationPeriodIncomingElement A Q)
++    (hAS.periodIso A Q) (hAS.foundationPeriodIncomingElement_periodCoherent A Q) p
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_shift (hAS : A.ASRegular Q)
++    {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (Q.shift 1 x) (Q.shift 1 y) (Q.unrolledSheetShiftLinearEquiv k 1 x y f) =
++      (hAS.periodIso A Q).liftedStepMap A Q x y
++        (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y f) :=
++  A.arrowPathLinearEvaluation_shift Q (hAS.foundationPeriodIncomingElement A Q)
++    (hAS.periodIso A Q) (hAS.foundationPeriodIncomingElement_periodCoherent A Q) f
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_integer_shift_eq_zero_iff
++    (hAS : A.ASRegular Q) (r : ℤ) {x y : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (Q.shift r x) (Q.shift r y) (Q.unrolledSheetShiftLinearEquiv k r x y f) = 0 ↔
++      A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y f = 0 :=
++  A.arrowPathLinearEvaluation_integer_shift_eq_zero_iff Q (hAS.foundationPeriodIncomingElement A Q)
++    (hAS.periodIso A Q) (hAS.foundationPeriodIncomingElement_periodCoherent A Q) r f
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_integer_shift_kernel
++    (hAS : A.ASRegular Q) (r : ℤ) (x y : Q.LiftVertex) :
++    Submodule.map (Q.unrolledSheetShiftLinearEquiv k r x y).toLinearMap
++      (LinearMap.ker (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y)) =
++      LinearMap.ker (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++        (Q.shift r x) (Q.shift r y)) :=
++  A.arrowPathLinearEvaluation_integer_shift_kernel Q (hAS.foundationPeriodIncomingElement A Q)
++    (hAS.periodIso A Q) (hAS.foundationPeriodIncomingElement_periodCoherent A Q) r x y
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean
+@@ -0,0 +1,76 @@
++import work.ASGinzburgDraft.PeriodGeneratorClasses
++
++/-! The actual sheet-transported arrow family has precisely the
++transported AS indecomposable bases; arbitrary independent lifts are not
++substituted for these concrete representatives. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++def foundationSheetGeneratorIndexEquiv (w : Q.LiftVertex) (i : ℤ) :
++    ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=(w.1,0)) (i-Q.vertices*w.2) ≃
++      ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=w) i where
++  toFun a := ⟨a.val,by
++    have hs := Q.incomingSource_height_zeroSheet_period w a.val
++    rw [a.property] at hs
++    nlinarith⟩
++  invFun a := ⟨a.val,by
++    have hs := Q.incomingSource_height_zeroSheet_period w a.val
++    rw [a.property] at hs
++    nlinarith⟩
++  left_inv a := rfl
++  right_inv a := rfl
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem homTransport_trans (i j i' j' i'' j'' : ℤ)
++    (hi : i=i') (hj : j=j') (hi' : i'=i'') (hj' : j'=j'') (f : A.Hom i j) :
++    A.homTransport i' j' i'' j'' hi' hj' (A.homTransport i j i' j' hi hj f)=
++      A.homTransport i j i'' j'' (hi.trans hi') (hj.trans hj') f := by
++  subst i'
++  subst j'
++  subst i''
++  subst j''
++  rfl
++
++theorem PeriodIso.map_homTransport {p : ℤ} (E : A.PeriodIso p)
++    (i j i' j' : ℤ) (hi : i=i') (hj : j=j') (f : A.Hom i j) :
++    E.map i' j' (A.homTransport i j i' j' hi hj f)=
++      A.homTransport (i+p) (j+p) (i'+p) (j'+p)
++        (congrArg (fun t => t+p) hi) (congrArg (fun t => t+p) hj) (E.map i j f) := by
++  subst i'
++  subst j'
++  rfl
++
++noncomputable def ASRegular.foundationRepresentativeGeneratorBasis (hAS : A.ASRegular Q)
++    (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w) :
++    Module.Basis (ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) k
++      (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) :=
++  let w₀ : Q.LiftVertex := (w.1,0)
++  let i₀ : ℤ := i-Q.vertices*w.2
++  let hi₀ : i₀<Q.height w₀ := by
++    dsimp [i₀,w₀,CutQuiver.height] at *
++    omega
++  let h₁ : i₀+w.2*Q.vertices=i := by dsimp [i₀];ring
++  (((hAS.resolution A Q w₀).transportedGeneratorBasis (hAS.periodIso A Q)
++    w.2 i₀ hi₀ i (Q.height w) h₁ (Q.height_zeroSheet_period w))).reindex
++      (Q.foundationSheetGeneratorIndexEquiv w i)
++
++theorem ASRegular.foundationRepresentativeGeneratorBasis_apply (hAS : A.ASRegular Q)
++    (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
++    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) :
++    hAS.foundationRepresentativeGeneratorBasis A Q w i hi a=
++      Submodule.Quotient.mk (A.homTransport _ _ i (Q.height w) a.property rfl
++        (hAS.foundationPeriodIncomingElement A Q w a.val)) := by
++  rw [foundationRepresentativeGeneratorBasis,Module.Basis.reindex_apply,
++    ASResolution.transportedGeneratorBasis_apply]
++  apply congrArg (Submodule.Quotient.mk (p:=Submodule.span k (A.products i (Q.height w))))
++  dsimp only [ASResolution.incomingGenerator,CutQuiver.foundationSheetGeneratorIndexEquiv,
++    foundationPeriodIncomingElement,LinearEquiv.trans_apply]
++  rw [PeriodIso.map_homTransport,A.homTransport_trans,A.homTransport_trans]
++  rfl
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodIntegerCoherence.lean
+@@ -0,0 +1,26 @@
++import work.ASGinzburgDraft.PeriodIntegerSuccessors
++
++/-! The concrete AS foundation arrow representatives are coherent on
++all adjacent integer sheets. The period is derived from ASRegular. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodIncomingElement_int_succ (hAS : A.ASRegular Q)
++    (m : ℤ) (j : Q.Vertex) (a : Q.incomingArrows (j,0)) :
++    hAS.foundationPeriodIncomingElement A Q (j,m+1) a =
++      A.homTransport
++        (Q.height (Q.incomingSource (j,m) a)+Q.vertices)
++        (Q.height (j,m)+Q.vertices)
++        (Q.height (Q.incomingSource (j,m+1) a))
++        (Q.height (j,m+1))
++        (by simp only [CutQuiver.incomingSource, CutQuiver.liftedSource, CutQuiver.height]; ring)
++        (by simp only [CutQuiver.height]; ring)
++        ((hAS.periodIso A Q).map (Q.height (Q.incomingSource (j,m) a))
++          (Q.height (j,m))
++          (hAS.foundationPeriodIncomingElement A Q (j,m) a)) := by
++  dsimp only [foundationPeriodIncomingElement, LinearEquiv.trans_apply]
++  rw [PeriodIso.powInt_succ_apply, PeriodIso.map_homTransport,
++    A.homTransport_trans, A.homTransport_trans]
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodJacobianCutKernel.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.FoundationPeriodCutRelations
++import work.ASGinzburgDraft.UnrolledJacobianRelationShifts
++import work.ASGinzburgDraft.ArbitraryArrowKernelHeights
++
++/-! The genuine cut-arrow Jacobian generators on every sheet are
++in the actual AS period-transported presentation kernel. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodCutJacobianRelation_eval_zero
++    (hAS : A.ASRegular Q) (b : {a : Q.Arrow // Q.cut a=true}) (m : ℤ) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (Q.target b.val,m) (Q.source b.val,m)
++      (Q.unrolledCutJacobianRelation k (hAS.foundationPotential A Q) b m) = 0 := by
++  let hx : Q.shift m (Q.target b.val,0)=(Q.target b.val,m) := by simp [CutQuiver.shift]
++  let hy : Q.shift m (Q.source b.val,0)=(Q.source b.val,m) := by simp [CutQuiver.shift]
++  let f := Q.unrolledSheetShiftLinearEquiv k m (Q.target b.val,0) (Q.source b.val,0)
++    (hAS.foundationCutDerivativeUnroll A Q b)
++  have heq : Finsupp.mapDomain (CutQuiver.UnrolledPath.endpointEquiv Q hx hy) f =
++      Q.unrolledCutJacobianRelation k (hAS.foundationPotential A Q) b m := by
++    apply Q.unrolledPathEraseLinearMap_injective k
++    exact (Q.unrolledPathEraseLinearMap_sheet_transport k (Q.target b.val) (Q.source b.val)
++      (m:=0+m) (n:=0+m) (m':=m) (n':=m) hx hy f).trans
++      ((hAS.foundationCutDerivativeUnroll_period_erase A Q m b).trans
++        (Q.unrolledCutJacobianRelation_erase k (hAS.foundationPotential A Q) b m).symm)
++  rw [← heq]
++  apply (A.arrowPathLinearEvaluation_transport_eq_zero_iff Q
++    (hAS.foundationPeriodIncomingElement A Q) hx hy f).mpr
++  exact hAS.foundationCutDerivativeUnroll_period_eval_zero A Q m b
++
++theorem ASRegular.foundationPeriodJacobianRelation_cut_eval_zero
++    (hAS : A.ASRegular Q) (a : Q.Arrow) (ha : Q.cut a=true) (m : ℤ) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (Q.target a,m) (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))
++      (Q.unrolledJacobianRelation k a (hAS.foundationPotential A Q) m) = 0 := by
++  have hy : (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))=(Q.source a,m) := by
++    simp [CutQuiver.cutDegree,ha]
++  apply (A.arrowPathLinearEvaluation_transport_eq_zero_iff Q
++    (hAS.foundationPeriodIncomingElement A Q) rfl hy _).mp
++  exact hAS.foundationPeriodCutJacobianRelation_eval_zero A Q ⟨a,ha⟩ m
++
++theorem ASRegular.foundationPeriodIntegerJacobianRelation_cut_mem_kernel
++    (hAS : A.ASRegular Q) (a : Q.Arrow) (ha : Q.cut a=true) (m : ℤ) :
++    Q.integerJacobianRelation k a (hAS.foundationPotential A Q) m ∈
++      (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom
++        (Q.height (Q.target a,m))
++        (Q.height (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))) := by
++  apply (A.unrolledComponentHeightEquiv_mem_arrowPresentation_kernel_iff Q
++    (hAS.foundationPeriodIncomingElement A Q) _ _ _).mpr
++  exact hAS.foundationPeriodJacobianRelation_cut_eval_zero A Q a ha m
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodMinimalPresentation.lean
+@@ -0,0 +1,45 @@
++import work.ASGinzburgDraft.FoundationPeriodPresentationSurjective
++import work.ASGinzburgDraft.BasedArrowKernelSupport
++import ASGinzburg.ASArbitraryBasisPresentation
++
++/-! The actual foundation-transported arrow family supplies a minimal
++free-path presentation and its true kernel quotient recovers the whole
++original AS algebra. Identification of that kernel with the potential's
++Jacobian ideal and one-step period coherence remain unproved. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathPresentation_kernel_le_arrow_square
++    (hAS : A.ASRegular Q) (i j : ℤ) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom i j ≤
++      ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j := by
++  rw [Q.unrolledArrowIdeal_square k]
++  intro f hf
++  apply A.basedArrowPathLinearEvaluation_ker_le_long Q
++    (hAS.foundationPeriodIncomingElement A Q) (hAS.foundationRepresentativeBasisSystem A Q)
++    (hAS.foundationPeriodIncomingGenerator_class A Q)
++    (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
++  change A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) _ _ f=0
++  change A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)
++    (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) _ _ f)=0 at hf
++  apply (A.homTransport _ _ i j (Q.height_heightEquiv_symm i)
++    (Q.height_heightEquiv_symm j)).injective
++  rw [map_zero]
++  exact hf
++
++noncomputable def ASRegular.foundationPeriodMinimalPathPresentation (hAS : A.ASRegular Q) :
++    A.MinimalPathPresentation Q where
++  presentation := A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)
++  surjective := hAS.foundationPeriodPathPresentation_surjective A Q
++  kernel_square := hAS.foundationPeriodPathPresentation_kernel_le_arrow_square A Q
++
++noncomputable def ASRegular.foundationPeriodPresentationQuotientIso (hAS : A.ASRegular Q) :
++    Isomorphism
++      ((A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.quotient
++        (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel_diagonal_eq_bot) A :=
++  (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).quotientKernelIso
++    (hAS.foundationPeriodPathPresentation_surjective A Q)
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodNaturalCoherence.lean
+@@ -0,0 +1,27 @@
++import work.ASGinzburgDraft.PeriodIterationFormulas
++
++/-! The concrete foundation arrow representatives on adjacent
++nonnegative sheets are related by the AS-derived period itself.
++Negative-sheet coherence is a separate remaining obligation. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodIncomingElement_nat_succ (hAS : A.ASRegular Q)
++    (n : ℕ) (j : Q.Vertex) (a : Q.incomingArrows (j,0)) :
++    hAS.foundationPeriodIncomingElement A Q (j,((n+1 : ℕ) : ℤ)) a=
++      A.homTransport
++        (Q.height (Q.incomingSource (j,(n : ℤ)) a)+Q.vertices)
++        (Q.height (j,(n : ℤ))+Q.vertices)
++        (Q.height (Q.incomingSource (j,((n+1 : ℕ) : ℤ)) a))
++        (Q.height (j,((n+1 : ℕ) : ℤ)))
++        (by simp only [CutQuiver.incomingSource,CutQuiver.liftedSource,CutQuiver.height];push_cast;ring)
++        (by simp only [CutQuiver.height];push_cast;ring)
++        ((hAS.periodIso A Q).map (Q.height (Q.incomingSource (j,(n : ℤ)) a))
++          (Q.height (j,(n : ℤ)))
++          (hAS.foundationPeriodIncomingElement A Q (j,(n : ℤ)) a)) := by
++  dsimp only [foundationPeriodIncomingElement,LinearEquiv.trans_apply,PeriodIso.powInt]
++  rw [PeriodIso.powNat_succ_apply,PeriodIso.map_homTransport,
++    A.homTransport_trans,A.homTransport_trans]
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodPresentationSurjective.lean
+@@ -0,0 +1,40 @@
++import work.ASGinzburgDraft.FoundationPeriodGeneratorBasis
++import work.ASGinzburgDraft.BasedArrowPathSurjectivity
++
++/-! The AS period transports the zero-sheet arrow representatives
++to a genuine surjective presentation of the whole original Z-algebra.
++The presentation kernel has not yet been identified with the candidate
++potential's full Jacobian ideal. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationRepresentativeBasisSystem (hAS : A.ASRegular Q) :
++    A.IncomingBasisSystem Q where
++  basis := hAS.foundationRepresentativeGeneratorBasis A Q
++
++theorem ASRegular.foundationPeriodIncomingGenerator_class (hAS : A.ASRegular Q)
++    (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
++    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) :
++    (Submodule.span k (A.products i (Q.height w))).mkQ
++      (A.incomingElementGenerator Q (hAS.foundationPeriodIncomingElement A Q) w i a)=
++      (hAS.foundationRepresentativeBasisSystem A Q).basis w i hi a :=
++  (hAS.foundationRepresentativeGeneratorBasis_apply A Q w i hi a).symm
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_surjective (hAS : A.ASRegular Q)
++    (x y : Q.LiftVertex) :
++    Function.Surjective
++      (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y) :=
++  A.basedArrowPathLinearEvaluation_surjective Q (hAS.foundationPeriodIncomingElement A Q)
++    (hAS.foundationRepresentativeBasisSystem A Q)
++    (hAS.foundationPeriodIncomingGenerator_class A Q) x y
++
++theorem ASRegular.foundationPeriodPathPresentation_surjective (hAS : A.ASRegular Q)
++    (i j : ℤ) :
++    Function.Surjective
++      ((A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).map i j) :=
++  A.basedArrowPathPresentation_surjective Q (hAS.foundationPeriodIncomingElement A Q)
++    (hAS.foundationRepresentativeBasisSystem A Q)
++    (hAS.foundationPeriodIncomingGenerator_class A Q) i j
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.FoundationPeriodZeroKernel
++import ASGinzburg.ASFoundationJacobianRingEquiv
++
++/-! The foundation restriction of the actual period-transported
++presentation has precisely the candidate's cut Jacobian kernel and
++recovers the original foundation ring. The full Jacobian comparison
++and Ginzburg regularity are still separate proof obligations. -/
++namespace ASGinzburg.ZAlgebra
++universe u
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.foundationPeriodRingPresentation (hAS : A.ASRegular Q) :
++    (Q.unrolledPathZAlgebra k).FoundationAlgebra Q →ₐ[k] A.FoundationAlgebra Q :=
++  (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).foundationAlgebraMap Q
++
++theorem ASRegular.foundationPeriodRingPresentation_eq (hAS : A.ASRegular Q) :
++    hAS.foundationPeriodRingPresentation A Q=hAS.foundationRingPresentation A Q := by
++  apply AlgHom.ext
++  intro x
++  funext i j
++  exact congrArg (fun f => f (x i j)) (hAS.foundationPeriodPathPresentation_zeroSheet A Q i j)
++
++theorem ASRegular.foundationPeriodRingPresentation_surjective (hAS : A.ASRegular Q) :
++    Function.Surjective (hAS.foundationPeriodRingPresentation A Q) :=
++  (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).foundationAlgebraMap_surjective
++    Q (hAS.foundationPeriodPathPresentation_surjective A Q)
++
++noncomputable def ASRegular.foundationPeriodZeroCutPresentation (hAS : A.ASRegular Q) :
++    Q.ZeroCutPathRing k →ₐ[k] A.FoundationAlgebra Q :=
++  (hAS.foundationPeriodRingPresentation A Q).comp (Q.zeroCutFoundationRingAlgEquiv k).toAlgHom
++
++theorem ASRegular.foundationPeriodZeroCutPresentation_eq (hAS : A.ASRegular Q) :
++    hAS.foundationPeriodZeroCutPresentation A Q=hAS.foundationZeroCutPresentation A Q := by
++  rw [foundationPeriodZeroCutPresentation,hAS.foundationPeriodRingPresentation_eq A Q]
++  rfl
++
++theorem ASRegular.foundationPeriodZeroCutPresentation_surjective (hAS : A.ASRegular Q) :
++    Function.Surjective (hAS.foundationPeriodZeroCutPresentation A Q) :=
++  (hAS.foundationPeriodRingPresentation_surjective A Q).comp (Q.zeroCutFoundationRingAlgEquiv k).surjective
++
++theorem ASRegular.foundationPeriodZeroCutKernel_eq_Jacobian (hAS : A.ASRegular Q) :
++    RingHom.ker (hAS.foundationPeriodZeroCutPresentation A Q).toRingHom=
++      Q.zeroCutJacobianIdeal k (hAS.foundationPotential A Q) := by
++  rw [hAS.foundationPeriodZeroCutPresentation_eq A Q]
++  exact (hAS.foundationZeroCutRelationIdeal_eq_kernel A Q).symm.trans
++    (hAS.foundationPotential_zeroCutJacobianIdeal A Q)
++
++noncomputable def ASRegular.foundationPeriodJacobianRingAlgEquiv (hAS : A.ASRegular Q) :
++    Q.ZeroCutJacobianRing k (hAS.foundationPotential A Q) ≃ₐ[k] A.FoundationAlgebra Q :=
++  (Ideal.quotientEquivAlgOfEq k (hAS.foundationPeriodZeroCutKernel_eq_Jacobian A Q).symm).trans
++    (Ideal.quotientKerAlgEquivOfSurjective (hAS.foundationPeriodZeroCutPresentation_surjective A Q))
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodSameSheetJacobianKernel.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.FoundationPeriodZeroJacobianKernel
++import work.ASGinzburgDraft.FoundationPeriodEvaluationCoherence
++
++/-! The genuine full Jacobian kernel comparison holds on every
++same-sheet component of the AS period-transported presentation. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathLinearKernel_zeroSheet_eq_Jacobian
++    (hAS : A.ASRegular Q) (i j : Q.Vertex) :
++    LinearMap.ker (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++        (i,0) (j,0)) =
++      Q.unrolledJacobianLiftIdeal k (hAS.foundationPotential A Q) (i,0) (j,0) := by
++  ext f
++  change A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (i,0) (j,0) f=0 ↔
++    Q.unrolledComponentHeightEquiv k (i,0) (j,0) f ∈
++      (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom
++        (Q.height (i,0)) (Q.height (j,0))
++  rw [← A.unrolledComponentHeightEquiv_mem_arrowPresentation_kernel_iff Q
++    (hAS.foundationPeriodIncomingElement A Q)]
++  change Q.unrolledComponentHeightEquiv k (i,0) (j,0) f ∈
++      (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom
++        (i.val : ℤ) (j.val : ℤ) ↔
++    Q.unrolledComponentHeightEquiv k (i,0) (j,0) f ∈
++      (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom (i.val : ℤ) (j.val : ℤ)
++  rw [hAS.foundationPeriodPathKernel_zeroSheet_eq_Jacobian A Q i j]
++
++theorem ASRegular.foundationPeriodPathLinearKernel_shiftedZeroSheet_eq_Jacobian
++    (hAS : A.ASRegular Q) (m : ℤ) (i j : Q.Vertex) :
++    LinearMap.ker (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++        (Q.shift m (i,0)) (Q.shift m (j,0))) =
++      Q.unrolledJacobianLiftIdeal k (hAS.foundationPotential A Q)
++        (Q.shift m (i,0)) (Q.shift m (j,0)) := by
++  rw [← hAS.foundationPeriodPathLinearEvaluation_integer_shift_kernel A Q m (i,0) (j,0),
++    ← Q.unrolledSheetShiftLinearEquiv_Jacobian k (hAS.foundationPotential A Q) m (i,0) (j,0),
++    hAS.foundationPeriodPathLinearKernel_zeroSheet_eq_Jacobian A Q i j]
++
++theorem ASRegular.foundationPeriodPathLinearKernel_sameSheet_eq_Jacobian
++    (hAS : A.ASRegular Q) (m : ℤ) (i j : Q.Vertex) :
++    LinearMap.ker (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++        (i,m) (j,m)) =
++      Q.unrolledJacobianLiftIdeal k (hAS.foundationPotential A Q) (i,m) (j,m) := by
++  let P : ℤ → Prop := fun s =>
++    LinearMap.ker (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q)
++      (i,s) (j,s)) = Q.unrolledJacobianLiftIdeal k (hAS.foundationPotential A Q) (i,s) (j,s)
++  have h : P (0+m) :=
++    hAS.foundationPeriodPathLinearKernel_shiftedZeroSheet_eq_Jacobian A Q m i j
++  rw [zero_add] at h
++  exact h
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodSheetKernels.lean
+@@ -0,0 +1,27 @@
++import work.ASGinzburgDraft.FoundationPeriodEvaluationCoherence
++import work.ASGinzburgDraft.FoundationPeriodZeroKernel
++import work.ASGinzburgDraft.ArbitraryArrowKernelHeights
++
++/-! All same-sheet kernels of the actual AS periodic presentation
++are the native translates of the original foundation evaluation kernels. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet_eq
++    (hAS : A.ASRegular Q) (i j : Q.Vertex) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) (i,0) (j,0) =
++      A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) (i,0) (j,0) := by
++  apply LinearMap.ext
++  exact hAS.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet A Q _ _ rfl rfl
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_sheet_kernel
++    (hAS : A.ASRegular Q) (m : ℤ) (i j : Q.Vertex) :
++    Submodule.map (Q.unrolledSheetShiftLinearEquiv k m (i,0) (j,0)).toLinearMap
++        (LinearMap.ker (A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) (i,0) (j,0))) =
++      LinearMap.ker (A.arrowPathLinearEvaluation Q
++        (hAS.foundationPeriodIncomingElement A Q) (Q.shift m (i,0)) (Q.shift m (j,0))) := by
++  rw [← hAS.foundationPeriodPathLinearEvaluation_zeroSheet_eq A Q i j]
++  exact hAS.foundationPeriodPathLinearEvaluation_integer_shift_kernel A Q m (i,0) (j,0)
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodZeroJacobianKernel.lean
+@@ -0,0 +1,74 @@
++import work.ASGinzburgDraft.ZeroCutJacobianEvaluation
++import work.ASGinzburgDraft.FoundationPeriodJacobianCutKernel
++import work.ASGinzburgDraft.FoundationPeriodZeroKernel
++import work.ASGinzburgDraft.UnrolledJacobianSheetShift
++
++/-! On the original foundation, the actual periodic AS presentation
++kernel equals the full Jacobian ideal of its foundation potential. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationRelationLift_mem_Jacobian (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
++    (hAS.foundationRelationLift A Q i j a).val ∈
++      (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom (i.val : ℤ) (j.val : ℤ) := by
++  obtain ⟨a,hs,ht,hc⟩ := a
++  subst i
++  subst j
++  let b : {a : Q.Arrow // Q.cut a=true} := ⟨a,hc⟩
++  have h : hAS.foundationCutDerivativeUnroll A Q b ∈
++      Q.unrolledJacobianLiftIdeal k (hAS.foundationPotential A Q)
++        (Q.target a,0) (Q.source a,0) := by
++    apply (Q.unrolledJacobianLiftIdeal_mem_iff_erase k (hAS.foundationPotential A Q) _).mpr
++    change Q.unrolledPathEraseLinearMap k _ _ (hAS.foundationCutDerivativeUnroll A Q b) ∈ _
++    have he : Q.unrolledPathEraseLinearMap k (Q.target a,0) (Q.source a,0)
++        (hAS.foundationCutDerivativeUnroll A Q b) =
++        Q.pathCyclicDerivative k a (hAS.foundationPotential A Q) :=
++      Q.pathCutUnrollingEquiv_erase k (Q.target a) (Q.source a) 0 0
++        ⟨Q.pathCyclicDerivative k a (hAS.foundationPotential A Q),by
++          rw [hAS.foundationPotential_pathCyclicDerivative A Q b]
++          exact hAS.cutPathRelation_cut A Q b⟩
++    rw [he]
++    exact Q.pathCyclicDerivative_mem_pathJacobianIdeal k (hAS.foundationPotential A Q) a
++  change Q.unrolledComponentHeightEquiv k (Q.target a,0) (Q.source a,0)
++    (hAS.foundationCutDerivativeUnroll A Q b) ∈
++    (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom
++      (Q.height (Q.target a,0)) (Q.height (Q.source a,0)) at h
++  rw [hAS.foundationCutDerivativeUnroll_height A Q b] at h
++  exact h
++
++theorem ASRegular.foundationRelationIdeal_le_Jacobian (hAS : A.ASRegular Q)
++    (i j : ℤ) :
++    (hAS.foundationRelationIdeal A Q).hom i j ≤
++      (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom i j := by
++  apply LinearIdeal.generated_le
++  intro i j f hf
++  obtain ⟨x,y,hx,hy,a,rfl⟩ := hf
++  subst i
++  subst j
++  exact hAS.foundationRelationLift_mem_Jacobian A Q x y a
++
++theorem ASRegular.foundationPeriodPathKernel_zeroSheet_eq_Jacobian
++    (hAS : A.ASRegular Q) (i j : Q.Vertex) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom
++        (i.val : ℤ) (j.val : ℤ) =
++      (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom (i.val : ℤ) (j.val : ℤ) := by
++  apply le_antisymm
++  · rw [hAS.foundationPeriodPathKernel_zeroSheet A Q i j]
++    exact hAS.foundationRelationIdeal_le_Jacobian A Q _ _
++  · intro f hf
++    let g := (Q.unrolledComponentHeightEquiv k (i,0) (j,0)).symm f
++    have hg : g ∈ Q.unrolledJacobianLiftIdeal k (hAS.foundationPotential A Q) (i,0) (j,0) := by
++      change Q.unrolledComponentHeightEquiv k (i,0) (j,0) g ∈
++        (Q.unrolledJacobianIdeal k (hAS.foundationPotential A Q)).hom
++          (Q.height (i,0)) (Q.height (j,0))
++      rwa [LinearEquiv.apply_symm_apply]
++    have hz := A.arrowPathLinearEvaluation_zeroCutJacobianLift Q
++      (hAS.foundationPeriodIncomingElement A Q) (hAS.foundationPotential A Q)
++      (hAS.foundationPeriodJacobianRelation_cut_eval_zero A Q) (i,0) (j,0) rfl hg
++    have hk := (A.unrolledComponentHeightEquiv_mem_arrowPresentation_kernel_iff Q
++      (hAS.foundationPeriodIncomingElement A Q) (i,0) (j,0) g).mpr hz
++    rwa [LinearEquiv.apply_symm_apply] at hk
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodZeroKernel.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.FoundationPeriodZeroSheet
++import ASGinzburg.ASFoundationFullRelations
++
++/-! The zero-sheet kernel of the actual foundation-transported
++presentation is exactly the original minimal-relation ideal, without
++any additional relation-generation hypothesis. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet
++    (hAS : A.ASRegular Q) (x y : Q.LiftVertex) (hx : x.2=0) (hy : y.2=0)
++    (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y f=
++      A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) x y f := by
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp only [map_add,hf,hg]
++  | single p c =>
++    rw [A.arrowPathLinearEvaluation_single,A.unrolledPathLinearEvaluation_single,
++      hAS.foundationPeriodPathEvaluation_zeroSheet A Q p hx hy]
++
++theorem ASRegular.foundationPeriodPathPresentation_zeroSheet (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).map (i.val : ℤ) (j.val : ℤ)=
++      (hAS.unrolledPathPresentation A Q).map (i.val : ℤ) (j.val : ℤ) := by
++  have hs (t : Q.Vertex) : Q.heightEquiv.symm (t.val : ℤ)=(t,0) := by
++    apply Q.height_bijective.injective
++    rw [Q.height_heightEquiv_symm]
++    simp [CutQuiver.height]
++  apply LinearMap.ext
++  intro f
++  change A.homTransport _ _ (i.val : ℤ) (j.val : ℤ) _ _
++    (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) _ _ f)=
++      A.homTransport _ _ (i.val : ℤ) (j.val : ℤ) _ _
++        (A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) _ _ f)
++  apply congrArg (A.homTransport _ _ (i.val : ℤ) (j.val : ℤ) _ _)
++  exact hAS.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet A Q _ _
++    (by rw [hs]) (by rw [hs]) f
++
++theorem ASRegular.foundationPeriodPathKernel_zeroSheet (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) :
++    (A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).kernel.hom
++      (i.val : ℤ) (j.val : ℤ)=
++      (hAS.foundationRelationIdeal A Q).hom (i.val : ℤ) (j.val : ℤ) := by
++  rw [hAS.foundationRelationIdeal_eq_kernel A Q i j]
++  change LinearMap.ker
++    ((A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).map
++      (i.val : ℤ) (j.val : ℤ))=LinearMap.ker
++        ((hAS.unrolledPathPresentation A Q).map (i.val : ℤ) (j.val : ℤ))
++  rw [hAS.foundationPeriodPathPresentation_zeroSheet A Q i j]
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/FoundationPeriodZeroSheet.lean
+@@ -0,0 +1,55 @@
++import work.ASGinzburgDraft.FoundationPeriodMinimalPresentation
++import ASGinzburg.PathUnrolling
++
++/-! The actual foundation-transported presentation agrees on the
++whole zero sheet with the original AS resolution presentation. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem UnrolledPath.sheet_le {x y : Q.LiftVertex} (p : Q.UnrolledPath x y) : x.2≤y.2 := by
++  have h := p.erase_cutDegree
++  have hp : 0≤(p.erase.cutDegree : ℤ) := Int.natCast_nonneg _
++  omega
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++theorem ASRegular.foundationPeriodPathEvaluation_zeroSheet (hAS : A.ASRegular Q)
++    {x y : Q.LiftVertex} (p : Q.UnrolledPath x y) :
++    x.2=0 → y.2=0 →
++      A.arrowPathEvaluation Q (hAS.foundationPeriodIncomingElement A Q) p=
++        A.unrolledPathEvaluation Q (hAS.resolution A Q) p := by
++  induction p with
++  | nil => intro _ _;simp only [arrowPathEvaluation,unrolledPathEvaluation]
++  | @snoc y a p ih =>
++    intro hx hy
++    have hm : (Q.incomingSource y a).2=0 := by
++      have hp := p.sheet_le
++      have hc : 0≤(Q.cutDegree a.val : ℤ) := Int.natCast_nonneg _
++      change x.2≤y.2-(Q.cutDegree a.val : ℤ) at hp
++      change y.2-(Q.cutDegree a.val : ℤ)=0
++      omega
++    have ha : hAS.foundationPeriodIncomingElement A Q y a=
++        (hAS.resolution A Q y).incomingElement a := by
++      cases y with
++      | mk j m =>
++        change m=0 at hy
++        subst m
++        exact hAS.foundationPeriodIncomingElement_zero A Q j a
++    rw [arrowPathEvaluation,unrolledPathEvaluation,ha,ih hx hm]
++
++theorem ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet (hAS : A.ASRegular Q)
++    (i j : Q.Vertex) (f : Q.UnrolledPathComponent k (i,0) (j,0)) :
++    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) (i,0) (j,0) f=
++      A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) (i,0) (j,0) f := by
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp only [map_add,hf,hg]
++  | single p c =>
++    rw [A.arrowPathLinearEvaluation_single,A.unrolledPathLinearEvaluation_single,
++      hAS.foundationPeriodPathEvaluation_zeroSheet A Q p rfl rfl]
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodGeneratorClasses.lean
+@@ -0,0 +1,50 @@
++import work.ASGinzburgDraft.PeriodSheetComponents
++
++/-! The transported basis vectors are the quotient classes of the
++actual transported AS generator representatives, with explicit index
++transport on the true product quotients. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++noncomputable def homTransportIndecomposableEquiv (i j i' j' : ℤ) (hi : i=i') (hj : j=j') :
++    (A.Hom i j ⧸ Submodule.span k (A.products i j)) ≃ₗ[k]
++      (A.Hom i' j' ⧸ Submodule.span k (A.products i' j')) := by
++  subst i'
++  subst j'
++  exact LinearEquiv.refl k _
++
++theorem homTransportIndecomposableEquiv_apply_mk (i j i' j' : ℤ)
++    (hi : i=i') (hj : j=j') (f : A.Hom i j) :
++    A.homTransportIndecomposableEquiv i j i' j' hi hj (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (A.homTransport i j i' j' hi hj f) := by
++  subst i'
++  subst j'
++  rfl
++
++namespace ASResolution
++variable {A} {Q : CutQuiver} {w : Q.LiftVertex} (R : A.ASResolution Q w)
++  {p : ℤ} (E : A.PeriodIso p)
++
++noncomputable def transportedGeneratorBasis (n i : ℤ) (hi : i<Q.height w)
++    (i' j' : ℤ) (h₁ : i+n*p=i') (h₂ : Q.height w+n*p=j') :
++    Module.Basis (GeneratorIndex (Q:=Q) (w:=w) i) k
++      (A.Hom i' j' ⧸ Submodule.span k (A.products i' j')) :=
++  (R.indecomposableGeneratorBasis i hi).map
++    (((E.powInt n).indecomposableEquiv i (Q.height w)).trans
++      (A.homTransportIndecomposableEquiv _ _ _ _ h₁ h₂))
++
++theorem transportedGeneratorBasis_apply (n i : ℤ) (hi : i<Q.height w)
++    (i' j' : ℤ) (h₁ : i+n*p=i') (h₂ : Q.height w+n*p=j')
++    (a : GeneratorIndex (Q:=Q) (w:=w) i) :
++    R.transportedGeneratorBasis E n i hi i' j' h₁ h₂ a=
++      Submodule.Quotient.mk (A.homTransport _ _ _ _ h₁ h₂
++        ((E.powInt n).map i (Q.height w) (R.incomingGenerator i a))) := by
++  rw [transportedGeneratorBasis,Module.Basis.map_apply,R.indecomposableGeneratorBasis_apply]
++  change A.homTransportIndecomposableEquiv _ _ _ _ h₁ h₂
++    ((E.powInt n).indecomposableEquiv i (Q.height w)
++      (Submodule.Quotient.mk (R.incomingGenerator i a)))=_
++  rw [PeriodIso.indecomposableEquiv_apply_mk,A.homTransportIndecomposableEquiv_apply_mk]
++
++end ASResolution
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodGeneratorIndex.lean
+@@ -0,0 +1,49 @@
++import work.ASGinzburgDraft.PeriodIsoIteration
++
++/-! The genuine unrolled arrow labels and indecomposable bases can
++be transported through every sheet using the AS-derived period. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem incomingSource_shift (r : ℤ) (w : Q.LiftVertex) (a : Q.incomingArrows w) :
++    Q.incomingSource (Q.shift r w) a=Q.shift r (Q.incomingSource w a) := by
++  apply Prod.ext
++  · rfl
++  · change w.2+r-(Q.cutDegree a.val : ℤ)=w.2-(Q.cutDegree a.val : ℤ)+r
++    ring
++
++theorem incomingSource_height_shift (r : ℤ) (w : Q.LiftVertex) (a : Q.incomingArrows w) :
++    Q.height (Q.incomingSource (Q.shift r w) a)=
++      Q.height (Q.incomingSource w a)+Q.vertices*r := by
++  rw [Q.incomingSource_shift,Q.height_shift]
++
++def generatorShiftIndexEquiv (r : ℤ) (w : Q.LiftVertex) (i : ℤ) :
++    ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=w) i ≃
++      ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=Q.shift r w) (i+Q.vertices*r) where
++  toFun a := ⟨a.val,by rw [Q.incomingSource_height_shift,a.property]⟩
++  invFun a := ⟨a.val,by
++    have h := a.property
++    rw [Q.incomingSource_height_shift] at h
++    omega⟩
++  left_inv a := rfl
++  right_inv a := rfl
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def ASRegular.periodShiftGeneratorBasis (hAS : A.ASRegular Q)
++    (r : ℤ) (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w) :
++    Module.Basis (ASResolution.GeneratorIndex (Q:=Q) (w:=Q.shift r w) (i+Q.vertices*r)) k
++      (A.Hom (i+Q.vertices*r) (Q.height (Q.shift r w)) ⧸
++        Submodule.span k (A.products (i+Q.vertices*r) (Q.height (Q.shift r w)))) := by
++  rw [Q.height_shift]
++  rw [mul_comm (Q.vertices : ℤ) r]
++  let b := ((hAS.incomingBasisSystem A Q).basis w i hi).map
++    ((hAS.periodIso A Q).integerIndecomposableEquiv r i (Q.height w))
++  simpa only [mul_comm] using
++    b.reindex (Q.generatorShiftIndexEquiv r w i)
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean
+@@ -0,0 +1,52 @@
++import ASGinzburg.ASPeriodicity
++import ASGinzburg.ASIncomingBasisSystems
++
++/-! A genuine multiplicative period isomorphism preserves the actual
++positive-product subspaces and hence the indecomposable quotients.
++The AS application uses the period already derived from ASRegular. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++
++namespace PeriodIso
++variable (E : A.PeriodIso p)
++
++theorem image_products (i j : ℤ) :
++    E.map i j '' A.products i j=A.products (i+p) (j+p) := by
++  ext x
++  constructor
++  · rintro ⟨f,⟨m,him,hmj,a,b,rfl⟩,rfl⟩
++    exact ⟨m+p,by omega,by omega,E.map i m a,E.map m j b,(E.map_comp a b).symm⟩
++  · rintro ⟨l,hil,hlj,a,b,rfl⟩
++    obtain ⟨m,hm⟩ : ∃ m : ℤ,m+p=l := ⟨l-p,sub_add_cancel l p⟩
++    subst l
++    obtain ⟨a',rfl⟩ := (E.map i m).surjective a
++    obtain ⟨b',rfl⟩ := (E.map m j).surjective b
++    exact ⟨A.comp b' a',⟨m,by omega,by omega,a',b',rfl⟩,E.map_comp a' b'⟩
++
++theorem map_products_span (i j : ℤ) :
++    Submodule.map (E.map i j).toLinearMap (Submodule.span k (A.products i j))=
++      Submodule.span k (A.products (i+p) (j+p)) := by
++  rw [Submodule.map_span]
++  change Submodule.span k (E.map i j '' A.products i j)=_
++  rw [E.image_products i j]
++
++noncomputable def indecomposableEquiv (i j : ℤ) :
++    (A.Hom i j ⧸ Submodule.span k (A.products i j)) ≃ₗ[k]
++      (A.Hom (i+p) (j+p) ⧸ Submodule.span k (A.products (i+p) (j+p))) :=
++  Submodule.Quotient.equiv _ _ (E.map i j) (E.map_products_span i j)
++
++theorem indecomposableEquiv_apply_mk (i j : ℤ) (f : A.Hom i j) :
++    E.indecomposableEquiv i j (Submodule.Quotient.mk f)=
++      Submodule.Quotient.mk (E.map i j f) := rfl
++
++end PeriodIso
++
++noncomputable def ASRegular.periodIndecomposableEquiv (A : ZAlgebra.{u,v} k)
++    (Q : CutQuiver) (hAS : A.ASRegular Q) (i j : ℤ) :
++    (A.Hom i j ⧸ Submodule.span k (A.products i j)) ≃ₗ[k]
++      (A.Hom (i+Q.vertices) (j+Q.vertices) ⧸
++        Submodule.span k (A.products (i+Q.vertices) (j+Q.vertices))) :=
++  (hAS.periodIso A Q).indecomposableEquiv i j
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodIntegerSuccessors.lean
+@@ -0,0 +1,90 @@
++import work.ASGinzburgDraft.PeriodInverseCancellation
++
++/-! All integer period iterates obey the actual one-step recurrence,
++including the negative sheets and the -1/0 boundary. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++
++theorem map_inverse_powNat_succ (E : A.PeriodIso p) (n : ℕ) (i j : ℤ)
++    (f : A.Hom i j) :
++    A.homTransport
++      ((i + ((n + 1 : ℕ) : ℤ) * (-p)) + p)
++      ((j + ((n + 1 : ℕ) : ℤ) * (-p)) + p)
++      (i + (n : ℤ) * (-p)) (j + (n : ℤ) * (-p))
++      (by push_cast; ring) (by push_cast; ring)
++      (E.map (i + ((n + 1 : ℕ) : ℤ) * (-p))
++        (j + ((n + 1 : ℕ) : ℤ) * (-p))
++        ((E.inverse.powNat (n + 1)).map i j f)) =
++      (E.inverse.powNat n).map i j f := by
++  rw [powNat_succ_apply, map_homTransport, ASGinzburg.ZAlgebra.homTransport_trans]
++  exact E.map_inverse_cancel (i + (n : ℤ) * (-p))
++    (j + (n : ℤ) * (-p)) ((E.inverse.powNat n).map i j f)
++
++end ASGinzburg.ZAlgebra.PeriodIso
++
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++
++theorem powInt_neg_nat_apply (E : A.PeriodIso p) (n : ℕ) (i j : ℤ)
++    (f : A.Hom i j) :
++    (E.powInt (-(n : ℤ))).map i j f =
++      A.homTransport (i + (n : ℤ) * (-p)) (j + (n : ℤ) * (-p))
++        (i + (-(n : ℤ)) * p) (j + (-(n : ℤ)) * p)
++        (by ring) (by ring) ((E.inverse.powNat n).map i j f) := by
++  cases n with
++  | zero =>
++    change (E.powNat 0).map i j f =
++      A.homTransport (i+(0 : ℤ)*(-p)) (j+(0 : ℤ)*(-p))
++        (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) (by ring) (by ring)
++        ((E.inverse.powNat 0).map i j f)
++    apply (A.homTransport (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) i j
++      (by ring) (by ring)).injective
++    rw [ASGinzburg.ZAlgebra.homTransport_trans, E.powNat_zero_map,
++      E.inverse.powNat_zero_map]
++  | succ n =>
++    change (E.powInt (Int.negSucc n)).map i j f = _
++    rw [powInt, changePeriod_map]
++    rfl
++
++theorem powInt_negSucc_apply (E : A.PeriodIso p) (n : ℕ) (i j : ℤ)
++    (f : A.Hom i j) :
++    (E.powInt (Int.negSucc n)).map i j f =
++      A.homTransport (i + ((n + 1 : ℕ) : ℤ) * (-p))
++        (j + ((n + 1 : ℕ) : ℤ) * (-p))
++        (i + Int.negSucc n * p) (j + Int.negSucc n * p)
++        (by rw [Int.negSucc_eq]; push_cast; ring)
++        (by rw [Int.negSucc_eq]; push_cast; ring)
++        ((E.inverse.powNat (n + 1)).map i j f) := by
++  rw [powInt, changePeriod_map]
++
++theorem powInt_map_transport (E : A.PeriodIso p) (r s : ℤ) (h : r = s)
++    (i j i' j' : ℤ) (hi : i + r*p = i') (hj : j + r*p = j') (f : A.Hom i j) :
++    A.homTransport (i+r*p) (j+r*p) i' j' hi hj ((E.powInt r).map i j f) =
++      A.homTransport (i+s*p) (j+s*p) i' j'
++        ((congrArg (fun t => i+t*p) h.symm).trans hi)
++        ((congrArg (fun t => j+t*p) h.symm).trans hj) ((E.powInt s).map i j f) := by
++  subst s
++  rfl
++
++theorem powInt_succ_apply (E : A.PeriodIso p) (n i j : ℤ) (f : A.Hom i j) :
++    (E.powInt (n + 1)).map i j f =
++      A.homTransport ((i + n * p) + p) ((j + n * p) + p)
++        (i + (n + 1) * p) (j + (n + 1) * p) (by ring) (by ring)
++        (E.map (i + n * p) (j + n * p) ((E.powInt n).map i j f)) := by
++  cases n with
++  | ofNat n =>
++    exact E.powNat_succ_apply n i j f
++  | negSucc n =>
++    have hn : Int.negSucc n + 1 = -(n : ℤ) := by omega
++    apply (A.homTransport (i + (Int.negSucc n + 1) * p)
++      (j + (Int.negSucc n + 1) * p) (i + (n : ℤ) * (-p))
++      (j + (n : ℤ) * (-p)) (by rw [hn]; ring) (by rw [hn]; ring)).injective
++    rw [E.powInt_map_transport (Int.negSucc n + 1) (-(n : ℤ)) hn, powInt_neg_nat_apply, powInt_negSucc_apply, map_homTransport,
++      ASGinzburg.ZAlgebra.homTransport_trans, ASGinzburg.ZAlgebra.homTransport_trans,
++      ASGinzburg.ZAlgebra.homTransport_trans]
++    change (E.inverse.powNat n).map i j f = _
++    exact (E.map_inverse_powNat_succ n i j f).symm
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodInverseCancellation.lean
+@@ -0,0 +1,28 @@
++import work.ASGinzburgDraft.PeriodIterationFormulas
++
++/-! Both actual period-inverse cancellations, with their true
++component index transports, for negative-sheet coherence. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++
++theorem inverse_map_apply (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    E.inverse.map i j f=E.inverseComponent i j f := rfl
++
++theorem map_inverse_cancel (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    A.homTransport ((i-p)+p) ((j-p)+p) i j (sub_add_cancel i p) (sub_add_cancel j p)
++      (E.map (i-p) (j-p) (E.inverse.map i j f))=f := by
++  change E.shiftedMap i j (E.inverseComponent i j f)=f
++  exact (E.shiftedMap i j).apply_symm_apply f
++
++theorem inverse_map_cancel (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    E.inverse.map (i+p) (j+p) (E.map i j f)=
++      A.homTransport i j ((i+p)-p) ((j+p)-p) (by ring) (by ring) f := by
++  change E.inverseComponent (i+p) (j+p) (E.map i j f)=_
++  apply (E.shiftedMap (i+p) (j+p)).injective
++  rw [inverseComponent,LinearEquiv.apply_symm_apply]
++  dsimp only [shiftedMap,LinearEquiv.trans_apply]
++  rw [ASGinzburg.ZAlgebra.PeriodIso.map_homTransport,ASGinzburg.ZAlgebra.homTransport_trans]
++  rfl
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodIsoIteration.lean
+@@ -0,0 +1,45 @@
++import work.ASGinzburgDraft.PeriodIndecomposableEquiv
++
++/-! Actual component isomorphisms for every integer multiple of a
++proved period, with identity and multiplication preservation. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p q : ℤ}
++
++def changePeriod (E : A.PeriodIso p) (h : p=q) : A.PeriodIso q := by
++  subst q
++  exact E
++
++def zeroPeriod : A.PeriodIso 0 where
++  map i j := A.homTransport i j (i+0) (j+0) (by omega) (by omega)
++  map_id i := A.homTransport_id i (i+0) (by omega)
++  map_comp f g := A.homTransport_comp _ _ _ _ _ _ (by omega) (by omega) (by omega) f g
++
++def compose (E : A.PeriodIso p) (F : A.PeriodIso q) : A.PeriodIso (p+q) where
++  map i j := (E.map i j).trans ((F.map (i+p) (j+p)).trans
++    (A.homTransport ((i+p)+q) ((j+p)+q) (i+(p+q)) (j+(p+q))
++      (add_assoc i p q) (add_assoc j p q)))
++  map_id i := by
++    dsimp only [LinearEquiv.trans_apply]
++    rw [E.map_id,F.map_id,A.homTransport_id]
++  map_comp f g := by
++    dsimp only [LinearEquiv.trans_apply]
++    rw [E.map_comp,F.map_comp,A.homTransport_comp]
++
++noncomputable def powNat (E : A.PeriodIso p) : ∀ n : ℕ,A.PeriodIso ((n : ℤ)*p)
++  | 0 => by simpa only [Nat.cast_zero,zero_mul] using (zeroPeriod (A:=A))
++  | n+1 => ((E.powNat n).compose E).changePeriod (by push_cast;ring)
++
++noncomputable def powInt (E : A.PeriodIso p) : ∀ n : ℤ,A.PeriodIso (n*p)
++  | .ofNat n => E.powNat n
++  | .negSucc n => ((E.inverse).powNat (n+1)).changePeriod (by
++      push_cast
++      rw [Int.negSucc_eq]
++      ring)
++
++noncomputable def integerIndecomposableEquiv (E : A.PeriodIso p) (n i j : ℤ) :
++    (A.Hom i j ⧸ Submodule.span k (A.products i j)) ≃ₗ[k]
++      (A.Hom (i+n*p) (j+n*p) ⧸ Submodule.span k (A.products (i+n*p) (j+n*p))) :=
++  (E.powInt n).indecomposableEquiv i j
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodIterationFormulas.lean
+@@ -0,0 +1,37 @@
++import work.ASGinzburgDraft.FoundationPeriodGeneratorBasis
++
++/-! Concrete zero-step and successor formulas for the actual
++period iterates, including every necessary component index transport. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p q : ℤ}
++
++theorem changePeriod_map (E : A.PeriodIso p) (h : p=q) (i j : ℤ) (f : A.Hom i j) :
++    (E.changePeriod h).map i j f=
++      A.homTransport (i+p) (j+p) (i+q) (j+q)
++        (congrArg (fun t => i+t) h) (congrArg (fun t => j+t) h) (E.map i j f) := by
++  subst q
++  rfl
++
++theorem compose_map (E : A.PeriodIso p) (F : A.PeriodIso q)
++    (i j : ℤ) (f : A.Hom i j) :
++    (E.compose F).map i j f=
++      A.homTransport ((i+p)+q) ((j+p)+q) (i+(p+q)) (j+(p+q))
++        (add_assoc i p q) (add_assoc j p q)
++        (F.map (i+p) (j+p) (E.map i j f)) := rfl
++
++theorem powNat_zero_apply (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    (E.powNat 0).map i j f=
++      A.homTransport i j (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) (by ring) (by ring) f := by
++  apply (A.homTransport (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) i j (by ring) (by ring)).injective
++  rw [E.powNat_zero_map,homTransport_inverse]
++
++theorem powNat_succ_apply (E : A.PeriodIso p) (n : ℕ) (i j : ℤ) (f : A.Hom i j) :
++    (E.powNat (n+1)).map i j f=
++      A.homTransport ((i+(n : ℤ)*p)+p) ((j+(n : ℤ)*p)+p)
++        (i+((n+1 : ℕ) : ℤ)*p) (j+((n+1 : ℕ) : ℤ)*p)
++        (by push_cast;ring) (by push_cast;ring)
++        (E.map (i+(n : ℤ)*p) (j+(n : ℤ)*p) ((E.powNat n).map i j f)) := by
++  rw [powNat,changePeriod_map,compose_map,ASGinzburg.ZAlgebra.homTransport_trans]
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodSheetComponents.lean
+@@ -0,0 +1,88 @@
++import work.ASGinzburgDraft.FoundationPeriodBasisSystem
++import ASGinzburg.ArbitraryArrowPathEvaluation
++
++/-! Actual sheet-wise component maps preserve multiplication and units.
++Arrow representatives on all sheets are transported from the zero sheet;
++their quotient-basis comparison and one-step coherence remain to be proved. -/
++namespace ASGinzburg.CutQuiver
++variable (Q : CutQuiver)
++
++theorem height_zeroSheet_period (w : Q.LiftVertex) :
++    Q.height (w.1,0)+w.2*Q.vertices=Q.height w := by
++  simp only [height,mul_zero,add_zero]
++  ring
++
++theorem incomingSource_height_zeroSheet_period (w : Q.LiftVertex) (a : Q.incomingArrows w) :
++    Q.height (Q.incomingSource (w.1,0) a)+w.2*Q.vertices=
++      Q.height (Q.incomingSource w a) := by
++  simp only [incomingSource,liftedSource,height]
++  ring
++
++end ASGinzburg.CutQuiver
++
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} (Q : CutQuiver)
++
++theorem homTransport_inverse (i j i' j' : ℤ) (hi : i=i') (hj : j=j') (f : A.Hom i j) :
++    A.homTransport i' j' i j hi.symm hj.symm (A.homTransport i j i' j' hi hj f)=f := by
++  subst i'
++  subst j'
++  rfl
++
++theorem PeriodIso.cast_map_transport {p q : ℤ} (h : p=q) (E : A.PeriodIso p)
++    (i j i' j' : ℤ) (hi : i+p=i') (hj : j+p=j') (f : A.Hom i j) :
++    A.homTransport (i+q) (j+q) i' j'
++      ((congrArg (fun t => i+t) h.symm).trans hi)
++      ((congrArg (fun t => j+t) h.symm).trans hj)
++      ((cast (congrArg (fun t => A.PeriodIso t) h) E).map i j f)=
++      A.homTransport (i+p) (j+p) i' j' hi hj (E.map i j f) := by
++  subst q
++  rfl
++
++theorem PeriodIso.powNat_zero_map {p : ℤ} (E : A.PeriodIso p) (i j : ℤ) (f : A.Hom i j) :
++    A.homTransport (i+(0 : ℤ)*p) (j+(0 : ℤ)*p) i j (by ring) (by ring)
++      ((E.powNat 0).map i j f)=f := by
++  calc
++    _=A.homTransport (i+0) (j+0) i j (add_zero i) (add_zero j)
++      ((zeroPeriod (A:=A)).map i j f) :=
++      PeriodIso.cast_map_transport (zero_mul p).symm (zeroPeriod (A:=A))
++        i j i j (add_zero i) (add_zero j) f
++    _=f := homTransport_inverse i j (i+0) (j+0) (add_zero i).symm (add_zero j).symm f
++
++noncomputable def PeriodIso.sheetMap (E : A.PeriodIso Q.vertices) (r : ℤ)
++    (x y : Q.LiftVertex) :
++    A.Hom (Q.height x) (Q.height y) ≃ₗ[k]
++      A.Hom (Q.height (Q.shift r x)) (Q.height (Q.shift r y)) :=
++  ((E.powInt r).map (Q.height x) (Q.height y)).trans
++    (A.homTransport _ _ _ _ (by rw [Q.height_shift];ring) (by rw [Q.height_shift];ring))
++
++theorem PeriodIso.sheetMap_id (E : A.PeriodIso Q.vertices) (r : ℤ) (x : Q.LiftVertex) :
++    E.sheetMap Q r x x (A.id (Q.height x))=A.id (Q.height (Q.shift r x)) := by
++  dsimp only [sheetMap,LinearEquiv.trans_apply]
++  rw [(E.powInt r).map_id,A.homTransport_id]
++
++theorem PeriodIso.sheetMap_comp (E : A.PeriodIso Q.vertices) (r : ℤ)
++    (x y z : Q.LiftVertex) (f : A.Hom (Q.height x) (Q.height y))
++    (g : A.Hom (Q.height y) (Q.height z)) :
++    E.sheetMap Q r x z (A.comp g f)=
++      A.comp (E.sheetMap Q r y z g) (E.sheetMap Q r x y f) := by
++  dsimp only [sheetMap,LinearEquiv.trans_apply]
++  rw [(E.powInt r).map_comp,A.homTransport_comp]
++
++noncomputable def ASRegular.foundationPeriodIncomingElement (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++    (hAS : A.ASRegular Q) : A.IncomingElementFamily Q := fun w a =>
++  let w₀ : Q.LiftVertex := (w.1,0)
++  let E := hAS.periodIso A Q
++  (((E.powInt w.2).map (Q.height (Q.incomingSource w₀ a)) (Q.height w₀)).trans
++    (A.homTransport _ _ _ _ (Q.incomingSource_height_zeroSheet_period w a)
++      (Q.height_zeroSheet_period w))) ((hAS.resolution A Q w₀).incomingElement a)
++
++theorem ASRegular.foundationPeriodIncomingElement_zero (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++    (hAS : A.ASRegular Q) (j : Q.Vertex) (a : Q.incomingArrows (j,0)) :
++    hAS.foundationPeriodIncomingElement A Q (j,0) a=
++      (hAS.resolution A Q (j,0)).incomingElement a := by
++  dsimp only [foundationPeriodIncomingElement,PeriodIso.powInt,LinearEquiv.trans_apply]
++  exact PeriodIso.powNat_zero_map _ _ _ _
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean
+@@ -0,0 +1,58 @@
++import work.ASGinzburgDraft.PeriodicArrowLinearKernel
++import work.ASGinzburgDraft.UnrolledPathShiftArithmetic
++
++/-! Evaluation of a finite unrolled path is zero on one sheet
++exactly when it is zero after any integer sheet shift. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q) (E : A.PeriodIso Q.vertices)
++variable (hG : G.PeriodCoherent A Q E)
++include E hG
++
++theorem arrowPathEvaluation_one_shift_eq_zero_iff {x y : Q.LiftVertex}
++    (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G (p.shift 1) = 0 ↔ A.arrowPathEvaluation Q G p = 0 := by
++  rw [A.arrowPathEvaluation_shift Q G E hG]
++  exact (E.liftedStepMap A Q x y).map_eq_zero_iff
++
++omit E hG in
++theorem arrowPathEvaluation_transport_eq_zero_iff {x y x' y' : Q.LiftVertex}
++    (hx : x=x') (hy : y=y') (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G (p.transport hx hy) = 0 ↔
++      A.arrowPathEvaluation Q G p = 0 := by
++  rw [A.arrowPathEvaluation_transport Q G]
++  exact (A.homTransport _ _ _ _ (congrArg Q.height hx) (congrArg Q.height hy)).map_eq_zero_iff
++
++omit E hG in
++theorem arrowPathEvaluation_shift_add_eq_zero_iff (r s : ℤ) {x y : Q.LiftVertex}
++    (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G ((p.shift r).shift s) = 0 ↔
++      A.arrowPathEvaluation Q G (p.shift (r+s)) = 0 := by
++  rw [CutQuiver.UnrolledPath.shift_add]
++  exact A.arrowPathEvaluation_transport_eq_zero_iff Q G _ _ _
++
++theorem arrowPathEvaluation_shift_step_eq_zero_iff (r : ℤ) {x y : Q.LiftVertex}
++    (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G (p.shift (r+1)) = 0 ↔
++      A.arrowPathEvaluation Q G (p.shift r) = 0 :=
++  (A.arrowPathEvaluation_shift_add_eq_zero_iff Q G r 1 p).symm.trans
++    (A.arrowPathEvaluation_one_shift_eq_zero_iff Q G E hG (p.shift r))
++
++theorem arrowPathEvaluation_integer_shift_eq_zero_iff (r : ℤ) {x y : Q.LiftVertex}
++    (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G (p.shift r) = 0 ↔ A.arrowPathEvaluation Q G p = 0 := by
++  induction r using Int.induction_on with
++  | zero =>
++    rw [CutQuiver.UnrolledPath.shift_zero]
++    exact A.arrowPathEvaluation_transport_eq_zero_iff Q G _ _ _
++  | succ n ih =>
++    exact (A.arrowPathEvaluation_shift_step_eq_zero_iff Q G E hG n p).trans ih
++  | pred n ih =>
++    let P : ℤ → Prop := fun s => A.arrowPathEvaluation Q G (p.shift s) = 0
++    have step : P ((-(n : ℤ)-1)+1) ↔ P (-(n : ℤ)-1) :=
++      A.arrowPathEvaluation_shift_step_eq_zero_iff Q G E hG (-(n : ℤ)-1) p
++    rw [sub_add_cancel] at step
++    exact step.symm.trans ih
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean
+@@ -0,0 +1,92 @@
++import work.ASGinzburgDraft.PeriodicArrowIntegerKernels
++import work.ASGinzburgDraft.UnrolledLinearShiftArithmetic
++
++/-! Every integer sheet shift preserves the actual evaluation kernel
++of all finite linear combinations, rather than only of individual paths. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q) (E : A.PeriodIso Q.vertices)
++variable (hG : G.PeriodCoherent A Q E)
++include E hG
++
++omit E hG in
++theorem arrowPathLinearEvaluation_transport {x y x' y' : Q.LiftVertex}
++    (hx : x=x') (hy : y=y') (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G x' y'
++      (Finsupp.mapDomain (CutQuiver.UnrolledPath.endpointEquiv Q hx hy) f) =
++      A.homTransport (Q.height x) (Q.height y) (Q.height x') (Q.height y')
++        (congrArg Q.height hx) (congrArg Q.height hy)
++        (A.arrowPathLinearEvaluation Q G x y f) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [Finsupp.mapDomain_add, map_add, hf, hg]
++  | single p c =>
++    simp only [Finsupp.mapDomain_single, arrowPathLinearEvaluation_single, map_smul]
++    exact congrArg (fun t => c • t) (A.arrowPathEvaluation_transport Q G hx hy p)
++
++omit E hG in
++theorem arrowPathLinearEvaluation_transport_eq_zero_iff {x y x' y' : Q.LiftVertex}
++    (hx : x=x') (hy : y=y') (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G x' y'
++      (Finsupp.mapDomain (CutQuiver.UnrolledPath.endpointEquiv Q hx hy) f) = 0 ↔
++      A.arrowPathLinearEvaluation Q G x y f = 0 := by
++  rw [A.arrowPathLinearEvaluation_transport Q G]
++  exact (A.homTransport _ _ _ _ (congrArg Q.height hx) (congrArg Q.height hy)).map_eq_zero_iff
++
++omit E hG in
++theorem arrowPathLinearEvaluation_shift_add_eq_zero_iff (r s : ℤ)
++    {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G (Q.shift s (Q.shift r x)) (Q.shift s (Q.shift r y))
++      (Q.unrolledSheetShiftLinearEquiv k s (Q.shift r x) (Q.shift r y)
++        (Q.unrolledSheetShiftLinearEquiv k r x y f)) = 0 ↔
++      A.arrowPathLinearEvaluation Q G (Q.shift (r+s) x) (Q.shift (r+s) y)
++        (Q.unrolledSheetShiftLinearEquiv k (r+s) x y f) = 0 := by
++  rw [Q.unrolledSheetShiftLinearEquiv_add k]
++  exact A.arrowPathLinearEvaluation_transport_eq_zero_iff Q G _ _ _
++
++theorem arrowPathLinearEvaluation_shift_step_eq_zero_iff (r : ℤ)
++    {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G (Q.shift (r+1) x) (Q.shift (r+1) y)
++      (Q.unrolledSheetShiftLinearEquiv k (r+1) x y f) = 0 ↔
++      A.arrowPathLinearEvaluation Q G (Q.shift r x) (Q.shift r y)
++        (Q.unrolledSheetShiftLinearEquiv k r x y f) = 0 :=
++  (A.arrowPathLinearEvaluation_shift_add_eq_zero_iff Q G r 1 f).symm.trans
++    (A.arrowPathLinearEvaluation_shift_eq_zero_iff Q G E hG
++      (Q.unrolledSheetShiftLinearEquiv k r x y f))
++
++theorem arrowPathLinearEvaluation_integer_shift_eq_zero_iff (r : ℤ)
++    {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G (Q.shift r x) (Q.shift r y)
++      (Q.unrolledSheetShiftLinearEquiv k r x y f) = 0 ↔
++      A.arrowPathLinearEvaluation Q G x y f = 0 := by
++  induction r using Int.induction_on with
++  | zero =>
++    rw [Q.unrolledSheetShiftLinearEquiv_zero k]
++    exact A.arrowPathLinearEvaluation_transport_eq_zero_iff Q G _ _ _
++  | succ n ih =>
++    exact (A.arrowPathLinearEvaluation_shift_step_eq_zero_iff Q G E hG n f).trans ih
++  | pred n ih =>
++    let P : ℤ → Prop := fun s =>
++      A.arrowPathLinearEvaluation Q G (Q.shift s x) (Q.shift s y)
++        (Q.unrolledSheetShiftLinearEquiv k s x y f) = 0
++    have step : P ((-(n : ℤ)-1)+1) ↔ P (-(n : ℤ)-1) :=
++      A.arrowPathLinearEvaluation_shift_step_eq_zero_iff Q G E hG (-(n : ℤ)-1) f
++    rw [sub_add_cancel] at step
++    exact step.symm.trans ih
++
++theorem arrowPathLinearEvaluation_integer_shift_kernel (r : ℤ) (x y : Q.LiftVertex) :
++    Submodule.map (Q.unrolledSheetShiftLinearEquiv k r x y).toLinearMap
++      (LinearMap.ker (A.arrowPathLinearEvaluation Q G x y)) =
++      LinearMap.ker
++        (A.arrowPathLinearEvaluation Q G (Q.shift r x) (Q.shift r y)) := by
++  ext f
++  constructor
++  · rintro ⟨g, hg, rfl⟩
++    exact (A.arrowPathLinearEvaluation_integer_shift_eq_zero_iff Q G E hG r g).mpr hg
++  · intro hf
++    obtain ⟨g, rfl⟩ := (Q.unrolledSheetShiftLinearEquiv k r x y).surjective f
++    exact ⟨g, (A.arrowPathLinearEvaluation_integer_shift_eq_zero_iff Q G E hG r g).mp hf, rfl⟩
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodicArrowLinearKernel.lean
+@@ -0,0 +1,47 @@
++import work.ASGinzburgDraft.PeriodicArrowPathEvaluation
++
++/-! The periodic evaluation comparison extends to every finite linear
++combination and identifies the actual kernels on adjacent sheets. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q) (E : A.PeriodIso Q.vertices)
++variable (hG : G.PeriodCoherent A Q E)
++include E hG
++
++theorem arrowPathLinearEvaluation_shift {x y : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G (Q.shift 1 x) (Q.shift 1 y)
++      (Q.unrolledSheetShiftLinearEquiv k 1 x y f) =
++      E.liftedStepMap A Q x y (A.arrowPathLinearEvaluation Q G x y f) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add, hf, hg]
++  | single p c =>
++    simp only [CutQuiver.unrolledSheetShiftLinearEquiv_single,
++      arrowPathLinearEvaluation_single, map_smul,
++      A.arrowPathEvaluation_shift Q G E hG p]
++
++theorem arrowPathLinearEvaluation_shift_eq_zero_iff {x y : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k x y) :
++    A.arrowPathLinearEvaluation Q G (Q.shift 1 x) (Q.shift 1 y)
++      (Q.unrolledSheetShiftLinearEquiv k 1 x y f) = 0 ↔
++      A.arrowPathLinearEvaluation Q G x y f = 0 := by
++  rw [A.arrowPathLinearEvaluation_shift Q G E hG]
++  exact (E.liftedStepMap A Q x y).map_eq_zero_iff
++
++theorem arrowPathLinearEvaluation_shift_kernel (x y : Q.LiftVertex) :
++    Submodule.map (Q.unrolledSheetShiftLinearEquiv k 1 x y).toLinearMap
++      (LinearMap.ker (A.arrowPathLinearEvaluation Q G x y)) =
++      LinearMap.ker
++        (A.arrowPathLinearEvaluation Q G (Q.shift 1 x) (Q.shift 1 y)) := by
++  ext f
++  constructor
++  · rintro ⟨g, hg, rfl⟩
++    exact (A.arrowPathLinearEvaluation_shift_eq_zero_iff Q G E hG g).mpr hg
++  · intro hf
++    obtain ⟨g, rfl⟩ := (Q.unrolledSheetShiftLinearEquiv k 1 x y).surjective f
++    exact ⟨g, (A.arrowPathLinearEvaluation_shift_eq_zero_iff Q G E hG g).mp hf, rfl⟩
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean
+@@ -0,0 +1,67 @@
++import work.ASGinzburgDraft.PeriodIntegerSuccessors
++import work.ASGinzburgDraft.UnrolledPathSheetShift
++import ASGinzburg.ArbitraryArrowPathEvaluation
++
++/-! A periodic arrow family evaluates every shifted path through the
++actual multiplicative period map. The AS application discharges coherence. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++
++noncomputable def PeriodIso.liftedStepMap (E : A.PeriodIso Q.vertices)
++    (x y : Q.LiftVertex) : A.Hom (Q.height x) (Q.height y) ≃ₗ[k]
++      A.Hom (Q.height (Q.shift 1 x)) (Q.height (Q.shift 1 y)) :=
++  (E.map (Q.height x) (Q.height y)).trans
++    (A.homTransport _ _ _ _ (by rw [Q.height_shift]; ring)
++      (by rw [Q.height_shift]; ring))
++
++theorem PeriodIso.liftedStepMap_id (E : A.PeriodIso Q.vertices) (x : Q.LiftVertex) :
++    E.liftedStepMap A Q x x (A.id (Q.height x)) = A.id (Q.height (Q.shift 1 x)) := by
++  dsimp only [liftedStepMap, LinearEquiv.trans_apply]
++  rw [E.map_id, A.homTransport_id]
++
++theorem PeriodIso.liftedStepMap_comp (E : A.PeriodIso Q.vertices)
++    {x y z : Q.LiftVertex} (f : A.Hom (Q.height x) (Q.height y))
++    (g : A.Hom (Q.height y) (Q.height z)) :
++    E.liftedStepMap A Q x z (A.comp g f) =
++      A.comp (E.liftedStepMap A Q y z g) (E.liftedStepMap A Q x y f) := by
++  dsimp only [liftedStepMap, LinearEquiv.trans_apply]
++  rw [E.map_comp, A.homTransport_comp]
++
++def IncomingElementFamily.PeriodCoherent (G : A.IncomingElementFamily Q)
++    (E : A.PeriodIso Q.vertices) : Prop :=
++  ∀ (w : Q.LiftVertex) (a : Q.incomingArrows w),
++    G (Q.shift 1 w) a =
++      A.homTransport (Q.height (Q.incomingSource w a)+Q.vertices)
++        (Q.height w+Q.vertices)
++        (Q.height (Q.incomingSource (Q.shift 1 w) a)) (Q.height (Q.shift 1 w))
++        (by simp only [CutQuiver.incomingSource, CutQuiver.liftedSource,
++          CutQuiver.height, CutQuiver.shift]; ring)
++        (by rw [Q.height_shift]; ring)
++        (E.map (Q.height (Q.incomingSource w a)) (Q.height w) (G w a))
++
++theorem arrowPathEvaluation_transport (G : A.IncomingElementFamily Q)
++    {x y x' y' : Q.LiftVertex} (hx : x=x') (hy : y=y') (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G (p.transport hx hy) =
++      A.homTransport (Q.height x) (Q.height y) (Q.height x') (Q.height y')
++        (congrArg Q.height hx) (congrArg Q.height hy) (A.arrowPathEvaluation Q G p) := by
++  subst x'
++  subst y'
++  rfl
++
++theorem arrowPathEvaluation_shift (G : A.IncomingElementFamily Q)
++    (E : A.PeriodIso Q.vertices) (hG : G.PeriodCoherent A Q E)
++    {x y : Q.LiftVertex} (p : Q.UnrolledPath x y) :
++    A.arrowPathEvaluation Q G (p.shift 1) =
++      E.liftedStepMap A Q x y (A.arrowPathEvaluation Q G p) := by
++  induction p with
++  | nil =>
++    simp only [CutQuiver.UnrolledPath.shift, arrowPathEvaluation, E.liftedStepMap_id]
++  | @snoc y a p ih =>
++    simp only [CutQuiver.UnrolledPath.shift, arrowPathEvaluation,
++      arrowPathEvaluation_transport, ih]
++    rw [hG y a]
++    dsimp only [PeriodIso.liftedStepMap, LinearEquiv.trans_apply]
++    rw [A.homTransport_trans, ← A.homTransport_comp, E.map_comp]
++
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledCutJacobianIdeal.lean
+@@ -0,0 +1,32 @@
++import ASGinzburg.UnrolledJacobianAlgebra
++
++/-! The genuine ideal generated by the cut-arrow derivatives on
++all sheets, with its unconditional inclusion in the full Jacobian ideal. -/
++namespace ASGinzburg.CutQuiver
++open ZAlgebra
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def cutJacobianGenerators (φ : Q.Potential k) (i j : ℤ) :
++    Set ((Q.unrolledPathZAlgebra k).Hom i j) :=
++  {f | ∃ a m, Q.cut a=true ∧ ∃ hi : Q.height (Q.target a,m)=i,
++    ∃ hj : Q.height (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))=j,
++      (Q.unrolledPathZAlgebra k).homTransport _ _ i j hi hj
++        (Q.integerJacobianRelation k a φ m)=f}
++
++theorem cutJacobianGenerators_subset (φ : Q.Potential k) (i j : ℤ) :
++    Q.cutJacobianGenerators k φ i j ⊆ Q.jacobianGenerators k φ i j := by
++  rintro f ⟨a,m,_,hi,hj,h⟩
++  exact ⟨a,m,hi,hj,h⟩
++
++noncomputable def unrolledCutJacobianIdeal (φ : Q.Potential k) :
++    (Q.unrolledPathZAlgebra k).LinearIdeal :=
++  LinearIdeal.generated (Q.cutJacobianGenerators k φ)
++
++theorem unrolledCutJacobianIdeal_le_Jacobian (φ : Q.Potential k) (i j : ℤ) :
++    (Q.unrolledCutJacobianIdeal k φ).hom i j ≤ (Q.unrolledJacobianIdeal k φ).hom i j := by
++  apply LinearIdeal.generated_le
++  intro i j f hf
++  exact LinearIdeal.subset_generated _ _ _ (Q.cutJacobianGenerators_subset k φ i j hf)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean
+@@ -0,0 +1,63 @@
++import work.ASGinzburgDraft.UnrolledSheetShiftErasure
++import ASGinzburg.UnrolledJacobianErasure
++
++/-! Native sheet shifts carry actual lifted cyclic derivatives to
++their other lifts, including the necessary endpoint transports. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledPathEraseLinearMap_sheet_transport (i j : Q.Vertex)
++    {m n m' n' : ℤ} (hx : (i,m)=(i,m')) (hy : (j,n)=(j,n'))
++    (f : Q.UnrolledPathComponent k (i,m) (j,n)) :
++    Q.unrolledPathEraseLinearMap k (i,m') (j,n')
++      (Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hx hy) f) =
++      Q.unrolledPathEraseLinearMap k (i,m) (j,n) f := by
++  have hm : m=m' := congrArg Prod.snd hx
++  have hn : n=n' := congrArg Prod.snd hy
++  subst m'
++  subst n'
++  change Q.unrolledPathEraseLinearMap k (i,m) (j,n) (Finsupp.mapDomain id f)=_
++  rw [Finsupp.mapDomain_id]
++
++theorem unrolledSheetShiftLinearEquiv_JacobianRelation (φ : Q.Potential k)
++    (a : Q.Arrow) (m r : ℤ) :
++    Q.unrolledSheetShiftLinearEquiv k r (Q.target a,m)
++        (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))
++        (Q.unrolledJacobianRelation k a φ m) =
++      Finsupp.mapDomain (UnrolledPath.endpointEquiv Q rfl
++        (by simp only [shift]; congr 1; ring))
++        (Q.unrolledJacobianRelation k a φ (m+r)) := by
++  apply Q.unrolledPathEraseLinearMap_injective k
++  rw [Q.unrolledSheetShiftLinearEquiv_erase k]
++  simp only [shift]
++  rw [Q.unrolledPathEraseLinearMap_sheet_transport k (Q.target a) (Q.source a),
++    Q.unrolledJacobianRelation_erase k, Q.unrolledJacobianRelation_erase k]
++
++noncomputable def unrolledCutJacobianRelation (φ : Q.Potential k)
++    (b : {a : Q.Arrow // Q.cut a=true}) (m : ℤ) :
++    Q.UnrolledPathComponent k (Q.target b.val,m) (Q.source b.val,m) :=
++  Finsupp.mapDomain (UnrolledPath.endpointEquiv Q rfl
++    (by simp [cutDegree,b.property])) (Q.unrolledJacobianRelation k b.val φ m)
++
++theorem unrolledCutJacobianRelation_erase (φ : Q.Potential k)
++    (b : {a : Q.Arrow // Q.cut a=true}) (m : ℤ) :
++    Q.unrolledPathEraseLinearMap k (Q.target b.val,m) (Q.source b.val,m)
++      (Q.unrolledCutJacobianRelation k φ b m) = Q.pathCyclicDerivative k b.val φ := by
++  unfold unrolledCutJacobianRelation
++  exact (Q.unrolledPathEraseLinearMap_sheet_transport k (Q.target b.val) (Q.source b.val)
++    (m:=m) (n:=m+((1-Q.cutDegree b.val:ℕ):ℤ)) (m':=m) (n':=m)
++    rfl (by simp [cutDegree,b.property]) (Q.unrolledJacobianRelation k b.val φ m)).trans
++      (Q.unrolledJacobianRelation_erase k b.val φ m)
++
++theorem unrolledSheetShiftLinearEquiv_cutJacobianRelation (φ : Q.Potential k)
++    (b : {a : Q.Arrow // Q.cut a=true}) (m r : ℤ) :
++    Q.unrolledSheetShiftLinearEquiv k r (Q.target b.val,m) (Q.source b.val,m)
++        (Q.unrolledCutJacobianRelation k φ b m) =
++      Q.unrolledCutJacobianRelation k φ b (m+r) := by
++  apply Q.unrolledPathEraseLinearMap_injective k
++  rw [Q.unrolledSheetShiftLinearEquiv_erase k, Q.unrolledCutJacobianRelation_erase k]
++  simp only [shift]
++  rw [Q.unrolledCutJacobianRelation_erase k]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledJacobianSheetShift.lean
+@@ -0,0 +1,48 @@
++import work.ASGinzburgDraft.UnrolledSheetShiftErasure
++import ASGinzburg.BetweenSheetJacobianIdeals
++
++/-! Actual unrolled Jacobian relations are invariant under every
++integer sheet shift, by the homogeneous Jacobian ideal comparison. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledJacobianLiftIdeal_mem_iff_erase (φ : Q.Potential k)
++    {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    f ∈ Q.unrolledJacobianLiftIdeal k φ x y ↔
++      Q.unrolledPathEraseLinearMap k x y f ∈ (Q.pathJacobianIdeal k φ).hom x.1 y.1 := by
++  constructor
++  · exact Q.unrolledJacobianLiftIdeal_erase k φ
++  · intro hf
++    rw [← Q.betweenSheetJacobianIdeal_map k φ x y]
++    refine ⟨(Q.betweenSheetLinearEquiv k x y).symm f, ?_,
++      (Q.betweenSheetLinearEquiv k x y).apply_symm_apply f⟩
++    change ((Q.betweenSheetLinearEquiv k x y).symm f).val ∈
++      (Q.pathJacobianIdeal k φ).hom x.1 y.1
++    rwa [Q.betweenSheetLinearEquiv_symm_coe]
++
++theorem unrolledSheetShiftLinearEquiv_mem_Jacobian (φ : Q.Potential k)
++    (r : ℤ) {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    Q.unrolledSheetShiftLinearEquiv k r x y f ∈
++        Q.unrolledJacobianLiftIdeal k φ (Q.shift r x) (Q.shift r y) ↔
++      f ∈ Q.unrolledJacobianLiftIdeal k φ x y := by
++  rw [Q.unrolledJacobianLiftIdeal_mem_iff_erase k φ,
++    Q.unrolledSheetShiftLinearEquiv_erase k,
++    Q.unrolledJacobianLiftIdeal_mem_iff_erase k φ]
++  rfl
++
++theorem unrolledSheetShiftLinearEquiv_Jacobian (φ : Q.Potential k)
++    (r : ℤ) (x y : Q.LiftVertex) :
++    (Q.unrolledJacobianLiftIdeal k φ x y).map
++        (Q.unrolledSheetShiftLinearEquiv k r x y).toLinearMap =
++      Q.unrolledJacobianLiftIdeal k φ (Q.shift r x) (Q.shift r y) := by
++  apply Submodule.ext
++  intro f
++  constructor
++  · rintro ⟨g, hg, rfl⟩
++    exact (Q.unrolledSheetShiftLinearEquiv_mem_Jacobian k φ r g).mpr hg
++  · intro hf
++    obtain ⟨g, rfl⟩ := (Q.unrolledSheetShiftLinearEquiv k r x y).surjective f
++    exact ⟨g, (Q.unrolledSheetShiftLinearEquiv_mem_Jacobian k φ r g).mp hf, rfl⟩
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledLinearShiftArithmetic.lean
+@@ -0,0 +1,40 @@
++import work.ASGinzburgDraft.UnrolledPathShiftArithmetic
++import ASGinzburg.UnrolledComponentHeights
++
++/-! The actual finite-linear sheet maps obey the zero and addition
++laws, with every endpoint change represented by its native path map. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledSheetShiftLinearEquiv_zero {x y : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k x y) :
++    Q.unrolledSheetShiftLinearEquiv k 0 x y f =
++      Finsupp.mapDomain (UnrolledPath.endpointEquiv Q
++        (by simp [CutQuiver.shift]) (by simp [CutQuiver.shift])) f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add, Finsupp.mapDomain_add, hf, hg]
++  | single p c =>
++    rw [unrolledSheetShiftLinearEquiv_single, Finsupp.mapDomain_single]
++    exact congrArg (fun q => Finsupp.single q c) p.shift_zero
++
++theorem unrolledSheetShiftLinearEquiv_add (r s : ℤ) {x y : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k x y) :
++    Q.unrolledSheetShiftLinearEquiv k s (Q.shift r x) (Q.shift r y)
++      (Q.unrolledSheetShiftLinearEquiv k r x y f) =
++      Finsupp.mapDomain (UnrolledPath.endpointEquiv Q
++        (by simp [CutQuiver.shift, add_assoc])
++        (by simp [CutQuiver.shift, add_assoc]))
++        (Q.unrolledSheetShiftLinearEquiv k (r+s) x y f) := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add, Finsupp.mapDomain_add, hf, hg]
++  | single p c =>
++    rw [unrolledSheetShiftLinearEquiv_single, unrolledSheetShiftLinearEquiv_single,
++      unrolledSheetShiftLinearEquiv_single, Finsupp.mapDomain_single]
++    exact congrArg (fun q => Finsupp.single q c) (p.shift_add r s)
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledPathSheetShift.lean
+@@ -0,0 +1,96 @@
++import ASGinzburg.UnrolledPathErasure
++
++/-! Native shifts of all finite unrolled paths preserve erasure,
++composition and length, and give genuine component equivalences. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem incomingSource_sheetShift (r : ℤ) (v : Q.LiftVertex) (a : Q.incomingArrows v) :
++    Q.incomingSource (Q.shift r v) a = Q.shift r (Q.incomingSource v a) := by
++  apply Prod.ext
++  · rfl
++  · simp only [incomingSource, liftedSource, shift]
++    ring
++
++def UnrolledPath.shift (r : ℤ) : {u v : Q.LiftVertex} →
++    Q.UnrolledPath u v → Q.UnrolledPath (Q.shift r u) (Q.shift r v)
++  | _, _, .nil v => .nil (Q.shift r v)
++  | _, v, .snoc a p => .snoc a
++      ((p.shift r).transport rfl (incomingSource_sheetShift r v a).symm)
++
++theorem UnrolledPath.shift_erase_toList (r : ℤ) {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) : (p.shift r).erase.toList = p.erase.toList := by
++  induction p with
++  | nil => simp only [shift, erase, Path.toList]
++  | snoc a p ih =>
++    simp only [shift, erase, erase_transport, Path.toList_transport, Path.toList, ih]
++
++theorem UnrolledPath.erase_shift (r : ℤ) {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) : (p.shift r).erase = p.erase := by
++  apply Path.toList_injective
++  exact p.shift_erase_toList r
++
++theorem UnrolledPath.length_shift (r : ℤ) {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) : (p.shift r).length = p.length := by
++  rw [← UnrolledPath.erase_length, UnrolledPath.erase_shift, UnrolledPath.erase_length]
++
++theorem UnrolledPath.shift_comp (r : ℤ) {u v w : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (q : Q.UnrolledPath v w) :
++    (p.comp q).shift r = (p.shift r).comp (q.shift r) := by
++  apply UnrolledPath.erase_toList_injective
++  simp only [UnrolledPath.erase_shift, UnrolledPath.erase_comp]
++
++def UnrolledPath.shiftEquiv (r : ℤ) (u v : Q.LiftVertex) :
++    Q.UnrolledPath u v ≃ Q.UnrolledPath (Q.shift r u) (Q.shift r v) where
++  toFun := UnrolledPath.shift r
++  invFun p := (p.shift (-r)).transport (by simp [CutQuiver.shift])
++    (by simp [CutQuiver.shift])
++  left_inv p := by
++    apply UnrolledPath.erase_toList_injective
++    simp only [UnrolledPath.erase_transport, Path.toList_transport,
++      UnrolledPath.shift_erase_toList]
++  right_inv p := by
++    apply UnrolledPath.erase_toList_injective
++    simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport,
++      Path.toList_transport]
++
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def unrolledSheetShiftLinearEquiv (r : ℤ) (u v : Q.LiftVertex) :
++    Q.UnrolledPathComponent k u v ≃ₗ[k]
++      Q.UnrolledPathComponent k (Q.shift r u) (Q.shift r v) :=
++  Finsupp.mapDomain.linearEquiv k k (UnrolledPath.shiftEquiv r u v)
++
++@[simp] theorem unrolledSheetShiftLinearEquiv_single (r : ℤ) {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) (c : k) :
++    Q.unrolledSheetShiftLinearEquiv k r u v (Finsupp.single p c) =
++      Finsupp.single (p.shift r) c := by
++  change Finsupp.mapDomain (UnrolledPath.shiftEquiv r u v) (Finsupp.single p c) = _
++  rw [Finsupp.mapDomain_single]
++  rfl
++
++theorem unrolledSheetShiftLinearEquiv_id (r : ℤ) (v : Q.LiftVertex) :
++    Q.unrolledSheetShiftLinearEquiv k r v v (Q.unrolledPathId k v) =
++      Q.unrolledPathId k (Q.shift r v) := by
++  rw [unrolledPathId, unrolledSheetShiftLinearEquiv_single]
++  simp only [UnrolledPath.shift, unrolledPathId]
++
++theorem unrolledSheetShiftLinearEquiv_comp (r : ℤ) {u v w : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w) :
++    Q.unrolledSheetShiftLinearEquiv k r u w (Q.unrolledPathComp k g f) =
++      Q.unrolledPathComp k (Q.unrolledSheetShiftLinearEquiv k r v w g)
++        (Q.unrolledSheetShiftLinearEquiv k r u v f) := by
++  classical
++  induction g using Finsupp.induction_linear with
++  | zero => simp
++  | add g g' hg hg' => simp [map_add, LinearMap.add_apply, hg, hg']
++  | single q b =>
++    induction f using Finsupp.induction_linear with
++    | zero => simp
++    | add f f' hf hf' => simp [map_add, hf, hf']
++    | single p a =>
++      simp only [unrolledPathComp_single, unrolledSheetShiftLinearEquiv_single,
++        UnrolledPath.shift_comp]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledPathShiftArithmetic.lean
+@@ -0,0 +1,33 @@
++import work.ASGinzburgDraft.UnrolledPathSheetShift
++
++/-! All sheet shifts compose and the zero shift is the identity,
++with the actual endpoint transports displayed. -/
++namespace ASGinzburg.CutQuiver
++variable {Q : CutQuiver}
++
++theorem UnrolledPath.shift_transport (r : ℤ) {u v u' v' : Q.LiftVertex}
++    (hu : u=u') (hv : v=v') (p : Q.UnrolledPath u v) :
++    (p.transport hu hv).shift r =
++      (p.shift r).transport (congrArg (Q.shift r) hu) (congrArg (Q.shift r) hv) := by
++  subst u'
++  subst v'
++  rfl
++
++theorem UnrolledPath.shift_zero {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
++    p.shift 0 = p.transport (by simp [CutQuiver.shift])
++      (by simp [CutQuiver.shift]) := by
++  apply UnrolledPath.erase_toList_injective
++  simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport,
++    Path.toList_transport]
++
++theorem UnrolledPath.shift_add (r s : ℤ) {u v : Q.LiftVertex}
++    (p : Q.UnrolledPath u v) :
++    (p.shift r).shift s =
++      (p.shift (r+s)).transport
++        (by simp [CutQuiver.shift, add_assoc])
++        (by simp [CutQuiver.shift, add_assoc]) := by
++  apply UnrolledPath.erase_toList_injective
++  simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport,
++    Path.toList_transport]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledSheetShiftErasure.lean
+@@ -0,0 +1,30 @@
++import work.ASGinzburgDraft.UnrolledLinearShiftArithmetic
++import ASGinzburg.UnrolledJacobianLiftIdeal
++
++/-! Forgetting the sheets of a finite path sum commutes with every
++native sheet shift; all erasure relations are therefore preserved. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledSheetShiftLinearEquiv_erase (r : ℤ) {x y : Q.LiftVertex}
++    (f : Q.UnrolledPathComponent k x y) :
++    Q.unrolledPathEraseLinearMap k (Q.shift r x) (Q.shift r y)
++      (Q.unrolledSheetShiftLinearEquiv k r x y f) =
++      Q.unrolledPathEraseLinearMap k x y f := by
++  classical
++  induction f using Finsupp.induction_linear with
++  | zero => simp
++  | add f g hf hg => simp [map_add, hf, hg]
++  | single p c =>
++    simp only [unrolledSheetShiftLinearEquiv_single, unrolledPathEraseLinearMap_single,
++      UnrolledPath.erase_shift]
++
++theorem unrolledSheetShiftLinearEquiv_mem_erasureIdeal (I : Q.PathLinearIdeal k)
++    (r : ℤ) {x y : Q.LiftVertex} (f : Q.UnrolledPathComponent k x y) :
++    Q.unrolledPathEraseLinearMap k (Q.shift r x) (Q.shift r y)
++      (Q.unrolledSheetShiftLinearEquiv k r x y f) ∈ I.hom x.1 y.1 ↔
++      Q.unrolledPathEraseLinearMap k x y f ∈ I.hom x.1 y.1 := by
++  rw [Q.unrolledSheetShiftLinearEquiv_erase k]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/ZeroCutJacobianEvaluation.lean
+@@ -0,0 +1,100 @@
++import work.ASGinzburgDraft.ArbitraryArrowKernelHeights
++import ASGinzburg.BetweenSheetJacobianIdeals
++
++/-! In cut degree zero, every genuine Jacobian context uses a cut
++derivative. Thus annihilating the cut derivatives suffices on same-sheet
++components, without assuming anything about the other derivatives. -/
++namespace ASGinzburg.ZAlgebra
++open CutQuiver
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
++variable (G : A.IncomingElementFamily Q) (φ : Q.Potential k)
++variable (hcut : ∀ a : Q.Arrow, Q.cut a=true → ∀ m : ℤ,
++  A.arrowPathLinearEvaluation Q G (Q.target a,m)
++    (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ)) (Q.unrolledJacobianRelation k a φ m)=0)
++include hcut
++
++theorem arrowPathLinearEvaluation_zeroCutJacobianContext
++    (x y : Q.LiftVertex) (hs : x.2=y.2) (a : Q.Arrow)
++    (l : Q.Path x.1 (Q.target a)) (r : Q.Path (Q.source a) y.1)
++    (hdeg : (Q.pathJacobianContextDegree a l r:ℤ)=y.2-x.2) :
++    A.arrowPathLinearEvaluation Q G x y (Q.betweenSheetLinearEquiv k x y
++      ⟨Q.pathComp k (Finsupp.single r 1)
++        (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)),by
++          rw [←hdeg]; exact Q.pathJacobianContext_mem_cut k φ a l r⟩) = 0 := by
++  have ha : Q.cut a=true := by
++    by_cases ha : Q.cut a=true
++    · exact ha
++    · have hf : Q.cut a=false := Bool.eq_false_of_not_eq_true ha
++      have hd := hdeg
++      simp only [pathJacobianContextDegree, Q.cutDegree_false hf, Nat.sub_zero,
++        Nat.cast_add, Nat.cast_one] at hd
++      omega
++  let t : Q.LiftVertex := (Q.target a,x.2+(l.cutDegree:ℤ))
++  let s : Q.LiftVertex := (Q.source a,t.2+((1-Q.cutDegree a:ℕ):ℤ))
++  let pl : Q.UnrolledPath x t := Path.unrollBetween x.1 (Q.target a) x.2 t.2
++    ⟨l,by dsimp [t]; omega⟩
++  let pr : Q.UnrolledPath s y := Path.unrollBetween (Q.source a) y.1 s.2 y.2
++    ⟨r,by
++      simp only [pathJacobianContextDegree,Nat.cast_add] at hdeg
++      dsimp [s,t]; omega⟩
++  let rel : Q.UnrolledPathComponent k t s := Q.unrolledJacobianRelation k a φ t.2
++  let f : Q.UnrolledPathComponent k x y := Q.unrolledPathComp k (Finsupp.single pr 1)
++    (Q.unrolledPathComp k rel (Finsupp.single pl 1))
++  have hrel : A.arrowPathLinearEvaluation Q G t s rel=0 := hcut a ha t.2
++  have heq : Q.betweenSheetLinearEquiv k x y
++      ⟨Q.pathComp k (Finsupp.single r 1)
++        (Q.pathComp k (Q.pathCyclicDerivative k a φ) (Finsupp.single l 1)),by
++          rw [←hdeg]; exact Q.pathJacobianContext_mem_cut k φ a l r⟩=f := by
++    apply Q.unrolledPathEraseLinearMap_injective k
++    rw [Q.betweenSheetLinearEquiv_erase]
++    change _=Q.unrolledPathEraseLinearMap k x y
++      (Q.unrolledPathComp k (Finsupp.single pr 1)
++        (Q.unrolledPathComp k rel (Finsupp.single pl 1)))
++    rw [Q.unrolledPathEraseLinearMap_comp,Q.unrolledPathEraseLinearMap_comp,
++      Q.unrolledPathEraseLinearMap_single,Q.unrolledPathEraseLinearMap_single]
++    change _=Q.pathComp k (Finsupp.single pr.erase 1)
++      (Q.pathComp k (Q.unrolledPathEraseLinearMap k t s
++        (Q.unrolledJacobianRelation k a φ t.2)) (Finsupp.single pl.erase 1))
++    rw [Q.unrolledJacobianRelation_erase]
++    have hl : pl.erase=l := Path.unrollBetween_erase _ _ _ _ _
++    have hr : pr.erase=r := Path.unrollBetween_erase _ _ _ _ _
++    rw [hl,hr]
++  rw [heq]
++  dsimp only [f]
++  rw [A.arrowPathLinearEvaluation_comp,A.arrowPathLinearEvaluation_comp,hrel,map_zero]
++  simp
++
++theorem arrowPathLinearEvaluation_zeroCutJacobianProjection
++    (x y : Q.LiftVertex) (hs : x.2=y.2) {f : Q.PathComponent k x.1 y.1}
++    (hf : f ∈ (Q.pathJacobianIdeal k φ).hom x.1 y.1) :
++    A.arrowPathLinearEvaluation Q G x y (Q.betweenSheetProjectionMap k x y f)=0 := by
++  rw [Q.pathJacobianIdeal_eq_contextSpan] at hf
++  induction hf using Submodule.span_induction with
++  | mem f hf =>
++    obtain ⟨a,l,r,rfl⟩ := hf
++    by_cases hd : (Q.pathJacobianContextDegree a l r:ℤ)=y.2-x.2
++    · rw [Q.betweenSheetProjectionMap_on_cut k x y
++        (by rw [←hd]; exact Q.pathJacobianContext_mem_cut k φ a l r)]
++      exact A.arrowPathLinearEvaluation_zeroCutJacobianContext Q G φ hcut x y hs a l r hd
++    · rw [Q.betweenSheetProjectionMap_on_other_cut k x y
++        (Q.pathJacobianContext_mem_cut k φ a l r) hd,map_zero]
++  | zero => simp
++  | add f g hf hg ihf ihg => simp only [map_add,ihf,ihg,add_zero]
++  | smul c f hf ih => simp only [map_smul,ih,smul_zero]
++
++theorem arrowPathLinearEvaluation_zeroCutJacobianLift
++    (x y : Q.LiftVertex) (hs : x.2=y.2) {f : Q.UnrolledPathComponent k x y}
++    (hf : f ∈ Q.unrolledJacobianLiftIdeal k φ x y) :
++    A.arrowPathLinearEvaluation Q G x y f=0 := by
++  let g := (Q.betweenSheetLinearEquiv k x y).symm f
++  have hg : g.val ∈ (Q.pathJacobianIdeal k φ).hom x.1 y.1 := by
++    dsimp only [g]
++    rw [Q.betweenSheetLinearEquiv_symm_coe]
++    exact Q.unrolledJacobianLiftIdeal_erase k φ hf
++  have h := A.arrowPathLinearEvaluation_zeroCutJacobianProjection Q G φ hcut x y hs hg
++  rw [Q.betweenSheetProjectionMap_on_cut k x y g.property,
++    LinearEquiv.apply_symm_apply] at h
++  exact h
++
++end ASGinzburg.ZAlgebra

@@ -1,0 +1,55 @@
+import ASGinzburg.UnrolledJacobianSheetShift
+import ASGinzburg.PeriodInverse
+
+/-! Native sheet shifts give actual multiplicative period maps on
+the integer-indexed free path algebra, with the original height convention. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem shift_heightEquiv_symm (r i : ℤ) :
+    Q.shift r (Q.heightEquiv.symm i)=Q.heightEquiv.symm (i+Q.vertices*r) := by
+  apply Q.height_bijective.injective
+  rw [Q.height_shift,Q.height_heightEquiv_symm,Q.height_heightEquiv_symm]
+
+noncomputable def unrolledIntegerSheetShiftLinearEquiv (r i j : ℤ) :
+    (Q.unrolledPathZAlgebra k).Hom i j ≃ₗ[k]
+      (Q.unrolledPathZAlgebra k).Hom (i+Q.vertices*r) (j+Q.vertices*r) :=
+  (Q.unrolledSheetShiftLinearEquiv k r (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)).trans
+    (Finsupp.mapDomain.linearEquiv k k (UnrolledPath.endpointEquiv Q
+      (Q.shift_heightEquiv_symm r i) (Q.shift_heightEquiv_symm r j)))
+
+theorem unrolledIntegerSheetShiftLinearEquiv_id (r i : ℤ) :
+    Q.unrolledIntegerSheetShiftLinearEquiv k r i i ((Q.unrolledPathZAlgebra k).id i) =
+      (Q.unrolledPathZAlgebra k).id (i+Q.vertices*r) := by
+  change Finsupp.mapDomain _
+    (Q.unrolledSheetShiftLinearEquiv k r _ _ (Q.unrolledPathId k _)) = _
+  rw [Q.unrolledSheetShiftLinearEquiv_id k]
+  change Finsupp.mapDomain (UnrolledPath.endpointEquiv Q
+      (Q.shift_heightEquiv_symm r i) (Q.shift_heightEquiv_symm r i))
+    (Finsupp.single (UnrolledPath.nil (Q.shift r (Q.heightEquiv.symm i))) (1:k)) =
+      Finsupp.single (UnrolledPath.nil (Q.heightEquiv.symm (i+Q.vertices*r))) (1:k)
+  rw [Finsupp.mapDomain_single]
+  exact congrArg (fun p => Finsupp.single p (1:k))
+    ((UnrolledPath.nil (Q.shift r (Q.heightEquiv.symm i))).transport
+      (Q.shift_heightEquiv_symm r i) (Q.shift_heightEquiv_symm r i)).diagonal_eq_nil
+
+theorem unrolledIntegerSheetShiftLinearEquiv_comp (r : ℤ) {i j l : ℤ}
+    (f : (Q.unrolledPathZAlgebra k).Hom i j) (g : (Q.unrolledPathZAlgebra k).Hom j l) :
+    Q.unrolledIntegerSheetShiftLinearEquiv k r i l ((Q.unrolledPathZAlgebra k).comp g f) =
+      (Q.unrolledPathZAlgebra k).comp
+        (Q.unrolledIntegerSheetShiftLinearEquiv k r j l g)
+        (Q.unrolledIntegerSheetShiftLinearEquiv k r i j f) := by
+  change Finsupp.mapDomain _ (Q.unrolledSheetShiftLinearEquiv k r _ _ (Q.unrolledPathComp k g f)) = _
+  rw [Q.unrolledSheetShiftLinearEquiv_comp k]
+  exact Q.unrolledEndpointEquiv_comp k (Q.shift_heightEquiv_symm r i)
+    (Q.shift_heightEquiv_symm r j) (Q.shift_heightEquiv_symm r l)
+    (Q.unrolledSheetShiftLinearEquiv k r _ _ f) (Q.unrolledSheetShiftLinearEquiv k r _ _ g)
+
+noncomputable def unrolledPathSheetPeriodIso (r : ℤ) :
+    (Q.unrolledPathZAlgebra k).PeriodIso (Q.vertices*r) where
+  map := Q.unrolledIntegerSheetShiftLinearEquiv k r
+  map_id := Q.unrolledIntegerSheetShiftLinearEquiv_id k r
+  map_comp := Q.unrolledIntegerSheetShiftLinearEquiv_comp k r
+
+end ASGinzburg.CutQuiver

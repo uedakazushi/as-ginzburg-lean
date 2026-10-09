@@ -1,0 +1,40 @@
+import ASGinzburg.FoundationPeriodGeneratorBasis
+import ASGinzburg.BasedArrowPathSurjectivity
+
+/-! The AS period transports the zero-sheet arrow representatives
+to a genuine surjective presentation of the whole original Z-algebra.
+The presentation kernel has not yet been identified with the candidate
+potential's full Jacobian ideal. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.foundationRepresentativeBasisSystem (hAS : A.ASRegular Q) :
+    A.IncomingBasisSystem Q where
+  basis := hAS.foundationRepresentativeGeneratorBasis A Q
+
+theorem ASRegular.foundationPeriodIncomingGenerator_class (hAS : A.ASRegular Q)
+    (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
+    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i) :
+    (Submodule.span k (A.products i (Q.height w))).mkQ
+      (A.incomingElementGenerator Q (hAS.foundationPeriodIncomingElement A Q) w i a)=
+      (hAS.foundationRepresentativeBasisSystem A Q).basis w i hi a :=
+  (hAS.foundationRepresentativeGeneratorBasis_apply A Q w i hi a).symm
+
+theorem ASRegular.foundationPeriodPathLinearEvaluation_surjective (hAS : A.ASRegular Q)
+    (x y : Q.LiftVertex) :
+    Function.Surjective
+      (A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) x y) :=
+  A.basedArrowPathLinearEvaluation_surjective Q (hAS.foundationPeriodIncomingElement A Q)
+    (hAS.foundationRepresentativeBasisSystem A Q)
+    (hAS.foundationPeriodIncomingGenerator_class A Q) x y
+
+theorem ASRegular.foundationPeriodPathPresentation_surjective (hAS : A.ASRegular Q)
+    (i j : ℤ) :
+    Function.Surjective
+      ((A.arrowPathPresentation Q (hAS.foundationPeriodIncomingElement A Q)).map i j) :=
+  A.basedArrowPathPresentation_surjective Q (hAS.foundationPeriodIncomingElement A Q)
+    (hAS.foundationRepresentativeBasisSystem A Q)
+    (hAS.foundationPeriodIncomingGenerator_class A Q) i j
+
+end ASGinzburg.ZAlgebra

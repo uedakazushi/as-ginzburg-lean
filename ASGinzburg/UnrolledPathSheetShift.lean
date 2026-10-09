@@ -1,0 +1,96 @@
+import ASGinzburg.UnrolledPathErasure
+
+/-! Native shifts of all finite unrolled paths preserve erasure,
+composition and length, and give genuine component equivalences. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+theorem incomingSource_sheetShift (r : ℤ) (v : Q.LiftVertex) (a : Q.incomingArrows v) :
+    Q.incomingSource (Q.shift r v) a = Q.shift r (Q.incomingSource v a) := by
+  apply Prod.ext
+  · rfl
+  · simp only [incomingSource, liftedSource, shift]
+    ring
+
+def UnrolledPath.shift (r : ℤ) : {u v : Q.LiftVertex} →
+    Q.UnrolledPath u v → Q.UnrolledPath (Q.shift r u) (Q.shift r v)
+  | _, _, .nil v => .nil (Q.shift r v)
+  | _, v, .snoc a p => .snoc a
+      ((p.shift r).transport rfl (incomingSource_sheetShift r v a).symm)
+
+theorem UnrolledPath.shift_erase_toList (r : ℤ) {u v : Q.LiftVertex}
+    (p : Q.UnrolledPath u v) : (p.shift r).erase.toList = p.erase.toList := by
+  induction p with
+  | nil => simp only [shift, erase, Path.toList]
+  | snoc a p ih =>
+    simp only [shift, erase, erase_transport, Path.toList_transport, Path.toList, ih]
+
+theorem UnrolledPath.erase_shift (r : ℤ) {u v : Q.LiftVertex}
+    (p : Q.UnrolledPath u v) : (p.shift r).erase = p.erase := by
+  apply Path.toList_injective
+  exact p.shift_erase_toList r
+
+theorem UnrolledPath.length_shift (r : ℤ) {u v : Q.LiftVertex}
+    (p : Q.UnrolledPath u v) : (p.shift r).length = p.length := by
+  rw [← UnrolledPath.erase_length, UnrolledPath.erase_shift, UnrolledPath.erase_length]
+
+theorem UnrolledPath.shift_comp (r : ℤ) {u v w : Q.LiftVertex}
+    (p : Q.UnrolledPath u v) (q : Q.UnrolledPath v w) :
+    (p.comp q).shift r = (p.shift r).comp (q.shift r) := by
+  apply UnrolledPath.erase_toList_injective
+  simp only [UnrolledPath.erase_shift, UnrolledPath.erase_comp]
+
+def UnrolledPath.shiftEquiv (r : ℤ) (u v : Q.LiftVertex) :
+    Q.UnrolledPath u v ≃ Q.UnrolledPath (Q.shift r u) (Q.shift r v) where
+  toFun := UnrolledPath.shift r
+  invFun p := (p.shift (-r)).transport (by simp [CutQuiver.shift])
+    (by simp [CutQuiver.shift])
+  left_inv p := by
+    apply UnrolledPath.erase_toList_injective
+    simp only [UnrolledPath.erase_transport, Path.toList_transport,
+      UnrolledPath.shift_erase_toList]
+  right_inv p := by
+    apply UnrolledPath.erase_toList_injective
+    simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport,
+      Path.toList_transport]
+
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def unrolledSheetShiftLinearEquiv (r : ℤ) (u v : Q.LiftVertex) :
+    Q.UnrolledPathComponent k u v ≃ₗ[k]
+      Q.UnrolledPathComponent k (Q.shift r u) (Q.shift r v) :=
+  Finsupp.mapDomain.linearEquiv k k (UnrolledPath.shiftEquiv r u v)
+
+@[simp] theorem unrolledSheetShiftLinearEquiv_single (r : ℤ) {u v : Q.LiftVertex}
+    (p : Q.UnrolledPath u v) (c : k) :
+    Q.unrolledSheetShiftLinearEquiv k r u v (Finsupp.single p c) =
+      Finsupp.single (p.shift r) c := by
+  change Finsupp.mapDomain (UnrolledPath.shiftEquiv r u v) (Finsupp.single p c) = _
+  rw [Finsupp.mapDomain_single]
+  rfl
+
+theorem unrolledSheetShiftLinearEquiv_id (r : ℤ) (v : Q.LiftVertex) :
+    Q.unrolledSheetShiftLinearEquiv k r v v (Q.unrolledPathId k v) =
+      Q.unrolledPathId k (Q.shift r v) := by
+  rw [unrolledPathId, unrolledSheetShiftLinearEquiv_single]
+  simp only [UnrolledPath.shift, unrolledPathId]
+
+theorem unrolledSheetShiftLinearEquiv_comp (r : ℤ) {u v w : Q.LiftVertex}
+    (f : Q.UnrolledPathComponent k u v) (g : Q.UnrolledPathComponent k v w) :
+    Q.unrolledSheetShiftLinearEquiv k r u w (Q.unrolledPathComp k g f) =
+      Q.unrolledPathComp k (Q.unrolledSheetShiftLinearEquiv k r v w g)
+        (Q.unrolledSheetShiftLinearEquiv k r u v f) := by
+  classical
+  induction g using Finsupp.induction_linear with
+  | zero => simp
+  | add g g' hg hg' => simp [map_add, LinearMap.add_apply, hg, hg']
+  | single q b =>
+    induction f using Finsupp.induction_linear with
+    | zero => simp
+    | add f f' hf hf' => simp [map_add, hf, hf']
+    | single p a =>
+      simp only [unrolledPathComp_single, unrolledSheetShiftLinearEquiv_single,
+        UnrolledPath.shift_comp]
+
+end ASGinzburg.CutQuiver

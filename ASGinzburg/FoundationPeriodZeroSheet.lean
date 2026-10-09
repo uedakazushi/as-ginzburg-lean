@@ -1,0 +1,55 @@
+import ASGinzburg.FoundationPeriodMinimalPresentation
+import ASGinzburg.PathUnrolling
+
+/-! The actual foundation-transported presentation agrees on the
+whole zero sheet with the original AS resolution presentation. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+theorem UnrolledPath.sheet_le {x y : Q.LiftVertex} (p : Q.UnrolledPath x y) : x.2≤y.2 := by
+  have h := p.erase_cutDegree
+  have hp : 0≤(p.erase.cutDegree : ℤ) := Int.natCast_nonneg _
+  omega
+
+end ASGinzburg.CutQuiver
+
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.foundationPeriodPathEvaluation_zeroSheet (hAS : A.ASRegular Q)
+    {x y : Q.LiftVertex} (p : Q.UnrolledPath x y) :
+    x.2=0 → y.2=0 →
+      A.arrowPathEvaluation Q (hAS.foundationPeriodIncomingElement A Q) p=
+        A.unrolledPathEvaluation Q (hAS.resolution A Q) p := by
+  induction p with
+  | nil => intro _ _;simp only [arrowPathEvaluation,unrolledPathEvaluation]
+  | @snoc y a p ih =>
+    intro hx hy
+    have hm : (Q.incomingSource y a).2=0 := by
+      have hp := p.sheet_le
+      have hc : 0≤(Q.cutDegree a.val : ℤ) := Int.natCast_nonneg _
+      change x.2≤y.2-(Q.cutDegree a.val : ℤ) at hp
+      change y.2-(Q.cutDegree a.val : ℤ)=0
+      omega
+    have ha : hAS.foundationPeriodIncomingElement A Q y a=
+        (hAS.resolution A Q y).incomingElement a := by
+      cases y with
+      | mk j m =>
+        change m=0 at hy
+        subst m
+        exact hAS.foundationPeriodIncomingElement_zero A Q j a
+    rw [arrowPathEvaluation,unrolledPathEvaluation,ha,ih hx hm]
+
+theorem ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) (f : Q.UnrolledPathComponent k (i,0) (j,0)) :
+    A.arrowPathLinearEvaluation Q (hAS.foundationPeriodIncomingElement A Q) (i,0) (j,0) f=
+      A.unrolledPathLinearEvaluation Q (hAS.resolution A Q) (i,0) (j,0) f := by
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add,hf,hg]
+  | single p c =>
+    rw [A.arrowPathLinearEvaluation_single,A.unrolledPathLinearEvaluation_single,
+      hAS.foundationPeriodPathEvaluation_zeroSheet A Q p rfl rfl]
+
+end ASGinzburg.ZAlgebra

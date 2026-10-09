@@ -1,0 +1,934 @@
+{
+  "started_at_utc": "2026-10-09T13:49:19.921919+00:00",
+  "ended_at_utc": "2026-10-09T13:51:30.149317+00:00",
+  "elapsed_seconds": 130.2273583379997,
+  "exit_code": 0,
+  "modules": 37,
+  "declarations": 146,
+  "source_sha256": {
+    "work/ASGinzburgDraft/ArbitraryArrowKernelHeights.lean": "e7b8c3180b701d3300be6e3faf9f52f3ecdbef64b2fa42e17410b5eec5d5f716",
+    "work/ASGinzburgDraft/BasedArrowIndecomposables.lean": "479cf5a9133e6e5771f1c1fd4337114aa0abeadca5c57a2339a2f3cb5063f6e7",
+    "work/ASGinzburgDraft/BasedArrowKernelSupport.lean": "c9840e170cd25202bd22c95a825a5a795c0eeb67e0a974a61f6b4298a61b4a5e",
+    "work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean": "daad6115ec297d9e48a80a84c2b0e57c633b02f02d7a48d3120dcb32c32c8241",
+    "work/ASGinzburgDraft/FoundationPeriodBasisSystem.lean": "26e3e2631380ee20ef24112fc9b3b190ca0129f00daf936ab7648fe91d4fbdd0",
+    "work/ASGinzburgDraft/FoundationPeriodCutIdealKernel.lean": "e639842d90ed0b07fa679e7520f250c486982945b97289bb8305a17d6634505c",
+    "work/ASGinzburgDraft/FoundationPeriodCutRelations.lean": "86c98a3c5dcfe469ce6ee8d168f6e3b46a77db55318f42912ee602ed69eeb910",
+    "work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean": "9cfbfe30f55225cb749ada1603d3f07ef23182630a5701ad8332ba4ca0d1e516",
+    "work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean": "488d5e550326e146e4061025846d73e71606c64a02bd90e8cccecab8bc683de0",
+    "work/ASGinzburgDraft/FoundationPeriodIntegerCoherence.lean": "5726da13e5c2453de06967b8c5d6f384240e9952eba33d20142d902c5ad06a68",
+    "work/ASGinzburgDraft/FoundationPeriodJacobianCutKernel.lean": "8341bd22c65c7fdf68bea51fcc9caa69cceffe1da1f553ed98e38735edb44d38",
+    "work/ASGinzburgDraft/FoundationPeriodMinimalPresentation.lean": "41b539480dd51507d86cb22f4ad9817e4dc5cfdd21cbe830b34da912a1c74eb2",
+    "work/ASGinzburgDraft/FoundationPeriodNaturalCoherence.lean": "8066247bfc928a60e01cfe595c89638db2cc4fb55d59b0b67734160688f6d0de",
+    "work/ASGinzburgDraft/FoundationPeriodPresentationSurjective.lean": "7d86b6dfe5dddb01a6477a16f89dcb4a3f73413d4b727b9471f64d091737e86b",
+    "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean": "4cf7e1e6173db87975f630e4b316947b8e040eeecd1418cf3244643f1eebd3cd",
+    "work/ASGinzburgDraft/FoundationPeriodSheetKernels.lean": "37c089828536af441f9fb3ceff261d598cf8df15eab5eb9d20c9a8101b4f315f",
+    "work/ASGinzburgDraft/FoundationPeriodZeroKernel.lean": "b5d8172e8e3d86c9d465cb937f42db017cd8ccfc8555111622b7c806a167db5f",
+    "work/ASGinzburgDraft/FoundationPeriodZeroSheet.lean": "bc4cb58acf0a8be8ef3bb2c28665b956670a921db554693ed7f1dec4e4197c77",
+    "work/ASGinzburgDraft/PeriodGeneratorClasses.lean": "704438f8e64b34fc15014c332742e7ca3bb9851459b30abb2deb9e45a3dd0109",
+    "work/ASGinzburgDraft/PeriodGeneratorIndex.lean": "2bec0a1454b47d1e671bad5355eab25bd609c85dde599c1e9d7250d091cb2915",
+    "work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean": "9b13fbbf64160feb43b7ed46d9e0405d64756e4468278d7ae90030e161e83c18",
+    "work/ASGinzburgDraft/PeriodIntegerSuccessors.lean": "6ef7cb1fd2de9781bc28e9a04f9b63cd2741c68d79aada77164f0ce57860374d",
+    "work/ASGinzburgDraft/PeriodInverseCancellation.lean": "25669c78271a880461763963cafd08f468a1f3281768cebafa25aac850b8f798",
+    "work/ASGinzburgDraft/PeriodIsoIteration.lean": "e6c4dc376b02892d5ce4de41bbf51e93e56c7b827f8ec938c31be11c062e4ea8",
+    "work/ASGinzburgDraft/PeriodIterationFormulas.lean": "8bb66ff65ecd34ff3e4817ce03c1e87044311a698b22f79972399e77265ea76a",
+    "work/ASGinzburgDraft/PeriodSheetComponents.lean": "d7670de78034d0b915d78a5850b1411bd9e870e9ea358d4b09aa7cab1b5b8889",
+    "work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean": "ec25224ab5cbea0c0daccc780739b144be3d2afaef7c2f58c912a3803435cd14",
+    "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean": "d57fe8f984134eef10a9f4ab41cbb714dc411604963c5def9dbb204efcaa2074",
+    "work/ASGinzburgDraft/PeriodicArrowLinearKernel.lean": "d7a0f736b6b6c1b029b436ff57745fd119975f0480c9a55bc3e9f5f8fa0694ab",
+    "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean": "ebe74b3aa7fe6f4db36f67086bcdd117df5c3506c14a6e6e9cc5fd54c27a9045",
+    "work/ASGinzburgDraft/UnrolledCutJacobianIdeal.lean": "61360592382be4e20fe4299710c06b30dcabd7c08c305d34d552f7843cb9c526",
+    "work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean": "8e66ced35b600cf6446f0770df188fc7e03895e12a4adcd2d6a2a505053eaff4",
+    "work/ASGinzburgDraft/UnrolledJacobianSheetShift.lean": "0434dce14e8b7e478bece62010b4ea52823455de34a3e5c9a4755de7e379665d",
+    "work/ASGinzburgDraft/UnrolledLinearShiftArithmetic.lean": "a6ce512e8f54a55f7937dca2f5e2ab1cccfc72eaa431ae457cb3f7ed66e516ba",
+    "work/ASGinzburgDraft/UnrolledPathSheetShift.lean": "767017a5692afa304f06e82ed474dc813513e90809db46c0079dd35042569d52",
+    "work/ASGinzburgDraft/UnrolledPathShiftArithmetic.lean": "f9d620b3b8e061d75cd5fb2d0d3f74a1daca8b58064a3aa74c499f69142bfbfe",
+    "work/ASGinzburgDraft/UnrolledSheetShiftErasure.lean": "def40d5142baa4b9ffdc839f1c399c9ceb976ce5cb04be36ed9835e2bc092716"
+  },
+  "entries": [
+    {
+      "name": "ASGinzburg.ZAlgebra.unrolledComponentHeightEquiv_mem_arrowPresentation_kernel_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/ArbitraryArrowKernelHeights.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowIndecomposableMap_singleArrow",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowIndecomposables.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrow_oneArrow_class_independent",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowIndecomposables.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowPathIndecomposableMap_eq_linearCombination",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowKernelSupport.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowPathIndecomposableMap_ker_le_long",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowKernelSupport.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowPathLinearEvaluation_ker_le_long_of_lt",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowKernelSupport.lean",
+      "line": 54
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowPathLinearEvaluation_ker_le_long",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowKernelSupport.lean",
+      "line": 65
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.incomingElementGenerator",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.incomingElementGenerator_decomposition",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean",
+      "line": 22
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.incomingElementGenerator_mem_path_range",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowPathLinearEvaluation_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean",
+      "line": 47
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.basedArrowPathPresentation_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BasedArrowPathSurjectivity.lean",
+      "line": 85
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodBasisSystem",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodBasisSystem.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodCutJacobianGenerators_mem_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodCutIdealKernel.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodCutJacobianIdeal_le_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodCutIdealKernel.lean",
+      "line": 19
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_period_eval_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodCutRelations.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationCutDerivativeUnroll_period_erase",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodCutRelations.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIncomingElement_periodCoherent",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathEvaluation_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_integer_shift_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean",
+      "line": 33
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_integer_shift_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodEvaluationCoherence.lean",
+      "line": 42
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.foundationSheetGeneratorIndexEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.homTransport_trans",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean",
+      "line": 29
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.map_homTransport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationRepresentativeGeneratorBasis",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean",
+      "line": 48
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationRepresentativeGeneratorBasis_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodGeneratorBasis.lean",
+      "line": 62
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIncomingElement_int_succ",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodIntegerCoherence.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodCutJacobianRelation_eval_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodJacobianCutKernel.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodJacobianRelation_cut_eval_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodJacobianCutKernel.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIntegerJacobianRelation_cut_mem_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodJacobianCutKernel.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathPresentation_kernel_le_arrow_square",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodMinimalPresentation.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodMinimalPathPresentation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodMinimalPresentation.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPresentationQuotientIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodMinimalPresentation.lean",
+      "line": 38
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIncomingElement_nat_succ",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodNaturalCoherence.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationRepresentativeBasisSystem",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodPresentationSurjective.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIncomingGenerator_class",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodPresentationSurjective.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodPresentationSurjective.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathPresentation_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodPresentationSurjective.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodRingPresentation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodRingPresentation_eq",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodRingPresentation_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodZeroCutPresentation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodZeroCutPresentation_eq",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodZeroCutPresentation_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodZeroCutKernel_eq_Jacobian",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodJacobianRingAlgEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/FoundationPeriodRingRecovery.lean",
+      "line": 48
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet_eq",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodSheetKernels.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_sheet_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodSheetKernels.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet_of_sheet",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodZeroKernel.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathPresentation_zeroSheet",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodZeroKernel.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathKernel_zeroSheet",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodZeroKernel.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.sheet_le",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodZeroSheet.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathEvaluation_zeroSheet",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodZeroSheet.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodPathLinearEvaluation_zeroSheet",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FoundationPeriodZeroSheet.lean",
+      "line": 44
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.homTransportIndecomposableEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorClasses.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.homTransportIndecomposableEquiv_apply_mk",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorClasses.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASResolution.transportedGeneratorBasis",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorClasses.lean",
+      "line": 29
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASResolution.transportedGeneratorBasis_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorClasses.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.incomingSource_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorIndex.lean",
+      "line": 8
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.incomingSource_height_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorIndex.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.generatorShiftIndexEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorIndex.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.periodShiftGeneratorBasis",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodGeneratorIndex.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.image_products",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.map_products_span",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean",
+      "line": 27
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.indecomposableEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean",
+      "line": 34
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.indecomposableEquiv_apply_mk",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.periodIndecomposableEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIndecomposableEquiv.lean",
+      "line": 45
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.map_inverse_powNat_succ",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIntegerSuccessors.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powInt_neg_nat_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIntegerSuccessors.lean",
+      "line": 30
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powInt_negSucc_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIntegerSuccessors.lean",
+      "line": 51
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powInt_map_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIntegerSuccessors.lean",
+      "line": 62
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powInt_succ_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIntegerSuccessors.lean",
+      "line": 71
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.inverse_map_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodInverseCancellation.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.map_inverse_cancel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodInverseCancellation.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.inverse_map_cancel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodInverseCancellation.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.changePeriod",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIsoIteration.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.zeroPeriod",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIsoIteration.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.compose",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIsoIteration.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powNat",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIsoIteration.lean",
+      "line": 29
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powInt",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIsoIteration.lean",
+      "line": 33
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.integerIndecomposableEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodIsoIteration.lean",
+      "line": 40
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.changePeriod_map",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIterationFormulas.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.compose_map",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIterationFormulas.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powNat_zero_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIterationFormulas.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powNat_succ_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodIterationFormulas.lean",
+      "line": 29
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.height_zeroSheet_period",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.incomingSource_height_zeroSheet_period",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.homTransport_inverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 27
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.cast_map_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 33
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.powNat_zero_map",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.sheetMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 53
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.sheetMap_id",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 60
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.sheetMap_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 65
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIncomingElement",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 73
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.ASRegular.foundationPeriodIncomingElement_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodSheetComponents.lean",
+      "line": 81
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_one_shift_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_transport_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_shift_add_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_shift_step_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_integer_shift_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerKernels.lean",
+      "line": 42
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_transport_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean",
+      "line": 30
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_shift_add_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_shift_step_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_integer_shift_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean",
+      "line": 59
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_integer_shift_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowIntegerLinearKernels.lean",
+      "line": 79
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowLinearKernel.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_shift_eq_zero_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowLinearKernel.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathLinearEvaluation_shift_kernel",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowLinearKernel.lean",
+      "line": 34
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.liftedStepMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.liftedStepMap_id",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.PeriodIso.liftedStepMap_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.IncomingElementFamily.PeriodCoherent",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.arrowPathEvaluation_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/PeriodicArrowPathEvaluation.lean",
+      "line": 52
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.cutJacobianGenerators",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/UnrolledCutJacobianIdeal.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.cutJacobianGenerators_subset",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledCutJacobianIdeal.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledCutJacobianIdeal",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/UnrolledCutJacobianIdeal.lean",
+      "line": 22
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledCutJacobianIdeal_le_Jacobian",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledCutJacobianIdeal.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledPathEraseLinearMap_sheet_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_JacobianRelation",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledCutJacobianRelation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledCutJacobianRelation_erase",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_cutJacobianRelation",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianRelationShifts.lean",
+      "line": 53
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal_mem_iff_erase",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianSheetShift.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_mem_Jacobian",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianSheetShift.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_Jacobian",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledJacobianSheetShift.lean",
+      "line": 34
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledLinearShiftArithmetic.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_add",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledLinearShiftArithmetic.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.incomingSource_sheetShift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 8
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shift",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shift_erase_toList",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 21
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.erase_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.length_shift",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 33
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shift_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shiftEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 60
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 65
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_id",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 73
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathSheetShift.lean",
+      "line": 79
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shift_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathShiftArithmetic.lean",
+      "line": 8
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shift_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathShiftArithmetic.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.UnrolledPath.shift_add",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledPathShiftArithmetic.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_erase",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledSheetShiftErasure.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.unrolledSheetShiftLinearEquiv_mem_erasureIdeal",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/UnrolledSheetShiftErasure.lean",
+      "line": 23
+    }
+  ],
+  "log": "work/checks/current-period-drafts-axioms-2.log",
+  "log_sha256": "e59f88915290a845dabaa040eda384d94e44c860327ebe170f20593124629f59",
+  "strict_coverage": true,
+  "unique_declarations": 146,
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ]
+}

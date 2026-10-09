@@ -81,24 +81,19 @@ import ASGinzburg.ModuleBidualEvaluation
 import ASGinzburg.FiniteProjectiveBidual
 import ASGinzburg.FiniteProjectiveDuality
 import ASGinzburg.FiniteProjectiveComplexDuality
-
 import ASGinzburg.ComplexDegreeReverse
 import ASGinzburg.HomotopyDegreeReverse
 import ASGinzburg.BoundedCochainDuality
-
 import ASGinzburg.FiniteProjectiveClosure
 import ASGinzburg.ASFiniteProjectiveComplex
-
 import ASGinzburg.ASDualityComplexExactness
 import ASGinzburg.RightModuleExtLeftSequence
 import ASGinzburg.ASDualityTopCokernel
 import ASGinzburg.ASLeftResolution
-
 import ASGinzburg.ProjectiveResolutionSyzygies
 import ASGinzburg.ProjectiveResolutionHomComplex
 import ASGinzburg.ASLeftBidualComplex
 import ASGinzburg.ASLeftExtConcentration
-
 import ASGinzburg.LeftModuleExtSequence
 import ASGinzburg.LeftModuleExtNaturalSequence
 import ASGinzburg.LeftModuleExtRightSequence
@@ -122,59 +117,50 @@ import ASGinzburg.ASFiniteDimensionalProjectiveResolution
 import ASGinzburg.ProjectiveResolutionHomExactness
 import ASGinzburg.FiniteProjectiveHomColimits
 import ASGinzburg.FiniteProjectiveResolutionExtColimits
-
 import ASGinzburg.RightResolutionDuality
 import ASGinzburg.LeftResolutionDuality
 import ASGinzburg.RightResolutionExtBidual
 import ASGinzburg.LeftResolutionExtBidual
 import ASGinzburg.FiniteDimensionalExtBidual
 import ASGinzburg.FiniteDimensionalRegularExtComparison
-
 import ASGinzburg.ExtClassNaturality
 import ASGinzburg.ProjectiveResolutionSyzygyNaturality
 import ASGinzburg.ResolutionExtBoundaryNaturality
 import ASGinzburg.DualResolutionComparisonMaps
 import ASGinzburg.ResolutionExtBidualNaturality
 import ASGinzburg.FiniteDimensionalExtEquivalence
-
 import ASGinzburg.FiniteDiagramClosureMaps
 import ASGinzburg.FiniteDimensionalAbelian
 import ASGinzburg.SmallVectorDuality
 import ASGinzburg.ModuleVectorDuality
 import ASGinzburg.FiniteDimensionalVectorDuality
 import ASGinzburg.FiniteDimensionalNakayama
-
 import ASGinzburg.RightSingleSupportIsomorphism
 import ASGinzburg.SimpleVectorDuality
 import ASGinzburg.FiniteDimensionalSimpleTranslation
 import ASGinzburg.FiniteDimensionalWindows
 import ASGinzburg.FiniteDimensionalWindowSequences
 import ASGinzburg.NakayamaWindowSupport
-
 import ASGinzburg.NormalizedProjectiveCovers
 import ASGinzburg.NakayamaInverseWindowSupport
 import ASGinzburg.NakayamaWindowEquivalence
 import ASGinzburg.TruncatedRepresentables
 import ASGinzburg.FiniteWindowProjectives
 import ASGinzburg.NakayamaWindowProjectives
-
 import ASGinzburg.TruncatedRepresentableHom
 import ASGinzburg.TruncatedRepresentableRestrictions
 import ASGinzburg.TruncatedCoverComponents
-
 import ASGinzburg.DirectSumDuality
 import ASGinzburg.TotalVectorDuality
 import ASGinzburg.TotalVectorDualActions
 import ASGinzburg.NakayamaWindowComparisons
 import ASGinzburg.NakayamaUnderlyingMaps
 import ASGinzburg.NakayamaRepresentableUnderlying
-
 import ASGinzburg.NakayamaWindowNormalization
 import ASGinzburg.NakayamaWindowComponents
 import ASGinzburg.NakayamaWindowCoherence
 import ASGinzburg.PeriodInverse
 import ASGinzburg.ASPeriodicity
-
 import ASGinzburg.LeftHomColimits
 import ASGinzburg.LeftFiniteExtColimits
 import ASGinzburg.LeftRegularCoproduct
@@ -184,7 +170,6 @@ import ASGinzburg.RegularLeftModule
 import ASGinzburg.LeftRegularExtComparison
 import ASGinzburg.RegularRightMultiplication
 import ASGinzburg.LeftFiniteTotalExt
-
 import ASGinzburg.ASGenerators
 import ASGinzburg.ASPathPresentation
 import ASGinzburg.ASMinimalGenerators
@@ -200,7 +185,6 @@ import ASGinzburg.ASGeneratorBasis
 import ASGinzburg.UnrolledPathIndecomposables
 import ASGinzburg.ZAlgebraHomomorphisms
 import ASGinzburg.UnrolledSingleArrows
-
 import ASGinzburg.UnrolledPathArrowClasses
 import ASGinzburg.FreeLinearKernelSupport
 import ASGinzburg.UnrolledPathKernelSquare
@@ -211,7 +195,6 @@ import ASGinzburg.ASPresentationKernel
 import ASGinzburg.QuotientZAlgebra
 import ASGinzburg.ZAlgebraIsomorphisms
 import ASGinzburg.ASPresentationQuotient
-
 import ASGinzburg.ClosedPathPotentials
 import ASGinzburg.PathWordEmbeddings
 import ASGinzburg.PathCyclicDerivativeSupport
@@ -226,7 +209,6 @@ import ASGinzburg.UnrolledJacobianRelations
 import ASGinzburg.UnrolledComponentHeights
 import ASGinzburg.TrianglePeriodicity
 import ASGinzburg.UnrolledJacobianAlgebra
-
 import ASGinzburg.GinzburgPaths
 import ASGinzburg.GinzburgPathAlgebra
 import ASGinzburg.GinzburgPathWords
@@ -239,9 +221,7 @@ import ASGinzburg.GinzburgDifferentialGradings
 import ASGinzburg.GinzburgLeibniz
 import ASGinzburg.GinzburgDifferentialSign
 import ASGinzburg.GinzburgDegreeZeroDifferential
-
 import ASGinzburg.GinzburgSquareProducts
-
 import ASGinzburg.VertexCyclicCommutators
 import ASGinzburg.PathCyclicCommutators
 import ASGinzburg.GinzburgLoopSquare
@@ -258,7 +238,6 @@ import ASGinzburg.GinzburgJacobianBoundaries
 import ASGinzburg.GinzburgHomologyZero
 import ASGinzburg.GinzburgTotalHomologyZero
 import ASGinzburg.GinzburgPositiveHomology
-
 import ASGinzburg.GinzburgPathFiniteness
 import ASGinzburg.GinzburgCutCochainComplex
 import ASGinzburg.GinzburgCutProjections
@@ -274,7 +253,6 @@ import ASGinzburg.PathCutUnrollingEquiv
 import ASGinzburg.GinzburgCycleBoundary
 import ASGinzburg.GinzburgCutDecomposition
 import ASGinzburg.GinzburgCutRegularity
-
 import ASGinzburg.UnrolledPathErasure
 import ASGinzburg.UnrolledJacobianErasure
 import ASGinzburg.PathCutUnrollingComparison
@@ -292,7 +270,6 @@ import ASGinzburg.BetweenSheetJacobianIdeals
 import ASGinzburg.JacobianUnrollingQuotient
 import ASGinzburg.JacobianCutQuotientProducts
 import ASGinzburg.JacobianUnrollingProducts
-
 import ASGinzburg.GinzburgZeroProducts
 import ASGinzburg.GinzburgZeroQuotientProducts
 import ASGinzburg.GinzburgHomologyZeroProducts
@@ -309,7 +286,6 @@ import ASGinzburg.FiniteComponentAlgebraEquiv
 import ASGinzburg.GinzburgHomologyUnits
 import ASGinzburg.GinzburgHomologyRing
 import ASGinzburg.PathJacobianRingQuotient
-
 import ASGinzburg.HomologyAugmentation
 import ASGinzburg.GinzburgAugmentation
 import ASGinzburg.GinzburgCutAugmentation
@@ -322,7 +298,6 @@ import ASGinzburg.GinzburgAugmentationGradedFree
 import ASGinzburg.GinzburgAugmentationComplex
 import ASGinzburg.GinzburgAugmentationHomology
 import ASGinzburg.GinzburgAugmentationRegularity
-
 import ASGinzburg.FinsuppSupportedQuotient
 import ASGinzburg.GinzburgGeneratorFiltration
 import ASGinzburg.GinzburgGeneratorFiltrationDifferential
@@ -344,7 +319,6 @@ import ASGinzburg.GinzburgGeneratorLayerInverse
 import ASGinzburg.GinzburgGeneratorLayerHomology
 import ASGinzburg.GinzburgGeneratorLayerConcentration
 import ASGinzburg.GinzburgGeneratorLayerAugmentation
-
 import ASGinzburg.GinzburgGeneratorFiltrationShortExact
 import ASGinzburg.GinzburgGeneratorFiltrationHomologySequence
 import ASGinzburg.GinzburgGeneratorFilteredAugmentation
@@ -355,7 +329,6 @@ import ASGinzburg.GinzburgGeneratorFiltrationRadical
 import ASGinzburg.GinzburgGeneratorFiltrationCokernel
 import ASGinzburg.GinzburgGeneratorPrefixTopQuotient
 import ASGinzburg.GinzburgGeneratorHomologyComplex
-
 import ASGinzburg.GinzburgGeneratorPrefixDifferentialCoefficients
 import ASGinzburg.GinzburgGeneratorPrefixBoundaryFamily
 import ASGinzburg.JacobianOriginSheet
@@ -363,7 +336,6 @@ import ASGinzburg.GinzburgGeneratorPrefixJacobian
 import ASGinzburg.GinzburgGeneratorIndices
 import ASGinzburg.GinzburgGeneratorCoefficientIndices
 import ASGinzburg.GinzburgProjectiveTermComponents
-
 import ASGinzburg.GinzburgAugmentationHeight
 import ASGinzburg.RepresentableRadicalComponents
 import ASGinzburg.GinzburgAugmentationHeightHomology
@@ -371,7 +343,6 @@ import ASGinzburg.GinzburgAugmentationRadical
 import ASGinzburg.GinzburgASComponentDifferentials
 import ASGinzburg.GinzburgASComponentExactness
 import ASGinzburg.GinzburgASComponentComplex
-
 import ASGinzburg.GinzburgFilteredLeftAction
 import ASGinzburg.GinzburgAssociatedLeftAction
 import ASGinzburg.GinzburgFiltrationLeftNaturality
@@ -426,7 +397,6 @@ import ASGinzburg.GinzburgSimpleFiniteProjectiveResolution
 import ASGinzburg.GinzburgSimpleExtColimits
 import ASGinzburg.EndpointProjectiveMinimality
 import ASGinzburg.GinzburgASEndpointMinimality
-
 import ASGinzburg.PathLengthFiltration
 import ASGinzburg.PathJacobianLengthSupport
 import ASGinzburg.GinzburgBoundaryLengthSupport
@@ -459,7 +429,6 @@ import ASGinzburg.OppositeGinzburgPathAlgebra
 import ASGinzburg.OppositeGinzburgGenerators
 import ASGinzburg.OppositeGinzburgLoopDifferential
 import ASGinzburg.OppositeGinzburgGeneratorDifferential
-
 import ASGinzburg.OppositeGinzburgGradings
 import ASGinzburg.OppositeGinzburgDifferentialTransport
 import ASGinzburg.OppositeGinzburgPathDifferential
@@ -513,7 +482,6 @@ import ASGinzburg.GinzburgPathHessianCut
 import ASGinzburg.GinzburgDualArrowHessianPrefixes
 import ASGinzburg.GinzburgDualArrowHessianMatrix
 import ASGinzburg.GinzburgProjectiveConnectingClasses
-
 import ASGinzburg.GinzburgLayerHomologyClasses
 import ASGinzburg.GinzburgDualCoefficientRepresentatives
 import ASGinzburg.GinzburgLoopLayerDifferential
@@ -530,7 +498,6 @@ import ASGinzburg.GinzburgPrefixFamilyUnits
 import ASGinzburg.GinzburgGeneratorUnitHomologyClasses
 import ASGinzburg.GinzburgGeneratorUnitRepresentatives
 import ASGinzburg.GinzburgSingleGeneratorProjectiveBasis
-
 import ASGinzburg.GinzburgProjectiveBasisDifferentials
 import ASGinzburg.GinzburgSingleGeneratorRepresentatives
 import ASGinzburg.GinzburgUnitGeneratorDifferentials
@@ -715,6 +682,82 @@ import ASGinzburg.TwoSidedSpanRingEquiv
 import ASGinzburg.ASZeroCutRelationGeneration
 import ASGinzburg.ZeroCutJacobianRing
 import ASGinzburg.ASFoundationJacobianRingEquiv
+import ASGinzburg.ArbitraryArrowKernelHeights
+import ASGinzburg.BasedArrowIndecomposables
+import ASGinzburg.BasedArrowKernelSupport
+import ASGinzburg.BasedArrowPathSurjectivity
+import ASGinzburg.FoundationPeriodBasisSystem
+import ASGinzburg.FoundationPeriodCutIdealKernel
+import ASGinzburg.FoundationPeriodCutRelations
+import ASGinzburg.FoundationPeriodEvaluationCoherence
+import ASGinzburg.FoundationPeriodGeneratorBasis
+import ASGinzburg.FoundationPeriodIntegerCoherence
+import ASGinzburg.FoundationPeriodJacobianCutKernel
+import ASGinzburg.FoundationPeriodMinimalPresentation
+import ASGinzburg.FoundationPeriodNaturalCoherence
+import ASGinzburg.FoundationPeriodPresentationSurjective
+import ASGinzburg.FoundationPeriodRingRecovery
+import ASGinzburg.FoundationPeriodSameSheetJacobianKernel
+import ASGinzburg.FoundationPeriodSameSheetRecovery
+import ASGinzburg.FoundationPeriodSheetKernels
+import ASGinzburg.FoundationPeriodZeroJacobianKernel
+import ASGinzburg.FoundationPeriodZeroKernel
+import ASGinzburg.FoundationPeriodZeroSheet
+import ASGinzburg.PeriodGeneratorClasses
+import ASGinzburg.PeriodGeneratorIndex
+import ASGinzburg.PeriodIndecomposableEquiv
+import ASGinzburg.PeriodIntegerSuccessors
+import ASGinzburg.PeriodInverseCancellation
+import ASGinzburg.PeriodIsoIteration
+import ASGinzburg.PeriodIterationFormulas
+import ASGinzburg.PeriodSheetComponents
+import ASGinzburg.PeriodicArrowIntegerKernels
+import ASGinzburg.PeriodicArrowIntegerLinearKernels
+import ASGinzburg.PeriodicArrowLinearKernel
+import ASGinzburg.PeriodicArrowPathEvaluation
+import ASGinzburg.UnrolledCutJacobianIdeal
+import ASGinzburg.UnrolledJacobianRelationShifts
+import ASGinzburg.UnrolledJacobianSheetShift
+import ASGinzburg.UnrolledLinearShiftArithmetic
+import ASGinzburg.UnrolledPathIntegerSheetShift
+import ASGinzburg.UnrolledPathSheetShift
+import ASGinzburg.UnrolledPathShiftArithmetic
+import ASGinzburg.UnrolledSheetShiftErasure
+import ASGinzburg.ZeroCutJacobianEvaluation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /-!
 # AS--Ginzburg formalization checkpoint
 
@@ -722,4 +765,5 @@ All imports contain checked definitions and proofs. This checkpoint does
 not yet contain a formal statement or proof of Theorem 3.2 or Corollary
 5.2. See STATUS.md and GAPS.md for the exact scope and unresolved bridges.
 -/
+
 

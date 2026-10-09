@@ -1,0 +1,295 @@
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodCutGradedAssociativity.lean
+@@ -0,0 +1,31 @@
++import work.ASGinzburgDraft.PeriodCutGradedComponents
++
++/-! The shifted nonnegative cut multiplication is associative,
++with the genuine grading reassociation recorded as an index transport. -/
++namespace ASGinzburg.ZAlgebra
++universe u v
++variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
++
++theorem homTransport_comp_target (i j l l' : ℤ) (hl : l=l')
++    (f : A.Hom i j) (g : A.Hom j l) :
++    A.comp (A.homTransport j l j l' rfl hl g) f =
++      A.homTransport i l i l' rfl hl (A.comp g f) := by
++  subst l'
++  rfl
++
++namespace PeriodIso
++variable {A} {p : ℤ} (E : A.PeriodIso p)
++
++theorem cutGradedComp_assoc (m n q : ℕ) {i j l s : ℤ}
++    (f : E.CutGradedHom m i j) (g : E.CutGradedHom n j l) (h : E.CutGradedHom q l s) :
++    E.cutGradedComp (m+n) q h (E.cutGradedComp m n g f) =
++      A.homTransport i (s+((m+(n+q):ℕ):ℤ)*p) i (s+(((m+n)+q:ℕ):ℤ)*p)
++        rfl (by rw [Nat.add_assoc])
++        (E.cutGradedComp m (n+q) (E.cutGradedComp n q h g) f) := by
++  rw [E.cutGradedComp_apply,E.cutGradedComp_apply,E.cutGradedComp_apply,E.cutGradedComp_apply]
++  rw [E.powNat_add_apply_rev,PeriodIso.map_homTransport,(E.powNat m).map_comp]
++  rw [← A.homTransport_comp,A.homTransport_trans,A.homTransport_comp_target,
++    A.homTransport_trans,A.homTransport_trans,A.comp_assoc]
++
++end PeriodIso
++end ASGinzburg.ZAlgebra
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodCutGradedComponents.lean
+@@ -0,0 +1,33 @@
++import work.ASGinzburgDraft.PeriodNaturalAddition
++
++/-! Actual nonnegative cut-graded components and their shifted
++bilinear multiplication, as used to descend a period to a graded algebra. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++variable (E : A.PeriodIso p)
++
++abbrev CutGradedHom (_E : A.PeriodIso p) (m : ℕ) (i j : ℤ) := A.Hom i (j+(m:ℤ)*p)
++
++noncomputable def cutGradedComp (m n : ℕ) {i j l : ℤ} :
++    E.CutGradedHom n j l →ₗ[k] E.CutGradedHom m i j →ₗ[k] E.CutGradedHom (m+n) i l where
++  toFun g :=
++    (A.homTransport i ((l+(n:ℤ)*p)+(m:ℤ)*p) i (l+((m+n:ℕ):ℤ)*p)
++      rfl (by push_cast; ring)).toLinearMap.comp
++        (A.comp ((E.powNat m).map j (l+(n:ℤ)*p) g))
++  map_add' := by
++    intro g h
++    ext f
++    simp only [LinearMap.comp_apply,map_add,LinearMap.add_apply]
++  map_smul' := by
++    intro c g
++    ext f
++    simp only [LinearMap.comp_apply,map_smul,LinearMap.smul_apply,RingHom.id_apply]
++
++theorem cutGradedComp_apply (m n : ℕ) {i j l : ℤ}
++    (f : E.CutGradedHom m i j) (g : E.CutGradedHom n j l) :
++    E.cutGradedComp m n g f =
++      A.homTransport i ((l+(n:ℤ)*p)+(m:ℤ)*p) i (l+((m+n:ℕ):ℤ)*p)
++        rfl (by push_cast; ring) (A.comp ((E.powNat m).map j (l+(n:ℤ)*p) g) f) := rfl
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodCutGradedUnits.lean
+@@ -0,0 +1,41 @@
++import work.ASGinzburgDraft.PeriodCutGradedAssociativity
++
++/-! The actual degree-zero units act as units for the shifted
++cut multiplication, with its degree-zero reassociation transport. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++variable (E : A.PeriodIso p)
++
++noncomputable def cutGradedId (i : ℤ) : E.CutGradedHom 0 i i :=
++  A.homTransport i i i (i+(0:ℤ)*p) rfl (by ring) (A.id i)
++
++theorem cutGradedComp_id_right (m : ℕ) {i j : ℤ} (f : E.CutGradedHom m i j) :
++    E.cutGradedComp m 0 (E.cutGradedId j) f=f := by
++  rw [E.cutGradedComp_apply,cutGradedId]
++  change A.homTransport i ((j+(0:ℤ)*p)+(m:ℤ)*p) i (j+(m:ℤ)*p) rfl _
++    (A.comp ((E.powNat m).map j (j+(0:ℤ)*p)
++      (A.homTransport j j j (j+(0:ℤ)*p) rfl _ (A.id j))) f)=f
++  have he := PeriodIso.map_homTransport A (E.powNat m) j j j (j+(0:ℤ)*p)
++    rfl (by ring) (A.id j)
++  rw [he,(E.powNat m).map_id]
++  have hc := A.homTransport_comp_target i (j+(m:ℤ)*p) (j+(m:ℤ)*p)
++    ((j+(0:ℤ)*p)+(m:ℤ)*p) (by ring) f (A.id (j+(m:ℤ)*p))
++  rw [hc,A.homTransport_trans,A.comp_id]
++  rfl
++
++theorem cutGradedComp_id_left (m : ℕ) {i j : ℤ} (f : E.CutGradedHom m i j) :
++    A.homTransport i (j+((0+m:ℕ):ℤ)*p) i (j+(m:ℤ)*p) rfl (by rw [Nat.zero_add])
++      (E.cutGradedComp 0 m f (E.cutGradedId i))=f := by
++  rw [E.cutGradedComp_apply,cutGradedId,E.powNat_zero_apply]
++  change A.homTransport i (j+((0+m:ℕ):ℤ)*p) i (j+(m:ℤ)*p) rfl _
++    (A.homTransport i ((j+(m:ℤ)*p)+(0:ℤ)*p) i (j+((0+m:ℕ):ℤ)*p) rfl _
++      (A.comp (A.homTransport i (j+(m:ℤ)*p) (i+(0:ℤ)*p)
++        ((j+(m:ℤ)*p)+(0:ℤ)*p) _ _ f)
++        (A.homTransport i i i (i+(0:ℤ)*p) rfl _ (A.id i))))=f
++  have hc := A.homTransport_comp i i (j+(m:ℤ)*p) i (i+(0:ℤ)*p)
++    ((j+(m:ℤ)*p)+(0:ℤ)*p) rfl (by ring) (by ring) (A.id i) f
++  rw [← hc,A.homTransport_trans,A.homTransport_trans,A.id_comp]
++  rfl
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodIdealQuotient.lean
+@@ -0,0 +1,31 @@
++import ASGinzburg.QuotientZAlgebra
++import ASGinzburg.PeriodInverse
++
++/-! A genuine multiplicative period preserving an actual ideal
++descends to the genuine quotient algebra, with no quotient-period assumption. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {B : ZAlgebra.{u,v} k} {p : ℤ}
++variable (E : B.PeriodIso p) (I : B.LinearIdeal)
++variable (hdiag : ∀ i, I.hom i i=⊥)
++variable (hI : ∀ i j, (I.hom i j).map (E.map i j).toLinearMap=I.hom (i+p) (j+p))
++
++noncomputable def idealQuotientPeriod : (I.quotient hdiag).PeriodIso p where
++  map i j := Submodule.Quotient.equiv _ _ (E.map i j) (hI i j)
++  map_id := by
++    intro i
++    change Submodule.Quotient.mk (E.map i i (B.id i)) = Submodule.Quotient.mk (B.id (i+p))
++    exact congrArg Submodule.Quotient.mk (E.map_id i)
++  map_comp := by
++    intro i j l f g
++    obtain ⟨f,rfl⟩ := (I.hom i j).mkQ_surjective f
++    obtain ⟨g,rfl⟩ := (I.hom j l).mkQ_surjective g
++    change Submodule.Quotient.mk (E.map i l (B.comp g f)) =
++      Submodule.Quotient.mk (B.comp (E.map j l g) (E.map i j f))
++    exact congrArg Submodule.Quotient.mk (E.map_comp f g)
++
++theorem idealQuotientPeriod_apply_mk (i j : ℤ) (f : B.Hom i j) :
++    (E.idealQuotientPeriod I hdiag hI).map i j (Submodule.Quotient.mk f) =
++      Submodule.Quotient.mk (E.map i j f) := rfl
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/PeriodNaturalAddition.lean
+@@ -0,0 +1,57 @@
++import ASGinzburg.PeriodIntegerSuccessors
++
++/-! Natural powers of a genuine multiplicative period satisfy the
++addition law with all component index transports made explicit. -/
++namespace ASGinzburg.ZAlgebra.PeriodIso
++universe u v
++variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
++variable (E : A.PeriodIso p)
++
++theorem powNat_map_transport (m n : ℕ) (h : m=n) (i j i' j' : ℤ)
++    (hi : i+(m:ℤ)*p=i') (hj : j+(m:ℤ)*p=j') (f : A.Hom i j) :
++    A.homTransport (i+(n:ℤ)*p) (j+(n:ℤ)*p) i' j'
++        ((congrArg (fun t : ℕ => i+(t:ℤ)*p) h.symm).trans hi)
++        ((congrArg (fun t : ℕ => j+(t:ℤ)*p) h.symm).trans hj)
++        ((E.powNat n).map i j f) =
++      A.homTransport (i+(m:ℤ)*p) (j+(m:ℤ)*p) i' j' hi hj ((E.powNat m).map i j f) := by
++  subst n
++  rfl
++
++theorem powNat_add_apply (m n : ℕ) (i j : ℤ) (f : A.Hom i j) :
++    (E.powNat (m+n)).map i j f =
++      A.homTransport ((i+(m:ℤ)*p)+(n:ℤ)*p) ((j+(m:ℤ)*p)+(n:ℤ)*p)
++        (i+((m+n:ℕ):ℤ)*p) (j+((m+n:ℕ):ℤ)*p)
++        (by push_cast; ring) (by push_cast; ring)
++        ((E.powNat n).map (i+(m:ℤ)*p) (j+(m:ℤ)*p) ((E.powNat m).map i j f)) := by
++  induction n with
++  | zero =>
++    change (E.powNat m).map i j f =
++      A.homTransport ((i+(m:ℤ)*p)+(0:ℤ)*p) ((j+(m:ℤ)*p)+(0:ℤ)*p)
++        (i+(m:ℤ)*p) (j+(m:ℤ)*p) _ _
++        ((E.powNat 0).map (i+(m:ℤ)*p) (j+(m:ℤ)*p) ((E.powNat m).map i j f))
++    exact (E.powNat_zero_map _ _ _).symm
++  | succ n ih =>
++    change (E.powNat ((m+n)+1)).map i j f =
++      A.homTransport ((i+(m:ℤ)*p)+((n+1:ℕ):ℤ)*p) ((j+(m:ℤ)*p)+((n+1:ℕ):ℤ)*p)
++        (i+(((m+n)+1:ℕ):ℤ)*p) (j+(((m+n)+1:ℕ):ℤ)*p) _ _
++        ((E.powNat (n+1)).map (i+(m:ℤ)*p) (j+(m:ℤ)*p) ((E.powNat m).map i j f))
++    rw [E.powNat_succ_apply,ih,E.powNat_succ_apply]
++    rw [PeriodIso.map_homTransport,A.homTransport_trans,A.homTransport_trans]
++
++theorem powNat_add_apply_rev (m n : ℕ) (i j : ℤ) (f : A.Hom i j) :
++    (E.powNat (m+n)).map i j f =
++      A.homTransport ((i+(n:ℤ)*p)+(m:ℤ)*p) ((j+(n:ℤ)*p)+(m:ℤ)*p)
++        (i+((m+n:ℕ):ℤ)*p) (j+((m+n:ℕ):ℤ)*p)
++        (by push_cast; ring) (by push_cast; ring)
++        ((E.powNat m).map (i+(n:ℤ)*p) (j+(n:ℤ)*p) ((E.powNat n).map i j f)) := by
++  calc
++    _ = A.homTransport (i+((n+m:ℕ):ℤ)*p) (j+((n+m:ℕ):ℤ)*p)
++        (i+((m+n:ℕ):ℤ)*p) (j+((m+n:ℕ):ℤ)*p) (by push_cast; ring) (by push_cast; ring)
++        ((E.powNat (n+m)).map i j f) := by
++      exact E.powNat_map_transport (n+m) (m+n) (Nat.add_comm n m) i j
++        (i+((m+n:ℕ):ℤ)*p) (j+((m+n:ℕ):ℤ)*p)
++        (by push_cast; ring) (by push_cast; ring) f
++    _ = _ := by
++      rw [E.powNat_add_apply,A.homTransport_trans]
++
++end ASGinzburg.ZAlgebra.PeriodIso
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledJacobianErasureEquality.lean
+@@ -0,0 +1,29 @@
++import ASGinzburg.UnrolledPathIntegerSheetShift
++
++/-! The genuine full Jacobian ideal equals the erasure pullback
++in every integer component, using the proved homogeneous comparison. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledJacobianIdeal_eq_erasureIdeal (φ : Q.Potential k) (i j : ℤ) :
++    (Q.unrolledJacobianIdeal k φ).hom i j =
++      (Q.unrolledErasureIdeal k (Q.pathJacobianIdeal k φ)).hom i j := by
++  let P : ℤ → ℤ → Prop := fun a b =>
++    (Q.unrolledJacobianIdeal k φ).hom a b =
++      (Q.unrolledErasureIdeal k (Q.pathJacobianIdeal k φ)).hom a b
++  let x := Q.heightEquiv.symm i
++  let y := Q.heightEquiv.symm j
++  have h : P (Q.height x) (Q.height y) := by
++    apply Submodule.comap_injective_of_surjective (Q.unrolledComponentHeightEquiv k x y).surjective
++    ext f
++    change f ∈ Q.unrolledJacobianLiftIdeal k φ x y ↔
++      Q.unrolledComponentHeightEquiv k x y f ∈
++        (Q.unrolledErasureIdeal k (Q.pathJacobianIdeal k φ)).hom (Q.height x) (Q.height y)
++    exact (Q.unrolledJacobianLiftIdeal_mem_iff_erase k φ f).trans
++      (Q.unrolledComponentHeightEquiv_mem_erasureIdeal k (Q.pathJacobianIdeal k φ) x y f).symm
++  change P (Q.height (Q.heightEquiv.symm i)) (Q.height (Q.heightEquiv.symm j)) at h
++  rw [Q.height_heightEquiv_symm,Q.height_heightEquiv_symm] at h
++  exact h
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/UnrolledJacobianIntegerSheetShift.lean
+@@ -0,0 +1,52 @@
++import work.ASGinzburgDraft.UnrolledJacobianErasureEquality
++import work.ASGinzburgDraft.PeriodIdealQuotient
++
++/-! Every integer sheet shift preserves the actual full Jacobian
++ideal and induces a multiplicative period of its genuine quotient. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem unrolledIntegerSheetShiftLinearEquiv_mem_Jacobian
++    (φ : Q.Potential k) (r i j : ℤ) (f : (Q.unrolledPathZAlgebra k).Hom i j) :
++    Q.unrolledIntegerSheetShiftLinearEquiv k r i j f ∈
++        (Q.unrolledJacobianIdeal k φ).hom (i+Q.vertices*r) (j+Q.vertices*r) ↔
++      f ∈ (Q.unrolledJacobianIdeal k φ).hom i j := by
++  rw [Q.unrolledJacobianIdeal_eq_erasureIdeal k φ,
++    Q.unrolledJacobianIdeal_eq_erasureIdeal k φ]
++  change Q.unrolledPathEraseLinearMap k _ _
++      (Finsupp.mapDomain (UnrolledPath.endpointEquiv Q
++        (Q.shift_heightEquiv_symm r i) (Q.shift_heightEquiv_symm r j))
++        (Q.unrolledSheetShiftLinearEquiv k r (Q.heightEquiv.symm i) (Q.heightEquiv.symm j) f)) ∈
++      (Q.pathJacobianIdeal k φ).hom _ _ ↔
++    Q.unrolledPathEraseLinearMap k _ _ f ∈ (Q.pathJacobianIdeal k φ).hom _ _
++  exact (Q.unrolledEndpointEquiv_mem_erasureIdeal k (Q.pathJacobianIdeal k φ)
++    (Q.shift_heightEquiv_symm r i) (Q.shift_heightEquiv_symm r j)
++    (Q.unrolledSheetShiftLinearEquiv k r (Q.heightEquiv.symm i) (Q.heightEquiv.symm j) f)).trans
++      (Q.unrolledSheetShiftLinearEquiv_mem_erasureIdeal k (Q.pathJacobianIdeal k φ) r f)
++
++theorem unrolledIntegerSheetShiftLinearEquiv_Jacobian
++    (φ : Q.Potential k) (r i j : ℤ) :
++    ((Q.unrolledJacobianIdeal k φ).hom i j).map
++        (Q.unrolledIntegerSheetShiftLinearEquiv k r i j).toLinearMap =
++      (Q.unrolledJacobianIdeal k φ).hom (i+Q.vertices*r) (j+Q.vertices*r) := by
++  ext f
++  constructor
++  · rintro ⟨g,hg,rfl⟩
++    exact (Q.unrolledIntegerSheetShiftLinearEquiv_mem_Jacobian k φ r i j g).mpr hg
++  · intro hf
++    obtain ⟨g,rfl⟩ := (Q.unrolledIntegerSheetShiftLinearEquiv k r i j).surjective f
++    exact ⟨g,(Q.unrolledIntegerSheetShiftLinearEquiv_mem_Jacobian k φ r i j g).mp hf,rfl⟩
++
++noncomputable def unrolledJacobianSheetPeriodIso (φ : Q.Potential k) (r : ℤ) :
++    (Q.unrolledJacobianZAlgebra k φ).PeriodIso (Q.vertices*r) :=
++  (Q.unrolledPathSheetPeriodIso k r).idealQuotientPeriod (Q.unrolledJacobianIdeal k φ)
++    (Q.unrolledJacobianIdeal_diagonal_eq_bot k φ)
++    (Q.unrolledIntegerSheetShiftLinearEquiv_Jacobian k φ r)
++
++theorem unrolledJacobianSheetPeriodIso_apply_mk (φ : Q.Potential k)
++    (r i j : ℤ) (f : (Q.unrolledPathZAlgebra k).Hom i j) :
++    (Q.unrolledJacobianSheetPeriodIso k φ r).map i j (Submodule.Quotient.mk f) =
++      Submodule.Quotient.mk (Q.unrolledIntegerSheetShiftLinearEquiv k r i j f) := rfl
++
++end ASGinzburg.CutQuiver

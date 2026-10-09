@@ -1,0 +1,33 @@
+import ASGinzburg.UnrolledPathSheetShift
+
+/-! All sheet shifts compose and the zero shift is the identity,
+with the actual endpoint transports displayed. -/
+namespace ASGinzburg.CutQuiver
+variable {Q : CutQuiver}
+
+theorem UnrolledPath.shift_transport (r : ℤ) {u v u' v' : Q.LiftVertex}
+    (hu : u=u') (hv : v=v') (p : Q.UnrolledPath u v) :
+    (p.transport hu hv).shift r =
+      (p.shift r).transport (congrArg (Q.shift r) hu) (congrArg (Q.shift r) hv) := by
+  subst u'
+  subst v'
+  rfl
+
+theorem UnrolledPath.shift_zero {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
+    p.shift 0 = p.transport (by simp [CutQuiver.shift])
+      (by simp [CutQuiver.shift]) := by
+  apply UnrolledPath.erase_toList_injective
+  simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport,
+    Path.toList_transport]
+
+theorem UnrolledPath.shift_add (r s : ℤ) {u v : Q.LiftVertex}
+    (p : Q.UnrolledPath u v) :
+    (p.shift r).shift s =
+      (p.shift (r+s)).transport
+        (by simp [CutQuiver.shift, add_assoc])
+        (by simp [CutQuiver.shift, add_assoc]) := by
+  apply UnrolledPath.erase_toList_injective
+  simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport,
+    Path.toList_transport]
+
+end ASGinzburg.CutQuiver

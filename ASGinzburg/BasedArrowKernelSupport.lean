@@ -1,0 +1,93 @@
+import ASGinzburg.BasedArrowIndecomposables
+import ASGinzburg.FreeLinearKernelSupport
+
+/-! For the specified actual family whose quotient classes are a basis, all relations in the genuine
+free-path evaluation have support on paths of length at least two. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+variable (G : A.IncomingElementFamily Q) (B : A.IncomingBasisSystem Q)
+  (hclass : ∀ (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w)
+    (a : ASResolution.GeneratorIndex (Q:=Q) (w:=w) i),
+    (Submodule.span k (A.products i (Q.height w))).mkQ
+      (A.incomingElementGenerator Q G w i a)=B.basis w i hi a)
+open CutQuiver.UnrolledPath
+
+theorem basedArrowPathIndecomposableMap_eq_linearCombination (u v : Q.LiftVertex) :
+    A.arrowPathIndecomposableMap Q G u v =
+      Finsupp.linearCombination k (fun p =>
+        (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
+          (A.arrowPathEvaluation Q G p)) := by
+  rw [arrowPathIndecomposableMap,arrowPathLinearEvaluation,
+    ← Finsupp.linearCombination_linear_comp]
+  rfl
+
+include hclass in
+theorem basedArrowPathIndecomposableMap_ker_le_long (u v : Q.LiftVertex)
+    (huv : Q.height u < Q.height v) :
+    LinearMap.ker (A.arrowPathIndecomposableMap Q G u v) ≤
+      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
+  classical
+  let S : Set (Q.UnrolledPath u v) := {p | 2 ≤ p.length}
+  rw [A.basedArrowPathIndecomposableMap_eq_linearCombination]
+  apply linearCombination_ker_le_supported
+  · intro p hp
+    have H := A.arrowPathIndecomposableMap_single_long Q G p hp
+    simpa [arrowPathIndecomposableMap,A.arrowPathLinearEvaluation_single] using H
+  · have hlen (p : {p : Q.UnrolledPath u v // p ∉ S}) : p.val.length=1 := by
+      have hn : ¬2 ≤ p.val.length := p.property
+      have hp : p.val.length ≠ 0 := by
+        intro hzero
+        have heq := p.val.height_eq_of_length_zero hzero
+        omega
+      omega
+    let e : {p : Q.UnrolledPath u v // p ∉ S} →
+        {p : Q.UnrolledPath u v // p.length=1} := fun p => ⟨p.val,hlen p⟩
+    have he : Function.Injective e := by
+      intro p q h
+      exact Subtype.ext (congrArg (fun x : {p : Q.UnrolledPath u v // p.length=1} => x.val) h)
+    have H := (A.basedArrow_oneArrow_class_independent Q G B hclass u v huv).comp e he
+    simpa [LinearIndepOn,arrowPathIndecomposableMap,A.arrowPathLinearEvaluation_single,e]
+      using H
+
+include hclass in
+theorem basedArrowPathLinearEvaluation_ker_le_long_of_lt (u v : Q.LiftVertex)
+    (huv : Q.height u < Q.height v) :
+    LinearMap.ker (A.arrowPathLinearEvaluation Q G u v) ≤
+      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
+  apply le_trans _ (A.basedArrowPathIndecomposableMap_ker_le_long Q G B hclass u v huv)
+  intro f hf
+  change (Submodule.span k (A.products (Q.height u) (Q.height v))).mkQ
+    (A.arrowPathLinearEvaluation Q G u v f) = 0
+  rw [hf,map_zero]
+
+include hclass in
+theorem basedArrowPathLinearEvaluation_ker_le_long (u v : Q.LiftVertex) :
+    LinearMap.ker (A.arrowPathLinearEvaluation Q G u v) ≤
+      Finsupp.supported k k {p : Q.UnrolledPath u v | 2 ≤ p.length} := by
+  by_cases huv : Q.height u < Q.height v
+  · exact A.basedArrowPathLinearEvaluation_ker_le_long_of_lt Q G B hclass u v huv
+  by_cases heq : Q.height u = Q.height v
+  · have huv := Q.height_bijective.injective heq
+    subst v
+    intro f hf
+    change A.arrowPathLinearEvaluation Q G u u f = 0 at hf
+    have hrep : f = f (.nil u) • Q.unrolledPathId k u := by
+      ext p
+      rw [p.diagonal_eq_nil]
+      simp [CutQuiver.unrolledPathId,Finsupp.smul_single,smul_eq_mul]
+    have hz : f (.nil u) • A.id (Q.height u) = 0 := by
+      rw [hrep,map_smul,A.arrowPathLinearEvaluation_id] at hf
+      exact hf
+    have hc : f (.nil u) = 0 := (smul_eq_zero.mp hz).resolve_right
+      (A.id_nonzero (Q.height u))
+    rw [hrep,hc,zero_smul]
+    exact Submodule.zero_mem _
+  · haveI : IsEmpty (Q.UnrolledPath u v) :=
+      ⟨fun p => by have := p.height_le; omega⟩
+    intro f _
+    have hf : f=0 := Subsingleton.elim _ _
+    rw [hf]
+    exact Submodule.zero_mem _
+
+end ASGinzburg.ZAlgebra

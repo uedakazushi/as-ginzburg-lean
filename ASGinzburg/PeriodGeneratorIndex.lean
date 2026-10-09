@@ -1,0 +1,49 @@
+import ASGinzburg.PeriodIsoIteration
+
+/-! The genuine unrolled arrow labels and indecomposable bases can
+be transported through every sheet using the AS-derived period. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+theorem incomingSource_shift (r : ℤ) (w : Q.LiftVertex) (a : Q.incomingArrows w) :
+    Q.incomingSource (Q.shift r w) a=Q.shift r (Q.incomingSource w a) := by
+  apply Prod.ext
+  · rfl
+  · change w.2+r-(Q.cutDegree a.val : ℤ)=w.2-(Q.cutDegree a.val : ℤ)+r
+    ring
+
+theorem incomingSource_height_shift (r : ℤ) (w : Q.LiftVertex) (a : Q.incomingArrows w) :
+    Q.height (Q.incomingSource (Q.shift r w) a)=
+      Q.height (Q.incomingSource w a)+Q.vertices*r := by
+  rw [Q.incomingSource_shift,Q.height_shift]
+
+def generatorShiftIndexEquiv (r : ℤ) (w : Q.LiftVertex) (i : ℤ) :
+    ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=w) i ≃
+      ZAlgebra.ASResolution.GeneratorIndex (Q:=Q) (w:=Q.shift r w) (i+Q.vertices*r) where
+  toFun a := ⟨a.val,by rw [Q.incomingSource_height_shift,a.property]⟩
+  invFun a := ⟨a.val,by
+    have h := a.property
+    rw [Q.incomingSource_height_shift] at h
+    omega⟩
+  left_inv a := rfl
+  right_inv a := rfl
+
+end ASGinzburg.CutQuiver
+
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.periodShiftGeneratorBasis (hAS : A.ASRegular Q)
+    (r : ℤ) (w : Q.LiftVertex) (i : ℤ) (hi : i<Q.height w) :
+    Module.Basis (ASResolution.GeneratorIndex (Q:=Q) (w:=Q.shift r w) (i+Q.vertices*r)) k
+      (A.Hom (i+Q.vertices*r) (Q.height (Q.shift r w)) ⧸
+        Submodule.span k (A.products (i+Q.vertices*r) (Q.height (Q.shift r w)))) := by
+  rw [Q.height_shift]
+  rw [mul_comm (Q.vertices : ℤ) r]
+  let b := ((hAS.incomingBasisSystem A Q).basis w i hi).map
+    ((hAS.periodIso A Q).integerIndecomposableEquiv r i (Q.height w))
+  simpa only [mul_comm] using
+    b.reindex (Q.generatorShiftIndexEquiv r w i)
+
+end ASGinzburg.ZAlgebra

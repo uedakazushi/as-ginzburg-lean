@@ -1,0 +1,45 @@
+import ASGinzburg.PeriodIndecomposableEquiv
+
+/-! Actual component isomorphisms for every integer multiple of a
+proved period, with identity and multiplication preservation. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p q : ℤ}
+
+def changePeriod (E : A.PeriodIso p) (h : p=q) : A.PeriodIso q := by
+  subst q
+  exact E
+
+def zeroPeriod : A.PeriodIso 0 where
+  map i j := A.homTransport i j (i+0) (j+0) (by omega) (by omega)
+  map_id i := A.homTransport_id i (i+0) (by omega)
+  map_comp f g := A.homTransport_comp _ _ _ _ _ _ (by omega) (by omega) (by omega) f g
+
+def compose (E : A.PeriodIso p) (F : A.PeriodIso q) : A.PeriodIso (p+q) where
+  map i j := (E.map i j).trans ((F.map (i+p) (j+p)).trans
+    (A.homTransport ((i+p)+q) ((j+p)+q) (i+(p+q)) (j+(p+q))
+      (add_assoc i p q) (add_assoc j p q)))
+  map_id i := by
+    dsimp only [LinearEquiv.trans_apply]
+    rw [E.map_id,F.map_id,A.homTransport_id]
+  map_comp f g := by
+    dsimp only [LinearEquiv.trans_apply]
+    rw [E.map_comp,F.map_comp,A.homTransport_comp]
+
+noncomputable def powNat (E : A.PeriodIso p) : ∀ n : ℕ,A.PeriodIso ((n : ℤ)*p)
+  | 0 => by simpa only [Nat.cast_zero,zero_mul] using (zeroPeriod (A:=A))
+  | n+1 => ((E.powNat n).compose E).changePeriod (by push_cast;ring)
+
+noncomputable def powInt (E : A.PeriodIso p) : ∀ n : ℤ,A.PeriodIso (n*p)
+  | .ofNat n => E.powNat n
+  | .negSucc n => ((E.inverse).powNat (n+1)).changePeriod (by
+      push_cast
+      rw [Int.negSucc_eq]
+      ring)
+
+noncomputable def integerIndecomposableEquiv (E : A.PeriodIso p) (n i j : ℤ) :
+    (A.Hom i j ⧸ Submodule.span k (A.products i j)) ≃ₗ[k]
+      (A.Hom (i+n*p) (j+n*p) ⧸ Submodule.span k (A.products (i+n*p) (j+n*p))) :=
+  (E.powInt n).indecomposableEquiv i j
+
+end ASGinzburg.ZAlgebra.PeriodIso
