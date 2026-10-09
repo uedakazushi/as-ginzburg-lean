@@ -1,0 +1,25 @@
+import ASGinzburg.PeriodCutRegularRepresentables
+
+/-! The actual value and generator-action maps satisfy the finite
+orthogonal inclusion/projection relations for each sheet. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cornerRepresentableActionMap_valueMap_off (i j : Q.Vertex) (t : ℤ)
+    (hij : i≠j) (v : (E.cornerGradedRepresentable Q (j,t)).space) :
+    E.cornerRepresentableActionMap Q (i,t) (E.cornerRepresentableValueMap Q (j,t) v)=0 := by
+  apply (E.cornerRepresentableValueMap_injective Q (i,t))
+  rw [map_zero,E.cornerRepresentableValueMap_actionMap]
+  rw [← E.cornerRepresentableValueMap_target_absorption Q (j,t) v,← mul_assoc,
+    E.cutVertexIdempotent_mul_ne _ i j hij,zero_mul]
+
+theorem sum_cornerRepresentableValueMap_actionMap (t : ℤ)
+    (r : E.CutGradedRing (fun j : Q.Vertex => (j.val:ℤ))) :
+    (∑ i,E.cornerRepresentableValueMap Q (i,t) (E.cornerRepresentableActionMap Q (i,t) r))=r := by
+  have h := (E.cutRegularRepresentablesEquiv Q t).apply_symm_apply r
+  rw [E.cutRegularRepresentablesEquiv_apply] at h
+  simpa only [E.cutRegularRepresentablesEquiv_symm_apply] using h
+
+end ASGinzburg.ZAlgebra.PeriodIso

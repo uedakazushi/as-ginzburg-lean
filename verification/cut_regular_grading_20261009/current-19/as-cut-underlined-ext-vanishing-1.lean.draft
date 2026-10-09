@@ -1,0 +1,48 @@
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtActions
+import work.ASGinzburgDraft.ASCutGradedRegularExt
+
+/-! Original AS regularity forces the actual underlined Ext space to
+vanish outside cohomological degree three. Positive homogeneous left
+multiplication acts as zero, by the proved internal-degree concentration. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutUnderlinedRegularExt_off_three_eq_zero (hAS : A.ASRegular Q)
+    (i : Q.Vertex) (n : ℕ) (hn : n≠3)
+    (x : (hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) n) : x=0 := by
+  refine DirectSum.induction_on x ?_ ?_ ?_
+  · rfl
+  · intro t e
+    have he := hAS.cutGradedRegularExt_other_eq_zero A Q i n t
+      (fun h => hn (congrArg Prod.fst h)) e
+    change DirectSum.lof k ℤ _ t e=0
+    rw [he,map_zero]
+  · intro x y hx hy
+    rw [hx,hy,add_zero]
+
+theorem ASRegular.cutUnderlinedExt_positive_operator_eq_zero (hAS : A.ASRegular Q)
+    (i : Q.Vertex) (n m : ℕ) (hm : 0<m)
+    (a : (hAS.periodIso A Q).CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m) :
+    (hAS.periodIso A Q).cutUnderlinedExtHomogeneousOperator Q
+      (hAS.cutGradedSimple A Q (i,0)) n m a=0 := by
+  apply DFinsupp.lhom_ext
+  intro t x
+  change (hAS.periodIso A Q).cutUnderlinedExtHomogeneousOperator Q
+      (hAS.cutGradedSimple A Q (i,0)) n m a (DirectSum.lof k ℤ _ t x)=0
+  by_cases h : (n,t)=(3,-1)
+  · rw [(hAS.periodIso A Q).cutUnderlinedExtHomogeneousOperator_lof]
+    have hn : n=3 := congrArg Prod.fst h
+    have ht : t=(-1:ℤ) := congrArg Prod.snd h
+    have he := hAS.cutGradedRegularExt_other_eq_zero A Q i n (t+(m:ℤ)) (by
+      intro hh
+      have htt : t+(m:ℤ)=(-1:ℤ) := congrArg Prod.snd hh
+      omega) (x.comp (Abelian.Ext.mk₀
+        ((hAS.periodIso A Q).cutRegularLeftHomogeneousMap Q m a t)) (Nat.add_zero n))
+    rw [he,map_zero]
+  · have hx := hAS.cutGradedRegularExt_other_eq_zero A Q i n t h x
+    rw [hx,map_zero,map_zero]
+
+end ASGinzburg.ZAlgebra

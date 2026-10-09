@@ -1,0 +1,46 @@
+import work.ASGinzburgDraft.PeriodCutRegularExt
+import ASGinzburg.ASCutGradedVertexExt
+
+/-! The original AS assumptions compute Ext into the actual shifted
+regular ring through the genuine finite vertex decomposition. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutGradedRegularExtLinearEquiv (hAS : A.ASRegular Q)
+    (i : Q.Vertex) (n : ℕ) (t : ℤ) :
+    Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted t) n ≃ₗ[k]
+        (∀ j : Q.Vertex,Abelian.Ext.{v} (A.simpleRightModule (Q.height (i,0)))
+          (A.representable (Q.height (j,t))) n) := by
+  let E := hAS.periodIso A Q
+  have e : (∀ j : Q.Vertex,Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (E.cornerGradedRepresentable Q (j,t)) n) ≃ₗ[k]
+        (∀ j : Q.Vertex,Abelian.Ext.{v} (A.simpleRightModule (Q.height (i,0)))
+          (A.representable (Q.height (j,t))) n) := by
+    apply LinearEquiv.piCongrRight
+    intro j
+    change Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (E.cornerGradedRightModule Q ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv (j,t)))) n ≃ₗ[k] _
+    rw [Q.heightEquiv_apply]
+    exact hAS.cutGradedVertexExtLinearEquiv A Q (i,0) (j,t) n
+  exact (E.cutRegularExtLinearEquiv Q (hAS.cutGradedSimple A Q (i,0)) n t).trans e
+
+theorem ASRegular.cutGradedRegularExt_other_eq_zero (hAS : A.ASRegular Q)
+    (i : Q.Vertex) (n : ℕ) (t : ℤ) (hne : (n,t)≠(3,-1))
+    (x : Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted t) n) : x=0 := by
+  apply (hAS.cutGradedRegularExtLinearEquiv A Q i n t).injective
+  rw [map_zero]
+  funext j
+  apply hAS.ext_other_eq_zero A Q (j,t) (i,0) n
+  intro h
+  have hn := congrArg Prod.fst h
+  have ht := congrArg (fun z : ℕ×Q.LiftVertex => z.2.2) h
+  change (0:ℤ)=t+1 at ht
+  apply hne
+  change n=3 at hn
+  exact Prod.ext hn (by omega)
+
+end ASGinzburg.ZAlgebra

@@ -1,0 +1,32 @@
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtActions
+
+/-! Changing equal internal grading indices is compatible with actual
+Ext postcomposition and insertion in the underlined direct sum. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutUnderlinedExt_lof_postcomp_shiftEquality
+    (M : E.CutGradedRightModule Q) (n : ℕ) (s t : ℤ) (h : s=t)
+    (x : Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted s) n) :
+    DirectSum.lof k ℤ
+      (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) n) t
+      (x.comp (Abelian.Ext.mk₀
+        (eqToHom (congrArg (fun q => (E.cutRegularGradedRightModule Q).shifted q) h)))
+          (Nat.add_zero n))=
+    DirectSum.lof k ℤ
+      (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) n) s x := by
+  subst t
+  rw [eqToHom_refl,Abelian.Ext.comp_mk₀_id]
+
+theorem cutGradedExt_postcomp_comp {M N P T : E.CutGradedRightModule Q}
+    (n : ℕ) (x : Abelian.Ext.{v} M N n) (f : N⟶P) (g : P⟶T) :
+    (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp
+      (Abelian.Ext.mk₀ g) (Nat.add_zero n)=
+        x.comp (Abelian.Ext.mk₀ (f≫g)) (Nat.add_zero n) := by
+  rw [Abelian.Ext.comp_assoc_of_third_deg_zero,Abelian.Ext.mk₀_comp_mk₀]
+
+end ASGinzburg.ZAlgebra.PeriodIso

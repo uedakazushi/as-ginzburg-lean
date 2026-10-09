@@ -1,0 +1,54 @@
+import work.ASGinzburgDraft.PeriodCutRegularRightModule
+import work.ASGinzburgDraft.PeriodCutGradedShift
+
+/-! Homogeneous left multiplication gives genuine graded right-module
+morphisms between the usual shifts of the regular ring. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutIntegerHomogeneousSpace_mul_left (q : ℤ)
+    (x : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+    (hx : x∈E.cutIntegerHomogeneousSpace Q q) (m : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m) :
+    E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a*x∈
+      E.cutIntegerHomogeneousSpace Q (q+(m:ℤ)) := by
+  by_cases hq : 0≤q
+  · rw [cutIntegerHomogeneousSpace,if_pos hq] at hx
+    obtain ⟨b,rfl⟩ := hx
+    rw [show q+(m:ℤ)=((m+q.toNat:ℕ):ℤ) by omega,
+      E.cutIntegerHomogeneousSpace_ofNat]
+    refine ⟨E.cutBlockMul (fun t : Q.Vertex => (t.val:ℤ)) m q.toNat a b,?_⟩
+    exact (E.cutHomogeneousInclusion_mul _ m q.toNat a b).symm
+  · have hz : x=0 := by
+      have h : x∈(⊥ : Submodule k (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))) := by
+        simpa only [E.cutIntegerHomogeneousSpace_negative Q (q:=q) (by omega)] using hx
+      simpa only [Submodule.mem_bot] using h
+    rw [hz,mul_zero]
+    exact Submodule.zero_mem _
+
+noncomputable def cutRegularLeftHomogeneousLinearMap (m : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m) :
+    E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) →ₗ[k]
+      E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) where
+  toFun x := E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a*x
+  map_add' x y := mul_add _ x y
+  map_smul' c x := Algebra.mul_smul_comm c _ x
+
+noncomputable def cutRegularLeftHomogeneousMap (m : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m) (t : ℤ) :
+    (E.cutRegularGradedRightModule Q).shifted t ⟶
+      (E.cutRegularGradedRightModule Q).shifted (t+(m:ℤ)) :=
+  ⟨E.cutRegularLeftHomogeneousLinearMap Q m a,⟨by
+    intro r x
+    change E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a*
+      ((x : E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))*r)=
+        (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a*x)*r
+    exact (mul_assoc _ _ _).symm,by
+    intro q x hx
+    have h := E.cutIntegerHomogeneousSpace_mul_left Q (q+t) x hx m a
+    change _∈E.cutIntegerHomogeneousSpace Q (q+(t+(m:ℤ)))
+    simpa only [add_assoc] using h⟩⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/ASCutGradedRegularExt.lean:18:9: error: typeclass instance problem is stuck, it is often due to metavariables
+  RingHomCompTriple ?m.85 (RingHom.id k) (RingHom.id k)
+work/ASGinzburgDraft/ASCutGradedRegularExt.lean:39:2: error: Tactic `apply` failed: could not unify the conclusion of `Prod.ext hn`
+  (n, i, 0) = (3, Q.tau (j, t))
+with the goal
+  (n, t) = (3, -1)
+
+Note: The full type of `Prod.ext hn` is
+  (n, i, 0).2 = (3, Q.tau (j, t)).2 → (n, i, 0) = (3, Q.tau (j, t))
+
+case a.h.hne
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+n : ℕ
+t : ℤ
+hne : (n, t) ≠ (3, -1)
+x :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0)) ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted t)
+    n
+j : Q.Vertex
+h : (n, i, 0) = (3, Q.tau (j, t))
+hn : (n, i, 0).1 = (3, Q.tau (j, t)).1
+ht : 0 = t + 1
+⊢ (n, t) = (3, -1)

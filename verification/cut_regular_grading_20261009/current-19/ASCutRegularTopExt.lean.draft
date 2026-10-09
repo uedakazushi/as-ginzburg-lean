@@ -1,0 +1,56 @@
+import work.ASGinzburgDraft.ASCutGradedRegularExt
+
+/-! The only nonzero internal component of Ext into the regular ring
+is genuinely one dimensional, from the original AS conditions. -/
+set_option maxHeartbeats 800000
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutRegularVertexTopExtEquiv (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    (∀ j : Q.Vertex,Abelian.Ext.{v} (A.simpleRightModule (Q.height (i,0)))
+      (A.representable (Q.height (j,-1))) 3) ≃ₗ[k]
+        Abelian.Ext.{v} (A.simpleRightModule (Q.height (i,0)))
+          (A.representable (Q.height (i,-1))) 3 where
+  toFun f := f i
+  invFun e := Pi.single i e
+  left_inv f := by
+    classical
+    funext j
+    change (Pi.single i (f i) : ∀ j : Q.Vertex,Abelian.Ext.{v}
+      (A.simpleRightModule (Q.height (i,0))) (A.representable (Q.height (j,-1))) 3) j=f j
+    by_cases hj : j=i
+    · subst j
+      exact Pi.single_eq_same (M:=fun j : Q.Vertex => Abelian.Ext.{v}
+        (A.simpleRightModule (Q.height (i,0))) (A.representable (Q.height (j,-1))) 3) i (f i)
+    · rw [Pi.single_eq_of_ne (M:=fun j : Q.Vertex => Abelian.Ext.{v}
+        (A.simpleRightModule (Q.height (i,0))) (A.representable (Q.height (j,-1))) 3) hj]
+      symm
+      apply hAS.ext_other_eq_zero A Q (j,-1) (i,0) 3
+      intro h
+      have hi := congrArg (fun z : ℕ×Q.LiftVertex => z.2.1) h
+      change i=j at hi
+      exact hj hi.symm
+  right_inv e := by
+    classical
+    change (Pi.single i e : ∀ j : Q.Vertex,Abelian.Ext.{v}
+      (A.simpleRightModule (Q.height (i,0))) (A.representable (Q.height (j,-1))) 3) i=e
+    exact Pi.single_eq_same (M:=fun j : Q.Vertex => Abelian.Ext.{v}
+      (A.simpleRightModule (Q.height (i,0))) (A.representable (Q.height (j,-1))) 3) i e
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+noncomputable def ASRegular.cutGradedRegularTopExtEquiv (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted (-1)) 3 ≃ₗ[k] k := by
+  have e : Abelian.Ext.{v} (A.simpleRightModule (Q.height (i,0)))
+      (A.representable (Q.height (i,-1))) 3 ≃ₗ[k] k := by
+    have hτ : Q.tau (i,-1)=(i,0) := by rfl
+    have ee := hAS.extThreeEquiv A Q (i,-1)
+    simpa only [hτ] using ee
+  exact (hAS.cutGradedRegularExtLinearEquiv A Q i 3 (-1)).trans
+    ((hAS.cutRegularVertexTopExtEquiv A Q i).trans e)
+
+end ASGinzburg.ZAlgebra

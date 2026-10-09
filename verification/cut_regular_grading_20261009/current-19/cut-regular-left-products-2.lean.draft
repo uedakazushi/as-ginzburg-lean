@@ -1,0 +1,52 @@
+import work.ASGinzburgDraft.PeriodCutRegularLeftMultiplication
+import work.ASGinzburgDraft.PeriodCutHasShift
+
+/-! Actual homogeneous left multiplication preserves multiplication,
+including the canonical equality of its target grading shifts. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutRegularLeftHomogeneousMap_mul (m n : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m)
+    (b : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) n) (t : ℤ) :
+    E.cutRegularLeftHomogeneousMap Q n b t ≫
+      E.cutRegularLeftHomogeneousMap Q m a (t+(n:ℤ)) ≫
+        eqToHom (congrArg (fun q => (E.cutRegularGradedRightModule Q).shifted q)
+          (show t+(n:ℤ)+(m:ℤ)=t+((m+n:ℕ):ℤ) by push_cast;ring))=
+      E.cutRegularLeftHomogeneousMap Q (m+n)
+        (E.cutBlockMul (fun t : Q.Vertex => (t.val:ℤ)) m n a b) t := by
+  apply Subtype.ext
+  change (eqToHom (congrArg (fun q => (E.cutRegularGradedRightModule Q).shifted q)
+    (show t+(n:ℤ)+(m:ℤ)=t+((m+n:ℕ):ℤ) by push_cast;ring))).val.comp
+      ((E.cutRegularLeftHomogeneousLinearMap Q m a).comp
+        (E.cutRegularLeftHomogeneousLinearMap Q n b))=_
+  rw [CutGradedRightModule.shifted_eqToHom_val,LinearMap.id_comp]
+  apply LinearMap.ext
+  intro x
+  change E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a*
+    (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) n b*x)=_
+  rw [← mul_assoc,E.cutHomogeneousInclusion_mul]
+  rfl
+  all_goals omega
+
+theorem cutRegularLeftHomogeneousMap_one (t : ℤ) :
+    E.cutRegularLeftHomogeneousMap Q 0 (E.cutMatrixId (fun t : Q.Vertex => (t.val:ℤ))) t ≫
+      eqToHom (congrArg (fun q => (E.cutRegularGradedRightModule Q).shifted q) (add_zero t))=
+        𝟙 ((E.cutRegularGradedRightModule Q).shifted t) := by
+  apply Subtype.ext
+  change (eqToHom (congrArg (fun q => (E.cutRegularGradedRightModule Q).shifted q)
+    (add_zero t))).val.comp
+      (E.cutRegularLeftHomogeneousLinearMap Q 0 (E.cutMatrixId (fun t : Q.Vertex => (t.val:ℤ))))=
+        LinearMap.id
+  rw [CutGradedRightModule.shifted_eqToHom_val,LinearMap.id_comp]
+  apply LinearMap.ext
+  intro x
+  change E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) 0
+    (E.cutMatrixId (fun t : Q.Vertex => (t.val:ℤ)))*x=x
+  rw [E.cutHomogeneousInclusion_one,one_mul]
+  all_goals omega
+
+end ASGinzburg.ZAlgebra.PeriodIso

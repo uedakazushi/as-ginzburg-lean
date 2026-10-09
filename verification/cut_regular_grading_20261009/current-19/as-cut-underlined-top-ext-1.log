@@ -1,0 +1,146 @@
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:22:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  ?m.119 0 = 0
+
+case refine_1
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+x : PeriodIso.CutUnderlinedRegularExt Q (periodIso A Q hAS) (cutGradedSimple A Q hAS (i, 0)) 3
+⊢ ?m.119 0 = 0
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:25:6: error: unsolved goals
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+x : PeriodIso.CutUnderlinedRegularExt Q (periodIso A Q hAS) (cutGradedSimple A Q hAS (i, 0)) 3
+e :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+    ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted (-1)) 3
+⊢ ?m.119
+      ((DFinsupp.lapply (-1))
+        ((DirectSum.of
+            (fun i_1 =>
+              Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+                ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+            (-1))
+          e)) =
+    (DirectSum.of
+        (fun i_1 =>
+          Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+            ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+        (-1))
+      e
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:30:91: error: Application type mismatch: The argument
+  e
+has type
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0)) ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted t)
+    3
+but is expected to have type
+  ?m.221 t
+in the application
+  (DirectSum.lof k ℤ ?m.221 t) e
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:33:18: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f (?x + ?y)
+in the target expression
+  ?m.119
+      ((DirectSum.component k ℤ
+            (fun i_1 =>
+              Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+                ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+            (-1))
+          x +
+        (DirectSum.component k ℤ
+            (fun i_1 =>
+              Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+                ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+            (-1))
+          y) =
+    x + y
+
+case refine_3
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+x✝ : PeriodIso.CutUnderlinedRegularExt Q (periodIso A Q hAS) (cutGradedSimple A Q hAS (i, 0)) 3
+x y :
+  ⨁ (i_1 : ℤ),
+    Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+      ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3
+hx :
+  ?m.119
+      ((DirectSum.component k ℤ
+          (fun i_1 =>
+            Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+              ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+          (-1))
+        x) =
+    x
+hy :
+  ?m.119
+      ((DirectSum.component k ℤ
+          (fun i_1 =>
+            Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+              ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+          (-1))
+        y) =
+    y
+⊢ ?m.119
+      ((DirectSum.component k ℤ
+            (fun i_1 =>
+              Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+                ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+            (-1))
+          x +
+        (DirectSum.component k ℤ
+            (fun i_1 =>
+              Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+                ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+            (-1))
+          y) =
+    x + y
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:36:4: error: Type mismatch
+  DFinsupp.single_eq_same
+has type
+  (DFinsupp.single ?m.269 ?m.270) ?m.269 = ?m.270
+but is expected to have type
+  (DFinsupp.lapply (-1)) (?m.119 x) = x
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:19:12: error: Type mismatch
+  DirectSum.lof k ℤ ?m.110 (-1)
+has type
+  ?m.110 (-1) →ₗ[k] ⨁ (i : ℤ), ?m.110 i
+but is expected to have type
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+      ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted (-1)) 3 →
+    PeriodIso.CutUnderlinedRegularExt Q (periodIso A Q hAS) (cutGradedSimple A Q hAS (i, 0)) 3
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:26:19: warning: This simp argument is unused:
+  DirectSum.lof_eq_of
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵l̵o̵f̵_̵e̵q̵_̵o̵f̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵c̵o̵m̵p̵o̵n̵e̵n̵t̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵o̵f̵_̵e̵q̵_̵s̵a̵m̵e̵]̵[̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲c̲o̲m̲p̲o̲n̲e̲n̲t̲,̲ ̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲o̲f̲_̲e̲q̲_̲s̲a̲m̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:26:59: warning: This simp argument is unused:
+  DirectSum.of_eq_same
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵l̵o̵f̵_̵e̵q̵_̵o̵f̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵c̵o̵m̵p̵o̵n̵e̵n̵t̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵o̵f̵_̵e̵q̵_̵s̵a̵m̵e̵]̵[̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲l̲o̲f̲_̲e̲q̲_̲o̲f̲,̲ ̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲c̲o̲m̲p̲o̲n̲e̲n̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:35:15: warning: This simp argument is unused:
+  DirectSum.lof_eq_of
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵l̵o̵f̵_̵e̵q̵_̵o̵f̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵c̵o̵m̵p̵o̵n̵e̵n̵t̵]̵[̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲c̲o̲m̲p̲o̲n̲e̲n̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

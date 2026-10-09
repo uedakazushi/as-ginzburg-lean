@@ -1,0 +1,61 @@
+import work.ASGinzburgDraft.ASCutUnderlinedExtVanishing
+import work.ASGinzburgDraft.ASCutRegularTopExt
+
+/-! The actual underlined degree-three Ext space, summed over all
+internal shifts of R, is one dimensional. Left R-action compatibility
+is a further property, not an assumption in this linear equivalence. -/
+set_option maxHeartbeats 800000
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutUnderlinedTopExtDegreeEquiv (hAS : A.ASRegular Q)
+    (i : Q.Vertex) :
+    (hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) 3 ≃ₗ[k]
+      Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+        (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted (-1)) 3 where
+  toFun := DirectSum.component k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1)
+  invFun := DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1)
+  left_inv x := by
+    refine DirectSum.induction_on x ?_ ?_ ?_
+    · rw [map_zero,map_zero]
+    · intro t e
+      by_cases ht : t=(-1:ℤ)
+      · subst t
+        change DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1)
+          (DirectSum.component k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1) (DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1) e))=
+            DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1) e
+        rw [DirectSum.component.lof_self]
+      · have he := hAS.cutGradedRegularExt_other_eq_zero A Q i 3 t
+          (fun h => ht (congrArg Prod.snd h)) e
+        change DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1)
+          (DirectSum.component k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1) (DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) t e))=DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) t e
+        rw [he,map_zero,map_zero,map_zero]
+    · intro x y hx hy
+      rw [map_add,map_add,hx,hy]
+  right_inv x := by
+    rw [DirectSum.component.lof_self]
+  map_add' := map_add (DirectSum.component k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1))
+  map_smul' := map_smul (DirectSum.component k ℤ (fun q => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted q) 3) (-1))
+
+noncomputable def ASRegular.cutUnderlinedTopExtLinearEquiv (hAS : A.ASRegular Q)
+    (i : Q.Vertex) :
+    (hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) 3 ≃ₗ[k] k :=
+  (hAS.cutUnderlinedTopExtDegreeEquiv A Q i).trans (hAS.cutGradedRegularTopExtEquiv A Q i)
+
+end ASGinzburg.ZAlgebra

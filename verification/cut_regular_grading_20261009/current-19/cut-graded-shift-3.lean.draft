@@ -1,0 +1,44 @@
+import ASGinzburg.PeriodCutGradedModuleEnrichment
+
+/-! Genuine integer shifts of the grading of an actual right R module. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+noncomputable def shiftedDecomposition (M : E.CutGradedRightModule Q) (t : ℤ) :
+    DirectSum.Decomposition (fun q => M.grade (q+t)) := by
+  letI := M.decomposition
+  have h : DirectSum.IsInternal M.grade := DirectSum.Decomposition.isInternal _
+  apply DirectSum.IsInternal.chooseDecomposition (fun q => M.grade (q+t))
+  apply DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top
+  · exact h.submodule_iSupIndep.comp (Equiv.addRight t).injective
+  · exact (Equiv.addRight t).iSup_comp.trans h.submodule_iSup_eq_top
+
+noncomputable def shifted (M : E.CutGradedRightModule Q) (t : ℤ) :
+    E.CutGradedRightModule Q where
+  space := M.space
+  representation := M.representation
+  grade q := M.grade (q+t)
+  decomposition := M.shiftedDecomposition t
+  homogeneous m r q x hx := by
+    have h := M.homogeneous m r (q+t) x hx
+    simpa only [show q+t+(m:ℤ)=q+(m:ℤ)+t by ring] using h
+
+noncomputable def shiftedFunctor (t : ℤ) :
+    E.CutGradedRightModule Q ⥤ E.CutGradedRightModule Q where
+  obj M := M.shifted t
+  map f := ⟨f.val,⟨f.property.1,fun q x hx => f.property.2 (q+t) x hx⟩⟩
+  map_id _ := rfl
+  map_comp _ _ := rfl
+
+noncomputable instance shiftedFunctorAdditive (t : ℤ) :
+    (shiftedFunctor (Q:=Q) (E:=E) t).Additive where
+  map_add := by intro X Y f g;rfl
+
+noncomputable instance shiftedFunctorLinear (t : ℤ) :
+    (shiftedFunctor (Q:=Q) (E:=E) t).Linear k where
+  map_smul _ _ := rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedRightModule

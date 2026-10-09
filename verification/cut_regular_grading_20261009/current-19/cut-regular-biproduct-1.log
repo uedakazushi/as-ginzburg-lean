@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/PeriodCutRegularBiproduct.lean:23:4: error: Application type mismatch: The argument
+  cornerRepresentableActionMap_mul Q E (i, t)
+has type
+  ∀ (r s : E.CutGradedRing fun t => ↑↑t),
+    (cornerRepresentableActionMap Q E (i, t)) (r * s) =
+      (MulOpposite.unop ((cornerGradedRepresentable Q E (i, t)).representation s))
+        ((cornerRepresentableActionMap Q E (i, t)) r)
+but is expected to have type
+  ∀ (r : E.CutGradedRing fun i => ↑↑i) (x : ↑((cutRegularGradedRightModule Q E).shifted t).space),
+    (cornerRepresentableActionMap Q E (i, t))
+        ((MulOpposite.unop (((cutRegularGradedRightModule Q E).shifted t).representation r)) x) =
+      (MulOpposite.unop ((cornerGradedRepresentable Q E (i, t)).representation r))
+        ((cornerRepresentableActionMap Q E (i, t)) x)
+in the application
+  And.intro (cornerRepresentableActionMap_mul Q E (i, t))
+work/ASGinzburgDraft/PeriodCutRegularBiproduct.lean:44:64: error: Invalid field `symm`: The environment does not contain `Function.symm`
+  h
+has type
+  i = j → False
+work/ASGinzburgDraft/PeriodCutRegularBiproduct.lean:52:10: error: Type mismatch
+  ∑ i, cutRegularRepresentableProjection Q E t i ≫ cutRegularRepresentableInclusion Q E t i
+has type
+  (cutRegularGradedRightModule Q E).shifted t ⟶ (cutRegularGradedRightModule Q E).shifted t
+but is expected to have type
+  ↑(cutRegularRepresentableBicone Q E t).pt.space →ₗ[k] ↑(cutRegularRepresentableBicone Q E t).pt.space

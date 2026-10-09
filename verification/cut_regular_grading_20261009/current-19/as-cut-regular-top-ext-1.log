@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/ASCutRegularTopExt.lean:30:29: error: unexpected token ';'; expected '{' or tactic
+work/ASGinzburgDraft/ASCutRegularTopExt.lean:22:12: error: typeclass instance problem is stuck, it is often due to metavariables
+  (i : Q.Vertex) → Zero (?m.110 i)
+work/ASGinzburgDraft/ASCutRegularTopExt.lean:23:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Pi.single i ?x j
+in the target expression
+  (fun e => Pi.single i e) ((fun f => f i) f) j = f j
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+f : (j : Q.Vertex) → Abelian.Ext (A.simpleRightModule (Q.height (i, 0))) (A.representable (Q.height (j, -1))) 3
+j : Q.Vertex
+hj : ¬j = i
+⊢ (fun e => Pi.single i e) ((fun f => f i) f) j = f j
+work/ASGinzburgDraft/ASCutRegularTopExt.lean:30:17: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+e : Abelian.Ext (A.simpleRightModule (Q.height (i, 0))) (A.representable (Q.height (i, -1))) 3
+⊢ (fun f => f i) ((fun e => Pi.single i e) e) = e
+work/ASGinzburgDraft/ASCutRegularTopExt.lean:38:5: error: typeclass instance problem is stuck, it is often due to metavariables
+  RingHomCompTriple ?m.102 (RingHom.id k) (RingHom.id k)

@@ -1,0 +1,50 @@
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:27:6: error: unsolved goals
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+x : PeriodIso.CutUnderlinedRegularExt Q (periodIso A Q hAS) (cutGradedSimple A Q hAS (i, 0)) 3
+e :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+    ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted (-1)) 3
+⊢ (DirectSum.of
+        (fun i_1 =>
+          Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+            ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+        (-1))
+      ((DFinsupp.lapply (-1))
+        ((DirectSum.of
+            (fun i_1 =>
+              Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+                ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+            (-1))
+          e)) =
+    (DirectSum.of
+        (fun i_1 =>
+          Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+            ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted i_1) 3)
+        (-1))
+      e
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:42:4: error: Type mismatch
+  DFinsupp.single_eq_same
+has type
+  (DFinsupp.single ?m.469 ?m.470) ?m.469 = ?m.470
+but is expected to have type
+  (DFinsupp.lapply (-1))
+      ((DirectSum.of
+          (fun q =>
+            Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+              ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted q) 3)
+          (-1))
+        x) =
+    x
+work/ASGinzburgDraft/ASCutUnderlinedTopExt.lean:28:59: warning: This simp argument is unused:
+  DirectSum.of_eq_same
+
+Hint: Omit it from the simp argument list.
+  simp only [̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵l̵o̵f̵_̵e̵q̵_̵o̵f̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵c̵o̵m̵p̵o̵n̵e̵n̵t̵,̵D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵o̵f̵_̵e̵q̵_̵s̵a̵m̵e̵]̵[̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲l̲o̲f̲_̲e̲q̲_̲o̲f̲,̲ ̲D̲i̲r̲e̲c̲t̲S̲u̲m̲.̲c̲o̲m̲p̲o̲n̲e̲n̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

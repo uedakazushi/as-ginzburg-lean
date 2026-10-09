@@ -1,0 +1,7 @@
+work/ASGinzburgDraft/PeriodCutRegularGrading.lean:56:4: error: 'change' tactic failed, pattern
+  (cutIntegerRegularDecompose Q E) ↑a = (DirectSum.lof k ℤ (fun q => ↥(cutIntegerHomogeneousSpace Q E q)) q) a
+is not definitionally equal to target
+  (cutIntegerRegularDecompose Q E)
+      ((DirectSum.coeLinearMap (cutIntegerHomogeneousSpace Q E))
+        ((DirectSum.lof k ℤ (fun q => ↥(cutIntegerHomogeneousSpace Q E q)) q) a)) =
+    (DirectSum.of (fun i => ↥(cutIntegerHomogeneousSpace Q E i)) q) a
