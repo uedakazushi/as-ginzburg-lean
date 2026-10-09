@@ -1,0 +1,52 @@
+import ASGinzburg.GinzburgGeneratorProjectiveModules
+
+/-! The actual layer homology comparison with the genuine projective
+generator coproduct intertwines degree-zero paths with its right action. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory Opposite
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgLayerProjectiveComponentIso (φ : Q.Potential k)
+    (x v : Q.LiftVertex) (r : ℤ) :
+    Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 r (v.2-x.2) r ≅
+      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v r) :=
+  Q.ginzburgAssociatedTopFixedHomologyIso k φ x v r ≪≫
+    (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v r
+      (Q.height x)).toModuleIso (g₂:=Pi.addCommGroup)).symm
+
+theorem ginzburgLayerProjectiveComponentIso_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgAssociatedLeftHomology k φ (v:=v) r r f ≫
+        (Q.ginzburgLayerProjectiveComponentIso k φ x v r).hom=
+      (Q.ginzburgLayerProjectiveComponentIso k φ y v r).hom ≫
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v r).obj.map
+          (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from
+            Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)).op := by
+  let A := Q.unrolledJacobianZAlgebra k φ
+  let M := A.ginzburgGeneratorCoefficientModule Q v r
+  let eX := (A.ginzburgGeneratorCoefficientComponentEquiv Q v r (Q.height x)).toModuleIso
+    (g₂:=Pi.addCommGroup)
+  let eY := (A.ginzburgGeneratorCoefficientComponentEquiv Q v r (Q.height y)).toModuleIso
+    (g₂:=Pi.addCommGroup)
+  let a := Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)
+  let F := M.obj.map (show (⟨Q.height x⟩ : A.Obj) ⟶ ⟨Q.height y⟩ from a).op
+  have he : F ≫ eX.hom=eY.hom ≫
+      ModuleCat.ofHom (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r a) := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro z
+    funext b
+    exact A.ginzburgGeneratorCoefficientComponentEquiv_action Q v r
+      (Q.height x) (Q.height y) a z b
+  apply (cancel_mono eX.hom).mp
+  change (Q.ginzburgAssociatedLeftHomology k φ (v:=v) r r f ≫
+    (Q.ginzburgAssociatedTopFixedHomologyIso k φ x v r).hom ≫ eX.inv) ≫ eX.hom=
+    ((Q.ginzburgAssociatedTopFixedHomologyIso k φ y v r).hom ≫ eY.inv ≫ F) ≫ eX.hom
+  simp only [Category.assoc,Iso.inv_hom_id,Category.comp_id]
+  rw [he,Iso.inv_hom_id_assoc]
+  exact Q.ginzburgAssociatedTopFixedHomologyIso_left_naturality k φ r f
+
+end ASGinzburg.CutQuiver

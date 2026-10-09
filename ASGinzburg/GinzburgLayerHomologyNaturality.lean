@@ -1,0 +1,38 @@
+import ASGinzburg.GinzburgPrefixComparisonNaturality
+
+/-! The inverse of the actual append comparison, and the induced
+homology isomorphism, preserve the genuine degree-zero path action. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgPrefixGradedIso_inv_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgAssociatedLeftCochainMap k φ (v:=v) r f ≫
+        (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).inv=
+      (Q.ginzburgGeneratorPrefixGradedIso k φ y.1 v.1 r (v.2-y.2)).inv ≫
+        Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f := by
+  have he : Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f ≫
+        (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).hom=
+      (Q.ginzburgGeneratorPrefixGradedIso k φ y.1 v.1 r (v.2-y.2)).hom ≫
+        Q.ginzburgAssociatedLeftCochainMap k φ (v:=v) r f :=
+    Q.ginzburgPrefixToAssociatedGraded_left_naturality k φ r f
+  apply (cancel_mono (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).hom).mp
+  simp only [Category.assoc,Iso.inv_hom_id,Category.comp_id]
+  rw [he,Iso.inv_hom_id_assoc]
+
+theorem ginzburgAssociatedPrefixHomologyIso_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgAssociatedLeftHomology k φ (v:=v) r q f ≫
+        (Q.ginzburgAssociatedGradedPrefixHomologyIso k φ x.1 v.1 r (v.2-x.2) q).hom=
+      (Q.ginzburgAssociatedGradedPrefixHomologyIso k φ y.1 v.1 r (v.2-y.2) q).hom ≫
+        Q.ginzburgPrefixLeftHomology k φ (v:=v) r q f := by
+  have he := congrArg
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map)
+    (Q.ginzburgPrefixGradedIso_inv_left_naturality k φ (v:=v) r f)
+  simpa only [Functor.map_comp] using he
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,302 @@
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgPrefixHomologyClasses.lean
+@@ -0,0 +1,47 @@
++import work.ASGinzburgDraft.ModuleCokernelHomologyClasses
++import work.ASGinzburgDraft.GinzburgGeneratorPrefixTopQuotient
++
++/-! The actual top prefix homology comparison sends each genuine
++cycle class to its incoming-boundary quotient class. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgPrefixTopHomologyQuotientIso_π (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) :
++    (Q.ginzburgGeneratorPrefixComplex k φ u v r c).homologyπ r ≫
++        (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom=
++      (Q.ginzburgGeneratorPrefixComplex k φ u v r c).iCycles r ≫
++        ModuleCat.ofHom (LinearMap.range
++          (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c)).mkQ := by
++  let K := Q.ginzburgGeneratorPrefixComplex k φ u v r c
++  let e := Q.ginzburgGeneratorPrefixTopShortComplexIso k φ u v r c
++  change K.homologyπ r ≫ (K.homologyIsoSc' (r-1) r (r+1)
++    (by simp) (by simp)).hom ≫ ShortComplex.homologyMap e.hom ≫
++    (moduleCatCokernelHomologyIso _ (Q.ginzburgGeneratorPrefixTopShortComplex_g k φ u v r c)).hom=_
++  rw [K.π_homologyIsoSc'_hom_assoc,ShortComplex.homologyπ_naturality_assoc,
++    moduleCatCokernelHomologyIso_π]
++  rw [ShortComplex.cyclesMap_i_assoc]
++  have he : e.hom.τ₂=𝟙 _ := rfl
++  rw [he,Category.id_comp,←Category.assoc,K.cyclesIsoSc'_hom_iCycles]
++  rfl
++
++theorem ginzburgPrefixTopHomologyQuotientIso_class (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ)
++    (f : Q.GinzburgGeneratorPrefix k u v r r c)
++    (hf : (Q.ginzburgGeneratorPrefixComplex k φ u v r c).d r (r+1) f=0) :
++    (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom
++      (moduleCochainHomologyClass (Q.ginzburgGeneratorPrefixComplex k φ u v r c) r f hf)=
++        Submodule.Quotient.mk f := by
++  let K := Q.ginzburgGeneratorPrefixComplex k φ u v r c
++  change (K.homologyπ r ≫ (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom)
++    (K.cyclesMk f (r+1) (by simp) hf)=_
++  rw [Q.ginzburgPrefixTopHomologyQuotientIso_π]
++  change Submodule.Quotient.mk (K.iCycles r (K.cyclesMk f (r+1) (by simp) hf))=_
++  have hi : K.iCycles r (K.cyclesMk f (r+1) (by simp) hf)=f := by
++    change ((forget₂ (ModuleCat k) Ab).map (K.iCycles r)) (K.cyclesMk f (r+1) (by simp) hf)=f
++    exact K.i_cyclesMk (i:=r) f (r+1) (by simp) hf
++  rw [hi]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgGradedPrefixInverse.lean
+@@ -0,0 +1,28 @@
++import work.ASGinzburgDraft.GinzburgGeneratorLayerHomology
++
++/-! The inverse of the actual append-generator cochain isomorphism
++is the genuine last-generator coefficient equivalence. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorPrefixGradedIso_inv_f (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) (z : Q.GinzburgAssociatedGraded k u v r q c) :
++    (Q.ginzburgGeneratorPrefixGradedIso k φ u v r c).inv.f q z=
++      Q.ginzburgGeneratorLayerFreeEquiv k u v r q c
++        (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c z) := by
++  let e := Q.ginzburgGeneratorPrefixGradedIso k φ u v r c
++  have hi : e.hom.f q (e.inv.f q z)=z :=
++    congrArg (fun f => f z) ((HomologicalComplex.eval (ModuleCat k) (ComplexShape.up ℤ) q).mapIso e).inv_hom_id
++  apply (Q.ginzburgGeneratorPrefixToGradedRow_bijective k u v r q c).1
++  change Q.ginzburgGeneratorPrefixToGradedRow k u v r q c (e.inv.f q z)=_
++  rw [show Q.ginzburgGeneratorPrefixToGradedRow k u v r q c (e.inv.f q z)=z from hi]
++  rw [Q.ginzburgGeneratorPrefixToGradedRow_eq_equiv]
++  change z=(Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c).symm
++    ((Q.ginzburgGeneratorLayerFreeEquiv k u v r q c).symm
++      (Q.ginzburgGeneratorLayerFreeEquiv k u v r q c
++        (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c z)))
++  rw [LinearEquiv.symm_apply_apply,LinearEquiv.symm_apply_apply]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgOriginalFilteredPrefixes.lean
+@@ -0,0 +1,41 @@
++import work.ASGinzburgDraft.GinzburgGradedPrefixInverse
++import work.ASGinzburgDraft.GinzburgGeneratorUpperFiltration
++
++/-! Actual degree-zero upper-filtered representatives have canonical
++original-generator coefficients, with no change to path-length support. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgOriginalFilteredToPrefix (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ) :
++    Q.ginzburgGeneratorFilteredComplex k φ u v 0 c ⟶
++      Q.ginzburgGeneratorPrefixComplex k φ u v 0 c :=
++  Q.ginzburgFilteredToAssociatedGraded k φ u v 0 c ≫
++    (Q.ginzburgGeneratorPrefixGradedIso k φ u v 0 c).inv
++
++theorem ginzburgOriginalFilteredToPrefix_f (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c) :
++    (Q.ginzburgOriginalFilteredToPrefix k φ u v c).f 0 z=
++      Q.ginzburgGeneratorLayerFreeEquiv k u v 0 0 c
++        (Q.ginzburgGeneratorLayerQuotientEquiv k u v 0 0 c (Submodule.Quotient.mk z)) := by
++  change (Q.ginzburgGeneratorPrefixGradedIso k φ u v 0 c).inv.f 0
++    (Submodule.Quotient.mk z)=_
++  exact Q.ginzburgGeneratorPrefixGradedIso_inv_f k φ u v 0 c 0 _
++
++theorem ginzburgOriginalFilteredLayer_supported_length
++    (u v : Q.Vertex) (c : ℤ) (n : ℕ)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c)
++    (hz : z.val ∈ Finsupp.supported k k {p : Q.GinzburgPath u v | n ≤ p.length}) :
++    (Q.ginzburgGeneratorLayerQuotientEquiv k u v 0 0 c (Submodule.Quotient.mk z)).val ∈
++      Finsupp.supported k k {p : Q.GinzburgPath u v | n ≤ p.length} := by
++  classical
++  rw [Q.ginzburgGeneratorLayerQuotientEquiv_coe_mk]
++  apply (Finsupp.mem_supported k _).mpr
++  intro p hp
++  rw [Finsupp.support_filter] at hp
++  exact (Finsupp.mem_supported k z.val).mp hz (Finset.mem_filter.mp hp).1
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgUpperHomologyClasses.lean
+@@ -0,0 +1,62 @@
++import work.ASGinzburgDraft.GinzburgOriginalFilteredPrefixes
++import work.ASGinzburgDraft.GinzburgPrefixHomologyClasses
++import work.ASGinzburgDraft.GinzburgUpperProjectiveNaturality
++
++/-! The actual upper homology/projective comparison reads the genuine
++last-generator coefficient classes of any actual cycle representative. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgUpperProjectiveComponentIso_coefficients (φ : Q.Potential k)
++    (x v : Q.LiftVertex) :
++    (Q.ginzburgUpperProjectiveComponentIso k φ x v).hom ≫
++      (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++        (Q.height x)).toModuleIso (g₂:=Pi.addCommGroup)).hom=
++    HomologicalComplex.homologyMap
++      (Q.ginzburgOriginalFilteredToPrefix k φ x.1 v.1 (v.2-x.2)) 0 ≫
++        (Q.ginzburgPrefixTopFixedHomologyIso k φ x v 0).hom := by
++  simp only [ginzburgUpperProjectiveComponentIso,ginzburgLayerProjectiveComponentIso,
++    Iso.trans_hom,Iso.symm_hom,Category.assoc,Iso.inv_hom_id,Category.comp_id]
++  change HomologicalComplex.homologyMap
++      (Q.ginzburgFilteredToAssociatedGraded k φ x.1 v.1 0 (v.2-x.2)) 0 ≫
++      HomologicalComplex.homologyMap
++        (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 0 (v.2-x.2)).inv 0 ≫
++        (Q.ginzburgPrefixTopFixedHomologyIso k φ x v 0).hom=_
++  rw [←HomologicalComplex.homologyMap_comp_assoc]
++  rfl
++
++theorem ginzburgUpperProjectiveComponentIso_class (φ : Q.Potential k)
++    (x v : Q.LiftVertex)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 0 0 (v.2-x.2))
++    (hz : (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)).d 0 1 z=0) :
++    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++      (Q.height x) ((Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
++        (moduleCochainHomologyClass
++          (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz))=
++      Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v 0
++        (Submodule.Quotient.mk
++          ((Q.ginzburgOriginalFilteredToPrefix k φ x.1 v.1 (v.2-x.2)).f 0 z)) := by
++  let F := Q.ginzburgOriginalFilteredToPrefix k φ x.1 v.1 (v.2-x.2)
++  have hf : (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 0 (v.2-x.2)).d 0 1
++      (F.f 0 z)=0 := by
++    have he := congrArg (fun f => f z) (F.comm 0 1)
++    simpa only [ModuleCat.comp_apply,hz,map_zero] using he
++  change ((Q.ginzburgUpperProjectiveComponentIso k φ x v).hom ≫
++    (((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientComponentEquiv Q v 0
++      (Q.height x)).toModuleIso (g₂:=Pi.addCommGroup)).hom)
++      (moduleCochainHomologyClass
++        (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz)=_
++  rw [Q.ginzburgUpperProjectiveComponentIso_coefficients]
++  change (Q.ginzburgPrefixTopFixedHomologyIso k φ x v 0).hom
++    (HomologicalComplex.homologyMap F 0 (moduleCochainHomologyClass
++      (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz))=_
++  rw [moduleCochainHomologyClass_naturality F 0 z hz hf]
++  change Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v 0
++    ((Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ x.1 v.1 0 (v.2-x.2)).hom
++      (moduleCochainHomologyClass
++        (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 0 (v.2-x.2)) 0 (F.f 0 z) hf))=_
++  rw [Q.ginzburgPrefixTopHomologyQuotientIso_class]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgUpperHomologyRadical.lean
+@@ -0,0 +1,60 @@
++import work.ASGinzburgDraft.GinzburgUpperHomologyClasses
++import work.ASGinzburgDraft.GinzburgNonemptyPrefixHeight
++
++/-! The actual projective image of a length-two upper homology cycle
++lies in the genuine positive-action radical, component by component. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory Opposite
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgUpperProjectiveComponentIso_class_mem_radical (φ : Q.Potential k)
++    (x v : Q.LiftVertex)
++    (z : Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 0 0 (v.2-x.2))
++    (hz : (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)).d 0 1 z=0)
++    (hlen : z.val ∈ Finsupp.supported k k
++      {p : Q.GinzburgPath x.1 v.1 | 2 ≤ p.length}) :
++    (Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
++      (moduleCochainHomologyClass
++        (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz) ∈
++      (Q.unrolledJacobianZAlgebra k φ).positiveActionSpan
++        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0)
++        (Q.height x) := by
++  classical
++  let A := Q.unrolledJacobianZAlgebra k φ
++  let g := fun a : Q.GinzburgIncomingDegree v.1 0 =>
++    A.representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
++  apply (A.rightFiniteCoproduct_radical_iff g (Q.height x) _).mpr
++  intro a
++  rw [←A.representableRadical_eq_positiveActionSpan]
++  by_cases ha : Q.height x<Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)
++  · simp [ZAlgebra.representableRadical,ha]
++  · change _ ∈ (if Q.height x<Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)
++      then ⊤ else ⊥ : Submodule k (A.Hom (Q.height x)
++        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))))
++    rw [if_neg ha,Submodule.mem_bot]
++    change (A.ginzburgGeneratorCoefficientComponentEquiv Q v 0 (Q.height x)
++      ((Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
++        (moduleCochainHomologyClass
++          (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 0 (v.2-x.2)) 0 z hz))) a=0
++    rw [Q.ginzburgUpperProjectiveComponentIso_class]
++    let f := Q.ginzburgGeneratorLayerQuotientEquiv k x.1 v.1 0 0 (v.2-x.2)
++      (Submodule.Quotient.mk z)
++    have hf : f.val ∈ Finsupp.supported k k
++        {p : Q.GinzburgPath x.1 v.1 | 2 ≤ p.length} :=
++      Q.ginzburgOriginalFilteredLayer_supported_length k x.1 v.1 (v.2-x.2) 2 z hlen
++    have hzero : Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f a=0 :=
++      Q.ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt k x v f hf a ha
++    rw [Q.ginzburgOriginalFilteredToPrefix_f]
++    change Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
++      (Submodule.Quotient.mk
++        (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 0 (v.2-x.2)
++          (Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f) a))=0
++    have ht : Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 0 (v.2-x.2)
++        (Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f) a=0 := by
++      apply Subtype.ext
++      rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe,hzero]
++    rw [ht]
++    simp only [Submodule.Quotient.mk_zero,map_zero]
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgASMiddleMinimality.lean
+@@ -0,0 +1,46 @@
++import work.ASGinzburgDraft.GinzburgUpperHomologyRadical
++import work.ASGinzburgDraft.GinzburgDualOriginalRepresentatives
++import work.ASGinzburgDraft.GinzburgASProjectiveConnectingMaps
++
++/-! The genuine middle differential is minimal, derived from the
++original potential length condition and the actual connecting map.
++No minimality or Ext conclusion is assumed. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgDualOriginalProjectiveComponent_mem_radical (φ : Q.Potential k)
++    (x v : Q.LiftVertex)
++    (y : ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
++      ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1))) :
++    Q.ginzburgDualOriginalProjectiveComponent k φ x v y ∈
++      (Q.unrolledJacobianZAlgebra k φ).positiveActionSpan
++        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0)
++        (Q.height x) := by
++  obtain ⟨z,hz,hlen,he⟩ := Q.ginzburgDualOriginalHomology_representative k φ x.1 v.1
++    (v.2-x.2) ((Q.ginzburgLayerProjectiveComponentIso k φ x v (-1)).inv y)
++  change (Q.ginzburgUpperProjectiveComponentIso k φ x v).hom
++    (Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2)
++      ((Q.ginzburgLayerProjectiveComponentIso k φ x v (-1)).inv y)) ∈ _
++  rw [he]
++  exact Q.ginzburgUpperProjectiveComponentIso_class_mem_radical k φ x v z hz hlen
++
++theorem ginzburgDualOriginalProjectiveMap_minimal (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).IsMinimalMorphism
++      (Q.ginzburgDualOriginalProjectiveMap k φ v) := by
++  intro i y
++  obtain ⟨x,rfl⟩ := Q.height_bijective.surjective i
++  rw [Q.ginzburgDualOriginalProjectiveMap_component]
++  exact Q.ginzburgDualOriginalProjectiveComponent_mem_radical k φ x v y
++
++theorem ginzburgASProjectiveD₂_minimal (φ : Q.Potential k) (v : Q.LiftVertex) :
++    (Q.unrolledJacobianZAlgebra k φ).IsMinimalMorphism
++      (Q.ginzburgASProjectiveD₂ k φ v) := by
++  let A := Q.unrolledJacobianZAlgebra k φ
++  exact A.isMinimalMorphism_comp_left (A.ginzburgGeneratorDualTermIso Q v).inv _
++    (A.isMinimalMorphism_comp_right (Q.ginzburgDualOriginalProjectiveMap k φ v)
++      (A.ginzburgGeneratorOriginalTermIso Q v).hom
++      (Q.ginzburgDualOriginalProjectiveMap_minimal k φ v))
++
++end ASGinzburg.CutQuiver

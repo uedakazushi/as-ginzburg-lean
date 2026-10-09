@@ -1,0 +1,58 @@
+import ASGinzburg.GinzburgCutHomologyNaturality
+import ASGinzburg.GinzburgCutQuotientUnrolledProducts
+import ASGinzburg.RepresentableActionComponents
+
+/-! The genuine cut H-zero comparison intertwines multiplication with
+the existing representable right-module action of A(Phi). -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCutZeroQuotientMap_unrolled_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    moduleCatShortComplexQuotientMap (Q.ginzburgCutZeroShortComplexLeftMap k φ (v:=v) f) ≫
+        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x v).toModuleIso.hom=
+      (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ y v).toModuleIso.hom ≫
+        (Q.unrolledJacobianZAlgebra k φ).representablePrecomposition
+          (Q.height x) (Q.height y) (Q.height v)
+          (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)) := by
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro z
+  obtain ⟨g,rfl⟩ := (LinearMap.range
+    (Q.ginzburgCutNegativeOneDifferential k φ y.1 v.1 (v.2-y.2))).mkQ_surjective z
+  change Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x v
+      (Submodule.Quotient.mk (Q.ginzburgCutLeftTerm k 0 f g))=
+    (Q.unrolledJacobianZAlgebra k φ).comp
+      (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ y v (Submodule.Quotient.mk g))
+      (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))
+  have ht : Q.ginzburgCutLeftTerm k 0 f g=Q.ginzburgCutZeroComp k g f := by
+    apply Subtype.ext
+    rfl
+  rw [ht]
+  exact Q.ginzburgCutZeroQuotientUnrolledEquiv_comp k φ
+    (Submodule.Quotient.mk f) (Submodule.Quotient.mk g)
+
+theorem ginzburgCutHomologyZeroUnrolledIso_hom_factor (φ : Q.Potential k)
+    (x v : Q.LiftVertex) :
+    (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom=
+      (Q.ginzburgCutHomologyZeroQuotientIso k φ x.1 v.1 (v.2-x.2)).hom ≫
+        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x v).toModuleIso.hom := rfl
+
+theorem ginzburgCutHomologyZeroUnrolledIso_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgCutLeftHomology k φ 0 f ≫
+        (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom=
+      (Q.ginzburgCutHomologyZeroUnrolledIso k φ y v).hom ≫
+        (Q.unrolledJacobianZAlgebra k φ).representablePrecomposition
+          (Q.height x) (Q.height y) (Q.height v)
+          (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)) := by
+  rw [ginzburgCutHomologyZeroUnrolledIso_hom_factor,
+    ginzburgCutHomologyZeroUnrolledIso_hom_factor,← Category.assoc,
+    Q.ginzburgCutHomologyZeroQuotientIso_left_naturality,Category.assoc,
+    Q.ginzburgCutZeroQuotientMap_unrolled_naturality,← Category.assoc]
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,257 @@
+--- /dev/null
++++ work/ASGinzburgDraft/ModuleCochainHomologyClasses.lean
+@@ -0,0 +1,66 @@
++import Mathlib.Algebra.Homology.ConcreteCategory
++import Mathlib.Algebra.Category.ModuleCat.Abelian
++import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
++
++/-! Actual cycle classes and the concrete representative formula for
++mathlib's connecting homomorphism in module cochain complexes. -/
++namespace ASGinzburg
++open CategoryTheory
++universe u
++variable {k : Type u} [Field k]
++
++noncomputable def moduleCochainHomologyClass (K : CochainComplex (ModuleCat.{u} k) ℤ)
++    (i : ℤ) (x : K.X i) (hx : K.d i (i+1) x=0) : K.homology i :=
++  K.homologyπ i (K.cyclesMk x (i+1) (by simp) hx)
++
++theorem moduleCochainHomologyClass_exists (K : CochainComplex (ModuleCat.{u} k) ℤ)
++    (i : ℤ) (y : K.homology i) :
++    ∃ x : K.X i, ∃ hx : K.d i (i+1) x=0,
++      moduleCochainHomologyClass K i x hx=y := by
++  obtain ⟨z,hz⟩ := (ModuleCat.epi_iff_surjective (K.homologyπ i)).mp inferInstance y
++  let x := K.iCycles i z
++  have hx : K.d i (i+1) x=0 := congrArg (fun f => f z) (K.iCycles_d i (i+1))
++  have he : K.cyclesMk x (i+1) (by simp) hx=z := by
++    apply (ModuleCat.mono_iff_injective (K.iCycles i)).mp inferInstance
++    exact K.i_cyclesMk (i:=i) x (i+1) (by simp) hx
++  exact ⟨x,hx,by rw [moduleCochainHomologyClass,he,hz]⟩
++
++theorem moduleCochainHomologyClass_naturality
++    {K L : CochainComplex (ModuleCat.{u} k) ℤ} (f : K ⟶ L)
++    (i : ℤ) (x : K.X i) (hx : K.d i (i+1) x=0)
++    (hfx : L.d i (i+1) (f.f i x)=0) :
++    HomologicalComplex.homologyMap f i (moduleCochainHomologyClass K i x hx)=
++      moduleCochainHomologyClass L i (f.f i x) hfx := by
++  have he : HomologicalComplex.cyclesMap f i (K.cyclesMk x (i+1) (by simp) hx)=
++      L.cyclesMk (f.f i x) (i+1) (by simp) hfx := by
++    apply (ModuleCat.mono_iff_injective (L.iCycles i)).mp inferInstance
++    change (HomologicalComplex.cyclesMap f i ≫ L.iCycles i)
++      (K.cyclesMk x (i+1) (by simp) hx)=_
++    rw [HomologicalComplex.cyclesMap_i]
++    change f.f i (K.iCycles i (K.cyclesMk x (i+1) (by simp) hx))=_
++    have hi : K.iCycles i (K.cyclesMk x (i+1) (by simp) hx)=x := by
++      change ((forget₂ (ModuleCat k) Ab).map (K.iCycles i))
++        (K.cyclesMk x (i+1) (by simp) hx)=x
++      exact K.i_cyclesMk (i:=i) x (i+1) (by simp) hx
++    rw [hi]
++    exact (L.i_cyclesMk (i:=i) (f.f i x) (i+1) (by simp) hfx).symm
++  change (K.homologyπ i ≫ HomologicalComplex.homologyMap f i)
++    (K.cyclesMk x (i+1) (by simp) hx)=_
++  rw [HomologicalComplex.homologyπ_naturality]
++  change L.homologyπ i
++    (HomologicalComplex.cyclesMap f i (K.cyclesMk x (i+1) (by simp) hx))=_
++  rw [he]
++  rfl
++
++theorem moduleCochainConnecting_class
++    {S : ShortComplex (CochainComplex (ModuleCat.{u} k) ℤ)}
++    (hS : S.ShortExact) (i : ℤ)
++    (x₃ : S.X₃.X i) (hx₃ : S.X₃.d i (i+1) x₃=0)
++    (x₂ : S.X₂.X i) (hx₂ : S.g.f i x₂=x₃)
++    (x₁ : S.X₁.X (i+1)) (hx₁ : S.f.f (i+1) x₁=S.X₂.d i (i+1) x₂) :
++    hS.δ i (i+1) (by simp) (moduleCochainHomologyClass S.X₃ i x₃ hx₃)=
++      moduleCochainHomologyClass S.X₁ (i+1) x₁
++        (hS.d_eq_zero_of_f_eq_d_apply i (i+1) x₂ x₁ hx₁ (i+1+1)) := by
++  exact hS.δ_apply i (i+1) (by simp) x₃ hx₃ x₂ hx₂ x₁ hx₁ (i+1+1) (by simp)
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/ModuleCochainConnectingRepresentatives.lean
+@@ -0,0 +1,31 @@
++import work.ASGinzburgDraft.ModuleCochainHomologyClasses
++import Mathlib.Algebra.Homology.HomologicalComplexAbelian
++
++/-! Every value of the actual connecting homomorphism has a cycle
++representative whose inclusion is the differential of an actual lift. -/
++namespace ASGinzburg
++open CategoryTheory
++universe u
++variable {k : Type u} [Field k]
++
++theorem moduleCochainConnecting_exists
++    {S : ShortComplex (CochainComplex (ModuleCat.{u} k) ℤ)}
++    (hS : S.ShortExact) (i : ℤ) (y : S.X₃.homology i) :
++    ∃ x₂ : S.X₂.X i, ∃ x₁ : S.X₁.X (i+1),
++      ∃ hx₁ : S.f.f (i+1) x₁=S.X₂.d i (i+1) x₂,
++      hS.δ i (i+1) (by simp) y=
++        moduleCochainHomologyClass S.X₁ (i+1) x₁
++          (hS.d_eq_zero_of_f_eq_d_apply i (i+1) x₂ x₁ hx₁ (i+1+1)) := by
++  obtain ⟨x₃,hx₃,hy⟩ := moduleCochainHomologyClass_exists S.X₃ i y
++  have hs := (HomologicalComplex.shortExact_iff_degreewise_shortExact S).mp hS
++  haveI : Epi (S.g.f i) := (hs i).epi_g
++  obtain ⟨x₂,hx₂⟩ := (ModuleCat.epi_iff_surjective (S.g.f i)).mp inferInstance x₃
++  have hz : S.g.f (i+1) (S.X₂.d i (i+1) x₂)=0 := by
++    have hc := congrArg (fun f => f x₂) (S.g.comm i (i+1))
++    simpa only [ModuleCat.comp_apply,hx₂,hx₃] using hc.symm
++  obtain ⟨x₁,hx₁⟩ := (ShortComplex.moduleCat_exact_iff _).mp (hs (i+1)).exact _ hz
++  refine ⟨x₂,x₁,hx₁,?_⟩
++  rw [←hy]
++  exact moduleCochainConnecting_class hS i x₃ hx₃ x₂ hx₂ x₁ hx₁
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/ModuleCokernelHomologyClasses.lean
+@@ -0,0 +1,44 @@
++import work.ASGinzburgDraft.ModuleCochainHomologyClasses
++import work.ASGinzburgDraft.ModuleCatCokernelHomologyNaturality
++
++/-! Canonical cycle classes map to their actual cokernel quotient
++classes when the outgoing differential is zero. -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable {k : Type u} [Field k]
++
++theorem moduleCatCokernelHomologyIso_π (S : ShortComplex (ModuleCat.{u} k))
++    (hg : S.g=0) :
++    S.homologyπ ≫ (moduleCatCokernelHomologyIso S hg).hom=
++      S.iCycles ≫ ModuleCat.ofHom (LinearMap.range S.f.hom).mkQ := by
++  let D := ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork S hg
++    (ModuleCat.cokernelCocone S.f) (ModuleCat.cokernelIsColimit S.f)
++  have he : D.cyclesIso.hom=S.iCycles := by
++    have h := D.cyclesIso_hom_comp_i
++    simpa only [D,ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork_i,
++      Category.comp_id] using h
++  change S.homologyπ ≫ D.homologyIso.hom=_
++  rw [D.homologyπ_comp_homologyIso_hom,he]
++  rfl
++
++theorem moduleCochainCokernelHomologyIso_class
++    (K : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ)
++    (hg : (K.sc' (i-1) i (i+1)).g=0) (x : K.X i) (hx : K.d i (i+1) x=0) :
++    ((K.homologyIsoSc' (i-1) i (i+1) (by simp) (by simp)) ≪≫
++      moduleCatCokernelHomologyIso (K.sc' (i-1) i (i+1)) hg).hom
++        (moduleCochainHomologyClass K i x hx)=Submodule.Quotient.mk x := by
++  change (K.homologyπ i ≫ (K.homologyIsoSc' (i-1) i (i+1)
++    (by simp) (by simp)).hom ≫
++    (moduleCatCokernelHomologyIso (K.sc' (i-1) i (i+1)) hg).hom)
++      (K.cyclesMk x (i+1) (by simp) hx)=_
++  rw [K.π_homologyIsoSc'_hom_assoc,moduleCatCokernelHomologyIso_π,
++    ←Category.assoc,K.cyclesIsoSc'_hom_iCycles]
++  change Submodule.Quotient.mk (K.iCycles i (K.cyclesMk x (i+1) (by simp) hx))=_
++  have hi : K.iCycles i (K.cyclesMk x (i+1) (by simp) hx)=x := by
++    change ((forget₂ (ModuleCat k) Ab).map (K.iCycles i))
++      (K.cyclesMk x (i+1) (by simp) hx)=x
++    exact K.i_cyclesMk (i:=i) x (i+1) (by simp) hx
++  rw [hi]
++
++end ASGinzburg
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgDualOriginalRepresentatives.lean
+@@ -0,0 +1,53 @@
++import work.ASGinzburgDraft.ModuleCochainConnectingRepresentatives
++import work.ASGinzburgDraft.GinzburgGeneratorFiltrationCokernel
++import work.ASGinzburgDraft.GinzburgBoundaryLengthSupport
++
++/-! Values of the actual dual-to-original connecting map are classes
++of genuine degree minus one differential images, with length at least two. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorFilteredComplex_d (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c q : ℤ) :
++    (Q.ginzburgGeneratorFilteredComplex k φ u v r c).d q (q+1)=
++      ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c) :=
++  CochainComplex.of_d _ _ _ q
++
++theorem ginzburgDualOriginalHomology_representative (φ : Q.Potential k)
++    (u v : Q.Vertex) (c : ℤ)
++    (y : Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1)) :
++    ∃ z : Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c,
++      ∃ hz : (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 1 z=0,
++      z.val ∈ Finsupp.supported k k {p : Q.GinzburgPath u v | 2 ≤ p.length} ∧
++      Q.ginzburgGeneratorDualToOriginalHomology k φ u v c y=
++        moduleCochainHomologyClass (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c) 0 z hz := by
++  obtain ⟨x₂,x₁,hx₁,hδ⟩ := moduleCochainConnecting_exists
++    (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v (-1) c) (-1) y
++  have hd : (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0=
++      ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v (-1) (-1) c) := by
++    simpa only [show (-1:ℤ)+1=0 by norm_num] using
++      Q.ginzburgGeneratorFilteredComplex_d k φ u v (-1) c (-1)
++  have he : x₁.val=Q.ginzburgDifferential k φ u v x₂.val := by
++    have h := congrArg Subtype.val hx₁
++    change x₁.val=((Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0 x₂).val at h
++    rw [hd] at h
++    exact h
++  have hz : (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 1 x₁=0 := by
++    change (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 (0+1) x₁=0
++    rw [Q.ginzburgGeneratorFilteredComplex_d k φ u v 0 c 0]
++    apply Subtype.ext
++    have hm := x₁.property
++    change x₁.val ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c at hm
++    rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf] at hm
++    exact Q.ginzburgDifferential_degreeZero k φ hm.2.1
++  refine ⟨x₁,hz,?_,?_⟩
++  · rw [he]
++    exact Q.ginzburgDifferential_negOne_supported_length k φ u v
++      ⟨x₂.val,by
++        exact ((Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k u v (-1) (-1) c).le
++          x₂.property).2.1⟩
++  · exact hδ
++
++end ASGinzburg.CutQuiver
+--- /dev/null
++++ work/ASGinzburgDraft/GinzburgNonemptyPrefixHeight.lean
+@@ -0,0 +1,48 @@
++import work.ASGinzburgDraft.GinzburgAugmentationHeight
++import work.ASGinzburgDraft.GinzburgPrefixLengthSupport
++import work.ASGinzburgDraft.GinzburgPrefixFixedCoefficientClasses
++
++/-! Genuine nonempty prefix coefficients vanish at or above their
++fixed unrolled endpoint, as required for representable radical membership. -/
++namespace ASGinzburg.CutQuiver
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgCutComponent_eq_zero_of_nonempty_of_not_height_lt
++    (x y : Q.LiftVertex) (q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 q (y.2-x.2))
++    (hf : f.val ∈ Q.ginzburgAugmentationSubmodule k x.1 y.1)
++    (hxy : ¬Q.height x<Q.height y) : f=0 := by
++  have hm : f.val ∈ Q.ginzburgAugmentationAtDegree k x.1 y.1 q (y.2-x.2) := by
++    rw [Q.ginzburgAugmentationAtDegree_eq_inf]
++    exact ⟨hf,f.property⟩
++  rw [Q.ginzburgAugmentationAtDegree_eq_bot_of_not_height_lt k x y q hxy,
++    Submodule.mem_bot] at hm
++  exact Subtype.ext hm
++
++theorem ginzburgLayerOriginalCoefficient_eq_zero_of_not_height_lt
++    (x v : Q.LiftVertex)
++    (f : Q.ginzburgGeneratorLayerAtDegree k x.1 v.1 0 0 (v.2-x.2))
++    (hf : f.val ∈ Finsupp.supported k k
++      {p : Q.GinzburgPath x.1 v.1 | 2 ≤ p.length})
++    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=0})
++    (ha : ¬Q.height x<Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) :
++    Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f a=0 := by
++  let g := Q.ginzburgGeneratorLayerFreeEquiv k x.1 v.1 0 0 (v.2-x.2) f a
++  have hgf : g.val ∈ Finsupp.supported k k
++      {p : Q.GinzburgPath x.1 (a.val.source Q) | 1 ≤ p.length} :=
++    Q.ginzburgGeneratorLayerFreeEquiv_supported_length k x.1 v.1 0 0 (v.2-x.2) 1 f hf a
++  have hg : g.val ∈ Q.ginzburgAugmentationSubmodule k x.1 (a.val.source Q) :=
++    Finsupp.supported_mono (fun p hp => by
++      change 1 ≤ p.length at hp
++      change 0<p.length
++      omega) hgf
++  have hzero : Q.ginzburgPrefixCoefficientZeroCutEquiv k x v a.val g=0 :=
++    Q.ginzburgCutComponent_eq_zero_of_nonempty_of_not_height_lt k x
++      (Q.ginzburgPrefixGeneratorEndpoint v a.val) 0
++      (Q.ginzburgPrefixCoefficientZeroCutEquiv k x v a.val g)
++      (by rw [Q.ginzburgPrefixCoefficientZeroCutEquiv_coe];exact hg) ha
++  exact (Q.ginzburgPrefixCoefficientZeroCutEquiv k x v a.val).injective
++    (by simpa only [map_zero] using hzero)
++
++end ASGinzburg.CutQuiver

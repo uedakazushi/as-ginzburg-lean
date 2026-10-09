@@ -1553,3 +1553,170 @@ JST 2026-10-09T09:00:13.363780+09:00 → 2026-10-09T09:30:14.588055+09:00。
 UTC 2026-10-09T00:00:13.363780+00:00 → 2026-10-09T00:30:14.588055+00:00。
 353数学モジュール・2766異なる宣言・1401 theorem。
 差分：runs/total-algebra-20261008-unit52.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 継続checkpoint UTC 2026-10-09T00:34:24.590110+00:00
+
+単位52をmain `5c704fbe1cde4cc55b90cdb9ced399351f7e2a7d`へ通常fast-forward保存。現行353数学モジュール・2766異なる宣言・1401 theoremのfresh run 20261009T000013Z-d09711c1は全6段階0、UTC00:00:13.363780→00:30:14.588055、1801.224269633秒。外側シェルも実際の終了0（1801.267352352秒）。14初期/60基準/577保護ファイルの保存検査0。単位53〜59の個別成功済み54モジュールを一つの連続した証明段階として公開ソースへ移し、新規現行ソース全build/全宣言監査を開始する。結果は未確定。D₂の最小性を元のΦの長さから導く作業を継続する。タスク終了時刻未確定。
+
+## 継続checkpoint UTC 2026-10-09T00:37:48.421047+00:00 / JST 2026-10-09T09:37:48.421047+09:00
+
+通常道の長さfiltrationの積閉性と実際の両側PathLinearIdealを構成し、元のPotential条件から全Jacobianイデアルとactual degree−1微分像の長さ≥2を証明。最後の生成元を外す実際の係数同型が長さを1減らすことから、長さ≥2の像の全prefix係数は非空道に支持されることも証明。新しい長さ仮定を追加していない。
+
+4最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit60-draft-003748.patch（7456bytes）、利用先/残る義務、source SHA/実測個別時刻を保存。公開53は53〜59の54モジュールを含む現行ソース全build/全宣言監査が進行中で全体終了未確定。最新全体成功は52の20261009T000013Z-d09711c1、全6段階0/1801.224269633秒、main5c704fbe1cde4cc55b90cdb9ced399351f7e2a7d保存済み。60を旧成功結果で全監査済みとは扱わない。
+開始UTC2026-10-08T07:00:38から実測63430.421047秒。タスク終了時刻未確定。actual δの代表元計算へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T00:45:31.588228+00:00 / JST 2026-10-09T09:45:31.588228+09:00
+
+mathlibのactual cyclesMk/homologyπから全homology類のcycle代表元と自然性を証明し、本来の短完全列のδ_applyから任意の接続写像の値の実際の持上げ/微分代表元を証明。outgoing zeroのcanonical cokernel homology同型が本来のquotient classを与えることも証明。actual dual→original接続写像の全ての値に長さ≥2のdegree−1微分像の代表元を選べること、非空prefix係数が固定endpoint以上で零となることまで完成。
+
+5最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit61-draft-004531.patch（12509bytes）、利用先/残る義務、source SHA/実測個別時刻を保存。公開53は53〜59の54モジュールを含む現行ソース全build/全宣言監査が進行中で全体終了未確定。最新全体成功は52の20261009T000013Z-d09711c1、全6段階0/1801.224269633秒、main5c704fbe1cde4cc55b90cdb9ced399351f7e2a7d保存済み。60/61を旧成功結果で全監査済みとは扱わない。
+開始UTC2026-10-08T07:00:38から実測63893.588228秒。タスク終了時刻未確定。prefix class評価とD₂最小性へ継続する。
+
+## GitHub Actions継続検査 UTC 2026-10-09T00:49:40.961283+00:00
+
+main `0a3d93d6f70c9bd37d27072205e0f25dbd4035ed` のCI 37862446412/job 113601130314はsuccess、cacheを含む全7段階実際の終了0。検証実測UTC 2026-10-09T00:00:25.720509+00:00 → 2026-10-09T00:46:10.961939+00:00、2745.241425325秒。完全ログ986401bytes、SHA256 `b8343afba3b75b18d44367622d4d50947642d5e17d2283058f5e21b864ff6dc0`、分割ログの無変更concatによる復元検査0。artifact情報/digest/実際のhead SHAもverification/total_algebra_unit51_github_ci.evidence.jsonへ保存。これはmain51の検査であり、main52や現在進行中の53〜59公開全監査の代替にしない。タスク継続、終了時刻未確定。
+
+## 継続checkpoint UTC 2026-10-09T00:52:25.412550+00:00 / JST 2026-10-09T09:52:25.412550+09:00
+
+actual prefix top homologyが本来のquotient classを返すことと、append cochain同型の逆がlast-generator係数を読むことを証明。上側homology/projective比較の全cycle classのactual coefficient式を導き、長さ≥2の代表元の像のpositiveActionSpan包含からactual global D₂の最小性を完成した。最小性を仮定せず、元のPotential条件と実際のmathlib δから導いた。
+
+6最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit62-draft-005225.patch（15567bytes）、利用先/残る義務、source SHA/実測個別時刻を保存。公開53は53〜59の54モジュールを含む現行ソース全build/全宣言監査が進行中で全体終了未確定。最新全体成功は52の20261009T000013Z-d09711c1、全6段階0/1801.224269633秒、main5c704fbe1cde4cc55b90cdb9ced399351f7e2a7d保存済み。60〜62を旧成功結果で全監査済みとは扱わない。
+開始UTC2026-10-08T07:00:38から実測64307.412550秒。タスク終了時刻未確定。実際の最小ASResolution構成へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T00:55:00.228676+00:00 / JST 2026-10-09T09:55:00.228676+09:00
+
+本来のGinzburgRegularから既存ASResolutionを実際のD₁/D₂/D₃・exactness・左端Mono・全3微分の最小性で構成した。ASRegularの分解条件(i)を新しい仮定なしで導いた。実際のsyzygy Ext長完全列からExt³(s_(τv),P_v)≃ₗkとrank/finrank=1、全単純/全representable/全次数のExt有限性、AS総rank≥1まで証明。総rank≤1/他の低次数や非対角Ext零性は未証明。
+
+2最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit63-draft-005500.patch（4414bytes）、利用先/残る義務、source SHA/実測個別時刻を保存。公開53は407数学モジュールを含む現行lake build終了0（1113.753881秒）、独立した全宣言監査が進行中で全体終了未確定。最新全体成功は52の20261009T000013Z-d09711c1、全6段階0/1801.224269633秒、main5c704fbe1cde4cc55b90cdb9ced399351f7e2a7d保存済み。60〜63を旧成功結果で全監査済みとは扱わない。
+開始UTC2026-10-08T07:00:38から実測64462.228676秒。タスク終了時刻未確定。実際の双対左複体比較へ継続する。
+
+## 継続checkpoint UTC 2026-10-09T01:05:52.904900+00:00 / JST 2026-10-09T10:05:52.904900+09:00
+
+反対箙を矢と頂点順の反転から本来のCutQuiverとして構成し、cut次数/winding保存・height反転・τ反転を証明。実際の道の逆順化と逆写像から長さ/cut/語を保つ道同値、線形道成分同値と積の反転を証明。actual cyclic rotation quotientの逆順化を構成し、原論文の閉路/cut=1/長さ≥3を保つ真のPotential空間同値を証明。一般cyclic derivativeの逆順化適合性とactual path-valued derivativeの反対箙比較も証明した。
+
+8最終個別Lean実際の終了0・診断なし。差分runs/total-algebra-20261008-unit64-draft-010552.patch（17452bytes）。公開53の全体lake buildは終了0/1113.753881秒、全宣言公理監査は進行中で全体終了未確定。最新全体成功52とdraft60〜64を区別する。
+タスク開始UTC2026-10-08T07:00:38から実測65114.904900秒。終了時刻未確定。Jacobianとsigned extended pathsの比較へ継続する。
+
+## 単位53：実際の道作用とfiltration/層/prefix homologyの自然性
+
+実際のdegree0道の左乗法によるfiltered/associated/prefix complexesのchain mapsとinclusion/quotient適合性、実際のfiltration短完全列の射とmathlib δの自然性、loop→dual/dual→originalの自然性を証明。生成元付加比較と逆cochain/homology同型、actual prefix top homology/incoming-boundary quotient比較の自然性、有限quotient族のclass係数まで完成。A(Φ)成分の積作用との比較と全右加群の射/自然性、標準微分/最小性・AS分解/Ext表は未証明。正則性・周期性・Ext同型等の追加仮定なし。定理3.2/系5.2は未証明、正式Lean定理文未実装。
+
+実際のdegree0 Ginzburg道の左乗法はlast-generator filtrationを保ち、signed Leibnizとdegree0微分零性から全filtered/associated/prefix complexesの微分と可換する。実際のinclusionと商にも適合するためfiltrationの短完全列の射となり、mathlib δ_naturalityを適用して接続写像、loop→dualとdual→originalがこの作用と可換することを証明した。Jacobian商が未解決chain termsに作用するとは仮定していない。
+
+生成元付加のfinite lsum比較をpiSingleで確認し、実際の道の積の結合則によりleft actionと可換することを証明。全cochain同型の逆と全homology同型へ自然性を移した。一般ModuleCat short complexのoutgoing differentialが零なら、actual homology≅incoming range quotientの自然性をmathlib LeftHomologyMapDataで証明。実際のtop prefix short complex、canonical sc/sc′の同型を通じ、既存top homology quotient比較の自然性を証明した。finite quotientPi同型のclass係数とleft multiplication係数も明示した。
+
+11モジュール最終個別Leanログ：ginzburg-filtered-left-action3, ginzburg-associated-left-action1, ginzburg-filtration-left-naturality2, ginzburg-generator-differential-naturality1, ginzburg-prefix-left-action2, ginzburg-prefix-comparison-naturality5, ginzburg-layer-homology-naturality1, modulecat-cokernel-homology-naturality1, ginzburg-prefix-top-naturality1, ginzburg-prefix-top-homology-naturality4, ginzburg-prefix-family-classes1。すべて実際の終了0・診断なし。dependent subtype rewrite、暗黙のendpoint推論、piSingle族/coe、NatIso.appとhomのrewrite、合成/β正規化の失敗ログと生成元付加の200000/1000000 heartbeats timeoutを保持。係数補題への分解で最終証明を完了。生成元付加行の証明だけmaxHeartbeats1000000、数学的仮定は変更していない。
+
+利用先は52のactual四項成分複体を全A(Φ)右加群の射へ束ねる証明。次の54でprefixの境界商有限族と固定終点A(Φ).Homの同型がactual quotient multiplicationを保存することを証明し、既存有限coproductの自然性を用いてA線形性を導く。augmentation/radical比較の自然性、標準巡回微分行列・最小性・実際のAS分解とExt表が残る。逆方向AS→Φ/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応も未証明。公開検査/main保存後も継続する。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit53.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位54：固定終点A(Φ)係数と実際の積作用
+
+実際のdegree0 cut boundary quotient≅A(Φ)成分の積保存、cut次数の算術transportと係数/class保存、origin非依存の固定終点prefix係数族同型を証明。実際のprefix左乗法をA(Φ)前合成へ移す係数/全有限族の自然性、prefix/associated-layer top homologyの固定A(Φ)係数比較の自然性、既存有限coproduct成分同型の右作用適合性まで完成。全右加群の射、augmentation/radical自然性、標準微分・最小性・AS分解/Ext表は未証明。主定理3.2/系5.2は未証明・正式Lean定理文未実装。
+
+実際の固定cut H⁰境界商とJacobian/unrolling同型を合成し、真のcut quotient productを既存A(Φ).compへ移す積保存を証明した。prefix係数の終点を(a.source,v.sheet−a.cutDegree)へ固定し、cut次数の等式transportを等式除去から恒等LinearEquivへ定義した。transportは道の係数とactual quotient classを保つ。これによりprefix left multiplicationの各classが真のA(Φ)前合成へ移ることを証明し、incoming range quotientの任意元で有限族全体の自然性を導いた。53のactual homology quotient自然性とappend比較自然性から、prefix/associated top homologyと固定A(Φ)係数族の比較も真のalgebra precompositionと可換する。
+
+既存有限coproduct成分同型は各実際のcoproduct射影に等しいことを用い、そのNatTrans自然性から右作用保存を証明した。追加の周期性/Ext/AS/正則性仮定はない。全加群の射をまだ構成しておらず、これをASResolutionの完成とは扱わない。
+
+8モジュール最終個別Leanログ：ginzburg-cut-quotient-unrolled-products1, ginzburg-cut-zero-quotient-transports2, ginzburg-prefix-fixed-coefficients3, ginzburg-prefix-fixed-coefficient-classes2, ginzburg-prefix-fixed-products1, ginzburg-prefix-fixed-family-action2, ginzburg-fixed-homology-naturality1, finite-coproduct-component-naturality1。すべて実際の終了0・診断なし。quotientにSubmodule専用LinearEquiv.ofEqを試した初回の型照合失敗、未生成依存oleanの失敗、endpoint推論/comp引数/明示したclass rewriteの失敗ログを保持。actual quotient transportは等式除去/恒等同型で完成した。
+
+利用先は実際のlayer homology接続写像をA(Φ)全右加群のmorphismsへ束ねること。次はgenerator endpoint representableの有限coproductとactual evaluation比較を構成し、path class surjectivityと積保存から全A線形morphismsを導く。upper filtered H⁰と係数、augmentation/radical自然性、標準微分行列・最小性・実際のAS分解/Ext表が残る。逆AS→Φ/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応も未証明。新規公開検査/main保存後も継続する。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit54.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位55：実際の射影右加群と接続写像
+
+actual generator係数のrepresentable有限coproductと既存AS項の右加群同型、layer/upper H⁰比較の右作用自然性、actual path class全射から全A(Φ)作用に関する接続成分の自然性、既存右加群の本来のindexをlift頂点で同値に添字付けする関手、loop→dual→originalの真のRightModule射を構成。合成零、GinzburgRegularから最初の射のMonoと中間Exact、既存AS Term₂/Term₁への移送も完成。radical/augmentation自然性とoriginal→representableの射、標準行列・最小性・完全なAS分解/Ext表は未証明。
+
+有限generator族の固定終点representableのcoproductは、既存RightModuleの射影性定理により実際の射影加群である。実際のindex/endpoint同値とSigma.whiskerEquiv、loopのcoproductUniqueIsoから既存AS三項との加群圏の同型を得た。54のH⁰係数比較・有限coproduct比較の作用保存からlayer/upper比較がdegree0 path class作用と可換することを証明した。真のcut quotient classの全射により、接続成分は全A(Φ)作用とも可換する。
+
+既存線形presheafの定義を保ち、heightEquivで実際のA.Objᵒᵖ indexing categoryをlift頂点へ誘導した。同値による制限関手の完全忠実性から、実際の自然変換を元のRightModule射へ持ち上げた。成分は本来のhomology connecting mapに一致する。忠実な成分評価と50の長完全列により合成零、GinzburgRegularの場合の左端Monoと中間Exactを証明し、AS既存項へ移送した。加群定義や射を任意のPropで置き換えていない。周期性/Ext/AS結論を新しい仮定に追加していない。Mono/Exactに使ったGinzburgRegularはactual負次数homology消滅という原論文の条件である。
+
+13モジュール最終個別Leanログ：ginzburg-generator-projective-modules1, ginzburg-layer-projective-naturality1, ginzburg-generator-projective-terms1, ginzburg-generator-loop-projective1, ginzburg-upper-projective-naturality1, iso-transport-naturality2, ginzburg-projective-connecting-components1, lifted-module-indexing2, ginzburg-cut-zero-class-surjectivity1, ginzburg-projective-connecting-naturality1, ginzburg-projective-connecting-maps1, ginzburg-projective-connecting-exactness4, ginzburg-as-projective-connecting-maps2。全て実際の終了0・診断なし。generic iso squareのassoc方向、index同値の余分なrfl、接続合成の未import/定義照合/200k heartbeat、full-subcategoryとambientのmap_comp照合、zero_comp namespace不足の失敗ログも保持。大きいsimpを成分の明示に置き換えて終了0とし、未検証依存を残していない。
+
+利用先はactual A(Φ)の標準単純加群分解の左半分。次は実際のaugmentation complexの左作用とradical比較の自然性、original→radical→representableの全右加群射を構成し、残るexactnessを得る。標準微分行列との一致・最小性・ASResolutionの構成・Ext表はまだ証明していない。逆AS→Φ/最小関係/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応も未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。公開全監査/main保存後も作業を続ける。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit55.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位56：augmentation H⁰とradicalの自然性
+
+actual cut/augmentation complexesへのdegree0道の左乗法、包含とfiltration inclusionsの自然性、actual cut H⁰ boundary quotientと既存representable作用の一致、filtration→augmentation H⁰比較・高さ比較の自然性、全高さのaugmentation H⁰≅既存radical成分比較の右作用適合性まで完成。新しい仮定はなし。全右加群のoriginal→radical射と残りexactness、標準行列/最小性/完全AS分解/Ext表は未証明。
+
+degree0の真のGinzburg左乗法をactual cut/augmentation complexのcochain mapsにし、LeibnizとDf=0から微分適合性を証明した。augmentation閉性はF_-2の真のfiltration閉性から導いた。短複体のactual incoming image/cokernel homology表示の自然性と54のactual quotient product保存を用い、H⁰の比較が既存representable作用に一致することを証明した。Yoneda展開の長時間の照合を避けるため、一般ZAlgebraのactual representable actionを同じA.Hom上の明示的precompositionに等しいと証明し、それを利用した。定義や数学的作用は置換していない。
+
+F_-1 H⁰→F_-2 H⁰→augmentation H⁰の実際の同型とupper filtration mapの自然性も完成。heightがendpointより小さい場合はactual augmentation inclusion H⁰、cut H⁰比較、radical inclusion成分の同型で自然性を得た。他の高さはactual augmentation/radical成分が零であることから導いた。正則性・周期性・AS/Ext結論の仮定追加はない。
+
+7モジュール最終個別Leanログ：ginzburg-cut-left-action1, ginzburg-augmentation-left-action1, ginzburg-cut-homology-naturality1, ginzburg-augmentation-homology-naturality2, representable-action-components1, ginzburg-cut-representable-naturality3, ginzburg-augmentation-radical-naturality1。全て実際の終了0・診断なし。数値次数のsimpa transportでrewritingに失敗した初回、Yoneda actionを直接照合する型検査の200k/1m heartbeat失敗ログを保持。実際の次数/成分の明示と一般representable action補題へ分割して完了した。単位55の左半分と合わせてもまだ完全なASResolutionやAS条件の証明として扱わない。
+
+利用先はupper projective module→actual radicalの全RightModule射の構成と、simple quotientまでのexactness。次は成分写像を全algebra elementsで自然にし、添字同値の完全忠実性から元のRightModule射を構成する。actual Epiとkernel/cokernelから全四項の正則性条件付きexactnessへ進む。その後の標準微分行列・最小性・Ext表、逆AS→Φ/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit56.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位57：全右加群のradical射とAS項の右端exactness
+
+original projective→既存radicalの真のRightModule Epi、dual→original→radicalの合成零とExact、radical Monoを合成したoriginal→representableの射とsimpleπまでの合成零/Exactを証明。既存AS Term₁への実際のD₁と既存AS項の右端二か所のExactも完成。55と合わせるとactual GinzburgRegularから全四項のexactnessと左端Monoを得る。まだProjectiveResolutionへの登録・最小性・AS Ext双対性は未証明。
+
+56のactual augmentation/radical自然性と55のupper projective比較から成分写像を構成し、actual degree0 class全射から全A(Φ)作用に関する自然性を証明した。既存presheaf indexing categoryとの同値の完全忠実性により本来のRightModule射を構成した。全lift高さでのEquality/Mono/Epi/Exact判定を一般ZAlgebraについて証明し、真のhomology cokernelからこの射のEpiとdual→original→radicalのExactを導いた。
+
+actual radical inclusionのMonoと商短完全列を用いてrepresentable/simpleπまでを接続した。原論文の元のincoming/outgoing/loop射影項の同型により、実際のD₁とd₂d₁=0、d₁π=0、右端二項のExactを得た。これらはGinzburgRegularを仮定しない。左端のMonoと次のExactは55におけるactual負次数homology消滅条件から得る。任意のProp/axiom/周期性/ExtやAS結論の追加仮定はない。
+
+7最終個別Leanログ：ginzburg-projective-radical-components1, right-module-lifted-components3, ginzburg-projective-radical-map1, ginzburg-projective-radical-exactness1, ginzburg-projective-representable-exactness1, ginzburg-as-projective-radical-maps2, ginzburg-as-projective-exactness1。全て実際の終了0・診断なし。lift高さrewriteのMono/Epi照合失敗、AS D₂D₁でのunused simp warningを保持し、明示的rewriteと不要simp引数の除去で解消。新しい個別compiler wrapperはsource SHA、実際の開始/終了時刻・単調時計elapsed・終了コードを.exit.jsonへ保存する。
+
+利用先はactual単純加群の四項射影分解。次は全AS項をゼロで延長したnative ChainComplex、actual simple augmentationのQuasiIso、mathlib ProjectiveResolutionへ登録し、高次Ext消滅を導く。最小性・standard differential coefficients・Ext³の左単純同型/AS条件、逆AS→Φ/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit57.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位58：Ginzburg正則性からの実際の単純射影分解
+
+真のAS四項/right module ChainComplexとGinzburgRegularから全正次数Exact、actual simple augmentationのQuasiIso、mathlib ProjectiveResolutionを構成。全項の有限生成射影性、actual有限射影covers length3、任意標的への次数4以上の実際Ext消滅・simple射影次元≤3、全次数のactual Extとexact colimit/小さいcoproductの交換まで完成。最小性・Ext³のAS左単純同型は未証明で、既存minimal ASResolutionやASRegularの構成とは扱わない。
+
+55/57の真のRightModule morphismsを元のAS四項に配置し、4次以降を零としたmathlib ChainComplexを構成した。原論文のactual Ginzburg負次数homology消滅から正次数exactnessを導き、既存のsimple quotientπをaugmentationにしてQuasiIsoを証明し、mathlib ProjectiveResolutionへ登録した。代表元上のPropモデルや新しい公理ではない。
+
+一般ZAlgebraの四項ProjectiveResolutionについて、本来のsyzygy短完全列とactual Ext長完全列の三段dimension shiftを証明した。射影第3項のExt消滅から任意標的へのExt^{n+4}=0とprojective dimension≤3を得て、actual Ginzburg simple分解へ適用した。全項は既存representable/有限coproduct/零の具体的有限生成射影性を持ち、実際のcovers/kernelによるlength3を導いた。一般有限射影分解の既存colimit定理から全次数のactual Extとexact colimit・小さいcoproductの交換を得た。交換を仮定していない。
+
+6最終個別Leanログ：ginzburg-as-projective-complex2, ginzburg-as-projective-resolution3, four-term-projective-resolution-ext1, ginzburg-simple-projective-dimension1, ginzburg-simple-finite-projective-resolution1, ginzburg-simple-ext-colimits1。全て実際の終了0・診断なし。各.exit.jsonにsource SHAと実測開始/終了/経過秒を保存。augmentationの大きいsimpが引き起こすIsIso照合/heartbeat失敗、opaque短複体のgへのEpi推論失敗を保持し、実際の複体微分補題とsimpleπの型を明示して解消した。公開全監査は別の必要な検査であり、その成功まではdraftである。
+
+利用先はΓ正則→ASの順方向の有限分解/Ext側。次はactual D₁/D₃の最小性をendpoint/radicalから、D₂の最小性を元のΦの長さ≥3とactual微分のsupportから導く。標準微分係数と双対左複体の比較・Ext³左単純同型が残る。ΓRegularからのAS条件全体をまだ証明したとは扱わない。逆AS→Φ/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応も未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit58.patch。全theoremを監査し、許容公理3種類のみ。
+
+## 単位59：実際のD₁/D₃の最小性
+
+一般ZAlgebraのactual representable radical inclusionの最小性と、representableから厳密に高い有限representable coproductへの任意射の最小性を証明し、actual Ginzburg AS D₁/D₃へ適用した。正則性や新しい数学的仮定は不要。D₂の最小性は元のΦの長さ≥3とactual微分supportから導く必要があり未証明。
+
+既存representableRadicalのcomponentとpositiveActionSpanの等式からinclusionの本来のradical包含を証明した。coproduct_radical_iffを用い、source representableのendpoint以下でtarget各項のradicalが全成分となること、endpointより上ではsourceが零であることから、厳密に高い有限representable族への全射の最小性を導いた。D₁は既存のactual radical因子分解、D₃はoutgoingTarget_height_gtへ適用して完成。simple Hom消滅を新しい仮定にしていない。
+
+2最終個別Leanログ：endpoint-projective-minimality3, ginzburg-as-endpoint-minimality1。全て実際の終了0・診断なし。各.exit.jsonにsource SHA/実測UTC時刻/elapsed/終了コードを保存。空白のない≤iがmathlib InitialSeg記法に読まれた失敗と、implicit index record projectionをomegaが還元しなかった失敗を保持し、空白と明示的indicesで修正した。
+
+利用先は既存ASResolutionのminimal₁/minimal₃の証明義務。次は本来のΦの長さ≥3からD₂のradical包含を証明する。これが揃うまで既存minimal ASResolutionを構成したとは扱わない。Ext³左単純同型/AS条件全体、逆AS→Φ/選択独立性/§5quadratic/標準RHom/外部結果/同型類対応は未証明。定理3.2/系5.2は未証明・正式Lean定理文未実装。継続する。
+
+検証：`20261009T003424Z-559134b0`、2129.311985680秒、全段階終了0。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+407数学モジュール・2972異なる宣言・1526 theorem。
+差分：runs/total-algebra-20261008-unit59.patch。全theoremを監査し、許容公理3種類のみ。

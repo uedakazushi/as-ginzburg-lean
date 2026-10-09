@@ -1,8 +1,16 @@
 # Codexクラウドへの引継ぎ
 
-実際の道のwinding/高さ差からaugmentation全次数成分の高さ判定、全cochain/homology同型と零性、既存representable radicalの成分同型/零性、augmentation H⁰≅radical評価成分を正則性なしで証明。filtration接続写像を実際のAS射影項の評価成分へ移し、平方零性・radicalへの全射・各短複体のexactnessを証明。GinzburgRegularから左端の単射性と四項成分chain complexの全正次数exactness、実際の単純商へのaugmentation quasi-isomorphismまで完成。加群圏での自然性/A線形性・標準微分との照合・最小性・実際のAS分解とExt表/AS対応は未証明。成分ごとの四項完全列をASResolutionの存在とは扱わない。定理3.2/系5.2は未証明、正式Lean定理文未実装。
-最新ローカル検証 20261009T000013Z-d09711c1：353数学モジュール・2766異なる宣言・1401 theorem、全段階終了0。
-単位1〜52の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位53〜59で実際のA(Φ)作用とfiltration接続写像の自然性を証明し、四項RightModule射影複体と単純商augmentationを構成した。本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolution、全項の有限生成射影性、任意標的へのExt≥4零/射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を完成した。D₁/D₃の最小性を証明した。D₂最小性とminimal ASResolution、双対左複体比較、Ext³のAS双対性/ASRegular全体は未検証・未公開。正則性やAS結論に等しい追加仮定なし。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+最新ローカル検証 20261009T003424Z-559134b0：407数学モジュール・2972異なる宣言・1526 theorem、全段階終了0。
+単位1〜59の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+
+
+## 現行のGinzburgからASへの証明状態（単位54〜59）
+
+単位54〜59で固定endpointのactual A(Φ)係数比較と積作用、全RightModule morphismsへの自然性、augmentation H⁰/radical自然性を完成した。実際のD₁/D₂/D₃による四項射影複体と単純商augmentationを構成し、本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolutionと全項の有限生成射影性を証明した。実際のsyzygyとExt長完全列から任意標的への次数4以上のExt零性・射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を導いた。D₁/D₃の最小性はactual radical因子分解とendpoint高さから完成。D₂の最小性、既存minimal ASResolution、標準巡回微分行列/双対左複体の比較、Ext³のAS左単純同型とASRegular全体は未証明。直和交換・周期性・AS結論を新しい仮定に追加していない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+
+次は元のPotentialの長さ≥3からactual D₂のradical包含を導き、最小AS分解を構成する。その後、実際の微分の双対比較からExt³左単純同型を証明する。AS→Φ、基底/最小関係/選択独立性、標準RHom/外部結果、§5quadraticと同型類対応も残る。過去の単位43〜53の記載は各単位時点の証明状態であり、現行の完成/未証明の判定にはこの段落と最新検証を使う。
+
 
 ## 場所・固定環境・権限
 
@@ -26,10 +34,10 @@ minimality、有限ASResolutionのmathlib ProjectiveResolutionへの変換、実
 
 ## 現在の検査と保存
 
-最新ローカル検証 `20261009T000013Z-d09711c1`、全段階終了0、1801.224269633秒。
-UTC 2026-10-09T00:00:13.363780+00:00 → 2026-10-09T00:30:14.588055+00:00。
-JST 2026-10-09T09:00:13.363780+09:00 → 2026-10-09T09:30:14.588055+09:00。
-353数学モジュール・2766異なる明示的宣言・全1401 theorem・294 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
+最新ローカル検証 `20261009T003424Z-559134b0`、全段階終了0、2129.311985680秒。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
+407数学モジュール・2972異なる明示的宣言・全1526 theorem・299 named instanceを監査。11回帰テスト、ソース監査、固定環境、lake build、全#print axioms、照合は終了0。
 許容公理はpropext、Classical.choice、Quot.soundのみ。
 sorry/admit/独自axiom、sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし。
 新規数学ソースの未解決コンパイルエラー・lint警告なし。旧PathAlgebraの既存lint警告は保持。
@@ -63,7 +71,7 @@ AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/che
 2. Abelian構造・EnoughProjectivesと、導来圏の同値による全次数Extのk線形同型は完成。前合成・後合成の自然性も完成。正則総加群と総代数の同定と(1.12)への移送も完成。
 3. canonicalな二重A-dualの評価と自然性・representable評価同型は完成。有限生成射影の反変同値まで完成。有界cochainホモトピー圏まで完成。左単純分解とExtの相互計算も完成。二重Ext自然同型・有限次元Ext³反変同値・成分線形双対の反変同値・exactな自己同値と頂点単純の移送は完成。総ベクトル双対比較・全作用適合性とAS条件からの周期性まで完成。次は左側総正則Ext比較も完成。次はd₁からの道代数提示と標準RHom/derived接続。
 4. D Ext³の区間制限・projective cover・正規化同型、代数成分回収と区間coherence、AS条件からの正負周期性は完成。道代数全射・最小生成元の基底と成分分解は完成。核の矢イデアル平方への包含と実際の道代数商同型も完成。任意の基底の持上げ・選択の独立性と最小関係を続ける。
-5. 単位44で全d²=0、実際のcochain複体/homology・GinzburgRegular定義、Jacobianイデアル＝境界とH⁰の線形比較は公開検証済み。単位45で固定cut項/homologyの有限次元性と有界性、実際のretract、全正則性のcut成分判定、homogeneous Jacobian/H⁰の線形比較、道/線形unrolling同型まで公開検証済み。単位46でJacobian商とunrollingの交換・homogeneous商の積保存、固定cut H⁰とA(Φ)成分の線形比較も公開検証済み。単位47でH⁰そのものの積/単位元/結合則、Jacobian/A(Φ)比較の積保存、実際のH⁰ ZAlgebra同型、全単位的Jacobian/H⁰成分環とAlgEquivまで公開検証済み。canonical augmentation/quasi-isomorphismと実際のfree-generator augmentation complex/負次数消滅は単位48で公開検証済み。3層のprefix complex比較・homology集中・canonical augmentationは単位49で公開検証。実際のfiltration長完全列と3項homology複体のaugmentation quasi-isomorphismは単位50で公開検証。A(Φ)係数と既存射影項の評価成分比較は単位51で公開検証。augmentation H⁰/radicalと既存射影項の四項成分複体は単位52で公開検証。次は道作用との自然性からA線形morphismsを作り、標準微分・最小性・実際のAS分解/Ext表へ進む。AS条件との両方向の対応・外部一般定理・主定理の同型類対応を続ける。次の未公開草稿の検査状態はRECENT_RUN.mdに記録する。
+5. 単位44で全d²=0、実際のcochain複体/homology・GinzburgRegular定義、Jacobianイデアル＝境界とH⁰の線形比較は公開検証済み。単位45で固定cut項/homologyの有限次元性と有界性、実際のretract、全正則性のcut成分判定、homogeneous Jacobian/H⁰の線形比較、道/線形unrolling同型まで公開検証済み。単位46でJacobian商とunrollingの交換・homogeneous商の積保存、固定cut H⁰とA(Φ)成分の線形比較も公開検証済み。単位47でH⁰そのものの積/単位元/結合則、Jacobian/A(Φ)比較の積保存、実際のH⁰ ZAlgebra同型、全単位的Jacobian/H⁰成分環とAlgEquivまで公開検証済み。canonical augmentation/quasi-isomorphismと実際のfree-generator augmentation complex/負次数消滅は単位48で公開検証済み。3層のprefix complex比較・homology集中・canonical augmentationは単位49で公開検証。実際のfiltration長完全列と3項homology複体のaugmentation quasi-isomorphismは単位50で公開検証。A(Φ)係数と既存射影項の評価成分比較は単位51で公開検証。augmentation H⁰/radicalと既存射影項の四項成分複体は単位52で公開検証。degree0 path作用とactual filtered/associated/prefix homology・接続写像の自然性は単位53で公開検証。次はA(Φ)積作用との係数比較から全右加群の射を作り、augmentation/radical自然性・標準微分・最小性・AS分解/Ext表へ進む。AS条件との両方向の対応・外部一般定理・主定理の同型類対応を続ける。次の未公開草稿の検査状態はRECENT_RUN.mdに記録する。
 
 一般の全M,N・全次数の自然なHom複体–Abelian.Ext比較も未証明。直和交換には長完全列の自然性を使用した。
 古いleftDerived型ProjectiveResolution.isoExtを新しいAbelian.Extの比較と取り違えない。

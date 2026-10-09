@@ -1,0 +1,63 @@
+import ASGinzburg.GinzburgProjectiveConnectingNaturality
+import ASGinzburg.LiftedModuleIndexing
+
+/-! Genuine morphisms in the existing linear RightModule category,
+assembled from the intrinsic Ginzburg connecting maps. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgLoopDualLiftedMap (φ : Q.Potential k) (v : Q.LiftVertex) :
+    (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-2)).obj ⟶
+      (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1)).obj where
+  app x := Q.ginzburgLoopDualProjectiveComponent k φ x v
+  naturality x y f :=
+    Q.ginzburgLoopDualProjectiveComponent_algebra_naturality k φ (x:=y) (y:=x) f.unop
+
+noncomputable def ginzburgDualOriginalLiftedMap (φ : Q.Potential k) (v : Q.LiftVertex) :
+    (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1)).obj ⟶
+      (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0).obj where
+  app x := Q.ginzburgDualOriginalProjectiveComponent k φ x v
+  naturality x y f :=
+    Q.ginzburgDualOriginalProjectiveComponent_algebra_naturality k φ (x:=y) (y:=x) f.unop
+
+noncomputable def ginzburgLoopDualProjectiveMap (φ : Q.Potential k) (v : Q.LiftVertex) :
+    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-2) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1) :=
+  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents Q
+    (Q.ginzburgLoopDualLiftedMap k φ v)
+
+noncomputable def ginzburgDualOriginalProjectiveMap (φ : Q.Potential k) (v : Q.LiftVertex) :
+    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v (-1) ⟶
+      (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 :=
+  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents Q
+    (Q.ginzburgDualOriginalLiftedMap k φ v)
+
+theorem ginzburgLoopDualProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) :
+    ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map
+      (Q.ginzburgLoopDualProjectiveMap k φ v) = Q.ginzburgLoopDualLiftedMap k φ v :=
+  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents_whisker Q _
+
+theorem ginzburgDualOriginalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) :
+    ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map
+      (Q.ginzburgDualOriginalProjectiveMap k φ v) = Q.ginzburgDualOriginalLiftedMap k φ v :=
+  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents_whisker Q _
+
+theorem ginzburgLoopDualProjectiveMap_component (φ : Q.Potential k) (x v : Q.LiftVertex) :
+    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+      (Q.ginzburgLoopDualProjectiveMap k φ v) =
+        Q.ginzburgLoopDualProjectiveComponent k φ x v :=
+  congrArg (fun f => f.app x) (Q.ginzburgLoopDualProjectiveMap_whisker k φ v)
+
+theorem ginzburgDualOriginalProjectiveMap_component (φ : Q.Potential k) (x v : Q.LiftVertex) :
+    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+      (Q.ginzburgDualOriginalProjectiveMap k φ v) =
+        Q.ginzburgDualOriginalProjectiveComponent k φ x v :=
+  congrArg (fun f => f.app x) (Q.ginzburgDualOriginalProjectiveMap_whisker k φ v)
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,55 @@
+import ASGinzburg.GinzburgASProjectiveComplex
+
+/-! Actual simple augmentation and a genuine mathlib projective
+resolution, obtained from the genuine negative-homology vanishing of
+Ginzburg. This does not yet supply minimality or AS Gorenstein duality. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgASSimpleAugmentation (φ : Q.Potential k) (v : Q.LiftVertex) :
+    Q.ginzburgASProjectiveComplex k φ v ⟶
+      (ChainComplex.single₀ (Q.unrolledJacobianZAlgebra k φ).RightModule).obj
+        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) :=
+  (ChainComplex.toSingle₀Equiv _ _).symm
+    ⟨(Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v),by
+      rw [ginzburgASProjectiveComplex_d]
+      exact Q.ginzburgASProjectiveD₁_comp_simpleπ k φ v⟩
+
+theorem GinzburgRegular.asSimpleAugmentation_quasiIso {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
+    QuasiIso (Q.ginzburgASSimpleAugmentation k φ v) := ⟨fun n => by
+  cases n
+  · rw [ChainComplex.quasiIsoAt₀_iff,ShortComplex.quasiIso_iff_of_zeros']
+    · dsimp
+      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
+        ⟨Q.ginzburgASProjectiveOriginalSimpleShortComplex_exact k φ v,by
+          change Epi ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v))
+          infer_instance⟩
+      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
+        (by dsimp; exact (ChainComplex.of_d (Q.ginzburgASProjectiveComplexTerm k φ v)
+          (Q.ginzburgASProjectiveComplexDifferential k φ v)
+          (Q.ginzburgASProjectiveComplexDifferential_square k φ v) 0).symm)
+        (by simp [ginzburgASSimpleAugmentation,ginzburgASProjectiveOriginalSimpleShortComplex])
+    all_goals rfl
+  · rw [quasiIsoAt_iff_exactAt']
+    · exact h.asProjectiveComplex_exactAt_succ Q k v _
+    · apply ChainComplex.exactAt_succ_single_obj⟩
+
+noncomputable def GinzburgRegular.simpleProjectiveResolution {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
+    ProjectiveResolution ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)) where
+  complex := Q.ginzburgASProjectiveComplex k φ v
+  projective n := by
+    change Projective (Q.ginzburgASProjectiveComplexTerm k φ v n)
+    infer_instance
+  π := Q.ginzburgASSimpleAugmentation k φ v
+  quasiIso := h.asSimpleAugmentation_quasiIso Q k v
+
+theorem GinzburgRegular.simpleProjectiveResolution_isZero_ge_four {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (n : ℕ) :
+    IsZero ((h.simpleProjectiveResolution Q k v).complex.X (n+4)) :=
+  Q.ginzburgASProjectiveComplex_isZero_ge_four k φ v n
+
+end ASGinzburg.CutQuiver

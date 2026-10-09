@@ -1,0 +1,27 @@
+import ASGinzburg.GinzburgPrefixFixedCoefficientClasses
+
+/-! The actual prefix left-path coefficient action becomes actual
+precomposition in the existing A(Phi) algebra. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgPrefixFixedCoefficient_leftClass (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
+    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2-y.2))
+    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}) :
+    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
+        (Submodule.Quotient.mk (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
+          (Q.ginzburgPrefixLeftTerm k r r f g) a))=
+      (Q.unrolledJacobianZAlgebra k φ).comp
+        (Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ y v a.val
+          (Submodule.Quotient.mk (Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2-y.2) g a)))
+        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)) := by
+  rw [Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk,
+    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk,
+    Q.ginzburgPrefixCoefficientZeroCutEquiv_leftTerm]
+  rw [← Q.ginzburgCutZeroQuotientComp_mk k φ]
+  exact Q.ginzburgCutZeroQuotientUnrolledEquiv_comp k φ _ _
+
+end ASGinzburg.CutQuiver

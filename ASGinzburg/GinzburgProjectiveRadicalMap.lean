@@ -1,0 +1,57 @@
+import ASGinzburg.GinzburgProjectiveRadicalComponents
+import ASGinzburg.GinzburgProjectiveConnectingMaps
+import ASGinzburg.RightModuleLiftedComponents
+
+/-! A genuine epimorphism of existing right modules from the original
+generator projective to the actual representable radical. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgOriginalRadicalProjectiveComponent_algebra_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (a : (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height y)) :
+    ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0).obj.map
+        (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from a).op ≫
+        Q.ginzburgOriginalRadicalProjectiveComponent k φ x v=
+      Q.ginzburgOriginalRadicalProjectiveComponent k φ y v ≫
+        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object.obj.map
+          (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from a).op := by
+  obtain ⟨f,rfl⟩ := Q.ginzburgCutZeroUnrolledClass_surjective k φ x y a
+  exact Q.ginzburgOriginalRadicalProjectiveComponent_left_naturality k φ f
+
+noncomputable def ginzburgOriginalRadicalLiftedMap (φ : Q.Potential k) (v : Q.LiftVertex) :
+    (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
+        ((Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0).obj ⟶
+      (Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexFunctor Q ⋙
+        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object.obj where
+  app x := Q.ginzburgOriginalRadicalProjectiveComponent k φ x v
+  naturality x y f :=
+    Q.ginzburgOriginalRadicalProjectiveComponent_algebra_naturality k φ (x:=y) (y:=x) f.unop
+
+noncomputable def ginzburgOriginalRadicalProjectiveMap (φ : Q.Potential k) (v : Q.LiftVertex) :
+    (Q.unrolledJacobianZAlgebra k φ).ginzburgGeneratorCoefficientModule Q v 0 ⟶
+      ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object :=
+  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents Q
+    (Q.ginzburgOriginalRadicalLiftedMap k φ v)
+
+theorem ginzburgOriginalRadicalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) :
+    ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map
+      (Q.ginzburgOriginalRadicalProjectiveMap k φ v)=Q.ginzburgOriginalRadicalLiftedMap k φ v :=
+  (Q.unrolledJacobianZAlgebra k φ).rightModuleHomOfLiftedComponents_whisker Q _
+
+theorem ginzburgOriginalRadicalProjectiveMap_component (φ : Q.Potential k) (x v : Q.LiftVertex) :
+    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+      (Q.ginzburgOriginalRadicalProjectiveMap k φ v)=
+        Q.ginzburgOriginalRadicalProjectiveComponent k φ x v :=
+  congrArg (fun f => f.app x) (Q.ginzburgOriginalRadicalProjectiveMap_whisker k φ v)
+
+theorem ginzburgOriginalRadicalProjectiveMap_epi (φ : Q.Potential k) (v : Q.LiftVertex) :
+    Epi (Q.ginzburgOriginalRadicalProjectiveMap k φ v) := by
+  apply ((Q.unrolledJacobianZAlgebra k φ).rightModule_epi_iff_lift Q _).mpr
+  intro x
+  rw [ginzburgOriginalRadicalProjectiveMap_component]
+  exact Q.ginzburgOriginalRadicalProjectiveComponent_epi k φ x v
+
+end ASGinzburg.CutQuiver

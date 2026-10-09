@@ -1,0 +1,71 @@
+import ASGinzburg.GinzburgFilteredLeftAction
+
+/-! The genuine degree-zero path action descends to the actual adjacent
+filtration quotients and commutes with their differentials. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgFilteredLeftTerm_mem_higherLayer {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
+    (g : Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2))
+    (hg : g ∈ Q.ginzburgGeneratorHigherLayer k y.1 v.1 r q (v.2-y.2)) :
+    Q.ginzburgFilteredLeftTerm k r q f g ∈
+      Q.ginzburgGeneratorHigherLayer k x.1 v.1 r q (v.2-x.2) :=
+  Q.ginzburgGeneratorFiltrationAtDegree_leftComp k (r+1) q f ⟨g.val,hg⟩
+
+noncomputable def ginzburgAssociatedLeftTerm {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.GinzburgAssociatedGraded k y.1 v.1 r q (v.2-y.2) →ₗ[k]
+      Q.GinzburgAssociatedGraded k x.1 v.1 r q (v.2-x.2) :=
+  (Q.ginzburgGeneratorHigherLayer k y.1 v.1 r q (v.2-y.2)).mapQ
+    (Q.ginzburgGeneratorHigherLayer k x.1 v.1 r q (v.2-x.2))
+    (Q.ginzburgFilteredLeftTerm k r q f)
+    (fun g hg => Q.ginzburgFilteredLeftTerm_mem_higherLayer k r q f g hg)
+
+theorem ginzburgAssociatedLeftTerm_differential (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    (Q.ginzburgAssociatedGradedDifferential k φ x.1 v.1 r q (v.2-x.2)).comp
+        (Q.ginzburgAssociatedLeftTerm k r q f)=
+      (Q.ginzburgAssociatedLeftTerm k r (q+1) f).comp
+        (Q.ginzburgAssociatedGradedDifferential k φ y.1 v.1 r q (v.2-y.2)) := by
+  apply LinearMap.ext
+  intro g
+  refine Submodule.Quotient.induction_on _ g ?_
+  intro h
+  change Submodule.Quotient.mk
+    (Q.ginzburgGeneratorFilteredDifferential k φ x.1 v.1 r q (v.2-x.2)
+      (Q.ginzburgFilteredLeftTerm k r q f h))=
+    Submodule.Quotient.mk (Q.ginzburgFilteredLeftTerm k r (q+1) f
+      (Q.ginzburgGeneratorFilteredDifferential k φ y.1 v.1 r q (v.2-y.2) h))
+  exact congrArg Submodule.Quotient.mk (LinearMap.congr_fun
+    (Q.ginzburgFilteredLeftTerm_differential k φ r q f) h)
+
+noncomputable def ginzburgAssociatedLeftCochainMap (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgAssociatedGradedComplex k φ y.1 v.1 r (v.2-y.2) ⟶
+      Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2-x.2) :=
+  CochainComplex.ofHom _ _ _ _ _ _
+    (fun q => ModuleCat.ofHom (Q.ginzburgAssociatedLeftTerm k r q f))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgAssociatedLeftTerm_differential k φ r q f)
+
+theorem ginzburgFilteredLeftCochainMap_quotient (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgFilteredLeftCochainMap k φ r f ≫
+        Q.ginzburgFilteredToAssociatedGraded k φ x.1 v.1 r (v.2-x.2)=
+      Q.ginzburgFilteredToAssociatedGraded k φ y.1 v.1 r (v.2-y.2) ≫
+        Q.ginzburgAssociatedLeftCochainMap k φ r f := by
+  apply HomologicalComplex.Hom.ext
+  funext q
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro g
+  rfl
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,69 @@
+import ASGinzburg.GinzburgGeneratorDifferentialNaturality
+
+/-! Degree-zero paths act on the actual shifted-prefix complexes by
+componentwise multiplication, preserving the genuine signed differential. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgPrefixLeftTerm {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.GinzburgGeneratorPrefix k y.1 v.1 r q (v.2-y.2) →ₗ[k]
+      Q.GinzburgGeneratorPrefix k x.1 v.1 r q (v.2-x.2) :=
+  LinearMap.pi fun a =>
+    ((((Q.ginzburgPathComp k).flip f.val).comp
+      (Q.ginzburgCutCohomologicalComponent k y.1 (a.val.source Q) (q-r)
+        (v.2-y.2-a.val.cutDegree Q)).subtype).comp (LinearMap.proj a)).codRestrict _
+      (fun g => by
+        constructor
+        · simpa only [zero_add] using
+            Q.ginzburgCohomologicalComponent_comp k f.property.1 (g a).property.1
+        · simpa only [show y.2-x.2+(v.2-y.2-a.val.cutDegree Q)=v.2-x.2-a.val.cutDegree Q
+              by omega] using
+            Q.ginzburgCutComponent_comp k f.property.2 (g a).property.2)
+
+theorem ginzburgPrefixLeftTerm_apply_coe {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
+    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r q (v.2-y.2))
+    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}) :
+    ((Q.ginzburgPrefixLeftTerm k r q f g) a).val=
+      Q.ginzburgPathComp k (g a).val f.val := rfl
+
+theorem ginzburgPrefixLeftTerm_differential (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    (Q.ginzburgGeneratorPrefixDifferential k φ x.1 v.1 r q (v.2-x.2)).comp
+        (Q.ginzburgPrefixLeftTerm k r q f)=
+      (Q.ginzburgPrefixLeftTerm k r (q+1) f).comp
+        (Q.ginzburgGeneratorPrefixDifferential k φ y.1 v.1 r q (v.2-y.2)) := by
+  apply LinearMap.ext
+  intro g
+  funext a
+  apply Subtype.ext
+  change ginzburgSign k r • Q.ginzburgDifferential k φ x.1 (a.val.source Q)
+      (Q.ginzburgPathComp k (g a).val f.val)=
+    Q.ginzburgPathComp k
+      (ginzburgSign k r • Q.ginzburgDifferential k φ y.1 (a.val.source Q) (g a).val) f.val
+  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property.1]
+  simp
+
+noncomputable def ginzburgPrefixLeftCochainMap (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2-y.2) ⟶
+      Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2-x.2) :=
+  CochainComplex.ofHom _ _ _ _ _ _
+    (fun q => ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r q f))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgPrefixLeftTerm_differential k φ r q f)
+
+noncomputable def ginzburgPrefixLeftHomology (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgGeneratorPrefixHomology k φ y.1 v.1 r (v.2-y.2) q ⟶
+      Q.ginzburgGeneratorPrefixHomology k φ x.1 v.1 r (v.2-x.2) q :=
+  HomologicalComplex.homologyMap (Q.ginzburgPrefixLeftCochainMap k φ r f) q
+
+end ASGinzburg.CutQuiver

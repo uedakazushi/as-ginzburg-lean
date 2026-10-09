@@ -1,0 +1,19 @@
+import ASGinzburg.GinzburgCutQuotientUnrolledProducts
+
+/-! Every actual A(Phi) component element has an actual degree-zero
+Ginzburg representative. Used to pass proved path naturality to all
+algebra elements without adding an assumption. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCutZeroUnrolledClass_surjective (φ : Q.Potential k) (x y : Q.LiftVertex) :
+    Function.Surjective (fun f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2) =>
+      Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)) := by
+  intro a
+  obtain ⟨z,hz⟩ := (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y).surjective a
+  obtain ⟨f,hf⟩ := (LinearMap.range
+    (Q.ginzburgCutNegativeOneDifferential k φ x.1 y.1 (y.2-x.2))).mkQ_surjective z
+  exact ⟨f,(congrArg (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) hf).trans hz⟩
+
+end ASGinzburg.CutQuiver

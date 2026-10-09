@@ -1,0 +1,60 @@
+import ASGinzburg.GinzburgPrefixFixedProducts
+
+/-! The actual prefix quotient-family comparison intertwines path
+multiplication with genuine A(Phi) precomposition at each fixed endpoint. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgPrefixTopFixedUnrolledEquiv (φ : Q.Potential k)
+    (x v : Q.LiftVertex) (r : ℤ) :
+    (Q.GinzburgGeneratorPrefix k x.1 v.1 r r (v.2-x.2) ⧸
+      LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ x.1 v.1 r (v.2-x.2))) ≃ₗ[k]
+    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
+      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
+        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
+  (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2-x.2)).trans
+    (Q.ginzburgPrefixFixedQuotientFamilyEquiv k φ x v r)
+
+noncomputable def ginzburgPrefixFixedFamilyPrecomposition (φ : Q.Potential k)
+    (x y v : Q.LiftVertex) (r : ℤ)
+    (f : (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height y)) :
+    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
+      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height y)
+        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) →ₗ[k]
+    (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r},
+      (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
+        (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))) :=
+  LinearMap.pi fun a => (((Q.unrolledJacobianZAlgebra k φ).comp
+    (u:=Q.height x) (v:=Q.height y) (w:=Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))).flip f).comp
+      (LinearMap.proj a)
+
+theorem ginzburgPrefixTopFixedUnrolledEquiv_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toLinearMap.comp
+        (moduleCatShortComplexQuotientMap
+          (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f)).hom=
+      (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
+        (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))).comp
+          (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ y v r).toLinearMap := by
+  apply LinearMap.ext
+  intro z
+  refine Submodule.Quotient.induction_on _ z ?_
+  intro g
+  funext a
+  change Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v a.val
+      (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2-x.2)
+        (moduleCatShortComplexQuotientMap
+          (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) (Submodule.Quotient.mk g)) a)=
+    (Q.unrolledJacobianZAlgebra k φ).comp
+      (Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ y v a.val
+        (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ y.1 v.1 r (v.2-y.2)
+          (Submodule.Quotient.mk g) a))
+      (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f))
+  rw [Q.ginzburgPrefixTopQuotientFamilyEquiv_quotientMap_mk,
+    Q.ginzburgPrefixTopQuotientFamilyEquiv_mk]
+  exact Q.ginzburgPrefixFixedCoefficient_leftClass k φ r f g a
+
+end ASGinzburg.CutQuiver

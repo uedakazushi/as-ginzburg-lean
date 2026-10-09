@@ -1,8 +1,8 @@
 # 現在の状況
 
-実際の道のwinding/高さ差からaugmentation全次数成分の高さ判定、全cochain/homology同型と零性、既存representable radicalの成分同型/零性、augmentation H⁰≅radical評価成分を正則性なしで証明。filtration接続写像を実際のAS射影項の評価成分へ移し、平方零性・radicalへの全射・各短複体のexactnessを証明。GinzburgRegularから左端の単射性と四項成分chain complexの全正次数exactness、実際の単純商へのaugmentation quasi-isomorphismまで完成。加群圏での自然性/A線形性・標準微分との照合・最小性・実際のAS分解とExt表/AS対応は未証明。成分ごとの四項完全列をASResolutionの存在とは扱わない。定理3.2/系5.2は未証明、正式Lean定理文未実装。
-最新ローカル検証 20261009T000013Z-d09711c1：353数学モジュール・2766異なる宣言・1401 theorem、全段階終了0。
-単位1〜52の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
+単位53〜59で実際のA(Φ)作用とfiltration接続写像の自然性を証明し、四項RightModule射影複体と単純商augmentationを構成した。本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolution、全項の有限生成射影性、任意標的へのExt≥4零/射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を完成した。D₁/D₃の最小性を証明した。D₂最小性とminimal ASResolution、双対左複体比較、Ext³のAS双対性/ASRegular全体は未検証・未公開。正則性やAS結論に等しい追加仮定なし。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+最新ローカル検証 20261009T003424Z-559134b0：407数学モジュール・2972異なる宣言・1526 theorem、全段階終了0。
+単位1〜59の差分・実測時刻・次の義務はRECENT_RUN.mdとruns/total-algebra-20261008.md。
 
 2026年10月8日。定理3.2・系5.2は**未証明、形式的な定理文も未実装**です。
 
@@ -20,18 +20,26 @@ Hom(P_i,-)・Ext⁰(P_i,-)の余極限交換、左側の射影性・EnoughProjec
 | 項目 | 現在の結論 |
 |---|---|
 | lake build | 成功、終了0 |
-| 個別公理監査 | 2766異なる名前、全明示的宣言・294 named instanceを含む、終了0 |
-| theorem | 1401、全件が監査対象 |
+| 個別公理監査 | 2972異なる名前、全明示的宣言・299 named instanceを含む、終了0 |
+| theorem | 1526、全件が監査対象 |
 | sorry / admit / 独自axiom | ソース0件 |
 | 許容公理 | propext、Classical.choice、Quot.soundのみ |
 | 禁止依存 | sorryAx、Lean.ofReduceBool、Lean.trustCompilerなし |
 | 主結果 | 定理3.2・系5.2は未証明、文も未実装 |
 | 保存 | 直接main、GitHub APIで通常のfast-forward、新規PRなし |
 
-最新ローカル検証 `20261009T000013Z-d09711c1`、全段階終了0、1801.224269633秒。
-UTC 2026-10-09T00:00:13.363780+00:00 → 2026-10-09T00:30:14.588055+00:00。
-JST 2026-10-09T09:00:13.363780+09:00 → 2026-10-09T09:30:14.588055+09:00。
+最新ローカル検証 `20261009T003424Z-559134b0`、全段階終了0、2129.311985680秒。
+UTC 2026-10-09T00:34:24.869595+00:00 → 2026-10-09T01:09:54.181587+00:00。
+JST 2026-10-09T09:34:24.869595+09:00 → 2026-10-09T10:09:54.181587+09:00。
 11回帰テスト、ソース監査、固定環境、lake build、全宣言の#print axioms、照合が成功。
+
+
+## 現行のGinzburgからASへの証明状態（単位54〜59）
+
+単位54〜59で固定endpointのactual A(Φ)係数比較と積作用、全RightModule morphismsへの自然性、augmentation H⁰/radical自然性を完成した。実際のD₁/D₂/D₃による四項射影複体と単純商augmentationを構成し、本来のGinzburgRegularからmathlibのgenuine simple ProjectiveResolutionと全項の有限生成射影性を証明した。実際のsyzygyとExt長完全列から任意標的への次数4以上のExt零性・射影次元≤3、全次数Extとexact colimit/小さいcoproductの交換を導いた。D₁/D₃の最小性はactual radical因子分解とendpoint高さから完成。D₂の最小性、既存minimal ASResolution、標準巡回微分行列/双対左複体の比較、Ext³のAS左単純同型とASRegular全体は未証明。直和交換・周期性・AS結論を新しい仮定に追加していない。定理3.2/系5.2は未証明・正式Lean定理文未実装。
+
+次は元のPotentialの長さ≥3からactual D₂のradical包含を導き、最小AS分解を構成する。その後、実際の微分の双対比較からExt³左単純同型を証明する。AS→Φ、基底/最小関係/選択独立性、標準RHom/外部結果、§5quadraticと同型類対応も残る。過去の単位43〜53の記載は各単位時点の証明状態であり、現行の完成/未証明の判定にはこの段落と最新検証を使う。
+
 
 ## 形式化状況
 
@@ -121,6 +129,10 @@ JST 2026-10-09T09:00:13.363780+09:00 → 2026-10-09T09:30:14.588055+09:00。
 | 実際の層homologyとAS射影項の評価成分 | GinzburgGeneratorPrefixDifferentialCoefficients、GinzburgGeneratorPrefixBoundaryFamily、JacobianOriginSheet、GinzburgGeneratorPrefixJacobian、GinzburgGeneratorIndices、GinzburgGeneratorCoefficientIndices、GinzburgProjectiveTermComponents | actual boundary pi quotientと全integer sheetのA(Φ)有限族の同型、生成元族/終点対応、実際のTerm₁/Term₂/representableの評価成分同型 | A線形性/自然性、接続写像・標準微分、augmentation H⁰/radical、単純分解/Ext表/AS対応 |
 
 | augmentation radicalと四項成分複体 | GinzburgAugmentationHeight、RepresentableRadicalComponents、GinzburgAugmentationHeightHomology、GinzburgAugmentationRadical、GinzburgASComponentDifferentials、GinzburgASComponentExactness、GinzburgASComponentComplex | 正則性なしの実際のaugmentation H⁰/radical成分同型、射影項の成分写像とexactness、正則性から四項成分複体/単純商augmentation quasi-isomorphism | A線形性/自然性、標準微分、最小性、右加群の実際のAS分解/Ext表/AS対応 |
+
+| 実際の道作用とfiltration/prefix homology自然性 | GinzburgFilteredLeftAction、GinzburgAssociatedLeftAction、GinzburgFiltrationLeftNaturality、GinzburgGeneratorDifferentialNaturality、GinzburgPrefixLeftAction、GinzburgPrefixComparisonNaturality、GinzburgLayerHomologyNaturality、ModuleCatCokernelHomologyNaturality、GinzburgPrefixTopNaturality、GinzburgPrefixTopHomologyNaturality、GinzburgPrefixFamilyClasses | 実際のdegree0 path chain maps/δ自然性、append比較と逆homology同型、top homology quotient自然性とclass係数 | A(Φ)積作用/全加群の射、標準微分/最小性、AS分解/Ext表/AS対応 |
+
+| Ginzburgからの実際の有限単純射影分解 | GinzburgASProjectiveResolution、GinzburgSimpleProjectiveDimension、GinzburgSimpleFiniteProjectiveResolution、GinzburgSimpleExtColimits、GinzburgASEndpointMinimality | 本来のGinzburgRegularからactual simple ProjectiveResolution、有限生成射影全項、Ext≥4零/PD≤3、actual Ext余極限/直和交換、D₁/D₃最小性 | D₂最小性、minimal ASResolution、Ext³ AS双対性/ASRegular全体 |
 
 ## 主結果の状態
 

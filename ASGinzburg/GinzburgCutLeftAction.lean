@@ -1,0 +1,62 @@
+import ASGinzburg.GinzburgCutZeroProducts
+
+/-! Genuine degree-zero left multiplication on the actual cut cochain
+complex, with the genuine Ginzburg differential. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCutComponent_leftComp {x y v : Q.LiftVertex} (q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
+    (g : Q.ginzburgCutCohomologicalComponent k y.1 v.1 q (v.2-y.2)) :
+    Q.ginzburgPathComp k g.val f.val ∈
+      Q.ginzburgCutCohomologicalComponent k x.1 v.1 q (v.2-x.2) := by
+  constructor
+  · simpa only [zero_add] using
+      Q.ginzburgCohomologicalComponent_comp k f.property.1 g.property.1
+  · simpa only [show y.2-x.2+(v.2-y.2)=v.2-x.2 by omega] using
+      Q.ginzburgCutComponent_comp k f.property.2 g.property.2
+
+noncomputable def ginzburgCutLeftTerm {x y v : Q.LiftVertex} (q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgCutCohomologicalComponent k y.1 v.1 q (v.2-y.2) →ₗ[k]
+      Q.ginzburgCutCohomologicalComponent k x.1 v.1 q (v.2-x.2) :=
+  (((Q.ginzburgPathComp k).flip f.val).comp
+    (Q.ginzburgCutCohomologicalComponent k y.1 v.1 q (v.2-y.2)).subtype).codRestrict _
+      (fun g => Q.ginzburgCutComponent_leftComp k q f g)
+
+theorem ginzburgCutLeftTerm_differential (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    (Q.ginzburgCutGradedDifferential k φ x.1 v.1 q (v.2-x.2)).comp
+        (Q.ginzburgCutLeftTerm k q f)=
+      (Q.ginzburgCutLeftTerm k (q+1) f).comp
+        (Q.ginzburgCutGradedDifferential k φ y.1 v.1 q (v.2-y.2)) := by
+  apply LinearMap.ext
+  intro g
+  apply Subtype.ext
+  change Q.ginzburgDifferential k φ x.1 v.1 (Q.ginzburgPathComp k g.val f.val)=
+    Q.ginzburgPathComp k (Q.ginzburgDifferential k φ y.1 v.1 g.val) f.val
+  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property.1]
+  simp
+
+noncomputable def ginzburgCutLeftCochainMap (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgCutCochainComplex k φ y.1 v.1 (v.2-y.2) ⟶
+      Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2-x.2) :=
+  CochainComplex.ofHom _ _ _ _ _ _
+    (fun q => ModuleCat.ofHom (Q.ginzburgCutLeftTerm k q f))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgCutLeftTerm_differential k φ q f)
+
+noncomputable def ginzburgCutLeftHomology (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgCutHomology k φ y.1 v.1 (v.2-y.2) q ⟶
+      Q.ginzburgCutHomology k φ x.1 v.1 (v.2-x.2) q :=
+  HomologicalComplex.homologyMap (Q.ginzburgCutLeftCochainMap k φ f) q
+
+end ASGinzburg.CutQuiver

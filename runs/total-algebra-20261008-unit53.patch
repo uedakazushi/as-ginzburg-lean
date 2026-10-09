@@ -1,0 +1,1153 @@
+diff --git a/ASGinzburg.lean b/ASGinzburg.lean
+index 930ac43..545a405 100644
+--- a/ASGinzburg.lean
++++ b/ASGinzburg.lean
+@@ -372,6 +372,61 @@ import ASGinzburg.GinzburgASComponentDifferentials
+ import ASGinzburg.GinzburgASComponentExactness
+ import ASGinzburg.GinzburgASComponentComplex
+ 
++import ASGinzburg.GinzburgFilteredLeftAction
++import ASGinzburg.GinzburgAssociatedLeftAction
++import ASGinzburg.GinzburgFiltrationLeftNaturality
++import ASGinzburg.GinzburgGeneratorDifferentialNaturality
++import ASGinzburg.GinzburgPrefixLeftAction
++import ASGinzburg.GinzburgPrefixComparisonNaturality
++import ASGinzburg.GinzburgLayerHomologyNaturality
++import ASGinzburg.ModuleCatCokernelHomologyNaturality
++import ASGinzburg.GinzburgPrefixTopNaturality
++import ASGinzburg.GinzburgPrefixTopHomologyNaturality
++import ASGinzburg.GinzburgPrefixFamilyClasses
++import ASGinzburg.GinzburgCutQuotientUnrolledProducts
++import ASGinzburg.GinzburgCutZeroQuotientTransports
++import ASGinzburg.GinzburgPrefixFixedCoefficients
++import ASGinzburg.GinzburgPrefixFixedCoefficientClasses
++import ASGinzburg.GinzburgPrefixFixedProducts
++import ASGinzburg.GinzburgPrefixFixedFamilyAction
++import ASGinzburg.GinzburgFixedHomologyNaturality
++import ASGinzburg.FiniteCoproductComponentNaturality
++import ASGinzburg.GinzburgGeneratorProjectiveModules
++import ASGinzburg.GinzburgLayerProjectiveNaturality
++import ASGinzburg.GinzburgGeneratorProjectiveTerms
++import ASGinzburg.GinzburgGeneratorLoopProjective
++import ASGinzburg.GinzburgUpperProjectiveNaturality
++import ASGinzburg.IsoTransportNaturality
++import ASGinzburg.GinzburgProjectiveConnectingComponents
++import ASGinzburg.LiftedModuleIndexing
++import ASGinzburg.GinzburgCutZeroClassSurjectivity
++import ASGinzburg.GinzburgProjectiveConnectingNaturality
++import ASGinzburg.GinzburgProjectiveConnectingMaps
++import ASGinzburg.GinzburgProjectiveConnectingExactness
++import ASGinzburg.GinzburgASProjectiveConnectingMaps
++import ASGinzburg.GinzburgCutLeftAction
++import ASGinzburg.GinzburgAugmentationLeftAction
++import ASGinzburg.GinzburgCutHomologyNaturality
++import ASGinzburg.GinzburgAugmentationHomologyNaturality
++import ASGinzburg.RepresentableActionComponents
++import ASGinzburg.GinzburgCutRepresentableNaturality
++import ASGinzburg.GinzburgAugmentationRadicalNaturality
++import ASGinzburg.GinzburgProjectiveRadicalComponents
++import ASGinzburg.RightModuleLiftedComponents
++import ASGinzburg.GinzburgProjectiveRadicalMap
++import ASGinzburg.GinzburgProjectiveRadicalExactness
++import ASGinzburg.GinzburgProjectiveRepresentableExactness
++import ASGinzburg.GinzburgASProjectiveRadicalMaps
++import ASGinzburg.GinzburgASProjectiveExactness
++import ASGinzburg.GinzburgASProjectiveComplex
++import ASGinzburg.GinzburgASProjectiveResolution
++import ASGinzburg.FourTermProjectiveResolutionExt
++import ASGinzburg.GinzburgSimpleProjectiveDimension
++import ASGinzburg.GinzburgSimpleFiniteProjectiveResolution
++import ASGinzburg.GinzburgSimpleExtColimits
++import ASGinzburg.EndpointProjectiveMinimality
++import ASGinzburg.GinzburgASEndpointMinimality
++
+ /-!
+ # AS--Ginzburg formalization checkpoint
+ 
+diff --git a/AxiomAudit.lean b/AxiomAudit.lean
+index 5739803..2d141eb 100644
+--- a/AxiomAudit.lean
++++ b/AxiomAudit.lean
+@@ -400,6 +400,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftResolutionDualTermMap_comm
+ #print axioms ASGinzburg.ZAlgebra.leftResolutionDualComplexMap
+ #print axioms ASGinzburg.ZAlgebra.leftResolutionDualComplexMap_augmentation
++#print axioms ASGinzburg.ZAlgebra.representableRadicalInclusion_minimal
++#print axioms ASGinzburg.ZAlgebra.representable_to_finiteCoproduct_minimal
+ #print axioms ASGinzburg.equivalenceMapDerivedIsEquivalence
+ #print axioms ASGinzburg.exactDerivedEquivalence
+ #print axioms ASGinzburg.exactDerivedSingleIso
+@@ -463,6 +465,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_one
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalLinearEquiv_mul
+ #print axioms ASGinzburg.LinearComponentAlgebra.Isomorphism.totalAlgEquiv
++#print axioms ASGinzburg.ZAlgebra.rightFiniteCoproductPiEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightModuleHomDiagram
+ #print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso
+ #print axioms ASGinzburg.ZAlgebra.rightModuleCoproductHomLimitComponentIso_hom_π
+@@ -777,6 +780,9 @@ import ASGinzburg
+ #print axioms ASGinzburg.FourTermProjectiveResolution.toProjectiveResolution
+ #print axioms ASGinzburg.FourTermProjectiveResolution.complex_isZero_ge_four
+ #print axioms ASGinzburg.FourTermProjectiveResolution.ofKernelCovers
++#print axioms ASGinzburg.ZAlgebra.rightFourTermProjectiveResolutionExtShift
++#print axioms ASGinzburg.ZAlgebra.rightFourTermProjectiveResolution_ext_ge_four_eq_zero
++#print axioms ASGinzburg.ZAlgebra.rightFourTermProjectiveResolution_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.linearCombination_ker_le_supported
+ #print axioms ASGinzburg.fullSubcategoryOpFunctor
+ #print axioms ASGinzburg.fullSubcategoryOpInverse
+@@ -810,11 +816,43 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentDualOriginalShortComplex_exact
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentOriginalSimpleShortComplex
+ #print axioms ASGinzburg.CutQuiver.ginzburgASComponentOriginalSimpleShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₁_minimal
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₃_minimal
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexDifferential
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexDifferential_square
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplex_d
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexTerm_projective
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asProjectiveComplex_exactAt_succ
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplex_isZero_ge_four
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₃
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₂
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₃_comp_D₂
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveConnectingShortComplex
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asProjectiveD₃_mono
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asProjectiveConnectingShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveDualOriginalShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveOriginalSimpleShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₁
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₂_comp_D₁
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveD₁_comp_simpleπ
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveDualOriginalShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveOriginalSimpleShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgASSimpleAugmentation
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.asSimpleAugmentation_quasiIso
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution_isZero_ge_four
+ #print axioms ASGinzburg.CutQuiver.GinzburgAssociatedGraded
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential_square
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedComplex
+ #print axioms ASGinzburg.CutQuiver.ginzburgFilteredToAssociatedGraded
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm_mem_higherLayer
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedLeftTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedLeftTerm_differential
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedLeftCochainMap
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftCochainMap_quotient
+ #print axioms ASGinzburg.CutQuiver.ginzburgCochainZero_outgoing
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomologyAugmentation
+ #print axioms ASGinzburg.CutQuiver.ginzburgJacobianAugmentation
+@@ -848,6 +886,11 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationTerm_isZero_of_not_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHomology_isZero_of_not_height_lt
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHomology_succ_isZero_iff_cycles
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationInclusionHomology_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredNegTwoHomologyIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgMiddleAugmentationHomologyIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgFiltrationRadicalMap_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationHeightHomologyIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.length_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationSubmodule_comp_left
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationSubmodule_comp_right
+@@ -855,7 +898,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_mem_augmentation
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationDifferential
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationDifferential_square
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationAtDegree_leftComp
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationLeftTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationLeftTerm_differential
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationLeftCochainMap
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationLeftCochainMap_inclusion
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredAugmentationInclusion_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationLeftHomology
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationRadicalComponentIso
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationRadicalComponentIso_hom_inclusion
++#print axioms ASGinzburg.CutQuiver.ginzburgAugmentationRadicalComponentIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgAugmentationCochainInclusion
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.augmentationHomology_succ_isZero
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.augmentationHomology_isZero
+@@ -906,6 +958,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_coe
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgCutDegreeZeroEquiv_symm_coe
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_finite
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroShortComplexLeftMap
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroShortComplexIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgCutCanonicalShortComplexIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroQuotientIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroId
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroId_val
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_id
+@@ -936,14 +992,25 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientJacobianEquiv_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroJacobianIso_comp
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroUnrolledIso_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutComponent_leftComp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutLeftTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgCutLeftTerm_differential
++#print axioms ASGinzburg.CutQuiver.ginzburgCutLeftCochainMap
++#print axioms ASGinzburg.CutQuiver.ginzburgCutLeftHomology
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_single
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_on_cut
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_cohomological
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutProjection_mem
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_cutProjection
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientUnrolledEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientUnrolledEquiv_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientUnrolledEquiv_surjective
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomology_succ_isZero_of_cut
+ #print axioms ASGinzburg.CutQuiver.ginzburgRegular_iff_cutHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientMap_unrolled_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroUnrolledIso_hom_factor
++#print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyZeroUnrolledIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutCochainProjectionTerm
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutCochainInclusion
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutCochainProjection
+@@ -952,6 +1019,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyProjection
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomologyInclusion_projection
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular.cutHomology_isZero
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroUnrolledClass_surjective
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_boundary_left
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroComp_boundary_right
+@@ -961,6 +1029,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientCompPre
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientComp_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroEquivOfCutEq
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientEquivOfCutEq
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroEquivOfCutEq_apply_coe
++#print axioms ASGinzburg.CutQuiver.ginzburgCutZeroQuotientEquivOfCutEq_mk
+ #print axioms ASGinzburg.CutQuiver.ginzburgCutHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomology_succ_isZero_iff_cycles
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.degreeNegOne_decomposition
+@@ -990,6 +1062,21 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_comp_homogeneous
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_dualContext
+ #print axioms ASGinzburg.CutQuiver.ginzburgBoundaryLift_dualContext
++#print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationAtDegree_leftComp
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftTerm_differential
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftCochainMap
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftCochainMap_inclusion
++#print axioms ASGinzburg.CutQuiver.ginzburgFiltrationLeftShortComplexMap
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredLeftHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedLeftHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgFiltrationConnecting_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredInclusionHomology_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgFilteredQuotientHomology_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopFixedHomologyIso
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopFixedHomologyIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedTopFixedHomologyIso
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedTopFixedHomologyIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgAppendGeneratorEmbedding
+ #print axioms ASGinzburg.CutQuiver.ginzburgAppendGenerator_eq_embDomain
+ #print axioms ASGinzburg.CutQuiver.ginzburgAppendGenerator_coefficient
+@@ -1001,6 +1088,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgDualLayerHomologyCoefficientIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgLoopLayerHomologyCoefficientIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgUpperFilteredHomologyCoefficientIso
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopToDualHomology_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgDualToOriginalHomology_left_naturality
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.transport
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.cohomologicalDegree_transport
+ #print axioms ASGinzburg.CutQuiver.originalGinzburgArrowPath
+@@ -1156,6 +1245,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorLayer_disjoint
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationAtDegree_negTwo
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationAtDegree_one
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorLoopTermIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixBoundaryFamily
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixPreviousEquiv_symm_apply_coe
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixIncomingRange_map
+@@ -1189,6 +1279,16 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixTopShortComplex_g
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixTopShortComplexIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgGeneratorPrefixTopHomologyQuotientIso
++#print axioms ASGinzburg.CutQuiver.ginzburgIncomingDegreeFintype
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorCoefficientModule
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorCoefficientModuleProjective
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorCoefficientComponentEquiv
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorCoefficientComponentEquiv_action
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalGeneratorEndpoint
++#print axioms ASGinzburg.CutQuiver.ginzburgDualGeneratorEndpoint
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopGeneratorEndpoint
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorOriginalTermIso
++#print axioms ASGinzburg.ZAlgebra.ginzburgGeneratorDualTermIso
+ #print axioms ASGinzburg.CutQuiver.ginzburgAppendGenerator_mem_layerAtDegree
+ #print axioms ASGinzburg.CutQuiver.ginzburgAppendGeneratorAtDegree
+ #print axioms ASGinzburg.CutQuiver.ginzburgAssociatedGradedDifferential_appendGenerator
+@@ -1273,6 +1373,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.GinzburgLastGeneratorData.path_cohomologicalDegree_iff
+ #print axioms ASGinzburg.CutQuiver.GinzburgLastGeneratorData.path_cutDegree_iff
+ #print axioms ASGinzburg.CutQuiver.GinzburgLastGeneratorData.atDegreeEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixGradedIso_inv_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedPrefixHomologyIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgLayerProjectiveComponentIso
++#print axioms ASGinzburg.CutQuiver.ginzburgLayerProjectiveComponentIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap_single
+ #print axioms ASGinzburg.CutQuiver.GinzburgPath.differential_comp
+@@ -1347,6 +1451,79 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgHomology_isZero_of_pos
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalHomology_isZero_of_pos
+ #print axioms ASGinzburg.CutQuiver.ginzburgRegular_iff_concentrated_zero
++#print axioms ASGinzburg.CutQuiver.ginzburgAssociatedLeftTerm_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm_piSingle
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixToGradedRow_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixToAssociatedGraded_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopQuotientFamilyEquiv_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopQuotientFamilyEquiv_quotientMap_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopEquiv_leftTerm_coe
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixCoefficientZeroCutEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixCoefficientZeroCutEquiv_coe
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixCoefficientZeroCutEquiv_leftTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixGeneratorEndpoint
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixCoefficientCutEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixCoefficientFixedUnrolledEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixFixedQuotientFamilyEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopFixedUnrolledEquiv
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixFixedFamilyPrecomposition
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopFixedUnrolledEquiv_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixFixedCoefficient_leftClass
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm_apply_coe
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftTerm_differential
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftCochainMap
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixLeftHomology
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopShortComplexIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopCanonicalShortComplexIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopHomologyQuotientIso_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopShortComplexLeftMap
++#print axioms ASGinzburg.CutQuiver.ginzburgPrefixTopShortComplexCokernel_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveConnectingComponentShortComplex
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.loopDualProjectiveComponent_mono
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.projectiveConnectingComponentShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_comp
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveConnectingShortComplex
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.loopDualProjectiveMap_mono
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.projectiveConnectingShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualLiftedMap
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalLiftedMap
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_whisker
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_whisker
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_component
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_component
++#print axioms ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveComponent_algebra_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_algebra_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveComponent
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveComponent_left_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveComponent_epi
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveComponent_comp_radical
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveDualRadicalComponentShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveDualRadicalComponentShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_comp_radical
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveDualRadicalShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveDualRadicalShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap
++#print axioms ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_comp_representable
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_comp_simpleπ
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveOriginalSimpleShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveOriginalSimpleShortComplex_exact
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveComponent_algebra_naturality
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalLiftedMap
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveMap
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveMap_whisker
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveMap_component
++#print axioms ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveMap_epi
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveDualOriginalShortComplex
++#print axioms ASGinzburg.CutQuiver.ginzburgProjectiveDualOriginalShortComplex_exact
+ #print axioms ASGinzburg.ZAlgebra.asResolutionTermOneComponentEquiv
+ #print axioms ASGinzburg.ZAlgebra.asResolutionTermTwoComponentEquiv
+ #print axioms ASGinzburg.CutQuiver.ginzburgOriginalLayerHomologyTermOneIso
+@@ -1360,6 +1537,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgTotalHomology_isZero_iff
+ #print axioms ASGinzburg.CutQuiver.GinzburgRegular
+ #print axioms ASGinzburg.CutQuiver.ginzburgRegular_iff_components
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExtPreservesExactColimits
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExtPreservesCoproducts
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleExtCoproductIso
++#print axioms ASGinzburg.CutQuiver.ginzburgASProjectiveComplexTerm_finite
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution_finite
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simple_hasRightFiniteProjectiveResolutionLength
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simple_ext_ge_four_eq_zero
++#print axioms ASGinzburg.CutQuiver.GinzburgRegular.simple_hasProjectiveDimensionLE
+ #print axioms ASGinzburg.CutQuiver.ginzburgSign_mul_self
+ #print axioms ASGinzburg.CutQuiver.ginzburgSignMap_involutive
+ #print axioms ASGinzburg.CutQuiver.ginzburgDifferential_square_comp
+@@ -1373,6 +1558,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.CutQuiver.ginzburgUnrolledAugmentation
+ #print axioms ASGinzburg.CutQuiver.ginzburgUnrolledAugmentation_quasiIso_iff
+ #print axioms ASGinzburg.CutQuiver.ginzburgRegular_iff_unrolledAugmentation_quasiIso
++#print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso
++#print axioms ASGinzburg.CutQuiver.ginzburgUpperProjectiveComponentIso_left_naturality
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroComp
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroComp_boundary_left
+ #print axioms ASGinzburg.CutQuiver.ginzburgZeroComp_boundary_right
+@@ -1420,6 +1607,7 @@ import ASGinzburg
+ #print axioms ASGinzburg.homotopyOpUnitIso
+ #print axioms ASGinzburg.homotopyOpCounitIso
+ #print axioms ASGinzburg.homotopyOpEquivalence
++#print axioms ASGinzburg.isoTransport_naturality
+ #print axioms ASGinzburg.CutQuiver.pathCutCompBetweenLinear
+ #print axioms ASGinzburg.CutQuiver.PathCutJacobianQuotient
+ #print axioms ASGinzburg.CutQuiver.cutJacobianQuotientCompRight
+@@ -1639,6 +1827,14 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientπEpi
+ #print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortComplex
+ #print axioms ASGinzburg.ZAlgebra.LeftSubmodule.quotientShortExact
++#print axioms ASGinzburg.ZAlgebra.liftedModuleIndexEquiv
++#print axioms ASGinzburg.ZAlgebra.LiftedModuleIndex
++#print axioms ASGinzburg.ZAlgebra.liftedModuleIndexFunctor
++#print axioms ASGinzburg.ZAlgebra.liftedModuleIndexFunctorIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.liftedModuleIndexWhisker
++#print axioms ASGinzburg.ZAlgebra.liftedModuleIndexWhiskerIsEquivalence
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomOfLiftedComponents
++#print axioms ASGinzburg.ZAlgebra.rightModuleHomOfLiftedComponents_whisker
+ #print axioms ASGinzburg.additiveModuleTransportEquiv
+ #print axioms ASGinzburg.exactExt_smul_comp
+ #print axioms ASGinzburg.exactExt_comp_smul
+@@ -1748,6 +1944,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.leftModuleBidualEvaluationNatTrans
+ #print axioms ASGinzburg.ZAlgebra.rightModuleBidualFunctorAdditive
+ #print axioms ASGinzburg.ZAlgebra.leftModuleBidualFunctorAdditive
++#print axioms ASGinzburg.moduleCatCokernelHomologyIso
++#print axioms ASGinzburg.moduleCatShortComplex_map_range
++#print axioms ASGinzburg.moduleCatShortComplexQuotientMap
++#print axioms ASGinzburg.moduleCatCokernelHomologyIso_naturality
+ #print axioms ASGinzburg.ZAlgebra.rightModuleVectorDual
+ #print axioms ASGinzburg.ZAlgebra.leftModuleVectorDual
+ #print axioms ASGinzburg.ZAlgebra.rightModuleVectorDualMap
+@@ -2110,6 +2310,8 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightRegularMatrixElement_action_off
+ #print axioms ASGinzburg.ZAlgebra.rightRegularTotalAlgebraEquiv_action
+ #print axioms ASGinzburg.ZAlgebra.rightRegularTotalAlgebraEquiv_representation
++#print axioms ASGinzburg.ZAlgebra.representablePrecomposition
++#print axioms ASGinzburg.ZAlgebra.representable_map_eq_precomposition
+ #print axioms ASGinzburg.ZAlgebra.representableHomEvaluationIso
+ #print axioms ASGinzburg.ZAlgebra.rightModuleEvaluationPreservesColimitsOfShape
+ #print axioms ASGinzburg.ZAlgebra.representableHomPreservesColimitsOfShape
+@@ -2256,6 +2458,10 @@ import ASGinzburg
+ #print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff
+ #print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff_range_eq_ker
+ #print axioms ASGinzburg.ZAlgebra.rightModule_shortExact_iff
++#print axioms ASGinzburg.ZAlgebra.rightModuleHom_ext_lift
++#print axioms ASGinzburg.ZAlgebra.rightModule_mono_iff_lift
++#print axioms ASGinzburg.ZAlgebra.rightModule_epi_iff_lift
++#print axioms ASGinzburg.ZAlgebra.rightModule_exact_iff_lift
+ #print axioms ASGinzburg.ZAlgebra.IsMinimalMorphism
+ #print axioms ASGinzburg.ZAlgebra.isMinimalMorphism_iff_range_le
+ #print axioms ASGinzburg.ZAlgebra.minimalMorphismLift
+diff --git a/ASGinzburg/GinzburgFilteredLeftAction.lean b/ASGinzburg/GinzburgFilteredLeftAction.lean
+new file mode 100644
+index 0000000..a52ed6a
+--- /dev/null
++++ b/ASGinzburg/GinzburgFilteredLeftAction.lean
+@@ -0,0 +1,76 @@
++import ASGinzburg.GinzburgGeneratorFiltrationShortExact
++import ASGinzburg.GinzburgCutZeroProducts
++
++/-! Actual degree-zero left paths act by chain maps on every genuine
++last-generator filtration step. No action of the Jacobian quotient on the
++unresolved chain terms is assumed. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgGeneratorFiltrationAtDegree_leftComp {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2)) :
++    Q.ginzburgPathComp k g.val f.val ∈
++      Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 r q (v.2-x.2) := by
++  have hg : g.val ∈ Q.ginzburgGeneratorFiltration k y.1 v.1 r ⊓
++      Q.ginzburgCutCohomologicalComponent k y.1 v.1 q (v.2-y.2) := by
++    exact (Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k y.1 v.1 r q (v.2-y.2)) ▸ g.property
++  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k x.1 v.1 r q (v.2-x.2)]
++  refine ⟨Q.ginzburgGeneratorFiltration_comp k hg.1 f.val,?_,?_⟩
++  · simpa only [zero_add] using
++      Q.ginzburgCohomologicalComponent_comp k f.property.1 hg.2.1
++  · simpa only [show y.2-x.2+(v.2-y.2)=v.2-x.2 by omega] using
++      Q.ginzburgCutComponent_comp k f.property.2 hg.2.2
++
++noncomputable def ginzburgFilteredLeftTerm {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2) →ₗ[k]
++      Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 r q (v.2-x.2) :=
++  (((Q.ginzburgPathComp k).flip f.val).comp
++    (Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2)).subtype).codRestrict _
++      (fun g => Q.ginzburgGeneratorFiltrationAtDegree_leftComp k r q f g)
++
++theorem ginzburgFilteredLeftTerm_differential (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (Q.ginzburgGeneratorFilteredDifferential k φ x.1 v.1 r q (v.2-x.2)).comp
++        (Q.ginzburgFilteredLeftTerm k r q f)=
++      (Q.ginzburgFilteredLeftTerm k r (q+1) f).comp
++        (Q.ginzburgGeneratorFilteredDifferential k φ y.1 v.1 r q (v.2-y.2)) := by
++  apply LinearMap.ext
++  intro g
++  apply Subtype.ext
++  change Q.ginzburgDifferential k φ x.1 v.1 (Q.ginzburgPathComp k g.val f.val)=
++    Q.ginzburgPathComp k (Q.ginzburgDifferential k φ y.1 v.1 g.val) f.val
++  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property.1]
++  simp
++
++noncomputable def ginzburgFilteredLeftCochainMap (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 r (v.2-y.2) ⟶
++      Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 r (v.2-x.2) :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom (Q.ginzburgFilteredLeftTerm k r q f))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgFilteredLeftTerm_differential k φ r q f)
++
++theorem ginzburgFilteredLeftCochainMap_inclusion (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgFilteredLeftCochainMap k φ (r+1) f ≫
++        Q.ginzburgGeneratorFilteredInclusion k φ x.1 v.1 r (v.2-x.2)=
++      Q.ginzburgGeneratorFilteredInclusion k φ y.1 v.1 r (v.2-y.2) ≫
++        Q.ginzburgFilteredLeftCochainMap k φ r f := by
++  apply HomologicalComplex.Hom.ext
++  funext q
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro g
++  apply Subtype.ext
++  rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgAssociatedLeftAction.lean b/ASGinzburg/GinzburgAssociatedLeftAction.lean
+new file mode 100644
+index 0000000..84ecb07
+--- /dev/null
++++ b/ASGinzburg/GinzburgAssociatedLeftAction.lean
+@@ -0,0 +1,71 @@
++import ASGinzburg.GinzburgFilteredLeftAction
++
++/-! The genuine degree-zero path action descends to the actual adjacent
++filtration quotients and commutes with their differentials. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgFilteredLeftTerm_mem_higherLayer {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2))
++    (hg : g ∈ Q.ginzburgGeneratorHigherLayer k y.1 v.1 r q (v.2-y.2)) :
++    Q.ginzburgFilteredLeftTerm k r q f g ∈
++      Q.ginzburgGeneratorHigherLayer k x.1 v.1 r q (v.2-x.2) :=
++  Q.ginzburgGeneratorFiltrationAtDegree_leftComp k (r+1) q f ⟨g.val,hg⟩
++
++noncomputable def ginzburgAssociatedLeftTerm {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.GinzburgAssociatedGraded k y.1 v.1 r q (v.2-y.2) →ₗ[k]
++      Q.GinzburgAssociatedGraded k x.1 v.1 r q (v.2-x.2) :=
++  (Q.ginzburgGeneratorHigherLayer k y.1 v.1 r q (v.2-y.2)).mapQ
++    (Q.ginzburgGeneratorHigherLayer k x.1 v.1 r q (v.2-x.2))
++    (Q.ginzburgFilteredLeftTerm k r q f)
++    (fun g hg => Q.ginzburgFilteredLeftTerm_mem_higherLayer k r q f g hg)
++
++theorem ginzburgAssociatedLeftTerm_differential (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (Q.ginzburgAssociatedGradedDifferential k φ x.1 v.1 r q (v.2-x.2)).comp
++        (Q.ginzburgAssociatedLeftTerm k r q f)=
++      (Q.ginzburgAssociatedLeftTerm k r (q+1) f).comp
++        (Q.ginzburgAssociatedGradedDifferential k φ y.1 v.1 r q (v.2-y.2)) := by
++  apply LinearMap.ext
++  intro g
++  refine Submodule.Quotient.induction_on _ g ?_
++  intro h
++  change Submodule.Quotient.mk
++    (Q.ginzburgGeneratorFilteredDifferential k φ x.1 v.1 r q (v.2-x.2)
++      (Q.ginzburgFilteredLeftTerm k r q f h))=
++    Submodule.Quotient.mk (Q.ginzburgFilteredLeftTerm k r (q+1) f
++      (Q.ginzburgGeneratorFilteredDifferential k φ y.1 v.1 r q (v.2-y.2) h))
++  exact congrArg Submodule.Quotient.mk (LinearMap.congr_fun
++    (Q.ginzburgFilteredLeftTerm_differential k φ r q f) h)
++
++noncomputable def ginzburgAssociatedLeftCochainMap (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgAssociatedGradedComplex k φ y.1 v.1 r (v.2-y.2) ⟶
++      Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2-x.2) :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom (Q.ginzburgAssociatedLeftTerm k r q f))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgAssociatedLeftTerm_differential k φ r q f)
++
++theorem ginzburgFilteredLeftCochainMap_quotient (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgFilteredLeftCochainMap k φ r f ≫
++        Q.ginzburgFilteredToAssociatedGraded k φ x.1 v.1 r (v.2-x.2)=
++      Q.ginzburgFilteredToAssociatedGraded k φ y.1 v.1 r (v.2-y.2) ≫
++        Q.ginzburgAssociatedLeftCochainMap k φ r f := by
++  apply HomologicalComplex.Hom.ext
++  funext q
++  apply ModuleCat.hom_ext
++  apply LinearMap.ext
++  intro g
++  rfl
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgFiltrationLeftNaturality.lean b/ASGinzburg/GinzburgFiltrationLeftNaturality.lean
+new file mode 100644
+index 0000000..e1ff8e6
+--- /dev/null
++++ b/ASGinzburg/GinzburgFiltrationLeftNaturality.lean
+@@ -0,0 +1,74 @@
++import ASGinzburg.GinzburgAssociatedLeftAction
++import ASGinzburg.GinzburgGeneratorFiltrationHomologySequence
++import Mathlib.Algebra.Homology.HomologySequenceLemmas
++
++/-! Left multiplication gives actual morphisms of the filtration short
++exact sequences, hence naturality of the genuine connecting maps. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgFiltrationLeftShortComplexMap (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorFilteredShortComplex k φ y.1 v.1 r (v.2-y.2) ⟶
++      Q.ginzburgGeneratorFilteredShortComplex k φ x.1 v.1 r (v.2-x.2) :=
++  ShortComplex.homMk (Q.ginzburgFilteredLeftCochainMap k φ (r+1) f)
++    (Q.ginzburgFilteredLeftCochainMap k φ r f)
++    (Q.ginzburgAssociatedLeftCochainMap k φ r f)
++    (Q.ginzburgFilteredLeftCochainMap_inclusion k φ r f)
++    (Q.ginzburgFilteredLeftCochainMap_quotient k φ r f)
++
++noncomputable def ginzburgFilteredLeftHomology (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorFilteredHomology k φ y.1 v.1 r (v.2-y.2) q ⟶
++      Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 r (v.2-x.2) q :=
++  HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ r f) q
++
++noncomputable def ginzburgAssociatedLeftHomology (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgAssociatedGradedHomology k φ y.1 v.1 r (v.2-y.2) q ⟶
++      Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 r (v.2-x.2) q :=
++  HomologicalComplex.homologyMap (Q.ginzburgAssociatedLeftCochainMap k φ r f) q
++
++theorem ginzburgFiltrationConnecting_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 r (v.2-y.2) q ≫
++        Q.ginzburgFilteredLeftHomology k φ (r+1) (q+1) f=
++      Q.ginzburgAssociatedLeftHomology k φ r q f ≫
++        Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 r (v.2-x.2) q :=
++  HomologicalComplex.HomologySequence.δ_naturality
++    (Q.ginzburgFiltrationLeftShortComplexMap k φ r f)
++    (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ y.1 v.1 r (v.2-y.2))
++    (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ x.1 v.1 r (v.2-x.2))
++    q (q+1) (by simp)
++
++theorem ginzburgFilteredInclusionHomology_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgFilteredLeftHomology k φ (r+1) q f ≫
++        Q.ginzburgGeneratorFilteredInclusionHomology k φ x.1 v.1 r (v.2-x.2) q=
++      Q.ginzburgGeneratorFilteredInclusionHomology k φ y.1 v.1 r (v.2-y.2) q ≫
++        Q.ginzburgFilteredLeftHomology k φ r q f := by
++  have he := congrArg
++    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map)
++    (Q.ginzburgFilteredLeftCochainMap_inclusion k φ (v:=v) r f)
++  simpa only [Functor.map_comp] using he
++
++theorem ginzburgFilteredQuotientHomology_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgFilteredLeftHomology k φ r q f ≫
++        Q.ginzburgGeneratorFilteredQuotientHomology k φ x.1 v.1 r (v.2-x.2) q=
++      Q.ginzburgGeneratorFilteredQuotientHomology k φ y.1 v.1 r (v.2-y.2) q ≫
++        Q.ginzburgAssociatedLeftHomology k φ r q f := by
++  have he := congrArg
++    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map)
++    (Q.ginzburgFilteredLeftCochainMap_quotient k φ (v:=v) r f)
++  simpa only [Functor.map_comp] using he
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgGeneratorDifferentialNaturality.lean b/ASGinzburg/GinzburgGeneratorDifferentialNaturality.lean
+new file mode 100644
+index 0000000..5f7440d
+--- /dev/null
++++ b/ASGinzburg/GinzburgGeneratorDifferentialNaturality.lean
+@@ -0,0 +1,38 @@
++import ASGinzburg.GinzburgFiltrationLeftNaturality
++import ASGinzburg.GinzburgGeneratorFiltrationCokernel
++
++/-! The actual loop-to-dual and dual-to-original homology maps commute
++with degree-zero path actions, by naturality of the long exact sequence. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgLoopToDualHomology_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorLoopToDualHomology k φ y.1 v.1 (v.2-y.2) ≫
++        Q.ginzburgAssociatedLeftHomology k φ (-1) (-1) f=
++      Q.ginzburgAssociatedLeftHomology k φ (-2) (-2) f ≫
++        Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2-x.2) := by
++  have hc : Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 (-2) (v.2-y.2) (-2) ≫
++        Q.ginzburgFilteredLeftHomology k φ (-1) (-1) f=
++      Q.ginzburgAssociatedLeftHomology k φ (-2) (-2) f ≫
++        Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-2) (v.2-x.2) (-2) := by
++    simpa only [show (-2:ℤ)+1=-1 by norm_num] using
++      Q.ginzburgFiltrationConnecting_left_naturality k φ (v:=v) (-2) (-2) f
++  have hq := Q.ginzburgFilteredQuotientHomology_left_naturality k φ (v:=v) (-1) (-1) f
++  unfold ginzburgGeneratorLoopToDualHomology
++  rw [Category.assoc,← hq,← Category.assoc,hc,Category.assoc]
++
++theorem ginzburgDualToOriginalHomology_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex}
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorDualToOriginalHomology k φ y.1 v.1 (v.2-y.2) ≫
++        Q.ginzburgFilteredLeftHomology k φ 0 0 f=
++      Q.ginzburgAssociatedLeftHomology k φ (-1) (-1) f ≫
++        Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2) := by
++  simpa only [ginzburgGeneratorDualToOriginalHomology,show (-1:ℤ)+1=0 by norm_num] using
++    Q.ginzburgFiltrationConnecting_left_naturality k φ (v:=v) (-1) (-1) f
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPrefixLeftAction.lean b/ASGinzburg/GinzburgPrefixLeftAction.lean
+new file mode 100644
+index 0000000..9c4e304
+--- /dev/null
++++ b/ASGinzburg/GinzburgPrefixLeftAction.lean
+@@ -0,0 +1,69 @@
++import ASGinzburg.GinzburgGeneratorDifferentialNaturality
++
++/-! Degree-zero paths act on the actual shifted-prefix complexes by
++componentwise multiplication, preserving the genuine signed differential. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgPrefixLeftTerm {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.GinzburgGeneratorPrefix k y.1 v.1 r q (v.2-y.2) →ₗ[k]
++      Q.GinzburgGeneratorPrefix k x.1 v.1 r q (v.2-x.2) :=
++  LinearMap.pi fun a =>
++    ((((Q.ginzburgPathComp k).flip f.val).comp
++      (Q.ginzburgCutCohomologicalComponent k y.1 (a.val.source Q) (q-r)
++        (v.2-y.2-a.val.cutDegree Q)).subtype).comp (LinearMap.proj a)).codRestrict _
++      (fun g => by
++        constructor
++        · simpa only [zero_add] using
++            Q.ginzburgCohomologicalComponent_comp k f.property.1 (g a).property.1
++        · simpa only [show y.2-x.2+(v.2-y.2-a.val.cutDegree Q)=v.2-x.2-a.val.cutDegree Q
++              by omega] using
++            Q.ginzburgCutComponent_comp k f.property.2 (g a).property.2)
++
++theorem ginzburgPrefixLeftTerm_apply_coe {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r q (v.2-y.2))
++    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}) :
++    ((Q.ginzburgPrefixLeftTerm k r q f g) a).val=
++      Q.ginzburgPathComp k (g a).val f.val := rfl
++
++theorem ginzburgPrefixLeftTerm_differential (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (Q.ginzburgGeneratorPrefixDifferential k φ x.1 v.1 r q (v.2-x.2)).comp
++        (Q.ginzburgPrefixLeftTerm k r q f)=
++      (Q.ginzburgPrefixLeftTerm k r (q+1) f).comp
++        (Q.ginzburgGeneratorPrefixDifferential k φ y.1 v.1 r q (v.2-y.2)) := by
++  apply LinearMap.ext
++  intro g
++  funext a
++  apply Subtype.ext
++  change ginzburgSign k r • Q.ginzburgDifferential k φ x.1 (a.val.source Q)
++      (Q.ginzburgPathComp k (g a).val f.val)=
++    Q.ginzburgPathComp k
++      (ginzburgSign k r • Q.ginzburgDifferential k φ y.1 (a.val.source Q) (g a).val) f.val
++  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property.1]
++  simp
++
++noncomputable def ginzburgPrefixLeftCochainMap (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2-y.2) ⟶
++      Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2-x.2) :=
++  CochainComplex.ofHom _ _ _ _ _ _
++    (fun q => ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r q f))
++    (fun q => by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgPrefixLeftTerm_differential k φ r q f)
++
++noncomputable def ginzburgPrefixLeftHomology (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorPrefixHomology k φ y.1 v.1 r (v.2-y.2) q ⟶
++      Q.ginzburgGeneratorPrefixHomology k φ x.1 v.1 r (v.2-x.2) q :=
++  HomologicalComplex.homologyMap (Q.ginzburgPrefixLeftCochainMap k φ r f) q
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPrefixComparisonNaturality.lean b/ASGinzburg/GinzburgPrefixComparisonNaturality.lean
+new file mode 100644
+index 0000000..eab6ef7
+--- /dev/null
++++ b/ASGinzburg/GinzburgPrefixComparisonNaturality.lean
+@@ -0,0 +1,83 @@
++import ASGinzburg.GinzburgPrefixLeftAction
++import ASGinzburg.GinzburgGeneratorLayerHomology
++
++/-! The actual append-generator comparison of prefix and associated
++graded complexes commutes with genuine degree-zero left paths. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++open scoped Classical
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgAssociatedLeftTerm_mk {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2)) :
++    Q.ginzburgAssociatedLeftTerm k (v:=v) r q f (Submodule.Quotient.mk g)=
++      Submodule.Quotient.mk (Q.ginzburgFilteredLeftTerm k (v:=v) r q f g) := rfl
++
++theorem ginzburgPrefixLeftTerm_piSingle {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r})
++    (g : Q.ginzburgCutCohomologicalComponent k y.1 (a.val.source Q) (q-r)
++      (v.2-y.2-a.val.cutDegree Q)) :
++    Q.ginzburgPrefixLeftTerm k (v:=v) r q f (Pi.single a g)=
++      Pi.single a ((Q.ginzburgPrefixLeftTerm k (v:=v) r q f (Pi.single a g)) a) := by
++  funext b
++  by_cases hb : a=b
++  · subst b
++    simp only [Pi.single_eq_same]
++  · rw [Pi.single_eq_of_ne (Ne.symm hb)]
++    apply Subtype.ext
++    change Q.ginzburgPathComp k
++      ((Pi.single a g : Q.GinzburgGeneratorPrefix k y.1 v.1 r q (v.2-y.2)) b).val f.val=0
++    rw [Pi.single_eq_of_ne (Ne.symm hb)]
++    simp
++
++set_option maxHeartbeats 1000000 in
++theorem ginzburgPrefixToGradedRow_left_naturality {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (Q.ginzburgAssociatedLeftTerm k (v:=v) r q f).comp
++        (Q.ginzburgGeneratorPrefixToGradedRow k y.1 v.1 r q (v.2-y.2))=
++      (Q.ginzburgGeneratorPrefixToGradedRow k x.1 v.1 r q (v.2-x.2)).comp
++        (Q.ginzburgPrefixLeftTerm k (v:=v) r q f) := by
++  rcases v with ⟨w,t⟩
++  apply LinearMap.pi_ext
++  intro a g
++  change Q.ginzburgAssociatedLeftTerm k (v:=(w,t)) r q f
++      (Q.ginzburgGeneratorPrefixToGradedRow k y.1 w r q (t-y.2) (Pi.single a g))=
++    Q.ginzburgGeneratorPrefixToGradedRow k x.1 w r q (t-x.2)
++      (Q.ginzburgPrefixLeftTerm k (v:=(w,t)) r q f (Pi.single a g))
++  rw [Q.ginzburgGeneratorPrefixToGradedRow_piSingle,
++    Q.ginzburgPrefixLeftTerm_piSingle,Q.ginzburgGeneratorPrefixToGradedRow_piSingle]
++  obtain ⟨a,ht,hr⟩ := a
++  change a.target Q=w at ht
++  subst w
++  subst r
++  simp only [ginzburgGeneratorPrefixSingleClass,ginzburgGeneratorLayerClass,
++    LinearMap.comp_apply,Submodule.mkQ_apply]
++  rw [Q.ginzburgAssociatedLeftTerm_mk]
++  apply congrArg Submodule.Quotient.mk
++  apply Subtype.ext
++  let b := (Q.ginzburgPrefixLeftTerm k (v:=(a.target Q,t)) (a.cohomologicalDegree Q) q f
++    (Pi.single ⟨a,rfl,rfl⟩ g)) ⟨a,rfl,rfl⟩
++  have hb : b.val=Q.ginzburgPathComp k g.val f.val := by
++    rw [Q.ginzburgPrefixLeftTerm_apply_coe,Pi.single_eq_same]
++  change Q.ginzburgPathComp k
++      (Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) g.val) f.val=
++    Q.ginzburgPathComp k (Finsupp.single (Q.ginzburgArrowPath a) 1) b.val
++  rw [hb]
++  exact (Q.ginzburgPathComp_assoc k _ _ _).symm
++
++theorem ginzburgPrefixToAssociatedGraded_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgPrefixLeftCochainMap k φ r f ≫
++        Q.ginzburgGeneratorPrefixToAssociatedGraded k φ x.1 v.1 r (v.2-x.2)=
++      Q.ginzburgGeneratorPrefixToAssociatedGraded k φ y.1 v.1 r (v.2-y.2) ≫
++        Q.ginzburgAssociatedLeftCochainMap k φ r f := by
++  apply HomologicalComplex.Hom.ext
++  funext q
++  apply ModuleCat.hom_ext
++  exact (Q.ginzburgPrefixToGradedRow_left_naturality k (v:=v) r q f).symm
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgLayerHomologyNaturality.lean b/ASGinzburg/GinzburgLayerHomologyNaturality.lean
+new file mode 100644
+index 0000000..b0352cb
+--- /dev/null
++++ b/ASGinzburg/GinzburgLayerHomologyNaturality.lean
+@@ -0,0 +1,38 @@
++import ASGinzburg.GinzburgPrefixComparisonNaturality
++
++/-! The inverse of the actual append comparison, and the induced
++homology isomorphism, preserve the genuine degree-zero path action. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgPrefixGradedIso_inv_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgAssociatedLeftCochainMap k φ (v:=v) r f ≫
++        (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).inv=
++      (Q.ginzburgGeneratorPrefixGradedIso k φ y.1 v.1 r (v.2-y.2)).inv ≫
++        Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f := by
++  have he : Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f ≫
++        (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).hom=
++      (Q.ginzburgGeneratorPrefixGradedIso k φ y.1 v.1 r (v.2-y.2)).hom ≫
++        Q.ginzburgAssociatedLeftCochainMap k φ (v:=v) r f :=
++    Q.ginzburgPrefixToAssociatedGraded_left_naturality k φ r f
++  apply (cancel_mono (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2-x.2)).hom).mp
++  simp only [Category.assoc,Iso.inv_hom_id,Category.comp_id]
++  rw [he,Iso.inv_hom_id_assoc]
++
++theorem ginzburgAssociatedPrefixHomologyIso_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r q : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgAssociatedLeftHomology k φ (v:=v) r q f ≫
++        (Q.ginzburgAssociatedGradedPrefixHomologyIso k φ x.1 v.1 r (v.2-x.2) q).hom=
++      (Q.ginzburgAssociatedGradedPrefixHomologyIso k φ y.1 v.1 r (v.2-y.2) q).hom ≫
++        Q.ginzburgPrefixLeftHomology k φ (v:=v) r q f := by
++  have he := congrArg
++    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map)
++    (Q.ginzburgPrefixGradedIso_inv_left_naturality k φ (v:=v) r f)
++  simpa only [Functor.map_comp] using he
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/ModuleCatCokernelHomologyNaturality.lean b/ASGinzburg/ModuleCatCokernelHomologyNaturality.lean
+new file mode 100644
+index 0000000..007eff1
+--- /dev/null
++++ b/ASGinzburg/ModuleCatCokernelHomologyNaturality.lean
+@@ -0,0 +1,43 @@
++import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
++import Mathlib.Algebra.Category.ModuleCat.Kernels
++
++/-! Naturality of the actual cokernel presentation of short-complex
++homology when its outgoing differential is zero. -/
++namespace ASGinzburg
++open CategoryTheory CategoryTheory.Limits
++universe u
++variable {k : Type u} [Field k]
++
++noncomputable def moduleCatCokernelHomologyIso (S : ShortComplex (ModuleCat.{u} k))
++    (hg : S.g=0) : S.homology ≅ ModuleCat.of k (S.X₂ ⧸ LinearMap.range S.f.hom) :=
++  (ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork S hg
++    (ModuleCat.cokernelCocone S.f) (ModuleCat.cokernelIsColimit S.f)).homologyIso
++
++theorem moduleCatShortComplex_map_range {S T : ShortComplex (ModuleCat.{u} k)}
++    (f : S ⟶ T) :
++    LinearMap.range S.f.hom ≤ (LinearMap.range T.f.hom).comap f.τ₂.hom := by
++  rintro x ⟨y,rfl⟩
++  refine ⟨f.τ₁ y,?_⟩
++  exact congrArg (fun g => g y) f.comm₁₂
++
++noncomputable def moduleCatShortComplexQuotientMap {S T : ShortComplex (ModuleCat.{u} k)}
++    (f : S ⟶ T) :
++    ModuleCat.of k (S.X₂ ⧸ LinearMap.range S.f.hom) ⟶
++      ModuleCat.of k (T.X₂ ⧸ LinearMap.range T.f.hom) :=
++  ModuleCat.ofHom ((LinearMap.range S.f.hom).mapQ (LinearMap.range T.f.hom)
++    f.τ₂.hom (moduleCatShortComplex_map_range f))
++
++theorem moduleCatCokernelHomologyIso_naturality {S T : ShortComplex (ModuleCat.{u} k)}
++    (f : S ⟶ T) (hS : S.g=0) (hT : T.g=0) :
++    ShortComplex.homologyMap f ≫ (moduleCatCokernelHomologyIso T hT).hom=
++      (moduleCatCokernelHomologyIso S hS).hom ≫ moduleCatShortComplexQuotientMap f := by
++  exact (ShortComplex.LeftHomologyMapData.ofIsColimitCokernelCofork f
++    hS (ModuleCat.cokernelCocone S.f) (ModuleCat.cokernelIsColimit S.f)
++    hT (ModuleCat.cokernelCocone T.f) (ModuleCat.cokernelIsColimit T.f)
++    (moduleCatShortComplexQuotientMap f) (by
++      apply ModuleCat.hom_ext
++      apply LinearMap.ext
++      intro x
++      rfl)).homologyMap_comm
++
++end ASGinzburg
+diff --git a/ASGinzburg/GinzburgPrefixTopNaturality.lean b/ASGinzburg/GinzburgPrefixTopNaturality.lean
+new file mode 100644
+index 0000000..1b81c30
+--- /dev/null
++++ b/ASGinzburg/GinzburgPrefixTopNaturality.lean
+@@ -0,0 +1,36 @@
++import ASGinzburg.GinzburgPrefixLeftAction
++import ASGinzburg.GinzburgGeneratorPrefixBoundaryFamily
++import ASGinzburg.ModuleCatCokernelHomologyNaturality
++
++/-! The actual top prefix short-complex maps and their genuine
++cokernel homology presentation preserve degree-zero path multiplication. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++noncomputable def ginzburgPrefixTopShortComplexLeftMap (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2-y.2) ⟶
++      Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2-x.2) :=
++  ShortComplex.homMk (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r-1) f))
++    (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r r f))
++    (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r+1) f))
++    ((Q.ginzburgPrefixLeftCochainMap k φ r f).comm (r-1) r)
++    (by
++      apply ModuleCat.hom_ext
++      exact Q.ginzburgPrefixLeftTerm_differential k φ r r f)
++
++theorem ginzburgPrefixTopShortComplexCokernel_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    ShortComplex.homologyMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) ≫
++        (moduleCatCokernelHomologyIso _
++          (Q.ginzburgGeneratorPrefixTopShortComplex_g k φ x.1 v.1 r (v.2-x.2))).hom=
++      (moduleCatCokernelHomologyIso _
++        (Q.ginzburgGeneratorPrefixTopShortComplex_g k φ y.1 v.1 r (v.2-y.2))).hom ≫
++          moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) :=
++  moduleCatCokernelHomologyIso_naturality _ _ _
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPrefixTopHomologyNaturality.lean b/ASGinzburg/GinzburgPrefixTopHomologyNaturality.lean
+new file mode 100644
+index 0000000..27ceb09
+--- /dev/null
++++ b/ASGinzburg/GinzburgPrefixTopHomologyNaturality.lean
+@@ -0,0 +1,70 @@
++import ASGinzburg.GinzburgPrefixTopNaturality
++
++/-! The actual prefix top homology and its actual incoming-boundary
++quotient presentation commute with genuine degree-zero path multiplication. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgPrefixTopShortComplexIso_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.up ℤ)
++      (r-1) r (r+1)).map (Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f) ≫
++        (Q.ginzburgGeneratorPrefixTopShortComplexIso k φ x.1 v.1 r (v.2-x.2)).hom=
++      (Q.ginzburgGeneratorPrefixTopShortComplexIso k φ y.1 v.1 r (v.2-y.2)).hom ≫
++        Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f := by
++  ext <;> simp [ginzburgGeneratorPrefixTopShortComplexIso,ginzburgPrefixTopShortComplexLeftMap,
++    ginzburgPrefixLeftCochainMap]
++
++theorem ginzburgPrefixTopCanonicalShortComplexIso_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    (HomologicalComplex.shortComplexFunctor (ModuleCat k) (ComplexShape.up ℤ) r).map
++        (Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f) ≫
++        ((Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2-x.2)).isoSc'
++          (i:=r-1) (j:=r) (k:=r+1) (by simp) (by simp) ≪≫
++          Q.ginzburgGeneratorPrefixTopShortComplexIso k φ x.1 v.1 r (v.2-x.2)).hom=
++      ((Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2-y.2)).isoSc'
++        (i:=r-1) (j:=r) (k:=r+1) (by simp) (by simp) ≪≫
++        Q.ginzburgGeneratorPrefixTopShortComplexIso k φ y.1 v.1 r (v.2-y.2)).hom ≫
++          Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f := by
++  have he : (HomologicalComplex.shortComplexFunctor (ModuleCat k) (ComplexShape.up ℤ) r).map
++        (Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f) ≫
++        ((Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2-x.2)).isoSc'
++          (i:=r-1) (j:=r) (k:=r+1) (by simp) (by simp)).hom=
++      ((Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2-y.2)).isoSc'
++        (i:=r-1) (j:=r) (k:=r+1) (by simp) (by simp)).hom ≫
++      (HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.up ℤ)
++        (r-1) r (r+1)).map (Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f) :=
++    (HomologicalComplex.natIsoSc' (ModuleCat k) (ComplexShape.up ℤ)
++      (r-1) r (r+1) (by simp) (by simp)).hom.naturality
++        (Q.ginzburgPrefixLeftCochainMap k φ (v:=v) r f)
++  simp only [Iso.trans_hom]
++  rw [← Category.assoc,he,Category.assoc,
++    Q.ginzburgPrefixTopShortComplexIso_left_naturality,← Category.assoc]
++
++theorem ginzburgPrefixTopHomologyQuotientIso_left_naturality (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
++    Q.ginzburgPrefixLeftHomology k φ (v:=v) r r f ≫
++        (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ x.1 v.1 r (v.2-x.2)).hom=
++      (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2-y.2)).hom ≫
++        moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) := by
++  have he := congrArg (ShortComplex.homologyFunctor (ModuleCat k)).map
++    (Q.ginzburgPrefixTopCanonicalShortComplexIso_left_naturality k φ (v:=v) r f)
++  simp only [ShortComplex.homologyFunctor,Functor.map_comp,Iso.trans_hom,
++    ShortComplex.homologyMap_comp] at he
++  have he' := congrArg (fun g => g ≫
++    (moduleCatCokernelHomologyIso _
++      (Q.ginzburgGeneratorPrefixTopShortComplex_g k φ x.1 v.1 r (v.2-x.2))).hom) he
++  dsimp only at he'
++  rw [Category.assoc _ (ShortComplex.homologyMap
++    (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f)),
++    Q.ginzburgPrefixTopShortComplexCokernel_left_naturality] at he'
++  simpa only [ginzburgGeneratorPrefixTopHomologyQuotientIso,ShortComplex.homologyMapIso,
++    Iso.trans_hom,moduleCatCokernelHomologyIso,ginzburgPrefixLeftHomology,
++    HomologicalComplex.homologyMap,Category.assoc] using he'
++
++end ASGinzburg.CutQuiver
+diff --git a/ASGinzburg/GinzburgPrefixFamilyClasses.lean b/ASGinzburg/GinzburgPrefixFamilyClasses.lean
+new file mode 100644
+index 0000000..7439e9a
+--- /dev/null
++++ b/ASGinzburg/GinzburgPrefixFamilyClasses.lean
+@@ -0,0 +1,38 @@
++import ASGinzburg.GinzburgPrefixTopNaturality
++
++/-! Explicit coefficient classes in the actual finite quotient-family
++presentation of top prefix homology. -/
++namespace ASGinzburg.CutQuiver
++open CategoryTheory
++open scoped Classical
++universe u
++variable (Q : CutQuiver) (k : Type u) [Field k]
++
++theorem ginzburgPrefixTopQuotientFamilyEquiv_mk (φ : Q.Potential k)
++    (u v : Q.Vertex) (r c : ℤ) (g : Q.GinzburgGeneratorPrefix k u v r r c) :
++    Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c (Submodule.Quotient.mk g)=
++      fun a => Submodule.Quotient.mk (Q.ginzburgGeneratorPrefixTopEquiv k u v r c g a) := rfl
++
++theorem ginzburgPrefixTopQuotientFamilyEquiv_quotientMap_mk (φ : Q.Potential k)
++    {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2-y.2)) :
++    Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2-x.2)
++        (moduleCatShortComplexQuotientMap
++          (Q.ginzburgPrefixTopShortComplexLeftMap k φ (v:=v) r f) (Submodule.Quotient.mk g))=
++      fun a => Submodule.Quotient.mk
++        (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
++          (Q.ginzburgPrefixLeftTerm k r r f g) a) := rfl
++
++theorem ginzburgPrefixTopEquiv_leftTerm_coe {x y v : Q.LiftVertex} (r : ℤ)
++    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
++    (g : Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2-y.2))
++    (a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}) :
++    (Q.ginzburgGeneratorPrefixTopEquiv k x.1 v.1 r (v.2-x.2)
++        (Q.ginzburgPrefixLeftTerm k r r f g) a).val=
++      Q.ginzburgPathComp k
++        (Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2-y.2) g a).val f.val := by
++  rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe,
++    Q.ginzburgPrefixLeftTerm_apply_coe,Q.ginzburgGeneratorPrefixTopEquiv_apply_coe]
++
++end ASGinzburg.CutQuiver

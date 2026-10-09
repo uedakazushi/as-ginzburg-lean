@@ -1,0 +1,32 @@
+import ASGinzburg.GinzburgProjectiveRadicalExactness
+
+/-! Exactness is retained after the actual radical monomorphism into
+the existing representable right module. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgProjectiveDualOriginalShortComplex (φ : Q.Potential k)
+    (v : Q.LiftVertex) : ShortComplex (Q.unrolledJacobianZAlgebra k φ).RightModule :=
+  ShortComplex.mk (Q.ginzburgDualOriginalProjectiveMap k φ v)
+    (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)
+    (Q.ginzburgDualOriginalProjectiveMap_comp_representable k φ v)
+
+theorem ginzburgProjectiveDualOriginalShortComplex_exact (φ : Q.Potential k)
+    (v : Q.LiftVertex) :
+    (Q.ginzburgProjectiveDualOriginalShortComplex k φ v).Exact := by
+  let A := Q.unrolledJacobianZAlgebra k φ
+  let f : Q.ginzburgProjectiveDualRadicalShortComplex k φ v ⟶
+      Q.ginzburgProjectiveDualOriginalShortComplex k φ v :=
+    ShortComplex.homMk (𝟙 _) (𝟙 _) (A.representableRadical (Q.height v)).inclusion
+      (by simp [ginzburgProjectiveDualRadicalShortComplex,ginzburgProjectiveDualOriginalShortComplex])
+      (by simp [ginzburgProjectiveDualRadicalShortComplex,ginzburgProjectiveDualOriginalShortComplex,
+        ginzburgOriginalRepresentableProjectiveMap,A])
+  haveI : Epi f.τ₁ := by dsimp [f]; infer_instance
+  haveI : IsIso f.τ₂ := by dsimp [f]; infer_instance
+  haveI : Mono f.τ₃ := by dsimp [f]; infer_instance
+  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mp
+    (Q.ginzburgProjectiveDualRadicalShortComplex_exact k φ v)
+
+end ASGinzburg.CutQuiver
