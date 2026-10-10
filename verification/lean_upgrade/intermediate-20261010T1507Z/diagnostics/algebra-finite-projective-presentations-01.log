@@ -1,0 +1,42 @@
+ASGinzburg/FiniteProjectivePresentations.lean:14:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FiniteProjectivePresentations.lean:79:16: warning: `CategoryTheory.Limits.Sigma.ι_desc` has been deprecated: Use `CategoryTheory.Limits.Sigma.ι_comp_desc` instead
+ASGinzburg/FiniteProjectivePresentations.lean:89:4: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    g
+  has type
+    A.finiteRightModuleGeneratorIndex M hM
+  but is expected to have type
+    (i : ↥(A.finiteRightModuleSupport M hM)) × Fin (Module.finrank k ↑((A.rightModuleEvaluation ↑i).obj M))
+  in the application
+    g.fst
+ASGinzburg/FiniteProjectivePresentations.lean:105:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FiniteProjectivePresentations.lean:170:16: warning: `CategoryTheory.Limits.Sigma.ι_desc` has been deprecated: Use `CategoryTheory.Limits.Sigma.ι_comp_desc` instead
+ASGinzburg/FiniteProjectivePresentations.lean:180:4: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    g
+  has type
+    A.finiteLeftModuleGeneratorIndex M hM
+  but is expected to have type
+    (i : ↥(A.finiteLeftModuleSupport M hM)) × Fin (Module.finrank k ↑((A.leftModuleEvaluation ↑i).obj M))
+  in the application
+    g.fst

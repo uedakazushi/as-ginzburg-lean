@@ -17,7 +17,6 @@ noncomputable def ginzburgASSimpleAugmentation (φ : Q.Potential k) (v : Q.LiftV
       rw [ginzburgASProjectiveComplex_d]
       exact Q.ginzburgASProjectiveD₁_comp_simpleπ k φ v⟩
 
-set_option backward.isDefEq.respectTransparency false in
 theorem GinzburgRegular.asSimpleAugmentation_quasiIso {φ : Q.Potential k}
     (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
     QuasiIso (Q.ginzburgASSimpleAugmentation k φ v) := ⟨fun n => by
@@ -30,7 +29,12 @@ theorem GinzburgRegular.asSimpleAugmentation_quasiIso {φ : Q.Potential k}
       exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
         (by dsimp; exact (ChainComplex.of_d (Q.ginzburgASProjectiveComplexTerm k φ v)
           (Q.ginzburgASProjectiveComplexDifferential k φ v) 0).symm)
-        (by simp [ginzburgASSimpleAugmentation,ginzburgASProjectiveOriginalSimpleShortComplex])
+        (by
+          change (𝟙 ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height v))) ≫
+              (Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v) =
+            (Q.ginzburgASSimpleAugmentation k φ v).f 0 ≫
+              𝟙 ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))
+          simp [ginzburgASSimpleAugmentation])
     all_goals rfl
   · rw [quasiIsoAt_iff_exactAt']
     · exact h.asProjectiveComplex_exactAt_succ Q k v _

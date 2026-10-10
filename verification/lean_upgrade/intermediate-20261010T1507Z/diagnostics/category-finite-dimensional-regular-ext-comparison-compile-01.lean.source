@@ -61,9 +61,9 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
   exact A.rightFiniteDimensionalExtDirectSumLinearEquiv_postcomp_inclusion Q hAS M hM n
     (fun j : ℤ => A.representable j) i x
 
-set_option backward.isDefEq.respectTransparency false in
 /-- The direct-sum Ext comparison intertwines actual postcomposition with every algebra
 component's left action. No required Ext isomorphism is supplied as a hypothesis. -/
+set_option backward.isDefEq.respectTransparency false in
 @[reassoc] theorem rightFiniteDimensionalExtRegularCoproductEquiv_action (n : ℕ) {i j : ℤ} (a : A.Hom i j) :
     (A.rightModuleExtCovariant M n).map
         (A.rightRegularCoproductAction a) ≫
@@ -81,8 +81,7 @@ component's left action. No required Ext isomorphism is supplied as a hypothesis
   by_cases hl : l = i
   · subst l
     rw [A.rightRegularCoproduct_inclusion_action, H.map_comp, Category.assoc,
-      A.rightFiniteDimensionalExtRegularCoproductEquiv_inclusion Q hAS M hM,
-      ← Category.assoc, A.rightFiniteDimensionalExtRegularCoproductEquiv_inclusion_assoc Q hAS M hM]
+      A.rightFiniteDimensionalExtRegularCoproductEquiv_inclusion Q hAS M hM, A.rightFiniteDimensionalExtRegularCoproductEquiv_inclusion_assoc Q hAS M hM]
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -94,7 +93,6 @@ component's left action. No required Ext isomorphism is supplied as a hypothesis
     rw [A.leftModuleTotalAction_lof]
     rfl
   · rw [A.rightRegularCoproduct_inclusion_action_off a l hl, H.map_zero, zero_comp,
-      ← Category.assoc,
       A.rightFiniteDimensionalExtRegularCoproductEquiv_inclusion_assoc Q hAS M hM]
     apply ModuleCat.hom_ext
     apply LinearMap.ext

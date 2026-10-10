@@ -17,7 +17,6 @@ noncomputable def ginzburgASSimpleAugmentation (φ : Q.Potential k) (v : Q.LiftV
       rw [ginzburgASProjectiveComplex_d]
       exact Q.ginzburgASProjectiveD₁_comp_simpleπ k φ v⟩
 
-set_option backward.isDefEq.respectTransparency false in
 theorem GinzburgRegular.asSimpleAugmentation_quasiIso {φ : Q.Potential k}
     (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) :
     QuasiIso (Q.ginzburgASSimpleAugmentation k φ v) := ⟨fun n => by

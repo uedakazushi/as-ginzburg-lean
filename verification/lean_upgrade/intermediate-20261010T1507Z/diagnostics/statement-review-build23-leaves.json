@@ -1,0 +1,381 @@
+{
+  "reviewed_at_utc": "2026-10-10T15:00:46.377149+00:00",
+  "review_mode": "independent_read_only_bounded_frozen_build23_leaf_semantic_review_no_compiler",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint9_commit": "7c7cdbf1e4123a3df287e8a0e552ec2fef056715",
+  "prior_review": "work/lean-upgrade/statement-review-checkpoint9.json",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "provisional": true,
+  "global_compilation_success_claimed": false,
+  "full_source_inventory_captured": false,
+  "reviewed_public_source_files": 8,
+  "source_sha256": {
+    "ASGinzburg/FiniteDiagramClosureMaps.lean": "dc6e7a8630f6f620142e5d6af8992803dcd2dc5ce35dea13bc6e6aa3963d3bb6",
+    "ASGinzburg/FiniteDimensionalProjectiveDimension.lean": "605289161de3b76f0c5aeeefc7059f80d82689d526b9ac5043965a36d03e0107",
+    "ASGinzburg/FiniteDimensionalRegularExtComparison.lean": "6e4464743dd37a9a1f6c6469cf01733907bc85a76f0f58b22c06b4ceae2f3dfa",
+    "ASGinzburg/FiniteProjectivePresentations.lean": "59a097885407db39091bd8cc64b9df72a0eb7e1886f1696daa2826ba6b15db66",
+    "ASGinzburg/GinzburgASProjectiveResolution.lean": "96aab0463b194155c7ef3b14d7130e44451e3082560d36c232bdf0909202e885",
+    "ASGinzburg/GinzburgArrowOppositeClasses.lean": "967cc81648f81c0bec37b201ad64835ae463297384bbcb004a2bd86e9c5a9930",
+    "ASGinzburg/GinzburgFirstADualFormula.lean": "ba69f3d6692faee7fa2c0bf8cbce6e0884d14009a68a14420c3e964b53f45c41",
+    "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean": "3879d483f57d7d43c7aa79c55a0fb7e0ec3e1e136e90ddc668d23e99336353f5"
+  },
+  "aggregate_of_reviewed8_sha256": "27ad1b561003dd266814f6257aaaad8bc4488eb7507ee3065563727d69b46ed8",
+  "historical_source_directory": "work/lean-upgrade/statement-review-build23-leaves-sources",
+  "declarations_before": 54,
+  "declarations_after": 54,
+  "declaration_names_and_kinds": {
+    "ASGinzburg.limitConeProductMono": "theorem",
+    "ASGinzburg.colimitCoconeCoproductEpi": "theorem",
+    "ASGinzburg.ZAlgebra.rightSimple_hasProjectiveDimensionLE": "theorem",
+    "ASGinzburg.ZAlgebra.leftSimple_hasProjectiveDimensionLE": "theorem",
+    "ASGinzburg.ZAlgebra.rightVertexFiltration_hasProjectiveDimensionLE": "theorem",
+    "ASGinzburg.ZAlgebra.leftVertexFiltration_hasProjectiveDimensionLE": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensional_hasProjectiveDimensionLE": "theorem",
+    "ASGinzburg.ZAlgebra.leftFiniteDimensional_hasProjectiveDimensionLE": "theorem",
+    "CategoryTheory.ProjectiveResolution.thirdSyzygy_projective": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtCoproductIso_inclusion_hom": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtDirectSumLinearEquiv_postcomp_inclusion": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtRegularCoproductLinearEquiv": "def",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtRegularCoproductEquiv_inclusion": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtRegularCoproductEquiv_action": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtTotalAlgebraLinearEquiv": "def",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtTotalAlgebraLinearEquiv_action": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensionalExtTotalAlgebraLinearEquiv_representation": "theorem",
+    "ASGinzburg.ZAlgebra.rightFiniteDimensional_component_finite": "theorem",
+    "ASGinzburg.ZAlgebra.finiteRightModuleSupport": "def",
+    "ASGinzburg.ZAlgebra.finiteRightModuleSupport_isZero": "theorem",
+    "ASGinzburg.ZAlgebra.finiteRightModuleComponentBasis": "def",
+    "ASGinzburg.ZAlgebra.finiteRightModuleGeneratorIndex": "def",
+    "ASGinzburg.ZAlgebra.finiteRightModuleGeneratorIndexFintype": "instance",
+    "ASGinzburg.ZAlgebra.finiteFreeRightModule": "def",
+    "ASGinzburg.ZAlgebra.finiteFreeRightModuleπ": "def",
+    "ASGinzburg.ZAlgebra.finiteFreeRightModule_finiteProjective": "theorem",
+    "ASGinzburg.ZAlgebra.finiteFreeRightModuleProjective": "instance",
+    "ASGinzburg.ZAlgebra.finiteFreeRightModuleπEpi": "instance",
+    "ASGinzburg.ZAlgebra.leftFiniteDimensional_component_finite": "theorem",
+    "ASGinzburg.ZAlgebra.finiteLeftModuleSupport": "def",
+    "ASGinzburg.ZAlgebra.finiteLeftModuleSupport_isZero": "theorem",
+    "ASGinzburg.ZAlgebra.finiteLeftModuleComponentBasis": "def",
+    "ASGinzburg.ZAlgebra.finiteLeftModuleGeneratorIndex": "def",
+    "ASGinzburg.ZAlgebra.finiteLeftModuleGeneratorIndexFintype": "instance",
+    "ASGinzburg.ZAlgebra.finiteFreeLeftModule": "def",
+    "ASGinzburg.ZAlgebra.finiteFreeLeftModuleπ": "def",
+    "ASGinzburg.ZAlgebra.finiteFreeLeftModule_finiteProjective": "theorem",
+    "ASGinzburg.ZAlgebra.finiteFreeLeftModuleProjective": "instance",
+    "ASGinzburg.ZAlgebra.finiteFreeLeftModuleπEpi": "instance",
+    "ASGinzburg.CutQuiver.ginzburgASSimpleAugmentation": "def",
+    "ASGinzburg.CutQuiver.GinzburgRegular.asSimpleAugmentation_quasiIso": "theorem",
+    "ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution": "def",
+    "ASGinzburg.CutQuiver.GinzburgRegular.simpleProjectiveResolution_isZero_ge_four": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgOrdinaryArrowPath_opposite": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgOriginalArrowOppositeSource": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgOriginalArrowOppositeTarget": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgLoopArrowOppositeSource": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgLoopArrowOppositeTarget": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgGeneratorOriginalArrowEntry_opposite": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgGeneratorLoopArrowEntry_opposite": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_adual_matrix": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_coordinates": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_coordinates": "theorem",
+    "ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_coordinates": "theorem"
+  },
+  "declaration_names_and_kinds_preserved": true,
+  "all54_entire_declaration_headers_exact_checkpoint9": true,
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context_by_file": {
+    "ASGinzburg/FiniteDiagramClosureMaps.lean": [
+      "universe u v w w'",
+      "variable {C : Type u} [Category.{v} C] {J : Type w} [Category.{w'} J]"
+    ],
+    "ASGinzburg/FiniteDimensionalProjectiveDimension.lean": [
+      "universe u v",
+      "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)",
+      "universe u v",
+      "variable {C : Type u} [Category.{v} C] [Abelian C] {M : C}"
+    ],
+    "ASGinzburg/FiniteDimensionalRegularExtComparison.lean": [
+      "universe u v",
+      "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)",
+      "universe u v",
+      "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)",
+      "universe u v",
+      "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)"
+    ],
+    "ASGinzburg/FiniteProjectivePresentations.lean": [
+      "universe u v",
+      "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)",
+      "universe u v",
+      "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+    ],
+    "ASGinzburg/GinzburgASProjectiveResolution.lean": [
+      "universe u",
+      "variable (Q : CutQuiver) (k : Type u) [Field k]"
+    ],
+    "ASGinzburg/GinzburgArrowOppositeClasses.lean": [
+      "universe u",
+      "variable (Q : CutQuiver) (k : Type u) [Field k]"
+    ],
+    "ASGinzburg/GinzburgFirstADualFormula.lean": [
+      "universe u",
+      "variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)"
+    ],
+    "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean": [
+      "universe u",
+      "variable (Q : CutQuiver) (k : Type u) [Field k] (φ : Q.Potential k)"
+    ]
+  },
+  "changed_header_count_since_checkpoint9": 0,
+  "changed_headers_since_checkpoint9": [],
+  "previous_approved_global_changed_header_count": 89,
+  "expected_global_changed_header_count_if_no_other_new_headers": 89,
+  "already_approved_affected_header_changes_vs_original_baseline": [
+    {
+      "file": "ASGinzburg/GinzburgFirstADualFormula.lean",
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalRepresentableProjectiveMap_adual_matrix",
+      "classification": "same_underlying_morphism_with_new_wrapper_projection"
+    }
+  ],
+  "manual_delta_review": {
+    "ASGinzburg/FiniteDiagramClosureMaps.lean": "Both original public statements are exact checkpoint9. New Pi.lift_comp_π is the original product lift followed by projection identity (pinned Products203–205). Sigma.ι_comp_desc is the dual same inclusion followed by coproduct desc identity, with old Sigma.ι_desc explicitly deprecated alias at209. Same congrArg, original limit/colimit hom_ext and arbitrary diagram/cone/cocone hypotheses retained; no finiteness or new assumption introduced.",
+    "ASGinzburg/FiniteDimensionalProjectiveDimension.lean": "Only explicitly supplies previously implicit object argument (X:=kernel P.secondCover) to the same projective_iff_hasProjectiveDimensionLT_one theorem (pinned Dimension150–152). Original kernel third syzygy, dimension-shift chain, original h3 and conclusion Projective(kernel P.secondCover) retained. All seven theorem statements, universes and ambient abelian category assumptions unchanged.",
+    "ASGinzburg/FiniteDimensionalRegularExtComparison.lean": "Final source6e446474... has two existing theorem-scoped transparency options and two extra ←Category.assoc rewrites in diagonal/off-diagonal action cases. These merely reparenthesize the exact original three composable morphisms so the same generated inclusion_assoc theorem applies. Same regular coproduct action, original Ext postcomposition, canonical coproduct/direct-sum/total-algebra equivalences and actual left action preserved. Original8 headers and all data definitions unchanged, [simp]/[reassoc] attributes preserved. Moving scoped option before existing doc comment ensures same declaration-local scope.",
+    "ASGinzburg/FiniteProjectivePresentations.lean": "Right/left existing Epi proofs each get one scoped option and proof-local alias f equal to underlying LinearMap of the exact original evaluated finiteFreeModuleπ. Pinned ModuleCat Hom.hom projects that same map. Both change steps retain same y basis preimage, same original H:f(y j)=b j, same coefficient sum ∑j b.repr x j • y j and original basis.sum_repr. No new map, scalar action, arbitrary preimage, chosen basis, support, public assumption or definition changes. All original22 headers/context retained.",
+    "ASGinzburg/GinzburgASProjectiveResolution.lean": "Only scoped option and removal of one dsimp step in original QuasiIso proof. Same augmentation toSingle0Equiv uses simpleRightModuleπ and D1-zero condition; exactness/epi transfer, original identity ShortComplex iso, degree0 ChainComplex.of_d and higher exactness proof preserved. Original ProjectiveResolution complex, projective,π,quasiIso fields and genuine GinzburgRegular hypothesis unchanged; all4 headers exact checkpoint9.",
+    "ASGinzburg/GinzburgArrowOppositeClasses.lean": "Original ordinary one-arrow path-opposite equality adds reflexivity after same Path.toList_injective/simp. No path formula change: same Path.snoc nil arrow, reversed list and arrow endpoints. Two original reflection/Jacobian-entry theorems get scoped transparency options only; same opposite potential, reflected sheet1-s, original height transports and genuine first/third Jacobian classes retained. All7 headers exact checkpoint9.",
+    "ASGinzburg/GinzburgFirstADualFormula.lean": "One theorem-scoped option only. Original canonical A-dual first differential, actual representable Hom coordinates, same original-arrow column, incoming-generator indexing and complete original Yoneda/precomposition proof preserved. Entire checkpoint9 source byte-exact after deleting the added option.",
+    "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean": "Three theorem-scoped options only. Same genuine first/second/third projective maps on arbitrary evaluation components, original arrows and Hessian matrices, sums, actual coefficient equivalences, incoming-generator(-2,-1,0) degrees, height endpoints and original proofs preserved. Entire checkpoint9 source byte-exact after deleting added options."
+  },
+  "source_reference_sha256": {
+    ".lake/packages/mathlib/Mathlib/Algebra/Category/ModuleCat/Basic.lean": "a6b4a4cb8ea193082009ecb722c8ec68616adbbdcbeef784d82cbc4098aac0c7",
+    ".lake/packages/mathlib/Mathlib/CategoryTheory/Limits/Shapes/Products.lean": "b9651ff9397cf58446f5c98353449254018c6d4b69bf83ced693ce1df3e2d541",
+    ".lake/packages/mathlib/Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean": "e6b4f446868626f7db9172179ad0ef84a2d2296476aaa490a6b4730ec0f9d89b"
+  },
+  "definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "summary": "All eight frozen repaired-leaf deltas preserve exact original54 declared statements, ambient scopes/universes/hypotheses and all original data-definition maps/objects. New aliases/reassociations/projections only expose the same native category/LinearMap operations. No new public declaration, signature assumption or weakened conclusion."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "existing_sha_matching_strict_default_compile_records_read_without_compiler_invocation": {
+    "ASGinzburg/FiniteDiagramClosureMaps.lean": {
+      "record": "work/lean-upgrade/category-finite-diagram-closure-maps-compile-01.json",
+      "record_sha256": "4b8f10d663df7bd20441107533a1074ca24c71b1de0291ffa34ecbedf7414770",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/FiniteDiagramClosureMaps.lean"
+      ],
+      "source": "ASGinzburg/FiniteDiagramClosureMaps.lean",
+      "source_sha256": "dc6e7a8630f6f620142e5d6af8992803dcd2dc5ce35dea13bc6e6aa3963d3bb6",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/category-finite-diagram-closure-maps-compile-01.lean.source",
+      "started_at_utc": "2026-10-10T14:54:14.144496+00:00",
+      "finished_at_utc": "2026-10-10T14:54:17.740185+00:00",
+      "elapsed_seconds": 3.5956957950038486,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/category-finite-diagram-closure-maps-compile-01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wrote_olean": false
+    },
+    "ASGinzburg/FiniteDimensionalProjectiveDimension.lean": {
+      "record": "work/lean-upgrade/tor-migration-build22-finite-dimensional-projective-dimension-1.json",
+      "record_sha256": "0026a95347f528004c7b564403775be4b86019bbb0ebb95aeed6e291e45d8798",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/FiniteDimensionalProjectiveDimension.lean"
+      ],
+      "source": "ASGinzburg/FiniteDimensionalProjectiveDimension.lean",
+      "source_sha256": "605289161de3b76f0c5aeeefc7059f80d82689d526b9ac5043965a36d03e0107",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/tor-migration-build22-finite-dimensional-projective-dimension-1.lean.source",
+      "started_at_utc": "2026-10-10T14:53:23.986577+00:00",
+      "finished_at_utc": "2026-10-10T14:53:27.832828+00:00",
+      "elapsed_seconds": 3.8462512670012075,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/tor-migration-build22-finite-dimensional-projective-dimension-1.log",
+      "log_sha256": "16820f087d780e3eb6fcdee71e74d75107eeb2d2eee8c3f69c78c4b2b201bc68",
+      "wrote_olean": false
+    },
+    "ASGinzburg/FiniteDimensionalRegularExtComparison.lean": {
+      "record": "work/lean-upgrade/category-finite-dimensional-regular-ext-comparison-compile-02.json",
+      "record_sha256": "564a4992adbc4ea53dde68bb78dc4865c3faa6689592a95f88f12c6669e03323",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/FiniteDimensionalRegularExtComparison.lean"
+      ],
+      "source": "ASGinzburg/FiniteDimensionalRegularExtComparison.lean",
+      "source_sha256": "6e4464743dd37a9a1f6c6469cf01733907bc85a76f0f58b22c06b4ceae2f3dfa",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/category-finite-dimensional-regular-ext-comparison-compile-02.lean.source",
+      "started_at_utc": "2026-10-10T14:56:46.056726+00:00",
+      "finished_at_utc": "2026-10-10T14:58:56.943266+00:00",
+      "elapsed_seconds": 130.88658986600058,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/category-finite-dimensional-regular-ext-comparison-compile-02.log",
+      "log_sha256": "1306a9f223cf280e972ca638ca01390cfc3be481c76a18848257b553ec6cd82e",
+      "wrote_olean": false
+    },
+    "ASGinzburg/FiniteProjectivePresentations.lean": {
+      "record": "work/lean-upgrade/algebra-finite-projective-presentations-02.json",
+      "record_sha256": "bc62a5230e30d1b2446a442c78f849a126bb3ff46977e6ed1ffea06ef85801f4",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/FiniteProjectivePresentations.lean"
+      ],
+      "source": "ASGinzburg/FiniteProjectivePresentations.lean",
+      "source_sha256": "59a097885407db39091bd8cc64b9df72a0eb7e1886f1696daa2826ba6b15db66",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/algebra-finite-projective-presentations-02.lean.source",
+      "started_at_utc": "2026-10-10T14:54:06.394204+00:00",
+      "finished_at_utc": "2026-10-10T14:54:12.173997+00:00",
+      "elapsed_seconds": 5.7798382219989435,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/algebra-finite-projective-presentations-02.log",
+      "log_sha256": "7f6f9035c6737dc17e6b83ed5fcd0b3d2d99695b6456716a52427e8553375086",
+      "wrote_olean": false
+    },
+    "ASGinzburg/GinzburgASProjectiveResolution.lean": {
+      "record": "work/lean-upgrade/category-ginzburg-as-projective-resolution-compile-03.json",
+      "record_sha256": "f0da13d0598467ce795597df27718c30556809569c39f9876ef8678fadfd2894",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/GinzburgASProjectiveResolution.lean"
+      ],
+      "source": "ASGinzburg/GinzburgASProjectiveResolution.lean",
+      "source_sha256": "96aab0463b194155c7ef3b14d7130e44451e3082560d36c232bdf0909202e885",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/category-ginzburg-as-projective-resolution-compile-03.lean.source",
+      "started_at_utc": "2026-10-10T14:53:54.770978+00:00",
+      "finished_at_utc": "2026-10-10T14:53:59.149564+00:00",
+      "elapsed_seconds": 4.378594551002607,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/category-ginzburg-as-projective-resolution-compile-03.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wrote_olean": false
+    },
+    "ASGinzburg/GinzburgArrowOppositeClasses.lean": {
+      "record": "work/lean-upgrade/ideals-GinzburgArrowOppositeClasses-01.json",
+      "record_sha256": "b5994d7e86d6580ec1eba404079054a2cd3172402c022907e7d29447aff8d915",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/GinzburgArrowOppositeClasses.lean"
+      ],
+      "source": "ASGinzburg/GinzburgArrowOppositeClasses.lean",
+      "source_sha256": "967cc81648f81c0bec37b201ad64835ae463297384bbcb004a2bd86e9c5a9930",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/ideals-GinzburgArrowOppositeClasses-01.lean.source",
+      "started_at_utc": "2026-10-10T14:53:33.653017+00:00",
+      "finished_at_utc": "2026-10-10T14:53:37.362778+00:00",
+      "elapsed_seconds": 3.709766676001891,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/ideals-GinzburgArrowOppositeClasses-01.log",
+      "log_sha256": "9734242071c484b664f6a0e12dc79e922c4e4b5bf70566b081857a2c10c34aa4",
+      "wrote_olean": false
+    },
+    "ASGinzburg/GinzburgFirstADualFormula.lean": {
+      "record": "work/lean-upgrade/ideals-GinzburgFirstADualFormula-01.json",
+      "record_sha256": "e7774653b3d354ae245e0e78d35c1b3eb956484b7c7334ff8d13524bd55c03ef",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/GinzburgFirstADualFormula.lean"
+      ],
+      "source": "ASGinzburg/GinzburgFirstADualFormula.lean",
+      "source_sha256": "ba69f3d6692faee7fa2c0bf8cbce6e0884d14009a68a14420c3e964b53f45c41",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/ideals-GinzburgFirstADualFormula-01.lean.source",
+      "started_at_utc": "2026-10-10T14:53:00.614447+00:00",
+      "finished_at_utc": "2026-10-10T14:53:17.520061+00:00",
+      "elapsed_seconds": 16.90561433500261,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/ideals-GinzburgFirstADualFormula-01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wrote_olean": false
+    },
+    "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean": {
+      "record": "work/lean-upgrade/paths-GinzburgProjectiveCoordinateFormulas-build22-01.json",
+      "record_sha256": "97c3e7cc9571e4b4a7339fa624a6afb00a92ed05cb48a018ebd6c2e9a4421534",
+      "command": [
+        "bash",
+        "scripts/with_lean.sh",
+        "lake",
+        "env",
+        "lean",
+        "-DautoImplicit=false",
+        "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean"
+      ],
+      "source": "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean",
+      "source_sha256": "3879d483f57d7d43c7aa79c55a0fb7e0ec3e1e136e90ddc668d23e99336353f5",
+      "source_unchanged": true,
+      "source_snapshot": "work/lean-upgrade/paths-GinzburgProjectiveCoordinateFormulas-build22-01.lean.source",
+      "started_at_utc": "2026-10-10T14:52:56.095379+00:00",
+      "finished_at_utc": "2026-10-10T14:53:14.133976+00:00",
+      "elapsed_seconds": 18.03862284799834,
+      "exit_code": 0,
+      "log": "work/lean-upgrade/paths-GinzburgProjectiveCoordinateFormulas-build22-01.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wrote_olean": false
+    }
+  },
+  "all8_current_public_default_exit0": true,
+  "new_full_build23_status": "Parent announced fresh full1373 build23 with LEAN_NUM_THREADS=1 and resource watcher; no completion or success claim in this bounded review.",
+  "source_consistency_after_manual_review": {
+    "observed_at_utc": "2026-10-10T15:00:46.377859+00:00",
+    "all8_sources_unchanged": true,
+    "source_sha256": {
+      "ASGinzburg/FiniteDiagramClosureMaps.lean": "dc6e7a8630f6f620142e5d6af8992803dcd2dc5ce35dea13bc6e6aa3963d3bb6",
+      "ASGinzburg/FiniteDimensionalProjectiveDimension.lean": "605289161de3b76f0c5aeeefc7059f80d82689d526b9ac5043965a36d03e0107",
+      "ASGinzburg/FiniteDimensionalRegularExtComparison.lean": "6e4464743dd37a9a1f6c6469cf01733907bc85a76f0f58b22c06b4ceae2f3dfa",
+      "ASGinzburg/FiniteProjectivePresentations.lean": "59a097885407db39091bd8cc64b9df72a0eb7e1886f1696daa2826ba6b15db66",
+      "ASGinzburg/GinzburgASProjectiveResolution.lean": "96aab0463b194155c7ef3b14d7130e44451e3082560d36c232bdf0909202e885",
+      "ASGinzburg/GinzburgArrowOppositeClasses.lean": "967cc81648f81c0bec37b201ad64835ae463297384bbcb004a2bd86e9c5a9930",
+      "ASGinzburg/GinzburgFirstADualFormula.lean": "ba69f3d6692faee7fa2c0bf8cbce6e0884d14009a68a14420c3e964b53f45c41",
+      "ASGinzburg/GinzburgProjectiveCoordinateFormulas.lean": "3879d483f57d7d43c7aa79c55a0fb7e0ec3e1e136e90ddc668d23e99336353f5"
+    }
+  },
+  "manual_review_completed_at_utc": "2026-10-10T15:00:46.378306+00:00",
+  "limitations": [
+    "Bounded review of eight frozen repaired modules and54 original declarations, inheriting prior complete6909/1373 checkpoint9 review; not a fresh independent full1373 snapshot or final verification freeze.",
+    "Existing owner strict-default current-source compile records all8 exit0 were read and source/snapshot/log hashes verified; reviewer launched no compiler or build and edited no public source/config/Git files.",
+    "Latest earlier fullbuild22 was interrupted-9 with nonexhaustive errors. New fullbuild23 and full6909 axiom audit are pending parent verification; no global completion claim."
+  ]
+}

@@ -1,0 +1,114 @@
+ASGinzburg/FiniteDimensionalRegularExtComparison.lean:17:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FiniteDimensionalRegularExtComparison.lean:65:84: error: unexpected token 'set_option'; expected 'lemma'
+ASGinzburg/FiniteDimensionalRegularExtComparison.lean:75:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FiniteDimensionalRegularExtComparison.lean:84:77: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((A.rightModuleExtCovariant M ?n).map (Sigma.ι (fun j => A.representable j) ?i) ≫
+      ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM ?n)) ≫
+    ?h
+in the target expression
+  H.map
+        (A.representableFunctor.map
+          (have this := a;
+          this)) ≫
+      ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => Abelian.Ext M (A.representable j) n) j) =
+    H.map (Sigma.ι (fun t => A.representable t) i) ≫
+      ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft M n) a)
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+M : A.RightModule
+hM : A.rightFiniteDimensionalProperty M
+n : ℕ
+i j : ℤ
+a : A.Hom i j
+H : A.RightModule ⥤ ModuleCat k := A.rightModuleExtCovariant M n
+this : PreservesColimitsOfShape (Discrete ℤ) (A.rightModuleExtCovariant M n) :=
+  rightFiniteDimensionalExtPreservesCoproducts A Q hAS M hM ℤ n
+⊢ H.map
+        (A.representableFunctor.map
+          (have this := a;
+          this)) ≫
+      ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => Abelian.Ext M (A.representable j) n) j) =
+    H.map (Sigma.ι (fun t => A.representable t) i) ≫
+      ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft M n) a)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.representableFunctor.map
+      (have this := a;
+      this)
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representableFunctor.obj { index := i }) (A.representableFunctor.obj { index := j })
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (A.representableFunctor.obj { index := j })
+  in the application
+    H.map
+      (A.representableFunctor.map
+        (have this := a;
+        this))
+ASGinzburg/FiniteDimensionalRegularExtComparison.lean:96:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((A.rightModuleExtCovariant M ?n).map (Sigma.ι (fun j => A.representable j) ?i) ≫
+      ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM ?n)) ≫
+    ?h
+in the target expression
+  0 =
+    H.map (Sigma.ι (fun t => A.representable t) l) ≫
+      ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft M n) a)
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+M : A.RightModule
+hM : A.rightFiniteDimensionalProperty M
+n : ℕ
+i j : ℤ
+a : A.Hom i j
+H : A.RightModule ⥤ ModuleCat k := A.rightModuleExtCovariant M n
+this : PreservesColimitsOfShape (Discrete ℤ) (A.rightModuleExtCovariant M n) :=
+  rightFiniteDimensionalExtPreservesCoproducts A Q hAS M hM ℤ n
+l : ℤ
+hl : ¬l = i
+⊢ 0 =
+    H.map (Sigma.ι (fun t => A.representable t) l) ≫
+      ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft M n) a)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver ↧(Abelian.Ext M A.rightRegularCoproduct n)
+      ↧(A.leftModuleTotalSpace (A.rightModuleExtLeft M n))
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver (H.obj (∐ fun t => A.representable t))
+      ↧(A.leftModuleTotalSpace (A.rightModuleExtLeft M n))
+  in the application
+    CategoryStruct.comp (ModuleCat.ofHom ↑(A.rightFiniteDimensionalExtRegularCoproductLinearEquiv Q hAS M hM n))

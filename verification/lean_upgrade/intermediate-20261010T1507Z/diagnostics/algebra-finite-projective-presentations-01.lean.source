@@ -61,7 +61,6 @@ noncomputable instance finiteFreeRightModuleProjective (M : A.RightModule)
     (hM : A.rightFiniteDimensionalProperty M) : Projective (A.finiteFreeRightModule M hM) :=
   A.rightFiniteProjectiveProperty_projective (A.finiteFreeRightModule_finiteProjective M hM)
 
-set_option backward.isDefEq.respectTransparency false in
 noncomputable instance finiteFreeRightModuleπEpi (M : A.RightModule)
     (hM : A.rightFiniteDimensionalProperty M) : Epi (A.finiteFreeRightModuleπ M hM) := by
   classical
@@ -153,7 +152,6 @@ noncomputable instance finiteFreeLeftModuleProjective (M : A.LeftModule)
     (hM : A.leftFiniteDimensionalProperty M) : Projective (A.finiteFreeLeftModule M hM) :=
   A.leftFiniteProjectiveProperty_projective (A.finiteFreeLeftModule_finiteProjective M hM)
 
-set_option backward.isDefEq.respectTransparency false in
 noncomputable instance finiteFreeLeftModuleπEpi (M : A.LeftModule)
     (hM : A.leftFiniteDimensionalProperty M) : Epi (A.finiteFreeLeftModuleπ M hM) := by
   classical

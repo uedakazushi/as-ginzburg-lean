@@ -1,0 +1,187 @@
+{
+  "status": "closed_read_only_sdk_and_binary_inspection",
+  "recorded_at_utc": "2026-10-10T14:54:18.964654+00:00",
+  "git_head": "7c7cdbf1e4123a3df287e8a0e552ec2fef056715",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "compiler_or_build_launched": false,
+  "compiler_process_concurrency_measured": false,
+  "public_source_or_scripts_changed_by_this_inspection": false,
+  "proof_limits_or_kernel_trust_changed": false,
+  "findings": {
+    "lake_runtime_pool_control": "LEAN_NUM_THREADS=1 is read by lean_init_task_manager called by the Lake executable main; when unset the initializer uses hardware_concurrency.",
+    "lake_job_scheduling": "Job.async and Job.mapM use default-priority Lean runtime tasks. compileLeanModule invokes rawProc / IO.Process.output, which blocks until its compiler subprocess completes; stdout has a dedicated reader task.",
+    "expected_effect": "One Lake runtime worker is expected to restrict ordinary module compilation jobs to one active compiler process. This is a source/binary conclusion pending an actual process-count measurement.",
+    "child_lean_internal_threads": "The lean executable uses ShellOptions.numThreads through scoped_task_manager, with hardware concurrency as the CLI default. Its -j / --threads option controls internal compiler threads. LEAN_NUM_THREADS does not override that CLI default.",
+    "unsupported_lake_controls": "No LAKE_JOBS or LEAN_NUM_THREADS reader exists in Lake source and BuildConfig has no jobs/concurrency limit field. LEAN_NUM_THREADS is recognized by the shared Lean runtime instead.",
+    "verification_driver": "run_verification.py copies os.environ and passes it to every stage; with_lean.sh preserves LEAN_NUM_THREADS. Thus setting it externally leaves the normal full lake build command and proof limits intact.",
+    "fallback": "If actual process counts contradict serialization, prebuild modules one at a time in import order with all direct dependencies current, then run the unchanged usual full verification driver. This fallback is not executed or certified here."
+  },
+  "source_evidence": [
+    {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/src/lean/lake/LakeMain.lean",
+      "sha256": "ef0cbdf88cbfb0f510c105d77116736cbe3963155101344a15a1517953889c64",
+      "excerpts": [
+        {
+          "first_line": 8,
+          "last_line": 15,
+          "text": "prelude\npublic import Init.System.IO\nimport Lake.DSL -- shake: keep (registers builtins)\nimport Lake.CLI.Main\n\npublic def main (args : List String) : IO UInt32 := do\n  Lake.cli args"
+        }
+      ]
+    },
+    {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/src/lean/lake/Lake/Build/Context.lean",
+      "sha256": "d89ba9d60d7e4406f14a743e368666ed61a55585f87f6aa9712d658721a5fbb4",
+      "excerpts": [
+        {
+          "first_line": 15,
+          "last_line": 66,
+          "text": "\n/-- Configuration options for a Lake build. -/\npublic structure BuildConfig extends LogConfig where\n  /-- Whether to use modification times for trace checking. -/\n  oldMode : Bool := false\n  /-- Whether to trust `.hash` files. -/\n  trustHash : Bool := true\n  /-- Early exit if a target has to be rebuilt. -/\n  noBuild : Bool := false\n  /-- Verbosity level (`-q`, `-v`, or neither). -/\n  verbosity : Verbosity := .normal\n  /-- Whether to print a message when the build finishes successfully (if not quiet). -/\n  showSuccess : Bool := false\n  /-- File to save input-to-output mappings from the build of the workspace's root -/\n  outputsFile? : Option FilePath := none\n  /--\n  Per-package Lean option overrides, applied to every module whose owning\n  package's `baseName` appears as a key. When `recFetchSetup` builds module\n  `M`, the `LeanOptions` associated with `M.pkg.baseName` (if any) are appended\n  to `M.leanOptions`, overriding clashing entries.\n\n  Used by `lake lint` to inject `linter.extra`/`linter.all` into every module\n  of a target package (so transitively-imported first-party modules capture\n  linter-tagged warnings), without touching dependencies.\n  -/\n  leanOptOverrides : Lean.NameMap Lean.LeanOptions := {}\n  /--\n  The miniumum OS version to target on MacOS.\n\n  If a minimum is not set, linkers default the minimum to the host major version and\n  will emit warnings if any lineed libraries (including system libraries) exceed the minium.\n  Thus, the linker will complain when building on a system with an unset minimum and system\n  libraries which require a higher minor version.\n\n  ```\n  ld64.lld: warning: /usr/lib/system/libsystem_kernel.dylib has version 13.5.0, which is newer than target minimum of 13.0.0\n  ```\n\n  To silence such warnings, Lake sets this far into the future by default (e.g., `99.0`).\n  However, that itself can be wrong if a consumer of Lean library uses the minimum OS version\n  to determine compatibility (e.g., Python does this). The far-flung version would then\n  imply zero compatibility.\n\n  In such cases, the desired deployment target can be manually specified . Depending on\n  the desired scope, it can be set per-target, for all targets within a buld (with this),\n  or across all builds with the environment variable `MACOSX_DEPLOYMENT_TARGET`.\n  -/\n  macosxDeploymentTarget? : Option String := none\n\n/--\nWhether the build should show progress information.\n"
+        }
+      ]
+    },
+    {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/src/lean/lake/Lake/Build/Job/Monad.lean",
+      "sha256": "b53c57817853f2b7e47401a90741f1914bae931a7773933cb9cd70dc6e429fd8",
+      "excerpts": [
+        {
+          "first_line": 170,
+          "last_line": 182,
+          "text": "  [OptDataKind α] (act : JobM α) (prio := Task.Priority.default) (caption := \"\")\n: SpawnM (Job α) := .ofFn fun fetch pkg? stack store ctx _ =>\n  .ofTask (caption := caption) <$> BaseIO.asTask (prio := prio) do\n    (withLoggedIO act).toFn fetch pkg? stack store ctx {}\n\n/-- Wait for a job to complete and return the result. -/\n@[inline] public protected def wait (self : Job α) : BaseIO (JobResult α) := do\n  IO.wait self.task\n\n/--\nWait for a job to complete and return the produced value.\nIf an error occurred, return `none` and discarded any logs produced.\n-/"
+        },
+        {
+          "first_line": 206,
+          "last_line": 217,
+          "text": "\n/--\nApply `f` asynchronously to the job's output\nand asynchronously await the resulting job.\n-/\n@[nospecialize] public def bindM\n  [kind : OptDataKind β] (self : Job α) (f : α → JobM (Job β))\n  (prio := Task.Priority.default) (sync := false)\n: SpawnM (Job β) := .ofFn fun fetch pkg? stack store ctx trace => do\n  self.bindTask fun task => do\n  BaseIO.bindTask task (prio := prio) (sync := sync) fun\n    | .ok a sa => do"
+        }
+      ]
+    },
+    {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/src/lean/lake/Lake/Build/Actions.lean",
+      "sha256": "9c7d7101f89eb1d0618d8a76b86c30d628932ed2d2088db29792fdf88fb1e870",
+      "excerpts": [
+        {
+          "first_line": 29,
+          "last_line": 67,
+          "text": "public def compileLeanModule\n  (leanFile relLeanFile : FilePath)\n  (setup : ModuleSetup) (setupFile : FilePath)\n  (arts : ModuleArtifacts)\n  (leanArgs : Array String := #[])\n  (leanPath : SearchPath := [])\n  (lean : FilePath := \"lean\")\n  (leanir : FilePath := \"leanir\")\n: LogIO Unit := do\n  let mut args := leanArgs.push leanFile.toString\n  if let some oleanFile := arts.olean? then\n    createParentDirs oleanFile\n    args := args ++ #[\"-o\", oleanFile.toString]\n  if let some ileanFile := arts.ilean? then\n    createParentDirs ileanFile\n    args := args ++ #[\"-i\", ileanFile.toString]\n  let opts := setup.options.toOptions\n  let postponeCompile := setup.isModule && Compiler.compiler.postponeCompile.get opts\n  if !postponeCompile then\n    if let some cFile := arts.c? then\n      createParentDirs cFile\n      args := args ++ #[\"-c\", cFile.toString]\n  if let some bcFile := arts.bc? then\n    createParentDirs bcFile\n    args := args ++ #[\"-b\", bcFile.toString]\n  createParentDirs setupFile\n  IO.FS.writeFile setupFile (toJson setup).pretty\n  args := args ++ #[\"--setup\", setupFile.toString]\n  args := args.push \"--json\"\n  withLogErrorPos do\n  let out ← rawProc {\n    args\n    cmd := lean.toString\n    env := #[\n      (\"LEAN_PATH\", leanPath.toString)\n    ]\n  }\n  let outLogPos ← getLogPos\n  unless out.stdout.isEmpty do"
+        }
+      ]
+    },
+    {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/src/lean/Init/System/IO.lean",
+      "sha256": "4612b91e65806364c814fc445b35598d8e26ee0f2a811ffde6c330d792dcddab",
+      "excerpts": [
+        {
+          "first_line": 1440,
+          "last_line": 1452,
+          "text": "  cwd : Option FilePath := none\n  /--\n  Add or remove environment variables for the child process.\n\n  The child process inherits the parent's environment, as modified by `env`. Keys in the array are\n  the names of environment variables. A `none`, causes the entry to be removed from the environment,\n  and `some` sets the variable to the new value, adding it if necessary. Variables are processed from left to right.\n  -/\n  env : Array (String × Option String) := #[]\n  /-- Inherit environment variables from the spawning process. -/\n  inheritEnv : Bool := true\n  /--\n  Starts the child process in a new session and process group using `setsid`. Currently a no-op on"
+        },
+        {
+          "first_line": 1537,
+          "last_line": 1558,
+          "text": "/--\nRuns a process to completion and captures its output and exit code.\nThe child process is run with a null standard input or the specified input if provided,\nand the current process blocks until it has run to completion.\n\nThe specifications of standard input, output, and error handles in `args` are ignored.\n-/\ndef output (args : SpawnArgs) (input? : Option String := none) : IO Output := do\n  let child ←\n    if let some input := input? then\n      let (stdin, child) ← (← spawn { args with stdout := .piped, stderr := .piped, stdin := .piped }).takeStdin\n      stdin.putStr input\n      stdin.flush\n      pure child\n    else\n      spawn { args with stdout := .piped, stderr := .piped, stdin := .null }\n  let stdout ← IO.asTask child.stdout.readToEnd Task.Priority.dedicated\n  let stderr ← child.stderr.readToEnd\n  let exitCode ← child.wait\n  let stdout ← IO.ofExcept stdout.get\n  pure { exitCode := exitCode, stdout := stdout, stderr := stderr }\n"
+        }
+      ]
+    },
+    {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/src/lean/Lean/Shell.lean",
+      "sha256": "4f584ae4d4cc859f39cdbb550df8e09417d1fd8e95046829ef821c2c95e2f940",
+      "excerpts": [
+        {
+          "first_line": 219,
+          "last_line": 237,
+          "text": "/-- Returns the default number of threads for the shell's task manager. -/\ndef defaultNumThreads : UInt32 :=\n  if Internal.isMultiThread () then\n    Platform.Internal.getHardwareConcurrency ()\n  else 0\n\nstructure ShellOptions where\n  leanOpts : Options := {}\n  forwardedArgs : Array String := #[]\n  component : ShellComponent := .frontend\n  printPrefix : Bool := false\n  printLibDir : Bool := false\n  useStdin : Bool := false\n  onlyDeps : Bool := false\n  onlySrcDeps : Bool := false\n  depsJson : Bool := false\n  opts : Options := {}\n  trustLevel : UInt32 := defaultTrustLevel\n  numThreads : UInt32 := defaultNumThreads"
+        },
+        {
+          "first_line": 298,
+          "last_line": 308,
+          "text": "    Internal.setExitOnPanic true\n    return opts\n  | 'j' => -- `-j, --threads=num`\n    let arg ← checkOptArg \"j\" optArg?\n    let some numThreads := arg.toNat?\n      | throwExpectedNumeric \"j\"\n    if h : numThreads < UInt32.size then\n      let numThreads := UInt32.ofNatLT numThreads h\n      let forwardedArgs := opts.forwardedArgs.push s!\"-j{arg}\";\n      return {opts with forwardedArgs, numThreads}\n    else"
+        }
+      ]
+    },
+    {
+      "path": "scripts/run_verification.py",
+      "sha256": "1c20f0ed593b8b313a4684b980a9fb53262183bb8b8b3f22cb62084c313f545f",
+      "excerpts": [
+        {
+          "first_line": 37,
+          "last_line": 40,
+          "text": "        with open(output, 'a') as stream:\n            stream.write(f'run_dir={run_dir.relative_to(ROOT)}\\n')\n    child_environment = os.environ.copy()\n    # Nested regression fixtures must not replace this job step's artifact path."
+        },
+        {
+          "first_line": 54,
+          "last_line": 57,
+          "text": "    stages += [('environment', [*py, 'scripts/check_environment.py', '--output-dir', str(run_dir)], 'environment.log'),\n               ('build', [*wrapper, 'lake', 'build', 'ASGinzburg'], 'build.log'),\n               ('axioms', [*wrapper, 'lake', 'env', *py, 'scripts/run_axiom_audit.py',\n                          '--run-dir', str(run_dir), '--jobs', str(args.axiom_jobs)], 'axioms.log'),"
+        },
+        {
+          "first_line": 67,
+          "last_line": 71,
+          "text": "            with (run_dir / log).open('w') as stream:\n                try:\n                    process = subprocess.Popen(command, cwd=ROOT, env=child_environment,\n                                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)\n                    for line in process.stdout:"
+        }
+      ]
+    },
+    {
+      "path": "scripts/with_lean.sh",
+      "sha256": "4f4a2c3e2af4fcec4816b648f53aabbda58c28a9128df3471e593ec438f7d656",
+      "excerpts": [
+        {
+          "first_line": 1,
+          "last_line": 21,
+          "text": "#!/usr/bin/env bash\nset -euo pipefail\nproject_dir=$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/..\" && pwd)\nexport MATHLIB_CACHE_DIR=\"${MATHLIB_CACHE_DIR:-$project_dir/.lake/cache/mathlib}\"\nif [ -n \"${AS_GINZBURG_LEAN_ROOT:-}\" ]; then\n  export PATH=\"$AS_GINZBURG_LEAN_ROOT/bin:$PATH\"\nfi\nif [ \"${AS_GINZBURG_PROC_SELF_FIX:-0}\" = 1 ]; then\n  shim=\"$project_dir/.lake/proc_self.so\"\n  if [ ! -f \"$shim\" ]; then\n    mkdir -p \"$project_dir/.lake\"\n    cc -shared -fPIC -o \"$shim\" \"$project_dir/scripts/proc_self.c\" -ldl\n  fi\n  export LD_PRELOAD=\"$shim${LD_PRELOAD:+:$LD_PRELOAD}\"\n  export TAR_OPTIONS=\"--no-same-owner${TAR_OPTIONS:+ $TAR_OPTIONS}\"\nfi\nexec \"$@\""
+        }
+      ]
+    }
+  ],
+  "lake_source_search": {
+    "pattern": "LAKE_JOBS|LEAN_NUM_THREADS",
+    "root": "work/lean-upgrade/lean-4.34.1-linux/src/lean/lake",
+    "exit_code": 1,
+    "matches": []
+  },
+  "binary_evidence": {
+    "lake": {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/bin/lake",
+      "sha256": "6f53827dab18010d6c690d14c8401cacabc1db958edb3552a877ed4cf1dd995d",
+      "main_calls_runtime_initializer": {
+        "command": [
+          "objdump",
+          "-d",
+          "--disassemble=main",
+          "/workspace/as-ginzburg-lean/work/lean-upgrade/lean-4.34.1-linux/bin/lake"
+        ],
+        "exit_code": 0,
+        "excerpt": "    2520:\tff c8                \tdec    %eax\n    2522:\t89 03                \tmov    %eax,(%rbx)\n    2524:\te8 67 02 00 00       \tcall   2790 <lean_init_task_manager@plt>\n    2529:\t48 8d 3d 10 ff ff ff \tlea    -0xf0(%rip),%rdi        # 2440 <run_main>\n    2530:\t89 ee                \tmov    %ebp,%esi"
+      }
+    },
+    "lean_runtime": {
+      "path": "work/lean-upgrade/lean-4.34.1-linux/lib/lean/libleanshared.so",
+      "sha256": "6b30cc963d065fc9d2f87f7e9cbe0682b23000ae5425bccd769c5d477fa74f13",
+      "initializer_disassembly": {
+        "command": [
+          "objdump",
+          "-d",
+          "--disassemble=lean_init_task_manager",
+          "/workspace/as-ginzburg-lean/work/lean-upgrade/lean-4.34.1-linux/lib/lean/libleanshared.so"
+        ],
+        "exit_code": 0,
+        "excerpt": "\n/workspace/as-ginzburg-lean/work/lean-upgrade/lean-4.34.1-linux/lib/lean/libleanshared.so:     file format elf64-x86-64\n\n\nDisassembly of section .init:\n\nDisassembly of section .fini:\n\nDisassembly of section .text:\n\n0000000009900cd0 <lean_init_task_manager>:\n 9900cd0:\t41 56                \tpush   %r14\n 9900cd2:\t53                   \tpush   %rbx\n 9900cd3:\t50                   \tpush   %rax\n 9900cd4:\t48 8d 3d c7 70 96 f8 \tlea    -0x7698f39(%rip),%rdi        # 2267da2 <GCC_except_table2+0x8cd2>\n 9900cdb:\te8 80 e2 10 00       \tcall   9a0ef60 <getenv@plt>\n 9900ce0:\t48 85 c0             \ttest   %rax,%rax\n 9900ce3:\t74 65                \tje     9900d4a <lean_init_task_manager+0x7a>\n 9900ce5:\t48 89 c7             \tmov    %rax,%rdi\n 9900ce8:\t31 f6                \txor    %esi,%esi\n 9900cea:\tba 0a 00 00 00       \tmov    $0xa,%edx\n 9900cef:\te8 0c e7 10 00       \tcall   9a0f400 <strtol@plt>\n 9900cf4:\t48 89 c3             \tmov    %rax,%rbx\n 9900cf7:\t85 db                \ttest   %ebx,%ebx\n 9900cf9:\t74 47                \tje     9900d42 <lean_init_task_manager+0x72>\n 9900cfb:\tbf a0 02 00 00       \tmov    $0x2a0,%edi\n 9900d00:\te8 bb e0 10 00       \tcall   9a0edc0 <_Znwm>\n 9900d05:\t49 89 c6             \tmov    %rax,%r14\n 9900d08:\t0f 57 c0             \txorps  %xmm0,%xmm0\n 9900d0b:\t0f 11 00             \tmovups %xmm0,(%rax)\n 9900d0e:\t0f 11 40 10          \tmovups %xmm0,0x10(%rax)\n 9900d12:\t0f 11 40 20          \tmovups %xmm0,0x20(%rax)\n 9900d16:\t0f 11 40 30          \tmovups %xmm0,0x30(%rax)\n 9900d1a:\tc7 40 40 00 00 00 00 \tmovl   $0x0,0x40(%rax)\n 9900d21:\t89 58 44             \tmov    %ebx,0x44(%rax)\n 9900d24:\tc7 40 48 00 00 00 00 \tmovl   $0x0,0x48(%rax)\n 9900d2b:\t48 8d 78 50          \tlea    0x50(%rax),%rdi\n 9900d2f:\tba 49 02 00 00       \tmov    $0x249,%edx\n 9900d34:\t31 f6                \txor    %esi,%esi\n 9900d36:\te8 15 e2 10 00       \tcall   9a0ef50 <memset@plt>\n 9900d3b:\t4c 89 35 ee 33 4c 00 \tmov    %r14,0x4c33ee(%rip)        # 9dc4130 <_ZN4leanL14g_task_managerE>\n 9900d42:\t48 83 c4 08          \tadd    $0x8,%rsp\n 9900d46:\t5b                   \tpop    %rbx\n 9900d47:\t41 5e                \tpop    %r14\n 9900d49:\tc3                   \tret\n 9900d4a:\te8 d1 1a 06 00       \tcall   9962820 <_ZNSt3__16thread20hardware_concurrencyEv>\n 9900d4f:\t89 c3                \tmov    %eax,%ebx\n 9900d51:\t85 db                \ttest   %ebx,%ebx\n 9900d53:\t75 a6                \tjne    9900cfb <lean_init_task_manager+0x2b>\n 9900d55:\teb eb                \tjmp    9900d42 <lean_init_task_manager+0x72>\n\nDisassembly of section __lcxx_override:\n\nDisassembly of section .plt:"
+      },
+      "shell_threads_disassembly": {
+        "command": [
+          "objdump",
+          "-d",
+          "--disassemble=lean_main",
+          "/workspace/as-ginzburg-lean/work/lean-upgrade/lean-4.34.1-linux/lib/lean/libleanshared.so"
+        ],
+        "exit_code": 0,
+        "excerpt": " 340fc88:\t8b 07                \tmov    (%rdi),%eax\n 340fc8a:\t85 c0                \ttest   %eax,%eax\n 340fc8c:\t0f 8e 02 01 00 00    \tjle    340fd94 <lean_main+0x2c4>\n 340fc92:\tff c0                \tinc    %eax\n 340fc94:\t89 07                \tmov    %eax,(%rdi)\n 340fc96:\te8 75 be 3b 06       \tcall   97cbb10 <lean_shell_options_get_num_threads>\n 340fc9b:\t48 8d 7c 24 0e       \tlea    0xe(%rsp),%rdi\n 340fca0:\t89 c6                \tmov    %eax,%esi\n 340fca2:\te8 e9 10 4f 06       \tcall   9900d90 <_ZN4lean19scoped_task_managerC1Ej>\n 340fca7:\tc7 44 24 1c 01 00 00 \tmovl   $0x1,0x1c(%rsp)\n 340fcae:\t00 "
+      },
+      "runtime_environment_name_at_address_0x2267da2": "LEAN_NUM_THREADS"
+    }
+  },
+  "limitations": [
+    "No Lake or Lean compiler was launched by this inspection.",
+    "No empirical child-process concurrency count is recorded; root owns the next full build and measurement.",
+    "Dedicated stdout reader threads may remain; they do not compile separate modules.",
+    "LEAN_NUM_THREADS limits the Lake scheduler, not a single compiler proof workload or RSS."
+  ]
+}

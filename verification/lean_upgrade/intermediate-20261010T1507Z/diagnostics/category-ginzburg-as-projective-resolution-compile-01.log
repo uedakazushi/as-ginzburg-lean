@@ -1,0 +1,21 @@
+ASGinzburg/GinzburgASProjectiveResolution.lean:32:9: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+v : Q.LiftVertex
+⊢ 𝟙
+        ((HomologicalComplex.shortComplexFunctor' (Q.unrolledJacobianZAlgebra k φ).RightModule (ComplexShape.down ℕ) 1 0
+                0).obj
+            (Q.ginzburgASProjectiveComplex k φ v)).X₂ ≫
+      (Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v) =
+    (((Q.ginzburgASProjectiveComplex k φ v).toSingle₀Equiv
+                ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))).symm
+            ⟨(Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v), ⋯⟩).f
+        0 ≫
+      𝟙
+        ((HomologicalComplex.shortComplexFunctor' (Q.unrolledJacobianZAlgebra k φ).RightModule (ComplexShape.down ℕ) 1 0
+                0).obj
+            ((ChainComplex.single₀ (Q.unrolledJacobianZAlgebra k φ).RightModule).obj
+              ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)))).X₂
