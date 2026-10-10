@@ -1,0 +1,81 @@
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomMaps.lean:38:59: error: Type mismatch
+  zero_smul ?m.282 ?m.287
+has type
+  @HSMul.hSMul ?m.282 ?m.283 ?m.283
+      (@instHSMul ?m.282 ?m.283 (@SMulZeroClass.toSMul ?m.282 ?m.283 ?m.285 SMulWithZero.toSMulZeroClass)) 0 ?m.287 =
+    0
+but is expected to have type
+  @HSMul.hSMul (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) (BalancedTensorHom k R M X)
+      (@instHSMul (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X)
+        (@SMulZeroClass.toSMul (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X)
+          (balancedTensorHomAddCommGroup k R M X).toAddZeroClass.toZero DistribMulAction.toDistribSMul.toSMulZeroClass))
+      0 g =
+    0
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomMaps.lean:52:6: error: unsolved goals
+case refine_3
+k : Type u
+inst✝¹⁴ : Field k
+R : Type v
+inst✝¹³ : Ring R
+inst✝¹² : Algebra k R
+M : Type w
+inst✝¹¹ : AddCommGroup M
+inst✝¹⁰ : Module k M
+inst✝⁹ : Module Rᵐᵒᵖ M
+inst✝⁸ : IsScalarTower k Rᵐᵒᵖ M
+X : Type z
+inst✝⁷ : AddCommGroup X
+inst✝⁶ : Module k X
+inst✝⁵ : Module Rᵐᵒᵖ X
+inst✝⁴ : IsScalarTower k Rᵐᵒᵖ X
+Y : Type z'
+inst✝³ : AddCommGroup Y
+inst✝² : Module k Y
+inst✝¹ : Module Rᵐᵒᵖ Y
+inst✝ : IsScalarTower k Rᵐᵒᵖ Y
+f : X →ₗ[Rᵐᵒᵖ] Y
+this✝ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) := envelopingBalancedTensorHomModule k R M X
+this : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M Y) := envelopingBalancedTensorHomModule k R M Y
+fk : X →ₗ[k] Y := ↑k f
+t : AlgebraEnvelopingRing k R
+g : BalancedTensorHom k R M X
+x : M
+a b : R ⊗[k] Rᵐᵒᵖ
+ha :
+  (fun x =>
+        (have this := fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) (a • g);
+          this)
+          x)
+      x =
+    (fun x =>
+        (have this := (RingHom.id (AlgebraEnvelopingRing k R)) a • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g;
+          this)
+          x)
+      x
+hb :
+  (fun x =>
+        (have this := fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) (b • g);
+          this)
+          x)
+      x =
+    (fun x =>
+        (have this := (RingHom.id (AlgebraEnvelopingRing k R)) b • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g;
+          this)
+          x)
+      x
+⊢ f ((a • g) x) + f ((b • g) x) =
+    (a • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g) x + (b • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g) x
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomMaps.lean:56:66: warning: This simp argument is unused:
+  ha
+
+Hint: Omit it from the simp argument list.
+  simp only [add_smul, ̲balancedTensorHom_add_apply, ̲f.map_add, ̲ha̵,̵h̵b]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomMaps.lean:56:69: warning: This simp argument is unused:
+  hb
+
+Hint: Omit it from the simp argument list.
+  simp only [add_smul, ̲balancedTensorHom_add_apply, ̲f.map_add, ̲ha,̵h̵b̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

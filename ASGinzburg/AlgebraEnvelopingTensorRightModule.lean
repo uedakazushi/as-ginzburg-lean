@@ -1,0 +1,57 @@
+import ASGinzburg.AlgebraEnvelopingRegularModule
+import Mathlib.LinearAlgebra.TensorProduct.Opposite
+
+/-! A right module over the actual enveloping ring on a tensor of a
+right and a left module. Pure tensors act by `(m ⊗ n)(a ⊗ bᵒᵖ) = ma ⊗ bn`.
+This is the module used in comparing enveloping tensor products with
+the noncommutative balanced tensor product. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+variable [IsScalarTower k Rᵐᵒᵖ M] [IsScalarTower k R N]
+
+noncomputable def tensorRightEnvelopingRepresentation :
+    (AlgebraEnvelopingRing k R)ᵐᵒᵖ →ₐ[k] Module.End k (M ⊗[k] N) :=
+  (Module.endTensorEndAlgHom (R := k) (S := k) (A := k) (M := M) (N := N)).comp
+    ((Algebra.TensorProduct.map (Algebra.lsmul k k M)
+      ((Algebra.lsmul k k N).comp (AlgEquiv.opOp k R).symm.toAlgHom)).comp
+      (Algebra.TensorProduct.opAlgEquiv k k R Rᵐᵒᵖ).symm.toAlgHom)
+
+theorem tensorRightEnvelopingRepresentation_tmul (a b : R) (m : M) (n : N) :
+    tensorRightEnvelopingRepresentation k R M N (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b))
+      (m ⊗ₜ[k] n) = (MulOpposite.op a • m) ⊗ₜ[k] (b • n) := by
+  rfl
+
+noncomputable def tensorRightEnvelopingModule :
+    Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ (M ⊗[k] N) :=
+  Module.compHom _ (tensorRightEnvelopingRepresentation k R M N).toRingHom
+
+theorem tensorRightEnvelopingModule_tmul_smul (a b : R) (m : M) (n : N) :
+    letI := tensorRightEnvelopingModule k R M N
+    MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b) • (m ⊗ₜ[k] n) =
+      (MulOpposite.op a • m) ⊗ₜ[k] (b • n) := by
+  letI := tensorRightEnvelopingModule k R M N
+  exact tensorRightEnvelopingRepresentation_tmul k R M N a b m n
+
+noncomputable def tensorRightEnvelopingScalarTower :
+    letI := tensorRightEnvelopingModule k R M N
+    IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (M ⊗[k] N) := by
+  letI := tensorRightEnvelopingModule k R M N
+  constructor
+  intro c a x
+  change tensorRightEnvelopingRepresentation k R M N (c • a) x =
+    c • tensorRightEnvelopingRepresentation k R M N a x
+  rw [map_smul, LinearMap.smul_apply]
+
+noncomputable def tensorRightEnvelopingScalarComm :
+    letI := tensorRightEnvelopingModule k R M N
+    SMulCommClass k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (M ⊗[k] N) := by
+  letI := tensorRightEnvelopingModule k R M N
+  constructor
+  intro c a x
+  exact ((tensorRightEnvelopingRepresentation k R M N a).map_smul c x).symm
+
+end ASGinzburg

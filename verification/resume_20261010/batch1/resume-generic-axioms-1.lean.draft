@@ -1,0 +1,186 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingBimoduleMaps
+import work.ASGinzburgDraft.AlgebraEnvelopingRegularModule
+import work.ASGinzburgDraft.AlgebraEnvelopingScalars
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorRightMaps
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorRightModule
+import work.ASGinzburgDraft.BalancedTensorAdjunction
+import work.ASGinzburgDraft.BalancedTensorEnvelopingComparison
+import work.ASGinzburgDraft.BalancedTensorEnvelopingNaturality
+import work.ASGinzburgDraft.BalancedTensorHom
+import work.ASGinzburgDraft.BalancedTensorHomEquiv
+import work.ASGinzburgDraft.BalancedTensorHomFunctor
+import work.ASGinzburgDraft.BalancedTensorHomMaps
+import work.ASGinzburgDraft.BalancedTensorLeftAdjunction
+import work.ASGinzburgDraft.BalancedTensorLeftFunctor
+import work.ASGinzburgDraft.BalancedTensorLeftMaps
+import work.ASGinzburgDraft.BalancedTensorLeftUnit
+import work.ASGinzburgDraft.BalancedTensorMinimalMaps
+import work.ASGinzburgDraft.BalancedTensorRightFunctor
+import work.ASGinzburgDraft.BalancedTensorRightMapLaws
+import work.ASGinzburgDraft.BalancedTensorRightMaps
+import work.ASGinzburgDraft.BalancedTensorSpace
+import work.ASGinzburgDraft.BalancedTensorSwap
+import work.ASGinzburgDraft.BalancedTensorSwapNaturality
+import work.ASGinzburgDraft.BalancedTensorTor
+import work.ASGinzburgDraft.BalancedTensorTorLeft
+import work.ASGinzburgDraft.BalancedTensorTorResolution
+import work.ASGinzburgDraft.BalancedTensorUniversal
+import work.ASGinzburgDraft.FiniteBiproductProjectiveDimension
+import work.ASGinzburgDraft.MapProjectiveResolutionOfTerms
+import work.ASGinzburgDraft.OneDimensionalRightRepresentationCharacter
+import work.ASGinzburgDraft.ScalarProductSeparability
+import work.ASGinzburgDraft.ScalarQuotientProjectiveDimension
+import work.ASGinzburgDraft.ScalarQuotientVertexDecomposition
+
+#print axioms ASGinzburg.bimoduleEnvelopingModule
+#print axioms ASGinzburg.bimoduleEnvelopingModule_tmul_smul
+#print axioms ASGinzburg.regularEnvelopingModule_eq_bimoduleEnvelopingModule
+#print axioms ASGinzburg.bimoduleEnvelopingLinearMap
+#print axioms ASGinzburg.bimoduleEnvelopingLinearMap_apply
+#print axioms ASGinzburg.bimoduleEnvelopingLinearMap_smul_iff
+#print axioms ASGinzburg.AlgebraEnvelopingRing
+#print axioms ASGinzburg.regularRightAlgebraRepresentation
+#print axioms ASGinzburg.regularEnvelopingRepresentation
+#print axioms ASGinzburg.regularEnvelopingRepresentation_tmul
+#print axioms ASGinzburg.regularEnvelopingModule
+#print axioms ASGinzburg.regularEnvelopingModuleCat
+#print axioms ASGinzburg.regularEnvelopingModule_tmul_smul
+#print axioms ASGinzburg.regularEnvelopingScalarTower
+#print axioms ASGinzburg.regularEnvelopingScalarComm
+#print axioms ASGinzburg.regularEnvelopingModule_finite
+#print axioms ASGinzburg.tensorRightEnvelopingMap
+#print axioms ASGinzburg.tensorRightEnvelopingMap_apply
+#print axioms ASGinzburg.tensorRightEnvelopingMap_tmul
+#print axioms ASGinzburg.tensorRightEnvelopingMap_id
+#print axioms ASGinzburg.tensorRightEnvelopingMap_comp
+#print axioms ASGinzburg.tensorRightEnvelopingRepresentation
+#print axioms ASGinzburg.tensorRightEnvelopingRepresentation_tmul
+#print axioms ASGinzburg.tensorRightEnvelopingModule
+#print axioms ASGinzburg.tensorRightEnvelopingModule_tmul_smul
+#print axioms ASGinzburg.tensorRightEnvelopingScalarTower
+#print axioms ASGinzburg.tensorRightEnvelopingScalarComm
+#print axioms ASGinzburg.balancedTensorModuleHomEquiv
+#print axioms ASGinzburg.balancedTensorAdjunction
+#print axioms ASGinzburg.balancedTensorRightFunctorIsLeftAdjoint
+#print axioms ASGinzburg.balancedTensorEnvelopingPairEvaluation
+#print axioms ASGinzburg.balancedTensorEnvelopingPairEvaluation_tmul
+#print axioms ASGinzburg.balancedTensorEnvelopingPairEvaluation_balance
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonMap
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonMap_tmul
+#print axioms ASGinzburg.balancedTensorEnvelopingInsertion
+#print axioms ASGinzburg.balancedTensorEnvelopingInsertion_balance
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonInverse
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonInverse_tmul
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonEquiv
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonMap_naturality
+#print axioms ASGinzburg.balancedTensorEnvelopingComparisonInverse_naturality
+#print axioms ASGinzburg.BalancedTensorHom
+#print axioms ASGinzburg.balancedTensorHomAddCommGroup
+#print axioms ASGinzburg.balancedTensorHomModuleK
+#print axioms ASGinzburg.balancedTensorHomCoeFun
+#print axioms ASGinzburg.balancedTensorHomLinearEquiv
+#print axioms ASGinzburg.balancedTensorHomLinearEquiv_apply
+#print axioms ASGinzburg.balancedTensorHomLinearEquiv_symm_apply
+#print axioms ASGinzburg.balancedTensorHom_ext
+#print axioms ASGinzburg.balancedTensorHom_zero_apply
+#print axioms ASGinzburg.balancedTensorHom_add_apply
+#print axioms ASGinzburg.balancedTensorHom_smul_k_apply
+#print axioms ASGinzburg.balancedTensorHomModule
+#print axioms ASGinzburg.balancedTensorHom_smul_apply
+#print axioms ASGinzburg.balancedTensorHomIsScalarTower
+#print axioms ASGinzburg.balancedTensorHomSMulCommClass
+#print axioms ASGinzburg.balancedTensorCurry
+#print axioms ASGinzburg.balancedTensorCurry_apply
+#print axioms ASGinzburg.balancedTensorUncurryBilinear
+#print axioms ASGinzburg.balancedTensorUncurry
+#print axioms ASGinzburg.balancedTensorUncurry_tmul
+#print axioms ASGinzburg.balancedTensorHomEquiv
+#print axioms ASGinzburg.balancedTensorHomFunctor
+#print axioms ASGinzburg.balancedTensorHomFunctorAdditive
+#print axioms ASGinzburg.balancedTensorHomMap
+#print axioms ASGinzburg.balancedTensorHomMap_apply
+#print axioms ASGinzburg.balancedTensorCurry_naturality_source
+#print axioms ASGinzburg.balancedTensorCurry_naturality_target
+#print axioms ASGinzburg.balancedTensorUncurry_naturality_source
+#print axioms ASGinzburg.balancedTensorLeftSwapIso
+#print axioms ASGinzburg.balancedTensorLeftFunctorIsLeftAdjoint
+#print axioms ASGinzburg.balancedTensorLeftFunctor
+#print axioms ASGinzburg.balancedTensorLeftFunctorAdditive
+#print axioms ASGinzburg.balancedTensorLeftFunctorLinear
+#print axioms ASGinzburg.balancedTensorMapLeft
+#print axioms ASGinzburg.balancedTensorMapLeft_tmul
+#print axioms ASGinzburg.balancedTensorLeftUnitMap
+#print axioms ASGinzburg.balancedTensorLeftUnitInverse
+#print axioms ASGinzburg.balancedTensorLeftUnitEquiv
+#print axioms ASGinzburg.balancedTensorTmul_eq_zero_of_action_span
+#print axioms ASGinzburg.balancedTensorMapLeft_eq_zero_of_action_span
+#print axioms ASGinzburg.balancedTensorRightFunctor
+#print axioms ASGinzburg.balancedTensorRightFunctorAdditive
+#print axioms ASGinzburg.balancedTensorRightFunctorLinear
+#print axioms ASGinzburg.balancedTensorMapRight_id
+#print axioms ASGinzburg.balancedTensorMapRight_comp
+#print axioms ASGinzburg.balancedTensorMapRight_add
+#print axioms ASGinzburg.balancedTensorMapRight_smul
+#print axioms ASGinzburg.balancedTensorMapRight
+#print axioms ASGinzburg.balancedTensorMapRight_tmul
+#print axioms ASGinzburg.balancedTensorRelations
+#print axioms ASGinzburg.BalancedTensorSpace
+#print axioms ASGinzburg.balancedTensorTmul
+#print axioms ASGinzburg.balancedTensorTmul_balance
+#print axioms ASGinzburg.balancedTensorLift
+#print axioms ASGinzburg.balancedTensorLift_tmul
+#print axioms ASGinzburg.balancedTensorDoubleOppositeModule
+#print axioms ASGinzburg.BalancedTensorSwapSpace
+#print axioms ASGinzburg.balancedTensorSwapTmul
+#print axioms ASGinzburg.balancedTensorSwapMap
+#print axioms ASGinzburg.balancedTensorSwapMap_tmul
+#print axioms ASGinzburg.balancedTensorSwapInverse
+#print axioms ASGinzburg.balancedTensorSwapInverse_tmul
+#print axioms ASGinzburg.balancedTensorSwapEquiv
+#print axioms ASGinzburg.balancedTensorSwapEquiv_tmul
+#print axioms ASGinzburg.balancedTensorSwapEquiv_symm_tmul
+#print axioms ASGinzburg.balancedTensorDoubleOppositeModule_smul
+#print axioms ASGinzburg.balancedTensorDoubleOppositeIsScalarTower
+#print axioms ASGinzburg.balancedTensorSwapMap_naturality
+#print axioms ASGinzburg.balancedTensorSwapEquiv_naturality
+#print axioms ASGinzburg.balancedTensorTorFunctor
+#print axioms ASGinzburg.balancedTensorTorZeroIso
+#print axioms ASGinzburg.balancedTensorTorResolutionIso
+#print axioms ASGinzburg.balancedTensorTor_projective_succ
+#print axioms ASGinzburg.balancedTensorTorLeftFunctor
+#print axioms ASGinzburg.balancedTensorTorLeftZeroIso
+#print axioms ASGinzburg.balancedTensorTorLeftSwapIso
+#print axioms ASGinzburg.balancedTensorTorLeftResolutionIso
+#print axioms ASGinzburg.balancedTensorTorLeft_projective_succ
+#print axioms ASGinzburg.balancedTensorTorLeft_isZero_of_resolution_term
+#print axioms ASGinzburg.balancedTensorTorLeftZeroDifferentialsIso
+#print axioms ASGinzburg.balancedTensorTor_isZero_of_resolution_term
+#print axioms ASGinzburg.balancedTensorTorZeroDifferentialsIso
+#print axioms ASGinzburg.balancedTensorSpace_induction
+#print axioms ASGinzburg.balancedTensorSpace_linearMap_ext
+#print axioms ASGinzburg.balancedTensorBilinear
+#print axioms ASGinzburg.finiteBiproduct_hasProjectiveDimensionLT
+#print axioms ASGinzburg.mapProjectiveResolutionOfTerms
+#print axioms ASGinzburg.mapProjectiveResolutionOfTerms_isZero
+#print axioms ASGinzburg.oneDimensionalRightRepresentationValue
+#print axioms ASGinzburg.oneDimensionalRightRepresentation_scalar_action_value
+#print axioms ASGinzburg.oneDimensionalRightRepresentationCharacter
+#print axioms ASGinzburg.oneDimensionalRightRepresentationCharacter_apply
+#print axioms ASGinzburg.oneDimensionalRightRepresentation_scalar_action
+#print axioms ASGinzburg.scalarProductEnvelopingEquiv
+#print axioms ASGinzburg.scalarProductEnveloping_isSemisimple
+#print axioms ASGinzburg.scalarProductBaseChangeEquiv
+#print axioms ASGinzburg.scalarProductBaseChange_isSemisimple
+#print axioms ASGinzburg.scalarProductEnvelopingMultiplication
+#print axioms ASGinzburg.scalarProductEnvelopingModule
+#print axioms ASGinzburg.scalarProductEnvelopingModule_projective
+#print axioms ASGinzburg.scalarQuotientVertexBiproductIso
+#print axioms ASGinzburg.scalarQuotient_hasProjectiveDimensionLT
+#print axioms ASGinzburg.idealQuotientRightModule
+#print axioms ASGinzburg.idealQuotientRightObject
+#print axioms ASGinzburg.idealQuotientRightProjection
+#print axioms ASGinzburg.idealQuotientRightProjection_surjective
+#print axioms ASGinzburg.idealQuotientRight_finite
+#print axioms ASGinzburg.idealQuotientRightLinearEquivOfEq
+#print axioms ASGinzburg.scalarQuotientRightObject
+#print axioms ASGinzburg.scalarQuotientVertexLinearEquiv

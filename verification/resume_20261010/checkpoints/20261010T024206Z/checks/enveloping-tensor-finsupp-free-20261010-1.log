@@ -1,0 +1,58 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorFinsuppFree.lean:28:11: error: unsolved goals
+case zero
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+I : Type w
+J : Type z
+x : (I →₀ R) ⊗[k] (J →₀ R)
+⊢ 0 = 0 • (finsuppTensorFinsupp k k R R I J) x
+work/ASGinzburgDraft/AlgebraEnvelopingTensorFinsuppFree.lean:42:24: error: unsolved goals
+case tmul.add
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+I : Type w
+J : Type z
+a : R
+b : Rᵐᵒᵖ
+x y : (I →₀ R) ⊗[k] (J →₀ R)
+hx :
+  (finsuppTensorFinsupp k k R R I J) (MulOpposite.op (a ⊗ₜ[k] b) • x) =
+    MulOpposite.op (a ⊗ₜ[k] b) • (finsuppTensorFinsupp k k R R I J) x
+hy :
+  (finsuppTensorFinsupp k k R R I J) (MulOpposite.op (a ⊗ₜ[k] b) • y) =
+    MulOpposite.op (a ⊗ₜ[k] b) • (finsuppTensorFinsupp k k R R I J) y
+⊢ MulOpposite.op (a ⊗ₜ[k] b) • (finsuppTensorFinsupp k k R R I J) x +
+      MulOpposite.op (a ⊗ₜ[k] b) • (finsuppTensorFinsupp k k R R I J) y =
+    MulOpposite.op (a ⊗ₜ[k] b) • ((finsuppTensorFinsupp k k R R I J) x + (finsuppTensorFinsupp k k R R I J) y)
+work/ASGinzburgDraft/AlgebraEnvelopingTensorFinsuppFree.lean:63:66: error: don't know how to synthesize placeholder for argument `hf`
+context:
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+I : Type w
+J : Type z
+i : I
+j : J
+a b : R
+⊢ (tensorRightEnvelopingRegularEquiv k R) 0 = 0
+work/ASGinzburgDraft/AlgebraEnvelopingTensorFinsuppFree.lean:61:77: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+I : Type w
+J : Type z
+i : I
+j : J
+a b : R
+⊢ (tensorRightEnvelopingFinsuppEquiv k R I J) (Finsupp.single i a ⊗ₜ[k] Finsupp.single j b) =
+    Finsupp.single (i, j) (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b))

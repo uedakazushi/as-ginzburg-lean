@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:26:2: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:39:46: error: failed to synthesize
+  IsIso ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) n).map (f j))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:42:2: error: failed to synthesize
+  IsIso
+    (((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) n).mapBiproduct X).hom ≫
+      (biproduct.map fun j => (HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) n).map (f j)) ≫
+        ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) n).mapBiproduct Y).inv)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:50:39: error: failed to synthesize
+  Projective (⨁ (HomologicalComplex.eval C (ComplexShape.down ℕ) n).obj ∘ fun j => (P j).complex)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

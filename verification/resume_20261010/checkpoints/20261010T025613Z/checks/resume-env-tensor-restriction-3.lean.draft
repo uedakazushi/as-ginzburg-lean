@@ -1,0 +1,42 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorBifunctor
+import work.ASGinzburgDraft.ModuleTensorBifunctor
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+
+/-! Forgetting the actual right enveloping tensor action gives the
+ordinary tensor of the underlying vector spaces, by the identity map. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : ModuleCat.{w} Rᵐᵒᵖ) (N : ModuleCat.{z} R)
+
+attribute [local instance] tensorRightEnvelopingModule tensorRightEnvelopingScalarTower
+
+noncomputable def tensorRightEnvelopingRestrictScalarsIso :
+    (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).obj
+        (((tensorRightEnvelopingBifunctor k R).obj M).obj N) ≅
+      (((moduleTensorBifunctor k).obj
+        ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M)).obj
+          ((ModuleCat.restrictScalars (algebraMap k R)).obj N)) := by
+  apply LinearEquiv.toModuleIso
+  refine {
+    toFun := id
+    invFun := id
+    left_inv := fun _ => rfl
+    right_inv := fun _ => rfl
+    map_add' := fun _ _ => rfl
+    map_smul' := ?_ }
+  intro c x
+  change tensorRightEnvelopingRepresentation k R M N
+    (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ c) x = c • x
+  rw [AlgHom.commutes]
+  rfl
+
+theorem tensorRightEnvelopingRestrictScalarsIso_hom_apply (x : M ⊗[k] N) :
+    (tensorRightEnvelopingRestrictScalarsIso k R M N).hom x = x := rfl
+
+theorem tensorRightEnvelopingRestrictScalarsIso_inv_apply (x : M ⊗[k] N) :
+    (tensorRightEnvelopingRestrictScalarsIso k R M N).inv x = x := rfl
+
+end ASGinzburg

@@ -1,0 +1,50 @@
+import ASGinzburg.BalancedTensorLeftMaps
+
+/-! Tensoring a map whose image lies in a radical action span with a
+module annihilated by that radical gives the actual zero linear map. -/
+namespace ASGinzburg
+universe u v w w' z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {M : Type w} [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+  [IsScalarTower k Rᵐᵒᵖ M]
+variable {M' : Type w'} [AddCommGroup M'] [Module k M'] [Module Rᵐᵒᵖ M']
+  [IsScalarTower k Rᵐᵒᵖ M']
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+omit [Algebra k R] [IsScalarTower k Rᵐᵒᵖ M'] in
+theorem balancedTensorTmul_eq_zero_of_action_span
+    (I : Set R) (hN : ∀ r ∈ I, ∀ y : N, r • y = 0)
+    {x : M'} (hx : x ∈ Submodule.span k
+      {a : M' | ∃ r ∈ I, ∃ m : M', MulOpposite.op r • m = a}) (y : N) :
+    balancedTensorTmul k R M' N x y = 0 := by
+  induction hx using Submodule.span_induction with
+  | mem a ha =>
+    obtain ⟨r, hr, m, rfl⟩ := ha
+    rw [balancedTensorTmul_balance, hN r hr y]
+    exact (balancedTensorBilinear k R M' N m).map_zero
+  | zero =>
+    change (balancedTensorBilinear k R M' N 0) y = 0
+    rw [map_zero]
+    rfl
+  | add a b ha hb iha ihb =>
+    change (balancedTensorBilinear k R M' N a) y = 0 at iha
+    change (balancedTensorBilinear k R M' N b) y = 0 at ihb
+    change (balancedTensorBilinear k R M' N (a+b)) y = 0
+    rw [map_add, LinearMap.add_apply, iha, ihb, add_zero]
+  | smul c a ha ih =>
+    change (balancedTensorBilinear k R M' N a) y = 0 at ih
+    change (balancedTensorBilinear k R M' N (c • a)) y = 0
+    rw [map_smul, LinearMap.smul_apply, ih, smul_zero]
+
+theorem balancedTensorMapLeft_eq_zero_of_action_span
+    (I : Set R) (hN : ∀ r ∈ I, ∀ y : N, r • y = 0)
+    (f : M →ₗ[Rᵐᵒᵖ] M')
+    (hf : ∀ x : M, f x ∈ Submodule.span k
+      {a : M' | ∃ r ∈ I, ∃ m : M', MulOpposite.op r • m = a}) :
+    balancedTensorMapLeft k R N f = 0 := by
+  apply balancedTensorSpace_linearMap_ext
+  intro x y
+  rw [balancedTensorMapLeft_tmul]
+  exact balancedTensorTmul_eq_zero_of_action_span k R N I hN (hf x) y
+
+end ASGinzburg

@@ -1,0 +1,50 @@
+import ASGinzburg.BalancedTensorSwap
+import ASGinzburg.BalancedTensorLeftMaps
+import ASGinzburg.BalancedTensorRightMaps
+
+/-! The canonical swap respects the genuine actions and the maps induced
+by linear maps in the first factor. -/
+namespace ASGinzburg
+universe u v w w' z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+theorem balancedTensorDoubleOppositeModule_smul (r : Rᵐᵒᵖᵐᵒᵖ) (y : N) :
+    letI := balancedTensorDoubleOppositeModule R N
+    r • y = MulOpposite.unop (MulOpposite.unop r) • y := rfl
+
+def balancedTensorDoubleOppositeIsScalarTower [IsScalarTower k R N] :
+    letI := balancedTensorDoubleOppositeModule R N
+    IsScalarTower k Rᵐᵒᵖᵐᵒᵖ N := by
+  letI := balancedTensorDoubleOppositeModule R N
+  constructor
+  intro c r y
+  change (c • MulOpposite.unop (MulOpposite.unop r)) • y =
+    c • (MulOpposite.unop (MulOpposite.unop r) • y)
+  exact smul_assoc c _ y
+
+variable {M : Type w} [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+  [IsScalarTower k Rᵐᵒᵖ M]
+variable {M' : Type w'} [AddCommGroup M'] [Module k M'] [Module Rᵐᵒᵖ M']
+  [IsScalarTower k Rᵐᵒᵖ M']
+
+theorem balancedTensorSwapMap_naturality (f : M →ₗ[Rᵐᵒᵖ] M') :
+    letI := balancedTensorDoubleOppositeModule R N
+    (balancedTensorSwapMap k R M' N).comp (balancedTensorMapLeft k R N f) =
+      (balancedTensorMapRight k Rᵐᵒᵖ N f).comp (balancedTensorSwapMap k R M N) := by
+  letI := balancedTensorDoubleOppositeModule R N
+  apply balancedTensorSpace_linearMap_ext k R M N
+  intro x y
+  simp only [LinearMap.comp_apply, balancedTensorMapLeft_tmul, balancedTensorSwapMap_tmul]
+  change balancedTensorTmul k Rᵐᵒᵖ N M' y (f x) =
+    balancedTensorMapRight k Rᵐᵒᵖ N f (balancedTensorTmul k Rᵐᵒᵖ N M y x)
+  rw [balancedTensorMapRight_tmul]
+
+theorem balancedTensorSwapEquiv_naturality (f : M →ₗ[Rᵐᵒᵖ] M') :
+    letI := balancedTensorDoubleOppositeModule R N
+    (balancedTensorSwapEquiv k R M' N).toLinearMap.comp (balancedTensorMapLeft k R N f) =
+      (balancedTensorMapRight k Rᵐᵒᵖ N f).comp
+        (balancedTensorSwapEquiv k R M N).toLinearMap :=
+  balancedTensorSwapMap_naturality k R N f
+
+end ASGinzburg

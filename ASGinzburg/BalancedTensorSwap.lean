@@ -1,0 +1,99 @@
+import ASGinzburg.BalancedTensorUniversal
+import Mathlib.Algebra.Algebra.Opposite
+
+/-! The actual balanced tensor quotient is unchanged by swapping the two
+factors and replacing the acting ring by its opposite. The double-opposite
+action is transported canonically, without a global instance. -/
+namespace ASGinzburg
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+def balancedTensorDoubleOppositeModule : Module Rᵐᵒᵖᵐᵒᵖ N :=
+  Module.compHom N (RingEquiv.opOp R).symm.toRingHom
+
+abbrev BalancedTensorSwapSpace :=
+  letI := balancedTensorDoubleOppositeModule R N
+  BalancedTensorSpace k Rᵐᵒᵖ N M
+
+noncomputable def balancedTensorSwapTmul (y : N) (x : M) :
+    BalancedTensorSwapSpace k R M N :=
+  letI := balancedTensorDoubleOppositeModule R N
+  balancedTensorTmul k Rᵐᵒᵖ N M y x
+
+noncomputable def balancedTensorSwapMap :
+    BalancedTensorSpace k R M N →ₗ[k] BalancedTensorSwapSpace k R M N :=
+  letI := balancedTensorDoubleOppositeModule R N
+  balancedTensorLift k R M N (balancedTensorBilinear k Rᵐᵒᵖ N M).flip (by
+    intro r x y
+    change balancedTensorTmul k Rᵐᵒᵖ N M y (MulOpposite.op r • x) =
+      balancedTensorTmul k Rᵐᵒᵖ N M (r • y) x
+    have h := balancedTensorTmul_balance k Rᵐᵒᵖ N M (MulOpposite.op r) y x
+    change balancedTensorTmul k Rᵐᵒᵖ N M (r • y) x =
+      balancedTensorTmul k Rᵐᵒᵖ N M y (MulOpposite.op r • x) at h
+    exact h.symm)
+
+@[simp] theorem balancedTensorSwapMap_tmul (x : M) (y : N) :
+    balancedTensorSwapMap k R M N (balancedTensorTmul k R M N x y) =
+      balancedTensorSwapTmul k R M N y x := by
+  letI := balancedTensorDoubleOppositeModule R N
+  unfold balancedTensorSwapMap
+  rw [balancedTensorLift_tmul]
+  rfl
+
+noncomputable def balancedTensorSwapInverse :
+    BalancedTensorSwapSpace k R M N →ₗ[k] BalancedTensorSpace k R M N :=
+  letI := balancedTensorDoubleOppositeModule R N
+  balancedTensorLift k Rᵐᵒᵖ N M (balancedTensorBilinear k R M N).flip (by
+    intro r y x
+    change balancedTensorTmul k R M N x (MulOpposite.unop r • y) =
+      balancedTensorTmul k R M N (r • x) y
+    have h := balancedTensorTmul_balance k R M N (MulOpposite.unop r) x y
+    simpa only [MulOpposite.op_unop] using h.symm)
+
+@[simp] theorem balancedTensorSwapInverse_tmul (y : N) (x : M) :
+    balancedTensorSwapInverse k R M N (balancedTensorSwapTmul k R M N y x) =
+      balancedTensorTmul k R M N x y := by
+  letI := balancedTensorDoubleOppositeModule R N
+  unfold balancedTensorSwapInverse balancedTensorSwapTmul
+  rw [balancedTensorLift_tmul]
+  rfl
+
+noncomputable def balancedTensorSwapEquiv :
+    BalancedTensorSpace k R M N ≃ₗ[k] BalancedTensorSwapSpace k R M N where
+  toFun := balancedTensorSwapMap k R M N
+  invFun := balancedTensorSwapInverse k R M N
+  left_inv a := by
+    have h : (balancedTensorSwapInverse k R M N).comp (balancedTensorSwapMap k R M N) =
+        LinearMap.id := by
+      apply balancedTensorSpace_linearMap_ext k R M N
+      intro x y
+      simp only [LinearMap.comp_apply, balancedTensorSwapMap_tmul,
+        balancedTensorSwapInverse_tmul, LinearMap.id_apply]
+    exact LinearMap.congr_fun h a
+  right_inv a := by
+    letI := balancedTensorDoubleOppositeModule R N
+    have h : (balancedTensorSwapMap k R M N).comp (balancedTensorSwapInverse k R M N) =
+        LinearMap.id := by
+      apply balancedTensorSpace_linearMap_ext k Rᵐᵒᵖ N M
+      intro y x
+      change balancedTensorSwapMap k R M N
+          (balancedTensorSwapInverse k R M N (balancedTensorSwapTmul k R M N y x)) =
+        balancedTensorSwapTmul k R M N y x
+      rw [balancedTensorSwapInverse_tmul, balancedTensorSwapMap_tmul]
+    exact LinearMap.congr_fun h a
+  map_add' := map_add (balancedTensorSwapMap k R M N)
+  map_smul' := map_smul (balancedTensorSwapMap k R M N)
+
+@[simp] theorem balancedTensorSwapEquiv_tmul (x : M) (y : N) :
+    balancedTensorSwapEquiv k R M N (balancedTensorTmul k R M N x y) =
+      balancedTensorSwapTmul k R M N y x :=
+  balancedTensorSwapMap_tmul k R M N x y
+
+@[simp] theorem balancedTensorSwapEquiv_symm_tmul (y : N) (x : M) :
+    (balancedTensorSwapEquiv k R M N).symm (balancedTensorSwapTmul k R M N y x) =
+      balancedTensorTmul k R M N x y :=
+  balancedTensorSwapInverse_tmul k R M N y x
+
+end ASGinzburg

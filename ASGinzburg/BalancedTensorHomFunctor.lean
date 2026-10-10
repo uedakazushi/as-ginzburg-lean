@@ -1,0 +1,44 @@
+import ASGinzburg.BalancedTensorHomMaps
+import ASGinzburg.BalancedTensorRightFunctor
+
+/-! The internal Hom functor on the genuine ordinary module categories,
+with its additive structure. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+
+noncomputable def balancedTensorHomFunctor :
+    ModuleCat.{z} k ⥤ ModuleCat.{max w z} R where
+  obj P := ModuleCat.of R (BalancedTensorHom k R M P)
+  map g := ModuleCat.ofHom (balancedTensorHomMap k R M g.hom)
+  map_id P := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro f
+    apply balancedTensorHom_ext k R M P
+    intro x
+    rfl
+  map_comp f g := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    apply balancedTensorHom_ext k R M _
+    intro x
+    rfl
+
+instance balancedTensorHomFunctorAdditive :
+    (balancedTensorHomFunctor.{u,v,w,z} k R M).Additive where
+  map_add := by
+    intro P P' f g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    apply balancedTensorHom_ext k R M P'
+    intro x
+    rfl
+
+end ASGinzburg

@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRegularFree.lean:34:11: error: unsolved goals
+case zero
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+x : R ⊗[k] R
+⊢ 0 = 0 • (tensorRightEnvelopingRegularLinearEquiv k R) x
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRegularFree.lean:46:12: error: 'change' tactic failed, pattern
+  MulOpposite.op ((m * a) ⊗ₜ[k] MulOpposite.op (MulOpposite.unop b * n)) =
+    MulOpposite.op (a ⊗ₜ[k] MulOpposite.op (MulOpposite.unop b)) * MulOpposite.op (m ⊗ₜ[k] MulOpposite.op n)
+is not definitionally equal to target
+  MulOpposite.op ((MulOpposite.op a • m) ⊗ₜ[k] MulOpposite.op (MulOpposite.unop b • n)) =
+    MulOpposite.op (a ⊗ₜ[k] MulOpposite.op (MulOpposite.unop b)) • MulOpposite.op (m ⊗ₜ[k] MulOpposite.op n)
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRegularFree.lean:51:24: error: unsolved goals
+case tmul.add
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+a : R
+b : Rᵐᵒᵖ
+x y : R ⊗[k] R
+hx :
+  (tensorRightEnvelopingRegularLinearEquiv k R) (MulOpposite.op (a ⊗ₜ[k] b) • x) =
+    MulOpposite.op (a ⊗ₜ[k] b) • (tensorRightEnvelopingRegularLinearEquiv k R) x
+hy :
+  (tensorRightEnvelopingRegularLinearEquiv k R) (MulOpposite.op (a ⊗ₜ[k] b) • y) =
+    MulOpposite.op (a ⊗ₜ[k] b) • (tensorRightEnvelopingRegularLinearEquiv k R) y
+⊢ MulOpposite.op (a ⊗ₜ[k] b) • (tensorRightEnvelopingRegularLinearEquiv k R) x +
+      MulOpposite.op (a ⊗ₜ[k] b) • (tensorRightEnvelopingRegularLinearEquiv k R) y =
+    MulOpposite.op (a ⊗ₜ[k] b) •
+      ((tensorRightEnvelopingRegularLinearEquiv k R) x + (tensorRightEnvelopingRegularLinearEquiv k R) y)
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRegularFree.lean:60:2: error: failed to synthesize
+  Module.Free (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

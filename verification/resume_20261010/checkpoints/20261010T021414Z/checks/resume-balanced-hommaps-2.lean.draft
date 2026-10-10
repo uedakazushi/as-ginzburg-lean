@@ -1,0 +1,64 @@
+import work.ASGinzburgDraft.BalancedTensorHomEquiv
+
+/-! Actual postcomposition on the internal Hom and naturality of the
+balanced tensor-Hom equivalence in both arguments. -/
+namespace ASGinzburg
+universe u v w z z' p p'
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+variable {N : Type z} [AddCommGroup N] [Module k N] [Module R N]
+variable [IsScalarTower k R N]
+variable {N' : Type z'} [AddCommGroup N'] [Module k N'] [Module R N']
+variable [IsScalarTower k R N']
+variable {P : Type p} [AddCommGroup P] [Module k P]
+variable {P' : Type p'} [AddCommGroup P'] [Module k P']
+
+noncomputable def balancedTensorHomMap (g : P →ₗ[k] P') :
+    BalancedTensorHom k R M P →ₗ[R] BalancedTensorHom k R M P' where
+  toFun f := (balancedTensorHomLinearEquiv k R M P').symm
+    (g.comp (balancedTensorHomLinearEquiv k R M P f))
+  map_add' f h := by
+    apply balancedTensorHom_ext k R M P'
+    intro x
+    change g (f x + h x) = g (f x) + g (h x)
+    exact g.map_add _ _
+  map_smul' r f := by
+    apply balancedTensorHom_ext k R M P'
+    intro x
+    rfl
+
+theorem balancedTensorHomMap_apply (g : P →ₗ[k] P')
+    (f : BalancedTensorHom k R M P) (x : M) :
+    balancedTensorHomMap k R M g f x = g (f x) := rfl
+
+theorem balancedTensorCurry_naturality_source
+    (h : N' →ₗ[R] N) (f : BalancedTensorSpace k R M N →ₗ[k] P) :
+    balancedTensorCurry k R M N' P (f.comp (balancedTensorMapRight k R M h)) =
+      (balancedTensorCurry k R M N P f).comp h := by
+  apply LinearMap.ext
+  intro y
+  apply balancedTensorHom_ext k R M P
+  intro x
+  simp only [balancedTensorCurry_apply, LinearMap.comp_apply, balancedTensorMapRight_tmul]
+
+omit [IsScalarTower k R N] in
+theorem balancedTensorCurry_naturality_target
+    (f : BalancedTensorSpace k R M N →ₗ[k] P) (g : P →ₗ[k] P') :
+    balancedTensorCurry k R M N P' (g.comp f) =
+      (balancedTensorHomMap k R M g).comp (balancedTensorCurry k R M N P f) := by
+  apply LinearMap.ext
+  intro y
+  apply balancedTensorHom_ext k R M P'
+  intro x
+  simp only [balancedTensorCurry_apply, LinearMap.comp_apply, balancedTensorHomMap_apply]
+
+theorem balancedTensorUncurry_naturality_source
+    (h : N' →ₗ[R] N) (g : N →ₗ[R] BalancedTensorHom k R M P) :
+    balancedTensorUncurry k R M N' P (g.comp h) =
+      (balancedTensorUncurry k R M N P g).comp (balancedTensorMapRight k R M h) := by
+  apply balancedTensorSpace_linearMap_ext k R M N'
+  intro x y
+  simp only [balancedTensorUncurry_tmul, LinearMap.comp_apply, balancedTensorMapRight_tmul]
+
+end ASGinzburg
