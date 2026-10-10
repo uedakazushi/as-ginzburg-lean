@@ -1,0 +1,64 @@
+import ASGinzburg.GinzburgGeneratorFiltrationKernel
+
+/-! The upper layers give the actual augmentation homology as a quotient
+of the degree-zero generator layer; no resolution exactness is assumed. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorFilteredInclusionHomology_negTwo_zero_isIso (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    IsIso (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-2) c 0) := by
+  haveI : Mono (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-2) c 0) := by
+    apply (Q.ginzburgGeneratorFiltrationHomology_exact₁ k φ u v (-2) c (-1)).mono_g
+    exact (Q.ginzburgAssociatedGradedHomology_isZero_of_above k φ u v (-2) c (-1)
+      (by norm_num)).eq_of_src _ _
+  haveI : Epi (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-2) c 0) := by
+    apply (Q.ginzburgGeneratorFiltrationHomology_exact₂ k φ u v (-2) c 0).epi_f
+    exact (Q.ginzburgAssociatedGradedHomology_isZero_of_above k φ u v (-2) c 0
+      (by norm_num)).eq_of_tgt _ _
+  exact isIso_of_mono_of_epi _
+
+noncomputable def ginzburgGeneratorMiddleAugmentationHomologyIso (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c 0 ≅
+      Q.ginzburgAugmentationHomology k φ u v c 0 := by
+  letI := Q.ginzburgGeneratorFilteredInclusionHomology_negTwo_zero_isIso k φ u v c
+  have e : Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c 0 ≅
+      Q.ginzburgGeneratorFilteredHomology k φ u v (-2) c 0 := by
+    simpa only [show (-2:ℤ)+1=-1 by norm_num] using
+      asIso (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-2) c 0)
+  exact e ≪≫ Q.ginzburgGeneratorFilteredNegTwoHomologyIso k φ u v c 0
+
+theorem ginzburgGeneratorFilteredInclusionHomology_negOne_zero_epi (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Epi (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0) := by
+  apply (Q.ginzburgGeneratorFiltrationHomology_exact₂ k φ u v (-1) c 0).epi_f
+  exact (Q.ginzburgAssociatedGradedHomology_isZero_of_above k φ u v (-1) c 0
+    (by norm_num)).eq_of_tgt _ _
+
+noncomputable def ginzburgGeneratorFiltrationRadicalMap (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0 ⟶
+      Q.ginzburgAugmentationHomology k φ u v c 0 := by
+  have f : Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0 ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c 0 := by
+    simpa only [show (-1:ℤ)+1=0 by norm_num] using
+      Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0
+  exact f ≫ (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom
+
+theorem ginzburgGeneratorFiltrationRadicalMap_epi (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Epi (Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c) := by
+  let f : Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0 ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c 0 := by
+    simpa only [show (-1:ℤ)+1=0 by norm_num] using
+      Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0
+  haveI : Epi f := by
+    simpa only [f, ginzburgGeneratorFilteredInclusionHomology,
+      ginzburgGeneratorFilteredHomology, show (-1:ℤ)+1=0 by norm_num] using
+      Q.ginzburgGeneratorFilteredInclusionHomology_negOne_zero_epi k φ u v c
+  exact epi_comp f (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom
+
+end ASGinzburg.CutQuiver

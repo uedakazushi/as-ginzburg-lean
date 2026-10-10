@@ -1,0 +1,61 @@
+import ASGinzburg.ASLeftExtConcentration
+import ASGinzburg.LeftModuleExtRightSequence
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {X : A.LeftModule} (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4))
+
+attribute [local irreducible] rightModuleADual leftModuleADual
+
+noncomputable def leftResolutionExtTopProjection :
+    A.leftModuleADual (P.complex.X 3) ⟶ A.leftModuleExtRight X 3 :=
+  (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫
+    A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0 ≫
+      (A.leftModuleExtDimensionShiftRightIso P.shortExact₁ 0).hom ≫
+        (A.leftModuleExtDimensionShiftRightIso P.shortExact₀ 1).hom
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable instance leftResolutionExtTopProjectionEpi : Epi (A.leftResolutionExtTopProjection P h₄) := by
+  letI : Epi (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0) :=
+    A.leftModuleExtBoundaryRightEpi (P.shortExact₂ h₄) 0
+  dsimp only [leftResolutionExtTopProjection]
+  infer_instance
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftResolutionExtTopProjection_dual_d₃ :
+    A.leftModuleADualMap (P.complex.d 3 2) ≫ A.leftResolutionExtTopProjection P h₄ = 0 := by
+  dsimp only [leftResolutionExtTopProjection]
+  rw [← Category.assoc, A.leftModuleADualMap_extRightZeroIso_inv]
+  simp only [Category.assoc]
+  rw [← Category.assoc (A.leftModuleExtPrecompRight (P.complex.d 3 2) 0)
+    (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0)]
+  rw [A.leftModuleExtPrecompRight_boundary_zero (P.shortExact₂ h₄) 0,
+    zero_comp, comp_zero]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftResolutionExtTopProjection_exact :
+    (ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2))
+      (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄)).Exact := by
+  let e : A.leftModuleExtRight (kernel P.firstCover) 1 ≅ A.leftModuleExtRight X 3 :=
+    A.leftModuleExtDimensionShiftRightIso P.shortExact₁ 0 ≪≫
+      A.leftModuleExtDimensionShiftRightIso P.shortExact₀ 1
+  let T := ShortComplex.mk (A.leftModuleExtPrecompRight (P.complex.d 3 2) 0)
+    (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0)
+    (A.leftModuleExtPrecompRight_boundary_zero (P.shortExact₂ h₄) 0)
+  let eS : ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2))
+      (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄) ≅ T :=
+    ShortComplex.isoMk (A.leftModuleExtRightZeroIso (P.complex.X 2)).symm
+      (A.leftModuleExtRightZeroIso (P.complex.X 3)).symm e.symm
+      (by exact (A.leftModuleADualMap_extRightZeroIso_inv (P.complex.d 3 2)).symm)
+      (by
+        have hπ : A.leftResolutionExtTopProjection P h₄ =
+            (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫ T.g ≫ e.hom := rfl
+        change (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫ T.g =
+          A.leftResolutionExtTopProjection P h₄ ≫ e.inv
+        rw [hπ]
+        simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id])
+  exact (ShortComplex.exact_iff_of_iso eS).mpr
+    (A.leftModuleExtBoundaryRight_exact (P.shortExact₂ h₄) 0)
+end ASGinzburg.ZAlgebra

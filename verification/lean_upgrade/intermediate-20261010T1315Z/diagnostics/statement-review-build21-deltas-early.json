@@ -1,0 +1,434 @@
+{
+  "reviewed_at_utc": "2026-10-10T13:12:37.129690+00:00",
+  "review_mode": "independent_read_only_focused_semantic_diff_review_no_compiler_or_source_edits",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint4_commit": "6838dc6aa19e48c9154fa95ddb0b17cf5702b0e5",
+  "prior_full_review": "work/lean-upgrade/statement-review-checkpoint4.json",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "source_snapshot": "work/lean-upgrade/statement-review-build21-deltas-early-source-start.json",
+  "source_snapshot_recorded_at_utc": "2026-10-10T13:08:25.053368+00:00",
+  "source_sha256": {
+    "ASGinzburg/ExtComponentContravariance.lean": "d829404dd914d6aa43aa17d594e4c88a06abeae826280003a0d407f8cbe7d78a",
+    "ASGinzburg/RegularExtLeftModule.lean": "f1d7d0721c1e267012326939e8e8ae258bb7011688cbd1f5e197ea98fd32bb10",
+    "ASGinzburg/GinzburgGeneratorFiltrationRadical.lean": "6a1915f10e2859555f237e5c057131fcfec960d4eefb315efee5d4bc96124542",
+    "ASGinzburg/ASZeroCutRelationComparison.lean": "34166cf1db33e350ccdad9abb98c40a3fe901c7e2367790256b83f186f7dcac9",
+    "ASGinzburg/LeftRegularCoproduct.lean": "3215d3f9fee5568d8697fd5a9b297a3de5dc8d2c0804a7c203ad72eaa54a3ac4",
+    "ASGinzburg/ASLeftExtReciprocity.lean": "2752a6d17f683910a52f054c38ff1072004e73e10dafded29b49fbe7efd2985d"
+  },
+  "full_source_inventory_captured": false,
+  "focused_source_files": 6,
+  "focused_declarations_before": 53,
+  "focused_declarations_after": 53,
+  "original_whole_project_inventory_from_checkpoint4_only": {
+    "public_source_files": 1373,
+    "public_math_modules": 1372,
+    "declarations": 6909,
+    "normalized_header_changes": 82
+  },
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "provisional": true,
+  "global_compilation_success_claimed": false,
+  "names_kinds_headers_and_ambient_context_checks": {
+    "ASGinzburg/ExtComponentContravariance.lean": {
+      "declaration_count": 9,
+      "names_kinds_full_headers_exact_original_baseline_and_checkpoint4": true,
+      "ambient_universes_variables_includes_omits_exact": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.oppositeLinear",
+          "kind": "def",
+          "full_header": "def oppositeLinear : Linear k Cᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleOppositeLinear",
+          "kind": "instance",
+          "full_header": "instance rightModuleOppositeLinear : Linear k A.RightModuleᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleOppositeLinear",
+          "kind": "instance",
+          "full_header": "instance leftModuleOppositeLinear : Linear k A.LeftModuleᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftFunctor",
+          "kind": "def",
+          "full_header": "noncomputable def rightModuleExtLeftFunctor (n : ℕ) : A.RightModuleᵒᵖ ⥤ A.LeftModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftFunctorAdditive",
+          "kind": "instance",
+          "full_header": "instance rightModuleExtLeftFunctorAdditive (n : ℕ) : (A.rightModuleExtLeftFunctor n).Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftFunctorLinear",
+          "kind": "instance",
+          "full_header": "instance rightModuleExtLeftFunctorLinear (n : ℕ) : (A.rightModuleExtLeftFunctor n).Linear k"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightFunctor",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtRightFunctor (n : ℕ) : A.LeftModuleᵒᵖ ⥤ A.RightModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightFunctorAdditive",
+          "kind": "instance",
+          "full_header": "instance leftModuleExtRightFunctorAdditive (n : ℕ) : (A.leftModuleExtRightFunctor n).Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightFunctorLinear",
+          "kind": "instance",
+          "full_header": "instance leftModuleExtRightFunctorLinear (n : ℕ) : (A.leftModuleExtRightFunctor n).Linear k"
+        }
+      ]
+    },
+    "ASGinzburg/RegularExtLeftModule.lean": {
+      "declaration_count": 9,
+      "names_kinds_full_headers_exact_original_baseline_and_checkpoint4": true,
+      "ambient_universes_variables_includes_omits_exact": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraUnitizationModule",
+          "kind": "def",
+          "full_header": "noncomputable def extTotalAlgebraUnitizationModule (n : ℕ) : Module A.totalUnitization (Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w))) A.totalAlgebraRightLocallyUnitalModule n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModule",
+          "kind": "def",
+          "full_header": "noncomputable def extTotalAlgebraLeftModule (n : ℕ) : ModuleCat.{v} A.totalUnitization"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModule_smul",
+          "kind": "theorem",
+          "full_header": "theorem extTotalAlgebraLeftModule_smul (n : ℕ) (r : A.totalUnitization) (x : Abelian.Ext.{v} (A.rightTotalLocallyUnitalModule (A.simpleRightModule (Q.height w))) A.totalAlgebraRightLocallyUnitalModule n) : letI"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModuleIso",
+          "kind": "def",
+          "full_header": "noncomputable def extTotalAlgebraLeftModuleIso (n : ℕ) : S.extTotalAlgebraLeftModule n ≅ A.leftTotalModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftModule_locally_unital",
+          "kind": "theorem",
+          "full_header": "theorem extTotalAlgebraLeftModule_locally_unital (n : ℕ) : A.leftLocallyUnitalProperty (S.extTotalAlgebraLeftModule n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftLocallyUnitalModule",
+          "kind": "def",
+          "full_header": "noncomputable def extTotalAlgebraLeftLocallyUnitalModule (n : ℕ) : A.LeftLocallyUnitalModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.extTotalAlgebraLeftLocallyUnitalIso",
+          "kind": "def",
+          "full_header": "noncomputable def extTotalAlgebraLeftLocallyUnitalIso (n : ℕ) : S.extTotalAlgebraLeftLocallyUnitalModule n ≅ A.leftTotalLocallyUnitalModule (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.extTotalAlgebraThreeIsoSimple",
+          "kind": "def",
+          "full_header": "noncomputable def ASRegular.extTotalAlgebraThreeIsoSimple {Q : CutQuiver} (h : A.ASRegular Q) (w : Q.LiftVertex) : (h.resolution A Q w).extTotalAlgebraLeftLocallyUnitalModule 3 ≅ A.leftTotalLocallyUnitalModule (A.simpleLeftModule (Q.height (Q.tau.symm w)))"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.extTotalAlgebra_off_three_isZero",
+          "kind": "theorem",
+          "full_header": "theorem ASRegular.extTotalAlgebra_off_three_isZero {Q : CutQuiver} (h : A.ASRegular Q) (w : Q.LiftVertex) (n : ℕ) (hn : n ≠ 3) : IsZero ((h.resolution A Q w).extTotalAlgebraLeftLocallyUnitalModule n)"
+        }
+      ]
+    },
+    "ASGinzburg/GinzburgGeneratorFiltrationRadical.lean": {
+      "declaration_count": 5,
+      "names_kinds_full_headers_exact_original_baseline_and_checkpoint4": true,
+      "ambient_universes_variables_includes_omits_exact": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgGeneratorFilteredInclusionHomology_negTwo_zero_isIso",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgGeneratorFilteredInclusionHomology_negTwo_zero_isIso (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) : IsIso (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-2) c 0)"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgGeneratorMiddleAugmentationHomologyIso",
+          "kind": "def",
+          "full_header": "noncomputable def ginzburgGeneratorMiddleAugmentationHomologyIso (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) : Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c 0 ≅ Q.ginzburgAugmentationHomology k φ u v c 0"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgGeneratorFilteredInclusionHomology_negOne_zero_epi",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgGeneratorFilteredInclusionHomology_negOne_zero_epi (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) : Epi (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0)"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationRadicalMap",
+          "kind": "def",
+          "full_header": "noncomputable def ginzburgGeneratorFiltrationRadicalMap (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) : Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0 ⟶ Q.ginzburgAugmentationHomology k φ u v c 0"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgGeneratorFiltrationRadicalMap_epi",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgGeneratorFiltrationRadicalMap_epi (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) : Epi (Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c)"
+        }
+      ]
+    },
+    "ASGinzburg/ASZeroCutRelationComparison.lean": {
+      "declaration_count": 4,
+      "names_kinds_full_headers_exact_original_baseline_and_checkpoint4": true,
+      "ambient_universes_variables_includes_omits_exact": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.CutQuiver.zeroSheetPathReindexEquiv_apply_height",
+          "kind": "theorem",
+          "full_header": "theorem zeroSheetPathReindexEquiv_apply_height (i j : Q.Vertex) (f : Q.UnrolledPathComponent k (i,0) (j,0)) : Q.zeroSheetPathReindexEquiv k i j f=Q.unrolledComponentHeightEquiv k (i,0) (j,0) f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation",
+          "kind": "def",
+          "full_header": "noncomputable def ASRegular.foundationZeroCutRelation (hAS : A.ASRegular Q) (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) : Q.pathCutComponent k i j 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation_native",
+          "kind": "theorem",
+          "full_header": "theorem ASRegular.foundationZeroCutRelation_native (hAS : A.ASRegular Q) (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) : Q.zeroCutNativeUnrollingEquiv k i j (hAS.foundationZeroCutRelation A Q i j a)= (hAS.foundationRelationNative A Q i j a).val"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.foundationZeroCutRelation_height",
+          "kind": "theorem",
+          "full_header": "theorem ASRegular.foundationZeroCutRelation_height (hAS : A.ASRegular Q) (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) : Q.zeroCutFoundationComponentEquiv k i j (hAS.foundationZeroCutRelation A Q i j a)= (hAS.foundationRelationLift A Q i j a).val"
+        }
+      ]
+    },
+    "ASGinzburg/LeftRegularCoproduct.lean": {
+      "declaration_count": 13,
+      "names_kinds_full_headers_exact_original_baseline_and_checkpoint4": true,
+      "ambient_universes_variables_includes_omits_exact": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproduct",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularCoproduct : A.LeftModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductComponentIso",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularCoproductComponentIso (j : ℤ) : (A.leftModuleEvaluation j).obj A.leftRegularCoproduct ≅ ModuleCat.of k (⨁ i : ℤ, A.Hom i j)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductProjection",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularCoproductProjection (i : ℤ) : A.leftRegularCoproduct ⟶ A.leftRepresentable i"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproduct_inclusion_projection",
+          "kind": "theorem",
+          "full_header": "@[reassoc (attr := simp)] theorem leftRegularCoproduct_inclusion_projection (i : ℤ) : Sigma.ι (fun j : ℤ => A.leftRepresentable j) i ≫ A.leftRegularCoproductProjection i = 𝟙 _"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproduct_inclusion_projection_off",
+          "kind": "theorem",
+          "full_header": "@[reassoc] theorem leftRegularCoproduct_inclusion_projection_off (i j : ℤ) (hji : j ≠ i) : Sigma.ι (fun l : ℤ => A.leftRepresentable l) j ≫ A.leftRegularCoproductProjection i = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductAction",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularCoproductAction {i j : ℤ} (a : A.Hom i j) : A.leftRegularCoproduct ⟶ A.leftRegularCoproduct"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproduct_inclusion_action",
+          "kind": "theorem",
+          "full_header": "@[reassoc (attr := simp)] theorem leftRegularCoproduct_inclusion_action {i j : ℤ} (a : A.Hom i j) : Sigma.ι (fun l : ℤ => A.leftRepresentable l) j ≫ A.leftRegularCoproductAction a = A.leftRepresentableFunctor.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op ≫ Sigma.ι (fun l : ℤ => A.leftRepresentable l) i"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproduct_inclusion_action_off",
+          "kind": "theorem",
+          "full_header": "@[reassoc] theorem leftRegularCoproduct_inclusion_action_off {i j : ℤ} (a : A.Hom i j) (l : ℤ) (hlj : l ≠ j) : Sigma.ι (fun t : ℤ => A.leftRepresentable t) l ≫ A.leftRegularCoproductAction a = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductAction_add",
+          "kind": "theorem",
+          "full_header": "theorem leftRegularCoproductAction_add {i j : ℤ} (a b : A.Hom i j) : A.leftRegularCoproductAction (a+b) = A.leftRegularCoproductAction a + A.leftRegularCoproductAction b"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductAction_smul",
+          "kind": "theorem",
+          "full_header": "theorem leftRegularCoproductAction_smul {i j : ℤ} (r : k) (a : A.Hom i j) : A.leftRegularCoproductAction (r • a) = r • A.leftRegularCoproductAction a"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductAction_comp",
+          "kind": "theorem",
+          "full_header": "theorem leftRegularCoproductAction_comp {i j l : ℤ} (a : A.Hom i j) (b : A.Hom j l) : A.leftRegularCoproductAction b ≫ A.leftRegularCoproductAction a = A.leftRegularCoproductAction (A.comp b a)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductAction_id",
+          "kind": "theorem",
+          "full_header": "theorem leftRegularCoproductAction_id (i : ℤ) : A.leftRegularCoproductAction (A.id i) = A.leftRegularCoproductProjection i ≫ Sigma.ι (fun l : ℤ => A.leftRepresentable l) i"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductAction_comp_off",
+          "kind": "theorem",
+          "full_header": "theorem leftRegularCoproductAction_comp_off {i j p q : ℤ} (a : A.Hom i j) (b : A.Hom p q) (hjp : j ≠ p) : A.leftRegularCoproductAction b ≫ A.leftRegularCoproductAction a = 0"
+        }
+      ]
+    },
+    "ASGinzburg/ASLeftExtReciprocity.lean": {
+      "declaration_count": 13,
+      "names_kinds_full_headers_exact_original_baseline_and_checkpoint4": true,
+      "ambient_universes_variables_includes_omits_exact": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftResolutionExtTopProjection",
+          "kind": "def",
+          "full_header": "noncomputable def leftResolutionExtTopProjection : A.leftModuleADual (P.complex.X 3) ⟶ A.leftModuleExtRight X 3"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftResolutionExtTopProjectionEpi",
+          "kind": "instance",
+          "full_header": "noncomputable instance leftResolutionExtTopProjectionEpi : Epi (A.leftResolutionExtTopProjection P h₄)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftResolutionExtTopProjection_dual_d₃",
+          "kind": "theorem",
+          "full_header": "theorem leftResolutionExtTopProjection_dual_d₃ : A.leftModuleADualMap (P.complex.d 3 2) ≫ A.leftResolutionExtTopProjection P h₄ = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftResolutionExtTopProjection_exact",
+          "kind": "theorem",
+          "full_header": "theorem leftResolutionExtTopProjection_exact : (ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2)) (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄)).Exact"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjection",
+          "kind": "def",
+          "full_header": "noncomputable def leftBidualTopProjection : A.leftModuleADual (R.leftResolutionComplex.X 3) ⟶ A.simpleRightModule (Q.height w)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjectionEpi",
+          "kind": "instance",
+          "full_header": "noncomputable instance leftBidualTopProjectionEpi : Epi R.leftBidualTopProjection"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.leftBidualTopDifferential_comm",
+          "kind": "theorem",
+          "full_header": "theorem leftBidualTopDifferential_comm : A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom = (R.leftResolutionBidualTermIso 2).hom ≫ R.d₁"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjection_differential",
+          "kind": "theorem",
+          "full_header": "theorem leftBidualTopProjection_differential : A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ R.leftBidualTopProjection = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.leftBidualTopProjection_exact",
+          "kind": "theorem",
+          "full_header": "theorem leftBidualTopProjection_exact : (ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2)) R.leftBidualTopProjection R.leftBidualTopProjection_differential).Exact"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.leftExtThreeIsoSimple",
+          "kind": "def",
+          "full_header": "noncomputable def leftExtThreeIsoSimple (h : A.ASRegular Q) : A.leftModuleExtRight (A.simpleLeftModule (Q.height (Q.tau.symm w))) 3 ≅ A.simpleRightModule (Q.height w)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.leftExtThreeIsoSimple",
+          "kind": "def",
+          "full_header": "noncomputable def ASRegular.leftExtThreeIsoSimple (h : A.ASRegular Q) (u : Q.LiftVertex) : A.leftModuleExtRight (A.simpleLeftModule (Q.height u)) 3 ≅ A.simpleRightModule (Q.height (Q.tau u))"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.leftExt_other_eq_zero",
+          "kind": "theorem",
+          "full_header": "theorem ASRegular.leftExt_other_eq_zero (h : A.ASRegular Q) (u : Q.LiftVertex) (i : ℤ) (n : ℕ) (hn : n ≠ 3) (e : Abelian.Ext.{v} (A.simpleLeftModule (Q.height u)) (A.leftRepresentable i) n) : e = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASRegular.leftExt_other_isZero",
+          "kind": "theorem",
+          "full_header": "theorem ASRegular.leftExt_other_isZero (h : A.ASRegular Q) (u : Q.LiftVertex) (n : ℕ) (hn : n ≠ 3) : IsZero (A.leftModuleExtRight (A.simpleLeftModule (Q.height u)) n)"
+        }
+      ]
+    }
+  },
+  "manual_delta_review": {
+    "ASGinzburg/ExtComponentContravariance.lean": "Only two declaration-scoped backward.isDefEq.respectTransparency false options, for the original contravariant Ext-functor additive instances. Original functor objects, morphism actions, scalar action and proof bodies are unchanged.",
+    "ASGinzburg/RegularExtLeftModule.lean": "Only a declaration-scoped transparency option for the original locally-unital proof. Original regular Ext-module, scalar action, index set and all definitions are unchanged.",
+    "ASGinzburg/GinzburgGeneratorFiltrationRadical.lean": "The Epi proof explicitly changes the original local f to ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0, then applies the same original Epi theorem. This merely resolves the original -1+1=0 index; original filtration arrow and radical statement are retained.",
+    "ASGinzburg/ASZeroCutRelationComparison.lean": "The proof explicitly rewrites zeroCutFoundationComponentEquiv and LinearEquiv.trans_apply instead of using broad change. Original native foundation relation, zero-cut unrolling, zero-sheet height reindexing, variables and equality conclusion are unchanged.",
+    "ASGinzburg/LeftRegularCoproduct.lean": "Original coproduct, component isomorphism, projection and action definitions remain exact original expressions. Typed local f/g/h are the same leftRepresentableFunctor images of a.op, b.op and (A.comp b a).op. Contravariant composition is g ≫ f, using map_comp b.op a.op; cancellation occurs at the same j inclusion/projection. Off-diagonal proof uses original j≠p in the correct symmetric orientation p≠j. Add/smul proofs and all action statements retain original operations. Six scoped elaboration options change no definitions.",
+    "ASGinzburg/ASLeftExtReciprocity.lean": "Original leftResolutionExtTopProjection and leftBidualTopProjection data bodies are byte-for-byte original formulas: Ext-zero inverse, original boundary, dimension-shift isomorphisms in the original order; and original term-3 bidual isomorphism then simple-module projection. First namespace makes only original ADual objects locally irreducible; second namespace also makes the original ADual maps locally irreducible, all closed at namespace end before the final ASRegular namespace. This controls proof elaboration and does not change values or global reducibility. Epi letI terms supply existing instances for the same boundary and isomorphism/projection. hπ is a named rfl equality for the same original composite and cancels e.hom/e.inv. of_d uses precisely reversedRightTerm, reversedRightDifferential and index2 for original d2,3=d₁. ShortComplex exactness transfers use original term2/term3 isomorphisms and exact₀. The final ASRegular.leftExt_other_isZero adds the required ObjectProperty.hom_ext wrapper before the original componentwise proof. All thirteen named declarations, hypotheses, Ext.{v} universe and maps remain original."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "focused_definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "all_original_universes_hypotheses_conclusions_preserved": true,
+    "local_opacity_scoped_and_original_concrete_definitions_unchanged": true
+  },
+  "existing_sha_matching_compile_records_read_without_compiler_invocation": [
+    {
+      "record": "work/lean-upgrade/algebra-as-left-ext-reciprocity-02.json",
+      "source": "ASGinzburg/ASLeftExtReciprocity.lean",
+      "source_sha256": "2752a6d17f683910a52f054c38ff1072004e73e10dafded29b49fbe7efd2985d",
+      "actual_exit_code": 143,
+      "elapsed_seconds": 159.5318827910014,
+      "finished_at_utc": "2026-10-10T13:11:38.806325+00:00"
+    },
+    {
+      "record": "work/lean-upgrade/ideals-GinzburgGeneratorFiltrationRadical-02.json",
+      "source": "ASGinzburg/GinzburgGeneratorFiltrationRadical.lean",
+      "source_sha256": "6a1915f10e2859555f237e5c057131fcfec960d4eefb315efee5d4bc96124542",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 3.628674370003864,
+      "finished_at_utc": "2026-10-10T13:00:41.311387+00:00"
+    },
+    {
+      "record": "work/lean-upgrade/tor-migration-ext-component-contravariance-1.json",
+      "source": "ASGinzburg/ExtComponentContravariance.lean",
+      "source_sha256": "d829404dd914d6aa43aa17d594e4c88a06abeae826280003a0d407f8cbe7d78a",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 24.725819059996866,
+      "finished_at_utc": "2026-10-10T12:59:28.293836+00:00"
+    },
+    {
+      "record": "work/lean-upgrade/paths-RegularExtLeftModule-build21-01.json",
+      "source": "ASGinzburg/RegularExtLeftModule.lean",
+      "source_sha256": "f1d7d0721c1e267012326939e8e8ae258bb7011688cbd1f5e197ea98fd32bb10",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 5.956527576003282,
+      "finished_at_utc": "2026-10-10T13:00:49.685581+00:00"
+    },
+    {
+      "record": "work/lean-upgrade/category-left-regular-coproduct-compile-02.json",
+      "source": "ASGinzburg/LeftRegularCoproduct.lean",
+      "source_sha256": "3215d3f9fee5568d8697fd5a9b297a3de5dc8d2c0804a7c203ad72eaa54a3ac4",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 12.47175006899488,
+      "finished_at_utc": "2026-10-10T13:02:07.670761+00:00"
+    },
+    {
+      "record": "work/lean-upgrade/algebra-as-zero-cut-relation-comparison-01.json",
+      "source": "ASGinzburg/ASZeroCutRelationComparison.lean",
+      "source_sha256": "34166cf1db33e350ccdad9abb98c40a3fe901c7e2367790256b83f186f7dcac9",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 3.61512359099288,
+      "finished_at_utc": "2026-10-10T13:00:44.393385+00:00"
+    }
+  ],
+  "ASLeftExtReciprocity_status": "Current captured public SHA2752a6d17f683910a52f054c38ff1072004e73e10dafded29b49fbe7efd2985d full direct check algebra-as-left-ext-reciprocity-02 closed with actual exit143 at13:11:38.806325 UTC after159.5319s, empty log. This is a failed/terminated public check, not a successful certificate. Earlier01 and resource-guard versions were also terminated; isolated namespace diagnostic exit0 does not replace public success. Parent explicitly confirms no public0. Semantic statements/maps remain preserved, but compilation is incomplete.",
+  "late_source_observations": {
+    "observed_at_utc": "2026-10-10T13:12:37.129774+00:00",
+    "current_focused_source_sha256": {
+      "ASGinzburg/ExtComponentContravariance.lean": "d829404dd914d6aa43aa17d594e4c88a06abeae826280003a0d407f8cbe7d78a",
+      "ASGinzburg/RegularExtLeftModule.lean": "f1d7d0721c1e267012326939e8e8ae258bb7011688cbd1f5e197ea98fd32bb10",
+      "ASGinzburg/GinzburgGeneratorFiltrationRadical.lean": "6a1915f10e2859555f237e5c057131fcfec960d4eefb315efee5d4bc96124542",
+      "ASGinzburg/ASZeroCutRelationComparison.lean": "34166cf1db33e350ccdad9abb98c40a3fe901c7e2367790256b83f186f7dcac9",
+      "ASGinzburg/LeftRegularCoproduct.lean": "3215d3f9fee5568d8697fd5a9b297a3de5dc8d2c0804a7c203ad72eaa54a3ac4",
+      "ASGinzburg/ASLeftExtReciprocity.lean": "2752a6d17f683910a52f054c38ff1072004e73e10dafded29b49fbe7efd2985d"
+    },
+    "changed_since_focused_capture": [],
+    "all_six_focused_sources_unchanged": true
+  },
+  "limitations": [
+    "Focused provisional review only; no fresh complete1373 source snapshot was requested or captured during active edits.",
+    "The next announced brief intermediate checkpoint freeze must capture all1373 files and review all additional or late deltas.",
+    "Static semantic review is not compilation, exhaustive axiom audit or upgrade-completion certification."
+  ],
+  "ASLeftExtReciprocity_status_observed_earlier_during_review": "Current captured public SHA2752a6d17f683910a52f054c38ff1072004e73e10dafded29b49fbe7efd2985d has no completed matching full-public check record at review time. Earlier whole-public algebra01 was terminated143 on different SHA f8b308..., resource guard refers yet another older56b4... source. Isolated first/second namespace diagnostics returned0 on diagnostic files, not a full-public certificate. Current full-public check may still be active; no success claimed.",
+  "latest_parent_verification_update_at_utc": "2026-10-10T13:13:08.134956+00:00",
+  "sha_matching_compile_evidence_counts": {
+    "actual_exit0": 5,
+    "actual_exit143": 1
+  },
+  "latest_parent_verification_update": "Complete build21 actual1 with six failed leaves, five repaired ready. Partial narrow actual0,886 project oleans currently; no global success. Root will announce complete1373 checkpoint5 intermediate freeze after two pending paths checks."
+}

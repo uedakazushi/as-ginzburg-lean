@@ -1,0 +1,68 @@
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:15:2: error: Type mismatch: After simplification, term
+  ginzburgGeneratorLoopToDualHomology_comp Q k φ u v c
+ has type
+  @Eq
+    (Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2) ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ u v (-1 + 1) c (-1 + 1))
+    (Q.ginzburgGeneratorLoopToDualHomology k φ u v c ≫ Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1)) 0
+but is expected to have type
+  @Eq (Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2) ⟶ Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+    (Q.ginzburgGeneratorLoopToDualHomology k φ u v c ≫
+      ⋯.mp (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1)))
+    0
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:39:2: error: unsolved goals
+case succ.zero
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+c : ℤ
+⊢ 0 ≫ Q.ginzburgGeneratorLoopToDualHomology k φ u v c = 0
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:53:4: error: Type mismatch: After simplification, term
+  loopDualShortComplex_exact Q k h u v c
+ has type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    { X₁ := Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2),
+      X₂ := Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1),
+      X₃ := Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0, f := Q.ginzburgGeneratorLoopToDualHomology k φ u v c,
+      g := Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1), zero := ⋯ }
+but is expected to have type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 2 1 0).obj
+      (ChainComplex.of (Q.ginzburgGeneratorHomologyTerm k φ u v c) (Q.ginzburgGeneratorHomologyDifferential k φ u v c)
+        ⋯))
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:58:6: error: Type mismatch: After simplification, term
+  loopToDualHomology_mono Q k h u v c
+ has type
+  @Mono (ModuleCat k) (ModuleCat.moduleCategory k) (Q.ginzburgAssociatedGradedHomology k φ u v (-2) c (-2))
+    (Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1)) (Q.ginzburgGeneratorLoopToDualHomology k φ u v c)
+but is expected to have type
+  @Mono (ModuleCat k) (ModuleCat.moduleCategory k) (Q.ginzburgGeneratorHomologyTerm k φ u v c 2)
+    (Q.ginzburgGeneratorHomologyTerm k φ u v c 1)
+    (ChainComplex.of.d (Q.ginzburgGeneratorHomologyTerm k φ u v c) (Q.ginzburgGeneratorHomologyDifferential k φ u v c) 2
+      1)
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:62:6: error: Type mismatch: After simplification, term
+  ChainComplex.of_d (Q.ginzburgGeneratorHomologyTerm k φ u v c) (Q.ginzburgGeneratorHomologyDifferential k φ u v c) 2
+ has type
+  @Eq (Q.ginzburgGeneratorHomologyTerm k φ u v c (2 + 1) ⟶ Q.ginzburgGeneratorHomologyTerm k φ u v c 2)
+    (ChainComplex.of.d (Q.ginzburgGeneratorHomologyTerm k φ u v c) (Q.ginzburgGeneratorHomologyDifferential k φ u v c)
+      (2 + 1) 2)
+    0
+but is expected to have type
+  @Eq (Q.ginzburgGeneratorHomologyTerm k φ u v c 3 ⟶ Q.ginzburgGeneratorHomologyTerm k φ u v c 2)
+    (ChainComplex.of.d (Q.ginzburgGeneratorHomologyTerm k φ u v c) (Q.ginzburgGeneratorHomologyDifferential k φ u v c) 3
+      2)
+    0
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:75:6: error: Type mismatch: After simplification, term
+  ginzburgGeneratorDualToOriginalHomology_comp Q k φ u v c
+ has type
+  @Eq (Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) ⟶ Q.ginzburgAugmentationHomology k φ u v c 0)
+    (Q.ginzburgGeneratorDualToOriginalHomology k φ u v c ≫ Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c) 0
+but is expected to have type
+  @Eq (Q.ginzburgGeneratorHomologyTerm k φ u v c 1 ⟶ Q.ginzburgAugmentationHomology k φ u v c 0)
+    (ChainComplex.of.d (Q.ginzburgGeneratorHomologyTerm k φ u v c) (Q.ginzburgGeneratorHomologyDifferential k φ u v c) 1
+        0 ≫
+      Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c)
+    0
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:83:6: error: `dsimp` made no progress

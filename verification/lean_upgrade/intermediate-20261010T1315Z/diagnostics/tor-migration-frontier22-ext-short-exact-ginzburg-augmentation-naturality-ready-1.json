@@ -1,0 +1,135 @@
+{
+  "recorded_at_utc": "2026-10-10T13:12:44.994809+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "6838dc6aa19e48c9154fa95ddb0b17cf5702b0e5",
+  "status": "Both current public sources actual default-limit Lean4.34.1 serial direct no-output exit0, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 2,
+  "declaration_count": 13,
+  "sources": [
+    {
+      "source": "ASGinzburg/ExtComponentShortExact.lean",
+      "source_sha256": "fb1abeaba11672986ef24d9672981cf9de626cce143f43d3e7f6f309a21fb406",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier22-entry-ExtComponentShortExact.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-ext-component-short-exact-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:08:48.684297+00:00",
+      "finished_at_utc": "2026-10-10T13:09:30.644791+00:00",
+      "elapsed_seconds": 41.96060291599861,
+      "log": "work/lean-upgrade/tor-migration-ext-component-short-exact-2.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "proof_change_note": "Only scoped native-Ext inference compatibility on rightModuleExtPrecompLeft_zero and leftModuleExtPrecompRight_zero; removing both option lines restores byte-for-byte task-entry source.",
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtPrecompLeft_zero",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleExtPrecompLeft_zero {S : ShortComplex A.RightModule} (n : ℕ) : A.rightModuleExtPrecompLeft S.g n ≫ A.rightModuleExtPrecompLeft S.f n = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftShortComplex",
+          "kind": "def",
+          "full_header": "noncomputable def rightModuleExtLeftShortComplex (S : ShortComplex A.RightModule) (n : ℕ) : ShortComplex A.LeftModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftShortComplex_exact",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleExtLeftShortComplex_exact {S : ShortComplex A.RightModule} (hS : S.ShortExact) (n : ℕ) : (A.rightModuleExtLeftShortComplex S n).Exact"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftShortComplex_three_shortExact",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleExtLeftShortComplex_three_shortExact {S : ShortComplex A.RightModule} (hS : S.ShortExact) (h₂ : ∀ i, ∀ e : Abelian.Ext.{v} S.X₁ (A.representable i) 2, e = 0) (h₄ : ∀ i, ∀ e : Abelian.Ext.{v} S.X₃ (A.representable i) 4, e = 0) : (A.rightModuleExtLeftShortComplex S 3).ShortExact"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtPrecompRight_zero",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleExtPrecompRight_zero {S : ShortComplex A.LeftModule} (n : ℕ) : A.leftModuleExtPrecompRight S.g n ≫ A.leftModuleExtPrecompRight S.f n = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightShortComplex",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtRightShortComplex (S : ShortComplex A.LeftModule) (n : ℕ) : ShortComplex A.RightModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightShortComplex_exact",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleExtRightShortComplex_exact {S : ShortComplex A.LeftModule} (hS : S.ShortExact) (n : ℕ) : (A.leftModuleExtRightShortComplex S n).Exact"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightShortComplex_three_shortExact",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleExtRightShortComplex_three_shortExact {S : ShortComplex A.LeftModule} (hS : S.ShortExact) (h₂ : ∀ i, ∀ e : Abelian.Ext.{v} S.X₁ (A.leftRepresentable i) 2, e = 0) (h₄ : ∀ i, ∀ e : Abelian.Ext.{v} S.X₃ (A.leftRepresentable i) 4, e = 0) : (A.leftModuleExtRightShortComplex S 3).ShortExact"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)",
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/GinzburgAugmentationHomologyNaturality.lean",
+      "source_sha256": "68ff5c24b58f7af3cd9cfc81c6f01398adc4a3f943b7e2550c9d2a5892f14044",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier22-entry-GinzburgAugmentationHomologyNaturality.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-ginzburg-augmentation-homology-naturality-4.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:11:46.293063+00:00",
+      "finished_at_utc": "2026-10-10T13:11:50.373814+00:00",
+      "elapsed_seconds": 4.080761568999151,
+      "log": "work/lean-upgrade/tor-migration-ginzburg-augmentation-homology-naturality-4.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "proof_change_note": "Exactly3 existing simpa-only proofs explicitly unfold the original HomologicalComplex.homologyFunctor and named homology object/map definitions; functorial/cochain naturality argument and canonical maps unchanged. No compatibility flags remain.",
+      "declarations": [
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgAugmentationInclusionHomology_left_naturality",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgAugmentationInclusionHomology_left_naturality (φ : Q.Potential k) {x y v : Q.LiftVertex} (q : ℤ) (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) : Q.ginzburgAugmentationLeftHomology k φ q f ≫ HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2-x.2)) q= HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2-y.2)) q ≫ Q.ginzburgCutLeftHomology k φ q f"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgFilteredNegTwoHomologyIso_left_naturality",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgFilteredNegTwoHomologyIso_left_naturality (φ : Q.Potential k) {x y v : Q.LiftVertex} (q : ℤ) (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) : Q.ginzburgFilteredLeftHomology k φ (-2) q f ≫ (Q.ginzburgGeneratorFilteredNegTwoHomologyIso k φ x.1 v.1 (v.2-x.2) q).hom= (Q.ginzburgGeneratorFilteredNegTwoHomologyIso k φ y.1 v.1 (v.2-y.2) q).hom ≫ Q.ginzburgAugmentationLeftHomology k φ q f"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgMiddleAugmentationHomologyIso_left_naturality",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgMiddleAugmentationHomologyIso_left_naturality (φ : Q.Potential k) {x y v : Q.LiftVertex} (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) : Q.ginzburgFilteredLeftHomology k φ (-1) 0 f ≫ (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ x.1 v.1 (v.2-x.2)).hom= (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ y.1 v.1 (v.2-y.2)).hom ≫ Q.ginzburgAugmentationLeftHomology k φ 0 f"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgFiltrationRadicalMap_left_naturality",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgFiltrationRadicalMap_left_naturality (φ : Q.Potential k) {x y v : Q.LiftVertex} (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) : Q.ginzburgFilteredLeftHomology k φ 0 0 f ≫ Q.ginzburgGeneratorFiltrationRadicalMap k φ x.1 v.1 (v.2-x.2)= Q.ginzburgGeneratorFiltrationRadicalMap k φ y.1 v.1 (v.2-y.2) ≫ Q.ginzburgAugmentationLeftHomology k φ 0 f"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgAugmentationHeightHomologyIso_left_naturality",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgAugmentationHeightHomologyIso_left_naturality (φ : Q.Potential k) {x y v : Q.LiftVertex} (hx : Q.height x<Q.height v) (hy : Q.height y<Q.height v) (q : ℤ) (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) : Q.ginzburgAugmentationLeftHomology k φ q f ≫ (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx q).hom= (Q.ginzburgAugmentationHeightHomologyIso k φ y v hy q).hom ≫ Q.ginzburgCutLeftHomology k φ q f"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable (Q : CutQuiver) (k : Type u) [Field k]"
+      ]
+    }
+  ],
+  "prior_failed_check_records_preserved": [
+    "work/lean-upgrade/tor-migration-ext-component-short-exact-1.json",
+    "work/lean-upgrade/tor-migration-ginzburg-augmentation-homology-naturality-1.json",
+    "work/lean-upgrade/tor-migration-ginzburg-augmentation-homology-naturality-2.json",
+    "work/lean-upgrade/tor-migration-ginzburg-augmentation-homology-naturality-3.json"
+  ],
+  "prior_failed_check_note": "Ext unchanged firstcheck exposed2 native carrier transparency errors. Ginzburg unchanged firstcheck exposed3 homology alias/functor simp type mismatches; scoped inference alone did not resolve them incheck2, andcheck3 needed all original object/map definitions in height proof. Actual failures/snapshots/logs are preserved.",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

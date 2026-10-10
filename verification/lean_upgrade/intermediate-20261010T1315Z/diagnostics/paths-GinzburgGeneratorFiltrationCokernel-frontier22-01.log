@@ -1,0 +1,41 @@
+ASGinzburg/GinzburgGeneratorFiltrationCokernel.lean:22:2: error: Type mismatch: After simplification, term
+  congrArg (fun f => f ≫ (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom) hc
+ has type
+  @Eq (Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) ⟶ Q.ginzburgAugmentationHomology k φ u v c 0)
+    (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1) ≫
+      Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c (-1 + 1) ≫
+        (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom)
+    0
+but is expected to have type
+  @Eq (Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) ⟶ Q.ginzburgAugmentationHomology k φ u v c 0)
+    (⋯.mp (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1)) ≫
+      ⋯.mp (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0) ≫
+        (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom)
+    0
+ASGinzburg/GinzburgGeneratorFiltrationCokernel.lean:40:4: error: Type mismatch: After simplification, term
+  hx
+ has type
+  @Eq (↑(Q.ginzburgAugmentationHomology k φ u v c 0))
+    ((ConcreteCategory.hom
+        (⋯.mp (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0) ≫
+          (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom))
+      x)
+    0
+but is expected to have type
+  @Eq (↑(Q.ginzburgAugmentationHomology k φ u v c 0))
+    ((ConcreteCategory.hom e.hom)
+      ((ConcreteCategory.hom (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0)) x))
+    0
+ASGinzburg/GinzburgGeneratorFiltrationCokernel.lean:46:4: error: Type mismatch: After simplification, term
+  (ShortComplex.moduleCat_exact_iff
+        { X₁ := Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1),
+          X₂ := Q.ginzburgGeneratorFilteredHomology k φ u v (-1 + 1) c (-1 + 1),
+          X₃ := Q.ginzburgGeneratorFilteredHomology k φ u v (-1) c (-1 + 1),
+          f := Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1),
+          g := Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c (-1 + 1),
+          zero := ginzburgGeneratorFiltrationConnecting_comp Q k φ u v (-1) c (-1) }).mp
+    he x hx'
+ has type
+  ∃ x₁, (ConcreteCategory.hom (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1))) x₁ = x
+but is expected to have type
+  ∃ y, (ConcreteCategory.hom (⋯.mp (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1)))) y = x

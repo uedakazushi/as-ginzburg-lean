@@ -1,0 +1,14 @@
+ASGinzburg/GinzburgGeneratorFiltrationCokernel.lean:25:2: error: Type mismatch: After simplification, term
+  congrArg (fun f => f ≫ (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom) hc
+ has type
+  @Eq (Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) ⟶ Q.ginzburgAugmentationHomology k φ u v c 0)
+    (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1) ≫
+      Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c (-1 + 1) ≫
+        (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom)
+    0
+but is expected to have type
+  @Eq (Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) ⟶ Q.ginzburgAugmentationHomology k φ u v c 0)
+    (Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1) ≫
+      Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0 ≫
+        (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom)
+    0

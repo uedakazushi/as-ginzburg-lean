@@ -1,0 +1,59 @@
+ASGinzburg/LeftRegularTotalAlgebra.lean:28:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ≫ ?g ≫ ?h
+in the target expression
+  ModuleCat.ofHom (DirectSum.lof k ℤ (fun l => A.Hom l j) i) ≫
+      ((PreservesCoproduct.iso (A.leftModuleEvaluation j) fun i => A.leftRepresentable i) ≪≫
+          ModuleCat.coprodIsoDirectSum fun j_1 => (A.leftModuleEvaluation j).obj (A.leftRepresentable j_1)).inv =
+    (A.leftModuleEvaluation j).map (Sigma.ι (fun l => A.leftRepresentable l) i)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j : ℤ
+a : A.Hom i j
+⊢ ModuleCat.ofHom (DirectSum.lof k ℤ (fun l => A.Hom l j) i) ≫
+      ((PreservesCoproduct.iso (A.leftModuleEvaluation j) fun i => A.leftRepresentable i) ≪≫
+          ModuleCat.coprodIsoDirectSum fun j_1 => (A.leftModuleEvaluation j).obj (A.leftRepresentable j_1)).inv =
+    (A.leftModuleEvaluation j).map (Sigma.ι (fun l => A.leftRepresentable l) i)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    PreservesCoproduct.iso (A.leftModuleEvaluation j) fun i => A.leftRepresentable i
+  has type
+    @Iso (ModuleCat k) (ModuleCat.moduleCategory k) ((A.leftModuleEvaluation j).obj (∐ fun i => A.leftRepresentable i))
+      (∐ fun j_1 => (A.leftModuleEvaluation j).obj (A.leftRepresentable j_1))
+  but is expected to have type
+    @Iso (ModuleCat k) (ModuleCat.moduleCategory k) ((A.leftModuleEvaluation j).obj A.leftRegularCoproduct)
+      (∐ fun j_1 => (A.leftModuleEvaluation j).obj (A.leftRepresentable j_1))
+  in the application
+    (PreservesCoproduct.iso (A.leftModuleEvaluation j) fun i => A.leftRepresentable i).trans
+ASGinzburg/LeftRegularTotalAlgebra.lean:88:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.leftModuleTotalAction ?M ?a) ((DirectSum.lof k ℤ (fun l => ↑((A.leftModuleEvaluation l).obj ?M)) ?i) ?x)
+in the target expression
+  (A.leftModuleTotalAction A.leftRegularCoproduct a)
+      ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj A.leftRegularCoproduct)) i)
+        ((ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) p).hom.app { index := i })) b)) =
+    A.leftRegularMatrixElement ((A.comp a) b)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j p : ℤ
+a : A.Hom i j
+b : A.Hom p i
+⊢ (A.leftModuleTotalAction A.leftRegularCoproduct a)
+      ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj A.leftRegularCoproduct)) i)
+        ((ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) p).hom.app { index := i })) b)) =
+    A.leftRegularMatrixElement ((A.comp a) b)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    b
+  has type
+    A.Hom p i
+  but is expected to have type
+    ↑((A.leftRepresentable p).obj.obj { index := i })
+  in the application
+    (ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) p).hom.app { index := i })) b

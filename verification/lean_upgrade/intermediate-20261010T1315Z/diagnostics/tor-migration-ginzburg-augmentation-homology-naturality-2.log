@@ -1,0 +1,67 @@
+ASGinzburg/GinzburgAugmentationHomologyNaturality.lean:26:2: error: Type mismatch: After simplification, term
+  he
+ has type
+  @Eq
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).obj
+        (Q.ginzburgAugmentationCochainComplex k φ y.1 v.1 (v.2 - y.2)) ⟶
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).obj
+        (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAugmentationLeftCochainMap k φ f) ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2 - y.2)) ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map (Q.ginzburgCutLeftCochainMap k φ f))
+but is expected to have type
+  @Eq
+    (Q.ginzburgAugmentationHomology k φ y.1 v.1 (v.2 - y.2) q ⟶
+      HomologicalComplex.homology (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2 - x.2)) q)
+    (Q.ginzburgAugmentationLeftHomology k φ q f ≫
+      HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2 - y.2)) q ≫
+      Q.ginzburgCutLeftHomology k φ q f)
+ASGinzburg/GinzburgAugmentationHomologyNaturality.lean:39:2: error: Type mismatch: After simplification, term
+  he
+ has type
+  @Eq
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).obj
+        (Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 (-2) (v.2 - y.2)) ⟶
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).obj
+        (Q.ginzburgAugmentationCochainComplex k φ x.1 v.1 (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgFilteredLeftCochainMap k φ (-2) f) ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgGeneratorFilteredAugmentationInclusion k φ x.1 v.1 (-2) (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgGeneratorFilteredAugmentationInclusion k φ y.1 v.1 (-2) (v.2 - y.2)) ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAugmentationLeftCochainMap k φ f))
+but is expected to have type
+  @Eq
+    (Q.ginzburgGeneratorFilteredHomology k φ y.1 v.1 (-2) (v.2 - y.2) q ⟶
+      Q.ginzburgAugmentationHomology k φ x.1 v.1 (v.2 - x.2) q)
+    (Q.ginzburgFilteredLeftHomology k φ (-2) q f ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgGeneratorFilteredAugmentationInclusion k φ x.1 v.1 (-2) (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgGeneratorFilteredAugmentationInclusion k φ y.1 v.1 (-2) (v.2 - y.2)) ≫
+      Q.ginzburgAugmentationLeftHomology k φ q f)
+ASGinzburg/GinzburgAugmentationHomologyNaturality.lean:92:2: error: Type mismatch: After simplification, term
+  ginzburgAugmentationInclusionHomology_left_naturality Q k φ q f
+ has type
+  @Eq
+    (Q.ginzburgAugmentationHomology k φ y.1 v.1 (v.2 - y.2) q ⟶
+      HomologicalComplex.homology (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2 - x.2)) q)
+    (Q.ginzburgAugmentationLeftHomology k φ q f ≫
+      HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2 - y.2)) q ≫
+      Q.ginzburgCutLeftHomology k φ q f)
+but is expected to have type
+  @Eq (Q.ginzburgAugmentationHomology k φ y.1 v.1 (v.2 - y.2) q ⟶ Q.ginzburgCutHomology k φ x.1 v.1 (v.2 - x.2) q)
+    (Q.ginzburgAugmentationLeftHomology k φ q f ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2 - y.2)) ≫
+      Q.ginzburgCutLeftHomology k φ q f)

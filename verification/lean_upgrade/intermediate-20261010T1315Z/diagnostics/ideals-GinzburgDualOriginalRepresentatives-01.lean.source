@@ -1,0 +1,55 @@
+import ASGinzburg.ModuleCochainConnectingRepresentatives
+import ASGinzburg.GinzburgGeneratorFiltrationCokernel
+import ASGinzburg.GinzburgBoundaryLengthSupport
+
+/-! Values of the actual dual-to-original connecting map are classes
+of genuine degree minus one differential images, with length at least two. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorFilteredComplex_d (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c q : ℤ) :
+    (Q.ginzburgGeneratorFilteredComplex k φ u v r c).d q (q+1)=
+      ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c) :=
+  CochainComplex.of_d
+    (fun j => ModuleCat.of k (Q.ginzburgGeneratorFiltrationAtDegree k u v r j c))
+    (fun j => ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v r j c)) q
+
+theorem ginzburgDualOriginalHomology_representative (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ)
+    (y : Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1)) :
+    ∃ z : Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c,
+      ∃ hz : (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 1 z=0,
+      z.val ∈ Finsupp.supported k k {p : Q.GinzburgPath u v | 2 ≤ p.length} ∧
+      Q.ginzburgGeneratorDualToOriginalHomology k φ u v c y=
+        moduleCochainHomologyClass (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c) 0 z hz := by
+  obtain ⟨x₂,x₁,hx₁,hδ⟩ := moduleCochainConnecting_exists
+    (Q.ginzburgGeneratorFilteredShortComplex_shortExact k φ u v (-1) c) (-1) y
+  have hd : (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0=
+      ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v (-1) (-1) c) := by
+    simpa only [show (-1:ℤ)+1=0 by norm_num] using
+      Q.ginzburgGeneratorFilteredComplex_d k φ u v (-1) c (-1)
+  have he : x₁.val=Q.ginzburgDifferential k φ u v x₂.val := by
+    have h := congrArg Subtype.val hx₁
+    change x₁.val=((Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0 x₂).val at h
+    rw [hd] at h
+    exact h
+  have hz : (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 1 x₁=0 := by
+    change (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 (0+1) x₁=0
+    rw [Q.ginzburgGeneratorFilteredComplex_d k φ u v 0 c 0]
+    apply Subtype.ext
+    have hm := x₁.property
+    change x₁.val ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v 0 0 c at hm
+    rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf] at hm
+    exact Q.ginzburgDifferential_degreeZero k φ hm.2.1
+  refine ⟨x₁,hz,?_,?_⟩
+  · rw [he]
+    exact Q.ginzburgDifferential_negOne_supported_length k φ u v
+      ⟨x₂.val,by
+        exact ((Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k u v (-1) (-1) c).le
+          x₂.property).2.1⟩
+  · exact hδ
+
+end ASGinzburg.CutQuiver

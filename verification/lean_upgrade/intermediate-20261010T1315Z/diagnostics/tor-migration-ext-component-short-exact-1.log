@@ -1,0 +1,50 @@
+ASGinzburg/ExtComponentShortExact.lean:16:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Abelian.Ext.mk₀ ?f).comp ((Abelian.Ext.mk₀ ?g).comp ?α ⋯) ⋯
+in the target expression
+  (Abelian.Ext.mk₀ S.f).comp ((Abelian.Ext.mk₀ S.g).comp e ⋯) ⋯ = 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+S : ShortComplex A.RightModule
+n : ℕ
+X : A.Obj
+e : ↑((A.rightModuleExtLeft S.X₃ n).obj.obj X)
+⊢ (Abelian.Ext.mk₀ S.f).comp ((Abelian.Ext.mk₀ S.g).comp e ⋯) ⋯ = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    e
+  has type
+    ↑((A.rightModuleExtLeft S.X₃ n).obj.obj X)
+  but is expected to have type
+    Abelian.Ext S.X₃ (A.representableFunctor.obj X) n
+  in the application
+    @Abelian.Ext.comp A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty) A.rightModuleAbelian
+      ⋯ S.X₂ S.X₃ (A.representableFunctor.obj X) 0 n (Abelian.Ext.mk₀ S.g) e
+ASGinzburg/ExtComponentShortExact.lean:70:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Abelian.Ext.mk₀ ?f).comp ((Abelian.Ext.mk₀ ?g).comp ?α ⋯) ⋯
+in the target expression
+  (Abelian.Ext.mk₀ S.f).comp ((Abelian.Ext.mk₀ S.g).comp e ⋯) ⋯ = 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+S : ShortComplex A.LeftModule
+n : ℕ
+X : A.Objᵒᵖ
+e : ↑((A.leftModuleExtRight S.X₃ n).obj.obj X)
+⊢ (Abelian.Ext.mk₀ S.f).comp ((Abelian.Ext.mk₀ S.g).comp e ⋯) ⋯ = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    e
+  has type
+    ↑((A.leftModuleExtRight S.X₃ n).obj.obj X)
+  but is expected to have type
+    Abelian.Ext S.X₃ (A.leftRepresentableFunctor.obj X) n
+  in the application
+    @Abelian.Ext.comp A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty) A.leftModuleAbelian ⋯
+      S.X₂ S.X₃ (A.leftRepresentableFunctor.obj X) 0 n (Abelian.Ext.mk₀ S.g) e

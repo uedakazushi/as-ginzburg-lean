@@ -1,0 +1,52 @@
+import ASGinzburg.ASLeftExtConcentration
+import ASGinzburg.LeftModuleExtRightSequence
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
+
+noncomputable def leftBidualTopProjection :
+    A.leftModuleADual (R.leftResolutionComplex.X 3) ⟶ A.simpleRightModule (Q.height w) :=
+  (R.leftResolutionBidualTermIso 3).hom ≫ A.simpleRightModuleπ (Q.height w)
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable instance leftBidualTopProjectionEpi : Epi R.leftBidualTopProjection := by
+  letI : Epi (R.leftResolutionBidualTermIso 3).hom := inferInstance
+  letI : Epi (A.simpleRightModuleπ (Q.height w)) := inferInstance
+  dsimp only [leftBidualTopProjection]
+  infer_instance
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftBidualTopDifferential_comm :
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom =
+      (R.leftResolutionBidualTermIso 2).hom ≫ R.d₁ := by
+  have H := R.leftResolutionBidualComplexIso.hom.comm 2 3
+  change (R.leftResolutionBidualTermIso 2).hom ≫ R.reversedRightComplex.d 2 3 =
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom at H
+  rw [show R.reversedRightComplex.d 2 3 = R.d₁ from
+    CochainComplex.of_d R.reversedRightTerm R.reversedRightDifferential 2] at H
+  exact H.symm
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftBidualTopProjection_differential :
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ R.leftBidualTopProjection = 0 := by
+  dsimp only [leftBidualTopProjection]
+  rw [← Category.assoc,R.leftBidualTopDifferential_comm,Category.assoc,R.d₁_π,comp_zero]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftBidualTopProjection_exact :
+    (ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2))
+      R.leftBidualTopProjection R.leftBidualTopProjection_differential).Exact := by
+  let T := ShortComplex.mk R.d₁ (A.simpleRightModuleπ (Q.height w)) R.d₁_π
+  let e : ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2))
+      R.leftBidualTopProjection R.leftBidualTopProjection_differential ≅ T :=
+    ShortComplex.isoMk (R.leftResolutionBidualTermIso 2) (R.leftResolutionBidualTermIso 3) (Iso.refl _)
+      (by exact R.leftBidualTopDifferential_comm.symm)
+      (by simp [T,leftBidualTopProjection])
+  exact (ShortComplex.exact_iff_of_iso e).mpr R.exact₀
+
+end ASGinzburg.ZAlgebra.ASResolution

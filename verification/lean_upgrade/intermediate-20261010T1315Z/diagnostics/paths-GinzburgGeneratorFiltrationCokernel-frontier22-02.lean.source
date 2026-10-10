@@ -1,0 +1,60 @@
+import ASGinzburg.GinzburgGeneratorFiltrationRadical
+
+/-! The next actual connecting map presents the genuine augmentation
+homology as a cokernel. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgGeneratorDualToOriginalHomology (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1) ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0 := by
+  simpa only [show (-1:ℤ)+1=0 by norm_num] using
+    Q.ginzburgGeneratorFiltrationConnecting k φ u v (-1) c (-1)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem ginzburgGeneratorDualToOriginalHomology_comp (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgGeneratorDualToOriginalHomology k φ u v c ≫
+      Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c=0 := by
+  have hc := Q.ginzburgGeneratorFiltrationConnecting_comp k φ u v (-1) c (-1)
+  simpa only [ginzburgGeneratorDualToOriginalHomology,ginzburgGeneratorFiltrationRadicalMap,
+    show (-1:ℤ)+1=0 by norm_num,Category.assoc,zero_comp] using
+    congrArg (fun f => f ≫ (Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c).hom) hc
+
+noncomputable def ginzburgGeneratorDualOriginalShortComplex (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) : ShortComplex (ModuleCat.{u} k) :=
+  ShortComplex.mk (Q.ginzburgGeneratorDualToOriginalHomology k φ u v c)
+    (Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c)
+    (Q.ginzburgGeneratorDualToOriginalHomology_comp k φ u v c)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem ginzburgGeneratorDualOriginalShortComplex_exact (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    (Q.ginzburgGeneratorDualOriginalShortComplex k φ u v c).Exact := by
+  rw [ShortComplex.moduleCat_exact_iff]
+  intro x hx
+  let e := Q.ginzburgGeneratorMiddleAugmentationHomologyIso k φ u v c
+  have hxe : e.hom (Q.ginzburgGeneratorFilteredInclusionHomology k φ u v (-1) c 0 x)=
+      e.hom 0 := by
+    simpa only [ginzburgGeneratorDualOriginalShortComplex,ginzburgGeneratorFiltrationRadicalMap,
+      ModuleCat.comp_apply,map_zero] using hx
+  have hx' := ((ModuleCat.mono_iff_injective e.hom).mp inferInstance) hxe
+  have he := Q.ginzburgGeneratorFiltrationHomology_exact₁ k φ u v (-1) c (-1)
+  have hex : ∃ y : Q.ginzburgAssociatedGradedHomology k φ u v (-1) c (-1),
+      Q.ginzburgGeneratorDualToOriginalHomology k φ u v c y=x := by
+    simpa only [ginzburgGeneratorDualToOriginalHomology,show (-1:ℤ)+1=0 by norm_num] using
+      (ShortComplex.moduleCat_exact_iff _).mp he x hx'
+  exact hex
+
+noncomputable def ginzburgGeneratorFiltrationRadicalMap_isCokernel (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    IsColimit (CokernelCofork.ofπ (Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c)
+      (Q.ginzburgGeneratorDualToOriginalHomology_comp k φ u v c)) := by
+  haveI : Epi (Q.ginzburgGeneratorDualOriginalShortComplex k φ u v c).g :=
+    Q.ginzburgGeneratorFiltrationRadicalMap_epi k φ u v c
+  exact (Q.ginzburgGeneratorDualOriginalShortComplex_exact k φ u v c).gIsCokernel
+
+end ASGinzburg.CutQuiver

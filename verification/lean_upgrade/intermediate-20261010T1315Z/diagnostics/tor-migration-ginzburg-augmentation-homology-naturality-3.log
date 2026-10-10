@@ -1,0 +1,18 @@
+ASGinzburg/GinzburgAugmentationHomologyNaturality.lean:94:2: error: Type mismatch: After simplification, term
+  ginzburgAugmentationInclusionHomology_left_naturality Q k φ q f
+ has type
+  @Eq
+    (Q.ginzburgAugmentationHomology k φ y.1 v.1 (v.2 - y.2) q ⟶
+      HomologicalComplex.homology (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2 - x.2)) q)
+    (Q.ginzburgAugmentationLeftHomology k φ q f ≫
+      HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2 - y.2)) q ≫
+      Q.ginzburgCutLeftHomology k φ q f)
+but is expected to have type
+  @Eq
+    (Q.ginzburgAugmentationHomology k φ y.1 v.1 (v.2 - y.2) q ⟶
+      HomologicalComplex.homology (Q.ginzburgCutCochainComplex k φ x.1 v.1 (v.2 - x.2)) q)
+    (Q.ginzburgAugmentationLeftHomology k φ q f ≫
+      HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ x.1 v.1 (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgAugmentationCochainInclusion k φ y.1 v.1 (v.2 - y.2)) q ≫
+      Q.ginzburgCutLeftHomology k φ q f)

@@ -1,0 +1,36 @@
+ASGinzburg/GinzburgGeneratorFiltrationRadical.lean:13:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgGeneratorFiltrationRadical.lean:17:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgGeneratorFiltrationRadical.lean:59:4: error: Type mismatch: After simplification, term
+  ginzburgGeneratorFilteredInclusionHomology_negOne_zero_epi Q k φ u v c
+ has type
+  @Epi (ModuleCat k) (ModuleCat.moduleCategory k)
+    (HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ u v (-1 + 1) c) 0)
+    (HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c) 0)
+    (HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ u v (-1) c) 0)
+but is expected to have type
+  @Epi (ModuleCat k) (ModuleCat.moduleCategory k)
+    (HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c) 0)
+    (HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c) 0)
+    (⋯.mp (HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ u v (-1) c) 0))
+ASGinzburg/GinzburgGeneratorFiltrationRadical.lean:58:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

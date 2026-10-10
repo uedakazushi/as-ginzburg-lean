@@ -1,0 +1,36 @@
+ASGinzburg/GinzburgGeneratorDifferentialNaturality.lean:22:4: error: Type mismatch: After simplification, term
+  ginzburgFiltrationConnecting_left_naturality Q k φ (-2) (-2) f
+ has type
+  @Eq
+    (Q.ginzburgAssociatedGradedHomology k φ y.1 v.1 (-2) (v.2 - y.2) (-2) ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 (-2 + 1) (v.2 - x.2) (-2 + 1))
+    (Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 (-2) (v.2 - y.2) (-2) ≫
+      Q.ginzburgFilteredLeftHomology k φ (-2 + 1) (-2 + 1) f)
+    (Q.ginzburgAssociatedLeftHomology k φ (-2) (-2) f ≫
+      Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-2) (v.2 - x.2) (-2))
+but is expected to have type
+  @Eq
+    (Q.ginzburgAssociatedGradedHomology k φ y.1 v.1 (-2) (v.2 - y.2) (-2) ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 (-1) (v.2 - x.2) (-1))
+    (Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 (-2) (v.2 - y.2) (-2) ≫
+      Q.ginzburgFilteredLeftHomology k φ (-1) (-1) f)
+    (Q.ginzburgAssociatedLeftHomology k φ (-2) (-2) f ≫
+      Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-2) (v.2 - x.2) (-2))
+ASGinzburg/GinzburgGeneratorDifferentialNaturality.lean:35:2: error: Type mismatch: After simplification, term
+  ginzburgFiltrationConnecting_left_naturality Q k φ (-1) (-1) f
+ has type
+  @Eq
+    (Q.ginzburgAssociatedGradedHomology k φ y.1 v.1 (-1) (v.2 - y.2) (-1) ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 (-1 + 1) (v.2 - x.2) (-1 + 1))
+    (Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 (-1) (v.2 - y.2) (-1) ≫
+      Q.ginzburgFilteredLeftHomology k φ (-1 + 1) (-1 + 1) f)
+    (Q.ginzburgAssociatedLeftHomology k φ (-1) (-1) f ≫
+      Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-1) (v.2 - x.2) (-1))
+but is expected to have type
+  @Eq
+    (Q.ginzburgAssociatedGradedHomology k φ y.1 v.1 (-1) (v.2 - y.2) (-1) ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 0 (v.2 - x.2) 0)
+    (⋯.mp (Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 (-1) (v.2 - y.2) (-1)) ≫
+      Q.ginzburgFilteredLeftHomology k φ 0 0 f)
+    (Q.ginzburgAssociatedLeftHomology k φ (-1) (-1) f ≫
+      ⋯.mp (Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-1) (v.2 - x.2) (-1)))

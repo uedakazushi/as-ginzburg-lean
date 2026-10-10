@@ -1,0 +1,59 @@
+ASGinzburg/LeftRegularCoproduct.lean:91:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  A.leftRepresentableFunctor.map
+    ((have this := b;
+        this).op ≫
+      (have this := a;
+        this).op)
+in the target expression
+  (A.leftRegularCoproductProjection l ≫
+        A.leftRepresentableFunctor.map (Quiver.Hom.op b) ≫ Sigma.ι (fun l => A.leftRepresentable l) j) ≫
+      A.leftRegularCoproductProjection j ≫
+        A.leftRepresentableFunctor.map (Quiver.Hom.op a) ≫ Sigma.ι (fun l => A.leftRepresentable l) i =
+    A.leftRegularCoproductProjection l ≫
+      A.leftRepresentableFunctor.map (Quiver.Hom.op ((A.comp b) a)) ≫ Sigma.ι (fun l => A.leftRepresentable l) i
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j l : ℤ
+a : A.Hom i j
+b : A.Hom j l
+f : A.leftRepresentable j ⟶ A.leftRepresentable i :=
+  A.leftRepresentableFunctor.map
+    (have this := a;
+      this).op
+g : A.leftRepresentable l ⟶ A.leftRepresentable j :=
+  A.leftRepresentableFunctor.map
+    (have this := b;
+      this).op
+hm :
+  A.leftRepresentableFunctor.map
+      ((have this := b;
+          this).op ≫
+        (have this := a;
+          this).op) =
+    A.leftRepresentableFunctor.map
+        (have this := b;
+          this).op ≫
+      A.leftRepresentableFunctor.map
+        (have this := a;
+          this).op
+⊢ (A.leftRegularCoproductProjection l ≫
+        A.leftRepresentableFunctor.map (Quiver.Hom.op b) ≫ Sigma.ι (fun l => A.leftRepresentable l) j) ≫
+      A.leftRegularCoproductProjection j ≫
+        A.leftRepresentableFunctor.map (Quiver.Hom.op a) ≫ Sigma.ι (fun l => A.leftRepresentable l) i =
+    A.leftRegularCoproductProjection l ≫
+      A.leftRepresentableFunctor.map (Quiver.Hom.op ((A.comp b) a)) ≫ Sigma.ι (fun l => A.leftRepresentable l) i
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.leftRepresentableFunctor.map (Quiver.Hom.op b)
+  has type
+    @Quiver.Hom A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty).toQuiver
+      (A.leftRepresentableFunctor.obj (op { index := l })) (A.leftRepresentableFunctor.obj (op { index := j }))
+  but is expected to have type
+    @Quiver.Hom A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty).toQuiver
+      (A.leftRepresentable l) (A.leftRepresentableFunctor.obj (op { index := j }))
+  in the application
+    CategoryStruct.comp (A.leftRepresentableFunctor.map (Quiver.Hom.op b))

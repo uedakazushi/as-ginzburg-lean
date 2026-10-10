@@ -1,0 +1,110 @@
+ASGinzburg/RegularLeftModule.lean:10:0: warning: Definition `ASGinzburg.ZAlgebra.totalAlgebraLeftUnitizationModule` of class type is semireducible. Most type class instances should be instance-reducible, so consider marking this
+definition with `@[instance_reducible]`. If it is intentionally semireducible, this warning can be disabled with `set_option warn.classDefReducibility false`.
+ASGinzburg/RegularLeftModule.lean:23:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/RegularLeftModule.lean:24:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/RegularLeftModule.lean:50:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/RegularLeftModule.lean:58:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑(A.totalAlgebraLocalUnit s) • A.leftRegularTotalAlgebraEquiv.symm x
+in the target expression
+  A.leftRegularTotalAlgebraEquiv (↑(A.totalAlgebraLocalUnit s) • A.leftRegularTotalAlgebraEquiv.symm x) = x
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+this : Module A.totalUnitization (A.leftModuleTotalSpace A.leftRegularCoproduct) :=
+  A.leftTotalUnitizationModule A.leftRegularCoproduct
+x : ↑A.totalAlgebraLeftModule
+s : Finset ℤ
+hs : ↑(A.totalAlgebraLocalUnit s) • A.leftRegularTotalAlgebraEquiv.symm x = A.leftRegularTotalAlgebraEquiv.symm x
+⊢ A.leftRegularTotalAlgebraEquiv (↑(A.totalAlgebraLocalUnit s) • A.leftRegularTotalAlgebraEquiv.symm x) = x
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    ↑A.totalAlgebraLeftModule
+  but is expected to have type
+    ↥A.totalAlgebra
+  in the application
+    A.leftRegularTotalAlgebraEquiv.symm x
+ASGinzburg/RegularLeftModule.lean:74:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.leftTotalLinearMap ?f) ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj ?m.81)) ?i) ?x)
+in the target expression
+  (A.leftTotalLinearMap (A.leftRegularCoproductAction a))
+      ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj A.leftRegularCoproduct)) q)
+        ((ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) j).hom.app { index := q })) b)) =
+    A.leftRegularMatrixElement ((A.comp b) a)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j q : ℤ
+a : A.Hom i j
+b : A.Hom j q
+⊢ (A.leftTotalLinearMap (A.leftRegularCoproductAction a))
+      ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj A.leftRegularCoproduct)) q)
+        ((ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) j).hom.app { index := q })) b)) =
+    A.leftRegularMatrixElement ((A.comp b) a)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    b
+  has type
+    A.Hom j q
+  but is expected to have type
+    ↑((A.leftRepresentable j).obj.obj { index := q })
+  in the application
+    (ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) j).hom.app { index := q })) b
+ASGinzburg/RegularLeftModule.lean:85:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.leftTotalLinearMap ?f) ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj ?m.73)) ?i) ?x)
+in the target expression
+  (A.leftTotalLinearMap (A.leftRegularCoproductAction a))
+      ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj A.leftRegularCoproduct)) q)
+        ((ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) p).hom.app { index := q })) b)) =
+    0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j p q : ℤ
+a : A.Hom i j
+b : A.Hom p q
+hpj : p ≠ j
+⊢ (A.leftTotalLinearMap (A.leftRegularCoproductAction a))
+      ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj A.leftRegularCoproduct)) q)
+        ((ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) p).hom.app { index := q })) b)) =
+    0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    b
+  has type
+    A.Hom p q
+  but is expected to have type
+    ↑((A.leftRepresentable p).obj.obj { index := q })
+  in the application
+    (ModuleCat.Hom.hom ((Sigma.ι (fun t => A.leftRepresentable t) p).hom.app { index := q })) b

@@ -1,0 +1,96 @@
+{
+  "recorded_at_utc": "2026-10-10T13:00:08.084517+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "6838dc6aa19e48c9154fa95ddb0b17cf5702b0e5",
+  "status": "Current public source actual default-limit Lean4.34.1 serial direct no-output exit0, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 9,
+  "sources": [
+    {
+      "source": "ASGinzburg/ExtComponentContravariance.lean",
+      "source_sha256": "d829404dd914d6aa43aa17d594e4c88a06abeae826280003a0d407f8cbe7d78a",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build21-entry-ExtComponentContravariance.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-ext-component-contravariance-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:59:03.568071+00:00",
+      "finished_at_utc": "2026-10-10T12:59:28.293836+00:00",
+      "elapsed_seconds": 24.725819059996866,
+      "log": "work/lean-upgrade/tor-migration-ext-component-contravariance-1.log",
+      "log_empty": false,
+      "warning_count": 1,
+      "warning_note": "Existing oppositeLinear class-definition semireducibility warning; no errors.",
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.oppositeLinear",
+          "kind": "def",
+          "full_header": "def oppositeLinear : Linear k Cᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleOppositeLinear",
+          "kind": "instance",
+          "full_header": "instance rightModuleOppositeLinear : Linear k A.RightModuleᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleOppositeLinear",
+          "kind": "instance",
+          "full_header": "instance leftModuleOppositeLinear : Linear k A.LeftModuleᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftFunctor",
+          "kind": "def",
+          "full_header": "noncomputable def rightModuleExtLeftFunctor (n : ℕ) : A.RightModuleᵒᵖ ⥤ A.LeftModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftFunctorAdditive",
+          "kind": "instance",
+          "full_header": "instance rightModuleExtLeftFunctorAdditive (n : ℕ) : (A.rightModuleExtLeftFunctor n).Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleExtLeftFunctorLinear",
+          "kind": "instance",
+          "full_header": "instance rightModuleExtLeftFunctorLinear (n : ℕ) : (A.rightModuleExtLeftFunctor n).Linear k"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightFunctor",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtRightFunctor (n : ℕ) : A.LeftModuleᵒᵖ ⥤ A.RightModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightFunctorAdditive",
+          "kind": "instance",
+          "full_header": "instance leftModuleExtRightFunctorAdditive (n : ℕ) : (A.leftModuleExtRightFunctor n).Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightFunctorLinear",
+          "kind": "instance",
+          "full_header": "instance leftModuleExtRightFunctorLinear (n : ℕ) : (A.leftModuleExtRightFunctor n).Linear k"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v w",
+        "variable {k : Type w} [Semiring k] (C : Type u) [Category.{v} C] [Preadditive C] [Linear k C]",
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)",
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)",
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    }
+  ],
+  "proof_change_note": "Only declaration-scoped backward.isDefEq.respectTransparency false on exactly rightModuleExtLeftFunctorAdditive and leftModuleExtRightFunctorAdditive. Removing those two option lines restores byte-for-byte task-entry source. Native Ext/double-variable functors, opposite linear action, additivity and scalar maps, all proof bodies and independent universe contexts are unchanged.",
+  "parent_actual_failed_build_record": "work/lean-upgrade/build-21.json",
+  "parent_actual_failed_build_log": "work/lean-upgrade/build-21.log",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

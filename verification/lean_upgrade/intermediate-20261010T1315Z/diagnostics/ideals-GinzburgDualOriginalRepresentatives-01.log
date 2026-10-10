@@ -1,0 +1,14 @@
+ASGinzburg/GinzburgDualOriginalRepresentatives.lean:32:4: error: Type mismatch: After simplification, term
+  ginzburgGeneratorFilteredComplex_d Q k φ u v (-1) c (-1)
+ has type
+  @Eq
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).X (-1) ⟶
+      (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).X (-1 + 1))
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) (-1 + 1))
+    (ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v (-1) (-1) c))
+but is expected to have type
+  @Eq
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).X (-1) ⟶
+      (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).X 0)
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0)
+    (ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v (-1) (-1) c))

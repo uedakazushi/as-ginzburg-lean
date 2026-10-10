@@ -1,0 +1,107 @@
+{
+  "check_scope": "work_only_syntax_and_isolated_final_semantic_gate_fixtures",
+  "global_validate_invoked": false,
+  "compiler_or_build_invoked": false,
+  "public_completion_constructed": false,
+  "final_migration_success_claimed": false,
+  "helper": "work/lean-upgrade/finalize-upgrade.py",
+  "helper_sha256": "087c65ad7041426aaea9698b0d6d102f11432b2e742b84b33eacbbed3c6040c2",
+  "helper_unchanged": true,
+  "started_at_utc": "2026-10-10T13:12:55.014493+00:00",
+  "ended_at_utc": "2026-10-10T13:12:55.262825+00:00",
+  "elapsed_seconds": 0.24833420899813063,
+  "exit_code": 0,
+  "focused_cases": [
+    {
+      "case": "missing_review",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Missing or unsafe final semantic review"
+    },
+    {
+      "case": "unsafe_symlink_review",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Missing or unsafe final semantic review"
+    },
+    {
+      "case": "stale_source_hash",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review source coverage is incomplete or stale"
+    },
+    {
+      "case": "incomplete_source_coverage",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review source coverage is incomplete or stale"
+    },
+    {
+      "case": "provisional_review",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review is provisional or unsuccessful"
+    },
+    {
+      "case": "unsuccessful_semantic_review",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review is provisional or unsuccessful"
+    },
+    {
+      "case": "wrong_toolchain_pin",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review baseline or toolchain differs"
+    },
+    {
+      "case": "wrong_baseline",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review baseline or toolchain differs"
+    },
+    {
+      "case": "semantic_concern",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review has unresolved concrete_semantic_concerns"
+    },
+    {
+      "case": "added_hypothesis",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review has unresolved new_mathematical_hypotheses_found"
+    },
+    {
+      "case": "changed_universes",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review did not preserve universe_declarations_preserved"
+    },
+    {
+      "case": "changed_maps",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review did not preserve the original maps and objects"
+    },
+    {
+      "case": "changed_names_or_kinds",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review declaration inventory differs"
+    },
+    {
+      "case": "incomplete_header_classification",
+      "expected": "refusal",
+      "actual": "refusal",
+      "reason": "Final semantic review header classification is incomplete"
+    },
+    {
+      "case": "valid_final_review_fixture",
+      "expected": "accept_fixture_only",
+      "actual": "accept_fixture_only"
+    }
+  ],
+  "log": "work/lean-upgrade/category-final-semantic-gate-check-01.log",
+  "log_sha256": "f9600d8d871a8cb2d826839ff35f7d20a2c4e08b51cafad1e5504a836388a9be"
+}

@@ -1,0 +1,38 @@
+import ASGinzburg.GinzburgFiltrationLeftNaturality
+import ASGinzburg.GinzburgGeneratorFiltrationCokernel
+
+/-! The actual loop-to-dual and dual-to-original homology maps commute
+with degree-zero path actions, by naturality of the long exact sequence. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgLoopToDualHomology_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgGeneratorLoopToDualHomology k φ y.1 v.1 (v.2-y.2) ≫
+        Q.ginzburgAssociatedLeftHomology k φ (-1) (-1) f=
+      Q.ginzburgAssociatedLeftHomology k φ (-2) (-2) f ≫
+        Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2-x.2) := by
+  have hc : Q.ginzburgGeneratorFiltrationConnecting k φ y.1 v.1 (-2) (v.2-y.2) (-2) ≫
+        Q.ginzburgFilteredLeftHomology k φ (-1) (-1) f=
+      Q.ginzburgAssociatedLeftHomology k φ (-2) (-2) f ≫
+        Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-2) (v.2-x.2) (-2) := by
+    simpa only [show (-2:ℤ)+1=-1 by norm_num] using
+      Q.ginzburgFiltrationConnecting_left_naturality k φ (v:=v) (-2) (-2) f
+  have hq := Q.ginzburgFilteredQuotientHomology_left_naturality k φ (v:=v) (-1) (-1) f
+  unfold ginzburgGeneratorLoopToDualHomology
+  rw [Category.assoc,← hq,← Category.assoc,hc,Category.assoc]
+
+theorem ginzburgDualToOriginalHomology_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgGeneratorDualToOriginalHomology k φ y.1 v.1 (v.2-y.2) ≫
+        Q.ginzburgFilteredLeftHomology k φ 0 0 f=
+      Q.ginzburgAssociatedLeftHomology k φ (-1) (-1) f ≫
+        Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2) := by
+  simpa only [ginzburgGeneratorDualToOriginalHomology,show (-1:ℤ)+1=0 by norm_num] using
+    Q.ginzburgFiltrationConnecting_left_naturality k φ (v:=v) (-1) (-1) f
+
+end ASGinzburg.CutQuiver
