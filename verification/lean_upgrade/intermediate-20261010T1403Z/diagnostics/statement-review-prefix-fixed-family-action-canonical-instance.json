@@ -1,0 +1,88 @@
+{
+  "reviewed_at_utc": "2026-10-10T13:57:21.740291+00:00",
+  "review_mode": "independent_read_only_focused_semantic_diff_no_source_edits_or_compiler",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "prior_review": "work/lean-upgrade/statement-review-checkpoint6.json",
+  "source": "ASGinzburg/GinzburgPrefixFixedFamilyAction.lean",
+  "source_sha256": "d7945725e8e1975778b5a7a38046a12a6f51f56f96fdb69333ca272aa4e03f0e",
+  "matching_exact_source_snapshot": "work/lean-upgrade/category-ginzburg-prefix-fixed-family-action-compile-03.lean.source",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "provisional": true,
+  "global_compilation_success_claimed": false,
+  "full_source_inventory_captured": false,
+  "declarations_before": 3,
+  "declarations_after": 3,
+  "declaration_names_and_kinds_preserved": true,
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context": [
+    "universe u",
+    "variable (Q : CutQuiver) (k : Type u) [Field k]"
+  ],
+  "changed_header_count": 1,
+  "header_classification_count_verified": true,
+  "changed_header_classifications": {
+    "same_result_type_explicit_canonical_origin_ginzburg_path_group_family": 1
+  },
+  "changed_headers": [
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPrefixTopFixedUnrolledEquiv",
+      "kind": "def",
+      "before": "noncomputable def ginzburgPrefixTopFixedUnrolledEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (r : ℤ) : (Q.GinzburgGeneratorPrefix k x.1 v.1 r r (v.2-x.2) ⧸ LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ x.1 v.1 r (v.2-x.2))) ≃ₗ[k] (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}, (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))",
+      "after": "noncomputable def ginzburgPrefixTopFixedUnrolledEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (r : ℤ) : by letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k x.1 w) := Finsupp.instAddCommGroup exact (Q.GinzburgGeneratorPrefix k x.1 v.1 r r (v.2-x.2) ⧸ LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ x.1 v.1 r (v.2-x.2))) ≃ₗ[k] (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}, (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))",
+      "classification": "same_result_type_explicit_canonical_origin_ginzburg_path_group_family",
+      "whole_normalized_header_equals_original": true
+    }
+  ],
+  "entire_original_source_matches_after_only_whitespace_and_canonical_instance_wrapper_and_scoped_option_normalization": true,
+  "definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "canonical_instance": "Same canonical pointwise Finsupp.instAddCommGroup on GinzburgPath x.1 w →₀ k for the original fixed source x.1 and varying vertex w. This matches the previously independently approved three PrefixFixedCoefficients headers and adds no assumptions, global instances, parameters or algebraic operations.",
+    "result_type": "Original GinzburgGeneratorPrefix k x.1 v.1 r r (v.2-x.2), quotient denominator LinearMap.range(originalIncomingDifferential) and original fixed unrolled Hom family retain all original grades, cuts, endpoints, scalar field and arrow-subtype conditions. The entire remaining header equals baseline exactly after the canonical instance wrapper is erased.",
+    "equivalence_map": "The definition still composes precisely original ginzburgGeneratorPrefixTopQuotientFamilyEquiv with original ginzburgPrefixFixedQuotientFamilyEquiv, in the same order via .trans. Local group selection occurs only during elaboration.",
+    "precomposition": "ginzburgPrefixFixedFamilyPrecomposition is byte-for-byte original data: LinearMap.pi over the same arrow subtype, original unrolledJacobianZAlgebra.comp with original height endpoints, flipped at the original f then composed with LinearMap.proj.",
+    "naturality": "Original naturality theorem full header and entire proof are unchanged; one declaration-scoped backward.isDefEq.respectTransparency false changes elaboration only. It still proves the original quotient map commutes with the same canonical precomposition and component equivalence."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "existing_sha_matching_strict_default_compile_record_read_without_compiler_invocation": {
+    "command": [
+      "bash",
+      "scripts/with_lean.sh",
+      "lake",
+      "env",
+      "lean",
+      "-DautoImplicit=false",
+      "ASGinzburg/GinzburgPrefixFixedFamilyAction.lean"
+    ],
+    "source": "ASGinzburg/GinzburgPrefixFixedFamilyAction.lean",
+    "source_sha256": "d7945725e8e1975778b5a7a38046a12a6f51f56f96fdb69333ca272aa4e03f0e",
+    "source_unchanged": true,
+    "source_snapshot": "work/lean-upgrade/category-ginzburg-prefix-fixed-family-action-compile-03.lean.source",
+    "started_at_utc": "2026-10-10T13:44:28.039574+00:00",
+    "finished_at_utc": "2026-10-10T13:44:34.362491+00:00",
+    "elapsed_seconds": 6.322958602999279,
+    "exit_code": 0,
+    "log": "work/lean-upgrade/category-ginzburg-prefix-fixed-family-action-compile-03.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrote_olean": false
+  },
+  "expected_global_changed_header_count_if_no_other_new_headers": 86,
+  "header_count_note": "Checkpoint6 approved85 plus this independently reviewed one gives86, subject to fresh complete1373 review at the next announced freeze.",
+  "private_full_review_classifier_already_accepts_this_exact_normalization": true,
+  "source_consistency_after_manual_review": {
+    "observed_at_utc": "2026-10-10T13:57:21.741417+00:00",
+    "current_source_sha256": "d7945725e8e1975778b5a7a38046a12a6f51f56f96fdb69333ca272aa4e03f0e",
+    "source_unchanged": true
+  },
+  "manual_review_completed_at_utc": "2026-10-10T13:57:21.741459+00:00",
+  "limitations": [
+    "Focused source review only, not a new full1373 snapshot or final verification freeze.",
+    "Owner current-source default check03 actual0/6.323s was read; this reviewer invoked no compiler and makes no global build/axiom-audit/upgrade-completion claim."
+  ]
+}

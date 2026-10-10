@@ -1,0 +1,53 @@
+{
+  "reviewed_at_utc": "2026-10-10T13:57:56.124318+00:00",
+  "review_mode": "independent_read_only_bounded_local_opacity_review_no_compiler_or_public_edits",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "prior_review": "work/lean-upgrade/statement-review-checkpoint6.json",
+  "source": "ASGinzburg/ASLeftExtReciprocity.lean",
+  "source_sha256": "1a700367e556f2378b80b885688982b0804e73f573abddd7d8f32316f92c4f8e",
+  "source_snapshot": "work/lean-upgrade/algebra-as-left-ext-reciprocity-05.lean.source",
+  "current_public_source_sha256_at_review": "1a700367e556f2378b80b885688982b0804e73f573abddd7d8f32316f92c4f8e",
+  "named_declaration_count": 13,
+  "original_names_kinds_complete_headers_ambient_variables_universes_preserved": true,
+  "entire_source_exactly_checkpoint6_after_removing_single_local_irreducibility_attribute": true,
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "global_compilation_success_claimed": false,
+  "definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "single_added_attribute": "attribute[local irreducible] leftResolutionComplex immediately before existing ASResolution.leftExtThreeIsoSimple only. It prevents elaborator unfolding of the same original complex definition; no definition body, term/differential, public statement or universe is changed.",
+    "scope": "Attribute is local to ASGinzburg.ZAlgebra.ASResolution namespace, and that namespace ends immediately after the existing final comparison iso. The following reopened ASGinzburg.ZAlgebra namespace does not inherit this local irreducibility. Public global reducibility of leftResolutionComplex and all public instance registrations remain unchanged.",
+    "canonical_comparison": "P.toLeftProjectiveResolution remains transparent; its complex field is the same original R.leftResolutionComplex. The typed P/h₄/f, same original Ext-top and bidual-top cofork maps, exactness/epi witnesses, parallelPair f 0 and coconePointUniqueUpToIso construction are byte-for-byte checkpoint6 formulas."
+  },
+  "existing_current_strict_default_failed_check_read": {
+    "command": [
+      "bash",
+      "scripts/with_lean.sh",
+      "lake",
+      "env",
+      "lean",
+      "-DautoImplicit=false",
+      "ASGinzburg/ASLeftExtReciprocity.lean"
+    ],
+    "source": "ASGinzburg/ASLeftExtReciprocity.lean",
+    "source_sha256": "1a700367e556f2378b80b885688982b0804e73f573abddd7d8f32316f92c4f8e",
+    "source_unchanged": true,
+    "source_snapshot": "work/lean-upgrade/algebra-as-left-ext-reciprocity-05.lean.source",
+    "started_at_utc": "2026-10-10T13:50:16.277782+00:00",
+    "finished_at_utc": "2026-10-10T13:52:33.083022+00:00",
+    "elapsed_seconds": 136.80528554599732,
+    "exit_code": 143,
+    "log": "work/lean-upgrade/algebra-as-left-ext-reciprocity-05.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrote_olean": false
+  },
+  "status": "Current public05 exact1a700 source terminated143 after136.805s, empty log; no current default public success. Other diagnostics reported ongoing by root are not treated as certification.",
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "limitations": [
+    "This is a bounded source-delta sanity check, not full source freeze or final certificate.",
+    "Local opacity preserves data semantics but its performance benefit is not established; actual current public check remains143."
+  ]
+}

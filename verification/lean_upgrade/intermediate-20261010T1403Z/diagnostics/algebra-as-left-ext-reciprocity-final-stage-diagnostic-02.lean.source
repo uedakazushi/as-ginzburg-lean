@@ -1,0 +1,166 @@
+import ASGinzburg.ASLeftExtConcentration
+import ASGinzburg.LeftModuleExtRightSequence
+
+set_option Elab.async false
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {X : A.LeftModule} (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4))
+
+attribute [local irreducible] rightModuleADual leftModuleADual
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftResolutionExtTopProjection"
+
+noncomputable def leftResolutionExtTopProjection :
+    A.leftModuleADual (P.complex.X 3) ⟶ A.leftModuleExtRight X 3 :=
+  (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫
+    A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0 ≫
+      (A.leftModuleExtDimensionShiftRightIso P.shortExact₁ 0).hom ≫
+        (A.leftModuleExtDimensionShiftRightIso P.shortExact₀ 1).hom
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftResolutionExtTopProjectionEpi"
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable instance leftResolutionExtTopProjectionEpi : Epi (A.leftResolutionExtTopProjection P h₄) := by
+  letI : Epi (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0) :=
+    A.leftModuleExtBoundaryRightEpi (P.shortExact₂ h₄) 0
+  dsimp only [leftResolutionExtTopProjection]
+  infer_instance
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftResolutionExtTopProjection_dual_d₃"
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftResolutionExtTopProjection_dual_d₃ :
+    A.leftModuleADualMap (P.complex.d 3 2) ≫ A.leftResolutionExtTopProjection P h₄ = 0 := by
+  dsimp only [leftResolutionExtTopProjection]
+  rw [← Category.assoc, A.leftModuleADualMap_extRightZeroIso_inv]
+  simp only [Category.assoc]
+  rw [← Category.assoc (A.leftModuleExtPrecompRight (P.complex.d 3 2) 0)
+    (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0)]
+  rw [A.leftModuleExtPrecompRight_boundary_zero (P.shortExact₂ h₄) 0,
+    zero_comp, comp_zero]
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftResolutionExtTopProjection_exact"
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftResolutionExtTopProjection_exact :
+    (ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2))
+      (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄)).Exact := by
+  let e : A.leftModuleExtRight (kernel P.firstCover) 1 ≅ A.leftModuleExtRight X 3 :=
+    A.leftModuleExtDimensionShiftRightIso P.shortExact₁ 0 ≪≫
+      A.leftModuleExtDimensionShiftRightIso P.shortExact₀ 1
+  let T := ShortComplex.mk (A.leftModuleExtPrecompRight (P.complex.d 3 2) 0)
+    (A.leftModuleExtBoundaryRight (P.shortExact₂ h₄) 0)
+    (A.leftModuleExtPrecompRight_boundary_zero (P.shortExact₂ h₄) 0)
+  let eS : ShortComplex.mk (A.leftModuleADualMap (P.complex.d 3 2))
+      (A.leftResolutionExtTopProjection P h₄) (A.leftResolutionExtTopProjection_dual_d₃ P h₄) ≅ T :=
+    ShortComplex.isoMk (A.leftModuleExtRightZeroIso (P.complex.X 2)).symm
+      (A.leftModuleExtRightZeroIso (P.complex.X 3)).symm e.symm
+      (by exact (A.leftModuleADualMap_extRightZeroIso_inv (P.complex.d 3 2)).symm)
+      (by
+        have hπ : A.leftResolutionExtTopProjection P h₄ =
+            (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫ T.g ≫ e.hom := rfl
+        change (A.leftModuleExtRightZeroIso (P.complex.X 3)).inv ≫ T.g =
+          A.leftResolutionExtTopProjection P h₄ ≫ e.inv
+        rw [hπ]
+        simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id])
+  exact (ShortComplex.exact_iff_of_iso eS).mpr
+    (A.leftModuleExtBoundaryRight_exact (P.shortExact₂ h₄) 0)
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftBidualTopProjection"
+
+noncomputable def leftBidualTopProjection :
+    A.leftModuleADual (R.leftResolutionComplex.X 3) ⟶ A.simpleRightModule (Q.height w) :=
+  (R.leftResolutionBidualTermIso 3).hom ≫ A.simpleRightModuleπ (Q.height w)
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftBidualTopProjectionEpi"
+
+set_option backward.isDefEq.respectTransparency false in
+attribute [-instance] leftResolutionExtTopProjectionEpi in
+noncomputable instance leftBidualTopProjectionEpi : Epi R.leftBidualTopProjection := by
+  letI : Epi (R.leftResolutionBidualTermIso 3).hom := inferInstance
+  letI : Epi (A.simpleRightModuleπ (Q.height w)) := inferInstance
+  dsimp only [leftBidualTopProjection]
+  infer_instance
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftBidualTopDifferential_comm"
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftBidualTopDifferential_comm :
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom =
+      (R.leftResolutionBidualTermIso 2).hom ≫ R.d₁ := by
+  have H := R.leftResolutionBidualComplexIso.hom.comm 2 3
+  change (R.leftResolutionBidualTermIso 2).hom ≫ R.reversedRightComplex.d 2 3 =
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ (R.leftResolutionBidualTermIso 3).hom at H
+  rw [show R.reversedRightComplex.d 2 3 = R.d₁ from
+    CochainComplex.of_d R.reversedRightTerm R.reversedRightDifferential 2] at H
+  exact H.symm
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftBidualTopProjection_differential"
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftBidualTopProjection_differential :
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2) ≫ R.leftBidualTopProjection = 0 := by
+  dsimp only [leftBidualTopProjection]
+  rw [← Category.assoc,R.leftBidualTopDifferential_comm,Category.assoc,R.d₁_π,comp_zero]
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftBidualTopProjection_exact"
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftBidualTopProjection_exact :
+    (ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2))
+      R.leftBidualTopProjection R.leftBidualTopProjection_differential).Exact := by
+  let T := ShortComplex.mk R.d₁ (A.simpleRightModuleπ (Q.height w)) R.d₁_π
+  let e : ShortComplex.mk (A.leftModuleADualMap (R.leftResolutionComplex.d 3 2))
+      R.leftBidualTopProjection R.leftBidualTopProjection_differential ≅ T :=
+    ShortComplex.isoMk (R.leftResolutionBidualTermIso 2) (R.leftResolutionBidualTermIso 3) (Iso.refl _)
+      (by exact R.leftBidualTopDifferential_comm.symm)
+      (by simp [T,leftBidualTopProjection])
+  exact (ShortComplex.exact_iff_of_iso e).mpr R.exact₀
+
+attribute [local irreducible] leftResolutionComplex
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "before leftExtThreeIsoSimple"
+
+set_option backward.isDefEq.respectTransparency false in
+attribute [-instance] leftResolutionExtTopProjectionEpi in
+noncomputable def leftExtThreeIsoSimple (h : A.ASRegular Q) :
+    A.leftModuleExtRight (A.simpleLeftModule (Q.height (Q.tau.symm w))) 3 ≅
+      A.simpleRightModule (Q.height w) := by
+  let P : ProjectiveResolution (A.simpleLeftModule (Q.height (Q.tau.symm w))) :=
+    R.toLeftProjectiveResolution h
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after P"))
+  have h₄ : IsZero (P.complex.X 4) := R.leftResolutionComplex_isZero_ge_four 0
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after h4"))
+  letI : Epi (A.leftResolutionExtTopProjection P h₄) :=
+    A.leftResolutionExtTopProjectionEpi P h₄
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after Ext projection Epi"))
+  letI : Epi R.leftBidualTopProjection := R.leftBidualTopProjectionEpi
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after bidual Epi"))
+  let f : A.leftModuleADual (R.leftResolutionComplex.X 2) ⟶
+      A.leftModuleADual (R.leftResolutionComplex.X 3) :=
+    A.leftModuleADualMap (R.leftResolutionComplex.d 3 2)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after f"))
+  have h₁ : IsColimit (CokernelCofork.ofπ (f := f)
+      (A.leftResolutionExtTopProjection P h₄)
+      (A.leftResolutionExtTopProjection_dual_d₃ P h₄)) :=
+    (A.leftResolutionExtTopProjection_exact P h₄).gIsCokernel
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after h1"))
+  have h₂ : IsColimit (CokernelCofork.ofπ (f := f)
+      R.leftBidualTopProjection R.leftBidualTopProjection_differential) :=
+    R.leftBidualTopProjection_exact.gIsCokernel
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "after h2"))
+  exact IsColimit.coconePointUniqueUpToIso (F := parallelPair f 0) h₁ h₂
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-as-left-ext-reciprocity-final-stage-diagnostic-02.marker.txt" "completed final ASResolution iso"
+end ASGinzburg.ZAlgebra.ASResolution

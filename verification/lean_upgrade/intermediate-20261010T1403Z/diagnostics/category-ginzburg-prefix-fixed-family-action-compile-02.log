@@ -1,0 +1,52 @@
+ASGinzburg/GinzburgPrefixFixedFamilyAction.lean:58:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv ?k ?φ ?x.1 ?v.1 ?r (?v.2 - ?x.2))
+    ((ConcreteCategory.hom (moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap ?k ?φ ?r ?f)))
+      (Submodule.Quotient.mk ?g))
+in the target expression
+  (Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v ↑a)
+      ((Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2 - x.2))
+        ((ConcreteCategory.hom (moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)))
+          (Submodule.Quotient.mk g))
+        a) =
+    ((Q.unrolledJacobianZAlgebra k φ).comp
+        ((Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ y v ↑a)
+          ((Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ y.1 v.1 r (v.2 - y.2)) (Submodule.Quotient.mk g) a)))
+      ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+r : ℤ
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+z :
+  ↑↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).X₂ ⧸
+        (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).f).range)
+g : ↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).X₂
+a : { a // GinzburgArrow.target Q a = v.1 ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+⊢ (Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ x v ↑a)
+      ((Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2 - x.2))
+        ((ConcreteCategory.hom (moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)))
+          (Submodule.Quotient.mk g))
+        a) =
+    ((Q.unrolledJacobianZAlgebra k φ).comp
+        ((Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ y v ↑a)
+          ((Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ y.1 v.1 r (v.2 - y.2)) (Submodule.Quotient.mk g) a)))
+      ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (ConcreteCategory.hom (moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)))
+      (Submodule.Quotient.mk g)
+  has type
+    ↑↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).f).range)
+  but is expected to have type
+    Q.GinzburgGeneratorPrefix k x.1 v.1 r r (v.2 - x.2) ⧸
+      (Q.ginzburgGeneratorPrefixIncomingDifferential k φ x.1 v.1 r (v.2 - x.2)).range
+  in the application
+    (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ x.1 v.1 r (v.2 - x.2))
+      ((ConcreteCategory.hom (moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)))
+        (Submodule.Quotient.mk g))

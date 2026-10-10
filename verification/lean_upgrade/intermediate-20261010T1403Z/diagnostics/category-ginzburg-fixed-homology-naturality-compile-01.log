@@ -1,0 +1,55 @@
+ASGinzburg/GinzburgFixedHomologyNaturality.lean:39:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f) ≫
+    (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toModuleIso.hom
+in the target expression
+  ((Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2 - y.2)).hom ≫
+        moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)) ≫
+      (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toModuleIso.hom =
+    (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2 - y.2)).hom ≫
+      (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ y v r).toModuleIso.hom ≫
+        ModuleCat.ofHom
+          (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
+            ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f)))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+r : ℤ
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+he :
+  moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f) ≫
+      (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toModuleIso.hom =
+    (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ y v r).toModuleIso.hom ≫
+      ModuleCat.ofHom
+        (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
+          ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f)))
+⊢ ((Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2 - y.2)).hom ≫
+        moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)) ≫
+      (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ x v r).toModuleIso.hom =
+    (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2 - y.2)).hom ≫
+      (Q.ginzburgPrefixTopFixedUnrolledEquiv k φ y v r).toModuleIso.hom ≫
+        ModuleCat.ofHom
+          (Q.ginzburgPrefixFixedFamilyPrecomposition k φ x y v r
+            ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f)))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).f).range)
+      ↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).f).range)
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2 - y.2) ⧸
+          (Q.ginzburgGeneratorPrefixIncomingDifferential k φ y.1 v.1 r (v.2 - y.2)).range)
+      ↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).f).range)
+  in the application
+    (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2 - y.2)).hom ≫
+      moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)
