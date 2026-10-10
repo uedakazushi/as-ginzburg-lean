@@ -1,0 +1,29 @@
+ASGinzburg/GinzburgAssociatedLeftAction.lean:36:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgAssociatedLeftAction.lean:37:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgAssociatedLeftAction.lean:61:6: error: Type mismatch
+  ginzburgAssociatedLeftTerm_differential Q k φ r q f
+has type
+  Q.ginzburgAssociatedGradedDifferential k φ x.1 ?m.105.1 r q (?m.105.2 - x.2) ∘ₗ Q.ginzburgAssociatedLeftTerm k r q f =
+    Q.ginzburgAssociatedLeftTerm k r (q + 1) f ∘ₗ
+      Q.ginzburgAssociatedGradedDifferential k φ y.1 ?m.105.1 r q (?m.105.2 - y.2)
+but is expected to have type
+  ModuleCat.Hom.hom
+      (ModuleCat.ofHom (Q.ginzburgAssociatedLeftTerm k r q f) ≫
+        (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2 - x.2)).d q (q + 1)) =
+    ModuleCat.Hom.hom
+      ((Q.ginzburgAssociatedGradedComplex k φ y.1 v.1 r (v.2 - y.2)).d q (q + 1) ≫
+        ModuleCat.ofHom (Q.ginzburgAssociatedLeftTerm k r (q + 1) f))

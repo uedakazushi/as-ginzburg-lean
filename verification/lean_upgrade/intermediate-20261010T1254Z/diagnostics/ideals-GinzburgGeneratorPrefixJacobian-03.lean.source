@@ -1,0 +1,71 @@
+import ASGinzburg.GinzburgGeneratorPrefixBoundaryFamily
+import ASGinzburg.GinzburgGeneratorLayerHomology
+import ASGinzburg.JacobianOriginSheet
+
+/-! The actual generator-layer homology is a finite family of genuine
+homogeneous Jacobian, and unrolled A(Phi), components. No regularity is used. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+open scoped Classical
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgGeneratorBoundaryFamilyJacobianEquiv (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : by
+    letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+    letI (w : Q.Vertex) : AddCommGroup (Q.PathComponent k u w) := Finsupp.instAddCommGroup
+    exact (Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
+      (Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) 0 (c-a.val.cutDegree Q) ⧸
+        LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u (a.val.source Q)
+          (c-a.val.cutDegree Q)))) ≃ₗ[k]
+    (Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
+      (Q.pathCutComponent k u (a.val.source Q) (c-a.val.cutDegree Q) ⧸
+        Q.pathJacobianCutIdeal k φ u (a.val.source Q) (c-a.val.cutDegree Q))) := by
+  letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  letI (w : Q.Vertex) : AddCommGroup (Q.PathComponent k u w) := Finsupp.instAddCommGroup
+  exact LinearEquiv.piCongrRight fun a => Q.ginzburgCutZeroQuotientJacobianEquiv k φ u
+    (a.val.source Q) (c-a.val.cutDegree Q)
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def ginzburgGeneratorJacobianFamilyModule (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : ModuleCat.{u} k := by
+  letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  letI (w : Q.Vertex) : AddCommGroup (Q.PathComponent k u w) := Finsupp.instAddCommGroup
+  exact (Arrow.mk ((Q.ginzburgGeneratorBoundaryFamilyJacobianEquiv k φ u v r c).toModuleIso
+    (g₁ := Pi.addCommGroup) (g₂ := Pi.addCommGroup)).hom).right
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def ginzburgGeneratorPrefixTopHomologyJacobianIso (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorPrefixHomology k φ u v r c r ≅
+      Q.ginzburgGeneratorJacobianFamilyModule k φ u v r c := by
+  letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  letI (w : Q.Vertex) : AddCommGroup (Q.PathComponent k u w) := Finsupp.instAddCommGroup
+  exact Q.ginzburgGeneratorPrefixTopHomologyFamilyIso k φ u v r c ≪≫
+    (Q.ginzburgGeneratorBoundaryFamilyJacobianEquiv k φ u v r c).toModuleIso
+      (g₁ := Pi.addCommGroup) (g₂ := Pi.addCommGroup)
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def ginzburgGeneratorPrefixTopHomologyUnrolledIso (φ : Q.Potential k)
+    (x : Q.LiftVertex) (v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorPrefixHomology k φ x.1 v r c r ≅
+      ModuleCat.of k (Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
+        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
+          (Q.height (a.val.source Q,x.2+(c-a.val.cutDegree Q)))) := by
+  letI (w : Q.Vertex) : AddCommGroup (Q.PathComponent k x.1 w) := Finsupp.instAddCommGroup
+  exact Q.ginzburgGeneratorPrefixTopHomologyJacobianIso k φ x.1 v r c ≪≫
+    (LinearEquiv.piCongrRight fun a :
+        {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r} =>
+      Q.homogeneousJacobianOriginSheetEquiv k φ x (a.val.source Q)
+        (c-a.val.cutDegree Q)).toModuleIso (g₁ := Pi.addCommGroup) (g₂ := Pi.addCommGroup)
+
+noncomputable def ginzburgAssociatedGradedTopHomologyUnrolledIso (φ : Q.Potential k)
+    (x : Q.LiftVertex) (v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgAssociatedGradedHomology k φ x.1 v r c r ≅
+      ModuleCat.of k (Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
+        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
+          (Q.height (a.val.source Q,x.2+(c-a.val.cutDegree Q)))) :=
+  Q.ginzburgAssociatedGradedPrefixHomologyIso k φ x.1 v r c r ≪≫
+    Q.ginzburgGeneratorPrefixTopHomologyUnrolledIso k φ x v r c
+
+end ASGinzburg.CutQuiver

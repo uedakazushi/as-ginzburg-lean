@@ -1,0 +1,34 @@
+ASGinzburg/ASFoundationMinimalRelationBasis.lean:18:4: error: Type mismatch: After simplification, term
+  (A.presentationMinimalRelationFirstKernelTopEquiv_all Q R (i, 0) (j, 0)).symm
+ has type
+  @LinearEquiv k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    (↑((A.rightModuleEvaluation (↑↑i + ↑Q.vertices * 0)).obj (CategoryTheory.Limits.kernel (R (j, 0)).d₁)) ⧸
+      A.positiveActionSpan (CategoryTheory.Limits.kernel (R (j, 0)).d₁) (↑↑i + ↑Q.vertices * 0))
+    (Q.MinimalRelationComponent (A.unrolledPathPresentation Q R).kernel (↑↑i + ↑Q.vertices * 0) (↑↑j + ↑Q.vertices * 0))
+    (Submodule.Quotient.addCommMonoid
+      (A.positiveActionSpan (CategoryTheory.Limits.kernel (R (j, 0)).d₁) (↑↑i + ↑Q.vertices * 0)))
+    (Submodule.Quotient.addCommMonoid
+      (Submodule.comap
+        ((A.unrolledPathPresentation Q R).kernel.hom (↑↑i + ↑Q.vertices * 0) (↑↑j + ↑Q.vertices * 0)).subtype
+        (Q.relationDecomposables (A.unrolledPathPresentation Q R).kernel (↑↑i + ↑Q.vertices * 0)
+          (↑↑j + ↑Q.vertices * 0))))
+    (Submodule.Quotient.module
+      (A.positiveActionSpan (CategoryTheory.Limits.kernel (R (j, 0)).d₁) (↑↑i + ↑Q.vertices * 0)))
+    (Submodule.Quotient.module
+      (Submodule.comap
+        ((A.unrolledPathPresentation Q R).kernel.hom (↑↑i + ↑Q.vertices * 0) (↑↑j + ↑Q.vertices * 0)).subtype
+        (Q.relationDecomposables (A.unrolledPathPresentation Q R).kernel (↑↑i + ↑Q.vertices * 0)
+          (↑↑j + ↑Q.vertices * 0))))
+but is expected to have type
+  @LinearEquiv k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    (↑((A.rightModuleEvaluation ↑↑i).obj (CategoryTheory.Limits.kernel (R (j, 0)).d₁)) ⧸
+      A.positiveActionSpan (CategoryTheory.Limits.kernel (R (j, 0)).d₁) ↑↑i)
+    (Q.MinimalRelationComponent (A.unrolledPathPresentation Q R).kernel ↑↑i ↑↑j)
+    (Submodule.Quotient.addCommMonoid (A.positiveActionSpan (CategoryTheory.Limits.kernel (R (j, 0)).d₁) ↑↑i))
+    (Submodule.Quotient.addCommMonoid
+      (Submodule.comap ((A.unrolledPathPresentation Q R).kernel.hom ↑↑i ↑↑j).subtype
+        (Q.relationDecomposables (A.unrolledPathPresentation Q R).kernel ↑↑i ↑↑j)))
+    (Submodule.Quotient.module (A.positiveActionSpan (CategoryTheory.Limits.kernel (R (j, 0)).d₁) ↑↑i))
+    (Submodule.Quotient.module
+      (Submodule.comap ((A.unrolledPathPresentation Q R).kernel.hom ↑↑i ↑↑j).subtype
+        (Q.relationDecomposables (A.unrolledPathPresentation Q R).kernel ↑↑i ↑↑j)))

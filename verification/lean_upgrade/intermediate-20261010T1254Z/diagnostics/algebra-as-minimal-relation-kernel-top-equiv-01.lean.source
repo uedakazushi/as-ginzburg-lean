@@ -1,0 +1,55 @@
+import ASGinzburg.ASMinimalRelationDenominator
+
+/-! The genuine original minimal relation space I/(IJ+JI) is the
+actual AS first-kernel radical quotient. All denominators and maps are
+proved from the existing resolution, rather than assumed Ext data. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+
+noncomputable def pathRelationsToASFirstKernelTop (u w : Q.LiftVertex) (huw : u≠w) :
+    LinearMap.ker (A.unrolledPathLinearEvaluation Q R u w) →ₗ[k]
+      ((A.rightModuleEvaluation (Q.height u)).obj (kernel (R w).d₁) ⧸
+        A.positiveActionSpan (kernel (R w).d₁) (Q.height u)) :=
+  (A.positiveActionSpan (kernel (R w).d₁) (Q.height u)).mkQ.comp
+    (A.pathRelationsToCategoricalASFirstKernel Q R u w huw)
+
+theorem pathRelationsToASFirstKernelTop_surjective (u w : Q.LiftVertex) (huw : u≠w) :
+    Function.Surjective (A.pathRelationsToASFirstKernelTop Q R u w huw) :=
+  (A.positiveActionSpan (kernel (R w).d₁) (Q.height u)).mkQ_surjective.comp
+    (A.pathRelationsToCategoricalASFirstKernel_surjective Q R u w huw)
+
+theorem pathRelationsToASFirstKernelTop_ker (u w : Q.LiftVertex) (huw : u≠w) :
+    LinearMap.ker (A.pathRelationsToASFirstKernelTop Q R u w huw)=
+      Submodule.comap (A.pathRelationsToCategoricalASFirstKernel Q R u w huw)
+        (A.positiveActionSpan (kernel (R w).d₁) (Q.height u)) := by
+  ext f
+  change (Submodule.Quotient.mk (A.pathRelationsToCategoricalASFirstKernel Q R u w huw f) :
+    (A.rightModuleEvaluation (Q.height u)).obj (kernel (R w).d₁) ⧸
+      A.positiveActionSpan (kernel (R w).d₁) (Q.height u))=0 ↔
+        A.pathRelationsToCategoricalASFirstKernel Q R u w huw f∈
+          A.positiveActionSpan (kernel (R w).d₁) (Q.height u)
+  exact Submodule.Quotient.mk_eq_zero _
+
+noncomputable def presentationMinimalRelationFirstKernelTopEquiv
+    (u w : Q.LiftVertex) (huw : Q.height u < Q.height w) :
+    Q.MinimalRelationComponent (A.unrolledPathPresentation Q R).kernel
+      (Q.height u) (Q.height w) ≃ₗ[k]
+      ((A.rightModuleEvaluation (Q.height u)).obj (kernel (R w).d₁) ⧸
+        A.positiveActionSpan (kernel (R w).d₁) (Q.height u)) := by
+  have hne : u≠w := by intro h; subst w; exact lt_irrefl _ huw
+  exact (Submodule.Quotient.equiv
+    (LinearMap.ker (A.pathRelationsToASFirstKernelTop Q R u w hne))
+    (Submodule.comap ((A.unrolledPathPresentation Q R).kernel.hom
+      (Q.height u) (Q.height w)).subtype
+      (Q.relationDecomposables (A.unrolledPathPresentation Q R).kernel
+        (Q.height u) (Q.height w)))
+    (A.pathRelationHeightEquiv Q R u w) (by
+    rw [A.pathRelationsToASFirstKernelTop_ker]
+    exact A.pathRelationHeightEquiv_map_radical_preimage Q R u w huw)).symm.trans
+      ((A.pathRelationsToASFirstKernelTop Q R u w hne).quotKerEquivOfSurjective
+        (A.pathRelationsToASFirstKernelTop_surjective Q R u w hne))
+
+end ASGinzburg.ZAlgebra

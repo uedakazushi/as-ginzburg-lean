@@ -1,0 +1,72 @@
+import ASGinzburg.GinzburgGeneratorLayerAugmentation
+import Mathlib.Algebra.Homology.HomologicalComplexAbelian
+import Mathlib.Algebra.Homology.HomologySequence
+
+/-! Consecutive genuine last-generator subcomplexes and their actual
+quotient form a short exact sequence of mathlib complexes. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorFiltrationAtDegree_step_le (u v : Q.Vertex) (r q c : ℤ) :
+    Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c ≤
+      Q.ginzburgGeneratorFiltrationAtDegree k u v r q c := by
+  apply Finsupp.supported_mono
+  intro p hp
+  exact ⟨Q.ginzburgGeneratorFiltrationPaths_antitone (by omega) hp.1,hp.2⟩
+
+noncomputable def ginzburgGeneratorFilteredInclusion (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorFilteredComplex k φ u v (r+1) c ⟶
+      Q.ginzburgGeneratorFilteredComplex k φ u v r c :=
+  CochainComplex.ofHom
+    (X := Q.ginzburgGeneratorFilteredComplex k φ u v (r+1) c)
+    (Y := Q.ginzburgGeneratorFilteredComplex k φ u v r c)
+    (fun q => ModuleCat.ofHom
+      (Submodule.inclusion (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v r q c)))
+    (fun _q => by
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro f
+      apply Subtype.ext
+      rfl)
+
+theorem ginzburgGeneratorFilteredInclusion_comp_quotient (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorFilteredInclusion k φ u v r c ≫
+      Q.ginzburgFilteredToAssociatedGraded k φ u v r c=0 := by
+  apply HomologicalComplex.Hom.ext
+  funext q
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro f
+  change (Submodule.Quotient.mk
+    (Submodule.inclusion (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v r q c) f) :
+      Q.GinzburgAssociatedGraded k u v r q c)=0
+  apply (Submodule.Quotient.mk_eq_zero _).mpr
+  exact f.property
+
+noncomputable def ginzburgGeneratorFilteredShortComplex (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : ShortComplex (CochainComplex (ModuleCat.{u} k) ℤ) :=
+  ShortComplex.mk (Q.ginzburgGeneratorFilteredInclusion k φ u v r c)
+    (Q.ginzburgFilteredToAssociatedGraded k φ u v r c)
+    (Q.ginzburgGeneratorFilteredInclusion_comp_quotient k φ u v r c)
+
+theorem ginzburgGeneratorFilteredShortComplex_shortExact (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    (Q.ginzburgGeneratorFilteredShortComplex k φ u v r c).ShortExact := by
+  apply HomologicalComplex.shortExact_of_degreewise_shortExact
+  intro q
+  refine {exact:=?_,mono_f:=?_,epi_g:=?_}
+  · apply (ShortComplex.moduleCat_exact_iff _).mpr
+    intro f hf
+    change (Submodule.Quotient.mk f : Q.GinzburgAssociatedGraded k u v r q c)=0 at hf
+    have hmem := (Submodule.Quotient.mk_eq_zero _).mp hf
+    exact ⟨⟨f.val,hmem⟩,Subtype.ext rfl⟩
+  · apply (ModuleCat.mono_iff_injective _).mpr
+    exact Submodule.inclusion_injective (Q.ginzburgGeneratorFiltrationAtDegree_step_le k u v r q c)
+  · apply (ModuleCat.epi_iff_surjective _).mpr
+    exact (Q.ginzburgGeneratorHigherLayer k u v r q c).mkQ_surjective
+
+end ASGinzburg.CutQuiver

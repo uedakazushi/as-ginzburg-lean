@@ -1,0 +1,51 @@
+ASGinzburg/LeftModuleExtSequence.lean:11:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/LeftModuleExtSequence.lean:17:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/LeftModuleExtSequence.lean:23:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/LeftModuleExtSequence.lean:132:29: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Abelian.Ext.comp ?α (?β₁ + ?β₂) ?h
+in the target expression
+  Abelian.Ext.comp x (Abelian.Ext.mk₀ f + Abelian.Ext.mk₀ g) ⋯ =
+    Abelian.Ext.comp x (Abelian.Ext.mk₀ f) ⋯ + Abelian.Ext.comp x (Abelian.Ext.mk₀ g) ⋯
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.LeftModule
+n : ℕ
+X Y : A.LeftModule
+f g : X ⟶ Y
+x : ↑((A.leftModuleExtCovariant M n).obj X)
+⊢ Abelian.Ext.comp x (Abelian.Ext.mk₀ f + Abelian.Ext.mk₀ g) ⋯ =
+    Abelian.Ext.comp x (Abelian.Ext.mk₀ f) ⋯ + Abelian.Ext.comp x (Abelian.Ext.mk₀ g) ⋯
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    ↑((A.leftModuleExtCovariant M n).obj X)
+  but is expected to have type
+    Abelian.Ext M X n
+  in the application
+    Abelian.Ext.comp x

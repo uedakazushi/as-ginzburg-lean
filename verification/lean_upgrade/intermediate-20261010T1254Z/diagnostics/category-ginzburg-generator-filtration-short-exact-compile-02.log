@@ -1,0 +1,34 @@
+ASGinzburg/GinzburgGeneratorFiltrationShortExact.lean:33:6: error: Tactic `rfl` failed: The left-hand side
+  ↑((ModuleCat.Hom.hom
+        (ModuleCat.ofHom (Submodule.inclusion ⋯) ≫ (Q.ginzburgGeneratorFilteredComplex k φ u v r c).d _q (_q + 1)))
+      f)
+is not definitionally equal to the right-hand side
+  ↑((ModuleCat.Hom.hom
+        ((Q.ginzburgGeneratorFilteredComplex k φ u v (r + 1) c).d _q (_q + 1) ≫
+          ModuleCat.ofHom (Submodule.inclusion ⋯)))
+      f)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+r c _q : ℤ
+f : ↑((Q.ginzburgGeneratorFilteredComplex k φ u v (r + 1) c).X _q)
+⊢ ↑((ModuleCat.Hom.hom
+          (ModuleCat.ofHom (Submodule.inclusion ⋯) ≫ (Q.ginzburgGeneratorFilteredComplex k φ u v r c).d _q (_q + 1)))
+        f) =
+    ↑((ModuleCat.Hom.hom
+          ((Q.ginzburgGeneratorFilteredComplex k φ u v (r + 1) c).d _q (_q + 1) ≫
+            ModuleCat.ofHom (Submodule.inclusion ⋯)))
+        f)
+ASGinzburg/GinzburgGeneratorFiltrationShortExact.lean:70:10: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+ASGinzburg/GinzburgGeneratorFiltrationShortExact.lean:70:10: error: (deterministic) timeout at `«synthesize pending MVars»`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

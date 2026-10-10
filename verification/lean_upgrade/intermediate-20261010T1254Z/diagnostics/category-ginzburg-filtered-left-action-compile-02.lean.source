@@ -1,0 +1,78 @@
+import ASGinzburg.GinzburgGeneratorFiltrationShortExact
+import ASGinzburg.GinzburgCutZeroProducts
+
+/-! Actual degree-zero left paths act by chain maps on every genuine
+last-generator filtration step. No action of the Jacobian quotient on the
+unresolved chain terms is assumed. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorFiltrationAtDegree_leftComp {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2))
+    (g : Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2)) :
+    Q.ginzburgPathComp k g.val f.val ∈
+      Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 r q (v.2-x.2) := by
+  have hg : g.val ∈ Q.ginzburgGeneratorFiltration k y.1 v.1 r ⊓
+      Q.ginzburgCutCohomologicalComponent k y.1 v.1 q (v.2-y.2) := by
+    exact (Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k y.1 v.1 r q (v.2-y.2)) ▸ g.property
+  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k x.1 v.1 r q (v.2-x.2)]
+  refine ⟨Q.ginzburgGeneratorFiltration_comp k hg.1 f.val,?_,?_⟩
+  · simpa only [zero_add] using
+      Q.ginzburgCohomologicalComponent_comp k f.property.1 hg.2.1
+  · simpa only [show y.2-x.2+(v.2-y.2)=v.2-x.2 by omega] using
+      Q.ginzburgCutComponent_comp k f.property.2 hg.2.2
+
+noncomputable def ginzburgFilteredLeftTerm {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2) →ₗ[k]
+      Q.ginzburgGeneratorFiltrationAtDegree k x.1 v.1 r q (v.2-x.2) :=
+  (((Q.ginzburgPathComp k).flip f.val).comp
+    (Q.ginzburgGeneratorFiltrationAtDegree k y.1 v.1 r q (v.2-y.2)).subtype).codRestrict _
+      (fun g => Q.ginzburgGeneratorFiltrationAtDegree_leftComp k r q f g)
+
+theorem ginzburgFilteredLeftTerm_differential (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r q : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    (Q.ginzburgGeneratorFilteredDifferential k φ x.1 v.1 r q (v.2-x.2)).comp
+        (Q.ginzburgFilteredLeftTerm k r q f)=
+      (Q.ginzburgFilteredLeftTerm k r (q+1) f).comp
+        (Q.ginzburgGeneratorFilteredDifferential k φ y.1 v.1 r q (v.2-y.2)) := by
+  apply LinearMap.ext
+  intro g
+  apply Subtype.ext
+  change Q.ginzburgDifferential k φ x.1 v.1 (Q.ginzburgPathComp k g.val f.val)=
+    Q.ginzburgPathComp k (Q.ginzburgDifferential k φ y.1 v.1 g.val) f.val
+  rw [Q.ginzburgDifferential_comp,Q.ginzburgDifferential_degreeZero k φ f.property.1]
+  simp
+
+noncomputable def ginzburgFilteredLeftCochainMap (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 r (v.2-y.2) ⟶
+      Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 r (v.2-x.2) :=
+  CochainComplex.ofHom
+    (X := Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 r (v.2-y.2))
+    (Y := Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 r (v.2-x.2))
+    (fun q => ModuleCat.ofHom (Q.ginzburgFilteredLeftTerm k r q f))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgFilteredLeftTerm_differential k φ r q f)
+
+theorem ginzburgFilteredLeftCochainMap_inclusion (φ : Q.Potential k)
+    {x y v : Q.LiftVertex} (r : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgFilteredLeftCochainMap k φ (r+1) f ≫
+        Q.ginzburgGeneratorFilteredInclusion k φ x.1 v.1 r (v.2-x.2)=
+      Q.ginzburgGeneratorFilteredInclusion k φ y.1 v.1 r (v.2-y.2) ≫
+        Q.ginzburgFilteredLeftCochainMap k φ r f := by
+  apply HomologicalComplex.Hom.ext
+  funext q
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro g
+  apply Subtype.ext
+  rfl
+
+end ASGinzburg.CutQuiver

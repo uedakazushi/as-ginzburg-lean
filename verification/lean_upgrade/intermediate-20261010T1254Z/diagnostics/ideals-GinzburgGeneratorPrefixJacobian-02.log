@@ -1,0 +1,90 @@
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:33:19: error: Application type mismatch: The argument
+  Q.ginzburgGeneratorBoundaryFamilyJacobianEquiv k φ u v r c
+has type
+  @LinearEquiv k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    ((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+      ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+        (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+            (c - GinzburgArrow.cutDegree Q ↑a)).range)
+    ((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+      ↥(Q.pathCutComponent k u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+        Q.pathJacobianCutIdeal k φ u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a))
+    Pi.addCommMonoid Pi.addCommMonoid
+    (Pi.module { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+      (fun a =>
+        ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+          (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+              (c - GinzburgArrow.cutDegree Q ↑a)).range)
+      k)
+    (Pi.module { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+      (fun a =>
+        ↥(Q.pathCutComponent k u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+          Q.pathJacobianCutIdeal k φ u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a))
+      k)
+but is expected to have type
+  @LinearEquiv k k inst✝.toDivisionRing.toSemiring inst✝.toDivisionRing.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    ((i : ?m.26) → ?m.27 i) ((i : ?m.29) → ?m.30 i) Pi.addCommGroup.toAddCommMonoid Pi.addCommGroup.toAddCommMonoid
+    ?m.32 ?m.33
+in the application
+  (Q.ginzburgGeneratorBoundaryFamilyJacobianEquiv k φ u v r c).toModuleIso
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:30:49: error: stuck at solving universe constraint
+  max ?u.32 ?u.33 =?= max ?u.34 ?u.35
+while trying to unify
+  AddCommGroup.{max ?u.32 ?u.33} ((i : ?m.29) → ?m.30 i) : Type (max ?u.32 ?u.33)
+with
+  AddCommGroup.{max ?u.35 ?u.34} ((i : ?m.29) → ?m.30 i) : Type (max ?u.35 ?u.34)
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:30:49: error: stuck at solving universe constraint
+  u =?= max ?u.32 ?u.33
+while trying to unify
+  ModuleCat k : Type (u + 1)
+with
+  ModuleCat.{max ?u.32 ?u.33, u} k : Type (max u ((max ?u.32 ?u.33) + 1))
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:30:49: error: stuck at solving universe constraint
+  max (?u.32 + 1) (?u.33 + 1) =?= max (?u.34 + 1) (?u.35 + 1)
+while trying to unify
+  AddCommGroup.{max ?u.32 ?u.33} ((i : ?m.29) → ?m.30 i) : Type (max ?u.32 ?u.33)
+with
+  AddCommGroup.{max ?u.35 ?u.34} ((i : ?m.29) → ?m.30 i) : Type (max ?u.35 ?u.34)
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:43:4: error: Application type mismatch: The argument
+  LinearEquiv.toModuleIso ?m.39
+has type
+  ↧((i : ?m.31) → ?m.32 i) ≅ ↧((i : ?m.34) → ?m.35 i)
+but is expected to have type
+  Q.ginzburgGeneratorPrefixBoundaryQuotientModule k φ u v r c ≅ Q.ginzburgGeneratorJacobianFamilyModule k φ u v r c
+in the application
+  Q.ginzburgGeneratorPrefixTopHomologyFamilyIso k φ u v r c ≪≫ LinearEquiv.toModuleIso ?m.39
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:39:58: error: stuck at solving universe constraint
+  max ?u.36 ?u.37 =?= max ?u.38 ?u.39
+while trying to unify
+  AddCommGroup.{max ?u.36 ?u.37} ((i : ?m.34) → ?m.35 i) : Type (max ?u.36 ?u.37)
+with
+  AddCommGroup.{max ?u.39 ?u.38} ((i : ?m.34) → ?m.35 i) : Type (max ?u.39 ?u.38)
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:39:58: error: stuck at solving universe constraint
+  max (?u.36 + 1) (?u.37 + 1) =?= max (?u.38 + 1) (?u.39 + 1)
+while trying to unify
+  AddCommGroup.{max ?u.36 ?u.37} ((i : ?m.34) → ?m.35 i) : Type (max ?u.36 ?u.37)
+with
+  AddCommGroup.{max ?u.39 ?u.38} ((i : ?m.34) → ?m.35 i) : Type (max ?u.39 ?u.38)
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:54:4: error: Application type mismatch: The argument
+  LinearEquiv.toModuleIso ?m.83
+has type
+  ↧((i : ?m.75) → ?m.76 i) ≅ ↧((i : ?m.78) → ?m.79 i)
+but is expected to have type
+  Q.ginzburgGeneratorJacobianFamilyModule k φ x.1 v r c ≅
+    ↧((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+        (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x)
+          (Q.height (GinzburgArrow.source Q ↑a, x.2 + (c - GinzburgArrow.cutDegree Q ↑a))))
+in the application
+  Q.ginzburgGeneratorPrefixTopHomologyJacobianIso k φ x.1 v r c ≪≫ LinearEquiv.toModuleIso ?m.83
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:51:65: error: stuck at solving universe constraint
+  max ?u.72 ?u.73 =?= max ?u.74 ?u.75
+while trying to unify
+  AddCommGroup.{max ?u.72 ?u.73} ((i : ?m.78) → ?m.79 i) : Type (max ?u.72 ?u.73)
+with
+  AddCommGroup.{max ?u.75 ?u.74} ((i : ?m.78) → ?m.79 i) : Type (max ?u.75 ?u.74)
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:51:65: error: stuck at solving universe constraint
+  max (?u.72 + 1) (?u.73 + 1) =?= max (?u.74 + 1) (?u.75 + 1)
+while trying to unify
+  AddCommGroup.{max ?u.72 ?u.73} ((i : ?m.78) → ?m.79 i) : Type (max ?u.72 ?u.73)
+with
+  AddCommGroup.{max ?u.75 ?u.74} ((i : ?m.78) → ?m.79 i) : Type (max ?u.75 ?u.74)

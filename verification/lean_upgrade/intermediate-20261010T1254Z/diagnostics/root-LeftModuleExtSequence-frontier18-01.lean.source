@@ -1,0 +1,144 @@
+import ASGinzburg.LocallyUnitalExtComparison
+import ASGinzburg.LinearExtTransport
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem leftModuleExt_mk₀_smul {M N : A.LeftModule} (r : k) (f : M ⟶ N) :
+    Abelian.Ext.mk₀ (r • f) = r • (Abelian.Ext.mk₀ f : Abelian.Ext.{v} M N 0) := by
+  letI := HasDerivedCategory.standard A.LeftModule
+  exact ASGinzburg.exactExt_mk₀_smul k r f
+
+theorem leftModuleExt_smul_comp {X Y Z : A.LeftModule} {a b c : ℕ}
+    (x : Abelian.Ext.{v} X Y a) (y : Abelian.Ext.{v} Y Z b) (h : a+b=c) (r : k) :
+    (r • x).comp y h = r • x.comp y h := by
+  letI := HasDerivedCategory.standard A.LeftModule
+  exact ASGinzburg.exactExt_smul_comp k x y h r
+
+theorem leftModuleExt_comp_smul {X Y Z : A.LeftModule} {a b c : ℕ}
+    (x : Abelian.Ext.{v} X Y a) (y : Abelian.Ext.{v} Y Z b) (h : a+b=c) (r : k) :
+    x.comp (r • y) h = r • x.comp y h := by
+  letI := HasDerivedCategory.standard A.LeftModule
+  exact ASGinzburg.exactExt_comp_smul k x y h r
+
+noncomputable def leftModuleExtZeroLinearEquiv (M N : A.LeftModule) :
+    Abelian.Ext.{v} M N 0 ≃ₗ[k] (M ⟶ N) where
+  toAddEquiv := Abelian.Ext.addEquiv₀
+  map_smul' r x := by
+    apply (Abelian.Ext.addEquiv₀ (X := M) (Y := N)).symm.injective
+    change Abelian.Ext.mk₀ (Abelian.Ext.homEquiv₀ (r • x)) =
+      Abelian.Ext.mk₀ (r • Abelian.Ext.homEquiv₀ x)
+    rw [Abelian.Ext.mk₀_homEquiv₀_apply, A.leftModuleExt_mk₀_smul,
+      Abelian.Ext.mk₀_homEquiv₀_apply]
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+noncomputable def leftModuleExtBoundary {S : ShortComplex A.LeftModule}
+    (hS : S.ShortExact) (N : A.LeftModule) (n : ℕ) :
+    Abelian.Ext.{v} S.X₁ N n →ₗ[k] Abelian.Ext.{v} S.X₃ N (n + 1) where
+  toFun x := hS.extClass.comp x (Nat.add_comm 1 n)
+  map_add' x y := Abelian.Ext.comp_add _ x y _
+  map_smul' r x := A.leftModuleExt_comp_smul _ x _ r
+
+theorem leftModuleExtBoundary_bijective {S : ShortComplex A.LeftModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule) (n : ℕ) :
+    Function.Bijective (A.leftModuleExtBoundary hS N (n + 1)) := by
+  constructor
+  · apply LinearMap.ker_eq_bot.mp
+    apply LinearMap.ker_eq_bot'.mpr
+    intro x hx
+    obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N x
+      (Nat.add_comm 1 (n + 1)) hx
+    rw [Abelian.Ext.eq_zero_of_projective y, Abelian.Ext.comp_zero] at hy
+    exact hy.symm
+  · intro x
+    exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
+      (Abelian.Ext.eq_zero_of_projective _) (Nat.add_comm 1 (n + 1))
+
+/-- Actual positive-degree dimension shifting, proved using exactness and projectivity. -/
+noncomputable def leftModuleExtDimensionShift {S : ShortComplex A.LeftModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule) (n : ℕ) :
+    Abelian.Ext.{v} S.X₁ N (n + 1) ≃ₗ[k] Abelian.Ext.{v} S.X₃ N (n + 2) :=
+  LinearEquiv.ofBijective (A.leftModuleExtBoundary hS N (n + 1))
+    (A.leftModuleExtBoundary_bijective hS N n)
+
+theorem leftModuleExtZeroBoundary_bijective {S : ShortComplex A.LeftModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule)
+    (hHom : ∀ f : S.X₂ ⟶ N, f = 0) :
+    Function.Bijective (A.leftModuleExtBoundary hS N 0) := by
+  constructor
+  · apply LinearMap.ker_eq_bot.mp
+    apply LinearMap.ker_eq_bot'.mpr
+    intro x hx
+    obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N x (by rfl) hx
+    have hy0 : y = 0 := by
+      apply (A.leftModuleExtZeroLinearEquiv S.X₂ N).injective
+      simpa using hHom ((A.leftModuleExtZeroLinearEquiv S.X₂ N) y)
+    rw [hy0, Abelian.Ext.comp_zero] at hy
+    exact hy.symm
+  · intro x
+    exact Abelian.Ext.contravariant_sequence_exact₃ hS N x
+      (Abelian.Ext.eq_zero_of_projective _) (by rfl)
+
+/-- The degree-zero shift requires an actual Hom vanishing proof; for the
+AS duality calculation the higher-height projective terms provide it. -/
+noncomputable def leftModuleExtZeroDimensionShift {S : ShortComplex A.LeftModule}
+    (hS : S.ShortExact) [Projective S.X₂] (N : A.LeftModule)
+    (hHom : ∀ f : S.X₂ ⟶ N, f = 0) :
+    Abelian.Ext.{v} S.X₁ N 0 ≃ₗ[k] Abelian.Ext.{v} S.X₃ N 1 :=
+  LinearEquiv.ofBijective (A.leftModuleExtBoundary hS N 0)
+    (A.leftModuleExtZeroBoundary_bijective hS N hHom)
+
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+noncomputable def leftModuleExtPostcomp {M N P : A.LeftModule} (f : N ⟶ P) (n : ℕ) :
+    Abelian.Ext.{v} M N n →ₗ[k] Abelian.Ext.{v} M P n where
+  toFun x := x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+  map_add' x y := Abelian.Ext.add_comp x y _ _
+  map_smul' r x := A.leftModuleExt_smul_comp x _ _ r
+
+/-- Actual Ext is a k-linear functor in the second argument. -/
+noncomputable def leftModuleExtCovariant (M : A.LeftModule) (n : ℕ) :
+    A.LeftModule ⥤ ModuleCat.{v} k where
+  obj N := ModuleCat.of k (Abelian.Ext.{v} M N n)
+  map f := ModuleCat.ofHom (A.leftModuleExtPostcomp f n)
+  map_id N := by ext x; exact Abelian.Ext.comp_mk₀_id x
+  map_comp f g := by
+    ext x
+    change x.comp (Abelian.Ext.mk₀ (f ≫ g)) (Nat.add_zero n) =
+      (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)).comp
+        (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [← Abelian.Ext.mk₀_comp_mk₀]
+    symm
+    apply Abelian.Ext.comp_assoc
+    omega
+
+instance leftModuleExtCovariantAdditive (M : A.LeftModule) (n : ℕ) :
+    (A.leftModuleExtCovariant M n).Additive where
+  map_add := by
+    intro X Y f g
+    ext x
+    change x.comp (Abelian.Ext.mk₀ (f + g)) (Nat.add_zero n) =
+      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n) + x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [Abelian.Ext.mk₀_add, Abelian.Ext.comp_add]
+
+instance leftModuleExtCovariantLinear (M : A.LeftModule) (n : ℕ) :
+    (A.leftModuleExtCovariant M n).Linear k where
+  map_smul := by
+    intro X Y f r
+    ext x
+    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n) =
+      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+    rw [A.leftModuleExt_mk₀_smul]
+    exact A.leftModuleExt_comp_smul x _ _ r
+
+end ASGinzburg.ZAlgebra

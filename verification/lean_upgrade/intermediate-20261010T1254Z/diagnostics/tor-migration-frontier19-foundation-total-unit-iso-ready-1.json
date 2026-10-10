@@ -1,0 +1,58 @@
+{
+  "recorded_at_utc": "2026-10-10T12:37:23.131971+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "56f73c5b352a00c0de343aa82574216215473a17",
+  "status": "Actual first default-limit Lean 4.34.1 serial direct no-output public check0, source unchanged; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 3,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationTotalUnitIso.lean",
+      "source_sha256": "05779936e04593f75dc806e988b038eb25f27bb21bf2746a7180e8f97e155d22",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier19-entry-FoundationTotalUnitIso.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-unit-iso-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:36:31.319751+00:00",
+      "finished_at_utc": "2026-10-10T12:36:40.883039+00:00",
+      "elapsed_seconds": 9.56330114100274,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-unit-iso-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalRecoveryIso_natural",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalRecoveryIso_natural {M N : A.FoundationRightModule Q} (f : M \u27f6 N) : (A.foundationRingRightComponentRecovery Q).map ((A.foundationRightTotalFunctor Q).map f) \u226b (A.foundationRightTotalRecoveryIso Q N).hom= (A.foundationRightTotalRecoveryIso Q M).hom \u226b f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalRecoveryNatIso",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRightTotalRecoveryNatIso : A.foundationRightTotalFunctor Q \u22d9 A.foundationRingRightComponentRecovery Q \u2245 \ud835\udfed (A.FoundationRightModule Q)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalUnitIso",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRightTotalUnitIso : \ud835\udfed (A.FoundationRightModule Q) \u2245 A.foundationRightTotalFunctor Q \u22d9 A.foundationRingRightComponentRecovery Q"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "proof_change_note": "No public source changes were needed: current checkpoint3 source passed its first actual default direct check. Genuine recovery isomorphism, original unit and naturality maps, all headers/universes/hypotheses/conclusions and proof bodies are unchanged in this task. Declaration names/kinds/full headers and ambient universe/variable/include commands match baseline, checkpoint3 and task-entry.",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "public_source_edited_in_this_task": false,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

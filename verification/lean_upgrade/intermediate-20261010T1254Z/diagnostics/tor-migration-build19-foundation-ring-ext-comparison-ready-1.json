@@ -1,0 +1,68 @@
+{
+  "recorded_at_utc": "2026-10-10T12:44:52.932603+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "56f73c5b352a00c0de343aa82574216215473a17",
+  "status": "Current public source actual default-limit Lean4.34.1 serial direct no-output exit0, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 5,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationRingExtComparison.lean",
+      "source_sha256": "65a5df908e192a382aff877ad0ad489e600a9789839190e5cfe9629e94d2265c",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build19-entry-FoundationRingExtComparison.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-ring-ext-comparison-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:44:13.526396+00:00",
+      "finished_at_utc": "2026-10-10T12:44:18.494499+00:00",
+      "elapsed_seconds": 4.968130792003649,
+      "log": "work/lean-upgrade/tor-migration-foundation-ring-ext-comparison-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingEnoughProjectives",
+          "kind": "instance",
+          "full_header": "instance foundationRingEnoughProjectives : EnoughProjectives (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingHasExt",
+          "kind": "instance",
+          "full_header": "instance foundationRingHasExt : HasExt.{u} (ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationExtModule",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationExtModule (M N : A.FoundationRightModule Q) (n : ℕ) : Module k (Abelian.Ext.{u} M N n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingExtModule",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRingExtModule (M N : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) (n : ℕ) : Module k (Abelian.Ext.{u} M N n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingExtLinearEquiv",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRingExtLinearEquiv (M N : A.FoundationRightModule Q) (n : ℕ) : Abelian.Ext.{u} M N n ≃ₗ[k] Abelian.Ext.{u} (A.foundationRightTotalModule Q M) (A.foundationRightTotalModule Q N) n"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "proof_change_note": "Only hasExt_of_enoughProjectives is supplied explicit universe .{u}, selecting the original Hom-universe proof of the unchanged HasExt.{u} conclusion. Genuine equivalence, enough-projectives supply, Ext module structures and canonical Ext linear comparison remain unchanged. All declarations/fullheaders/ambient contexts match baseline88ac9e3, checkpoint3 and taskentry.",
+  "parent_actual_failed_build_record": "work/lean-upgrade/build-19.json",
+  "parent_actual_failed_build_log": "work/lean-upgrade/build-19.log",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

@@ -1,0 +1,55 @@
+{
+  "recorded_at_utc": "2026-10-10T12:35:50.754304+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "56f73c5b352a00c0de343aa82574216215473a17",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output public check0; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 2,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationTotalRecoveryIso.lean",
+      "source_sha256": "d18b81d69b8bca7402766595e6119c7fbe548ff5e17d3a0e0a463b97ed29ab7a",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build18-entry-FoundationTotalRecoveryIso.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-recovery-iso-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:34:41.378531+00:00",
+      "finished_at_utc": "2026-10-10T12:34:45.149192+00:00",
+      "elapsed_seconds": 3.770666523996624,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-recovery-iso-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_proof_and_map_bodies_unchanged": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_action",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalComponentEquiv_action (M : A.FoundationRightModule Q) {i j : Q.Vertex} (a : A.Hom (i.val : \u2124) (j.val : \u2124)) (x : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) j) : A.foundationRightTotalComponentEquiv Q M i (A.foundationRingRightComponentMap Q (A.foundationRightTotalModule Q M) a x)= A.foundationRightComponentAction Q M a (A.foundationRightTotalComponentEquiv Q M j x)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalRecoveryIso",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRightTotalRecoveryIso (M : A.FoundationRightModule Q) : A.foundationRingRightComponentModule Q (A.foundationRightTotalModule Q M) \u2245 M"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "proof_change_note": "Only declaration-scoped backward implicit transparency compatibility on the original component-action theorem. Original proof/map bodies are byte-for-byte unchanged after removing the added option command. The previously migrated native a.hom.unop boundary in recovery-Iso naturality is preserved, and ambient foundationActionArrow is untouched. All declaration names/kinds/full headers and ambient universe/variable/include commands match baseline, checkpoint3, and task-entry.",
+  "readonly_frontier_inventory": "work/lean-upgrade/tor-build18-foundation-frontier-readonly-1.json",
+  "supersedes_source_only_status_for": "ASGinzburg/FoundationTotalRecoveryIso.lean",
+  "prior_source_only_manifest_preserved": "work/lean-upgrade/tor-foundation-wrapper-source-only-pending-1.json",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

@@ -1,0 +1,36 @@
+import ASGinzburg.FoundationTotalComponentEquiv
+import ASGinzburg.FoundationRingComponentMaps
+
+/-! Coordinate extraction intertwines the original component actions
+and gives an actual isomorphism of foundation linear presheaves. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped ModuleCat.Algebra
+attribute [local instance 2000] ModuleCat.isModule
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+theorem foundationRightTotalComponentEquiv_action
+    (M : A.FoundationRightModule Q) {i j : Q.Vertex}
+    (a : A.Hom (i.val : ℤ) (j.val : ℤ))
+    (x : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) j) :
+    A.foundationRightTotalComponentEquiv Q M i
+      (A.foundationRingRightComponentMap Q (A.foundationRightTotalModule Q M) a x)=
+      A.foundationRightComponentAction Q M a (A.foundationRightTotalComponentEquiv Q M j x) := by
+  classical
+  change (A.foundationRightTotalAction Q M ((A.foundationComponents Q).totalComponent i j a) x.val) i=_
+  rw [A.foundationRightTotalAction_component Q M i j a]
+  simp [A.foundationRightTotalComponentEquiv_apply Q M j]
+
+noncomputable def foundationRightTotalRecoveryIso (M : A.FoundationRightModule Q) :
+    A.foundationRingRightComponentModule Q (A.foundationRightTotalModule Q M) ≅ M :=
+  (linearPresheafProperty k (A.FoundationRightObj Q)).isoMk
+    (NatIso.ofComponents (fun i => (A.foundationRightTotalComponentEquiv Q M i).toModuleIso)
+    (by
+      intro i j a
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro x
+      exact A.foundationRightTotalComponentEquiv_action Q M a.hom.unop x))
+
+end ASGinzburg.ZAlgebra

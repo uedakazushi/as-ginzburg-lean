@@ -1,0 +1,135 @@
+{
+  "recorded_at_utc": "2026-10-10T12:43:43.322952+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "56f73c5b352a00c0de343aa82574216215473a17",
+  "status": "Both current public sources actual default-limit Lean 4.34.1 serial direct no-output exit0, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 2,
+  "declaration_count": 13,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationRingEquivalence.lean",
+      "source_sha256": "345b2dadc7cbb67bd8307f07b8d91ce861f8dc1f0c4b35dfea116e5096dd1ead",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier19-entry-FoundationRingEquivalence.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-ring-equivalence-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:39:21.728856+00:00",
+      "finished_at_utc": "2026-10-10T12:39:35.470684+00:00",
+      "elapsed_seconds": 13.74196204799955,
+      "log": "work/lean-upgrade/tor-migration-foundation-ring-equivalence-1.log",
+      "log_empty": true,
+      "warning_count": 0,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightEquivalence",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRingRightEquivalence : A.FoundationRightModule Q ≌ ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalFunctorIsEquivalence",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRightTotalFunctorIsEquivalence : (A.foundationRightTotalFunctor Q).IsEquivalence"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentRecoveryIsEquivalence",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRingRightComponentRecoveryIsEquivalence : (A.foundationRingRightComponentRecovery Q).IsEquivalence"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/LocallyUnitalExtNaturality.lean",
+      "source_sha256": "f2807c19ae1293f2dc0f5ee8a0e147d65682577c2dafec5b6cdcee8c9e00c925",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier19-entry-LocallyUnitalExtNaturality.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-locally-unital-ext-naturality-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:40:31.051573+00:00",
+      "finished_at_utc": "2026-10-10T12:40:42.323688+00:00",
+      "elapsed_seconds": 11.272165135997056,
+      "log": "work/lean-upgrade/tor-migration-locally-unital-ext-naturality-2.log",
+      "log_empty": false,
+      "warning_count": 26,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": false,
+      "declarations": [
+        {
+          "name": "ASGinzburg.exactEquivalenceExtAddEquiv_hom",
+          "kind": "theorem",
+          "full_header": "theorem exactEquivalenceExtAddEquiv_hom (X Y : C) (n : ℕ) (α : Abelian.Ext.{w} X Y n) : (exactEquivalenceExtAddEquiv e X Y n α).hom = ((exactDerivedSingleIso e 0).app X).inv ≫ (e.functor.mapDerivedCategory.map α.hom ≫ (e.functor.mapDerivedCategory.commShiftIso (n : ℤ)).hom.app ((DerivedCategory.singleFunctor C 0).obj Y)) ≫ (shiftFunctor (DerivedCategory D) (n : ℤ)).map ((exactDerivedSingleIso e 0).app Y).hom"
+        },
+        {
+          "name": "ASGinzburg.exactEquivalenceExtAddEquiv_precomp",
+          "kind": "theorem",
+          "full_header": "theorem exactEquivalenceExtAddEquiv_precomp {X' X Y : C} (f : X' ⟶ X) (n : ℕ) (α : Abelian.Ext.{w} X Y n) : exactEquivalenceExtAddEquiv e X' Y n ((Abelian.Ext.mk₀ f).comp α (zero_add n)) = (Abelian.Ext.mk₀ (e.functor.map f)).comp (exactEquivalenceExtAddEquiv e X Y n α) (zero_add n)"
+        },
+        {
+          "name": "ASGinzburg.exactEquivalenceExtAddEquiv_postcomp",
+          "kind": "theorem",
+          "full_header": "theorem exactEquivalenceExtAddEquiv_postcomp {X Y Y' : C} (f : Y ⟶ Y') (n : ℕ) (α : Abelian.Ext.{w} X Y n) : exactEquivalenceExtAddEquiv e X Y' n (α.comp (Abelian.Ext.mk₀ f) (add_zero n)) = (exactEquivalenceExtAddEquiv e X Y n α).comp (Abelian.Ext.mk₀ (e.functor.map f)) (add_zero n)"
+        },
+        {
+          "name": "ASGinzburg.exactEquivalenceExtLinearEquiv_toAddEquiv",
+          "kind": "theorem",
+          "full_header": "theorem exactEquivalenceExtLinearEquiv_toAddEquiv (R : Type*) [Field R] [Linear R C] [Linear R D] [e.functor.Linear R] (X Y : C) (n : ℕ) : letI := exactExtModule R X Y n letI := exactExtModule R (e.functor.obj X) (e.functor.obj Y) n (exactEquivalenceExtLinearEquiv e R X Y n).toAddEquiv = exactEquivalenceExtAddEquiv e X Y n"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv_toAddEquiv",
+          "kind": "theorem",
+          "full_header": "theorem leftLocallyUnitalExtLinearEquiv_toAddEquiv (M N : A.LeftModule) (n : ℕ) : (A.leftLocallyUnitalExtLinearEquiv M N n).toAddEquiv = A.leftLocallyUnitalExtAddEquiv M N n"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv_precomp",
+          "kind": "theorem",
+          "full_header": "theorem leftLocallyUnitalExtLinearEquiv_precomp {M' M N : A.LeftModule} (f : M' ⟶ M) (n : ℕ) (α : Abelian.Ext.{v} M N n) : A.leftLocallyUnitalExtLinearEquiv M' N n ((Abelian.Ext.mk₀ f).comp α (zero_add n)) = (Abelian.Ext.mk₀ (A.leftTotalLocallyUnitalFunctor.map f)).comp (A.leftLocallyUnitalExtLinearEquiv M N n α) (zero_add n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftLocallyUnitalExtLinearEquiv_postcomp",
+          "kind": "theorem",
+          "full_header": "theorem leftLocallyUnitalExtLinearEquiv_postcomp {M N N' : A.LeftModule} (f : N ⟶ N') (n : ℕ) (α : Abelian.Ext.{v} M N n) : A.leftLocallyUnitalExtLinearEquiv M N' n (α.comp (Abelian.Ext.mk₀ f) (add_zero n)) = (A.leftLocallyUnitalExtLinearEquiv M N n α).comp (Abelian.Ext.mk₀ (A.leftTotalLocallyUnitalFunctor.map f)) (add_zero n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv_toAddEquiv",
+          "kind": "theorem",
+          "full_header": "theorem rightLocallyUnitalExtLinearEquiv_toAddEquiv (M N : A.RightModule) (n : ℕ) : (A.rightLocallyUnitalExtLinearEquiv M N n).toAddEquiv = A.rightLocallyUnitalExtAddEquiv M N n"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv_precomp",
+          "kind": "theorem",
+          "full_header": "theorem rightLocallyUnitalExtLinearEquiv_precomp {M' M N : A.RightModule} (f : M' ⟶ M) (n : ℕ) (α : Abelian.Ext.{v} M N n) : A.rightLocallyUnitalExtLinearEquiv M' N n ((Abelian.Ext.mk₀ f).comp α (zero_add n)) = (Abelian.Ext.mk₀ (A.rightTotalLocallyUnitalFunctor.map f)).comp (A.rightLocallyUnitalExtLinearEquiv M N n α) (zero_add n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightLocallyUnitalExtLinearEquiv_postcomp",
+          "kind": "theorem",
+          "full_header": "theorem rightLocallyUnitalExtLinearEquiv_postcomp {M N N' : A.RightModule} (f : N ⟶ N') (n : ℕ) (α : Abelian.Ext.{v} M N n) : A.rightLocallyUnitalExtLinearEquiv M N' n (α.comp (Abelian.Ext.mk₀ f) (add_zero n)) = (A.rightLocallyUnitalExtLinearEquiv M N n α).comp (Abelian.Ext.mk₀ (A.rightTotalLocallyUnitalFunctor.map f)) (add_zero n)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe w w₁ w₂ v₁ v₂ u₁ u₂",
+        "variable {C : Type u₁} [Category.{v₁} C] [Abelian C] [HasDerivedCategory.{w₁} C] {D : Type u₂} [Category.{v₂} D] [Abelian D] [HasDerivedCategory.{w₂} D] (e : C ≌ D) [e.functor.Additive] [e.inverse.Additive] [HasExt.{w} C] [HasExt.{w} D]",
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    }
+  ],
+  "full_header_parser_note": "Balanced brackets skip named arguments; top-level conclusion letI assignments are retained, including both exactEquivalenceExtLinearEquiv_toAddEquiv letI binders.",
+  "proof_change_note": "FoundationRingEquivalence is byte-for-byte unchanged in this task. LocallyUnitalExtNaturality only deletes the redundant dsimp only at ht line which failed to make progress under Lean4.34.1. All canonical equivalence, naturality, Ext maps and declarations retain original headers and ambient universes/context.",
+  "prior_failed_check_records_preserved": [
+    "work/lean-upgrade/tor-migration-locally-unital-ext-naturality-1.json"
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

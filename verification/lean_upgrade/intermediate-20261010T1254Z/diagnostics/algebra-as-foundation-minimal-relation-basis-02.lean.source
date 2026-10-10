@@ -1,0 +1,30 @@
+import ASGinzburg.ASMinimalRelationAllComponents
+import ASGinzburg.ASFirstKernelRelations
+
+/-! The actual original minimal relation components in sheet zero
+have the cut-arrow indexed bases required by (3.5), derived from the
+given AS resolution and genuine kernel/radical comparison. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+
+set_option synthInstance.maxHeartbeats 200000 in
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def foundationMinimalRelationBasis (i j : Q.Vertex) :
+    Module.Basis (Q.FoundationRelationArrow i j) k
+      (Q.MinimalRelationComponent (A.unrolledPathPresentation Q R).kernel
+        (i.val : ℤ) (j.val : ℤ)) :=
+  ((R (j,0)).foundationFirstKernelRelationBasis i).map (by
+    simpa only [CutQuiver.height, mul_zero, add_zero] using
+      (A.presentationMinimalRelationFirstKernelTopEquiv_all Q R (i,0) (j,0)).symm)
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem foundationMinimalRelation_finrank (i j : Q.Vertex) :
+    Module.finrank k
+      (Q.MinimalRelationComponent (A.unrolledPathPresentation Q R).kernel
+        (i.val : ℤ) (j.val : ℤ))=Fintype.card (Q.FoundationRelationArrow i j) := by
+  classical
+  exact Module.finrank_eq_card_basis (A.foundationMinimalRelationBasis Q R i j)
+
+end ASGinzburg.ZAlgebra

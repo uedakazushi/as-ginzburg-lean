@@ -1,0 +1,36 @@
+ASGinzburg/GinzburgFiltrationLeftNaturality.lean:60:2: error: Type mismatch: After simplification, term
+  he
+ has type
+  @Eq
+    (HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 (r + 1) (v.2 - y.2)) q ⟶
+      HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 r (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ (r + 1) f) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ x.1 v.1 r (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ y.1 v.1 r (v.2 - y.2)) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ r f) q)
+but is expected to have type
+  @Eq
+    (Q.ginzburgGeneratorFilteredHomology k φ y.1 v.1 (r + 1) (v.2 - y.2) q ⟶
+      Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 r (v.2 - x.2) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ (r + 1) f) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ x.1 v.1 r (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgGeneratorFilteredInclusion k φ y.1 v.1 r (v.2 - y.2)) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ r f) q)
+ASGinzburg/GinzburgFiltrationLeftNaturality.lean:73:2: error: Type mismatch: After simplification, term
+  he
+ has type
+  @Eq
+    (HomologicalComplex.homology (Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 r (v.2 - y.2)) q ⟶
+      HomologicalComplex.homology (Q.ginzburgAssociatedGradedComplex k φ x.1 v.1 r (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ r f) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgFilteredToAssociatedGraded k φ x.1 v.1 r (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgFilteredToAssociatedGraded k φ y.1 v.1 r (v.2 - y.2)) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgAssociatedLeftCochainMap k φ r f) q)
+but is expected to have type
+  @Eq
+    (Q.ginzburgGeneratorFilteredHomology k φ y.1 v.1 r (v.2 - y.2) q ⟶
+      Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 r (v.2 - x.2) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgFilteredLeftCochainMap k φ r f) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgFilteredToAssociatedGraded k φ x.1 v.1 r (v.2 - x.2)) q)
+    (HomologicalComplex.homologyMap (Q.ginzburgFilteredToAssociatedGraded k φ y.1 v.1 r (v.2 - y.2)) q ≫
+      HomologicalComplex.homologyMap (Q.ginzburgAssociatedLeftCochainMap k φ r f) q)

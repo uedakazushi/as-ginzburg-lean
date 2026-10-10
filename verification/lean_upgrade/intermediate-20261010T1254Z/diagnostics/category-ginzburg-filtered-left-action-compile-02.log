@@ -1,0 +1,25 @@
+ASGinzburg/GinzburgFilteredLeftAction.lean:22:4: error: Type mismatch: After simplification, term
+  ginzburgCohomologicalComponent_comp Q k f.property.left hg.right.left
+ has type
+  ((Q.ginzburgPathComp k) ↑g) ↑f ∈ Q.ginzburgCohomologicalComponent k x.1 v.1 q
+but is expected to have type
+  ((Q.ginzburgPathComp k) ↑g) ↑f ∈ ↑(Q.ginzburgCohomologicalComponent k x.1 v.1 q)
+ASGinzburg/GinzburgFilteredLeftAction.lean:24:4: error: Type mismatch: After simplification, term
+  ginzburgCutComponent_comp Q k f.property.right hg.right.right
+ has type
+  ((Q.ginzburgPathComp k) ↑g) ↑f ∈ Q.ginzburgCutComponent k x.1 v.1 (v.2 - x.2)
+but is expected to have type
+  ((Q.ginzburgPathComp k) ↑g) ↑f ∈ ↑(Q.ginzburgCutComponent k x.1 v.1 (v.2 - x.2))
+ASGinzburg/GinzburgFilteredLeftAction.lean:61:6: error: Type mismatch
+  ginzburgFilteredLeftTerm_differential Q k φ r q f
+has type
+  Q.ginzburgGeneratorFilteredDifferential k φ x.1 ?m.105.1 r q (?m.105.2 - x.2) ∘ₗ Q.ginzburgFilteredLeftTerm k r q f =
+    Q.ginzburgFilteredLeftTerm k r (q + 1) f ∘ₗ
+      Q.ginzburgGeneratorFilteredDifferential k φ y.1 ?m.105.1 r q (?m.105.2 - y.2)
+but is expected to have type
+  ModuleCat.Hom.hom
+      (ModuleCat.ofHom (Q.ginzburgFilteredLeftTerm k r q f) ≫
+        (Q.ginzburgGeneratorFilteredComplex k φ x.1 v.1 r (v.2 - x.2)).d q (q + 1)) =
+    ModuleCat.Hom.hom
+      ((Q.ginzburgGeneratorFilteredComplex k φ y.1 v.1 r (v.2 - y.2)).d q (q + 1) ≫
+        ModuleCat.ofHom (Q.ginzburgFilteredLeftTerm k r (q + 1) f))

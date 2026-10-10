@@ -1,0 +1,44 @@
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:31:13: error: Application type mismatch: The argument
+  Q.ginzburgGeneratorBoundaryFamilyJacobianEquiv k φ u v r c
+has type
+  @LinearEquiv k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    ((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+      ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+        (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+            (c - GinzburgArrow.cutDegree Q ↑a)).range)
+    ((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+      ↥(Q.pathCutComponent k u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+        Q.pathJacobianCutIdeal k φ u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a))
+    Pi.addCommMonoid Pi.addCommMonoid
+    (Pi.module { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+      (fun a =>
+        ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+          (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+              (c - GinzburgArrow.cutDegree Q ↑a)).range)
+      k)
+    (Pi.module { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+      (fun a =>
+        ↥(Q.pathCutComponent k u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+          Q.pathJacobianCutIdeal k φ u (GinzburgArrow.source Q ↑a) (c - GinzburgArrow.cutDegree Q ↑a))
+      k)
+but is expected to have type
+  @LinearEquiv k k inst✝.toDivisionRing.toSemiring inst✝.toDivisionRing.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    ((i : ?m.13) → ?m.14 i) ((i : ?m.16) → ?m.17 i) Pi.addCommGroup.toAddCommMonoid Pi.addCommGroup.toAddCommMonoid
+    ?m.19 ?m.20
+in the application
+  (Q.ginzburgGeneratorBoundaryFamilyJacobianEquiv k φ u v r c).toModuleIso
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:39:4: error: Application type mismatch: The argument
+  LinearEquiv.toModuleIso ?m.26
+has type
+  ↧((i : ?m.18) → ?m.19 i) ≅ ↧((i : ?m.21) → ?m.22 i)
+but is expected to have type
+  Q.ginzburgGeneratorPrefixBoundaryQuotientModule k φ u v r c ≅ Q.ginzburgGeneratorJacobianFamilyModule k φ u v r c
+in the application
+  Q.ginzburgGeneratorPrefixTopHomologyFamilyIso k φ u v r c ≪≫ LinearEquiv.toModuleIso ?m.26
+ASGinzburg/GinzburgGeneratorPrefixJacobian.lean:49:5: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  (i : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+    AddCommMonoid
+      (↥(Q.pathCutComponent k x.1 (GinzburgArrow.source Q ↑i) (c - GinzburgArrow.cutDegree Q ↑i)) ⧸
+        Q.pathJacobianCutIdeal k φ x.1 (GinzburgArrow.source Q ↑i) (c - GinzburgArrow.cutDegree Q ↑i))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

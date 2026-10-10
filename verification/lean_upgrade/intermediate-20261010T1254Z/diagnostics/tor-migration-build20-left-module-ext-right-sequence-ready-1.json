@@ -1,0 +1,104 @@
+{
+  "recorded_at_utc": "2026-10-10T12:50:40.303065+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "56f73c5b352a00c0de343aa82574216215473a17",
+  "status": "Current public source actual default-limit Lean4.34.1 serial direct no-output exit0, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 11,
+  "sources": [
+    {
+      "source": "ASGinzburg/LeftModuleExtRightSequence.lean",
+      "source_sha256": "0b5d13c353511763925a405336f78721ad38fdabfc242694f368ad291a50a185",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build20-entry-LeftModuleExtRightSequence.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-left-module-ext-right-sequence-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:49:30.658514+00:00",
+      "finished_at_utc": "2026-10-10T12:50:06.746294+00:00",
+      "elapsed_seconds": 36.08780188200035,
+      "log": "work/lean-upgrade/tor-migration-left-module-ext-right-sequence-2.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRight",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtRight (M : A.LeftModule) (n : ℕ) : A.RightModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRight_obj",
+          "kind": "theorem",
+          "full_header": "@[simp] theorem leftModuleExtRight_obj (M : A.LeftModule) (n : ℕ) (i : ℤ) : (A.leftModuleExtRight M n).obj.obj (op ⟨i⟩) = ModuleCat.of k (Abelian.Ext.{v} M (A.leftRepresentable i) n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtRightZeroIso",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtRightZeroIso (M : A.LeftModule) : A.leftModuleExtRight M 0 ≅ A.leftModuleADual M"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtBoundaryRight",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtBoundaryRight {S : ShortComplex A.LeftModule} (hS : S.ShortExact) (n : ℕ) : A.leftModuleExtRight S.X₁ n ⟶ A.leftModuleExtRight S.X₃ (n+1)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtBoundaryRightEpi",
+          "kind": "instance",
+          "full_header": "noncomputable instance leftModuleExtBoundaryRightEpi {S : ShortComplex A.LeftModule} (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : Epi (A.leftModuleExtBoundaryRight hS n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtDimensionShiftRightIso",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtDimensionShiftRightIso {S : ShortComplex A.LeftModule} (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : A.leftModuleExtRight S.X₁ (n+1) ≅ A.leftModuleExtRight S.X₃ (n+2)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtDimensionShiftRightIso_hom",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleExtDimensionShiftRightIso_hom {S : ShortComplex A.LeftModule} (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : (A.leftModuleExtDimensionShiftRightIso hS n).hom = A.leftModuleExtBoundaryRight hS (n+1)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtPrecompRight",
+          "kind": "def",
+          "full_header": "noncomputable def leftModuleExtPrecompRight {M N : A.LeftModule} (f : M ⟶ N) (n : ℕ) : A.leftModuleExtRight N n ⟶ A.leftModuleExtRight M n"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtPrecompRight_boundary_zero",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleExtPrecompRight_boundary_zero {S : ShortComplex A.LeftModule} (hS : S.ShortExact) (n : ℕ) : A.leftModuleExtPrecompRight S.f n ≫ A.leftModuleExtBoundaryRight hS n = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleADualMap_extRightZeroIso_inv",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleADualMap_extRightZeroIso_inv {M N : A.LeftModule} (f : M ⟶ N) : A.leftModuleADualMap f ≫ (A.leftModuleExtRightZeroIso M).inv = (A.leftModuleExtRightZeroIso N).inv ≫ A.leftModuleExtPrecompRight f 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleExtBoundaryRight_exact",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleExtBoundaryRight_exact {S : ShortComplex A.LeftModule} (hS : S.ShortExact) (n : ℕ) : (ShortComplex.mk (A.leftModuleExtPrecompRight S.f n) (A.leftModuleExtBoundaryRight hS n) (A.leftModuleExtPrecompRight_boundary_zero hS n)).Exact"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)",
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    }
+  ],
+  "proof_change_note": "Only declaration-scoped backward.isDefEq.respectTransparency false before leftModuleExtRightZeroIso, directly before its existing doc-comment. Removing that one option line restores byte-for-byte task-entry source. All actual derived Ext boundaries, genuine right-module action, natural degree-zero Iso, contravariant maps and independent u/v context are unchanged.",
+  "prior_failed_check_records_preserved": [
+    "work/lean-upgrade/tor-migration-left-module-ext-right-sequence-1.json"
+  ],
+  "prior_failed_check_note": "Initial directcheck inserted the same one option line after the declaration doc-comment; Lean parsed it as an unexpected command. Its failure snapshot/log remain preserved; final source places the same option before the original doc-comment.",
+  "parent_actual_failed_build_record": "work/lean-upgrade/build-20.json",
+  "parent_actual_failed_build_log": "work/lean-upgrade/build-20.log",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}
