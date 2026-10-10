@@ -1,0 +1,105 @@
+{
+  "reviewed_at_utc": "2026-10-10T13:29:51.432973+00:00",
+  "review_mode": "independent_read_only_focused_semantic_review_no_compiler_or_public_edits",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "prior_review": "work/lean-upgrade/statement-review-checkpoint5.json",
+  "source": "ASGinzburg/GinzburgPrefixFixedCoefficients.lean",
+  "source_sha256": "2ada9660d4234a78cd31122a1efada684982c82f2cb31481cda35b75a793d5b3",
+  "matching_exact_source_snapshot": "work/lean-upgrade/category-ginzburg-prefix-fixed-coefficients-compile-02.lean.source",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "provisional": true,
+  "global_compilation_success_claimed": false,
+  "full_source_inventory_captured": false,
+  "declarations_before": 4,
+  "declarations_after": 4,
+  "declaration_names_and_kinds_preserved": true,
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context": [
+    "universe u",
+    "variable (Q : CutQuiver) (k : Type u) [Field k]"
+  ],
+  "changed_header_count": 3,
+  "header_classification_count_verified": true,
+  "changed_header_classifications": {
+    "same_result_type_explicit_canonical_origin_ginzburg_path_group_family": 3
+  },
+  "changed_headers": [
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPrefixCoefficientCutEquiv",
+      "kind": "def",
+      "before": "noncomputable def ginzburgPrefixCoefficientCutEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (a : Q.GinzburgArrow) : (Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ⧸ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.source Q) (v.2-x.2-a.cutDegree Q))) ≃ₗ[k] Q.GinzburgCutZeroQuotient k φ x (Q.ginzburgPrefixGeneratorEndpoint v a)",
+      "after": "noncomputable def ginzburgPrefixCoefficientCutEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (a : Q.GinzburgArrow) : by letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k x.1 w) := Finsupp.instAddCommGroup exact (Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ⧸ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.source Q) (v.2-x.2-a.cutDegree Q))) ≃ₗ[k] Q.GinzburgCutZeroQuotient k φ x (Q.ginzburgPrefixGeneratorEndpoint v a)",
+      "normalized_after_equals_entire_original_header": true,
+      "classification": "same_result_type_explicit_canonical_origin_ginzburg_path_group_family"
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPrefixCoefficientFixedUnrolledEquiv",
+      "kind": "def",
+      "before": "noncomputable def ginzburgPrefixCoefficientFixedUnrolledEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (a : Q.GinzburgArrow) : (Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ⧸ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.source Q) (v.2-x.2-a.cutDegree Q))) ≃ₗ[k] (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a))",
+      "after": "noncomputable def ginzburgPrefixCoefficientFixedUnrolledEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (a : Q.GinzburgArrow) : by letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k x.1 w) := Finsupp.instAddCommGroup exact (Q.ginzburgCutCohomologicalComponent k x.1 (a.source Q) 0 (v.2-x.2-a.cutDegree Q) ⧸ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.source Q) (v.2-x.2-a.cutDegree Q))) ≃ₗ[k] (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a))",
+      "normalized_after_equals_entire_original_header": true,
+      "classification": "same_result_type_explicit_canonical_origin_ginzburg_path_group_family"
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPrefixFixedQuotientFamilyEquiv",
+      "kind": "def",
+      "before": "noncomputable def ginzburgPrefixFixedQuotientFamilyEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (r : ℤ) : (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}, (Q.ginzburgCutCohomologicalComponent k x.1 (a.val.source Q) 0 (v.2-x.2-a.val.cutDegree Q) ⧸ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.val.source Q) (v.2-x.2-a.val.cutDegree Q)))) ≃ₗ[k] (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}, (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))",
+      "after": "noncomputable def ginzburgPrefixFixedQuotientFamilyEquiv (φ : Q.Potential k) (x v : Q.LiftVertex) (r : ℤ) : by letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k x.1 w) := Finsupp.instAddCommGroup exact (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}, (Q.ginzburgCutCohomologicalComponent k x.1 (a.val.source Q) 0 (v.2-x.2-a.val.cutDegree Q) ⧸ LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ x.1 (a.val.source Q) (v.2-x.2-a.val.cutDegree Q)))) ≃ₗ[k] (Π a : {a : Q.GinzburgArrow // a.target Q=v.1 ∧ a.cohomologicalDegree Q=r}, (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)))",
+      "normalized_after_equals_entire_original_header": true,
+      "classification": "same_result_type_explicit_canonical_origin_ginzburg_path_group_family"
+    }
+  ],
+  "original_result_types_exact_after_canonical_instance_normalization": true,
+  "entire_original_source_matches_after_whitespace_and_instance_elaboration_annotation_normalization": true,
+  "definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "canonical_instance": "GinzburgPathComponent k x.1 w is exactly GinzburgPath x.1 w →₀ k (GinzburgPathAlgebra.lean10). Finsupp.instAddCommGroup is the canonical pointwise additive commutative group for that same Finsupp carrier (Mathlib/Algebra/Group/Finsupp.lean502). The local family varies only the original target vertex w, with the same fixed original source x.1 and field k. This selects the original canonical operations; it adds no mathematical assumption, parameter or new global instance.",
+    "quotient_carriers_and_denominators": "All original cut-cohomological components, cut-degree arithmetic v.2-x.2-a.cutDegree, differential image denominators, GinzburgCutZeroQuotient target, height endpoints, field scalar actions and linear-equivalence types remain exact original expressions after the local instance syntax is removed.",
+    "cut_equivalence": "The exact original ginzburgCutZeroQuotientEquivOfCutEq call and omega equality between v.2-x.2-a.cutDegree and (v.2-a.cutDegree)-x.2 remain unchanged.",
+    "fixed_unrolled_equivalence": "The same original cut-equivalence is composed via LinearEquiv.trans with the same original ginzburgCutZeroQuotientUnrolledEquiv, to the same unrolledJacobianZAlgebra Hom height endpoints.",
+    "family_equivalence": "The same original arrow subtype a.target=v.1 ∧ a.cohomologicalDegree=r, its coefficient quotient family and target Hom family remain; LinearEquiv.piCongrRight uses the same original component equivalence for each a.val.",
+    "all_definition_data_bodies_equivalent": "All source formulas are exactly the original ones after only the new canonical-instance type-proof/body-local elaboration wrappers and whitespace are erased. The original endpoint definition is untouched."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "existing_compile_evidence_read_without_invoking_compiler": {
+    "command": [
+      "bash",
+      "scripts/with_lean.sh",
+      "lake",
+      "env",
+      "lean",
+      "-DautoImplicit=false",
+      "ASGinzburg/GinzburgPrefixFixedCoefficients.lean"
+    ],
+    "source": "ASGinzburg/GinzburgPrefixFixedCoefficients.lean",
+    "source_sha256": "2ada9660d4234a78cd31122a1efada684982c82f2cb31481cda35b75a793d5b3",
+    "source_unchanged": true,
+    "source_snapshot": "work/lean-upgrade/category-ginzburg-prefix-fixed-coefficients-compile-02.lean.source",
+    "started_at_utc": "2026-10-10T13:26:22.680806+00:00",
+    "finished_at_utc": "2026-10-10T13:26:26.931791+00:00",
+    "elapsed_seconds": 4.250994549001916,
+    "exit_code": 0,
+    "log": "work/lean-upgrade/category-ginzburg-prefix-fixed-coefficients-compile-02.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrote_olean": false
+  },
+  "expected_whole_project_header_count_if_no_other_new_headers": "Checkpoint5 approved82 normalized headers plus these independently reviewed3 gives85; no fresh whole-project source capture was performed for this focused review.",
+  "next_full_inventory_normalization_required": "Add exact origin-family pattern : by letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k x.1 w) := Finsupp.instAddCommGroup exact ORIGINAL_TYPE, then require whole normalized header exact baseline equality. Existing u-based prefix-family rule does not match x.1.",
+  "source_consistency_after_manual_review": {
+    "observed_at_utc": "2026-10-10T13:29:51.433729+00:00",
+    "current_source_sha256": "2ada9660d4234a78cd31122a1efada684982c82f2cb31481cda35b75a793d5b3",
+    "exact_source_unchanged": true
+  },
+  "manual_review_completed_at_utc": "2026-10-10T13:29:51.433849+00:00",
+  "limitations": [
+    "Focused source review only, not a new complete1373 snapshot or final verification freeze.",
+    "The owner actual direct check02 exited0 at default limits; this independent review did not invoke a compiler and does not certify full project build or exhaustive axiom audit."
+  ]
+}

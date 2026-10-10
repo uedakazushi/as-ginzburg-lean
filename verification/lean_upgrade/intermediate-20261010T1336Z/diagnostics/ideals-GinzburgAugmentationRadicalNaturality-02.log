@@ -1,0 +1,17 @@
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:47:8: error: Type mismatch: After simplification, term
+  (A.representableRadical (Q.height v)).inclusion.hom.naturality
+    (have this := a;
+      this).op
+ has type
+  @Eq
+    ((A.representableRadical (Q.height v)).object.obj.obj (Opposite.op { index := Q.height y }) ⟶
+      (A.representable (Q.height v)).obj.obj (Opposite.op { index := Q.height x }))
+    ((A.representableRadical (Q.height v)).object.obj.map (Quiver.Hom.op a) ≫
+      (A.representableRadical (Q.height v)).inclusion.hom.app (Opposite.op { index := Q.height x }))
+    ((A.representableRadical (Q.height v)).inclusion.hom.app (Opposite.op { index := Q.height y }) ≫
+      A.representablePrecomposition (Q.height x) (Q.height y) (Q.height v) a)
+but is expected to have type
+  @Eq
+    ((A.rightModuleEvaluation (Q.height y)).obj (A.representableRadical (Q.height v)).object ⟶
+      ↧(A.Hom (Q.height x) (Q.height v)))
+    (iy ≫ ap) (ar ≫ ix)

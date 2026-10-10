@@ -1,0 +1,15 @@
+ASGinzburg/GinzburgDualArrowRepresentative.lean:19:2: error: unsolved goals
+case refine_3
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+a : Q.Arrow
+⊢ (GinzburgPath.nil (GinzburgArrow.source Q (GinzburgArrow.dual a))).snoc (GinzburgArrow.dual a) ⋯ ∈
+    {p | p.cutDegree = GinzburgArrow.cutDegree Q (GinzburgArrow.dual a)}
+ASGinzburg/GinzburgDualArrowRepresentative.lean:20:28: warning: This simp argument is unused:
+  GinzburgPath.cutDegree
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [ginzburgArrowPath]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

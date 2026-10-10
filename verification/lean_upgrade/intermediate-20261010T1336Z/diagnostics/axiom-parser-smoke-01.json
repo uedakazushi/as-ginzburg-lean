@@ -1,0 +1,95 @@
+{
+  "recorded_at_utc": "2026-10-10T13:21:15.905715+00:00",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "source": "work/lean-upgrade/axiom-parser-smoke-01.lean",
+  "source_sha256": "8c35629ef1fe05a7b88b6f0a60c9d19fab7eb0a0f0c9ab1dccd6264141461cc6",
+  "selected_inventory": "work/lean-upgrade/axiom-parser-smoke-01-selected-inventory.json",
+  "selected_names": [
+    "ASGinzburg.ZAlgebra",
+    "ASGinzburg.ZAlgebra.IsPeriodic",
+    "ASGinzburg.supportedDifferenceProjection",
+    "ASGinzburg.supportedDifferenceProjection_ker",
+    "ASGinzburg.supportedQuotientDifferenceEquiv"
+  ],
+  "selected_imports": [
+    "ASGinzburg.ZAlgebra",
+    "ASGinzburg.FinsuppSupportedQuotient"
+  ],
+  "current_public_source_sha256": {
+    "ASGinzburg/ZAlgebra.lean": "00a370e8b60ca324c780b26e89642ce000292def9ba435ca445a23484d4ba9f1",
+    "ASGinzburg/FinsuppSupportedQuotient.lean": "b1f00e78e7a27835b2abd999b62dee2f7dbc27c2be80d8dee29b069f742392b6"
+  },
+  "import_olean_metadata": {
+    ".lake/build/lib/lean/ASGinzburg/ZAlgebra.olean": {
+      "sha256": "da4456655623eb3d0b0efa034a33ffcbd4dc62f4246257a41b2fde88b6c8f4e4",
+      "mtime_utc": "2026-10-10T09:12:26.776269+00:00",
+      "bytes": 1019032
+    },
+    ".lake/build/lib/lean/ASGinzburg/FinsuppSupportedQuotient.olean": {
+      "sha256": "86c6533076fc26012eeb5112e86164f1172cddc3e1f068b2cab7560d594d296c",
+      "mtime_utc": "2026-10-10T09:36:12.517211+00:00",
+      "bytes": 116576
+    }
+  },
+  "all_selected_public_sources_match_checkpoint5": true,
+  "partial_smoke_only": true,
+  "global_verification_result_written": false,
+  "command": [
+    "bash",
+    "scripts/with_lean.sh",
+    "lake",
+    "env",
+    "lean",
+    "-DautoImplicit=false",
+    "work/lean-upgrade/axiom-parser-smoke-01.lean"
+  ],
+  "started_at_utc": "2026-10-10T13:21:41.042961+00:00",
+  "finished_at_utc": "2026-10-10T13:21:53.346673+00:00",
+  "elapsed_seconds": 12.303670417997637,
+  "actual_exit_code": 0,
+  "stdout_log": "work/lean-upgrade/axiom-parser-smoke-01.stdout.log",
+  "stdout_sha256": "a74b1de0ad84ff83bc36c737800cfab35d1d322c5023d433a56544ffcddebc76",
+  "stderr_log": "work/lean-upgrade/axiom-parser-smoke-01.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_empty": true,
+  "current_public_source_sha256_after_run": {
+    "ASGinzburg/ZAlgebra.lean": "00a370e8b60ca324c780b26e89642ce000292def9ba435ca445a23484d4ba9f1",
+    "ASGinzburg/FinsuppSupportedQuotient.lean": "b1f00e78e7a27835b2abd999b62dee2f7dbc27c2be80d8dee29b069f742392b6"
+  },
+  "selected_sources_unchanged": true,
+  "smoke_source_unchanged": true,
+  "default_heartbeat_limits": true,
+  "writes_olean": false,
+  "selected_parser_result": {
+    "success": true,
+    "exact_names": [
+      "ASGinzburg.ZAlgebra",
+      "ASGinzburg.ZAlgebra.IsPeriodic",
+      "ASGinzburg.supportedDifferenceProjection",
+      "ASGinzburg.supportedDifferenceProjection_ker",
+      "ASGinzburg.supportedQuotientDifferenceEquiv"
+    ],
+    "name_count": 5,
+    "unique_name_count": 5,
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "allowed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "uses_existing_checker": "scripts/report_verification.py:check_coverage",
+    "checker_not_modified": true
+  },
+  "full6909_axiom_audit_claimed": false,
+  "global_build_or_upgrade_success_claimed": false,
+  "global_results_or_certificates_written": false,
+  "only_work_artifacts_written": true,
+  "import_olean_unchanged": {
+    ".lake/build/lib/lean/ASGinzburg/ZAlgebra.olean": true,
+    ".lake/build/lib/lean/ASGinzburg/FinsuppSupportedQuotient.olean": true
+  }
+}

@@ -1,0 +1,150 @@
+ASGinzburg/GinzburgPrefixTopHomologyNaturality.lean:17:65: error: unsolved goals
+case h₁
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+r : ℤ
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+x✝ :
+  ↑((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.up ℤ) (r - 1) r (r + 1)).obj
+        (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2))).X₁
+⊢ (ModuleCat.Hom.hom
+        (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r - 1) f) ≫
+          (ShortComplex.isoMk
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₁)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₂)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₃)
+                ⋯ ⋯).hom.τ₁))
+      x✝ =
+    (ModuleCat.Hom.hom
+        (ShortComplex.homMk (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r - 1) f))
+            (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r r f))
+            (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r + 1) f)) ⋯ ⋯).τ₁)
+      ((ModuleCat.Hom.hom
+          (ShortComplex.isoMk
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₁)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₂)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₃)
+                ⋯ ⋯).hom.τ₁)
+        x✝)
+
+case h₂
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+r : ℤ
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+x✝ :
+  ↑((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.up ℤ) (r - 1) r (r + 1)).obj
+        (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2))).X₂
+⊢ (ModuleCat.Hom.hom
+        (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r r f) ≫
+          (ShortComplex.isoMk
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₁)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₂)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₃)
+                ⋯ ⋯).hom.τ₂))
+      x✝ =
+    (ModuleCat.Hom.hom
+        (ShortComplex.homMk (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r - 1) f))
+            (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r r f))
+            (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r + 1) f)) ⋯ ⋯).τ₂)
+      ((ModuleCat.Hom.hom
+          (ShortComplex.isoMk
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₁)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₂)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₃)
+                ⋯ ⋯).hom.τ₂)
+        x✝)
+
+case h₃
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+r : ℤ
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+x✝ :
+  ↑((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.up ℤ) (r - 1) r (r + 1)).obj
+        (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2))).X₃
+⊢ (ModuleCat.Hom.hom
+        (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r + 1) f) ≫
+          (ShortComplex.isoMk
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₁)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₂)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)) (r - 1) r
+                      (r + 1)).X₃)
+                ⋯ ⋯).hom.τ₃))
+      x✝ =
+    (ModuleCat.Hom.hom
+        (ShortComplex.homMk (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r - 1) f))
+            (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r r f))
+            (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (r + 1) f)) ⋯ ⋯).τ₃)
+      ((ModuleCat.Hom.hom
+          (ShortComplex.isoMk
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₁)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₂)
+                (Iso.refl
+                  (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)) (r - 1) r
+                      (r + 1)).X₃)
+                ⋯ ⋯).hom.τ₃)
+        x✝)
+ASGinzburg/GinzburgPrefixTopHomologyNaturality.lean:62:2: error: `dsimp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ y.1 v.1 r (v.2 - y.2)).f).range)
+      ↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).f).range)
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2 - y.2) ⧸
+          (Q.ginzburgGeneratorPrefixIncomingDifferential k φ y.1 v.1 r (v.2 - y.2)).range)
+      ↧(↑(Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ x.1 v.1 r (v.2 - x.2)).f).range)
+  in the application
+    (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ y.1 v.1 r (v.2 - y.2)).hom ≫
+      moduleCatShortComplexQuotientMap (Q.ginzburgPrefixTopShortComplexLeftMap k φ r f)

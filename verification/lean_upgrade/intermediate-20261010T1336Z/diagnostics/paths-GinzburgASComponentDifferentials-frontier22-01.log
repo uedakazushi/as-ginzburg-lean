@@ -1,0 +1,49 @@
+ASGinzburg/GinzburgASComponentDifferentials.lean:69:80: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x v : Q.LiftVertex
+⊢ Q.ginzburgASComponentRadicalMap k φ x v ≫
+      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+        (((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).inclusion ≫
+          cokernel.π ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).inclusion) =
+    0
+ASGinzburg/GinzburgASComponentDifferentials.lean:72:4: warning: This simp argument is unused:
+  cokernel.condition
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ZAlgebra.simpleRightModuleπ, ZAlgebra.RightSubmodule.quotientπ, Functor.map_zero, comp_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgASComponentDifferentials.lean:72:23: warning: This simp argument is unused:
+  Functor.map_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ZAlgebra.simpleRightModuleπ, ZAlgebra.RightSubmodule.quotientπ, cokernel.condition, comp_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgASComponentDifferentials.lean:72:40: warning: This simp argument is unused:
+  comp_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ZAlgebra.simpleRightModuleπ, ZAlgebra.RightSubmodule.quotientπ, cokernel.condition,
+    Functor.map_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgASComponentDifferentials.lean:76:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgASComponentDifferentials.lean:83:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

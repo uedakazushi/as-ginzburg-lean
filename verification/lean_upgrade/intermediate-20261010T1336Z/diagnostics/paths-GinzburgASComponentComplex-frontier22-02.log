@@ -1,0 +1,69 @@
+ASGinzburg/GinzburgASComponentComplex.lean:136:10: error: don't know how to synthesize placeholder
+context:
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+x v : Q.LiftVertex
+A : ZAlgebra k := Q.unrolledJacobianZAlgebra k φ
+⊢ (Iso.refl
+          {
+              X₁ :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    (Q.ginzburgASComponentChainComplex k φ x v)).X₁,
+              X₂ :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    (Q.ginzburgASComponentChainComplex k φ x v)).X₂,
+              X₃ :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    ((ChainComplex.single₀ (ModuleCat k)).obj
+                      (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+                        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))))).X₂,
+              f :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    (Q.ginzburgASComponentChainComplex k φ x v)).f,
+              g :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).map
+                    (Q.ginzburgASComponentAugmentation k φ x v)).τ₂,
+              zero := ⋯ }.X₂).hom ≫
+      (Q.ginzburgASComponentOriginalSimpleShortComplex k φ x v).g =
+    {
+          X₁ :=
+            ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                (Q.ginzburgASComponentChainComplex k φ x v)).X₁,
+          X₂ :=
+            ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                (Q.ginzburgASComponentChainComplex k φ x v)).X₂,
+          X₃ :=
+            ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                ((ChainComplex.single₀ (ModuleCat k)).obj
+                  (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+                    ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))))).X₂,
+          f :=
+            ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                (Q.ginzburgASComponentChainComplex k φ x v)).f,
+          g :=
+            ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).map
+                (Q.ginzburgASComponentAugmentation k φ x v)).τ₂,
+          zero := ⋯ }.g ≫
+      (Iso.refl
+          {
+              X₁ :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    (Q.ginzburgASComponentChainComplex k φ x v)).X₁,
+              X₂ :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    (Q.ginzburgASComponentChainComplex k φ x v)).X₂,
+              X₃ :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    ((ChainComplex.single₀ (ModuleCat k)).obj
+                      (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+                        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))))).X₂,
+              f :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).obj
+                    (Q.ginzburgASComponentChainComplex k φ x v)).f,
+              g :=
+                ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 1 0 0).map
+                    (Q.ginzburgASComponentAugmentation k φ x v)).τ₂,
+              zero := ⋯ }.X₃).hom

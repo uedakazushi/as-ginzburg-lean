@@ -1,0 +1,91 @@
+{
+  "recorded_at_utc": "2026-10-10T13:29:02.434863+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "ff59dc1bad8bc0e88913f817bc563b4371c22e8c",
+  "status": "Both current public sources actual default-limit Lean4.34.1 serial direct no-output exit0 with empty logs, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 2,
+  "declaration_count": 4,
+  "sources": [
+    {
+      "source": "ASGinzburg/GinzburgLoopArrowRepresentative.lean",
+      "source_sha256": "2c5cb2d041fea1add3d8b357c93efc655aacfd618c1ca6f5d5eb892578c4da8f",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier23b-entry-GinzburgLoopArrowRepresentative.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-ginzburg-loop-arrow-representative-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:24:17.075120+00:00",
+      "finished_at_utc": "2026-10-10T13:24:23.024565+00:00",
+      "elapsed_seconds": 5.949462807999225,
+      "log": "work/lean-upgrade/tor-migration-ginzburg-loop-arrow-representative-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": true,
+      "proof_change_note": "Source byte-for-byte unchanged in this task; first actual defaultcheck passed.",
+      "declarations": [
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgLoopArrow_mem_filtration",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgLoopArrow_mem_filtration (v : Q.Vertex) : Finsupp.single (Q.ginzburgArrowPath (.loop v)) (1:k) ∈ Q.ginzburgGeneratorFiltrationAtDegree k v v (-2) (-2) 1"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgLoopArrowRepresentative",
+          "kind": "def",
+          "full_header": "noncomputable def ginzburgLoopArrowRepresentative (v : Q.Vertex) : Q.ginzburgGeneratorFiltrationAtDegree k v v (-2) (-2) 1"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgLoopArrowDifferential_val",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgLoopArrowDifferential_val (φ : Q.Potential k) (v : Q.Vertex) : (Q.ginzburgLoopLayerDifferential k φ v v 1 (Q.ginzburgLoopArrowRepresentative k v)).val=Q.ginzburgLoopDifferential k v"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable (Q : CutQuiver) (k : Type u) [Field k]"
+      ]
+    },
+    {
+      "source": "ASGinzburg/GinzburgLoopDualClassFormula.lean",
+      "source_sha256": "5f8c0a7c4dec62b7f802393b125a7f71af9cd0c502740d6d2ce55a8a5047dd5d",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier23b-entry-GinzburgLoopDualClassFormula.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-ginzburg-loop-dual-class-formula-5.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:27:59.843972+00:00",
+      "finished_at_utc": "2026-10-10T13:28:12.187698+00:00",
+      "elapsed_seconds": 12.34373084300023,
+      "log": "work/lean-upgrade/tor-migration-ginzburg-loop-dual-class-formula-5.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": false,
+      "proof_change_note": "Only hδ proof inference adapts: convert the exact original moduleCochainConnecting_class result using1, then rfl for its definitional arithmetic/object index equality. All lemma arguments, connecting map/representative data and the remaining naturality proof unchanged; no compatibility options remain.",
+      "declarations": [
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgLoopDualHomology_on_representative",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgLoopDualHomology_on_representative (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) (x : Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) (-2) c) : Q.ginzburgGeneratorLoopToDualHomology k φ u v c (moduleCochainHomologyClass (Q.ginzburgAssociatedGradedComplex k φ u v (-2) c) (-2) (Submodule.Quotient.mk x) (Q.ginzburgLoopLayerQuotient_cycle k φ u v c x))= moduleCochainHomologyClass (Q.ginzburgAssociatedGradedComplex k φ u v (-1) c) (-1) (Submodule.Quotient.mk (Q.ginzburgLoopLayerDifferential k φ u v c x)) (Q.ginzburgDualLayerQuotient_cycle k φ u v c (Q.ginzburgLoopLayerDifferential k φ u v c x))"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable (Q : CutQuiver) (k : Type u) [Field k]"
+      ]
+    }
+  ],
+  "prior_failed_check_records_preserved": [
+    "work/lean-upgrade/tor-migration-ginzburg-loop-dual-class-formula-1.json",
+    "work/lean-upgrade/tor-migration-ginzburg-loop-dual-class-formula-2.json",
+    "work/lean-upgrade/tor-migration-ginzburg-loop-dual-class-formula-3.json"
+  ],
+  "prior_failed_check_note": "LoopDual initialcheck simpa failed typed homology/object arithmetic conversion; expanding aliases and scoped compatibility inchecks2/3 did not resolve it. Both experimental adaptations were removed.",
+  "prior_success_snapshot_before_warning_cleanup": "work/lean-upgrade/tor-migration-ginzburg-loop-dual-class-formula-4.json",
+  "prior_success_note": "Check4 same explicit conversion proof actual0 with unnecessary <;> style warning. Finalcheck5 uses next-line rfl instead and actual0/empty log.",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

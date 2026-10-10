@@ -1,0 +1,63 @@
+import ASGinzburg.GinzburgCutRepresentableNaturality
+import ASGinzburg.GinzburgAugmentationHomologyNaturality
+import ASGinzburg.GinzburgAugmentationRadical
+
+/-! The actual augmentation H-zero/radical comparison is natural for
+the existing A(Phi) right action, including the zero height components. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem ginzburgAugmentationRadicalComponentIso_hom_inclusion (φ : Q.Potential k)
+    (x v : Q.LiftVertex) (hx : Q.height x<Q.height v) :
+    (Q.ginzburgAugmentationRadicalComponentIso k φ x v).hom ≫
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+          ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).inclusion=
+      (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫
+        (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom := by
+  simp only [ginzburgAugmentationRadicalComponentIso,dite_eq_left hx,Iso.trans_hom,Iso.symm_hom]
+  rw [← ZAlgebra.representableRadicalBelowComponentIso_hom _ _ _ hx]
+  simp only [Category.assoc,Iso.inv_hom_id,Category.comp_id]
+
+set_option maxHeartbeats 1000000 in
+set_option backward.isDefEq.respectTransparency false in
+theorem ginzburgAugmentationRadicalComponentIso_left_naturality (φ : Q.Potential k)
+    {x y v : Q.LiftVertex}
+    (f : Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2-x.2)) :
+    Q.ginzburgAugmentationLeftHomology k φ 0 f ≫
+        (Q.ginzburgAugmentationRadicalComponentIso k φ x v).hom=
+      (Q.ginzburgAugmentationRadicalComponentIso k φ y v).hom ≫
+        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).object.obj.map
+          (show (⟨Q.height x⟩ : (Q.unrolledJacobianZAlgebra k φ).Obj) ⟶ ⟨Q.height y⟩ from
+            Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)).op := by
+  let A := Q.unrolledJacobianZAlgebra k φ
+  by_cases hx : Q.height x<Q.height v
+  · by_cases hy : Q.height y<Q.height v
+    · let ix := (A.rightModuleEvaluation (Q.height x)).map
+        (A.representableRadical (Q.height v)).inclusion
+      let iy := (A.rightModuleEvaluation (Q.height y)).map
+        (A.representableRadical (Q.height v)).inclusion
+      let a := Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y (Submodule.Quotient.mk f)
+      let ar := (A.representableRadical (Q.height v)).object.obj.map
+        (show (⟨Q.height x⟩ : A.Obj) ⟶ ⟨Q.height y⟩ from a).op
+      let ap := A.representablePrecomposition (Q.height x) (Q.height y) (Q.height v) a
+      have he : iy ≫ ap=ar ≫ ix := by
+        simpa only [ZAlgebra.representable_map_eq_precomposition] using
+          (A.representableRadical (Q.height v)).inclusion.hom.naturality
+            (show (⟨Q.height x⟩ : A.Obj) ⟶ ⟨Q.height y⟩ from a).op
+      apply (cancel_mono ix).mp
+      change (Q.ginzburgAugmentationLeftHomology k φ 0 f ≫
+        (Q.ginzburgAugmentationRadicalComponentIso k φ x v).hom) ≫ ix=
+        ((Q.ginzburgAugmentationRadicalComponentIso k φ y v).hom ≫ ar) ≫ ix
+      rw [Category.assoc,Q.ginzburgAugmentationRadicalComponentIso_hom_inclusion k φ x v hx,
+        Category.assoc _ ar ix,← he,← Category.assoc _ iy ap,
+        Q.ginzburgAugmentationRadicalComponentIso_hom_inclusion k φ y v hy]
+      rw [← Category.assoc,Q.ginzburgAugmentationHeightHomologyIso_left_naturality k φ hx hy,
+        Category.assoc,Q.ginzburgCutHomologyZeroUnrolledIso_left_naturality,← Category.assoc]
+    · exact (Q.ginzburgAugmentationHomology_isZero_of_not_height_lt k φ y v 0 hy).eq_of_src _ _
+  · exact (A.representableRadicalComponent_isZero_of_not_lt
+      (Q.height x) (Q.height v) hx).eq_of_tgt _ _
+
+end ASGinzburg.CutQuiver

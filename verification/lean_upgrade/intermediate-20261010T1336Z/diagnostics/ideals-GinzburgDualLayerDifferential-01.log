@@ -1,0 +1,24 @@
+ASGinzburg/GinzburgDualLayerDifferential.lean:43:4: error: Type mismatch: After simplification, term
+  ginzburgGeneratorFilteredComplex_d Q k φ u v 0 c 0
+ has type
+  @Eq
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).X 0 ⟶ (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).X (0 + 1))
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 (0 + 1))
+    (ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v 0 0 c))
+but is expected to have type
+  @Eq ((Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).X 0 ⟶ (Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).X 1)
+    ((Q.ginzburgGeneratorFilteredComplex k φ u v 0 c).d 0 1)
+    (ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v 0 0 c))
+ASGinzburg/GinzburgDualLayerDifferential.lean:56:4: error: Type mismatch: After simplification, term
+  CochainComplex.of_d (fun j => ↧(Q.GinzburgAssociatedGraded k u v (-1) j c))
+    (fun j => ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v (-1) j c)) (-1)
+ has type
+  @Eq (↧(Q.GinzburgAssociatedGraded k u v (-1) (-1) c) ⟶ ↧(Q.GinzburgAssociatedGraded k u v (-1) (-1 + 1) c))
+    (CochainComplex.of.d (fun j => ↧(Q.GinzburgAssociatedGraded k u v (-1) j c))
+      (fun j => ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v (-1) j c)) (-1) (-1 + 1))
+    (ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v (-1) (-1) c))
+but is expected to have type
+  @Eq
+    ((Q.ginzburgAssociatedGradedComplex k φ u v (-1) c).X (-1) ⟶ (Q.ginzburgAssociatedGradedComplex k φ u v (-1) c).X 0)
+    ((Q.ginzburgAssociatedGradedComplex k φ u v (-1) c).d (-1) 0)
+    (ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v (-1) (-1) c))

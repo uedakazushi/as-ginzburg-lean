@@ -1,0 +1,49 @@
+import ASGinzburg.GinzburgCutHomologyUnits
+import ASGinzburg.GinzburgPrefixFixedCoefficientClasses
+
+/-! Native zero paths give the actual algebra identities in every
+generator-prefix coefficient comparison. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgCutZeroQuotientUnrolledEquiv_id (φ : Q.Potential k) (x : Q.LiftVertex) :
+    Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x x
+      (Submodule.Quotient.mk (Q.ginzburgCutZeroId k x))=
+      (Q.unrolledJacobianZAlgebra k φ).id (Q.height x) := by
+  have h := Q.ginzburgCutHomologyZeroUnrolledIso_id k φ x
+  change Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x x
+    ((Q.ginzburgCutHomologyZeroQuotientIso k φ x.1 x.1 (x.2-x.2)).hom
+      (Q.ginzburgCutZeroHomologyClass k φ x x (Q.ginzburgCutZeroId k x)))=_ at h
+  rw [Q.ginzburgCutHomologyZeroQuotientIso_class] at h
+  exact h
+
+noncomputable def ginzburgPrefixCoefficientUnit (v : Q.LiftVertex) (a : Q.GinzburgArrow) :
+    Q.ginzburgCutCohomologicalComponent k (Q.ginzburgPrefixGeneratorEndpoint v a).1
+      (a.source Q) 0 (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a).2-a.cutDegree Q) := by
+  refine ⟨Finsupp.single (GinzburgPath.nil (a.source Q)) 1,?_,?_⟩
+  · apply Finsupp.single_mem_supported
+    rfl
+  · apply Finsupp.single_mem_supported
+    change (0:ℤ)=v.2-(v.2-a.cutDegree Q)-a.cutDegree Q
+    omega
+
+theorem ginzburgPrefixCoefficientZeroCutEquiv_unit (v : Q.LiftVertex) (a : Q.GinzburgArrow) :
+    Q.ginzburgPrefixCoefficientZeroCutEquiv k (Q.ginzburgPrefixGeneratorEndpoint v a) v a
+      (Q.ginzburgPrefixCoefficientUnit k v a)=
+      Q.ginzburgCutZeroId k (Q.ginzburgPrefixGeneratorEndpoint v a) := by
+  apply Subtype.ext
+  rw [Q.ginzburgPrefixCoefficientZeroCutEquiv_coe,Q.ginzburgCutZeroId_val]
+  rfl
+
+theorem ginzburgPrefixCoefficientFixedUnrolledEquiv_unit
+    (φ : Q.Potential k) (v : Q.LiftVertex) (a : Q.GinzburgArrow) :
+    Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ
+      (Q.ginzburgPrefixGeneratorEndpoint v a) v a
+        (Submodule.Quotient.mk (Q.ginzburgPrefixCoefficientUnit k v a))=
+      (Q.unrolledJacobianZAlgebra k φ).id (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a)) := by
+  rw [Q.ginzburgPrefixCoefficientFixedUnrolledEquiv_mk,
+    Q.ginzburgPrefixCoefficientZeroCutEquiv_unit,
+    Q.ginzburgCutZeroQuotientUnrolledEquiv_id]
+
+end ASGinzburg.CutQuiver

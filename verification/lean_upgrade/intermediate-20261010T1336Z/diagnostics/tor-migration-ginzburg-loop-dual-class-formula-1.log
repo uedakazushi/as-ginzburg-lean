@@ -1,0 +1,13 @@
+ASGinzburg/GinzburgLoopDualClassFormula.lean:41:4: error: Type mismatch: After simplification, term
+  moduleCochainConnecting_class hS (-2) (Submodule.Quotient.mk x) (ginzburgLoopLayerQuotient_cycle Q k φ u v c x) x hx
+    dx hdx
+ has type
+  @Eq (↑((Q.ginzburgGeneratorFilteredShortComplex k φ u v (-2) c).X₁.homology (-2 + 1)))
+    ((ConcreteCategory.hom (hS.δ (-2) (-2 + 1) ⋯))
+      (moduleCochainHomologyClass (Q.ginzburgGeneratorFilteredShortComplex k φ u v (-2) c).X₃ (-2)
+        (Submodule.Quotient.mk x) ⋯))
+    (moduleCochainHomologyClass (Q.ginzburgGeneratorFilteredShortComplex k φ u v (-2) c).X₁ (-2 + 1) dx ⋯)
+but is expected to have type
+  @Eq (↑(Q.ginzburgGeneratorFilteredHomology k φ u v (-2 + 1) c (-2 + 1)))
+    ((ConcreteCategory.hom (⋯.δ (-2) (-2 + 1) ⋯)) y)
+    (moduleCochainHomologyClass (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c) (-1) dx ⋯)

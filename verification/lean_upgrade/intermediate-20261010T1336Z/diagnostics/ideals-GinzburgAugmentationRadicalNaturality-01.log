@@ -1,0 +1,91 @@
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:19:53: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:18:62: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x v : Q.LiftVertex
+hx : Q.height x < Q.height v
+⊢ (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫
+      (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v ≪≫
+            ((Q.unrolledJacobianZAlgebra k φ).representableRadicalBelowComponentIso (Q.height x) (Q.height v)
+                hx).symm).hom ≫
+        ((Q.unrolledJacobianZAlgebra k φ).representableRadicalBelowComponentIso (Q.height x) (Q.height v) hx).hom =
+    (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫ (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:19:78: warning: This simp argument is unused:
+  Iso.symm_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgAugmentationRadicalComponentIso, dif_pos hx, Iso.trans_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:21:28: warning: This simp argument is unused:
+  Iso.inv_hom_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.assoc, Category.comp_id]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:21:43: warning: This simp argument is unused:
+  Category.comp_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.assoc, Iso.inv_hom_id]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:46:58: error(lean.invalidField): Invalid field `naturality`: The environment does not contain `CategoryTheory.InducedCategory.Hom.naturality`, so it is not possible to project the field `naturality` from an expression
+  (A.representableRadical (Q.height v)).inclusion
+of type
+  InducedCategory.Hom (A.representableRadical (Q.height v)).object (A.representable (Q.height v))
+ASGinzburg/GinzburgAugmentationRadicalNaturality.lean:53:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?m.289 ≫ ar) ≫ ix
+in the target expression
+  Q.ginzburgAugmentationLeftHomology k φ 0 f ≫
+      (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫ (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom =
+    ((Q.ginzburgAugmentationRadicalComponentIso k φ y v).hom ≫ ar) ≫ ix
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+A : ZAlgebra k := Q.unrolledJacobianZAlgebra k φ
+hx : Q.height x < Q.height v
+hy : Q.height y < Q.height v
+ix : (A.rightModuleEvaluation (Q.height x)).obj (A.representableRadical (Q.height v)).object ⟶
+  (A.rightModuleEvaluation (Q.height x)).obj (A.representable (Q.height v)) :=
+  (A.rightModuleEvaluation (Q.height x)).map (A.representableRadical (Q.height v)).inclusion
+iy : (A.rightModuleEvaluation (Q.height y)).obj (A.representableRadical (Q.height v)).object ⟶
+  (A.rightModuleEvaluation (Q.height y)).obj (A.representable (Q.height v)) :=
+  (A.rightModuleEvaluation (Q.height y)).map (A.representableRadical (Q.height v)).inclusion
+a : (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height y) :=
+  (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f)
+ar : (A.representableRadical (Q.height v)).object.obj.obj (Opposite.op { index := Q.height y }) ⟶
+  (A.representableRadical (Q.height v)).object.obj.obj (Opposite.op { index := Q.height x }) :=
+  (A.representableRadical (Q.height v)).object.obj.map
+    (have this := a;
+      this).op
+ap : ↧(A.Hom (Q.height y) (Q.height v)) ⟶ ↧(A.Hom (Q.height x) (Q.height v)) :=
+  A.representablePrecomposition (Q.height x) (Q.height y) (Q.height v) a
+he : iy ≫ ap = ar ≫ ix
+⊢ Q.ginzburgAugmentationLeftHomology k φ 0 f ≫
+      (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫ (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom =
+    ((Q.ginzburgAugmentationRadicalComponentIso k φ y v).hom ≫ ar) ≫ ix
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫ (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      (Q.ginzburgAugmentationHomology k φ x.1 v.1 (v.2 - x.2) 0)
+      ↧((Q.unrolledJacobianZAlgebra k φ).Hom (Q.height x) (Q.height v))
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      (Q.ginzburgAugmentationHomology k φ x.1 v.1 (v.2 - x.2) 0)
+      ((A.rightModuleEvaluation (Q.height x)).obj (A.representable (Q.height v)))
+  in the application
+    Q.ginzburgAugmentationLeftHomology k φ 0 f ≫
+      (Q.ginzburgAugmentationHeightHomologyIso k φ x v hx 0).hom ≫ (Q.ginzburgCutHomologyZeroUnrolledIso k φ x v).hom

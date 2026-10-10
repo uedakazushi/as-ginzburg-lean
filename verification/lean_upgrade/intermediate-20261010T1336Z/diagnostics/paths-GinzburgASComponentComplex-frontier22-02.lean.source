@@ -1,0 +1,161 @@
+import ASGinzburg.GinzburgASComponentExactness
+
+/-! The genuine four-term sequence at each evaluation component,
+augmented to the actual vertex simple quotient. Right-module naturality
+and minimality are still separate obligations. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+set_option maxRecDepth 4096
+
+noncomputable def ginzburgASComponentTerm (φ : Q.Potential k)
+    (x v : Q.LiftVertex) : ℕ → ModuleCat.{u} k
+  | 0 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+      ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height v))
+  | 1 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+      ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v)
+  | 2 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+      ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v)
+  | 3 => ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+      ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.tau.symm v)))
+  | _+4 => 0
+
+noncomputable def ginzburgASComponentDifferential (φ : Q.Potential k)
+    (x v : Q.LiftVertex) :
+    ∀ n : ℕ, Q.ginzburgASComponentTerm k φ x v (n+1) ⟶
+      Q.ginzburgASComponentTerm k φ x v n
+  | 0 => Q.ginzburgASComponentD₁ k φ x v
+  | 1 => Q.ginzburgASComponentD₂ k φ x v
+  | 2 => Q.ginzburgASComponentD₃ k φ x v
+  | _+3 => 0
+
+theorem ginzburgASComponentDifferential_square (φ : Q.Potential k)
+    (x v : Q.LiftVertex) (n : ℕ) :
+    Q.ginzburgASComponentDifferential k φ x v (n+1) ≫
+      Q.ginzburgASComponentDifferential k φ x v n=0 := by
+  rcases n with _|_|_|n
+  · exact Q.ginzburgASComponentD₂_comp_D₁ k φ x v
+  · exact Q.ginzburgASComponentD₃_comp_D₂ k φ x v
+  · exact zero_comp
+  · simp [ginzburgASComponentDifferential]
+
+noncomputable def ginzburgASComponentChainComplex (φ : Q.Potential k)
+    (x v : Q.LiftVertex) : ChainComplex (ModuleCat.{u} k) ℕ :=
+  ChainComplex.of (Q.ginzburgASComponentTerm k φ x v)
+    (Q.ginzburgASComponentDifferential k φ x v)
+    (Q.ginzburgASComponentDifferential_square k φ x v)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem GinzburgRegular.asComponentChainComplex_exactAt_succ {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) (n : ℕ) :
+    (Q.ginzburgASComponentChainComplex k φ x v).ExactAt (n+1) := by
+  rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp)]
+  rcases n with _|_|_|n
+  · change (ShortComplex.mk ((Q.ginzburgASComponentChainComplex k φ x v).d 2 1)
+      ((Q.ginzburgASComponentChainComplex k φ x v).d 1 0) _).Exact
+    simpa only [show (Q.ginzburgASComponentChainComplex k φ x v).d 2 1 =
+        Q.ginzburgASComponentD₂ k φ x v from
+        ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+          (Q.ginzburgASComponentDifferential k φ x v) 1,
+      show (Q.ginzburgASComponentChainComplex k φ x v).d 1 0 =
+        Q.ginzburgASComponentD₁ k φ x v from
+        ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+          (Q.ginzburgASComponentDifferential k φ x v) 0,
+      ginzburgASComponentDualOriginalShortComplex] using
+      Q.ginzburgASComponentDualOriginalShortComplex_exact k φ x v
+  · change (ShortComplex.mk ((Q.ginzburgASComponentChainComplex k φ x v).d 3 2)
+      ((Q.ginzburgASComponentChainComplex k φ x v).d 2 1) _).Exact
+    simpa only [show (Q.ginzburgASComponentChainComplex k φ x v).d 3 2 =
+        Q.ginzburgASComponentD₃ k φ x v from
+        ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+          (Q.ginzburgASComponentDifferential k φ x v) 2,
+      show (Q.ginzburgASComponentChainComplex k φ x v).d 2 1 =
+        Q.ginzburgASComponentD₂ k φ x v from
+        ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+          (Q.ginzburgASComponentDifferential k φ x v) 1,
+      ginzburgASComponentLoopDualShortComplex] using
+      h.asComponentLoopDualShortComplex_exact Q k x v
+  · apply (ShortComplex.exact_iff_mono _ ?_).mpr
+    · change Mono ((Q.ginzburgASComponentChainComplex k φ x v).d 3 2)
+      rw [show (Q.ginzburgASComponentChainComplex k φ x v).d 3 2 =
+        Q.ginzburgASComponentD₃ k φ x v from
+        ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+          (Q.ginzburgASComponentDifferential k φ x v) 2]
+      exact h.asComponentD₃_mono Q k x v
+    · change (Q.ginzburgASComponentChainComplex k φ x v).d 4 3=0
+      exact ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+        (Q.ginzburgASComponentDifferential k φ x v) 3
+  · apply ShortComplex.exact_of_isZero_X₂
+    change IsZero (Q.ginzburgASComponentTerm k φ x v (n+4))
+    exact isZero_zero (ModuleCat k)
+
+noncomputable def ginzburgASComponentAugmentation (φ : Q.Potential k)
+    (x v : Q.LiftVertex) :
+    Q.ginzburgASComponentChainComplex k φ x v ⟶
+      (ChainComplex.single₀ (ModuleCat.{u} k)).obj
+        (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v))) :=
+  (ChainComplex.toSingle₀Equiv _ _).symm
+    ⟨((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)),by
+        rw [show (Q.ginzburgASComponentChainComplex k φ x v).d 1 0 =
+          Q.ginzburgASComponentD₁ k φ x v from
+          ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+            (Q.ginzburgASComponentDifferential k φ x v) 0]
+        exact Q.ginzburgASComponentD₁_comp_simpleπ k φ x v⟩
+
+set_option backward.isDefEq.respectTransparency false in
+theorem GinzburgRegular.asComponentAugmentation_quasiIso {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) :
+    QuasiIso (Q.ginzburgASComponentAugmentation k φ x v) := ⟨fun n => by
+  cases n
+  · rw [ChainComplex.quasiIsoAt₀_iff,ShortComplex.quasiIso_iff_of_zeros']
+    · refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
+        ⟨Q.ginzburgASComponentOriginalSimpleShortComplex_exact k φ x v,by
+          change Epi (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+            ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)))
+          infer_instance⟩
+      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
+        (by
+          change (𝟙 (Q.ginzburgASComponentTerm k φ x v 1)) ≫
+              Q.ginzburgASComponentD₁ k φ x v =
+            (Q.ginzburgASComponentChainComplex k φ x v).d 1 0 ≫
+              (𝟙 (Q.ginzburgASComponentTerm k φ x v 0))
+          calc
+            (𝟙 (Q.ginzburgASComponentTerm k φ x v 1)) ≫
+                Q.ginzburgASComponentD₁ k φ x v =
+              Q.ginzburgASComponentD₁ k φ x v := Category.id_comp _
+            _ = (Q.ginzburgASComponentChainComplex k φ x v).d 1 0 :=
+              (ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+                (Q.ginzburgASComponentDifferential k φ x v) 0).symm
+            _ = (Q.ginzburgASComponentChainComplex k φ x v).d 1 0 ≫
+                (𝟙 (Q.ginzburgASComponentTerm k φ x v 0)) := (Category.comp_id _).symm)
+        (by
+          let A := Q.unrolledJacobianZAlgebra k φ
+          let E := A.rightModuleEvaluation (Q.height x)
+          change (𝟙 (Q.ginzburgASComponentTerm k φ x v 0)) ≫
+              E.map (A.simpleRightModuleπ (Q.height v)) =
+            (Q.ginzburgASComponentAugmentation k φ x v).f 0 ≫
+              (𝟙 (E.obj (A.simpleRightModule (Q.height v))))
+          calc
+            (𝟙 (Q.ginzburgASComponentTerm k φ x v 0)) ≫
+                E.map (A.simpleRightModuleπ (Q.height v)) =
+              E.map (A.simpleRightModuleπ (Q.height v)) := Category.id_comp _
+            _ = (Q.ginzburgASComponentAugmentation k φ x v).f 0 :=
+              (ChainComplex.toSingle₀Equiv_symm_apply_f_zero
+                (E.map (A.simpleRightModuleπ (Q.height v))) (by
+                  rw [show (Q.ginzburgASComponentChainComplex k φ x v).d 1 0 =
+                    Q.ginzburgASComponentD₁ k φ x v from
+                    ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v)
+                      (Q.ginzburgASComponentDifferential k φ x v) 0]
+                  exact Q.ginzburgASComponentD₁_comp_simpleπ k φ x v)).symm
+            _ = (Q.ginzburgASComponentAugmentation k φ x v).f 0 ≫
+                (𝟙 (E.obj (A.simpleRightModule (Q.height v)))) := (Category.comp_id _).symm)
+    all_goals rfl
+  · rw [quasiIsoAt_iff_exactAt']
+    · exact h.asComponentChainComplex_exactAt_succ Q k x v _
+    · apply ChainComplex.exactAt_succ_single_obj⟩
+
+end ASGinzburg.CutQuiver

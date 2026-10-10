@@ -1,0 +1,36 @@
+ASGinzburg/GinzburgPrefixLeftAction.lean:20:10: error: Type mismatch: After simplification, term
+  ginzburgCohomologicalComponent_comp Q k f.property.left (g a).property.left
+ has type
+  ((Q.ginzburgPathComp k) ↑(g a)) ↑f ∈ Q.ginzburgCohomologicalComponent k x.1 (GinzburgArrow.source Q ↑a) (q - r)
+but is expected to have type
+  (((Q.ginzburgPathComp k).flip ↑f ∘ₗ
+          (Q.ginzburgCutCohomologicalComponent k y.1 (GinzburgArrow.source Q ↑a) (q - r)
+              (v.2 - y.2 - GinzburgArrow.cutDegree Q ↑a)).subtype) ∘ₗ
+        LinearMap.proj a)
+      g ∈
+    ↑(Q.ginzburgCohomologicalComponent k x.1 (GinzburgArrow.source Q ↑a) (q - r))
+ASGinzburg/GinzburgPrefixLeftAction.lean:22:10: error: Type mismatch: After simplification, term
+  ginzburgCutComponent_comp Q k f.property.right (g a).property.right
+ has type
+  ((Q.ginzburgPathComp k) ↑(g a)) ↑f ∈
+    Q.ginzburgCutComponent k x.1 (GinzburgArrow.source Q ↑a) (v.2 - x.2 - GinzburgArrow.cutDegree Q ↑a)
+but is expected to have type
+  (((Q.ginzburgPathComp k).flip ↑f ∘ₗ
+          (Q.ginzburgCutCohomologicalComponent k y.1 (GinzburgArrow.source Q ↑a) (q - r)
+              (v.2 - y.2 - GinzburgArrow.cutDegree Q ↑a)).subtype) ∘ₗ
+        LinearMap.proj a)
+      g ∈
+    ↑(Q.ginzburgCutComponent k x.1 (GinzburgArrow.source Q ↑a) (v.2 - x.2 - GinzburgArrow.cutDegree Q ↑a))
+ASGinzburg/GinzburgPrefixLeftAction.lean:62:6: error: Type mismatch
+  ginzburgPrefixLeftTerm_differential Q k φ r q f
+has type
+  Q.ginzburgGeneratorPrefixDifferential k φ x.1 ?m.105.1 r q (?m.105.2 - x.2) ∘ₗ Q.ginzburgPrefixLeftTerm k r q f =
+    Q.ginzburgPrefixLeftTerm k r (q + 1) f ∘ₗ
+      Q.ginzburgGeneratorPrefixDifferential k φ y.1 ?m.105.1 r q (?m.105.2 - y.2)
+but is expected to have type
+  ModuleCat.Hom.hom
+      (ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r q f) ≫
+        (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)).d q (q + 1)) =
+    ModuleCat.Hom.hom
+      ((Q.ginzburgGeneratorPrefixComplex k φ y.1 v.1 r (v.2 - y.2)).d q (q + 1) ≫
+        ModuleCat.ofHom (Q.ginzburgPrefixLeftTerm k r (q + 1) f))

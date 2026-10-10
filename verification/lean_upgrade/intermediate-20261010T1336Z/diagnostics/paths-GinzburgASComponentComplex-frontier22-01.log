@@ -1,0 +1,89 @@
+ASGinzburg/GinzburgASComponentComplex.lean:41:2: error: unsolved goals
+case succ.succ.zero
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x v : Q.LiftVertex
+⊢ 0 ≫ Q.ginzburgASComponentD₃ k φ x v = 0
+ASGinzburg/GinzburgASComponentComplex.lean:55:4: error: Type mismatch: After simplification, term
+  ginzburgASComponentDualOriginalShortComplex_exact Q k φ x v
+ has type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    {
+      X₁ :=
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v),
+      X₂ :=
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v),
+      X₃ :=
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height v)),
+      f := Q.ginzburgASComponentD₂ k φ x v, g := Q.ginzburgASComponentD₁ k φ x v, zero := ⋯ }
+but is expected to have type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 2 1 0).obj
+      (ChainComplex.of (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) ⋯))
+ASGinzburg/GinzburgASComponentComplex.lean:59:4: error: Type mismatch: After simplification, term
+  asComponentLoopDualShortComplex_exact Q k h x v
+ has type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    {
+      X₁ :=
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.tau.symm v))),
+      X₂ :=
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v),
+      X₃ :=
+        ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v),
+      f := Q.ginzburgASComponentD₃ k φ x v, g := Q.ginzburgASComponentD₂ k φ x v, zero := ⋯ }
+but is expected to have type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    ((HomologicalComplex.shortComplexFunctor' (ModuleCat k) (ComplexShape.down ℕ) 3 2 1).obj
+      (ChainComplex.of (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) ⋯))
+ASGinzburg/GinzburgASComponentComplex.lean:64:6: error: Type mismatch: After simplification, term
+  asComponentD₃_mono Q k h x v
+ has type
+  @Mono (ModuleCat k) (ModuleCat.moduleCategory k)
+    (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+      ((Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.tau.symm v))))
+    (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+      ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₂ Q v))
+    (Q.ginzburgASComponentD₃ k φ x v)
+but is expected to have type
+  @Mono (ModuleCat k) (ModuleCat.moduleCategory k) (Q.ginzburgASComponentTerm k φ x v 3)
+    (Q.ginzburgASComponentTerm k φ x v 2)
+    (ChainComplex.of.d (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) 3 2)
+ASGinzburg/GinzburgASComponentComplex.lean:68:6: error: Type mismatch: After simplification, term
+  ChainComplex.of_d (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) 3
+ has type
+  @Eq (Q.ginzburgASComponentTerm k φ x v (3 + 1) ⟶ Q.ginzburgASComponentTerm k φ x v 3)
+    (ChainComplex.of.d (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) (3 + 1) 3) 0
+but is expected to have type
+  @Eq (Q.ginzburgASComponentTerm k φ x v 4 ⟶ Q.ginzburgASComponentTerm k φ x v 3)
+    (ChainComplex.of.d (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) 4 3) 0
+ASGinzburg/GinzburgASComponentComplex.lean:84:8: error: Type mismatch: After simplification, term
+  ginzburgASComponentD₁_comp_simpleπ Q k φ x v
+ has type
+  @Eq
+    (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+        ((Q.unrolledJacobianZAlgebra k φ).asResolutionTerm₁ Q v) ⟶
+      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)))
+    (Q.ginzburgASComponentD₁ k φ x v ≫
+      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)))
+    0
+but is expected to have type
+  @Eq
+    (Q.ginzburgASComponentTerm k φ x v 1 ⟶
+      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)))
+    (ChainComplex.of.d (Q.ginzburgASComponentTerm k φ x v) (Q.ginzburgASComponentDifferential k φ x v) 1 0 ≫
+      ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+        ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)))
+    0
+ASGinzburg/GinzburgASComponentComplex.lean:92:6: error: `dsimp` made no progress

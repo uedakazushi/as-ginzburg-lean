@@ -1,0 +1,101 @@
+ASGinzburg/GinzburgASComponentExactness.lean:24:4: error: Type mismatch: After simplification, term
+  loopDualShortComplex_exact Q k h x.1 v.1 (v.2 - x.2)
+ has type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    { X₁ := Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 (-2) (v.2 - x.2) (-2),
+      X₂ := Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 (-1) (v.2 - x.2) (-1),
+      X₃ := Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 (-1 + 1) (v.2 - x.2) (-1 + 1),
+      f := Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2 - x.2),
+      g := Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-1) (v.2 - x.2) (-1), zero := ⋯ }
+but is expected to have type
+  @ShortComplex.Exact (ModuleCat k) (ModuleCat.moduleCategory k) Preadditive.preadditiveHasZeroMorphisms
+    { X₁ := Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 (-2) (v.2 - x.2) (-2),
+      X₂ := Q.ginzburgAssociatedGradedHomology k φ x.1 v.1 (-1) (v.2 - x.2) (-1),
+      X₃ := Q.ginzburgGeneratorFilteredHomology k φ x.1 v.1 0 (v.2 - x.2) 0,
+      f := Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2 - x.2),
+      g := ⋯.mp (Q.ginzburgGeneratorFiltrationConnecting k φ x.1 v.1 (-1) (v.2 - x.2) (-1)), zero := ⋯ }
+ASGinzburg/GinzburgASComponentExactness.lean:72:36: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Epi
+    (ShortComplex.homMk (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₁)
+        (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₂)
+        (E.map (A.representableRadical (Q.height v)).inclusion) ⋯ ⋯).τ₁
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgASComponentExactness.lean:72:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgASComponentExactness.lean:73:38: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  IsIso
+    (ShortComplex.homMk (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₁)
+        (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₂)
+        (E.map (A.representableRadical (Q.height v)).inclusion) ⋯ ⋯).τ₂
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgASComponentExactness.lean:73:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgASComponentExactness.lean:74:37: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Mono
+    (ShortComplex.homMk (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₁)
+        (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₂)
+        (E.map (A.representableRadical (Q.height v)).inclusion) ⋯ ⋯).τ₃
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgASComponentExactness.lean:74:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgASComponentExactness.lean:95:7: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x v : Q.LiftVertex
+A : ZAlgebra k := Q.unrolledJacobianZAlgebra k φ
+E : A.RightModule ⥤ ModuleCat k := A.rightModuleEvaluation (Q.height x)
+S : ShortComplex (ModuleCat k) := (A.representableRadical (Q.height v)).quotientShortComplex.map E
+⊢ ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+      ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).quotientπ =
+    ((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+        ((Q.unrolledJacobianZAlgebra k φ).representableRadical (Q.height v)).quotientπ ≫
+      𝟙
+        (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).obj
+          ((Q.unrolledJacobianZAlgebra k φ).simpleRightModule (Q.height v)))
+ASGinzburg/GinzburgASComponentExactness.lean:97:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgASComponentExactness.lean:98:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgASComponentExactness.lean:99:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

@@ -1,0 +1,52 @@
+ASGinzburg/GinzburgPrefixFixedProducts.lean:24:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.Quotient.mk (((Q.ginzburgCutZeroComp k) ?g) ?f)
+in the target expression
+  (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x (Q.ginzburgPrefixGeneratorEndpoint v ↑a))
+      (Submodule.Quotient.mk
+        (((Q.ginzburgCutZeroComp k)
+            ((Q.ginzburgPrefixCoefficientZeroCutEquiv k y v ↑a)
+              ((Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2 - y.2)) g a)))
+          f)) =
+    ((Q.unrolledJacobianZAlgebra k φ).comp
+        ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ y (Q.ginzburgPrefixGeneratorEndpoint v ↑a))
+          (Submodule.Quotient.mk
+            ((Q.ginzburgPrefixCoefficientZeroCutEquiv k y v ↑a)
+              ((Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2 - y.2)) g a)))))
+      ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+x y v : Q.LiftVertex
+r : ℤ
+f : ↥(Q.ginzburgCutCohomologicalComponent k x.1 y.1 0 (y.2 - x.2))
+g : Q.GinzburgGeneratorPrefix k y.1 v.1 r r (v.2 - y.2)
+a : { a // GinzburgArrow.target Q a = v.1 ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+⊢ (Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x (Q.ginzburgPrefixGeneratorEndpoint v ↑a))
+      (Submodule.Quotient.mk
+        (((Q.ginzburgCutZeroComp k)
+            ((Q.ginzburgPrefixCoefficientZeroCutEquiv k y v ↑a)
+              ((Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2 - y.2)) g a)))
+          f)) =
+    ((Q.unrolledJacobianZAlgebra k φ).comp
+        ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ y (Q.ginzburgPrefixGeneratorEndpoint v ↑a))
+          (Submodule.Quotient.mk
+            ((Q.ginzburgPrefixCoefficientZeroCutEquiv k y v ↑a)
+              ((Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2 - y.2)) g a)))))
+      ((Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x y) (Submodule.Quotient.mk f))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (Q.ginzburgPrefixCoefficientZeroCutEquiv k y v ↑a) ((Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2 - y.2)) g a)
+  has type
+    ↥(Q.ginzburgCutCohomologicalComponent k y.1 (GinzburgArrow.source Q ↑a) 0
+        (v.2 - GinzburgArrow.cutDegree Q ↑a - y.2))
+  but is expected to have type
+    ↥(Q.ginzburgCutCohomologicalComponent k y.1 (Q.ginzburgPrefixGeneratorEndpoint v ↑a).1 0
+        ((Q.ginzburgPrefixGeneratorEndpoint v ↑a).2 - y.2))
+  in the application
+    (Q.ginzburgCutZeroComp k)
+      ((Q.ginzburgPrefixCoefficientZeroCutEquiv k y v ↑a)
+        ((Q.ginzburgGeneratorPrefixTopEquiv k y.1 v.1 r (v.2 - y.2)) g a))

@@ -1,0 +1,64 @@
+{
+  "recorded_at_utc": "2026-10-10T13:34:14.377516+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "ff59dc1bad8bc0e88913f817bc563b4371c22e8c",
+  "status": "Current public source unchanged, first actual default-limit Lean4.34.1 serial direct no-output check exit0 with empty log, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 4,
+  "sources": [
+    {
+      "source": "ASGinzburg/GinzburgPrefixUnitCoefficients.lean",
+      "source_sha256": "663fdaf416a614682f89a77f3e117d76ee540cf713603044c8398f3f7b5520fe",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier24-entry-GinzburgPrefixUnitCoefficients.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-ginzburg-prefix-unit-coefficients-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:33:33.082529+00:00",
+      "finished_at_utc": "2026-10-10T13:33:37.102984+00:00",
+      "elapsed_seconds": 4.020461018000788,
+      "log": "work/lean-upgrade/tor-migration-ginzburg-prefix-unit-coefficients-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgCutZeroQuotientUnrolledEquiv_id",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgCutZeroQuotientUnrolledEquiv_id (φ : Q.Potential k) (x : Q.LiftVertex) : Q.ginzburgCutZeroQuotientUnrolledEquiv k φ x x (Submodule.Quotient.mk (Q.ginzburgCutZeroId k x))= (Q.unrolledJacobianZAlgebra k φ).id (Q.height x)"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgPrefixCoefficientUnit",
+          "kind": "def",
+          "full_header": "noncomputable def ginzburgPrefixCoefficientUnit (v : Q.LiftVertex) (a : Q.GinzburgArrow) : Q.ginzburgCutCohomologicalComponent k (Q.ginzburgPrefixGeneratorEndpoint v a).1 (a.source Q) 0 (v.2-(Q.ginzburgPrefixGeneratorEndpoint v a).2-a.cutDegree Q)"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgPrefixCoefficientZeroCutEquiv_unit",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgPrefixCoefficientZeroCutEquiv_unit (v : Q.LiftVertex) (a : Q.GinzburgArrow) : Q.ginzburgPrefixCoefficientZeroCutEquiv k (Q.ginzburgPrefixGeneratorEndpoint v a) v a (Q.ginzburgPrefixCoefficientUnit k v a)= Q.ginzburgCutZeroId k (Q.ginzburgPrefixGeneratorEndpoint v a)"
+        },
+        {
+          "name": "ASGinzburg.CutQuiver.ginzburgPrefixCoefficientFixedUnrolledEquiv_unit",
+          "kind": "theorem",
+          "full_header": "theorem ginzburgPrefixCoefficientFixedUnrolledEquiv_unit (φ : Q.Potential k) (v : Q.LiftVertex) (a : Q.GinzburgArrow) : Q.ginzburgPrefixCoefficientFixedUnrolledEquiv k φ (Q.ginzburgPrefixGeneratorEndpoint v a) v a (Submodule.Quotient.mk (Q.ginzburgPrefixCoefficientUnit k v a))= (Q.unrolledJacobianZAlgebra k φ).id (Q.height (Q.ginzburgPrefixGeneratorEndpoint v a))"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable (Q : CutQuiver) (k : Type u) [Field k]"
+      ]
+    }
+  ],
+  "proof_change_note": "No source changes needed. All genuine zero-path/unit coefficient maps, full declaration headers/universe context, hypotheses/conclusions and proof bodies unchanged in this task.",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "public_source_edited_in_this_task": false,
+  "holding_new_edits_and_checks_for_planned_checkpoint6": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

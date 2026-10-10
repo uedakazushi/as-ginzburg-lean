@@ -1,0 +1,69 @@
+import ASGinzburg.RegularLeftModule
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable def leftRegularCoproductComponentOppositeAction (i j : ℤ) :
+    A.Hom i j →ₗ[k] (End A.leftRegularCoproduct)ᵐᵒᵖ :=
+  (MulOpposite.opLinearEquiv k).toLinearMap.comp ({
+    toFun := A.leftRegularCoproductAction
+    map_add' := A.leftRegularCoproductAction_add
+    map_smul' := A.leftRegularCoproductAction_smul } : A.Hom i j →ₗ[k] End A.leftRegularCoproduct)
+
+noncomputable def leftRegularCoproductRightRepresentation :
+    A.totalAlgebra →ₙₐ[k] (End A.leftRegularCoproduct)ᵐᵒᵖ :=
+  A.totalAlgebraLift A.leftRegularCoproductComponentOppositeAction
+    (fun _ _ _ a b => MulOpposite.unop_injective (A.leftRegularCoproductAction_comp a b).symm)
+    (fun _ _ _ _ a b h => MulOpposite.unop_injective (A.leftRegularCoproductAction_comp_off a b h))
+
+@[simp] theorem leftRegularCoproductRightRepresentation_component {i j : ℤ} (a : A.Hom i j) :
+    (A.leftRegularCoproductRightRepresentation (A.totalAlgebraComponent a)).unop =
+      A.leftRegularCoproductAction a :=
+  congrArg MulOpposite.unop (A.totalAlgebraLiftLinear_component _ a)
+
+noncomputable def totalAlgebraRightMap (a : A.totalAlgebra) :
+    A.totalAlgebraLeftLocallyUnitalModule ⟶ A.totalAlgebraLeftLocallyUnitalModule :=
+  A.leftRegularTotalLocallyUnitalIso.inv ≫
+    A.leftTotalLocallyUnitalFunctor.map (A.leftRegularCoproductRightRepresentation a).unop ≫
+      A.leftRegularTotalLocallyUnitalIso.hom
+
+@[simp] theorem totalAlgebraRightMap_component {i j : ℤ} (a : A.Hom i j) :
+    A.totalAlgebraRightMap (A.totalAlgebraComponent a) = A.totalAlgebraRightComponentMap a := by
+  dsimp only [totalAlgebraRightMap]
+  rw [A.leftRegularCoproductRightRepresentation_component]
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+theorem totalAlgebraRightMap_add (a b : A.totalAlgebra) :
+    A.totalAlgebraRightMap (a+b) = A.totalAlgebraRightMap a + A.totalAlgebraRightMap b := by
+  dsimp only [totalAlgebraRightMap]
+  rw [A.leftRegularCoproductRightRepresentation.map_add,MulOpposite.unop_add,
+    Functor.map_add,Preadditive.add_comp,Preadditive.comp_add]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem totalAlgebraRightMap_zero : A.totalAlgebraRightMap 0 = 0 := by
+  dsimp only [totalAlgebraRightMap]
+  rw [A.leftRegularCoproductRightRepresentation.map_zero,MulOpposite.unop_zero,
+    Functor.map_zero,zero_comp,comp_zero]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem totalAlgebraRightMap_apply (a : A.totalAlgebra) (x : A.totalAlgebra) :
+    (A.totalAlgebraRightMap a).hom x = x*a := by
+  obtain ⟨a,rfl⟩ := A.totalAlgebraEquiv.surjective a
+  induction a using DFinsupp.induction with
+  | h0 => rw [map_zero,A.totalAlgebraRightMap_zero]; rfl
+  | ha p b a _ _ ih =>
+    rw [map_add,A.totalAlgebraRightMap_add]
+    change (A.totalAlgebraRightMap (A.totalAlgebraEquiv (DFinsupp.single p b))).hom x +
+      (A.totalAlgebraRightMap (A.totalAlgebraEquiv a)).hom x =
+        x * (A.totalAlgebraEquiv (DFinsupp.single p b) + A.totalAlgebraEquiv a)
+    rw [mul_add,ih]
+    congr 1
+    rcases p with ⟨i,j⟩
+    change (A.totalAlgebraRightMap (A.totalAlgebraComponent b)).hom x = x * A.totalAlgebraComponent b
+    rw [A.totalAlgebraRightMap_component]
+    exact A.totalAlgebraRightComponentMap_apply b x
+
+end ASGinzburg.ZAlgebra

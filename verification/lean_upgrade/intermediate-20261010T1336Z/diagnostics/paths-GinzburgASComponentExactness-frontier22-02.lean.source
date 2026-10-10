@@ -1,0 +1,110 @@
+import ASGinzburg.GinzburgASComponentDifferentials
+
+/-! Exactness at the actual AS-term evaluation components. The intrinsic
+Ginzburg regularity hypothesis is used only for the left two terms. These
+component maps have not yet been assembled into right-module morphisms. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgASComponentLoopDualShortComplex (φ : Q.Potential k)
+    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
+  ShortComplex.mk (Q.ginzburgASComponentD₃ k φ x v) (Q.ginzburgASComponentD₂ k φ x v)
+    (Q.ginzburgASComponentD₃_comp_D₂ k φ x v)
+
+theorem GinzburgRegular.asComponentLoopDualShortComplex_exact {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (x v : Q.LiftVertex) :
+    (Q.ginzburgASComponentLoopDualShortComplex k φ x v).Exact := by
+  let S := ShortComplex.mk
+    (Q.ginzburgGeneratorLoopToDualHomology k φ x.1 v.1 (v.2-x.2))
+    (Q.ginzburgGeneratorDualToOriginalHomology k φ x.1 v.1 (v.2-x.2))
+    (Q.ginzburgGeneratorLoopDualOriginal_comp k φ x.1 v.1 (v.2-x.2))
+  have hs : S.Exact := by
+    change (Q.ginzburgGeneratorLoopDualShortComplex k φ x.1 v.1 (v.2-x.2)).Exact
+    exact h.loopDualShortComplex_exact Q k x.1 v.1 (v.2-x.2)
+  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
+    (Q.ginzburgLoopLayerHomologyRepresentableIso k φ x v)
+    (Q.ginzburgDualLayerHomologyTermTwoIso k φ x v)
+    (Q.ginzburgUpperFilteredHomologyTermOneIso k φ x v)
+    (S₁:=S) (S₂:=Q.ginzburgASComponentLoopDualShortComplex k φ x v)
+    (by simp [S,ginzburgASComponentLoopDualShortComplex,ginzburgASComponentD₃])
+    (by simp [S,ginzburgASComponentLoopDualShortComplex,ginzburgASComponentD₂]))).mp hs
+
+noncomputable def ginzburgASComponentDualRadicalShortComplex (φ : Q.Potential k)
+    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
+  ShortComplex.mk (Q.ginzburgASComponentD₂ k φ x v)
+    (Q.ginzburgASComponentRadicalMap k φ x v)
+    (Q.ginzburgASComponentD₂_comp_radicalMap k φ x v)
+
+theorem ginzburgASComponentDualRadicalShortComplex_exact (φ : Q.Potential k)
+    (x v : Q.LiftVertex) :
+    (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).Exact := by
+  apply (ShortComplex.exact_iff_of_iso (ShortComplex.isoMk
+    (Q.ginzburgDualLayerHomologyTermTwoIso k φ x v)
+    (Q.ginzburgUpperFilteredHomologyTermOneIso k φ x v)
+    (Q.ginzburgAugmentationRadicalComponentIso k φ x v)
+    (S₁:=Q.ginzburgGeneratorDualOriginalShortComplex k φ x.1 v.1 (v.2-x.2))
+    (S₂:=Q.ginzburgASComponentDualRadicalShortComplex k φ x v)
+    (by simp [ginzburgGeneratorDualOriginalShortComplex,ginzburgASComponentDualRadicalShortComplex,
+      ginzburgASComponentD₂])
+    (by simp [ginzburgGeneratorDualOriginalShortComplex,ginzburgASComponentDualRadicalShortComplex,
+      ginzburgASComponentRadicalMap]))).mp
+    (Q.ginzburgGeneratorDualOriginalShortComplex_exact k φ x.1 v.1 (v.2-x.2))
+
+noncomputable def ginzburgASComponentDualOriginalShortComplex (φ : Q.Potential k)
+    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
+  ShortComplex.mk (Q.ginzburgASComponentD₂ k φ x v) (Q.ginzburgASComponentD₁ k φ x v)
+    (Q.ginzburgASComponentD₂_comp_D₁ k φ x v)
+
+theorem ginzburgASComponentDualOriginalShortComplex_exact (φ : Q.Potential k)
+    (x v : Q.LiftVertex) :
+    (Q.ginzburgASComponentDualOriginalShortComplex k φ x v).Exact := by
+  let A := Q.unrolledJacobianZAlgebra k φ
+  let E := A.rightModuleEvaluation (Q.height x)
+  let f : Q.ginzburgASComponentDualRadicalShortComplex k φ x v ⟶
+      Q.ginzburgASComponentDualOriginalShortComplex k φ x v :=
+    ShortComplex.homMk (𝟙 _) (𝟙 _) (E.map (A.representableRadical (Q.height v)).inclusion)
+      (by simp [ginzburgASComponentDualRadicalShortComplex,ginzburgASComponentDualOriginalShortComplex])
+      (by simp [ginzburgASComponentDualRadicalShortComplex,ginzburgASComponentDualOriginalShortComplex,
+        ginzburgASComponentD₁,E,A])
+  haveI : Epi f.τ₁ := by
+    change Epi (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₁)
+    infer_instance
+  haveI : IsIso f.τ₂ := by
+    change IsIso (𝟙 (Q.ginzburgASComponentDualRadicalShortComplex k φ x v).X₂)
+    infer_instance
+  haveI : Mono f.τ₃ := by
+    change Mono (E.map (A.representableRadical (Q.height v)).inclusion)
+    infer_instance
+  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mp
+    (Q.ginzburgASComponentDualRadicalShortComplex_exact k φ x v)
+
+noncomputable def ginzburgASComponentOriginalSimpleShortComplex (φ : Q.Potential k)
+    (x v : Q.LiftVertex) : ShortComplex (ModuleCat.{u} k) :=
+  ShortComplex.mk (Q.ginzburgASComponentD₁ k φ x v)
+    (((Q.unrolledJacobianZAlgebra k φ).rightModuleEvaluation (Q.height x)).map
+      ((Q.unrolledJacobianZAlgebra k φ).simpleRightModuleπ (Q.height v)))
+    (Q.ginzburgASComponentD₁_comp_simpleπ k φ x v)
+
+theorem ginzburgASComponentOriginalSimpleShortComplex_exact (φ : Q.Potential k)
+    (x v : Q.LiftVertex) :
+    (Q.ginzburgASComponentOriginalSimpleShortComplex k φ x v).Exact := by
+  let A := Q.unrolledJacobianZAlgebra k φ
+  let E := A.rightModuleEvaluation (Q.height x)
+  let S := (A.representableRadical (Q.height v)).quotientShortComplex.map E
+  let f : Q.ginzburgASComponentOriginalSimpleShortComplex k φ x v ⟶ S :=
+    ShortComplex.homMk (Q.ginzburgASComponentRadicalMap k φ x v) (𝟙 _) (𝟙 _)
+      (by simp [S,ginzburgASComponentOriginalSimpleShortComplex,ginzburgASComponentD₁,
+        ZAlgebra.RightSubmodule.quotientShortComplex,E,A])
+      (by
+        simp [S,ginzburgASComponentOriginalSimpleShortComplex,ZAlgebra.simpleRightModuleπ,
+          ZAlgebra.RightSubmodule.quotientShortComplex,E,A]
+        exact (Category.comp_id _).symm)
+  haveI : Epi f.τ₁ := Q.ginzburgASComponentRadicalMap_epi k φ x v
+  haveI : IsIso f.τ₂ := by dsimp [f]; infer_instance
+  haveI : Mono f.τ₃ := by dsimp [f]; infer_instance
+  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono f).mpr
+    ((A.simpleRightModule_shortExact (Q.height v)).map_of_exact E).exact
+
+end ASGinzburg.CutQuiver

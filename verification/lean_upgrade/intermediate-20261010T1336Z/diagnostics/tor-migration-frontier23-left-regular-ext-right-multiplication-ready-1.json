@@ -1,0 +1,130 @@
+{
+  "recorded_at_utc": "2026-10-10T13:21:52.277466+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "ff59dc1bad8bc0e88913f817bc563b4371c22e8c",
+  "status": "Both current public sources actual default-limit Lean4.34.1 serial direct no-output exit0, frozen; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 2,
+  "declaration_count": 12,
+  "sources": [
+    {
+      "source": "ASGinzburg/LeftRegularExtComparison.lean",
+      "source_sha256": "2338a54bde954c5d1e081d245697ee22d9970f49249de3eb9487e00400d6cd5f",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier23-entry-LeftRegularExtComparison.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-left-regular-ext-comparison-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:18:53.573577+00:00",
+      "finished_at_utc": "2026-10-10T13:18:59.515729+00:00",
+      "elapsed_seconds": 5.942156201002945,
+      "log": "work/lean-upgrade/tor-migration-left-regular-ext-comparison-1.log",
+      "log_empty": false,
+      "warning_count": 1,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": true,
+      "proof_change_note": "Current task source is byte-for-byte unchanged and passed its first actual default check.",
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftLocallyUnitalExtIso",
+          "kind": "def",
+          "full_header": "noncomputable def leftLocallyUnitalExtIso {M N P : A.LeftLocallyUnitalModule} (e : N ≅ P) (n : ℕ) : Abelian.Ext.{v} M N n ≃ₗ[k] Abelian.Ext.{v} M P n"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftLocallyUnitalExtIso_conjugation",
+          "kind": "theorem",
+          "full_header": "theorem leftLocallyUnitalExtIso_conjugation {M N P : A.LeftLocallyUnitalModule} (e : N ≅ P) (n : ℕ) (f : N ⟶ N) (x : Abelian.Ext.{v} M N n) : A.leftLocallyUnitalExtIso e n (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)) = (A.leftLocallyUnitalExtIso e n x).comp (Abelian.Ext.mk₀ (e.inv ≫ f ≫ e.hom)) (Nat.add_zero n)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularExtGrLinearEquiv",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularExtGrLinearEquiv (M : A.LeftModule) (n : ℕ) : Abelian.Ext.{v} M A.leftRegularCoproduct n ≃ₗ[k] Abelian.Ext.{v} (A.leftTotalLocallyUnitalModule M) A.totalAlgebraLeftLocallyUnitalModule n"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularExtGrLinearEquiv_postcomp",
+          "kind": "theorem",
+          "full_header": "theorem leftRegularExtGrLinearEquiv_postcomp (M : A.LeftModule) (n : ℕ) (f : A.leftRegularCoproduct ⟶ A.leftRegularCoproduct) (x : Abelian.Ext.{v} M A.leftRegularCoproduct n) : A.leftRegularExtGrLinearEquiv M n (x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)) = (A.leftRegularExtGrLinearEquiv M n x).comp (Abelian.Ext.mk₀ (A.leftRegularTotalLocallyUnitalIso.inv ≫ A.leftTotalLocallyUnitalFunctor.map f ≫ A.leftRegularTotalLocallyUnitalIso.hom)) (Nat.add_zero n)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/RegularRightMultiplication.lean",
+      "source_sha256": "c55ac36d72b8d43d14a530e2fa91aef5c9c6ab4befac1f682668baeacb10f49e",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier23-entry-RegularRightMultiplication.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-regular-right-multiplication-3.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T13:20:48.177824+00:00",
+      "finished_at_utc": "2026-10-10T13:21:02.536227+00:00",
+      "elapsed_seconds": 14.358428011000797,
+      "log": "work/lean-upgrade/tor-migration-regular-right-multiplication-3.log",
+      "log_empty": true,
+      "warning_count": 0,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "source_byte_for_byte_unchanged_in_this_task": false,
+      "proof_change_note": "Scoped native endpoint inference compatibility on totalAlgebraRightMap_add/zero/apply; zero applied after mul_zero proved by rfl; native full-subcategory sum application exposed pointwise by change, then original mul_add/ih argument. Genuine representation/conjugated right multiplication, all existing mathematical data/headers unchanged.",
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductComponentOppositeAction",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularCoproductComponentOppositeAction (i j : ℤ) : A.Hom i j →ₗ[k] (End A.leftRegularCoproduct)ᵐᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductRightRepresentation",
+          "kind": "def",
+          "full_header": "noncomputable def leftRegularCoproductRightRepresentation : A.totalAlgebra →ₙₐ[k] (End A.leftRegularCoproduct)ᵐᵒᵖ"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRegularCoproductRightRepresentation_component",
+          "kind": "theorem",
+          "full_header": "@[simp] theorem leftRegularCoproductRightRepresentation_component {i j : ℤ} (a : A.Hom i j) : (A.leftRegularCoproductRightRepresentation (A.totalAlgebraComponent a)).unop = A.leftRegularCoproductAction a"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.totalAlgebraRightMap",
+          "kind": "def",
+          "full_header": "noncomputable def totalAlgebraRightMap (a : A.totalAlgebra) : A.totalAlgebraLeftLocallyUnitalModule ⟶ A.totalAlgebraLeftLocallyUnitalModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.totalAlgebraRightMap_component",
+          "kind": "theorem",
+          "full_header": "@[simp] theorem totalAlgebraRightMap_component {i j : ℤ} (a : A.Hom i j) : A.totalAlgebraRightMap (A.totalAlgebraComponent a) = A.totalAlgebraRightComponentMap a"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.totalAlgebraRightMap_add",
+          "kind": "theorem",
+          "full_header": "theorem totalAlgebraRightMap_add (a b : A.totalAlgebra) : A.totalAlgebraRightMap (a+b) = A.totalAlgebraRightMap a + A.totalAlgebraRightMap b"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.totalAlgebraRightMap_zero",
+          "kind": "theorem",
+          "full_header": "theorem totalAlgebraRightMap_zero : A.totalAlgebraRightMap 0 = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.totalAlgebraRightMap_apply",
+          "kind": "theorem",
+          "full_header": "theorem totalAlgebraRightMap_apply (a : A.totalAlgebra) (x : A.totalAlgebra) : (A.totalAlgebraRightMap a).hom x = x*a"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    }
+  ],
+  "prior_failed_check_records_preserved": [
+    "work/lean-upgrade/tor-migration-regular-right-multiplication-1.json",
+    "work/lean-upgrade/tor-migration-regular-right-multiplication-2.json"
+  ],
+  "prior_failed_check_note": "Unchanged RightMultiplication firstcheck exposed native alias endpoints and zero/sum application boundaries; secondcheck left only x*0 needing mul_zero before rfl. Actual failure snapshots/logs preserved.",
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

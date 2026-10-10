@@ -1,0 +1,50 @@
+ASGinzburg/GinzburgLoopArrowDualPrefixes.lean:16:2: error: unsolved goals
+case refine_1
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+b : Q.Arrow
+hb : Q.source b = v
+⊢ (GinzburgPath.transport Q hb ⋯
+        ((GinzburgPath.nil (Q.source b)).snoc (GinzburgArrow.original b) ⋯)).cohomologicalDegree =
+    0
+ASGinzburg/GinzburgLoopArrowDualPrefixes.lean:19:2: error: unsolved goals
+case refine_2
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+b : Q.Arrow
+hb : Q.source b = v
+⊢ (GinzburgPath.transport Q hb ⋯ ((GinzburgPath.nil (Q.source b)).snoc (GinzburgArrow.original b) ⋯)).cutDegree =
+    ↑(Q.cutDegree b)
+ASGinzburg/GinzburgLoopArrowDualPrefixes.lean:17:10: warning: This simp argument is unused:
+  GinzburgPath.cohomologicalDegree_transport
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [originalGinzburgArrowPath, GinzburgPath.cohomologicalDegree, GinzburgArrow.cohomologicalDegree]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgLoopArrowDualPrefixes.lean:18:6: warning: This simp argument is unused:
+  GinzburgPath.cohomologicalDegree
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [GinzburgPath.cohomologicalDegree_transport, originalGinzburgArrowPath,
+    GinzburgArrow.cohomologicalDegree]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgLoopArrowDualPrefixes.lean:18:39: warning: This simp argument is unused:
+  GinzburgArrow.cohomologicalDegree
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [GinzburgPath.cohomologicalDegree_transport, originalGinzburgArrowPath, GinzburgPath.cohomologicalDegree]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgLoopArrowDualPrefixes.lean:20:36: warning: This simp argument is unused:
+  GinzburgPath.cutDegree
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [originalGinzburgArrowPath, GinzburgArrow.cutDegree]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

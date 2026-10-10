@@ -1,0 +1,24 @@
+ASGinzburg/GinzburgLayerHomologyNaturality.lean:36:2: error: Type mismatch: After simplification, term
+  he
+ has type
+  @Eq
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).obj
+        (Q.ginzburgAssociatedGradedComplex k φ y.1 v.1 r (v.2 - y.2)) ⟶
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).obj
+        (Q.ginzburgGeneratorPrefixComplex k φ x.1 v.1 r (v.2 - x.2)))
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgAssociatedLeftCochainMap k φ r f) ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgGeneratorPrefixGradedIso k φ x.1 v.1 r (v.2 - x.2)).inv)
+    ((HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgGeneratorPrefixGradedIso k φ y.1 v.1 r (v.2 - y.2)).inv ≫
+      (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+        (Q.ginzburgPrefixLeftCochainMap k φ r f))
+but is expected to have type
+  @Eq
+    (Q.ginzburgAssociatedGradedHomology k φ y.1 v.1 r (v.2 - y.2) q ⟶
+      Q.ginzburgGeneratorPrefixHomology k φ x.1 v.1 r (v.2 - x.2) q)
+    (Q.ginzburgAssociatedLeftHomology k φ r q f ≫
+      (Q.ginzburgAssociatedGradedPrefixHomologyIso k φ x.1 v.1 r (v.2 - x.2) q).hom)
+    ((Q.ginzburgAssociatedGradedPrefixHomologyIso k φ y.1 v.1 r (v.2 - y.2) q).hom ≫
+      Q.ginzburgPrefixLeftHomology k φ r q f)

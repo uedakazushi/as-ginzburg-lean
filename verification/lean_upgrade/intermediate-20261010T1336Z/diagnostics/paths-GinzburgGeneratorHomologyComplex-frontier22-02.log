@@ -1,0 +1,84 @@
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:55:84: error: numerals are data in Lean, but the expected type is a proposition
+  ?m.70 ≫ 2 = 0 : Prop
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:55:28: error: Application type mismatch: The argument
+  (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d
+has type
+  (i j : ℕ) →
+    (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).X i ⟶ (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).X j
+but is expected to have type
+  ?m.61 ⟶ ?m.62
+in the application
+  @ShortComplex.mk ?m.58 ?m.59 ?m.60 ?m.61 ?m.62 ?m.63 (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:68:13: error: Function expected at
+  Mono ?m.95
+but this term has type
+  Prop
+
+Note: Expected a function because this term is being applied to the argument
+  2
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:68:18: error: Application type mismatch: The argument
+  (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d
+has type
+  (i j : ℕ) →
+    (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).X i ⟶ (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).X j
+but is expected to have type
+  ?m.87 ⟶ ?m.88
+in the application
+  Mono (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:108:31: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ≫ 𝟙 ?m.153
+in the target expression
+  Q.ginzburgGeneratorDualToOriginalHomology k φ u v c =
+    (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d 1 0 ≫ 𝟙 (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+u v : Q.Vertex
+c : ℤ
+⊢ Q.ginzburgGeneratorDualToOriginalHomology k φ u v c =
+    (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d 1 0 ≫ 𝟙 (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    𝟙 (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+      (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ((Q.ginzburgGeneratorHomologyChainComplex k φ u v c).X 0) (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+  in the application
+    (Q.ginzburgGeneratorHomologyChainComplex k φ u v c).d 1 0 ≫ 𝟙 (Q.ginzburgGeneratorFilteredHomology k φ u v 0 c 0)
+ASGinzburg/GinzburgGeneratorHomologyComplex.lean:116:31: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ≫ 𝟙 ?m.199
+in the target expression
+  Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c =
+    (Q.ginzburgGeneratorHomologyAugmentation k φ u v c).f 0 ≫ 𝟙 (Q.ginzburgAugmentationHomology k φ u v c 0)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+u v : Q.Vertex
+c : ℤ
+⊢ Q.ginzburgGeneratorFiltrationRadicalMap k φ u v c =
+    (Q.ginzburgGeneratorHomologyAugmentation k φ u v c).f 0 ≫ 𝟙 (Q.ginzburgAugmentationHomology k φ u v c 0)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    𝟙 (Q.ginzburgAugmentationHomology k φ u v c 0)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver (Q.ginzburgAugmentationHomology k φ u v c 0)
+      (Q.ginzburgAugmentationHomology k φ u v c 0)
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      (((ChainComplex.single₀ (ModuleCat k)).obj (Q.ginzburgAugmentationHomology k φ u v c 0)).X 0)
+      (Q.ginzburgAugmentationHomology k φ u v c 0)
+  in the application
+    (Q.ginzburgGeneratorHomologyAugmentation k φ u v c).f 0 ≫ 𝟙 (Q.ginzburgAugmentationHomology k φ u v c 0)

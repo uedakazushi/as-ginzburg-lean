@@ -1,0 +1,65 @@
+import ASGinzburg.GinzburgDualLayerDifferential
+
+/-! Every actual degree minus two representative differentiates
+into the dual filtration, giving its actual quotient and image cycles. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgLoopLayerDifferential_mem (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ)
+    (x : Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) (-2) c) :
+    Q.ginzburgDifferential k φ u v x.val ∈
+      Q.ginzburgGeneratorFiltrationAtDegree k u v (-1) (-1) c := by
+  have hx := (Q.ginzburgGeneratorFiltrationAtDegree_eq_inf k u v (-2) (-2) c).le x.property
+  have hd : Q.ginzburgDifferential k φ u v x.val ∈ Q.ginzburgCohomologicalComponent k u v (-1) := by
+    simpa only [show (-2:ℤ)+1=-1 by norm_num] using Q.ginzburgDifferential_degree k φ (-2) hx.2.1
+  have hl := Q.ginzburgDifferential_mem_augmentation k φ
+    (Q.ginzburgGeneratorFiltration_le_augmentation k u v (-2) hx.1)
+  rw [Q.ginzburgGeneratorFiltrationAtDegree_eq_inf]
+  refine ⟨?_,hd,Q.ginzburgDifferential_cut k φ c hx.2.2⟩
+  apply (Finsupp.mem_supported k _).mpr
+  intro p hp
+  have hpdeg := (Finsupp.mem_supported k _).mp hd hp
+  have hplen := (Finsupp.mem_supported k _).mp hl hp
+  change p.cohomologicalDegree=-1 at hpdeg
+  change 0<p.length at hplen
+  exact Q.ginzburgGeneratorFiltrationPaths_of_degree hplen (-1) (by omega)
+
+noncomputable def ginzburgLoopLayerDifferential (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) (-2) c →ₗ[k]
+      Q.ginzburgGeneratorFiltrationAtDegree k u v (-1) (-1) c :=
+  ((Q.ginzburgDifferential k φ u v).comp
+    (Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) (-2) c).subtype).codRestrict _
+      (fun x => Q.ginzburgLoopLayerDifferential_mem k φ u v c x)
+
+theorem ginzburgLoopLayerDifferential_cycle (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ)
+    (x : Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) (-2) c) :
+    (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0
+      (Q.ginzburgLoopLayerDifferential k φ u v c x)=0 := by
+  have hd : (Q.ginzburgGeneratorFilteredComplex k φ u v (-1) c).d (-1) 0 =
+      ModuleCat.ofHom (Q.ginzburgGeneratorFilteredDifferential k φ u v (-1) (-1) c) := by
+    simpa only [show (-1:ℤ)+1=0 by norm_num] using
+      Q.ginzburgGeneratorFilteredComplex_d k φ u v (-1) c (-1)
+  rw [hd]
+  apply Subtype.ext
+  exact Q.ginzburgDifferential_square k φ x.val
+
+theorem ginzburgLoopLayerQuotient_cycle (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ)
+    (x : Q.ginzburgGeneratorFiltrationAtDegree k u v (-2) (-2) c) :
+    (Q.ginzburgAssociatedGradedComplex k φ u v (-2) c).d (-2) (-1)
+      (Submodule.Quotient.mk x)=0 := by
+  have hd : (Q.ginzburgAssociatedGradedComplex k φ u v (-2) c).d (-2) (-1) =
+      ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v (-2) (-2) c) := by
+    simpa only [show (-2:ℤ)+1=-1 by norm_num] using CochainComplex.of_d
+      (fun j => ModuleCat.of k (Q.GinzburgAssociatedGraded k u v (-2) j c))
+      (fun j => ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v (-2) j c)) (-2:ℤ)
+  rw [hd]
+  change Submodule.Quotient.mk (Q.ginzburgGeneratorFilteredDifferential k φ u v (-2) (-2) c x)=0
+  apply (Submodule.Quotient.mk_eq_zero _).mpr
+  exact Q.ginzburgLoopLayerDifferential_mem k φ u v c x
+
+end ASGinzburg.CutQuiver

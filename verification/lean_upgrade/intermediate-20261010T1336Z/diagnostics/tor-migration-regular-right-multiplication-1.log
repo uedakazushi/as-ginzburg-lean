@@ -1,0 +1,116 @@
+ASGinzburg/RegularRightMultiplication.lean:42:20: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?f + ?f') ≫ ?g
+in the target expression
+  A.leftRegularTotalLocallyUnitalIso.inv ≫
+      (A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation a)) +
+          A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation b))) ≫
+        A.leftRegularTotalLocallyUnitalIso.hom =
+    A.leftRegularTotalLocallyUnitalIso.inv ≫
+        A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation a)) ≫
+          A.leftRegularTotalLocallyUnitalIso.hom +
+      A.leftRegularTotalLocallyUnitalIso.inv ≫
+        A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation b)) ≫
+          A.leftRegularTotalLocallyUnitalIso.hom
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+a b : ↥A.totalAlgebra
+⊢ A.leftRegularTotalLocallyUnitalIso.inv ≫
+      (A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation a)) +
+          A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation b))) ≫
+        A.leftRegularTotalLocallyUnitalIso.hom =
+    A.leftRegularTotalLocallyUnitalIso.inv ≫
+        A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation a)) ≫
+          A.leftRegularTotalLocallyUnitalIso.hom +
+      A.leftRegularTotalLocallyUnitalIso.inv ≫
+        A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation b)) ≫
+          A.leftRegularTotalLocallyUnitalIso.hom
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation a)) +
+      A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation b))
+  has type
+    @Quiver.Hom A.LeftLocallyUnitalModule (ObjectProperty.FullSubcategory.category A.leftLocallyUnitalProperty).toQuiver
+      (A.leftTotalLocallyUnitalFunctor.obj A.leftRegularCoproduct)
+      (A.leftTotalLocallyUnitalFunctor.obj A.leftRegularCoproduct)
+  but is expected to have type
+    @Quiver.Hom A.LeftLocallyUnitalModule (ObjectProperty.FullSubcategory.category A.leftLocallyUnitalProperty).toQuiver
+      (A.leftTotalLocallyUnitalModule A.leftRegularCoproduct)
+      (A.leftTotalLocallyUnitalFunctor.obj A.leftRegularCoproduct)
+  in the application
+    CategoryStruct.comp
+      (A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation a)) +
+        A.leftTotalLocallyUnitalFunctor.map (MulOpposite.unop (A.leftRegularCoproductRightRepresentation b)))
+ASGinzburg/RegularRightMultiplication.lean:47:21: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  0 ≫ ?m.44
+in the target expression
+  A.leftRegularTotalLocallyUnitalIso.inv ≫ 0 ≫ A.leftRegularTotalLocallyUnitalIso.hom = 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+⊢ A.leftRegularTotalLocallyUnitalIso.inv ≫ 0 ≫ A.leftRegularTotalLocallyUnitalIso.hom = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    0
+  has type
+    @Quiver.Hom A.LeftLocallyUnitalModule (ObjectProperty.FullSubcategory.category A.leftLocallyUnitalProperty).toQuiver
+      (A.leftTotalLocallyUnitalFunctor.obj A.leftRegularCoproduct)
+      (A.leftTotalLocallyUnitalFunctor.obj A.leftRegularCoproduct)
+  but is expected to have type
+    @Quiver.Hom A.LeftLocallyUnitalModule (ObjectProperty.FullSubcategory.category A.leftLocallyUnitalProperty).toQuiver
+      (A.leftTotalLocallyUnitalModule A.leftRegularCoproduct)
+      (A.leftTotalLocallyUnitalFunctor.obj A.leftRegularCoproduct)
+  in the application
+    CategoryStruct.comp 0
+ASGinzburg/RegularRightMultiplication.lean:53:7: error: unsolved goals
+case h0
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+x : ↥A.totalAlgebra
+⊢ 0 x = 0
+ASGinzburg/RegularRightMultiplication.lean:55:43: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ModuleCat.Hom.hom (?f + ?g)
+in the target expression
+  (ConcreteCategory.hom
+        (A.totalAlgebraRightMap (A.totalAlgebraEquiv (DFinsupp.single p b)) +
+            A.totalAlgebraRightMap (A.totalAlgebraEquiv a)).hom)
+      x =
+    x * (A.totalAlgebraEquiv (DFinsupp.single p b) + A.totalAlgebraEquiv a)
+
+case ha
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+x : ↥A.totalAlgebra
+p : ℤ × ℤ
+b : A.Hom p.1 p.2
+a : Π₀ (i : ℤ × ℤ), A.Hom i.1 i.2
+a✝¹ : a p = 0
+a✝ : b ≠ 0
+ih : (ConcreteCategory.hom (A.totalAlgebraRightMap (A.totalAlgebraEquiv a)).hom) x = x * A.totalAlgebraEquiv a
+⊢ (ConcreteCategory.hom
+        (A.totalAlgebraRightMap (A.totalAlgebraEquiv (DFinsupp.single p b)) +
+            A.totalAlgebraRightMap (A.totalAlgebraEquiv a)).hom)
+      x =
+    x * (A.totalAlgebraEquiv (DFinsupp.single p b) + A.totalAlgebraEquiv a)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    ↥A.totalAlgebra
+  but is expected to have type
+    ↑A.totalAlgebraLeftLocallyUnitalModule.obj
+  in the application
+    (ConcreteCategory.hom
+        (A.totalAlgebraRightMap (A.totalAlgebraEquiv (DFinsupp.single p b)) +
+            A.totalAlgebraRightMap (A.totalAlgebraEquiv a)).hom)
+      x

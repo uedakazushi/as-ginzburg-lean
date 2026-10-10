@@ -1,0 +1,17 @@
+ASGinzburg/GinzburgDualArrowHessianPrefixes.lean:15:67: error: unsolved goals
+Q : CutQuiver
+u : Q.Vertex
+b : Q.Arrow
+p : Q.Path u (Q.source b)
+⊢ (Path.originalGinzburg Q p).snoc (GinzburgArrow.original b) ⋯ =
+    (Path.originalGinzburg Q p).snoc (GinzburgArrow.original b) ⋯
+ASGinzburg/GinzburgDualArrowHessianPrefixes.lean:71:18: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+ASGinzburg/GinzburgDualArrowHessianPrefixes.lean:71:6: error: Type mismatch: After simplification, term
+  h
+ has type
+  Path.originalGinzburg Q p ∈
+    {p |
+      p.cutDegree =
+        GinzburgArrow.cutDegree Q (GinzburgArrow.dual a) - GinzburgArrow.cutDegree Q (GinzburgArrow.original b)}
+but is expected to have type
+  ↑p.cutDegree = GinzburgArrow.cutDegree Q (GinzburgArrow.dual a) - GinzburgArrow.cutDegree Q (GinzburgArrow.original b)
