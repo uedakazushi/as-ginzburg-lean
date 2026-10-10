@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/BalancedTensorUniversal.lean:45:19: error: unsolved goals
+case h
+k : Type u
+inst✝⁹ : Field k
+R : Type v
+inst✝⁸ : Ring R
+M : Type w
+inst✝⁷ : AddCommGroup M
+inst✝⁶ : Module k M
+inst✝⁵ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁴ : AddCommGroup N
+inst✝³ : Module k N
+inst✝² : Module R N
+P : Type u_1
+inst✝¹ : AddCommGroup P
+inst✝ : Module k P
+c : k
+x : M
+z : N
+⊢ (balancedTensorRelations k R M N).mkQ (x ⊗ₜ[k] (c • z)) = c • (balancedTensorRelations k R M N).mkQ (x ⊗ₜ[k] z)
+work/ASGinzburgDraft/BalancedTensorUniversal.lean:49:58: warning: This simp argument is unused:
+  map_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [balancedTensorTmul, ̲TensorProduct.smul_tmul,̵m̵a̵p̵_̵s̵m̵u̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

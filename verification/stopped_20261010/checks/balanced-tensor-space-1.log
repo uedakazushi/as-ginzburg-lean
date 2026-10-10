@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/BalancedTensorSpace.lean:27:8: error(lean.unknownIdentifier): Unknown constant `Submodule.Quotient.eq.mpr`
+work/ASGinzburgDraft/BalancedTensorSpace.lean:28:2: error: No goals to be solved
+work/ASGinzburgDraft/BalancedTensorSpace.lean:45:44: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.liftQ ?p ?f ?h ∘ₛₗ Submodule.mkQ ?p
+in the target expression
+  ((balancedTensorRelations k R M N).liftQ (TensorProduct.lift f) ⋯)
+      ((balancedTensorRelations k R M N).mkQ (x ⊗ₜ[k] y)) =
+    (f x) y
+
+k : Type u
+inst✝¹⁰ : Field k
+R : Type v
+inst✝⁹ : Ring R
+inst✝⁸ : Algebra k R
+M : Type w
+inst✝⁷ : AddCommGroup M
+inst✝⁶ : Module k M
+inst✝⁵ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁴ : AddCommGroup N
+inst✝³ : Module k N
+inst✝² : Module R N
+P : Type u_1
+inst✝¹ : AddCommGroup P
+inst✝ : Module k P
+f : M →ₗ[k] N →ₗ[k] P
+h : ∀ (r : R) (x : M) (y : N), (f (MulOpposite.op r • x)) y = (f x) (r • y)
+x : M
+y : N
+⊢ ((balancedTensorRelations k R M N).liftQ (TensorProduct.lift f) ⋯)
+      ((balancedTensorRelations k R M N).mkQ (x ⊗ₜ[k] y)) =
+    (f x) y

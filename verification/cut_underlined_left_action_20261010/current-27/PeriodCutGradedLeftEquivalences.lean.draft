@@ -1,0 +1,23 @@
+import work.ASGinzburgDraft.PeriodCutGradedLeftModules
+
+/-! Genuine grading-preserving k-linear isomorphisms respecting the full
+actual left ring action, with their induced ordinary R-linear isomorphisms. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule
+universe u v w w'
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+structure GradedEquiv (M : CutGradedLeftModule.{u,v,w} Q E)
+    (N : CutGradedLeftModule.{u,v,w'} Q E) where
+  spaceEquiv : M.space ≃ₗ[k] N.space
+  equivariant : ∀ (r : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) (x : M.space),
+    spaceEquiv (M.representation r x)=N.representation r (spaceEquiv x)
+  grade_iff : ∀ (q : ℤ) (x : M.space),spaceEquiv x∈N.grade q ↔ x∈M.grade q
+
+noncomputable def GradedEquiv.leftLinearEquiv
+    {M : CutGradedLeftModule.{u,v,w} Q E} {N : CutGradedLeftModule.{u,v,w'} Q E}
+    (e : GradedEquiv M N) :
+    M.space ≃ₗ[E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))] N.space :=
+  { e.spaceEquiv.toAddEquiv with map_smul' := e.equivariant }
+
+end ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule

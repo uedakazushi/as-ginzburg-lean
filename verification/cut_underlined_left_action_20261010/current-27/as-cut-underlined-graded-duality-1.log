@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/ASCutUnderlinedGradedDuality.lean:25:4: error: unsolved goals
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+x : ↑(PeriodIso.cutUnderlinedExtGradedLeftModule Q (periodIso A Q hAS) (cutGradedSimple A Q hAS (i, 0)) 3).space
+⊢ ((cutUnderlinedTopExtLinearEquiv A Q hAS i) x ∈ if True then ⊤ else ⊥) ↔ True
+work/ASGinzburgDraft/ASCutUnderlinedGradedDuality.lean:27:60: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵i̵n̵g̵l̵e̵D̵e̵g̵r̵e̵e̵S̵p̵a̵c̵e̵,̵s̵h̵o̵w̵ ̵(̵-̵1̵:̵ℤ̵)̵+̵1̵=̵0̵[̲s̲i̲n̲g̲l̲e̲D̲e̲g̲r̲e̲e̲S̲p̲a̲c̲e̲,̲ ̲s̲h̲o̲w̲ ̲(̲-̲1̲ ̲:̲ ̲ℤ̲)̲ ̲+̲ ̲1̲ ̲=̲ ̲0̲ by o̵m̵e̵g̵a̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵S̵u̵b̵m̵o̵d̵u̵l̵e̵.̵m̵e̵m̵_̵t̵o̵p̵]̵o̲m̲e̲g̲a̲,̲ ̲S̲u̲b̲m̲o̲d̲u̲l̲e̲.̲m̲e̲m̲_̲t̲o̲p̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

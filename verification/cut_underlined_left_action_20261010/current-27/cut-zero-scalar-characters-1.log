@@ -1,0 +1,14 @@
+work/ASGinzburgDraft/PeriodCutZeroScalarCharacters.lean:52:68: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+χ : (E.CutGradedRing fun t => ↑↑t) →ₐ[k] k
+i : Q.Vertex
+hvertex : ∀ (j : Q.Vertex), χ (E.cutVertexIdempotent (fun t => ↑↑t) j) = if j = i then 1 else 0
+a : E.CutGradedBlock (fun t => ↑↑t) 0
+c : Q.Vertex → k := (cutZeroDiagonalAlgHom Q E) a
+hzero : (cutZeroDiagonalAlgHom Q E) (a - cutZeroScalarDiagonal Q E c) = 0
+h : χ ((cutZeroRingInclusion Q E) a) = χ ((cutZeroRingInclusion Q E) (cutZeroScalarDiagonal Q E c))
+⊢ c i = (cutZeroDiagonalAlgHom Q E) a i

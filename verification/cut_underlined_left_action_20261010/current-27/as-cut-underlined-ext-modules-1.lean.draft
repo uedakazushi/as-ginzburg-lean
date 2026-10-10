@@ -1,0 +1,46 @@
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtScalars
+import work.ASGinzburgDraft.ASCutUnderlinedTopExt
+import Mathlib.RingTheory.Finiteness.Basic
+
+/-! The actual canonical left R module of underlined Ext is zero
+outside degree three and is finitely generated, from original AS regularity. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutUnderlinedExtLeft_off_three_isZero (hAS : A.ASRegular Q)
+    (i : Q.Vertex) (n : ℕ) (hn : n≠3) :
+    IsZero ((hAS.periodIso A Q).cutUnderlinedExtLeftModuleCat Q
+      (hAS.cutGradedSimple A Q (i,0)) n) := by
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  constructor
+  intro x y
+  rw [hAS.cutUnderlinedRegularExt_off_three_eq_zero A Q i n hn x,
+    hAS.cutUnderlinedRegularExt_off_three_eq_zero A Q i n hn y]
+
+theorem ASRegular.cutUnderlinedExtFinite (hAS : A.ASRegular Q) (i : Q.Vertex) (n : ℕ) :
+    Module.Finite k ((hAS.periodIso A Q).CutUnderlinedRegularExt Q
+      (hAS.cutGradedSimple A Q (i,0)) n) := by
+  by_cases hn : n=3
+  · subst n
+    exact Module.Finite.of_injective (hAS.cutUnderlinedTopExtLinearEquiv A Q i).toLinearMap
+      (hAS.cutUnderlinedTopExtLinearEquiv A Q i).injective
+  · letI : Subsingleton ((hAS.periodIso A Q).CutUnderlinedRegularExt Q
+      (hAS.cutGradedSimple A Q (i,0)) n) := ⟨fun x y => by
+        rw [hAS.cutUnderlinedRegularExt_off_three_eq_zero A Q i n hn x,
+          hAS.cutUnderlinedRegularExt_off_three_eq_zero A Q i n hn y]⟩
+    infer_instance
+
+theorem ASRegular.cutUnderlinedExtLeftFinite (hAS : A.ASRegular Q) (i : Q.Vertex) (n : ℕ) :
+    letI := (hAS.periodIso A Q).cutUnderlinedExtLeftModule Q (hAS.cutGradedSimple A Q (i,0)) n
+    Module.Finite ((hAS.periodIso A Q).CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+      ((hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) n) := by
+  let E := hAS.periodIso A Q
+  let M := hAS.cutGradedSimple A Q (i,0)
+  letI := E.cutUnderlinedExtLeftModule Q M n
+  letI := E.cutUnderlinedExtScalarTower Q M n
+  letI := hAS.cutUnderlinedExtFinite A Q i n
+  exact Module.Finite.of_restrictScalars_finite k (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))) _
+
+end ASGinzburg.ZAlgebra

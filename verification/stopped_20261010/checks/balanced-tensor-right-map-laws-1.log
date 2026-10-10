@@ -1,0 +1,96 @@
+work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean:23:55: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (balancedTensorMapRight ?k ?R ?M ?g) (balancedTensorTmul ?k ?R ?M ?N ?x ?y)
+in the target expression
+  balancedTensorTmul k R M N'' x (g (f y)) =
+    (balancedTensorMapRight k R M g ∘ₗ balancedTensorMapRight k R M f) (balancedTensorTmul k R M N x y)
+
+k : Type u
+inst✝¹⁷ : Field k
+R : Type v
+inst✝¹⁶ : Ring R
+inst✝¹⁵ : Algebra k R
+M : Type w
+inst✝¹⁴ : AddCommGroup M
+inst✝¹³ : Module k M
+inst✝¹² : Module Rᵐᵒᵖ M
+N : Type z
+inst✝¹¹ : AddCommGroup N
+inst✝¹⁰ : Module k N
+inst✝⁹ : Module R N
+inst✝⁸ : IsScalarTower k R N
+N' : Type z'
+inst✝⁷ : AddCommGroup N'
+inst✝⁶ : Module k N'
+inst✝⁵ : Module R N'
+inst✝⁴ : IsScalarTower k R N'
+N'' : Type z''
+inst✝³ : AddCommGroup N''
+inst✝² : Module k N''
+inst✝¹ : Module R N''
+inst✝ : IsScalarTower k R N''
+f : N →ₗ[R] N'
+g : N' →ₗ[R] N''
+x : M
+y : N
+⊢ balancedTensorTmul k R M N'' x (g (f y)) =
+    (balancedTensorMapRight k R M g ∘ₗ balancedTensorMapRight k R M f) (balancedTensorTmul k R M N x y)
+work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean:31:54: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (balancedTensorMapRight ?k ?R ?M ?g) (balancedTensorTmul ?k ?R ?M ?N ?x ?y)
+in the target expression
+  balancedTensorTmul k R M N' x (f y + g y) =
+    (balancedTensorMapRight k R M f + balancedTensorMapRight k R M g) (balancedTensorTmul k R M N x y)
+
+k : Type u
+inst✝¹³ : Field k
+R : Type v
+inst✝¹² : Ring R
+inst✝¹¹ : Algebra k R
+M : Type w
+inst✝¹⁰ : AddCommGroup M
+inst✝⁹ : Module k M
+inst✝⁸ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁷ : AddCommGroup N
+inst✝⁶ : Module k N
+inst✝⁵ : Module R N
+inst✝⁴ : IsScalarTower k R N
+N' : Type z'
+inst✝³ : AddCommGroup N'
+inst✝² : Module k N'
+inst✝¹ : Module R N'
+inst✝ : IsScalarTower k R N'
+f g : N →ₗ[R] N'
+x : M
+y : N
+⊢ balancedTensorTmul k R M N' x (f y + g y) =
+    (balancedTensorMapRight k R M f + balancedTensorMapRight k R M g) (balancedTensorTmul k R M N x y)
+work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean:39:55: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (balancedTensorMapRight ?k ?R ?M ?g) (balancedTensorTmul ?k ?R ?M ?N ?x ?y)
+in the target expression
+  balancedTensorTmul k R M N' x (c • g y) = (c • balancedTensorMapRight k R M g) (balancedTensorTmul k R M N x y)
+
+k : Type u
+inst✝¹⁴ : Field k
+R : Type v
+inst✝¹³ : Ring R
+inst✝¹² : Algebra k R
+M : Type w
+inst✝¹¹ : AddCommGroup M
+inst✝¹⁰ : Module k M
+inst✝⁹ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁸ : AddCommGroup N
+inst✝⁷ : Module k N
+inst✝⁶ : Module R N
+inst✝⁵ : IsScalarTower k R N
+N' : Type z'
+inst✝⁴ : AddCommGroup N'
+inst✝³ : Module k N'
+inst✝² : Module R N'
+inst✝¹ : IsScalarTower k R N'
+inst✝ : SMulCommClass R k N'
+c : k
+g : N →ₗ[R] N'
+x : M
+y : N
+⊢ balancedTensorTmul k R M N' x (c • g y) = (c • balancedTensorMapRight k R M g) (balancedTensorTmul k R M N x y)

@@ -1,0 +1,65 @@
+import Mathlib.Algebra.DirectSum.Decomposition
+
+/-! The actual ranges of a direct sum's canonical insertions form an
+internal grading, with explicit recomposition and decomposition maps. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w
+variable {k : Type u} [Field k] {I : Type w} [DecidableEq I]
+variable (V : I→Type v) [∀ i,AddCommGroup (V i)] [∀ i,Module k (V i)]
+
+noncomputable def directSumHomogeneousSpace (i : I) : Submodule k (⨁ j,V j) :=
+  LinearMap.range (DirectSum.lof k I V i)
+
+noncomputable def directSumHomogeneousInsertion (i : I) :
+    V i →ₗ[k] directSumHomogeneousSpace V i :=
+  (DirectSum.lof k I V i).codRestrict _ (fun x => ⟨x,rfl⟩)
+
+noncomputable def directSumHomogeneousDecompose :
+    (⨁ i,V i) →ₗ[k] ⨁ i,directSumHomogeneousSpace V i :=
+  DirectSum.lmap (directSumHomogeneousInsertion V)
+
+theorem directSumHomogeneousDecompose_lof (i : I) (x : V i) :
+    directSumHomogeneousDecompose V (DirectSum.lof k I V i x)=
+      DirectSum.lof k I (fun j => directSumHomogeneousSpace V j) i
+        (directSumHomogeneousInsertion V i x) := DirectSum.lmap_lof _ _ _
+
+theorem directSumHomogeneousDecompose_leftInverse :
+    Function.LeftInverse (DirectSum.coeLinearMap (directSumHomogeneousSpace V))
+      (directSumHomogeneousDecompose V) := by
+  intro x
+  refine DirectSum.induction_on x ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+  · intro i y
+    change DirectSum.coeLinearMap _ (directSumHomogeneousDecompose V (DirectSum.lof k I V i y))=_
+    rw [directSumHomogeneousDecompose_lof]
+    exact DirectSum.coeLinearMap_of _ _ _
+  · intro x y hx hy
+    rw [map_add,map_add,hx,hy]
+
+theorem directSumHomogeneousDecompose_rightInverse :
+    Function.RightInverse (DirectSum.coeLinearMap (directSumHomogeneousSpace V))
+      (directSumHomogeneousDecompose V) := by
+  intro x
+  refine DirectSum.induction_on x ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+  · intro i y
+    change directSumHomogeneousDecompose V (DirectSum.coeLinearMap _
+      (DirectSum.lof k I (fun j => directSumHomogeneousSpace V j) i y))=_
+    rw [show DirectSum.coeLinearMap (directSumHomogeneousSpace V)
+      (DirectSum.lof k I (fun j => directSumHomogeneousSpace V j) i y)=y.val from
+        DirectSum.coeLinearMap_of _ _ _]
+    rcases y.property with ⟨b,hb⟩
+    have hy : y=directSumHomogeneousInsertion V i b := Subtype.ext hb.symm
+    rw [hy]
+    exact directSumHomogeneousDecompose_lof V i b
+  · intro x y hx hy
+    rw [map_add,map_add,hx,hy]
+
+noncomputable def directSumRangeGradeDecomposition :
+    DirectSum.Decomposition (directSumHomogeneousSpace V) where
+  decompose' := directSumHomogeneousDecompose V
+  left_inv := directSumHomogeneousDecompose_leftInverse V
+  right_inv := directSumHomogeneousDecompose_rightInverse V
+
+end ASGinzburg

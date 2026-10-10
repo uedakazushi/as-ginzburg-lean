@@ -1,0 +1,51 @@
+import work.ASGinzburgDraft.BalancedTensorSpace
+
+/-! Induction and the genuine universal property of the noncommutative
+balanced tensor quotient. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+theorem balancedTensorSpace_induction (p : BalancedTensorSpace k R M N → Prop)
+    (hzero : p 0) (htmul : ∀ x y,p (balancedTensorTmul k R M N x y))
+    (hadd : ∀ a b,p a → p b → p (a+b)) (z : BalancedTensorSpace k R M N) : p z := by
+  refine Submodule.Quotient.induction_on _ z ?_
+  intro t
+  refine TensorProduct.induction_on t ?_ ?_ ?_
+  · exact hzero
+  · exact htmul
+  · intro a b ha hb
+    exact hadd _ _ ha hb
+
+variable {P : Type*} [AddCommGroup P] [Module k P]
+
+theorem balancedTensorSpace_linearMap_ext {f g : BalancedTensorSpace k R M N →ₗ[k] P}
+    (h : ∀ x y,f (balancedTensorTmul k R M N x y)=g (balancedTensorTmul k R M N x y)) : f=g := by
+  apply LinearMap.ext
+  intro z
+  refine balancedTensorSpace_induction k R M N (fun z => f z=g z) ?_ h ?_ z
+  · change f 0=g 0
+    rw [map_zero,map_zero]
+  · intro a b ha hb
+    change f (a+b)=g (a+b)
+    rw [map_add,map_add,ha,hb]
+
+noncomputable def balancedTensorBilinear :
+    M →ₗ[k] N →ₗ[k] BalancedTensorSpace k R M N where
+  toFun x := (balancedTensorRelations k R M N).mkQ.comp (TensorProduct.mk k M N x)
+  map_add' x y := by
+    apply LinearMap.ext
+    intro z
+    change balancedTensorTmul k R M N (x+y) z=
+      balancedTensorTmul k R M N x z+balancedTensorTmul k R M N y z
+    simp only [balancedTensorTmul,TensorProduct.add_tmul,map_add]
+  map_smul' c x := by
+    apply LinearMap.ext
+    intro z
+    change balancedTensorTmul k R M N (c • x) z=c • balancedTensorTmul k R M N x z
+    simp only [balancedTensorTmul,TensorProduct.smul_tmul,map_smul]
+
+end ASGinzburg

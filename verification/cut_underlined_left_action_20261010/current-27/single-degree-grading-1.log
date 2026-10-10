@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/SingleDegreeGrading.lean:48:6: error: Tactic `rfl` failed: The left-hand side
+  (singleDegreeDecompose V d) ↑0
+is not definitionally equal to the right-hand side
+  0
+
+case neg
+k : Type u
+inst✝² : Field k
+V : Type v
+inst✝¹ : AddCommGroup V
+inst✝ : Module k V
+d : ℤ
+x : ⨁ (i : ℤ), ↥(singleDegreeSpace V d i)
+q : ℤ
+y : ↥(singleDegreeSpace V d q)
+hq : ¬q = d
+hy : y = 0
+⊢ (singleDegreeDecompose V d) ↑0 = 0

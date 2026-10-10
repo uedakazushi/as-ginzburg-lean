@@ -1,0 +1,5 @@
+import work.ASGinzburgDraft.ASCutGradedSimpleDimension
+
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutGradedSimple_hasProjectiveDimensionLE_three
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutGradedSimple_not_hasProjectiveDimensionLT_three
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutGradedSimple_projectiveDimension_tau

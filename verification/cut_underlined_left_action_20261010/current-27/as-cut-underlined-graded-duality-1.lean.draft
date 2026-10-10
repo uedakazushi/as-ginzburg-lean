@@ -1,0 +1,37 @@
+import work.ASGinzburgDraft.ASCutUnderlinedExtGrades
+import work.ASGinzburgDraft.ASCutUnderlinedExtCharacter
+import work.ASGinzburgDraft.PeriodCutGradedLeftEquivalences
+import work.ASGinzburgDraft.PeriodCutGradedLeftShift
+import work.ASGinzburgDraft.PeriodCutVertexGradedLeftModule
+import work.ASGinzburgDraft.ASCutUnderlinedExtLeftEquiv
+
+/-! Original AS regularity proves the actual graded left module
+identification in (2.2), with the genuine internal shift by one. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutUnderlinedTopExtGradedLeftEquiv (hAS : A.ASRegular Q)
+    (i : Q.Vertex) :
+    PeriodIso.CutGradedLeftModule.GradedEquiv
+      ((hAS.periodIso A Q).cutUnderlinedExtGradedLeftModule Q (hAS.cutGradedSimple A Q (i,0)) 3)
+      (((hAS.periodIso A Q).cutVertexGradedLeftModule Q i).shifted 1) where
+  spaceEquiv := hAS.cutUnderlinedTopExtLinearEquiv A Q i
+  equivariant := hAS.cutUnderlinedTopExtLinearEquiv_left_action A Q i
+  grade_iff q x := by
+    change hAS.cutUnderlinedTopExtLinearEquiv A Q i x∈singleDegreeSpace (k:=k) k 0 (q+1) ↔
+      x∈(hAS.periodIso A Q).cutUnderlinedExtGrade Q (hAS.cutGradedSimple A Q (i,0)) 3 q
+    by_cases hq : q=-1
+    · subst q
+      rw [hAS.cutUnderlinedTopExtGrade_top A Q i]
+      simp only [singleDegreeSpace,show (-1:ℤ)+1=0 by omega,if_pos rfl,Submodule.mem_top]
+    · rw [hAS.cutUnderlinedTopExtGrade_off A Q i q hq]
+      simp only [singleDegreeSpace,if_neg (show q+1≠0 by omega),Submodule.mem_bot]
+      constructor
+      · intro h
+        apply (hAS.cutUnderlinedTopExtLinearEquiv A Q i).injective
+        simpa only [map_zero] using h
+      · intro h
+        rw [h,map_zero]
+
+end ASGinzburg.ZAlgebra

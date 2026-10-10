@@ -1,0 +1,62 @@
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtRepresentation
+import work.ASGinzburgDraft.PeriodCutRegularVertexLeftMaps
+import work.ASGinzburgDraft.ASCutRegularExtVertexProjection
+import work.ASGinzburgDraft.ASCutUnderlinedExtVanishing
+
+/-! The genuine canonical left action on underlined Ext has the
+correct vertex: e_j acts by one exactly when j is the source vertex. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+set_option maxHeartbeats 800000 in
+theorem ASRegular.cutUnderlinedExt_vertex_left_action (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) :
+    (hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation Q (hAS.cutGradedSimple A Q (i,0)) 3
+      ((hAS.periodIso A Q).cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) j)=
+        if j=i then 1 else 0 := by
+  classical
+  let E := hAS.periodIso A Q
+  let M := hAS.cutGradedSimple A Q (i,0)
+  apply DFinsupp.lhom_ext
+  intro t x
+  change E.cutUnderlinedExtLeftRepresentation Q M 3
+    (E.cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) j) (DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) 3) t x)=
+      (if j=i then 1 else 0 : Module.End k (E.CutUnderlinedRegularExt Q M 3))
+        (DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) 3) t x)
+  by_cases ht : t=(-1:ℤ)
+  · subst t
+    change E.cutUnderlinedExtLeftRepresentation Q M 3
+      (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) 0
+        (E.cutMatrixComponent (fun t : Q.Vertex => (t.val:ℤ)) 0 j j (E.cutGradedId (j.val:ℤ))))
+      (DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) 3) (-1) x)=_
+    rw [E.cutUnderlinedExtLeftRepresentation_homogeneous,E.cutUnderlinedExtHomogeneousOperator_lof]
+    have h := E.cutUnderlinedExt_lof_postcomp_shiftEquality Q M 3 (-1+0) (-1) (add_zero (-1))
+      (x.comp (Abelian.Ext.mk₀ (E.cutRegularLeftHomogeneousMap Q 0
+        (E.cutMatrixComponent (fun t : Q.Vertex => (t.val:ℤ)) 0 j j (E.cutGradedId (j.val:ℤ))) (-1)))
+          (Nat.add_zero 3))
+    apply Eq.trans h.symm
+    rw [E.cutGradedExt_postcomp_comp Q,E.cutRegularVertexLeftMap]
+    by_cases hji : j=i
+    · subst j
+      rw [if_pos rfl]
+      change DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) 3) (-1)
+        (x.comp (Abelian.Ext.mk₀ (E.cutRegularRepresentableProjection Q (-1) i ≫
+          E.cutRegularRepresentableInclusion Q (-1) i)) (Nat.add_zero 3))=
+            DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) 3) (-1) x
+      rw [hAS.cutRegularExt_vertex_projection_identity A Q i]
+    · rw [if_neg hji]
+      change DirectSum.lof k ℤ (fun q => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted q) 3) (-1)
+          (x.comp (Abelian.Ext.mk₀ (E.cutRegularRepresentableProjection Q (-1) j ≫
+            E.cutRegularRepresentableInclusion Q (-1) j)) (Nat.add_zero 3))=0
+      rw [← E.cutGradedExt_postcomp_comp Q]
+      have hx := hAS.cutGradedRepresentableExt_off_vertex A Q i j (-1) 3 hji
+        (x.comp (Abelian.Ext.mk₀ (E.cutRegularRepresentableProjection Q (-1) j)) (Nat.add_zero 3))
+      rw [hx,Abelian.Ext.zero_comp,map_zero]
+  · have hx := hAS.cutGradedRegularExt_other_eq_zero A Q i 3 t
+      (fun h => ht (congrArg Prod.snd h)) x
+    rw [hx,map_zero,map_zero,map_zero]
+
+end ASGinzburg.ZAlgebra

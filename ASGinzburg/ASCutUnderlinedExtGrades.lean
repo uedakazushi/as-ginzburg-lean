@@ -1,0 +1,33 @@
+import ASGinzburg.PeriodCutUnderlinedExtGrading
+import ASGinzburg.ASCutUnderlinedTopExt
+
+/-! Original AS regularity determines the actual internal grading of
+underlined Ext³: its degree -1 space is the whole space, all others zero. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutUnderlinedTopExtGrade_off (hAS : A.ASRegular Q) (i : Q.Vertex)
+    (q : ℤ) (hq : q≠-1) :
+    (hAS.periodIso A Q).cutUnderlinedExtGrade Q (hAS.cutGradedSimple A Q (i,0)) 3 q=⊥ := by
+  apply bot_unique
+  intro x hx
+  change x=0
+  rcases hx with ⟨e,rfl⟩
+  have he := hAS.cutGradedRegularExt_other_eq_zero A Q i 3 q
+    (fun h => hq (congrArg Prod.snd h)) e
+  change DirectSum.lof k ℤ
+    (fun t => Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted t) 3) q e=0
+  rw [he,map_zero]
+
+theorem ASRegular.cutUnderlinedTopExtGrade_top (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    (hAS.periodIso A Q).cutUnderlinedExtGrade Q (hAS.cutGradedSimple A Q (i,0)) 3 (-1)=⊤ := by
+  apply top_unique
+  intro x hx
+  refine ⟨hAS.cutUnderlinedTopExtDegreeEquiv A Q i x,?_⟩
+  exact (hAS.cutUnderlinedTopExtDegreeEquiv A Q i).symm_apply_apply x
+
+end ASGinzburg.ZAlgebra

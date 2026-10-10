@@ -1,0 +1,53 @@
+import ASGinzburg.PeriodCutRegularLeftProducts
+import ASGinzburg.PeriodCutUnderlinedExtTransport
+
+/-! The real postcomposition operators on all internal degrees satisfy
+the unit and multiplication laws of the actual cut ring. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cutUnderlinedExtHomogeneousOperator_one (M : E.CutGradedRightModule Q) (n : ℕ) :
+    E.cutUnderlinedExtHomogeneousOperator Q M n 0
+      (E.cutMatrixId (fun t : Q.Vertex => (t.val:ℤ)))=1 := by
+  apply DFinsupp.lhom_ext
+  intro t x
+  change E.cutUnderlinedExtHomogeneousOperator Q M n 0
+    (E.cutMatrixId (fun t : Q.Vertex => (t.val:ℤ))) (DirectSum.lof k ℤ _ t x)=
+      DirectSum.lof k ℤ _ t x
+  rw [E.cutUnderlinedExtHomogeneousOperator_lof]
+  have h := E.cutUnderlinedExt_lof_postcomp_shiftEquality Q M n (t+0) t (add_zero t)
+    (x.comp (Abelian.Ext.mk₀
+      (E.cutRegularLeftHomogeneousMap Q 0 (E.cutMatrixId (fun t : Q.Vertex => (t.val:ℤ))) t))
+        (Nat.add_zero n))
+  apply Eq.trans h.symm
+  rw [E.cutGradedExt_postcomp_comp Q,E.cutRegularLeftHomogeneousMap_one,
+    Abelian.Ext.comp_mk₀_id]
+
+theorem cutUnderlinedExtHomogeneousOperator_mul (M : E.CutGradedRightModule Q)
+    (p m n : ℕ)
+    (a : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) m)
+    (b : E.CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) n) :
+    E.cutUnderlinedExtHomogeneousOperator Q M p (m+n)
+      (E.cutBlockMul (fun t : Q.Vertex => (t.val:ℤ)) m n a b)=
+        E.cutUnderlinedExtHomogeneousOperator Q M p m a*
+          E.cutUnderlinedExtHomogeneousOperator Q M p n b := by
+  apply DFinsupp.lhom_ext
+  intro t x
+  change E.cutUnderlinedExtHomogeneousOperator Q M p (m+n)
+      (E.cutBlockMul (fun t : Q.Vertex => (t.val:ℤ)) m n a b) (DirectSum.lof k ℤ _ t x)=
+    E.cutUnderlinedExtHomogeneousOperator Q M p m a
+      (E.cutUnderlinedExtHomogeneousOperator Q M p n b (DirectSum.lof k ℤ _ t x))
+  rw [E.cutUnderlinedExtHomogeneousOperator_lof,E.cutUnderlinedExtHomogeneousOperator_lof,
+    E.cutUnderlinedExtHomogeneousOperator_lof]
+  have h := E.cutUnderlinedExt_lof_postcomp_shiftEquality Q M p
+    (t+(n:ℤ)+(m:ℤ)) (t+((m+n:ℕ):ℤ)) (by push_cast;ring)
+      ((x.comp (Abelian.Ext.mk₀ (E.cutRegularLeftHomogeneousMap Q n b t)) (Nat.add_zero p)).comp
+        (Abelian.Ext.mk₀ (E.cutRegularLeftHomogeneousMap Q m a (t+(n:ℤ)))) (Nat.add_zero p))
+  rw [← h,E.cutGradedExt_postcomp_comp Q,E.cutGradedExt_postcomp_comp Q,
+    E.cutRegularLeftHomogeneousMap_mul]
+
+end ASGinzburg.ZAlgebra.PeriodIso

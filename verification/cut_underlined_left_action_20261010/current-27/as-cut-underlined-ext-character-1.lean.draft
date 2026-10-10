@@ -1,0 +1,64 @@
+import work.ASGinzburgDraft.ASCutUnderlinedVertexAction
+import work.ASGinzburgDraft.OneDimensionalRepresentationCharacter
+import work.ASGinzburgDraft.PeriodCutCharacterClassification
+import work.ASGinzburgDraft.ASCutUnderlinedTopExt
+
+/-! The canonical Ext representation has the actual vertex character.
+Both homogeneous-action hypotheses follow from the original AS condition. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutUnderlinedExtCharacter (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    (hAS.periodIso A Q).CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)) →ₐ[k] k :=
+  oneDimensionalRepresentationCharacter
+    ((hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation Q (hAS.cutGradedSimple A Q (i,0)) 3)
+    (hAS.cutUnderlinedTopExtLinearEquiv A Q i)
+
+theorem ASRegular.cutUnderlinedExtCharacter_vertex (hAS : A.ASRegular Q) (i j : Q.Vertex) :
+    hAS.cutUnderlinedExtCharacter A Q i
+      ((hAS.periodIso A Q).cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) j)=
+        if j=i then 1 else 0 := by
+  classical
+  change (hAS.cutUnderlinedTopExtLinearEquiv A Q i)
+    (((hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation Q (hAS.cutGradedSimple A Q (i,0)) 3
+      ((hAS.periodIso A Q).cutVertexIdempotent (fun t : Q.Vertex => (t.val:ℤ)) j))
+        ((hAS.cutUnderlinedTopExtLinearEquiv A Q i).symm 1))=_
+  rw [hAS.cutUnderlinedExt_vertex_left_action A Q i j]
+  by_cases h : j=i
+  · rw [if_pos h]
+    exact (hAS.cutUnderlinedTopExtLinearEquiv A Q i).apply_symm_apply 1
+  · rw [if_neg h]
+    exact map_zero _
+
+theorem ASRegular.cutUnderlinedExtCharacter_positive (hAS : A.ASRegular Q) (i : Q.Vertex)
+    (m : ℕ) (a : (hAS.periodIso A Q).CutGradedBlock (fun t : Q.Vertex => (t.val:ℤ)) (m+1)) :
+    hAS.cutUnderlinedExtCharacter A Q i
+      ((hAS.periodIso A Q).cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) (m+1) a)=0 := by
+  change (hAS.cutUnderlinedTopExtLinearEquiv A Q i)
+    (((hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation Q (hAS.cutGradedSimple A Q (i,0)) 3
+      ((hAS.periodIso A Q).cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) (m+1) a))
+        ((hAS.cutUnderlinedTopExtLinearEquiv A Q i).symm 1))=0
+  rw [(hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation_homogeneous,
+    hAS.cutUnderlinedExt_positive_operator_eq_zero A Q i 3 (m+1) (by omega) a,
+    LinearMap.zero_apply,map_zero]
+
+theorem ASRegular.cutUnderlinedExtCharacter_eq_vertex (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    hAS.cutUnderlinedExtCharacter A Q i=(hAS.periodIso A Q).cutVertexCharacter Q i :=
+  (hAS.periodIso A Q).cutCharacter_eq_vertex Q _ i
+    (hAS.cutUnderlinedExtCharacter_vertex A Q i) (hAS.cutUnderlinedExtCharacter_positive A Q i)
+
+theorem ASRegular.cutUnderlinedTopExtLinearEquiv_left_action (hAS : A.ASRegular Q) (i : Q.Vertex)
+    (r : (hAS.periodIso A Q).CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+    (x : (hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) 3) :
+    (hAS.cutUnderlinedTopExtLinearEquiv A Q i)
+      (((hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation Q (hAS.cutGradedSimple A Q (i,0)) 3) r x)=
+        (hAS.periodIso A Q).cutVertexCharacter Q i r*(hAS.cutUnderlinedTopExtLinearEquiv A Q i x) := by
+  have h := oneDimensionalRepresentation_scalar_action
+    ((hAS.periodIso A Q).cutUnderlinedExtLeftRepresentation Q (hAS.cutGradedSimple A Q (i,0)) 3)
+    (hAS.cutUnderlinedTopExtLinearEquiv A Q i) r x
+  change _=hAS.cutUnderlinedExtCharacter A Q i r*_ at h
+  rw [hAS.cutUnderlinedExtCharacter_eq_vertex A Q i] at h
+  exact h
+
+end ASGinzburg.ZAlgebra

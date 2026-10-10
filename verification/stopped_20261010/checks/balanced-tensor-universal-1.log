@@ -1,0 +1,60 @@
+work/ASGinzburgDraft/BalancedTensorUniversal.lean:30:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun z => f z = g z) 0
+
+case h.refine_1
+k : Type u
+inst✝⁹ : Field k
+R : Type v
+inst✝⁸ : Ring R
+M : Type w
+inst✝⁷ : AddCommGroup M
+inst✝⁶ : Module k M
+inst✝⁵ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁴ : AddCommGroup N
+inst✝³ : Module k N
+inst✝² : Module R N
+P : Type u_1
+inst✝¹ : AddCommGroup P
+inst✝ : Module k P
+f g : BalancedTensorSpace k R M N →ₗ[k] P
+h : ∀ (x : M) (y : N), f (balancedTensorTmul k R M N x y) = g (balancedTensorTmul k R M N x y)
+z : BalancedTensorSpace k R M N
+⊢ (fun z => f z = g z) 0
+work/ASGinzburgDraft/BalancedTensorUniversal.lean:43:19: error: unsolved goals
+case h
+k : Type u
+inst✝⁹ : Field k
+R : Type v
+inst✝⁸ : Ring R
+M : Type w
+inst✝⁷ : AddCommGroup M
+inst✝⁶ : Module k M
+inst✝⁵ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁴ : AddCommGroup N
+inst✝³ : Module k N
+inst✝² : Module R N
+P : Type u_1
+inst✝¹ : AddCommGroup P
+inst✝ : Module k P
+c : k
+x : M
+z : N
+⊢ (balancedTensorRelations k R M N).mkQ ((c • x) ⊗ₜ[k] z) = c • (balancedTensorRelations k R M N).mkQ (x ⊗ₜ[k] z)
+work/ASGinzburgDraft/BalancedTensorUniversal.lean:47:34: warning: This simp argument is unused:
+  TensorProduct.smul_tmul'
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵l̵a̵n̵c̵e̵d̵T̵e̵n̵s̵o̵r̵T̵m̵u̵l̵,̵T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵s̵m̵u̵l̵_̵t̵m̵u̵l̵'̵,̵m̵a̵p̵_̵s̵m̵u̵l̵]̵[̲b̲a̲l̲a̲n̲c̲e̲d̲T̲e̲n̲s̲o̲r̲T̲m̲u̲l̲,̲ ̲m̲a̲p̲_̲s̲m̲u̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorUniversal.lean:47:59: warning: This simp argument is unused:
+  map_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [balancedTensorTmul, ̲TensorProduct.smul_tmul',̵m̵a̵p̵_̵s̵m̵u̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

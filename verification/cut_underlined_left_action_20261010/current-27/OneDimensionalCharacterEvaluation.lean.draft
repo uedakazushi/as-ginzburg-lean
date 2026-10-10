@@ -1,0 +1,12 @@
+import work.ASGinzburgDraft.OneDimensionalRepresentationCharacter
+
+namespace ASGinzburg
+universe u v w
+variable {k : Type u} [Field k] {R : Type w} [Ring R] [Algebra k R]
+variable {V : Type v} [AddCommGroup V] [Module k V]
+
+theorem oneDimensionalRepresentationCharacter_apply
+    (ρ : R →ₐ[k] Module.End k V) (e : V ≃ₗ[k] k) (r : R) :
+    oneDimensionalRepresentationCharacter ρ e r=e (ρ r (e.symm 1)) := rfl
+
+end ASGinzburg

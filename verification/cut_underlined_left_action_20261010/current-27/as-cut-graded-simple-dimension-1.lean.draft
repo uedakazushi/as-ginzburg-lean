@@ -1,0 +1,34 @@
+import ASGinzburg.ASCutGradedResolutions
+import ASGinzburg.FourTermProjectiveDimension
+
+/-! The actual graded vertex simples have projective dimension exactly
+three. This is a lower bound for global dimension, not yet its upper bound. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+instance ASRegular.cutGradedSimple_hasProjectiveDimensionLE_three (hAS : A.ASRegular Q)
+    (x : Q.LiftVertex) : HasProjectiveDimensionLE (hAS.cutGradedSimple A Q x) 3 :=
+  fourTermProjectiveResolution_hasProjectiveDimensionLE
+    (hAS.cutGradedSimpleProjectiveResolution A Q x)
+    (hAS.cutGradedSimpleProjectiveResolution_isZero_ge_four A Q x 0)
+
+theorem ASRegular.cutGradedSimple_not_hasProjectiveDimensionLT_three (hAS : A.ASRegular Q)
+    (x : Q.LiftVertex) : ¬ HasProjectiveDimensionLT (hAS.cutGradedSimple A Q (Q.tau x)) 3 := by
+  intro h
+  letI := h
+  let e := hAS.cutGradedExtThreeEquiv A Q x
+  have hz := (e.symm 1).eq_zero_of_hasProjectiveDimensionLT 3 (by decide)
+  have hh := congrArg e hz
+  rw [e.apply_symm_apply,map_zero] at hh
+  exact one_ne_zero hh
+
+theorem ASRegular.cutGradedSimple_projectiveDimension_tau (hAS : A.ASRegular Q)
+    (x : Q.LiftVertex) : projectiveDimension (hAS.cutGradedSimple A Q (Q.tau x))=3 := by
+  apply le_antisymm
+  · exact (projectiveDimension_le_iff _ 3).mpr inferInstance
+  · exact (projectiveDimension_ge_iff _ 3).mpr
+      (hAS.cutGradedSimple_not_hasProjectiveDimensionLT_three A Q x)
+
+end ASGinzburg.ZAlgebra

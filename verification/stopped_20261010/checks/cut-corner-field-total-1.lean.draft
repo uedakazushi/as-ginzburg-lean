@@ -1,0 +1,51 @@
+import ASGinzburg.PeriodCutGradedModuleFunctor
+import ASGinzburg.TotalModuleSpaces
+
+/-! The actual cover component total-space functor is the colimit of
+its discrete component evaluations; this is an exact colimit functor. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory CategoryTheory.Limits CategoryTheory.Functor Opposite
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+def cornerFieldComponents :
+    (E.cornerCoverZAlgebra Q).RightModule ⥤ (Discrete Q.LiftVertex ⥤ ModuleCat.{v} k) :=
+  (E.cornerCoverZAlgebra Q).rightModuleProperty.ι ⋙
+    (whiskeringLeft (Discrete Q.LiftVertex) (E.cornerCoverZAlgebra Q).Objᵒᵖ
+      (ModuleCat.{v} k)).obj (Discrete.functor (fun x => op (E.cornerCoordinateObject Q x)))
+
+noncomputable def cornerFieldTotalFunctor : (E.cornerCoverZAlgebra Q).RightModule ⥤ ModuleCat.{v} k :=
+  E.cornerFieldComponents Q ⋙ colim
+
+noncomputable instance cornerFieldTotalFunctorPreservesFiniteLimits :
+    PreservesFiniteLimits (E.cornerFieldTotalFunctor Q) := by
+  letI : HasExactColimitsOfShape (Discrete Q.LiftVertex) (ModuleCat.{v} k) :=
+    moduleCatExactCoproducts Q.LiftVertex
+  dsimp [cornerFieldTotalFunctor,cornerFieldComponents]
+  infer_instance
+
+noncomputable instance cornerFieldTotalFunctorPreservesFiniteColimits :
+    PreservesFiniteColimits (E.cornerFieldTotalFunctor Q) := by
+  letI : PreservesColimitsOfSize.{0,0}
+      (colim : (Discrete Q.LiftVertex ⥤ ModuleCat.{v} k) ⥤ ModuleCat.{v} k) :=
+    colimConstAdj.leftAdjoint_preservesColimits
+  dsimp [cornerFieldTotalFunctor,cornerFieldComponents]
+  infer_instance
+
+noncomputable def cornerTotalSpaceFunctor : (E.cornerCoverZAlgebra Q).RightModule ⥤ ModuleCat.{v} k where
+  obj M := ModuleCat.of k (E.CornerModuleTotalSpace Q M)
+  map f := ModuleCat.ofHom (E.cornerTotalModuleLinearMap Q f)
+  map_id M := by
+    apply ModuleCat.hom_ext
+    exact congrArg Subtype.val ((E.cornerGradedModuleFunctor Q).map_id M)
+  map_comp f g := by
+    apply ModuleCat.hom_ext
+    exact congrArg Subtype.val ((E.cornerGradedModuleFunctor Q).map_comp f g)
+
+noncomputable def cornerFieldTotalObjIso (M : (E.cornerCoverZAlgebra Q).RightModule) :
+    (E.cornerFieldTotalFunctor Q).obj M ≅ (E.cornerTotalSpaceFunctor Q).obj M :=
+  HasColimit.isoOfNatIso (Discrete.natIsoFunctor (F:=(E.cornerFieldComponents Q).obj M)) ≪≫
+    ModuleCat.coprodIsoDirectSum (fun x => M.obj (op (E.cornerCoordinateObject Q x)))
+
+end ASGinzburg.ZAlgebra.PeriodIso

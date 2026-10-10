@@ -1,0 +1,33 @@
+import work.ASGinzburgDraft.ASCutUnderlinedExtCharacter
+import work.ASGinzburgDraft.PeriodCutVertexLeftModule
+import work.ASGinzburgDraft.ASCutUnderlinedExtModules
+
+/-! Original AS regularity gives a genuine left R-linear equivalence
+from the actual underlined Ext³ module to the actual vertex simple module. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutUnderlinedTopExtLeftLinearEquiv (hAS : A.ASRegular Q)
+    (i : Q.Vertex) :
+    letI := (hAS.periodIso A Q).cutUnderlinedExtLeftModule Q (hAS.cutGradedSimple A Q (i,0)) 3
+    letI := (hAS.periodIso A Q).cutVertexLeftModule Q i
+    (hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) 3 ≃ₗ[
+      (hAS.periodIso A Q).CutGradedRing (fun t : Q.Vertex => (t.val:ℤ))] k := by
+  letI := (hAS.periodIso A Q).cutUnderlinedExtLeftModule Q (hAS.cutGradedSimple A Q (i,0)) 3
+  letI := (hAS.periodIso A Q).cutVertexLeftModule Q i
+  exact {
+    (hAS.cutUnderlinedTopExtLinearEquiv A Q i).toAddEquiv with
+    map_smul' := fun r x => hAS.cutUnderlinedTopExtLinearEquiv_left_action A Q i r x
+  }
+
+theorem ASRegular.cutUnderlinedExtLeft_isSimple (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    letI := (hAS.periodIso A Q).cutUnderlinedExtLeftModule Q (hAS.cutGradedSimple A Q (i,0)) 3
+    IsSimpleModule ((hAS.periodIso A Q).CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))
+      ((hAS.periodIso A Q).CutUnderlinedRegularExt Q (hAS.cutGradedSimple A Q (i,0)) 3) := by
+  letI := (hAS.periodIso A Q).cutUnderlinedExtLeftModule Q (hAS.cutGradedSimple A Q (i,0)) 3
+  letI := (hAS.periodIso A Q).cutVertexLeftModule Q i
+  letI := (hAS.periodIso A Q).cutVertexLeft_isSimple Q i
+  exact IsSimpleModule.congr (hAS.cutUnderlinedTopExtLeftLinearEquiv A Q i)
+
+end ASGinzburg.ZAlgebra

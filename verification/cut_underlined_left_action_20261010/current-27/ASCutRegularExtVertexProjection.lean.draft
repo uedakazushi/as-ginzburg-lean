@@ -1,0 +1,63 @@
+import work.ASGinzburgDraft.PeriodCutGradedExtPostcompLinearity
+import work.ASGinzburgDraft.PeriodCutRegularBiproduct
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtTransport
+import ASGinzburg.ASCutGradedVertexExt
+
+/-! Original AS regularity singles out the correct vertex in actual
+Ext into the regular ring. Its vertex projection acts as the identity. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutGradedRepresentableExt_off_vertex (hAS : A.ASRegular Q)
+    (i j : Q.Vertex) (t : ℤ) (n : ℕ) (hji : j≠i)
+    (x : Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      ((hAS.periodIso A Q).cornerGradedRepresentable Q (j,t)) n) : x=0 := by
+  revert x
+  change ∀ x : Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+    ((hAS.periodIso A Q).cornerGradedRightModule Q
+      (((hAS.periodIso A Q).cornerCoverZAlgebra Q).representable (Q.heightEquiv (j,t)))) n,x=0
+  rw [Q.heightEquiv_apply]
+  intro x
+  apply hAS.cutGradedExt_other_eq_zero A Q (j,t) (i,0) n ?_ x
+  intro h
+  have hi := congrArg (fun z : ℕ×Q.LiftVertex => z.2.1) h
+  change i=j at hi
+  exact hji hi.symm
+
+theorem ASRegular.cutRegularExt_vertex_projection_identity (hAS : A.ASRegular Q)
+    (i : Q.Vertex)
+    (x : Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted (-1)) 3) :
+    x.comp (Abelian.Ext.mk₀
+      ((hAS.periodIso A Q).cutRegularRepresentableProjection Q (-1) i ≫
+        (hAS.periodIso A Q).cutRegularRepresentableInclusion Q (-1) i)) (Nat.add_zero 3)=x := by
+  let E := hAS.periodIso A Q
+  let M := hAS.cutGradedSimple A Q (i,0)
+  let N := (E.cutRegularGradedRightModule Q).shifted (-1)
+  let L := PeriodIso.cutGradedExtPostcompLinear M N N 3
+  have hs : (∑ j : Q.Vertex,L (E.cutRegularRepresentableProjection Q (-1) j ≫
+      E.cutRegularRepresentableInclusion Q (-1) j))=LinearMap.id := by
+    have h := congrArg L (IsBilimit.total (E.cutRegularRepresentableBiconeIsBilimit Q (-1)))
+    rw [map_sum] at h
+    change (∑ j : Q.Vertex,L (E.cutRegularRepresentableProjection Q (-1) j ≫
+      E.cutRegularRepresentableInclusion Q (-1) j))=L (𝟙 N) at h
+    have hId : L (𝟙 N)=LinearMap.id := PeriodIso.cutGradedExtPostcompLinear_id M N 3
+    rw [hId] at h
+    exact h
+  have h := LinearMap.congr_fun hs x
+  simp only [LinearMap.sum_apply,LinearMap.id_apply] at h
+  rw [Finset.sum_eq_single i] at h
+  · exact h
+  · intro j hj hji
+    change x.comp (Abelian.Ext.mk₀
+      (E.cutRegularRepresentableProjection Q (-1) j ≫
+        E.cutRegularRepresentableInclusion Q (-1) j)) (Nat.add_zero 3)=0
+    rw [← E.cutGradedExt_postcomp_comp Q]
+    have hz := hAS.cutGradedRepresentableExt_off_vertex A Q i j (-1) 3 hji
+      (x.comp (Abelian.Ext.mk₀ (E.cutRegularRepresentableProjection Q (-1) j)) (Nat.add_zero 3))
+    rw [hz,Abelian.Ext.zero_comp]
+  · simp
+
+end ASGinzburg.ZAlgebra

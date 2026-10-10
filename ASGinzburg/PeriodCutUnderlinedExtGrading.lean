@@ -1,0 +1,36 @@
+import ASGinzburg.PeriodCutGradedLeftModules
+import ASGinzburg.PeriodCutUnderlinedExtRepresentation
+import ASGinzburg.DirectSumRangeGrading
+
+/-! The canonical left Ext module has its genuine integer grading:
+the ranges of the actual internal-shift Ext insertions. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutUnderlinedExtGrade (M : E.CutGradedRightModule Q) (n : ℕ) (q : ℤ) :
+    Submodule k (E.CutUnderlinedRegularExt Q M n) :=
+  directSumHomogeneousSpace (k:=k)
+    (fun t => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted t) n) q
+
+noncomputable def cutUnderlinedExtGradedLeftModule (M : E.CutGradedRightModule Q) (n : ℕ) :
+    E.CutGradedLeftModule Q where
+  space := ModuleCat.of k (E.CutUnderlinedRegularExt Q M n)
+  representation := E.cutUnderlinedExtLeftRepresentation Q M n
+  grade := E.cutUnderlinedExtGrade Q M n
+  decomposition := directSumRangeGradeDecomposition (k:=k)
+    (fun t => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted t) n)
+  homogeneous m a q x hx := by
+    rcases hx with ⟨e,rfl⟩
+    change E.cutUnderlinedExtLeftRepresentation Q M n
+      (E.cutHomogeneousInclusion (fun t : Q.Vertex => (t.val:ℤ)) m a)
+      (DirectSum.lof k ℤ (fun t => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted t) n) q e)∈
+        LinearMap.range (DirectSum.lof k ℤ
+          (fun t => Abelian.Ext.{v} M ((E.cutRegularGradedRightModule Q).shifted t) n) (q+(m:ℤ)))
+    rw [E.cutUnderlinedExtLeftRepresentation_homogeneous,E.cutUnderlinedExtHomogeneousOperator_lof]
+    exact ⟨_,rfl⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

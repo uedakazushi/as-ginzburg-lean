@@ -1,0 +1,44 @@
+import work.ASGinzburgDraft.PeriodCutGradedExtScalarComposition
+
+/-! Ext postcomposition depends linearly on the actual module morphism,
+so finite decompositions of that morphism give actual Ext decompositions. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
+
+instance cutGradedExtCovariantLinear (M : E.CutGradedRightModule Q) (n : ℕ) :
+    (cutGradedExtCovariant M n).Linear k where
+  map_smul := by
+    intro X Y f r
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n)=
+      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+    rw [cutGradedExt_mk₀_smul,cutGradedExt_comp_smul]
+
+noncomputable def cutGradedExtPostcompLinear (M N P : E.CutGradedRightModule Q) (n : ℕ) :
+    (N⟶P) →ₗ[k] (Abelian.Ext.{v} M N n →ₗ[k] Abelian.Ext.{v} M P n) where
+  toFun f := cutGradedExtPostcomp f n
+  map_add' f g := by
+    apply LinearMap.ext
+    intro x
+    change x.comp (Abelian.Ext.mk₀ (f+g)) (Nat.add_zero n)=
+      x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)+x.comp (Abelian.Ext.mk₀ g) (Nat.add_zero n)
+    rw [Abelian.Ext.mk₀_add,Abelian.Ext.comp_add]
+  map_smul' r f := by
+    apply LinearMap.ext
+    intro x
+    change x.comp (Abelian.Ext.mk₀ (r • f)) (Nat.add_zero n)=
+      r • x.comp (Abelian.Ext.mk₀ f) (Nat.add_zero n)
+    rw [cutGradedExt_mk₀_smul,cutGradedExt_comp_smul]
+
+theorem cutGradedExtPostcompLinear_id (M N : E.CutGradedRightModule Q) (n : ℕ) :
+    cutGradedExtPostcompLinear M N N n (𝟙 N)=LinearMap.id := by
+  apply LinearMap.ext
+  intro x
+  exact Abelian.Ext.comp_mk₀_id x
+
+end ASGinzburg.ZAlgebra.PeriodIso

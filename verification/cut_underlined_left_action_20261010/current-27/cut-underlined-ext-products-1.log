@@ -1,0 +1,67 @@
+work/ASGinzburgDraft/PeriodCutUnderlinedExtProducts.lean:26:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) n) (t + 0))
+    (x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E 0 (E.cutMatrixId fun t => ↑↑t) t)) ⋯)
+in the target expression
+  (DirectSum.lof k ℤ (fun i => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted i) n) (t + ↑0))
+      (x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E 0 (E.cutMatrixId fun t => ↑↑t) t)) ⋯) =
+    (DirectSum.lof k ℤ (fun i => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted i) n) t) x
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : CutGradedRightModule Q E
+n : ℕ
+t : ℤ
+x : Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted t) n
+h :
+  (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) n) t)
+      ((x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E 0 (E.cutMatrixId fun t => ↑↑t) t)) ⋯).comp
+        (Abelian.Ext.mk₀ (eqToHom ⋯)) ⋯) =
+    (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) n) (t + 0))
+      (x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E 0 (E.cutMatrixId fun t => ↑↑t) t)) ⋯)
+⊢ (DirectSum.lof k ℤ (fun i => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted i) n) (t + ↑0))
+      (x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E 0 (E.cutMatrixId fun t => ↑↑t) t)) ⋯) =
+    (DirectSum.lof k ℤ (fun i => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted i) n) t) x
+work/ASGinzburgDraft/PeriodCutUnderlinedExtProducts.lean:50:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?f ≫ ?g) ≫ ?h
+in the target expression
+  (DirectSum.lof k ℤ (fun i => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted i) p) (t + ↑(m + n)))
+      (x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E (m + n) (((E.cutBlockMul (fun t => ↑↑t) m n) a) b) t))
+        ⋯) =
+    (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) p) (t + ↑(m + n)))
+      (x.comp
+        (Abelian.Ext.mk₀
+          (cutRegularLeftHomogeneousMap Q E n b t ≫ cutRegularLeftHomogeneousMap Q E m a (t + ↑n) ≫ eqToHom ⋯))
+        ⋯)
+
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : CutGradedRightModule Q E
+p m n : ℕ
+a : E.CutGradedBlock (fun t => ↑↑t) m
+b : E.CutGradedBlock (fun t => ↑↑t) n
+t : ℤ
+x : Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted t) p
+h :
+  (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) p) (t + ↑(m + n)))
+      (((x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E n b t)) ⋯).comp
+            (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E m a (t + ↑n))) ⋯).comp
+        (Abelian.Ext.mk₀ (eqToHom ⋯)) ⋯) =
+    (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) p) (t + ↑n + ↑m))
+      ((x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E n b t)) ⋯).comp
+        (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E m a (t + ↑n))) ⋯)
+⊢ (DirectSum.lof k ℤ (fun i => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted i) p) (t + ↑(m + n)))
+      (x.comp (Abelian.Ext.mk₀ (cutRegularLeftHomogeneousMap Q E (m + n) (((E.cutBlockMul (fun t => ↑↑t) m n) a) b) t))
+        ⋯) =
+    (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((cutRegularGradedRightModule Q E).shifted q) p) (t + ↑(m + n)))
+      (x.comp
+        (Abelian.Ext.mk₀
+          (cutRegularLeftHomogeneousMap Q E n b t ≫ cutRegularLeftHomogeneousMap Q E m a (t + ↑n) ≫ eqToHom ⋯))
+        ⋯)

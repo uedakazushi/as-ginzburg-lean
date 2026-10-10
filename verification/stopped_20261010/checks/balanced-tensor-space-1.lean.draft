@@ -1,0 +1,47 @@
+import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.LinearAlgebra.Quotient.Basic
+import Mathlib.Algebra.Algebra.Opposite
+
+/-! A genuine balanced tensor space over a possibly noncommutative
+k-algebra, constructed as the quotient of the actual k-tensor product
+by the usual balancing relations. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+noncomputable def balancedTensorRelations : Submodule k (M ⊗[k] N) :=
+  Submodule.span k (Set.range (fun p : R×M×N =>
+    (MulOpposite.op p.1 • p.2.1) ⊗ₜ[k] p.2.2-p.2.1 ⊗ₜ[k] (p.1 • p.2.2)))
+
+abbrev BalancedTensorSpace := (M ⊗[k] N) ⧸ balancedTensorRelations k R M N
+
+noncomputable def balancedTensorTmul (x : M) (y : N) : BalancedTensorSpace k R M N :=
+  (balancedTensorRelations k R M N).mkQ (x ⊗ₜ[k] y)
+
+theorem balancedTensorTmul_balance (r : R) (x : M) (y : N) :
+    balancedTensorTmul k R M N (MulOpposite.op r • x) y=
+      balancedTensorTmul k R M N x (r • y) := by
+  apply Submodule.Quotient.eq.mpr
+  exact Submodule.subset_span ⟨(r,x,y),rfl⟩
+
+variable {P : Type*} [AddCommGroup P] [Module k P]
+
+noncomputable def balancedTensorLift (f : M →ₗ[k] N →ₗ[k] P)
+    (h : ∀ (r : R) (x : M) (y : N),f (MulOpposite.op r • x) y=f x (r • y)) :
+    BalancedTensorSpace k R M N →ₗ[k] P :=
+  (balancedTensorRelations k R M N).liftQ (TensorProduct.lift f) (by
+    apply Submodule.span_le.mpr
+    rintro a ⟨⟨r,x,y⟩,rfl⟩
+    change TensorProduct.lift f ((MulOpposite.op r • x) ⊗ₜ[k] y-x ⊗ₜ[k] (r • y))=0
+    rw [map_sub,TensorProduct.lift.tmul,TensorProduct.lift.tmul,h,sub_self])
+
+theorem balancedTensorLift_tmul (f : M →ₗ[k] N →ₗ[k] P)
+    (h : ∀ (r : R) (x : M) (y : N),f (MulOpposite.op r • x) y=f x (r • y))
+    (x : M) (y : N) :
+    balancedTensorLift k R M N f h (balancedTensorTmul k R M N x y)=f x y := by
+  rw [balancedTensorLift,balancedTensorTmul,Submodule.liftQ_mkQ,TensorProduct.lift.tmul]
+
+end ASGinzburg

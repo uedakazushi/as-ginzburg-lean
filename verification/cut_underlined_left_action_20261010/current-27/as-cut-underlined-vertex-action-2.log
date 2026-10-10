@@ -1,0 +1,67 @@
+work/ASGinzburgDraft/ASCutUnderlinedVertexAction.lean:49:7: error: unexpected token 'fun'; expected '{' or tactic
+work/ASGinzburgDraft/ASCutUnderlinedVertexAction.lean:48:13: error: Type mismatch
+  DirectSum.lof k ℤ
+has type
+  (M : ℤ → Type ?u.288863) →
+    [inst : (i : ℤ) → AddCommMonoid (M i)] →
+      [inst_1 : (i : ℤ) → Module k (M i)] → [DecidableEq ℤ] → (i : ℤ) → M i →ₗ[k] ⨁ (i : ℤ), M i
+of sort
+  Type (max (max (?u.288863 + 1) 0) u)
+but is expected to have type
+  Prop
+of sort `Type`
+work/ASGinzburgDraft/ASCutUnderlinedVertexAction.lean:32:2: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i j : Q.Vertex
+E : A.PeriodIso ↑Q.vertices := periodIso A Q hAS
+M : PeriodIso.CutGradedRightModule Q (periodIso A Q hAS) := cutGradedSimple A Q hAS (i, 0)
+x :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+    ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted (-1)) 3
+h :
+  (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((PeriodIso.cutRegularGradedRightModule Q E).shifted q) 3) (-1))
+      ((x.comp
+            (Abelian.Ext.mk₀
+              (PeriodIso.cutRegularLeftHomogeneousMap Q E 0
+                (E.cutMatrixComponent (fun t => ↑↑t) 0 j j (E.cutGradedId ↑↑j)) (-1)))
+            ⋯).comp
+        (Abelian.Ext.mk₀ (eqToHom ⋯)) ⋯) =
+    (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((PeriodIso.cutRegularGradedRightModule Q E).shifted q) 3) (-1 + 0))
+      (x.comp
+        (Abelian.Ext.mk₀
+          (PeriodIso.cutRegularLeftHomogeneousMap Q E 0 (E.cutMatrixComponent (fun t => ↑↑t) 0 j j (E.cutGradedId ↑↑j))
+            (-1)))
+        ⋯)
+hji : ¬j = i
+⊢ (DirectSum.lof k ℤ (fun q => Abelian.Ext M ((PeriodIso.cutRegularGradedRightModule Q E).shifted q) 3) (-1))
+      (x.comp
+        (Abelian.Ext.mk₀
+          (PeriodIso.cutRegularRepresentableProjection Q E (-1) j ≫
+            PeriodIso.cutRegularRepresentableInclusion Q E (-1) j))
+        ⋯) =
+    (if j = i then 1 else 0)
+      ((DirectSum.lof k ℤ (fun q => Abelian.Ext M ((PeriodIso.cutRegularGradedRightModule Q E).shifted q) 3) (-1)) x)
+work/ASGinzburgDraft/ASCutUnderlinedVertexAction.lean:19:32: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i j : Q.Vertex
+E : A.PeriodIso ↑Q.vertices := periodIso A Q hAS
+M : PeriodIso.CutGradedRightModule Q (periodIso A Q hAS) := cutGradedSimple A Q hAS (i, 0)
+t : ℤ
+x :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0)) ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted t)
+    3
+ht : ¬t = -1
+⊢ ((PeriodIso.cutUnderlinedExtLeftRepresentation Q E M 3) (E.cutVertexIdempotent (fun t => ↑↑t) j))
+      ((DirectSum.lof k ℤ (fun q => Abelian.Ext M ((PeriodIso.cutRegularGradedRightModule Q E).shifted q) 3) t) x) =
+    (if j = i then 1 else 0)
+      ((DirectSum.lof k ℤ (fun q => Abelian.Ext M ((PeriodIso.cutRegularGradedRightModule Q E).shifted q) 3) t) x)

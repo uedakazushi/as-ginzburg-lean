@@ -1,0 +1,104 @@
+import work.ASGinzburgDraft.ASCutRegularExtVertexProjection
+import work.ASGinzburgDraft.ASCutUnderlinedExtCharacter
+import work.ASGinzburgDraft.ASCutUnderlinedExtGrades
+import work.ASGinzburgDraft.ASCutUnderlinedExtLeftEquiv
+import work.ASGinzburgDraft.ASCutUnderlinedExtModules
+import work.ASGinzburgDraft.ASCutUnderlinedGradedDuality
+import work.ASGinzburgDraft.ASCutUnderlinedVertexAction
+import work.ASGinzburgDraft.DirectSumRangeGrading
+import work.ASGinzburgDraft.OneDimensionalCharacterEvaluation
+import work.ASGinzburgDraft.OneDimensionalRepresentationCharacter
+import work.ASGinzburgDraft.PeriodCutCharacterClassification
+import work.ASGinzburgDraft.PeriodCutGradedExtPostcompLinearity
+import work.ASGinzburgDraft.PeriodCutGradedExtScalarComposition
+import work.ASGinzburgDraft.PeriodCutGradedLeftEquivalences
+import work.ASGinzburgDraft.PeriodCutGradedLeftModules
+import work.ASGinzburgDraft.PeriodCutGradedLeftShift
+import work.ASGinzburgDraft.PeriodCutRegularVertexLeftMaps
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtGrading
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtLinearity
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtProducts
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtRepresentation
+import work.ASGinzburgDraft.PeriodCutUnderlinedExtScalars
+import work.ASGinzburgDraft.PeriodCutVertexGradedLeftModule
+import work.ASGinzburgDraft.PeriodCutVertexLeftModule
+import work.ASGinzburgDraft.PeriodCutZeroScalarCharacters
+import work.ASGinzburgDraft.SingleDegreeGrading
+
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutGradedRepresentableExt_off_vertex
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutRegularExt_vertex_projection_identity
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtCharacter
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtCharacter_vertex
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtCharacter_positive
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtCharacter_eq_vertex
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedTopExtLinearEquiv_left_action
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedTopExtGrade_off
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedTopExtGrade_top
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedTopExtLeftLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtLeft_isSimple
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtLeft_off_three_isZero
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtFinite
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExtLeftFinite
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedTopExtGradedLeftEquiv
+#print axioms ASGinzburg.ZAlgebra.ASRegular.cutUnderlinedExt_vertex_left_action
+#print axioms ASGinzburg.directSumHomogeneousSpace
+#print axioms ASGinzburg.directSumHomogeneousInsertion
+#print axioms ASGinzburg.directSumHomogeneousDecompose
+#print axioms ASGinzburg.directSumHomogeneousDecompose_lof
+#print axioms ASGinzburg.directSumHomogeneousDecompose_leftInverse
+#print axioms ASGinzburg.directSumHomogeneousDecompose_rightInverse
+#print axioms ASGinzburg.directSumRangeGradeDecomposition
+#print axioms ASGinzburg.oneDimensionalRepresentationCharacter_apply
+#print axioms ASGinzburg.oneDimensionalRepresentationValue
+#print axioms ASGinzburg.oneDimensionalRepresentation_scalar_action
+#print axioms ASGinzburg.oneDimensionalRepresentationCharacter
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexCharacter
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexCharacter_apply
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutCharacter_eq_vertex
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutGradedExtCovariantLinear
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutGradedExtPostcompLinear
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutGradedExtPostcompLinear_id
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutGradedDerivedSingleLinear
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutGradedExt_mk₀_smul
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutGradedExt_comp_smul
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.GradedEquiv
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.GradedEquiv.leftLinearEquiv
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.leftModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.scalarTower
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.ringModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.shiftedDecomposition
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.CutGradedLeftModule.shifted
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutRegularVertexLeftMap
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtGrade
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtGradedLeftModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutRegularLeftHomogeneousMap_add
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutRegularLeftHomogeneousMap_smul
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtHomogeneousComponent
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtHomogeneousOperator_one
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtHomogeneousOperator_mul
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtHomogeneousComponent_one
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtHomogeneousComponent_mul
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtLeftRepresentation
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtLeftRepresentation_homogeneous
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtLeftModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtLeftModuleCat
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtLeftModule_homogeneous_smul
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtScalarTower
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutUnderlinedExtScalarComm
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexGradedLeftModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexGradedLeftModule_isSimple
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexLeftModule
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexLeftScalarTower
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutVertexLeft_isSimple
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutZeroRingInclusion
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutZeroScalarDiagonal_eq_sum
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutZeroRingInclusion_scalarDiagonal
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutCharacter_zeroDiagonal_eq_zero
+#print axioms ASGinzburg.ZAlgebra.PeriodIso.cutCharacter_zeroComponent_eq_diagonal
+#print axioms ASGinzburg.singleDegreeSpace
+#print axioms ASGinzburg.singleDegreeInsertion
+#print axioms ASGinzburg.singleDegreeDecompose
+#print axioms ASGinzburg.singleDegreeDecompose_leftInverse
+#print axioms ASGinzburg.singleDegreeDecompose_rightInverse
+#print axioms ASGinzburg.singleDegreeGradeDecomposition

@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/ASCutRegularExtVertexProjection.lean:20:2: error: Tactic `apply` failed: could not unify the type of `cutGradedExt_other_eq_zero A Q hAS (j, t) (i, 0) n ?m.67 x`
+  x = 0
+with the goal
+  x✝ = 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i j : Q.Vertex
+t : ℤ
+n : ℕ
+hji : j ≠ i
+x✝ :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+    (PeriodIso.cornerGradedRightModule Q (periodIso A Q hAS)
+      ((PeriodIso.cornerCoverZAlgebra Q (periodIso A Q hAS)).representable (Q.heightEquiv (j, t))))
+    n
+x :
+  Abelian.Ext (cutGradedSimple A Q hAS (i, 0))
+    (PeriodIso.cornerGradedRightModule Q (periodIso A Q hAS)
+      ((PeriodIso.cornerCoverZAlgebra Q (periodIso A Q hAS)).representable (Q.height (j, t))))
+    n
+⊢ x✝ = 0
+work/ASGinzburgDraft/ASCutRegularExtVertexProjection.lean:39:25: error: Invalid field `total`: The environment does not contain `CategoryTheory.Limits.Bicone.IsBilimit.total`
+  PeriodIso.cutRegularRepresentableBiconeIsBilimit Q E (-1)
+has type
+  (PeriodIso.cutRegularRepresentableBicone Q E (-1)).IsBilimit
+work/ASGinzburgDraft/ASCutRegularExtVertexProjection.lean:49:10: error: Invalid field `cutGradedExt_postcomp_comp`: The environment does not contain `ASGinzburg.ZAlgebra.PeriodIso.cutGradedExt_postcomp_comp`
+  E
+has type
+  A.PeriodIso ↑Q.vertices

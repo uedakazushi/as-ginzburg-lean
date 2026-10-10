@@ -1,0 +1,57 @@
+import Mathlib.Algebra.DirectSum.Decomposition
+
+/-! A genuine internal grading concentrated in a prescribed integer degree. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k]
+variable (V : Type v) [AddCommGroup V] [Module k V]
+
+noncomputable def singleDegreeSpace (d q : ℤ) : Submodule k V := if q=d then ⊤ else ⊥
+
+noncomputable def singleDegreeInsertion (d : ℤ) : V →ₗ[k] singleDegreeSpace (k:=k) V d d :=
+  LinearMap.id.codRestrict _ (fun _ => by simp [singleDegreeSpace])
+
+noncomputable def singleDegreeDecompose (d : ℤ) :
+    V →ₗ[k] ⨁ q : ℤ,singleDegreeSpace (k:=k) V d q :=
+  (DirectSum.lof k ℤ (fun q => singleDegreeSpace (k:=k) V d q) d).comp
+    (singleDegreeInsertion (k:=k) V d)
+
+theorem singleDegreeDecompose_leftInverse (d : ℤ) :
+    Function.LeftInverse (DirectSum.coeLinearMap (singleDegreeSpace (k:=k) V d))
+      (singleDegreeDecompose (k:=k) V d) := by
+  intro x
+  change DirectSum.coeLinearMap _
+    (DirectSum.lof k ℤ (fun q => singleDegreeSpace (k:=k) V d q) d
+      (singleDegreeInsertion (k:=k) V d x))=x
+  exact DirectSum.coeLinearMap_of _ _ _
+
+theorem singleDegreeDecompose_rightInverse (d : ℤ) :
+    Function.RightInverse (DirectSum.coeLinearMap (singleDegreeSpace (k:=k) V d))
+      (singleDegreeDecompose (k:=k) V d) := by
+  intro x
+  refine DirectSum.induction_on x ?_ ?_ ?_
+  · rw [map_zero,map_zero]
+  · intro q y
+    change singleDegreeDecompose (k:=k) V d (DirectSum.coeLinearMap _
+      (DirectSum.lof k ℤ (fun q => singleDegreeSpace (k:=k) V d q) q y))=_
+    rw [show DirectSum.coeLinearMap (singleDegreeSpace (k:=k) V d)
+      (DirectSum.lof k ℤ (fun q => singleDegreeSpace (k:=k) V d q) q y)=y.val from
+        DirectSum.coeLinearMap_of _ _ _]
+    by_cases hq : q=d
+    · subst q
+      rfl
+    · have hy : y=0 := by
+        apply Subtype.ext
+        simpa only [singleDegreeSpace,if_neg hq,Submodule.mem_bot] using y.property
+      simp only [hy,ZeroMemClass.coe_zero,map_zero]
+  · intro x y hx hy
+    rw [map_add,map_add,hx,hy]
+
+noncomputable def singleDegreeGradeDecomposition (d : ℤ) :
+    DirectSum.Decomposition (singleDegreeSpace (k:=k) V d) where
+  decompose' := singleDegreeDecompose (k:=k) V d
+  left_inv := singleDegreeDecompose_leftInverse (k:=k) V d
+  right_inv := singleDegreeDecompose_rightInverse (k:=k) V d
+
+end ASGinzburg
