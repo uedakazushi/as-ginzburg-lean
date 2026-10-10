@@ -1,0 +1,62 @@
+import RightResolutionExtBidualPrefix
+
+set_option Elab.async false
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
+  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
+  (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+
+attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightResolutionBidualTopProjection_exact :
+    (ShortComplex.mk
+      (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))
+      (A.rightResolutionBidualTopProjection P h₄ hP hExt)
+      (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact := by
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 0 (by decide))
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 1 (by decide))
+  let T := ShortComplex.mk (P.complex.d 1 0) (P.π.f 0) P.complex_d_comp_π_f_zero
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "exact: before original iso"))
+  let e : ShortComplex.mk
+      (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))
+      (A.rightResolutionBidualTopProjection P h₄ hP hExt)
+      (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt) ≅ T :=
+    ShortComplex.isoMk (A.rightResolutionBidualTermIso P hP 1 (by decide))
+      (A.rightResolutionBidualTermIso P hP 0 (by decide)) (Iso.refl _)
+      (by exact (A.rightResolutionBidualTopDifferential_comm P h₄ hP hExt).symm)
+      (by
+        dsimp only [T, rightResolutionBidualTopProjection, Iso.refl]
+        exact (Category.comp_id _).symm)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "exact: after original iso"))
+  exact (ShortComplex.exact_iff_of_iso e).mpr P.exact₀
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "exact: after exactness proof"))
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "after exactness declaration"
+set_option backward.isDefEq.respectTransparency false in
+attribute [-instance] leftResolutionExtTopProjectionEpi in
+/-- Actual degree-three Ext twice recovers M by the canonical finite-projective evaluation. -/
+noncomputable def rightResolutionExtBidualIso :
+    A.leftModuleExtRight (A.rightModuleExtLeft M 3) 3 ≅ M := by
+  letI : Epi (A.leftResolutionExtTopProjection
+      (A.rightResolutionDualFourTerm P h₄ hP hExt).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex_isZero_ge_four 0)) :=
+    A.leftResolutionExtTopProjectionEpi
+      (A.rightResolutionDualFourTerm P h₄ hP hExt).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex_isZero_ge_four 0)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "final: after original left Epi"))
+  letI : Epi (A.rightResolutionBidualTopProjection P h₄ hP hExt) :=
+    A.rightResolutionBidualTopProjectionEpi P h₄ hP hExt
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "final: after original right Epi"))
+  exact IsColimit.coconePointUniqueUpToIso
+    (A.leftResolutionExtTopProjection_exact
+      (A.rightResolutionDualFourTerm P h₄ hP hExt).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex_isZero_ge_four 0)).gIsCokernel
+    (A.rightResolutionBidualTopProjection_exact P h₄ hP hExt).gIsCokernel
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "final: after original exact iso"))
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-final-stage-diagnostic-01.marker.txt" "after final iso declaration"
+end ASGinzburg.ZAlgebra

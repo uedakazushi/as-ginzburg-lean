@@ -42,7 +42,7 @@ theorem rightTruncatedRepresentable_below (l i j : ℤ) (hj : j<l) :
     refine ⟨⟨x,?_⟩,rfl⟩
     change x ∈ (if j < l then ⊤ else ⊥ : Submodule k (A.Hom j i))
     rw [if_pos hj]
-    exact Submodule.mem_top (R := k) (M := A.Hom j i)
+    exact Submodule.mem_top
   exact (isZero_cokernel_of_epi _).of_iso
     (A.rightModuleCokernelObjIso (A.rightRepresentableLowerTail l i).inclusion j)
 

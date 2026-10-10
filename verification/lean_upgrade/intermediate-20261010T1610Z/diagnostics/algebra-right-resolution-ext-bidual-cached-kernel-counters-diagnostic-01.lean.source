@@ -1,0 +1,62 @@
+import RightResolutionExtBidualPrefix
+
+set_option Elab.async false
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
+  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
+  (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+
+attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
+
+set_option diagnostics true in
+set_option diagnostics.threshold 25 in
+set_option diagnostics.threshold.proofSize 0 in
+set_option maxHeartbeats 20000 in
+set_option backward.isDefEq.respectTransparency false in
+theorem rightResolutionBidualTopProjection_exact :
+    (ShortComplex.mk
+      (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))
+      (A.rightResolutionBidualTopProjection P h₄ hP hExt)
+      (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact := by
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 0 (by decide))
+  letI := A.rightFiniteProjectiveProperty_bidual (hP 1 (by decide))
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "exact: after bidual IsIso witnesses"))
+  have hd : (A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2 =
+      A.rightModuleADualMap (P.complex.d 1 0) :=
+    ChainComplex.of_d (A.rightResolutionDualFourTerm P h₄ hP hExt).term
+      (A.rightResolutionDualFourTerm P h₄ hP hExt).differential 2
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "exact: after native differential equality"))
+  have hz : A.leftModuleADualMap (A.rightModuleADualMap (P.complex.d 1 0)) ≫
+      ((A.rightResolutionBidualTermIso P hP 0 (by decide)).hom ≫ P.π.f 0) = 0 := by
+    simpa only [hd, rightResolutionBidualTopProjection] using
+      (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "exact: after native zero equation"))
+  let S : ShortComplex A.RightModule := ShortComplex.mk
+    (A.leftModuleADualMap (A.rightModuleADualMap (P.complex.d 1 0)))
+    ((A.rightResolutionBidualTermIso P hP 0 (by decide)).hom ≫ P.π.f 0) hz
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "exact: after native short complex goal"))
+  let T := ShortComplex.mk (P.complex.d 1 0) (P.π.f 0) P.complex_d_comp_π_f_zero
+  have e : S ≅ T :=
+    ShortComplex.isoMk (S₁ := S) (S₂ := T) (A.rightResolutionBidualTermIso P hP 1 (by decide))
+      (A.rightResolutionBidualTermIso P hP 0 (by decide)) (Iso.refl M)
+      (by
+        change (A.rightResolutionBidualTermIso P hP 1 (by decide)).hom ≫ P.complex.d 1 0 =
+          A.leftModuleADualMap (A.rightModuleADualMap (P.complex.d 1 0)) ≫
+            (A.rightResolutionBidualTermIso P hP 0 (by decide)).hom
+        have hc := A.rightResolutionBidualTopDifferential_comm P h₄ hP hExt
+        rw [hd] at hc
+        exact hc.symm)
+      (by
+        change ((A.rightResolutionBidualTermIso P hP 0 (by decide)).hom ≫ P.π.f 0) ≫ (𝟙 M) =
+          (A.rightResolutionBidualTermIso P hP 0 (by decide)).hom ≫ P.π.f 0
+        exact Category.comp_id _)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "exact: after native short complex iso"))
+  simpa only [hd, rightResolutionBidualTopProjection, S] using
+    ((ShortComplex.exact_iff_of_iso e).mpr P.exact₀)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "exact: after exactness proof"))
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-cached-kernel-counters-diagnostic-01.marker.txt" "after exactness declaration"
+end ASGinzburg.ZAlgebra

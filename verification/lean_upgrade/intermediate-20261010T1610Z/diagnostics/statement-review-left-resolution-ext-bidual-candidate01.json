@@ -1,0 +1,134 @@
+{
+  "review_complete": true,
+  "focused_semantic_review_complete": true,
+  "semantic_review_success": false,
+  "final_verification_freeze": false,
+  "review_mode": "independent_read_only_focused_source_candidate_review_without_compiler",
+  "reviewed_at_utc": "2026-10-10T15:54:24.750800+00:00",
+  "manual_review_completed_at_utc": "2026-10-10T15:54:24.775127+00:00",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "source": "ASGinzburg/LeftResolutionExtBidual.lean",
+  "source_sha256": "5e50b3364f0d1eb00543d7fe6f356b7fd4c60fdff64e3beb6d9e8120b377395e",
+  "baseline_source_sha256": "ee77f79512d7b40330b94b73707f9362891e9494d422767aa3a515270ee22b64",
+  "source_unchanged_after_manual_review": true,
+  "owner_candidate_record": "work/lean-upgrade/tor-migration-build23-left-resolution-ext-bidual-candidate-1.json",
+  "owner_candidate_record_sha256": "015eeae1da154a946077f8197cd980d5232d8b6342cce6db4c65a503ae4bbb46",
+  "owner_snapshot": "work/lean-upgrade/tor-migration-build23-left-resolution-ext-bidual-candidate-1.lean.source",
+  "owner_snapshot_matches_public_source": true,
+  "declarations_before": 7,
+  "declarations_after": 7,
+  "declaration_names_and_kinds_preserved": true,
+  "declaration_names_and_kinds": {
+    "ASGinzburg.ZAlgebra.leftResolutionBidualTermIso": "def",
+    "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection": "def",
+    "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjectionEpi": "instance",
+    "ASGinzburg.ZAlgebra.leftResolutionBidualTopDifferential_comm": "theorem",
+    "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_differential": "theorem",
+    "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_exact": "theorem",
+    "ASGinzburg.ZAlgebra.leftResolutionExtBidualIso": "def"
+  },
+  "complete_original_headers_preserved": true,
+  "declaration_headers": [
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTermIso",
+      "kind": "def",
+      "original_and_current_normalized_complete_header": "noncomputable def leftResolutionBidualTermIso (n : ℕ) (hn : n<4) : A.rightModuleADual (A.leftModuleADual (P.complex.X n)) ≅ P.complex.X n"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection",
+      "kind": "def",
+      "original_and_current_normalized_complete_header": "noncomputable def leftResolutionBidualTopProjection : A.rightModuleADual ((A.leftResolutionDualFourTerm P h₄ hP hExt).term 3) ⟶ M"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjectionEpi",
+      "kind": "instance",
+      "original_and_current_normalized_complete_header": "noncomputable instance leftResolutionBidualTopProjectionEpi : Epi (A.leftResolutionBidualTopProjection P h₄ hP hExt)"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopDifferential_comm",
+      "kind": "theorem",
+      "original_and_current_normalized_complete_header": "theorem leftResolutionBidualTopDifferential_comm : A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫ (A.leftResolutionBidualTermIso P hP 0 (by decide)).hom = (A.leftResolutionBidualTermIso P hP 1 (by decide)).hom ≫ P.complex.d 1 0"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_differential",
+      "kind": "theorem",
+      "original_and_current_normalized_complete_header": "theorem leftResolutionBidualTopProjection_differential : A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫ A.leftResolutionBidualTopProjection P h₄ hP hExt = 0"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_exact",
+      "kind": "theorem",
+      "original_and_current_normalized_complete_header": "theorem leftResolutionBidualTopProjection_exact : (ShortComplex.mk (A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2)) (A.leftResolutionBidualTopProjection P h₄ hP hExt) (A.leftResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftResolutionExtBidualIso",
+      "kind": "def",
+      "original_and_current_normalized_complete_header": "noncomputable def leftResolutionExtBidualIso : A.rightModuleExtLeft (A.leftModuleExtRight M 3) 3 ≅ M"
+    }
+  ],
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context": [
+    "universe u v",
+    "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+  ],
+  "namespace_section_open_commands": [
+    "namespace ASGinzburg.ZAlgebra",
+    "open CategoryTheory CategoryTheory.Limits",
+    "end ASGinzburg.ZAlgebra"
+  ],
+  "changed_headers": [],
+  "changed_header_count": 0,
+  "manual_definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "leftResolutionBidualTermIso": "Original entire data definition unchanged: inverse of asIso of the canonical leftModuleBidualEvaluation at P.complex.X n, using original hP n hn; no replacement evaluation map.",
+    "leftResolutionBidualTopProjection": "Original entire data definition unchanged: degree-zero canonical bidual term iso hom followed by original P.π.f 0; domain remains right ADual of degree3 of original leftResolutionDualFourTerm.",
+    "leftResolutionBidualTopProjectionEpi": "Same original Epi proposition. Proof locally names the existing isomorphism Epi and projective-resolution augmentation Epi, then infers Epi of their original composition. No new public assumption.",
+    "leftResolutionBidualTopDifferential_comm": "Same complete equality and original bidual evaluation naturality proof. New ChainComplex.of_d arguments are the very same FourTerm.term and FourTerm.differential at index2, hence refer to d 3 2 and original left ADual map of P.complex.d 1 0; no differential or endpoint changed.",
+    "leftResolutionBidualTopProjection_differential": "Same complete zero-composition statement and same original proof from commutativity, P.complex_d_comp_π_f_zero and comp_zero.",
+    "leftResolutionBidualTopProjection_exact": "Same complete exactness statement and original T=(P.d 1 0, P.π.f 0). ShortComplex.isoMk components remain bidual term isos at1 and0, then Iso.refl M; first square remains original commutativity.symm. Second square now directly proves the same defining projection/identity composition equation by comp_id and rfl. Transport remains exact_iff_of_iso e applied to original P.exact₀.",
+    "leftResolutionExtBidualIso": "Same degree-three double Ext object and target M. Entire original IsColimit.coconePointUniqueUpToIso comparison expression is byte-identical after removing new exact keyword. First witness is original rightResolutionExtTopProjection_exact of original FourTerm.toProjectiveResolution; second is original leftResolutionBidualTopProjection_exact. No swap, extra symm, cast, altered cokernel arrow or alternate comparison map.",
+    "canonical_unique_colimit_expression_byte_identical": true,
+    "canonical_evaluation_and_projection_data_byte_identical": true,
+    "all_short_complex_iso_components_and_cokernel_order_preserved": true
+  },
+  "elaboration_scope_review": {
+    "existing_ADual_definitions_locally_irreducible_only": true,
+    "scope": "Original namespace; local reducibility settings expire at its end and do not change definition data or public hypotheses.",
+    "backward_option": "Declaration-scoped backward.isDefEq.respectTransparency false only; no proof-limit settings.",
+    "generic_Epi_instance_exclusion": "attribute [-instance] rightResolutionExtTopProjectionEpi in is scoped to the existing Epi declaration and final existing iso declaration; the original named instance remains available and is explicitly supplied in final iso, with registration restored outside each command.",
+    "public_helpers_added": false,
+    "new_public_declarations": false
+  },
+  "pinned_mathlib_API_read_without_compilation": {
+    "paths": {
+      "chain_of_d": "Mathlib/Algebra/Homology/HomologicalComplex.lean",
+      "short_complex_isoMk": "Mathlib/Algebra/Homology/ShortComplex/Basic.lean",
+      "exact_gIsCokernel": "Mathlib/Algebra/Homology/ShortComplex/Exact.lean",
+      "unique_colimit": "Mathlib/CategoryTheory/Limits/IsLimit.lean"
+    },
+    "source_sha256": {
+      "chain_of_d": "a4857ea05154321bfeb2fa8e906ad87e24977a49cd03cb8785f3f9b19ffa42df",
+      "short_complex_isoMk": "97e6920aea53d672f60060967ce4bc4ef48d984c5ef48758b700b187a1983e3f",
+      "exact_gIsCokernel": "bdd1c2c29607dff135826e3f3d0285aa3063d03a6f473d99e8ddbafd1874a4d1",
+      "unique_colimit": "b98c1fdd6ce5415360b6acae4a2c7c0de1d52312dca2e0c103d62f0067fd5b9a"
+    },
+    "chain_of_d": "HomologicalComplex.lean: ChainComplex.of_d X d j gives d(j+1,j)=d j; candidate uses original term/differential and j=2.",
+    "short_complex_isoMk": "ShortComplex.isoMk constructs hom/inv from the three supplied original component isomorphisms and proof squares.",
+    "exact_gIsCokernel": "ShortComplex.Exact.gIsCokernel uses original CokernelCofork.ofπ S.g S.zero under Epi S.g; naming the same Epi proofs does not change S.g.",
+    "unique_colimit": "IsColimit.coconePointUniqueUpToIso uses the same ordered original colimit witnesses, preserving comparison direction."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "verification_limitations": {
+    "candidate_current_source_compile_status": "pending_exclusive_default_compile",
+    "candidate_current_source_compiler_success_claimed": false,
+    "compiler_or_build_launched_by_reviewer": false,
+    "static_semantic_review_is_kernel_acceptance": false,
+    "global_build_success_claimed": false,
+    "all6909_axiom_certificate_claimed": false
+  }
+}

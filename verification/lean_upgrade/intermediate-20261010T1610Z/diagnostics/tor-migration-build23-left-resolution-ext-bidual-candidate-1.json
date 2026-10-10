@@ -1,0 +1,64 @@
+{
+  "status": "source_only_pending_exclusive_default_compile",
+  "recorded_at_utc": "2026-10-10T15:52:09.943754+00:00",
+  "file": "ASGinzburg/LeftResolutionExtBidual.lean",
+  "source_sha256": "5e50b3364f0d1eb00543d7fe6f356b7fd4c60fdff64e3beb6d9e8120b377395e",
+  "snapshot": "work/lean-upgrade/tor-migration-build23-left-resolution-ext-bidual-candidate-1.lean.source",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "baseline_source_sha256": "ee77f79512d7b40330b94b73707f9362891e9494d422767aa3a515270ee22b64",
+  "original_declaration_count": 7,
+  "original_names_kinds_and_full_headers_preserved": true,
+  "original_universe_and_variable_context_preserved": true,
+  "declarations": [
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTermIso",
+      "header": "noncomputable def leftResolutionBidualTermIso (n : ℕ) (hn : n<4) :\n    A.rightModuleADual (A.leftModuleADual (P.complex.X n)) ≅ P.complex.X n"
+    },
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection",
+      "header": "noncomputable def leftResolutionBidualTopProjection :\n    A.rightModuleADual ((A.leftResolutionDualFourTerm P h₄ hP hExt).term 3) ⟶ M"
+    },
+    {
+      "kind": "instance",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjectionEpi",
+      "header": "noncomputable instance leftResolutionBidualTopProjectionEpi :\n    Epi (A.leftResolutionBidualTopProjection P h₄ hP hExt)"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopDifferential_comm",
+      "header": "theorem leftResolutionBidualTopDifferential_comm :\n    A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫\n      (A.leftResolutionBidualTermIso P hP 0 (by decide)).hom =\n    (A.leftResolutionBidualTermIso P hP 1 (by decide)).hom ≫ P.complex.d 1 0"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_differential",
+      "header": "theorem leftResolutionBidualTopProjection_differential :\n    A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫\n      A.leftResolutionBidualTopProjection P h₄ hP hExt = 0"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_exact",
+      "header": "theorem leftResolutionBidualTopProjection_exact :\n    (ShortComplex.mk\n      (A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))\n      (A.leftResolutionBidualTopProjection P h₄ hP hExt)\n      (A.leftResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact"
+    },
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionExtBidualIso",
+      "header": "noncomputable def leftResolutionExtBidualIso :\n    A.rightModuleExtLeft (A.leftModuleExtRight M 3) 3 ≅ M"
+    }
+  ],
+  "preserved_canonical_data": "Original bidual term iso and top projection are unchanged. Original exactness iso components and first square are retained. Second square is the original identity-composition equation. Final IsColimit.coconePointUniqueUpToIso expression and both original cokernel witnesses are retained.",
+  "changes": [
+    "Local irreducibility for existing abstract ADual objects and maps.",
+    "Declaration-scoped backward.isDefEq.respectTransparency false for native endpoint alignment.",
+    "Pin existing Epi witnesses and locally omit competing generic projection Epi search.",
+    "Explicit original term/differential arguments to the new ChainComplex.of_d arity.",
+    "Use dsimp only and the original identity square rather than broad simp."
+  ],
+  "current_source_compiled": false,
+  "compiler_launched": false,
+  "proof_limits_unchanged": true,
+  "public_helpers_added": false,
+  "git_diff_check_exit": 0,
+  "prior_guarded_records_preserved": true,
+  "readiness": "Await root GO after the exclusive RightResolutionExtBidual diagnostic closes. No final make strategy applied."
+}
