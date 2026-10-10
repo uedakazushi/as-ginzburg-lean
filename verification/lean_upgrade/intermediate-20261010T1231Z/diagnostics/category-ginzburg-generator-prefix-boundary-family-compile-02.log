@@ -1,0 +1,47 @@
+ASGinzburg/GinzburgGeneratorPrefixBoundaryFamily.lean:94:19: error: Application type mismatch: The argument
+  Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c
+has type
+  @LinearEquiv k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    (Q.GinzburgGeneratorPrefix k u v r r c ⧸ (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    ((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+      ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+        (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+            (c - GinzburgArrow.cutDegree Q ↑a)).range)
+    (Submodule.Quotient.addCommMonoid (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    Pi.addCommMonoid (Submodule.Quotient.module (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    (Pi.module { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+      (fun a =>
+        ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+          (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+              (c - GinzburgArrow.cutDegree Q ↑a)).range)
+      k)
+but is expected to have type
+  @LinearEquiv k k inst✝.toDivisionRing.toSemiring inst✝.toDivisionRing.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    (Q.GinzburgGeneratorPrefix k u v r r c ⧸ (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    ((i : ?m.38) → ?m.39 i)
+    (Submodule.Quotient.addCommGroup (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range).toAddCommMonoid
+    Pi.addCommGroup.toAddCommMonoid ?m.41 ?m.42
+in the application
+  (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c).toModuleIso
+ASGinzburg/GinzburgGeneratorPrefixBoundaryFamily.lean:92:49: error: stuck at solving universe constraint
+  u =?= max ?u.33 ?u.34
+while trying to unify
+  AddCommGroup ((i : ?m.38) → ?m.39 i) : Type u
+with
+  AddCommGroup.{max ?u.34 ?u.33} ((i : ?m.38) → ?m.39 i) : Type (max ?u.34 ?u.33)
+ASGinzburg/GinzburgGeneratorPrefixBoundaryFamily.lean:105:4: error: Application type mismatch: The argument
+  LinearEquiv.toModuleIso ?m.48
+has type
+  ↧(Q.GinzburgGeneratorPrefix k u v r r c ⧸ (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range) ≅
+    ↧((i : ?m.43) → ?m.44 i)
+but is expected to have type
+  ↧(Q.GinzburgGeneratorPrefix k u v r r c ⧸ (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range) ≅
+    Q.ginzburgGeneratorPrefixBoundaryQuotientModule k φ u v r c
+in the application
+  Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c ≪≫ LinearEquiv.toModuleIso ?m.48
+ASGinzburg/GinzburgGeneratorPrefixBoundaryFamily.lean:102:66: error: stuck at solving universe constraint
+  u =?= max ?u.37 ?u.38
+while trying to unify
+  AddCommGroup ((i : ?m.43) → ?m.44 i) : Type u
+with
+  AddCommGroup.{max ?u.38 ?u.37} ((i : ?m.43) → ?m.44 i) : Type (max ?u.38 ?u.37)

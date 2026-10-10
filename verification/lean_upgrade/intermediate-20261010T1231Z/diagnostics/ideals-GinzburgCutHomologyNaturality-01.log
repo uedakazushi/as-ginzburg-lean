@@ -1,0 +1,21 @@
+ASGinzburg/GinzburgCutHomologyNaturality.lean:74:2: error: `dsimp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    moduleCatShortComplexQuotientMap (Q.ginzburgCutZeroShortComplexLeftMap k φ f)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(↑(Q.ginzburgCutZeroShortComplex k φ y.1 v.1 (v.2 - y.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgCutZeroShortComplex k φ y.1 v.1 (v.2 - y.2)).f).range)
+      ↧(↑(Q.ginzburgCutZeroShortComplex k φ x.1 v.1 (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgCutZeroShortComplex k φ x.1 v.1 (v.2 - x.2)).f).range)
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(↥(Q.ginzburgCutCohomologicalComponent k y.1 v.1 0 (v.2 - y.2)) ⧸
+          (Q.ginzburgCutNegativeOneDifferential k φ y.1 v.1 (v.2 - y.2)).range)
+      ↧(↑(Q.ginzburgCutZeroShortComplex k φ x.1 v.1 (v.2 - x.2)).X₂ ⧸
+          (ModuleCat.Hom.hom (Q.ginzburgCutZeroShortComplex k φ x.1 v.1 (v.2 - x.2)).f).range)
+  in the application
+    (Q.ginzburgCutHomologyZeroQuotientIso k φ y.1 v.1 (v.2 - y.2)).hom ≫
+      moduleCatShortComplexQuotientMap (Q.ginzburgCutZeroShortComplexLeftMap k φ f)

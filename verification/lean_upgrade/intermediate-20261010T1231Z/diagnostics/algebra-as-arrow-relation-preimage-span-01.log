@@ -1,0 +1,18 @@
+ASGinzburg/ASArrowRelationPreimageSpan.lean:49:2: error: Tactic `apply` failed: could not unify the type of `Eq.symm
+  (Submodule.span_preimage_eq (pathArrowRelationGenerators_nonempty A Q R u w) ?m.161)`
+  Submodule.comap ?m.157 (Submodule.span ?m.132 (A.pathArrowRelationGenerators Q R u w)) =
+    Submodule.span ?m.127 (⇑?m.157 ⁻¹' A.pathArrowRelationGenerators Q R u w)
+with the goal
+  Submodule.comap (A.unrolledPathLinearEvaluation Q R u w).ker.subtype
+      (Submodule.span k (A.pathArrowRelationGenerators Q R u w)) =
+    Submodule.span k (⇑(A.unrolledPathLinearEvaluation Q R u w).ker.subtype ⁻¹' A.pathArrowRelationGenerators Q R u w)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+R : (w : Q.LiftVertex) → A.ASResolution Q w
+u w : Q.LiftVertex
+⊢ Submodule.comap (A.unrolledPathLinearEvaluation Q R u w).ker.subtype
+      (Submodule.span k (A.pathArrowRelationGenerators Q R u w)) =
+    Submodule.span k (⇑(A.unrolledPathLinearEvaluation Q R u w).ker.subtype ⁻¹' A.pathArrowRelationGenerators Q R u w)

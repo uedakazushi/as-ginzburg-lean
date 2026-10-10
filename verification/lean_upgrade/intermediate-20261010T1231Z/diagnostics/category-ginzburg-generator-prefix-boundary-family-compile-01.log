@@ -1,0 +1,31 @@
+ASGinzburg/GinzburgGeneratorPrefixBoundaryFamily.lean:93:13: error: Application type mismatch: The argument
+  Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c
+has type
+  @LinearEquiv k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    (Q.GinzburgGeneratorPrefix k u v r r c ⧸ (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    ((a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }) →
+      ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+        (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+            (c - GinzburgArrow.cutDegree Q ↑a)).range)
+    (Submodule.Quotient.addCommMonoid (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    Pi.addCommMonoid (Submodule.Quotient.module (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range)
+    (Pi.module { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+      (fun a =>
+        ↥(Q.ginzburgCutCohomologicalComponent k u (GinzburgArrow.source Q ↑a) 0 (c - GinzburgArrow.cutDegree Q ↑a)) ⧸
+          (Q.ginzburgCutNegativeOneDifferential k φ u (GinzburgArrow.source Q ↑a)
+              (c - GinzburgArrow.cutDegree Q ↑a)).range)
+      k)
+but is expected to have type
+  @LinearEquiv k k inst✝.toDivisionRing.toSemiring inst✝.toDivisionRing.toSemiring (RingHom.id k) (RingHom.id k) ⋯ ⋯
+    ?m.11 ((i : ?m.14) → ?m.15 i) AddCommGroup.toAddCommMonoid Pi.addCommGroup.toAddCommMonoid ?m.17 ?m.18
+in the application
+  (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c).toModuleIso
+ASGinzburg/GinzburgGeneratorPrefixBoundaryFamily.lean:100:4: error: Application type mismatch: The argument
+  LinearEquiv.toModuleIso ?m.24
+has type
+  ↧?m.16 ≅ ↧((i : ?m.19) → ?m.20 i)
+but is expected to have type
+  ↧(Q.GinzburgGeneratorPrefix k u v r r c ⧸ (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range) ≅
+    Q.ginzburgGeneratorPrefixBoundaryQuotientModule k φ u v r c
+in the application
+  Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c ≪≫ LinearEquiv.toModuleIso ?m.24

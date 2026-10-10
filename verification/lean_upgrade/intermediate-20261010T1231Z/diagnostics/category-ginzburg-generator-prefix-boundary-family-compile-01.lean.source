@@ -1,0 +1,102 @@
+import ASGinzburg.GinzburgGeneratorPrefixDifferentialCoefficients
+import Mathlib.LinearAlgebra.Quotient.Pi
+
+/-! The actual top prefix boundaries are exactly the family of actual
+degree-negative-one Ginzburg boundaries. The nonzero sign changes no image. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+open scoped Classical
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgGeneratorPrefixBoundaryFamily (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :=
+  Submodule.pi Set.univ (fun a :
+    {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r} =>
+      LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u (a.val.source Q)
+        (c-a.val.cutDegree Q)))
+
+theorem ginzburgGeneratorPrefixPreviousEquiv_symm_apply_coe (u v : Q.Vertex) (r c : ℤ)
+    (f : Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
+      Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (-1) (c-a.val.cutDegree Q))
+    (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
+    ((Q.ginzburgGeneratorPrefixPreviousEquiv k u v r c).symm f a).val=(f a).val := by
+  have he := Q.ginzburgGeneratorPrefixPreviousEquiv_apply_coe k u v r c
+    ((Q.ginzburgGeneratorPrefixPreviousEquiv k u v r c).symm f) a
+  rw [LinearEquiv.apply_symm_apply] at he
+  exact he.symm
+
+theorem ginzburgGeneratorPrefixIncomingRange_map (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    (LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c)).map
+      (Q.ginzburgGeneratorPrefixTopEquiv k u v r c).toLinearMap=
+        Q.ginzburgGeneratorPrefixBoundaryFamily k φ u v r c := by
+  classical
+  ext f
+  constructor
+  · rintro ⟨g,⟨z,rfl⟩,rfl⟩
+    rw [ginzburgGeneratorPrefixBoundaryFamily,Submodule.mem_pi]
+    intro a _ha
+    refine ⟨ginzburgSign k r • (Q.ginzburgGeneratorPrefixPreviousEquiv k u v r c z a),?_⟩
+    apply Subtype.ext
+    change Q.ginzburgDifferential k φ u (a.val.source Q)
+      (ginzburgSign k r • (Q.ginzburgGeneratorPrefixPreviousEquiv k u v r c z a).val)=
+        (Q.ginzburgGeneratorPrefixTopEquiv k u v r c
+          (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c z) a).val
+    rw [map_smul,Q.ginzburgGeneratorPrefixPreviousEquiv_apply_coe,
+      Q.ginzburgGeneratorPrefixTopEquiv_apply_coe,
+      Q.ginzburgGeneratorPrefixIncomingDifferential_apply_coe]
+  · intro hf
+    rw [ginzburgGeneratorPrefixBoundaryFamily,Submodule.mem_pi] at hf
+    have hex (a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}) :
+        ∃ g : Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) (-1) (c-a.val.cutDegree Q),
+          Q.ginzburgCutNegativeOneDifferential k φ u (a.val.source Q) (c-a.val.cutDegree Q) g=f a :=
+      hf a (Set.mem_univ a)
+    choose g hg using hex
+    let z := (Q.ginzburgGeneratorPrefixPreviousEquiv k u v r c).symm
+      (fun a => (ginzburgSign k r)⁻¹ • g a)
+    refine ⟨Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c z,⟨z,rfl⟩,?_⟩
+    funext a
+    apply Subtype.ext
+    change (Q.ginzburgGeneratorPrefixTopEquiv k u v r c
+      (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c z) a).val=(f a).val
+    rw [Q.ginzburgGeneratorPrefixTopEquiv_apply_coe,
+      Q.ginzburgGeneratorPrefixIncomingDifferential_apply_coe]
+    have hz : (z a).val=(ginzburgSign k r)⁻¹ • (g a).val :=
+      Q.ginzburgGeneratorPrefixPreviousEquiv_symm_apply_coe k u v r c _ a
+    rw [hz,map_smul,smul_smul,mul_inv_cancel₀ (ginzburgSign_ne_zero k r),one_smul]
+    exact congrArg Subtype.val (hg a)
+
+noncomputable def ginzburgGeneratorPrefixTopQuotientFamilyEquiv (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : by
+    letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+    exact (Q.GinzburgGeneratorPrefix k u v r r c ⧸
+      LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c)) ≃ₗ[k]
+      (Π a : {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r},
+        (Q.ginzburgCutCohomologicalComponent k u (a.val.source Q) 0 (c-a.val.cutDegree Q) ⧸
+          LinearMap.range (Q.ginzburgCutNegativeOneDifferential k φ u (a.val.source Q)
+            (c-a.val.cutDegree Q)))) := by
+  classical
+  letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  letI := Fintype.ofFinite {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r}
+  exact (Submodule.Quotient.equiv
+    (LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c))
+    (Q.ginzburgGeneratorPrefixBoundaryFamily k φ u v r c)
+    (Q.ginzburgGeneratorPrefixTopEquiv k u v r c)
+    (Q.ginzburgGeneratorPrefixIncomingRange_map k φ u v r c)).trans
+      (Submodule.quotientPi (fun a :
+          {a : Q.GinzburgArrow // a.target Q=v ∧ a.cohomologicalDegree Q=r} => LinearMap.range
+        (Q.ginzburgCutNegativeOneDifferential k φ u (a.val.source Q) (c-a.val.cutDegree Q))))
+
+noncomputable def ginzburgGeneratorPrefixBoundaryQuotientModule (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : ModuleCat.{u} k :=
+  (Arrow.mk ((Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c).toModuleIso (g₂ := Pi.addCommGroup)).hom).right
+
+noncomputable def ginzburgGeneratorPrefixTopHomologyFamilyIso (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorPrefixHomology k φ u v r c r ≅
+      Q.ginzburgGeneratorPrefixBoundaryQuotientModule k φ u v r c :=
+  Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c ≪≫
+    (Q.ginzburgGeneratorPrefixTopQuotientFamilyEquiv k φ u v r c).toModuleIso (g₂ := Pi.addCommGroup)
+
+end ASGinzburg.CutQuiver

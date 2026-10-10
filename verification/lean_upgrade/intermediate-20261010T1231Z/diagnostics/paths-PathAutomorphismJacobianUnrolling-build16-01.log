@@ -1,0 +1,29 @@
+ASGinzburg/PathAutomorphismJacobianUnrolling.lean:34:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ∈ (Q.unrolledJacobianIdeal k φ).hom ?i ?j
+in the target expression
+  f ∈ (Q.unrolledJacobianIdeal k φ).hom i j ↔
+    ((unrolledPathZAlgebraIsomorphism Q k E).map i j) f ∈ (Q.unrolledJacobianIdeal k ψ).hom i j
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ ψ : ↥(Q.Potential k)
+hE :
+  ∀ (i j : Q.Vertex) (f : Q.PathComponent k i j),
+    f ∈ (Q.pathJacobianIdeal k φ).hom i j ↔ (componentLinearEquiv Q k E i j) f ∈ (Q.pathJacobianIdeal k ψ).hom i j
+i j : ℤ
+f : Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
+⊢ f ∈ (Q.unrolledJacobianIdeal k φ).hom i j ↔
+    ((unrolledPathZAlgebraIsomorphism Q k E).map i j) f ∈ (Q.unrolledJacobianIdeal k ψ).hom i j
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    f
+  has type
+    Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
+  but is expected to have type
+    (Q.unrolledPathZAlgebra k).Hom i j
+  in the application
+    f ∈ (Q.unrolledJacobianIdeal k φ).hom i j

@@ -1,0 +1,21 @@
+ASGinzburg/ASFirstKernelRadicalPreimage.lean:52:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.comap ?f (Submodule.map ?f ?p)
+in the target expression
+  Submodule.comap (A.pathRelationsToCategoricalASFirstKernel Q R u w ⋯)
+      (Submodule.map (A.pathRelationsToCategoricalASFirstKernel Q R u w ⋯)
+        (Submodule.comap (A.unrolledPathLinearEvaluation Q R u w).ker.subtype (A.pathArrowRelationProduct Q R u w))) =
+    Submodule.comap (A.unrolledPathLinearEvaluation Q R u w).ker.subtype (A.pathArrowRelationProduct Q R u w) ⊔
+      (A.pathRelationsToASFirstKernel Q R u w ⋯).ker
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+R : (w : Q.LiftVertex) → A.ASResolution Q w
+u w : Q.LiftVertex
+huw : Q.height u < Q.height w
+⊢ Submodule.comap (A.pathRelationsToCategoricalASFirstKernel Q R u w ⋯)
+      (Submodule.map (A.pathRelationsToCategoricalASFirstKernel Q R u w ⋯)
+        (Submodule.comap (A.unrolledPathLinearEvaluation Q R u w).ker.subtype (A.pathArrowRelationProduct Q R u w))) =
+    Submodule.comap (A.unrolledPathLinearEvaluation Q R u w).ker.subtype (A.pathArrowRelationProduct Q R u w) ⊔
+      (A.pathRelationsToASFirstKernel Q R u w ⋯).ker

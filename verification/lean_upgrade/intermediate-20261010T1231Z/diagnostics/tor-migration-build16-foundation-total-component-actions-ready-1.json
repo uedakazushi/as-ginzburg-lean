@@ -1,0 +1,53 @@
+{
+  "recorded_at_utc": "2026-10-10T12:25:18.476132+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "218b9ba2d558bdd6d7325c1ed1d25556594d7032",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output public check0; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 1,
+  "declaration_count": 2,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationTotalComponentActions.lean",
+      "source_sha256": "9706eadc8e5b9d95db81cad944bc30c14a0894a203e9a73e552db8fc2ccf41e8",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build16-entry-FoundationTotalComponentActions.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-component-actions-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:23:42.930666+00:00",
+      "finished_at_utc": "2026-10-10T12:23:48.227237+00:00",
+      "elapsed_seconds": 5.296656889993756,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-component-actions-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_proof_and_map_bodies_unchanged": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalAction_component",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalAction_component (M : A.FoundationRightModule Q) (i j : Q.Vertex) (a : A.Hom (i.val : \u2124) (j.val : \u2124)) (m : A.foundationRightTotalSpace Q M) : A.foundationRightTotalAction Q M ((A.foundationComponents Q).totalComponent i j a) m= Pi.single i (A.foundationRightComponentAction Q M a (m j))"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightProjection_totalModule_apply",
+          "kind": "theorem",
+          "full_header": "theorem foundationRingRightProjection_totalModule_apply (M : A.FoundationRightModule Q) (i : Q.Vertex) (m : A.foundationRightTotalModule Q M) : A.foundationRingRightProjection Q (A.foundationRightTotalModule Q M) i m=Pi.single i (m i)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_source": false,
+  "proof_change_note": "Only declaration-scoped backward implicit transparency compatibility on the original two component-action/projection theorems. Every task-entry proof/map body and all native homMk/ambient foundationActionArrow boundaries are unchanged. All declaration names/kinds/full headers and ambient universe/variable/include commands match baseline, current checkpoint and task-entry.",
+  "readonly_frontier_inventory": "work/lean-upgrade/tor-build16-foundation-frontier-readonly-1.json",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_source_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

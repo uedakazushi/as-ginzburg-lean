@@ -1,0 +1,58 @@
+ASGinzburg/FoundationComponentSumActions.lean:21:4: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    ↥(A.foundationRingRightComponentSpace Q M i)
+  but is expected to have type
+    ↑((A.foundationRightEvaluation Q i).obj (A.foundationRingRightComponentModule Q M))
+  in the application
+    Pi.single i x
+ASGinzburg/FoundationComponentSumActions.lean:23:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Pi.single i ?x j
+in the target expression
+  ↑(Pi.single i x j) = 0
+
+case h₀
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+M : ModuleCat (A.FoundationAlgebra Q)ᵐᵒᵖ
+i : Q.Vertex
+x : ↥(A.foundationRingRightComponentSpace Q M i)
+j : Q.Vertex
+a✝ : j ∈ Finset.univ
+hj : j ≠ i
+⊢ ↑(Pi.single i x j) = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    ↥(A.foundationRingRightComponentSpace Q M i)
+  but is expected to have type
+    ↑((A.foundationRightEvaluation Q i).obj (A.foundationRingRightComponentModule Q M))
+  in the application
+    Pi.single i x
+ASGinzburg/FoundationComponentSumActions.lean:37:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.foundationRingRightComponentSum Q M) (Pi.single i ?x)
+in the target expression
+  (A.foundationRingRightComponentSum Q M)
+      (Pi.single i ((A.foundationRightComponentAction Q (A.foundationRingRightComponentModule Q M) a) (x j))) =
+    (A.foundationRingRightComponentAction Q M a) ((A.foundationRingRightComponentSum Q M) x)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+M : ModuleCat (A.FoundationAlgebra Q)ᵐᵒᵖ
+i j : Q.Vertex
+a : A.Hom ↑↑i ↑↑j
+x : A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)
+⊢ (A.foundationRingRightComponentSum Q M)
+      (Pi.single i ((A.foundationRightComponentAction Q (A.foundationRingRightComponentModule Q M) a) (x j))) =
+    (A.foundationRingRightComponentAction Q M a) ((A.foundationRingRightComponentSum Q M) x)

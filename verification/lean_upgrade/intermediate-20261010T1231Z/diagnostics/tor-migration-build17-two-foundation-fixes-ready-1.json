@@ -1,0 +1,88 @@
+{
+  "recorded_at_utc": "2026-10-10T12:28:47.430860+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "218b9ba2d558bdd6d7325c1ed1d25556594d7032",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output public checks 0; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 2,
+  "declaration_count": 5,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationComponentSumActions.lean",
+      "source_sha256": "a2798795ca5a5ab313dd6171cb4ec45d30409beaec2d5e7b36be13ea5c42628a",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build17-entry-FoundationComponentSumActions.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-component-sum-actions-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:27:39.650082+00:00",
+      "finished_at_utc": "2026-10-10T12:27:44.403381+00:00",
+      "elapsed_seconds": 4.753303842997411,
+      "log": "work/lean-upgrade/tor-migration-foundation-component-sum-actions-2.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_proof_and_map_bodies_unchanged": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentSum_single",
+          "kind": "theorem",
+          "full_header": "theorem foundationRingRightComponentSum_single (M : ModuleCat.{u} (A.FoundationAlgebra Q)\u1d50\u1d52\u1d56) (i : Q.Vertex) (x : A.foundationRingRightComponentSpace Q M i) : A.foundationRingRightComponentSum Q M (Pi.single i x)=x.val"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentSum_action",
+          "kind": "theorem",
+          "full_header": "theorem foundationRingRightComponentSum_action (M : ModuleCat.{u} (A.FoundationAlgebra Q)\u1d50\u1d52\u1d56) {i j : Q.Vertex} (a : A.Hom (i.val : \u2124) (j.val : \u2124)) (x : A.foundationRightTotalSpace Q (A.foundationRingRightComponentModule Q M)) : A.foundationRingRightComponentSum Q M (A.foundationRightTotalAction Q (A.foundationRingRightComponentModule Q M) ((A.foundationComponents Q).totalComponent i j a) x)= A.foundationRingRightComponentAction Q M a (A.foundationRingRightComponentSum Q M x)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationTotalComponentEquiv.lean",
+      "source_sha256": "de1343fc449a96aba0a55f43347371545ebc368ba8c4ed850e01fc0112e7eb46",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build17-entry-FoundationTotalComponentEquiv.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-component-equiv-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:27:52.738256+00:00",
+      "finished_at_utc": "2026-10-10T12:27:57.912291+00:00",
+      "elapsed_seconds": 5.174074295995524,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-component-equiv-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_proof_and_map_bodies_unchanged": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRightTotalComponentEquiv (M : A.FoundationRightModule Q) (i : Q.Vertex) : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) i \u2243\u2097[k] (A.foundationRightEvaluation Q i).obj M"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_apply",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalComponentEquiv_apply (M : A.FoundationRightModule Q) (i : Q.Vertex) (x : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) i) : A.foundationRightTotalComponentEquiv Q M i x=x.val i"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_symm_apply",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalComponentEquiv_symm_apply (M : A.FoundationRightModule Q) (i : Q.Vertex) (x : (A.foundationRightEvaluation Q i).obj M) : ((A.foundationRightTotalComponentEquiv Q M i).symm x).val=Pi.single i x"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_sources": false,
+  "proof_change_note": "Only declaration-scoped backward implicit transparency compatibility on the two original component-sum proofs and the original component linear-equivalence definition. Every task-entry proof and canonical map/data body is byte-for-byte unchanged after removing the three added option commands. Native homMk boundaries and ambient foundationActionArrow remain unchanged. All declaration names/kinds/full headers and ambient universe/variable/include commands match baseline, current checkpoint and task-entry.",
+  "prior_failed_check_preserved": "work/lean-upgrade/tor-migration-foundation-component-sum-actions-1.json",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

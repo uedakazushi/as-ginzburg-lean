@@ -1,0 +1,82 @@
+{
+  "recorded_at_utc": "2026-10-10T12:17:42.560151+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "checkpoint_before_task": "218b9ba2d558bdd6d7325c1ed1d25556594d7032",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output public checks 0; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 2,
+  "declaration_count": 4,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationTotalScalarComparison.lean",
+      "source_sha256": "bd6c2cfaa90cdba19ccc86d8713679992a38420ae8631071d41784658dc60ff5",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build15-entry-FoundationTotalScalarComparison.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-scalar-comparison-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:16:41.080070+00:00",
+      "finished_at_utc": "2026-10-10T12:16:47.261849+00:00",
+      "elapsed_seconds": 6.181862165001803,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-scalar-comparison-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_proof_and_map_bodies_unchanged": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalModule_scalar_smul",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalModule_scalar_smul (M : A.FoundationRightModule Q) (c : k) (m : A.foundationRightTotalModule Q M) : c \u2022 m=(fun i : Q.Vertex => c \u2022 m i)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalUnderlyingLinearEquiv",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRightTotalUnderlyingLinearEquiv (M : A.FoundationRightModule Q) : (A.foundationRightTotalModule Q M) \u2243\u2097[k] A.foundationRightTotalSpace Q M"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationTotalFunctorFaithful.lean",
+      "source_sha256": "14de16925dcb114fe60efc7b2b1eb29721d4253a35d3a724c3e59563734b588d",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build15-entry-FoundationTotalFunctorFaithful.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-functor-faithful-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:16:52.899660+00:00",
+      "finished_at_utc": "2026-10-10T12:16:56.543038+00:00",
+      "elapsed_seconds": 3.643389147997368,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-functor-faithful-1.log",
+      "log_empty": true,
+      "baseline_checkpoint_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_proof_and_map_bodies_unchanged": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalFunctorAdditive",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRightTotalFunctorAdditive : (A.foundationRightTotalFunctor Q).Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalFunctorFaithful",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRightTotalFunctorFaithful : (A.foundationRightTotalFunctor Q).Faithful"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_sources": false,
+  "proof_change_note": "Only one declaration-scoped backward implicit transparency compatibility setting per source: original scalar-action comparison theorem and original Faithful instance. Every task-entry proof and canonical map body is byte-for-byte unchanged after removing these two added option commands. All declaration names/kinds/full headers and ambient universe/variable/include commands match the original baseline, current checkpoint, and task-entry snapshot.",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

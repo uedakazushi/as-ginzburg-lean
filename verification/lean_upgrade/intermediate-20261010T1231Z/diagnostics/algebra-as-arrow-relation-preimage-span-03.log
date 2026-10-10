@@ -1,0 +1,23 @@
+ASGinzburg/ASArrowRelationPreimageSpan.lean:58:53: error: Application type mismatch: The argument
+  hrange
+has type
+  A.pathArrowRelationGenerators Q R u w ⊆ Set.range ⇑(A.unrolledPathLinearEvaluation Q R u w).ker.subtype
+but is expected to have type
+  A.pathArrowRelationGenerators Q R u w ⊆ ↑(LinearMap.range ?m.203)
+in the application
+  Submodule.span_preimage_eq (pathArrowRelationGenerators_nonempty A Q R u w) hrange
+ASGinzburg/ASArrowRelationPreimageSpan.lean:57:10: error: Application type mismatch: The argument
+  (A.unrolledPathLinearEvaluation Q R u w).ker.subtype
+has type
+  @LinearMap k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k)
+    (↥(A.unrolledPathLinearEvaluation Q R u w).ker) (Q.UnrolledPath u w →₀ k)
+    (A.unrolledPathLinearEvaluation Q R u w).ker.addCommMonoid Finsupp.instAddCommMonoid
+    (A.unrolledPathLinearEvaluation Q R u w).ker.module (Finsupp.module (Q.UnrolledPath u w) k)
+but is expected to have type
+  @LinearMap k k inst✝.toDivisionRing.toSemiring inst✝.toDivisionRing.toSemiring (RingHom.id k) ?m.175
+    (Q.UnrolledPathComponent k u w) AddCommGroup.toAddCommMonoid Finsupp.instAddCommGroup.toAddCommMonoid ?m.178
+    (Finsupp.module (Q.UnrolledPath u w) k)
+in the application
+  @Submodule.span_preimage_eq k ?m.175 inst✝.toDivisionRing.toRing ?m.177 ?m.178 k (Q.UnrolledPathComponent k u w)
+    inst✝.toDivisionRing.toRing Finsupp.instAddCommGroup (Finsupp.module (Q.UnrolledPath u w) k) (RingHom.id k)
+    RingHomSurjective.ids (A.unrolledPathLinearEvaluation Q R u w).ker.subtype
