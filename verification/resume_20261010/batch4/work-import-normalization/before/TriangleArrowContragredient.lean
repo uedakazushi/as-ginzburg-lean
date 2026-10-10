@@ -1,0 +1,55 @@
+import work.ASGinzburgDraft.TriangleCutSliceAction
+
+/-! The genuine contragredient arrow change and inverse matrix identities
+used to extend triangle GL changes to the dual Ginzburg generators. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k]
+
+theorem triangleArrowTranspose_symm
+    (g : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) :
+    triangleArrowTranspose k g.symm = (triangleArrowTranspose k g).symm := by
+  ext x
+  rfl
+
+theorem triangleArrowTranspose_refl :
+    triangleArrowTranspose k (LinearEquiv.refl k (ArrowSpace333 k)) =
+      LinearEquiv.refl k (ArrowSpace333 k) := by
+  ext x
+  simp [triangleArrowTranspose]
+
+noncomputable def triangleArrowContragredient
+    (g : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) :
+    ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k :=
+  triangleArrowTranspose k g.symm
+
+theorem triangleArrowContragredient_single_apply
+    (g : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) (j i : Fin 3) :
+    triangleArrowContragredient k g (Pi.single j 1) i =
+      g.symm (Pi.single i 1) j :=
+  triangleArrowTranspose_single_apply k g.symm j i
+
+theorem triangleArrowContragredient_symm
+    (g : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) :
+    triangleArrowContragredient k g.symm = (triangleArrowContragredient k g).symm := by
+  change triangleArrowTranspose k g = (triangleArrowTranspose k g.symm).symm
+  rw [triangleArrowTranspose_symm, LinearEquiv.symm_symm]
+
+theorem triangleArrow_basis_expansion (x : ArrowSpace333 k) :
+    x = ∑ i : Fin 3, x i • (Pi.single i (1 : k) : ArrowSpace333 k) := by
+  classical
+  simpa only [Pi.basisFun_repr, Pi.basisFun_apply] using
+    ((Pi.basisFun k (Fin 3)).sum_repr x).symm
+
+theorem triangleArrow_inverse_matrix_sum
+    (g : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) (j l : Fin 3) :
+    (∑ i : Fin 3, g (Pi.single i 1) j *
+      triangleArrowContragredient k g (Pi.single i 1) l) =
+        (Pi.single l (1 : k) : ArrowSpace333 k) j := by
+  have he := congrArg (fun x : ArrowSpace333 k => g x j)
+    (triangleArrow_basis_expansion k (g.symm (Pi.single l 1)))
+  simp only [map_sum, map_smul, Finset.sum_apply, Pi.smul_apply, smul_eq_mul,
+    LinearEquiv.apply_symm_apply] at he
+  simpa only [triangleArrowContragredient_single_apply, mul_comm] using he.symm
+
+end ASGinzburg

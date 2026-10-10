@@ -1,0 +1,46 @@
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:11:26: error(lean.unknownIdentifier): Unknown identifier `QuadraticCoefficients333`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:16:14: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:14:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:20:4: error: typeclass instance problem is stuck, it is often due to metavariables
+  Module ?m.3 ?m.5
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:25:5: warning: unused variable `hw`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:27:2: warning: 'apply LinearMap.injective_of_linearIndependent (Pi.basisFun k (Fin 3)).span_eq' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:28:2: warning: 'simpa only [Function.comp_def, Pi.basisFun_apply, triangleCutRelationLinearMap_single] using hw' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:27:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:28:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:38:5: error(lean.unknownIdentifier): Unknown identifier `triangleCutRelationLinearMap_injective`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:41:9: error(lean.unknownIdentifier): Unknown identifier `triangleCutRelationLinearMap_injective`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:39:43: error(lean.unknownIdentifier): Unknown identifier `triangleCutRelationLinearMap_range`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:39:31: error: Type mismatch: After simplification, term
+  Eq.symm hspan
+ has type
+  Submodule.span k (Set.range ((tensorToCutRelations333 k) w')) =
+    Submodule.span k (Set.range ((tensorToCutRelations333 k) w))
+but is expected to have type
+  LinearMap.range ?m.59 = LinearMap.range ?m.141
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:52:5: error(lean.unknownIdentifier): Unknown identifier `triangleCutRelationLinearMap_injective`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:69:22: error(lean.unknownIdentifier): Unknown identifier `triangleCutRelationBasisChange_commutes`
+work/ASGinzburgDraft/TriangleCutRelationBasisTransport.lean:65:96: error: unsolved goals
+case a.h.h
+k : Type u
+inst✝ : Field k
+w w' : CubicTensor333 k
+hw : LinearIndependent k ((tensorToCutRelations333 k) w)
+hw' : LinearIndependent k ((tensorToCutRelations333 k) w')
+hspan :
+  Submodule.span k (Set.range ((tensorToCutRelations333 k) w)) =
+    Submodule.span k (Set.range ((tensorToCutRelations333 k) w'))
+z : Fin 3
+xy : Fin 3 × Fin 3
+⊢ ∑ j, (triangleCutRelationBasisChange k w w' hw hw' hspan) (Pi.single z 1) j * (tensorToCutRelations333 k) w j xy =
+    (tensorToCutRelations333 k) w' z xy

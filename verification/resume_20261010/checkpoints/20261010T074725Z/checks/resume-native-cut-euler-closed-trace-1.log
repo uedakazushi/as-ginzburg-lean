@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/NativeCutEulerClosedTrace.lean:17:2: error: Tactic `rfl` failed: The left-hand side
+  cyclicTrace ((prependWord a) ((Q.pathWordMap k (Q.target a) (Q.source a)) f))
+is not definitionally equal to the right-hand side
+  (Q.relationClosedTrace k a) f
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+a : Q.Arrow
+f : Q.PathComponent k (Q.target a) (Q.source a)
+⊢ cyclicTrace ((prependWord a) ((Q.pathWordMap k (Q.target a) (Q.source a)) f)) = (Q.relationClosedTrace k a) f
+work/ASGinzburgDraft/NativeCutEulerClosedTrace.lean:28:23: error(lean.unknownIdentifier): Unknown constant `Bool.true_eq_true`
+work/ASGinzburgDraft/NativeCutEulerClosedTrace.lean:36:15: warning: This simp argument is unused:
+  if_neg ha
+
+Hint: Omit it from the simp argument list.
+  simp only [̵i̵f̵_̵n̵e̵g̵ ̵h̵a̵,̵ ̵h̵c̵,̵[̲h̲c̲,̲ Bool.false_eq_true, if_false]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

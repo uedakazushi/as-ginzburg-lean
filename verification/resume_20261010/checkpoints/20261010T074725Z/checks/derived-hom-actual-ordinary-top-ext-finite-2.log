@@ -1,0 +1,16 @@
+work/ASGinzburgDraft/OrdinaryRingDualTopExtFinite.lean:23:2: error: typeclass instance problem is stuck, it is often due to metavariables
+  RingHomCompTriple ?m.79 (RingHom.id k) (RingHom.id k)
+work/ASGinzburgDraft/OrdinaryRingDualTopExtFinite.lean:28:2: error: Type mismatch
+  Function.Surjective.comp (ProjectiveResolution.homToActualExtThree_surjective P h₄ (ModuleCat.of R R))
+    (LinearEquiv.surjective (ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)))
+has type
+  Function.Surjective
+    (⇑(P.homToActualExtThree h₄ (ModuleCat.of R R)) ∘ ⇑(ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)))
+but is expected to have type
+  Function.Surjective ⇑(ordinaryRingDualToActualExtThree k R P h₄)
+work/ASGinzburgDraft/OrdinaryRingDualTopExtFinite.lean:34:2: error: 'change' tactic failed, pattern
+  (P.homToActualExtThree h₄ (ModuleCat.of R R))
+      ((ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)) ((ordinaryRingDualMap R (P.complex.d 3 2)) f)) =
+    0
+is not definitionally equal to target
+  (ordinaryRingDualToActualExtThree k R P h₄) ((ordinaryRingDualMap R (P.complex.d 3 2)) f) = 0

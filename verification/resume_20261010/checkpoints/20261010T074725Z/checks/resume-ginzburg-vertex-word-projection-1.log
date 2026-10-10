@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/GinzburgVertexWordProjection.lean:65:6: error: failed to synthesize
+  Decidable (Q.ginzburgWordStartsAt v w)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/GinzburgVertexWordProjection.lean:65:70: error: unsolved goals
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+w : List Q.GinzburgArrow
+c : k
+hw : Q.ginzburgWordStartsAt v w
+⊢ Finsupp.single w c = sorry ()
+
+case neg
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+w : List Q.GinzburgArrow
+c : k
+hw : ¬Q.ginzburgWordStartsAt v w
+⊢ 0 = sorry ()
+work/ASGinzburgDraft/GinzburgVertexWordProjection.lean:70:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/GinzburgVertexWordProjection.lean:71:49: warning: unused variable `hp`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/GinzburgVertexWordProjection.lean:101:14: error: Invalid field `ginzburgCohomologicalComponent`: The environment does not contain `ASGinzburg.CutQuiver.ginzburgCohomologicalComponent`
+  Q
+has type
+  CutQuiver

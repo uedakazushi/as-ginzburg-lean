@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/GinzburgOriginalArrowSubstitution.lean:21:21: error: unsolved goals
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.GinzburgArrowReplacement k
+ρ : Q.PathArrowReplacement k
+hOriginal :
+  ∀ (a : Q.Arrow), σ (GinzburgArrow.original a) = (Q.originalGinzburgLinearMap k (Q.source a) (Q.target a)) (ρ a)
+i j : Q.Vertex
+a : Q.Arrow
+p : Q.Path i (Q.source a)
+ih :
+  Q.ginzburgArrowSubstitutionPath k σ (Path.originalGinzburg Q p) =
+    (Q.originalGinzburgLinearMap k i (Q.source a)) (Q.pathArrowSubstitutionPath k ρ p)
+⊢ ((Q.ginzburgPathComp k) ((Q.originalGinzburgLinearMap k (Q.source a) (Q.target a)) (ρ a)))
+      ((Q.originalGinzburgLinearMap k i (Q.source a)) (Q.pathArrowSubstitutionPath k ρ p)) =
+    ((Q.ginzburgPathComp k) ((Q.originalGinzburgLinearMap k (Q.source a) (Q.target a)) (ρ a)))
+      ((Q.originalGinzburgLinearMap k i (Q.source a)) (Q.pathArrowSubstitutionPath k ρ p))

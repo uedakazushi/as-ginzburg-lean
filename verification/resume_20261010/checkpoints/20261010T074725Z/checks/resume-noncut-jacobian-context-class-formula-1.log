@@ -1,0 +1,47 @@
+work/ASGinzburgDraft/NoncutJacobianContextClassFormula.lean:35:53: error: unsolved goals
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+b : Q.Arrow
+hb : Q.cut b = true
+hlc : (Path.nil (Q.target ↑⟨b, hb⟩)).cutDegree = 0
+hrc : (Path.nil (Q.source ↑⟨b, hb⟩)).cutDegree = 0
+h :
+  (↑⟨⟨b, hb⟩, (⟨Path.nil (Q.target ↑⟨b, hb⟩), hlc⟩, ⟨Path.nil (Q.source ↑⟨b, hb⟩), hrc⟩)⟩.snd.1).length = 0 ∧
+    (↑⟨⟨b, hb⟩, (⟨Path.nil (Q.target ↑⟨b, hb⟩), hlc⟩, ⟨Path.nil (Q.source ↑⟨b, hb⟩), hrc⟩)⟩.snd.2).length = 0
+⊢ (Q.pathCyclicDerivative k b) φ = ↑(Q.zeroCutCyclicDerivative k φ ⟨b, hb⟩)
+work/ASGinzburgDraft/NoncutJacobianContextClassFormula.lean:43:4: error: Dependent elimination failed: Failed to solve equation
+  Q.5 ↑⟨b, hb⟩ = Q.5 a
+work/ASGinzburgDraft/NoncutJacobianContextClassFormula.lean:54:12: error: failed to synthesize
+  ZeroHomClass
+    ((Q.NoncutJacobianContextIndex i j →₀ k) →ₗ[k] Q.MinimalRelationComponent (Q.unrolledJacobianIdeal k φ) ↑↑i ↑↑j)
+    ?m.46 ?m.47
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/NoncutJacobianContextClassFormula.lean:55:21: error: failed to synthesize
+  Add (Q.MinimalRelationComponent (Q.unrolledJacobianIdeal k φ) ↑↑i ↑↑j)
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/NoncutJacobianContextClassFormula.lean:59:18: error: failed to synthesize
+  ZeroHomClass
+    ((Q.FoundationRelationArrow i j →₀ k) →ₗ[k] Q.MinimalRelationComponent (Q.unrolledJacobianIdeal k φ) ↑↑i ↑↑j) ?m.88
+    ?m.89
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

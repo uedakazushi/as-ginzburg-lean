@@ -1,0 +1,105 @@
+import work.ASGinzburgDraft.TriangleJacobianIsomorphismArrowChanges
+import work.ASGinzburgDraft.TriangleCutRelationBasisTransport
+import work.ASGinzburgDraft.TriangleCutZSliceIndependence
+import work.ASGinzburgDraft.TriangleTensorPathAutomorphismOrbits
+
+/-! A genuine vertex-fixed isomorphism between two Ginzburg-regular
+triangle Jacobian Z-algebras lifts to an actual potential path automorphism. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k] (φ ψ : triangle333.Potential k)
+  (F : ZAlgebra.Isomorphism (triangle333.unrolledJacobianZAlgebra k φ)
+    (triangle333.unrolledJacobianZAlgebra k ψ))
+
+noncomputable def triangleJacobianIsomorphismTransportedTensor : CubicTensor333 k :=
+  arrowBasisChange333 k (triangleJacobianIsomorphismXChange k φ ψ F)
+    (triangleJacobianIsomorphismYChange k φ ψ F) (LinearEquiv.refl k _)
+    ((triangleTensorPotentialEquiv k).symm φ)
+
+theorem triangleJacobianIsomorphismTransportedTensor_cutRelations_linearIndependent
+    (hGφ : triangle333.GinzburgRegular k φ) :
+    LinearIndependent k (tensorToCutRelations333 k
+      (triangleJacobianIsomorphismTransportedTensor k φ ψ F)) := by
+  let gX := triangleJacobianIsomorphismXChange k φ ψ F
+  let gY := triangleJacobianIsomorphismYChange k φ ψ F
+  have h := (triangleGinzburgRegular_originalTensorCutRelations_linearIndependent k φ hGφ).map'
+    (triangleQuadraticBasisChange k gX gY).toLinearMap (triangleQuadraticBasisChange k gX gY).ker
+  have he : (triangleQuadraticBasisChange k gX gY).toLinearMap ∘
+      tensorToCutRelations333 k ((triangleTensorPotentialEquiv k).symm φ) =
+      tensorToCutRelations333 k (triangleJacobianIsomorphismTransportedTensor k φ ψ F) := by
+    funext z
+    exact (triangleTensor_cutRelations_basisChangeXY k gX gY _ z).symm
+  rw [he] at h
+  exact h
+
+theorem triangleJacobianIsomorphismTransportedTensor_cutRelations_span
+    (hGφ : triangle333.GinzburgRegular k φ)
+    (hGψ : triangle333.GinzburgRegular k ψ) :
+    Submodule.span k (Set.range (tensorToCutRelations333 k
+      (triangleJacobianIsomorphismTransportedTensor k φ ψ F))) =
+    Submodule.span k (Set.range (tensorToCutRelations333 k
+      ((triangleTensorPotentialEquiv k).symm ψ))) := by
+  have hle : Submodule.span k (Set.range (tensorToCutRelations333 k
+      (triangleJacobianIsomorphismTransportedTensor k φ ψ F))) ≤
+      LinearMap.ker (triangleJacobianXYEvaluation k ψ) := by
+    apply Submodule.span_le.mpr
+    rintro _ ⟨z,rfl⟩
+    change triangleJacobianXYEvaluation k ψ
+      (tensorToCutRelations333 k (triangleJacobianIsomorphismTransportedTensor k φ ψ F) z) = 0
+    rw [triangleJacobianIsomorphismTransportedTensor,
+      triangleTensor_cutRelations_basisChangeXY,
+      triangleJacobianIsomorphismXYEvaluation]
+    have hmem : tensorToCutRelations333 k ((triangleTensorPotentialEquiv k).symm φ) z ∈
+        LinearMap.ker (triangleJacobianXYEvaluation k φ) := by
+      rw [triangleJacobianXYEvaluation_kernel_eq_tensorSlices]
+      exact Submodule.subset_span ⟨z,rfl⟩
+    rw [hmem,map_zero]
+  rw [triangleJacobianXYEvaluation_kernel_eq_tensorSlices] at hle
+  apply Submodule.eq_of_le_of_finrank_eq hle
+  rw [finrank_span_eq_card
+      (triangleJacobianIsomorphismTransportedTensor_cutRelations_linearIndependent k φ ψ F hGφ),
+    finrank_span_eq_card
+      (triangleGinzburgRegular_originalTensorCutRelations_linearIndependent k ψ hGψ)]
+
+theorem triangleGinzburgRegular_JacobianIso_tensor_GL_orbit
+    (hGφ : triangle333.GinzburgRegular k φ)
+    (hGψ : triangle333.GinzburgRegular k ψ) :
+    ∃ g : TriangleGL333 k,
+      g • ((triangleTensorPotentialEquiv k).symm φ) =
+        (triangleTensorPotentialEquiv k).symm ψ := by
+  let gX := triangleJacobianIsomorphismXChange k φ ψ F
+  let gY := triangleJacobianIsomorphismYChange k φ ψ F
+  let t := triangleJacobianIsomorphismTransportedTensor k φ ψ F
+  let w := (triangleTensorPotentialEquiv k).symm ψ
+  have ht := triangleJacobianIsomorphismTransportedTensor_cutRelations_linearIndependent k φ ψ F hGφ
+  have hw := triangleGinzburgRegular_originalTensorCutRelations_linearIndependent k ψ hGψ
+  have hs := triangleJacobianIsomorphismTransportedTensor_cutRelations_span k φ ψ F hGφ hGψ
+  let gZ := triangleArrowTranspose k (triangleCutRelationBasisChange k t w ht hw hs)
+  have hz : arrowBasisChange333 k (LinearEquiv.refl k _) (LinearEquiv.refl k _) gZ t = w :=
+    triangleTensor_eq_cutArrow_basisChange k t w ht hw hs
+  let gXY : TriangleGL333 k := (gX,gY,LinearEquiv.refl k _)
+  let gCut : TriangleGL333 k := (LinearEquiv.refl k _,LinearEquiv.refl k _,gZ)
+  refine ⟨gCut * gXY,?_⟩
+  rw [mul_smul]
+  exact hz
+
+theorem triangleGinzburgRegular_JacobianIso_pathAutomorphism
+    (hGφ : triangle333.GinzburgRegular k φ)
+    (hGψ : triangle333.GinzburgRegular k ψ) :
+    ∃ E : triangle333.VertexCutPathAutomorphism k,
+      CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k E φ = ψ := by
+  have h := (triangleTensor_orbit_iff_pathAutomorphism k
+    ((triangleTensorPotentialEquiv k).symm φ)
+    ((triangleTensorPotentialEquiv k).symm ψ)).mp
+      (triangleGinzburgRegular_JacobianIso_tensor_GL_orbit k φ ψ F hGφ hGψ)
+  simpa only [LinearEquiv.apply_symm_apply] using h
+
+theorem triangleGinzburgRegular_JacobianIso_pathClass
+    (hGφ : triangle333.GinzburgRegular k φ)
+    (hGψ : triangle333.GinzburgRegular k ψ) :
+    triangle333.potentialPathAutomorphismClass k φ =
+      triangle333.potentialPathAutomorphismClass k ψ := by
+  rw [triangle333.potentialPathAutomorphismClass_eq_iff_smul]
+  exact triangleGinzburgRegular_JacobianIso_pathAutomorphism k φ ψ F hGφ hGψ
+
+end ASGinzburg

@@ -1,0 +1,35 @@
+work/native-top-quotient-full-generic-prototype.lean:57:46: error: Invalid argument name `inst` for function `DFunLike.coe`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `f`: i̵n̵s̵t̵f̲
+  • `g`: i̵n̵s̵t̵g̲
+  • `eM`: i̵n̵s̵t̵e̲M̲
+  • `eN`: i̵n̵s̵t̵e̲N̲
+  • `h`: i̵n̵s̵t̵h̲
+  • `a`: i̵n̵s̵t̵a̲
+work/native-top-quotient-full-generic-prototype.lean:39:63: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M L : CutGradedRightModule Q E
+a : M ⟶ L
+q : ℤ
+DM : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E) :=
+  cutRightModuleOrdinaryData Q E M
+DL : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E) :=
+  cutRightModuleOrdinaryData Q E L
+f : ↥(DL.ringDualGrade q) →ₗ[k] ↥(DM.ringDualGrade q) :=
+  DM.ringDualMapDegree DL ((cutGradedForgetFunctor Q E).map a) ⋯ q
+g : (L ⟶ (cutRegularGradedRightModule Q E).shifted q) →ₗ[k] M ⟶ (cutRegularGradedRightModule Q E).shifted q :=
+  Linear.leftComp k ((cutRegularGradedRightModule Q E).shifted q) a
+eM : ↥(DL.ringDualGrade q) ≃ₗ[k] L ⟶ (cutRegularGradedRightModule Q E).shifted q :=
+  cutOrdinaryRingDualShiftedHomEquiv Q E L q
+eN : ↥(DM.ringDualGrade q) ≃ₗ[k] M ⟶ (cutRegularGradedRightModule Q E).shifted q :=
+  cutOrdinaryRingDualShiftedHomEquiv Q E M q
+h : ∀ (x : ↥(DL.ringDualGrade q)), eN (f x) = g (eM x)
+⊢ (cutRightModuleOrdinaryData Q E M).ringDualHomogeneousTopQuotient (cutRightModuleOrdinaryData Q E L)
+      ((cutGradedForgetFunctor Q E).map a) ⋯ q ≃ₗ[k]
+    (M ⟶ (cutRegularGradedRightModule Q E).shifted q) ⧸
+      LinearMap.range (Linear.leftComp k ((cutRegularGradedRightModule Q E).shifted q) a)

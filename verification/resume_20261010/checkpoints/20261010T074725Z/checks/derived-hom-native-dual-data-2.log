@@ -1,0 +1,40 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:30:48: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized
+  LinearMap.module
+inferred
+  ModuleCat.Algebra.instModuleCarrier
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:42:59: error: Type mismatch
+  Iff.rfl
+has type
+  ?m.61 ↔ ?m.61
+but is expected to have type
+  f ∈ M.ringDualNativeGrade q ↔ f ∈ M.ringDualGrade q
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:46:2: error: No applicable extensionality theorem found for type
+  Submodule k ↑(ordinaryRingDual R M.ringModule)
+
+Note: Extensionality theorems can be registered by marking them with the `[ext]` attribute
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:56:4: error: 'change' tactic failed, pattern
+  DirectSum.IsInternal M.ringDualGrade
+is not definitionally equal to target
+  DirectSum.IsInternal M.ringDualNativeGrade
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:59:87: error: Application type mismatch: The argument
+  hf
+has type
+  f ∈ M.ringDualNativeGrade q
+but is expected to have type
+  f ∈ M.ringDualGrade q
+in the application
+  ringDualGrade_smul_mem M hG p q (MulOpposite.unop r) hr f hf
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:63:14: error: Function expected at
+  M.ringDualData
+but this term has type
+  GradedOrdinaryModuleData k Rᵐᵒᵖ (ordinaryOppositeRingGrade G)
+
+Note: Expected a function because this term is being applied to the argument
+  hG
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:71:5: error: Function expected at
+  N.ringDualData
+but this term has type
+  GradedOrdinaryModuleData k Rᵐᵒᵖ (ordinaryOppositeRingGrade G)
+
+Note: Expected a function because this term is being applied to the argument
+  hG

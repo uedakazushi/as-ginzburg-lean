@@ -1,0 +1,144 @@
+import work.ASGinzburgDraft.GinzburgSubstitutedOccurrenceContexts
+import work.ASGinzburgDraft.GinzburgWordSubstitution
+import work.ASGinzburgDraft.WordSubstitutedOccurrenceContexts
+
+/-! The genuine typed extended occurrence operator equals the actual
+mixed-alphabet word insertion under the injective extended word embedding. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgOriginalAutomorphismWordReplacement
+    (E : Q.VertexCutPathAutomorphism k) : Q.Arrow → WordPolynomial k Q.GinzburgArrow :=
+  fun a => Q.ginzburgPathWordMap k (Q.source a) (Q.target a)
+    (Q.originalGinzburgLinearMap k (Q.source a) (Q.target a)
+      (VertexCutPathAutomorphism.arrowReplacement Q k E a))
+
+theorem ginzburgOriginalAutomorphismPath_word
+    (E : Q.VertexCutPathAutomorphism k) {i j : Q.Vertex} (p : Q.Path i j) :
+    Q.ginzburgPathWordMap k i j
+      (Q.originalGinzburgLinearMap k i j
+        (VertexCutPathAutomorphism.componentLinearEquiv Q k E i j (Finsupp.single p 1))) =
+      wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList := by
+  induction p with
+  | nil =>
+    rw [VertexCutPathAutomorphism.component_single_substitution]
+    simp [pathArrowSubstitutionPath,pathId,Q.ginzburgPathWordMap_single,
+      Path.originalGinzburg_toList,Path.toList,wordSubstitutionBetweenWord]
+  | @snoc j p a ha ih =>
+    subst j
+    have hs : (Finsupp.single (Path.snoc p a rfl) 1 : Q.PathComponent k i (Q.target a)) =
+        Q.pathComp k (Q.pathIdentityArrowReplacement k a) (Finsupp.single p 1) := by
+      simp [pathIdentityArrowReplacement,Path.comp]
+    rw [hs,VertexCutPathAutomorphism.componentLinearEquiv_comp,
+      Q.originalGinzburgLinearMap_comp,Q.ginzburgPathWordMap_comp,ih]
+    change wordConcatenation _ (Q.ginzburgOriginalAutomorphismWordReplacement k E a) = _
+    simp [Path.toList,wordSubstitutionBetweenWord_append,wordSubstitutionBetweenWord]
+
+theorem ginzburgPathWordMap_substitutedOccurrenceContext
+    (E : Q.VertexCutPathAutomorphism k) {a : Q.Arrow} {i j : Q.Vertex}
+    (C : Q.PathOccurrenceContext a i j) (h : Q.GinzburgPathComponent k j i) :
+    Q.ginzburgPathWordMap k (Q.target a) (Q.source a)
+      (Q.ginzburgSubstitutedOccurrenceContextMap k E C h) =
+      wordSubstitutedOccurrenceSandwich (Q.ginzburgOriginalAutomorphismWordReplacement k E)
+        C.beforePath.toList C.afterPath.toList (Q.ginzburgPathWordMap k j i h) := by
+  rw [Q.ginzburgSubstitutedOccurrenceContextMap_apply,Q.ginzburgPathWordMap_comp,
+    Q.ginzburgPathWordMap_comp,Q.ginzburgOriginalAutomorphismPath_word,
+    Q.ginzburgOriginalAutomorphismPath_word,wordSubstitutedOccurrenceSandwich_apply]
+
+theorem ginzburgSubstitutedOccurrenceContextMap_snoc
+    (E : Q.VertexCutPathAutomorphism k) {b : Q.Arrow} {i j : Q.Vertex}
+    (C : Q.PathOccurrenceContext b i j) (a : Q.Arrow) (ha : Q.source a = j)
+    (h : Q.GinzburgPathComponent k (Q.target a) i) :
+    Q.ginzburgSubstitutedOccurrenceContextMap k E (C.snoc Q a ha) h =
+      Q.ginzburgSubstitutedOccurrenceContextMap k E C
+        (Q.ginzburgPathComp k h (Q.originalGinzburgLinearMap k j (Q.target a)
+          (VertexCutPathAutomorphism.componentLinearEquiv Q k E j (Q.target a)
+            (Finsupp.single (Path.snoc (.nil j) a ha) 1)))) := by
+  have hc : Q.pathComp k (Finsupp.single (Path.snoc (.nil j) a ha) 1)
+      (Finsupp.single C.afterPath 1) = Finsupp.single (Path.snoc C.afterPath a ha) 1 := by
+    simp [Path.comp]
+  rw [Q.ginzburgSubstitutedOccurrenceContextMap_apply,
+    Q.ginzburgSubstitutedOccurrenceContextMap_apply]
+  change Q.ginzburgPathComp k _ (Q.ginzburgPathComp k h
+    (Q.originalGinzburgLinearMap k (Q.target b) (Q.target a)
+      (VertexCutPathAutomorphism.componentLinearEquiv Q k E (Q.target b) (Q.target a)
+        (Finsupp.single (Path.snoc C.afterPath a ha) 1)))) = _
+  rw [← hc,VertexCutPathAutomorphism.componentLinearEquiv_comp,
+    Q.originalGinzburgLinearMap_comp]
+  congr 1
+  exact Q.ginzburgPathComp_assoc k _ _ _
+
+theorem ginzburgSubstitutedOccurrence_snoc_sum
+    (E : Q.VertexCutPathAutomorphism k) {b : Q.Arrow} {i j : Q.Vertex}
+    (L : List (Q.PathOccurrenceContext b i j)) (a : Q.Arrow) (ha : Q.source a = j)
+    (h : Q.GinzburgPathComponent k (Q.target a) i) :
+    (L.map (fun C => Q.ginzburgSubstitutedOccurrenceContextMap k E (C.snoc Q a ha))).sum h =
+      (L.map (Q.ginzburgSubstitutedOccurrenceContextMap k E)).sum
+        (Q.ginzburgPathComp k h (Q.originalGinzburgLinearMap k j (Q.target a)
+          (VertexCutPathAutomorphism.componentLinearEquiv Q k E j (Q.target a)
+            (Finsupp.single (Path.snoc (.nil j) a ha) 1)))) := by
+  induction L with
+  | nil => rfl
+  | cons C L ih =>
+    simp only [List.map_cons,List.sum_cons,LinearMap.add_apply,
+      Q.ginzburgSubstitutedOccurrenceContextMap_snoc,ih]
+
+theorem ginzburgPathWordMap_substitutedOccurrenceOperator
+    (E : Q.VertexCutPathAutomorphism k) (b : Q.Arrow)
+    {i j : Q.Vertex} (p : Q.Path i j) (h : Q.GinzburgPathComponent k j i) :
+    Q.ginzburgPathWordMap k (Q.target b) (Q.source b)
+      (Q.ginzburgSubstitutedOccurrenceOperator k E b p h) =
+      wordSubstitutedOccurrenceContextWord
+        (Q.ginzburgOriginalAutomorphismWordReplacement k E) b p.toList
+        (Q.ginzburgPathWordMap k j i h) := by
+  induction p with
+  | nil =>
+    simp [ginzburgSubstitutedOccurrenceOperator,Path.occurrenceContexts,Path.toList,
+      wordSubstitutedOccurrenceContextWord,wordSubstitutedOccurrenceContextAux]
+  | @snoc j p a ha ih =>
+    unfold ginzburgSubstitutedOccurrenceOperator
+    rw [Path.occurrenceContexts,List.map_append,List.sum_append,
+      LinearMap.add_apply,map_add,List.map_map]
+    simp only [Function.comp_def]
+    rw [Q.ginzburgSubstitutedOccurrence_snoc_sum k E (p.occurrenceContexts Q b) a ha h]
+    change Q.ginzburgPathWordMap k (Q.target b) (Q.source b)
+      (Q.ginzburgSubstitutedOccurrenceOperator k E b p
+        (Q.ginzburgPathComp k h (Q.originalGinzburgLinearMap k j (Q.target a)
+          (VertexCutPathAutomorphism.componentLinearEquiv Q k E j (Q.target a)
+            (Finsupp.single (Path.snoc (.nil j) a ha) 1))))) + _ = _
+    rw [ih,Q.ginzburgPathWordMap_comp,Q.ginzburgOriginalAutomorphismPath_word]
+    simp only [Path.toList,List.nil_append,wordSubstitutionBetweenWord,
+      wordConcatenation_unit_right]
+    rw [wordSubstitutedOccurrenceContextWord_append]
+    apply congrArg₂ (·+·)
+    · simp only [wordSubstitutionBetweenWord,wordConcatenation_unit_right]
+    · by_cases hab : a = b
+      · subst a
+        subst j
+        simp only [dif_pos rfl,List.map_singleton,List.sum_singleton]
+        rw [Q.ginzburgPathWordMap_substitutedOccurrenceContext]
+        simp [Path.transport,wordSubstitutedOccurrenceContextWord,
+          wordSubstitutedOccurrenceContextAux,wordSubstitutedOccurrenceSandwich_apply,
+          wordSubstitutionBetweenWord]
+      · have hba : b ≠ a := Ne.symm hab
+        simp [hab,hba,wordSubstitutedOccurrenceContextWord,
+          wordSubstitutedOccurrenceContextAux,wordSubstitutionBetweenWord]
+
+theorem ginzburgPathWordMap_substitutedOccurrenceDerivative
+    (E : Q.VertexCutPathAutomorphism k) (a : Q.Arrow) (i j : Q.Vertex)
+    (f : Q.PathComponent k i j) (h : Q.GinzburgPathComponent k j i) :
+    Q.ginzburgPathWordMap k (Q.target a) (Q.source a)
+      (Q.ginzburgSubstitutedOccurrenceDerivative k E a i j f h) =
+      wordSubstitutedOccurrenceContext (Q.ginzburgOriginalAutomorphismWordReplacement k E) a
+        (Q.pathWordMap k i j f) (Q.ginzburgPathWordMap k j i h) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g ihf ihg => simp only [map_add,LinearMap.add_apply,ihf,ihg]
+  | single p c =>
+    simp only [Q.ginzburgSubstitutedOccurrenceDerivative_single,LinearMap.smul_apply,
+      map_smul,Q.ginzburgPathWordMap_substitutedOccurrenceOperator,Q.pathWordMap_single,
+      wordSubstitutedOccurrenceContext_single]
+
+end ASGinzburg.CutQuiver

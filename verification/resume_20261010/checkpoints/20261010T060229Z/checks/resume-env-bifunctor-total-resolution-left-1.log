@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/BifunctorTotalResolutionLeft.lean:19:3: error: failed to synthesize
+  HasMapBifunctor (ProjectiveResolution.self M).complex Q F (ComplexShape.down ℕ)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BifunctorTotalResolutionLeft.lean:28:4: error: Type mismatch: After simplification, term
+  ProjectiveResolution.homotopyEquiv_hom_π P (ProjectiveResolution.self M)
+ has type
+  (P.homotopyEquiv (ProjectiveResolution.self M)).hom ≫ 𝟙 ((ChainComplex.single₀ C₁).obj M) = P.π
+but is expected to have type
+  (P.homotopyEquiv (ProjectiveResolution.self M)).hom = P.π
+work/ASGinzburgDraft/BifunctorTotalResolutionLeft.lean:30:2: error: 'change' tactic failed, pattern
+  mapBifunctorMap ?m.200 ?m.201 ?m.202 ?m.205 ≫ ?m.210 = ?m.212
+is not definitionally equal to target
+  (bifunctorTotalResolutionLeftHomotopyEquiv F P Q).hom =
+    mapBifunctorMap P.π (𝟙 Q) F (ComplexShape.down ℕ) ≫ (mapBifunctorSingleLeftIso F M Q).hom

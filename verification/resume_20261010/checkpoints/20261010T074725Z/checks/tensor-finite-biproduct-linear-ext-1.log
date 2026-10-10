@@ -1,0 +1,36 @@
+work/ASGinzburgDraft/FiniteBiproductLinearExt.lean:33:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Abelian.Ext.comp ?α (Abelian.Ext.comp ?β ?γ ⋯) ?h₁₃
+in the target expression
+  (fun a => (Abelian.Ext.mk₀ e.inv).comp a ⋯) ((fun a => (Abelian.Ext.mk₀ e.hom).comp a ⋯) a) = a
+
+C : Type u
+inst✝⁵ : Category.{v, u} C
+inst✝⁴ : Abelian C
+inst✝³ : HasExt C
+inst✝² : HasDerivedCategory C
+k : Type t
+inst✝¹ : Field k
+inst✝ : Linear k C
+X X' Y : C
+e : X ≅ X'
+n : ℕ
+a : Abelian.Ext X' Y n
+⊢ (fun a => (Abelian.Ext.mk₀ e.inv).comp a ⋯) ((fun a => (Abelian.Ext.mk₀ e.hom).comp a ⋯) a) = a
+work/ASGinzburgDraft/FiniteBiproductLinearExt.lean:36:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Abelian.Ext.comp ?α (Abelian.Ext.comp ?β ?γ ⋯) ?h₁₃
+in the target expression
+  (fun a => (Abelian.Ext.mk₀ e.hom).comp a ⋯) ((fun a => (Abelian.Ext.mk₀ e.inv).comp a ⋯) a) = a
+
+C : Type u
+inst✝⁵ : Category.{v, u} C
+inst✝⁴ : Abelian C
+inst✝³ : HasExt C
+inst✝² : HasDerivedCategory C
+k : Type t
+inst✝¹ : Field k
+inst✝ : Linear k C
+X X' Y : C
+e : X ≅ X'
+n : ℕ
+a : Abelian.Ext X Y n
+⊢ (fun a => (Abelian.Ext.mk₀ e.hom).comp a ⋯) ((fun a => (Abelian.Ext.mk₀ e.inv).comp a ⋯) a) = a

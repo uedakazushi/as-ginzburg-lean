@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/PathSubstitutionLengthFiltration.lean:25:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Finsupp.supported ?R ?R ?s
+in the target expression
+  f ∈ Q.pathLengthFiltration k n i j
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+n : ℕ
+i j : Q.Vertex
+f : Q.PathComponent k i j
+hf : f ∈ Q.pathLengthFiltration k n i j
+⊢ (Q.pathArrowSubstitutionComponent k σ i j) f ∈ Q.pathLengthFiltration k n i j
+work/ASGinzburgDraft/PathSubstitutionLengthFiltration.lean:78:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Finsupp.supported ?R ?R ?s
+in the target expression
+  f ∈ Q.pathLengthFiltration k n i j
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+hσ :
+  ∀ (a : Fin Q.arrows), σ a - Q.pathIdentityArrowReplacement k a ∈ Q.pathLengthFiltration k 2 (Q.source a) (Q.target a)
+n : ℕ
+i j : Q.Vertex
+f : Q.PathComponent k i j
+hf : f ∈ Q.pathLengthFiltration k n i j
+⊢ (Q.pathSubstitutionDifference k σ i j) f ∈ Q.pathLengthFiltration k (n + 1) i j

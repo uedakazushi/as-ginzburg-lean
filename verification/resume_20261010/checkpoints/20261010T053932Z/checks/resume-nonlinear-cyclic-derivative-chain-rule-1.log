@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/NonlinearCyclicDerivativeChainRule.lean:83:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Finsupp.single (wordClass w) x
+in the target expression
+  (cyclicDerivative b) ((cyclicSubstitution σ) (Finsupp.single ⟦w⟧ x)) =
+    ∑ a, ((wordOccurrenceContext b) (σ a)) ((wordSubstitution σ) ((cyclicDerivative a) (Finsupp.single ⟦w⟧ x)))
+
+case single
+A : Type u
+inst✝² : DecidableEq A
+k : Type v
+inst✝¹ : Field k
+inst✝ : Fintype A
+σ : A → WordPolynomial k A
+b : A
+x : k
+w : List A
+hs : Finsupp.single (wordClass w) x = x • traceWord w
+⊢ (cyclicDerivative b) ((cyclicSubstitution σ) (Finsupp.single ⟦w⟧ x)) =
+    ∑ a, ((wordOccurrenceContext b) (σ a)) ((wordSubstitution σ) ((cyclicDerivative a) (Finsupp.single ⟦w⟧ x)))

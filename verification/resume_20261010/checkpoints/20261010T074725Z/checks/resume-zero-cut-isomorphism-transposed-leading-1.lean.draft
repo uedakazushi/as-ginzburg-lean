@@ -1,0 +1,50 @@
+import work.ASGinzburgDraft.NoncutJacobianContextLeadingAggregation
+import work.ASGinzburgDraft.ZeroCutIsomorphismTransposedReplacement
+
+/-! The genuine isomorphism's transposed context replacement has precisely
+the actual constant-context coefficient matrix as its linear term. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+variable {φ ψ : Q.Potential k}
+variable (F : ZAlgebra.Isomorphism (Q.unrolledJacobianZAlgebra k φ)
+  (Q.unrolledJacobianZAlgebra k ψ))
+
+noncomputable def zeroCutIsomorphismTransposedLeadingCoordinates
+    (b : Q.Arrow) (hb : Q.cut b = true) :
+    Q.FoundationRelationArrow (Q.target b) (Q.source b) →₀ k :=
+  Q.noncutJacobianContextLeadingAggregationCoordinates k b hb
+    (Q.zeroCutIsomorphismDerivativeContextCoefficients k F)
+
+theorem zeroCutIsomorphismTransposedReplacement_leading_coordinates_apply
+    (b : Q.Arrow) (hb : Q.cut b = true)
+    (a : Q.FoundationRelationArrow (Q.target b) (Q.source b)) :
+    Q.zeroCutIsomorphismTransposedLeadingCoordinates k F b hb a =
+      (Q.noncutJacobianContextConstantProjection k (Q.target a.val) (Q.source a.val)
+        (Q.zeroCutIsomorphismDerivativeContextCoefficients k F ⟨a.val, a.property.2.2⟩))
+        (⟨b, a.property.1.symm, a.property.2.1.symm, hb⟩ :
+          Q.FoundationRelationArrow (Q.target a.val) (Q.source a.val)) :=
+  Q.noncutJacobianContextLeadingAggregationCoordinates_apply k b hb
+    (Q.zeroCutIsomorphismDerivativeContextCoefficients k F) a
+
+theorem zeroCutIsomorphismTransposedReplacement_leading_projection
+    (b : Q.Arrow) (hb : Q.cut b = true) :
+    Q.pathArrowProjection k (Q.source b) (Q.target b)
+      (Q.zeroCutIsomorphismTransposedReplacement k F b) =
+      (Q.foundationCutArrowCoordinateEquiv k (Q.target b) (Q.source b) (Q.backward b hb)
+        (Q.zeroCutIsomorphismTransposedLeadingCoordinates k F b hb)).val := by
+  classical
+  rw [zeroCutIsomorphismTransposedReplacement, if_pos hb]
+  exact Q.noncutJacobianContextLeadingAggregation_projection k b hb
+    (Q.zeroCutIsomorphismDerivativeContextCoefficients k F)
+
+theorem zeroCutIsomorphismTransposedReplacement_noncut_leading_projection
+    (b : Q.Arrow) (hb : Q.cut b = false) :
+    Q.pathArrowProjection k (Q.source b) (Q.target b)
+      (Q.zeroCutIsomorphismTransposedReplacement k F b) = Q.pathIdentityArrowReplacement k b := by
+  rw [Q.zeroCutIsomorphismTransposedReplacement_noncut k F b hb]
+  change Q.pathArrowProjection k (Q.source b) (Q.target b)
+    (Finsupp.single (Path.snoc (Path.nil (Q.source b)) b rfl) 1) = _
+  rw [pathArrowProjection_single, if_pos rfl]
+
+end ASGinzburg.CutQuiver

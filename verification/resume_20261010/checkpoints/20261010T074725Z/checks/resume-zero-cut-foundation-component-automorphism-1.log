@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/ZeroCutFoundationComponentAutomorphism.lean:56:2: error: Tactic `apply` failed: could not unify the conclusion of `LinearEquiv.injective
+  (Q.zeroCutFoundationComponentEquiv k i i)`
+  ?a₁ = ?a₂
+with the goal
+  (Q.zeroCutFoundationComponentEquiv k i i) ((cutComponentLinearEquiv Q k E i i 0) (Q.zeroCutPathId k i)) =
+    (Q.zeroCutFoundationComponentEquiv k i i) (Q.zeroCutPathId k i)
+
+Note: The full type of `LinearEquiv.injective (Q.zeroCutFoundationComponentEquiv k i i)` is
+  Function.Injective ⇑(Q.zeroCutFoundationComponentEquiv k i i)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+i : Q.Vertex
+⊢ (Q.zeroCutFoundationComponentEquiv k i i) ((cutComponentLinearEquiv Q k E i i 0) (Q.zeroCutPathId k i)) =
+    (Q.zeroCutFoundationComponentEquiv k i i) (Q.zeroCutPathId k i)

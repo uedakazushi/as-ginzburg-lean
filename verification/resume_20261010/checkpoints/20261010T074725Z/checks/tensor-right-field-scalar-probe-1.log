@@ -1,0 +1,692 @@
+work/tensor_right_scalar_probe.lean:29:19: error: unsolved goals
+case hf.h
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+c : k
+f : ULift.{u, v} (↑M →ₗ[Rᵐᵒᵖ] R)
+x : ↑(ModuleCat.of Rᵐᵒᵖ ↑M)
+⊢ (ModuleCat.Hom.hom (ModuleCat.ofHom (c • f).down)) x = c • (ModuleCat.Hom.hom (ModuleCat.ofHom f.down)) x
+case hf.h
+k : Type u
+inst✝² : Field.{u} k
+R : Type v
+inst✝¹ : Ring.{v} R
+inst✝ :
+  @Algebra.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²))
+    (@Ring.toSemiring.{v} R inst✝¹)
+M : @ModuleCat.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+c : k
+f :
+  ULift.{u, v}
+    (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+      (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+      (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+      (@RingHom.id.{v} (MulOpposite.{v} R)
+        (@MulOpposite.instNonAssocSemiring.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+      (@AddCommGroup.toAddCommMonoid.{v}
+        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+        (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+      (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+        (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+          (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+      (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+      (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+x :
+  @ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+    (@ModuleCat.of.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+      (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+      (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+⊢ @Eq.{v + 1} R
+    (@DFunLike.coe.{v + 1, v + 1, v + 1}
+      (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+        (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+        (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+        (@RingHom.id.{v} (MulOpposite.{v} R)
+          (@Semiring.toNonAssocSemiring.{v} (MulOpposite.{v} R)
+            (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))))
+        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+        (@AddCommGroup.toAddCommMonoid.{v}
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+        (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))
+        (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+        (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+      (fun (x : @ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) => R)
+      (@LinearMap.instFunLike.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+        (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+        (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+        (@AddCommGroup.toAddCommMonoid.{v}
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+        (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))
+        (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+        (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+        (@RingHom.id.{v} (MulOpposite.{v} R)
+          (@Semiring.toNonAssocSemiring.{v} (MulOpposite.{v} R)
+            (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)))))
+      (@ModuleCat.Hom.hom.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+        (@ModuleCat.of.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+        (@ModuleCat.of.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) R
+          (@Ring.toAddCommGroup.{v} R inst✝¹) (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+        (@ModuleCat.ofHom.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+          (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@Ring.toAddCommGroup.{v} R inst✝¹) (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+          (@ULift.down.{u, v}
+            (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+              (@RingHom.id.{v} (MulOpposite.{v} R)
+                (@MulOpposite.instNonAssocSemiring.{v} R
+                  (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+              (@AddCommGroup.toAddCommMonoid.{v}
+                (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+              (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+              (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+            (@HSMul.hSMul.{u, max u v, max u v} k
+              (ULift.{u, v}
+                (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                  (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                  (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                  (@RingHom.id.{v} (MulOpposite.{v} R)
+                    (@MulOpposite.instNonAssocSemiring.{v} R
+                      (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                  (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                  (@AddCommGroup.toAddCommMonoid.{v}
+                    (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                    (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                  (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                    (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                      (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                  (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                  (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+              (ULift.{u, v}
+                (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                  (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                  (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                  (@RingHom.id.{v} (MulOpposite.{v} R)
+                    (@MulOpposite.instNonAssocSemiring.{v} R
+                      (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                  (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                  (@AddCommGroup.toAddCommMonoid.{v}
+                    (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                    (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                  (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                    (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                      (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                  (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                  (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+              (@instHSMul.{u, max u v} k
+                (ULift.{u, v}
+                  (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                    (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                    (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                    (@RingHom.id.{v} (MulOpposite.{v} R)
+                      (@MulOpposite.instNonAssocSemiring.{v} R
+                        (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                    (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                    (@AddCommGroup.toAddCommMonoid.{v}
+                      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                      (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                    (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                      (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                        (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                    (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                    (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                (@SMulZeroClass.toSMul.{u, max u v} k
+                  (ULift.{u, v}
+                    (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                      (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                      (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                      (@RingHom.id.{v} (MulOpposite.{v} R)
+                        (@MulOpposite.instNonAssocSemiring.{v} R
+                          (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                      (@AddCommGroup.toAddCommMonoid.{v}
+                        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                        (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                      (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                        (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                          (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                      (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                      (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                  (@AddZero.toZero.{max u v}
+                    (ULift.{u, v}
+                      (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                        (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                        (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                        (@RingHom.id.{v} (MulOpposite.{v} R)
+                          (@MulOpposite.instNonAssocSemiring.{v} R
+                            (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                        (@AddCommGroup.toAddCommMonoid.{v}
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                          (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                        (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                        (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                    (@AddZeroClass.toAddZero.{max u v}
+                      (ULift.{u, v}
+                        (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                          (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                          (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                          (@RingHom.id.{v} (MulOpposite.{v} R)
+                            (@MulOpposite.instNonAssocSemiring.{v} R
+                              (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                          (@AddCommGroup.toAddCommMonoid.{v}
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                              M))
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                          (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                      (@AddMonoid.toAddZeroClass.{max u v}
+                        (ULift.{u, v}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                        (@AddCommMonoid.toAddMonoid.{max u v}
+                          (ULift.{u, v}
+                            (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@RingHom.id.{v} (MulOpposite.{v} R)
+                                (@MulOpposite.instNonAssocSemiring.{v} R
+                                  (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                                (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R)
+                                  (@MulOpposite.instRing.{v} R inst✝¹) M))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                              (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                          (@ULift.addCommMonoid.{v, u}
+                            (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@RingHom.id.{v} (MulOpposite.{v} R)
+                                (@MulOpposite.instNonAssocSemiring.{v} R
+                                  (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                                (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R)
+                                  (@MulOpposite.instRing.{v} R inst✝¹) M))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                              (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+                            (@LinearMap.addCommMonoid.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                                (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R)
+                                  (@MulOpposite.instRing.{v} R inst✝¹) M))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                              (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@RingHom.id.{v} (MulOpposite.{v} R)
+                                (@MulOpposite.instNonAssocSemiring.{v} R
+                                  (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))))))))
+                  (@DistribSMul.toSMulZeroClass.{u, max u v} k
+                    (ULift.{u, v}
+                      (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                        (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                        (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                        (@RingHom.id.{v} (MulOpposite.{v} R)
+                          (@MulOpposite.instNonAssocSemiring.{v} R
+                            (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                        (@AddCommGroup.toAddCommMonoid.{v}
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                          (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                        (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                        (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                    (@AddMonoid.toAddZeroClass.{max u v}
+                      (ULift.{u, v}
+                        (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                          (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                          (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                          (@RingHom.id.{v} (MulOpposite.{v} R)
+                            (@MulOpposite.instNonAssocSemiring.{v} R
+                              (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                          (@AddCommGroup.toAddCommMonoid.{v}
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                              M))
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                          (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                      (@AddCommMonoid.toAddMonoid.{max u v}
+                        (ULift.{u, v}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                        (@ULift.addCommMonoid.{v, u}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))))))
+                    (@DistribMulAction.toDistribSMul.{u, max u v} k
+                      (ULift.{u, v}
+                        (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                          (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                          (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                          (@RingHom.id.{v} (MulOpposite.{v} R)
+                            (@MulOpposite.instNonAssocSemiring.{v} R
+                              (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                          (@AddCommGroup.toAddCommMonoid.{v}
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                              M))
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                          (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                      (@MonoidWithZero.toMonoid.{u} k
+                        (@Semiring.toMonoidWithZero.{u} k
+                          (@DivisionSemiring.toSemiring.{u} k
+                            (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))))
+                      (@AddCommMonoid.toAddMonoid.{max u v}
+                        (ULift.{u, v}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                        (@ULift.addCommMonoid.{v, u}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹)))))))
+                      (@Module.toDistribMulAction.{u, max u v} k
+                        (ULift.{u, v}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                        (@DivisionSemiring.toSemiring.{u} k
+                          (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))
+                        (@ULift.addCommMonoid.{v, u}
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))))
+                        (@ULift.module'.{u, v, u} k
+                          (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+                          (@DivisionSemiring.toSemiring.{u} k
+                            (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹)))))
+                          (@LinearMap.module.{v, v, u, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R) k
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                              (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+                                M))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                            (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                            (@RingHom.id.{v} (MulOpposite.{v} R)
+                              (@MulOpposite.instNonAssocSemiring.{v} R
+                                (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                            (@DivisionSemiring.toSemiring.{u} k
+                              (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))
+                            (@Algebra.toModule.{u, v} k R
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²))
+                              (@Ring.toSemiring.{v} R inst✝¹) inst✝)
+                            (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)) (MulOpposite.{v} R)
+                              (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@MulOpposite.instAlgebra.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²))
+                                (@Ring.toSemiring.{v} R inst✝¹) inst✝)
+                              R
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                              (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                              (@Algebra.toModule.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²))
+                                (@Ring.toSemiring.{v} R inst✝¹) inst✝)
+                              (@IsScalarTower.opposite_mid.{u, v} k R
+                                (@MulZeroClass.toMul.{v} R
+                                  (@MulZeroOneClass.toMulZeroClass.{v} R
+                                    (@MonoidWithZero.toMulZeroOneClass.{v} R
+                                      (@Semiring.toMonoidWithZero.{v} R (@Ring.toSemiring.{v} R inst✝¹)))))
+                                (@SMulZeroClass.toSMul.{u, v} k R
+                                  (@AddZero.toZero.{v} R
+                                    (@AddZeroClass.toAddZero.{v} R
+                                      (@AddMonoid.toAddZeroClass.{v} R
+                                        (@AddCommMonoid.toAddMonoid.{v} R
+                                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R
+                                                (@Ring.toNonAssocRing.{v} R inst✝¹))))))))
+                                  (@DistribSMul.toSMulZeroClass.{u, v} k R
+                                    (@AddMonoid.toAddZeroClass.{v} R
+                                      (@AddCommMonoid.toAddMonoid.{v} R
+                                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R
+                                              (@Ring.toNonAssocRing.{v} R inst✝¹))))))
+                                    (@DistribMulAction.toDistribSMul.{u, v} k R
+                                      (@MonoidWithZero.toMonoid.{u} k
+                                        (@Semiring.toMonoidWithZero.{u} k
+                                          (@CommSemiring.toSemiring.{u} k
+                                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))))
+                                      (@AddCommMonoid.toAddMonoid.{v} R
+                                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R
+                                              (@Ring.toNonAssocRing.{v} R inst✝¹)))))
+                                      (@Module.toDistribMulAction.{u, v} k R
+                                        (@CommSemiring.toSemiring.{u} k
+                                          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))
+                                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R
+                                              (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                                        (@Algebra.toModule.{u, v} k R
+                                          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²))
+                                          (@Ring.toSemiring.{v} R inst✝¹) inst✝)))))
+                                (@Algebra.to_smulCommClass.{u, v} k R
+                                  (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²))
+                                  (@Ring.toSemiring.{v} R inst✝¹) inst✝))))))))))
+              c f))))
+      x)
+    (@HSMul.hSMul.{u, v, v} k R R
+      (@instHSMul.{u, v} k R
+        (@SMulZeroClass.toSMul.{u, v} k R
+          (@AddZero.toZero.{v} R
+            (@AddZeroClass.toAddZero.{v} R
+              (@AddMonoid.toAddZeroClass.{v} R
+                (@AddCommMonoid.toAddMonoid.{v} R
+                  (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))))))
+          (@DistribSMul.toSMulZeroClass.{u, v} k R
+            (@AddMonoid.toAddZeroClass.{v} R
+              (@AddCommMonoid.toAddMonoid.{v} R
+                (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))))
+            (@DistribMulAction.toDistribSMul.{u, v} k R
+              (@MonoidWithZero.toMonoid.{u} k
+                (@Semiring.toMonoidWithZero.{u} k
+                  (@DivisionSemiring.toSemiring.{u} k
+                    (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))))
+              (@AddCommMonoid.toAddMonoid.{v} R
+                (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹)))
+              (@Module.toDistribMulAction.{u, v} k R
+                (@DivisionSemiring.toSemiring.{u} k
+                  (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)))
+                (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))
+                (@ModuleCat.moduleOfAlgebraModule.{v, u, v} k inst✝² (MulOpposite.{v} R)
+                  (@MulOpposite.instRing.{v} R inst✝¹)
+                  (@MulOpposite.instAlgebra.{u, v} k R
+                    (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝²)) (@Ring.toSemiring.{v} R inst✝¹)
+                    inst✝)
+                  (@ModuleCat.of.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) R
+                    (@Ring.toAddCommGroup.{v} R inst✝¹)
+                    (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))))))))
+      c
+      (@DFunLike.coe.{v + 1, v + 1, v + 1}
+        (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+          (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+          (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+          (@RingHom.id.{v} (MulOpposite.{v} R)
+            (@Semiring.toNonAssocSemiring.{v} (MulOpposite.{v} R)
+              (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))))
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+          (@AddCommGroup.toAddCommMonoid.{v}
+            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+          (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))
+          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+        (fun (x : @ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) => R)
+        (@LinearMap.instFunLike.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+          (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+          (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹))
+          (@AddCommGroup.toAddCommMonoid.{v}
+            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+          (@AddCommGroup.toAddCommMonoid.{v} R (@Ring.toAddCommGroup.{v} R inst✝¹))
+          (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+          (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+          (@RingHom.id.{v} (MulOpposite.{v} R)
+            (@Semiring.toNonAssocSemiring.{v} (MulOpposite.{v} R)
+              (@Ring.toSemiring.{v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)))))
+        (@ModuleCat.Hom.hom.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+          (@ModuleCat.of.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+          (@ModuleCat.of.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) R
+            (@Ring.toAddCommGroup.{v} R inst✝¹) (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+          (@ModuleCat.ofHom.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹)
+            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+            (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+            (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+            (@Ring.toAddCommGroup.{v} R inst✝¹) (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+            (@ULift.down.{u, v}
+              (@LinearMap.{v, v, v, v} (MulOpposite.{v} R) (MulOpposite.{v} R)
+                (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                (@MulOpposite.instSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))
+                (@RingHom.id.{v} (MulOpposite.{v} R)
+                  (@MulOpposite.instNonAssocSemiring.{v} R
+                    (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst✝¹))))
+                (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M) R
+                (@AddCommGroup.toAddCommMonoid.{v}
+                  (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                  (@ModuleCat.isAddCommGroup.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M))
+                (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                  (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                    (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst✝¹))))
+                (@ModuleCat.isModule.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst✝¹) M)
+                (@Semiring.toOppositeModule.{v} R (@Ring.toSemiring.{v} R inst✝¹)))
+              f)))
+        x))

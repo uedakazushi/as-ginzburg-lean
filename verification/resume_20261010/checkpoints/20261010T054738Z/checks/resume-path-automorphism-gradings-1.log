@@ -1,0 +1,60 @@
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:25:8: error: Type mismatch
+  Submodule.zero_mem (Q.pathCutComponent k i q c)
+has type
+  0 ∈ Q.pathCutComponent k i q c
+but is expected to have type
+  Pi.single i (Pi.single j f) i q ∈ Q.pathCutComponent k i q c
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:24:57: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵L̵i̵n̵e̵a̵r̵C̵o̵m̵p̵o̵n̵e̵n̵t̵A̵l̵g̵e̵b̵r̵a̵.̵t̵o̵t̵a̵l̵C̵o̵m̵p̵o̵n̵e̵n̵t̵,̵P̵i̵.̵s̵i̵n̵g̵l̵e̵_̵a̵p̵p̵l̵y̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵i̵f̵_̵n̵e̵g̵[̲L̲i̲n̲e̲a̲r̲C̲o̲m̲p̲o̲n̲e̲n̲t̲A̲l̲g̲e̲b̲r̲a̲.̲t̲o̲t̲a̲l̲C̲o̲m̲p̲o̲n̲e̲n̲t̲,̲ ̲i̲f̲_̲p̲o̲s̲ ̲r̲f̲l̲,̲ ̲i̲f̲_̲n̲e̲g̲ hq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:24:73: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearComponentAlgebra.totalComponent, ̲Pi.single_apply,i̵f̵_̵p̵o̵s̵ r̵f̵l̵,̵if_neg hq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:24:84: warning: This simp argument is unused:
+  if_neg hq
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearComponentAlgebra.totalComponent, ̲Pi.single_apply, ̲if_pos rfl,̵i̵f̵_̵n̵e̵g̵ ̵h̵q̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:33:5: error: Invalid field `fixes_vertex`: The environment does not contain `Subtype.fixes_vertex`
+  E
+has type
+  ↥(Q.VertexCutPathAutomorphism k)
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:39:6: error: Invalid field `componentLinearEquiv`: The environment does not contain `Subtype.componentLinearEquiv`
+  E
+has type
+  ↥(Q.VertexCutPathAutomorphism k)
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:41:49: error: Invalid field `componentLinearEquiv`: The environment does not contain `Subtype.componentLinearEquiv`
+  E
+has type
+  ↥(Q.VertexCutPathAutomorphism k)
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:39:71: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+i j : Q.Vertex
+c : ℤ
+f : Q.PathComponent k i j
+⊢ (Q.pathComponentAlgebra k).totalComponent i j f ∈ Q.pathRingCutSubspace k c ↔ sorry ∈ Q.pathCutComponent k i j c
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:63:4: error: Invalid field `componentLinearEquiv`: The environment does not contain `Subtype.componentLinearEquiv`
+  E
+has type
+  ↥(Q.VertexCutPathAutomorphism k)
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:70:8: error: failed to synthesize
+  AddCommMonoid (Type u)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PathAutomorphismGradings.lean:71:19: error: Invalid field `component_preserves_cut`: The environment does not contain `Subtype.component_preserves_cut`
+  E
+has type
+  ↥(Q.VertexCutPathAutomorphism k)

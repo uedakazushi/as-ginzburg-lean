@@ -1,0 +1,27 @@
+beforechange
+work/homogeneous-top-quotient-lift-change-diagnostic.lean:60:18: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (5000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/homogeneous-top-quotient-lift-change-diagnostic.lean:52:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (5000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M L : GradedOrdinaryModuleData k R G
+hG : ∀ (p q : ℤ), ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q)
+a : M.ringModule ⟶ L.ringModule
+ha : M.PreservesGrade L a
+q : ℤ
+B : Submodule k ↑(ordinaryRingDual R M.ringModule) := ⋯
+C : Submodule k ↥(M.ringDualGrade q) := ⋯
+g : ↥(L.ringDualGrade q)
+⊢ (M.ringDualGradeToTopQuotient L a q) ((M.ringDualMapDegree L a ha q) g) = 0

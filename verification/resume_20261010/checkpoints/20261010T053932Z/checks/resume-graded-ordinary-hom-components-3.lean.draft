@@ -1,0 +1,87 @@
+import ASGinzburg.GradedOrdinaryModuleData
+import work.ASGinzburgDraft.HomogeneousLinearMapShiftedComponent
+import Mathlib.Algebra.Algebra.Bilinear
+
+/-! Fixed homogeneous components of actual ordinary module morphisms
+are again ring-linear, without finite-generation assumptions. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R} [DirectSum.Decomposition G]
+variable (M N : GradedOrdinaryModuleData k R G)
+attribute [local instance] decomposition
+
+noncomputable def homComponentLinear (f : M.ringModule ⟶ N.ringModule) (q : ℤ) :
+    M.ringModule →ₗ[k] N.ringModule := by
+  letI := M.decomposition
+  letI := N.decomposition
+  exact (DirectSum.toModule k ℤ N.ringModule (fun p =>
+    (homogeneousComponent k N.ringModule N.grade (p + q)).comp
+      ((f.hom.restrictScalars k).comp (M.grade p).subtype))).comp
+    (DirectSum.decomposeLinearEquiv M.grade).toLinearMap
+
+omit [DirectSum.Decomposition G] in
+theorem homComponentLinear_apply_homogeneous
+    (f : M.ringModule ⟶ N.ringModule) (q p : ℤ)
+    (x : M.ringModule) (hx : x ∈ M.grade p) :
+    M.homComponentLinear N f q x =
+      homogeneousComponent k N.ringModule N.grade (p + q) (f x) := by
+  letI := M.decomposition
+  letI := N.decomposition
+  change DirectSum.toModule k ℤ N.ringModule (fun p =>
+    (homogeneousComponent k N.ringModule N.grade (p + q)).comp
+      ((f.hom.restrictScalars k).comp (M.grade p).subtype))
+      (DirectSum.decompose M.grade x) = _
+  rw [DirectSum.decompose_of_mem M.grade hx]
+  exact DirectSum.toModule_lof k (M := fun p => M.grade p)
+    (φ := fun p => (homogeneousComponent k N.ringModule N.grade (p + q)).comp
+      ((f.hom.restrictScalars k).comp (M.grade p).subtype)) p ⟨x,hx⟩
+
+theorem homComponentLinear_map_smul (f : M.ringModule ⟶ N.ringModule)
+    (q : ℤ) (r : R) (x : M.ringModule) :
+    M.homComponentLinear N f q (r • x) = r • M.homComponentLinear N f q x := by
+  letI := M.decomposition
+  letI := N.decomposition
+  induction r using DirectSum.Decomposition.inductionOn G with
+  | zero => rw [zero_smul,map_zero,zero_smul]
+  | @homogeneous p r =>
+    induction x using DirectSum.Decomposition.inductionOn M.grade with
+    | zero => rw [smul_zero,map_zero,smul_zero]
+    | @homogeneous s x =>
+      rw [M.homComponentLinear_apply_homogeneous N f q (p+s) _
+        (M.smul_mem p s r r.property x x.property),
+        M.homComponentLinear_apply_homogeneous N f q s x x.property]
+      change homogeneousComponent k N.ringModule N.grade (p+s+q) (f.hom (r • x)) = _
+      rw [f.hom.map_smul (r : R)]
+      have h := homogeneousLinearMap_shifted_component k N.ringModule N.ringModule
+        N.grade N.grade (Algebra.lsmul k k N.ringModule (r : R)) p
+        (fun t y hy => by
+          simpa only [add_comm] using N.smul_mem p t r r.property y hy)
+        (s+q) (f x)
+      simpa only [Algebra.lsmul_apply,add_assoc,add_comm,add_left_comm] using h.symm
+    | add x y hx hy => rw [smul_add,map_add,map_add,smul_add,hx,hy]
+  | add r s hr hs => rw [add_smul,map_add,add_smul,hr,hs]
+
+noncomputable def homComponent (f : M.ringModule ⟶ N.ringModule) (q : ℤ) :
+    M.ringModule ⟶ N.ringModule := ModuleCat.ofHom {
+  toFun := M.homComponentLinear N f q
+  map_add' := (M.homComponentLinear N f q).map_add
+  map_smul' r x := M.homComponentLinear_map_smul N f q r x }
+
+theorem homComponent_apply_homogeneous
+    (f : M.ringModule ⟶ N.ringModule) (q p : ℤ)
+    (x : M.ringModule) (hx : x ∈ M.grade p) :
+    M.homComponent N f q x =
+      homogeneousComponent k N.ringModule N.grade (p+q) (f x) :=
+  M.homComponentLinear_apply_homogeneous N f q p x hx
+
+theorem homComponent_zero_preservesGrade (f : M.ringModule ⟶ N.ringModule) :
+    M.PreservesGrade N (M.homComponent N f 0) := by
+  letI := N.decomposition
+  intro p x hx
+  rw [M.homComponent_apply_homogeneous N f 0 p x hx,add_zero]
+  exact (DirectSum.decompose N.grade (f x) p).property
+
+end ASGinzburg.GradedOrdinaryModuleData

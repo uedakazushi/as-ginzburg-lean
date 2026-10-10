@@ -1,0 +1,42 @@
+work/ASGinzburgDraft/ASCutForgottenGradedSimpleResolution.lean:23:2: error: failed to synthesize
+  (PeriodIso.cutGradedForgetFunctor Q (periodIso A Q hAS)).PreservesHomology
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutForgottenGradedSimpleResolution.lean:27:1: error: Not a definitional equality: the left-hand side
+  (cutOrdinarySimpleResolutionTermData A Q hAS i n).ringModule
+is not definitionally equal to the right-hand side
+  (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.X n
+work/ASGinzburgDraft/ASCutForgottenGradedSimpleResolution.lean:30:78: error: Type mismatch
+  rfl
+has type
+  ?m.26 = ?m.26
+but is expected to have type
+  (cutOrdinarySimpleResolutionTermData A Q hAS i n).ringModule =
+    (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.X n
+work/ASGinzburgDraft/ASCutForgottenGradedSimpleResolution.lean:35:6: error: Type mismatch
+  (PeriodIso.cutGradedForgetFunctor Q (periodIso A Q hAS)).map
+    ((cutGradedSimpleProjectiveResolution A Q hAS (i, 0)).complex.d (n + 1) n)
+has type
+  (PeriodIso.cutGradedForgetFunctor Q (periodIso A Q hAS)).obj
+      ((cutGradedSimpleProjectiveResolution A Q hAS (i, 0)).complex.X (n + 1)) ⟶
+    (PeriodIso.cutGradedForgetFunctor Q (periodIso A Q hAS)).obj
+      ((cutGradedSimpleProjectiveResolution A Q hAS (i, 0)).complex.X n)
+but is expected to have type
+  (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.X (n + 1) ⟶
+    (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.X n
+work/ASGinzburgDraft/ASCutForgottenGradedSimpleResolution.lean:42:6: error: Application type mismatch: The argument
+  (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.d (n + 1) n
+has type
+  (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.X (n + 1) ⟶
+    (cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.X n
+but is expected to have type
+  (cutOrdinarySimpleResolutionTermData A Q hAS i (n + 1)).ringModule ⟶
+    (cutOrdinarySimpleResolutionTermData A Q hAS i n).ringModule
+in the application
+  (cutOrdinarySimpleResolutionTermData A Q hAS i (n + 1)).PreservesGrade
+    (cutOrdinarySimpleResolutionTermData A Q hAS i n)
+    ((cutForgottenGradedSimpleProjectiveResolution A Q hAS i).complex.d (n + 1) n)
+work/ASGinzburgDraft/ASCutForgottenGradedSimpleResolution.lean:49:2: error: failed to synthesize
+  (PeriodIso.cutGradedForgetFunctor Q (periodIso A Q hAS)).PreservesHomology
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

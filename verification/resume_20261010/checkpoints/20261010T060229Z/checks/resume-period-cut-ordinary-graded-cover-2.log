@@ -1,0 +1,40 @@
+work/ASGinzburgDraft/PeriodCutOrdinaryGradedCover.lean:83:2: error: failed to synthesize
+  Epi
+    ((cutGradedForgetFunctor Q E).map
+        ((cornerGradedModuleFunctor Q E).map
+            ((cornerCoverZAlgebra Q E).rightTopBasisFreeModuleπ N.recoveredRightModule) ≫
+          N.recoveredGradedModuleIso.hom) ≫
+      (ordinaryGradedDataCutRightModuleIso Q E M).hom)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutOrdinaryGradedCover.lean:109:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ConcreteCategory.hom (S.map (cornerModuleRingFunctor Q E)).f) y
+in the target expression
+  (ConcreteCategory.hom ((cornerModuleRingFunctor Q E).map (kernel.ι f))) y ∈
+    Submodule.span k {a | ∃ r ∈ cutGradedJacobson Q E, ∃ m, MulOpposite.op r • m = a}
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E)
+x : ↑(cutOrdinaryGradedCoverSource Q E M).ringModule
+hx : (ConcreteCategory.hom (cutOrdinaryGradedCoverπ Q E M)) x = 0
+N : CutGradedRightModule Q E := ordinaryGradedDataCutRightModule Q E M
+C : ZAlgebra k := cornerCoverZAlgebra Q E
+f : C.rightTopBasisFreeModule N.recoveredRightModule ⟶ N.recoveredRightModule :=
+  C.rightTopBasisFreeModuleπ N.recoveredRightModule
+hx0 : (ConcreteCategory.hom ((cornerModuleRingFunctor Q E).map f)) x = 0
+S : ShortComplex C.RightModule :=
+  { X₁ := kernel f, X₂ := C.rightTopBasisFreeModule N.recoveredRightModule, X₃ := N.recoveredRightModule,
+    f := kernel.ι f, g := f, zero := ⋯ }
+hS : (S.map (cornerModuleRingFunctor Q E)).Exact
+y : ↑(S.map (cornerModuleRingFunctor Q E)).X₁
+hy : (ConcreteCategory.hom (S.map (cornerModuleRingFunctor Q E)).f) y = x
+hmin :
+  (ConcreteCategory.hom ((cornerModuleRingFunctor Q E).map (kernel.ι f))) y ∈
+    Submodule.span k {a | ∃ r ∈ cutGradedJacobson Q E, ∃ m, MulOpposite.op r • m = a}
+⊢ x ∈
+    ordinaryIdealActionSpan k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (↑(cutOrdinaryGradedCoverSource Q E M).ringModule)
+      (cutGradedJacobsonOppositeIdeal Q E)

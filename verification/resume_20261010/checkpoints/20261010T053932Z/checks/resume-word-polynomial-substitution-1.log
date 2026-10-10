@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/WordPolynomialSubstitution.lean:44:17: error: unsolved goals
+case single.single
+A : Type u
+k : Type v
+inst✝ : Field k
+σ : A → WordPolynomial k A
+p : List A
+a : k
+q : List A
+b : k
+⊢ (a * b) • (wordConcatenation (wordSubstitutionWord σ p)) (wordSubstitutionWord σ q) =
+    (b * a) • (wordConcatenation (wordSubstitutionWord σ p)) (wordSubstitutionWord σ q)
+work/ASGinzburgDraft/WordPolynomialSubstitution.lean:72:83: error: unsolved goals
+A : Type u
+k : Type v
+inst✝ : Field k
+σ : A → WordPolynomial k A
+p : List A
+⊢ Quotient.lift (fun p => cyclicTrace (wordSubstitutionWord σ p)) ⋯ (wordClass p) =
+    cyclicTrace (wordSubstitutionWord σ p)

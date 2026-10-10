@@ -1,0 +1,112 @@
+import work.ASGinzburgDraft.NoncutJacobianContextCoefficients
+import work.ASGinzburgDraft.PathCyclicContextTransposition
+
+/-! Finite genuine context coefficients transpose into an actual family
+of cut-arrow replacements. Their cyclic trace identity is unconditional. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def noncutJacobianContextTransposedTerm
+    (a : {a : Q.Arrow // Q.cut a = true}) (b : Q.Arrow)
+    (c : Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val)) :
+    Q.PathComponent k (Q.source b) (Q.target b) := by
+  classical
+  exact if h : c.1.val = b then
+    Finsupp.single ((Q.pathJacobianContextTranspose a.val c.1.val c.2.1.val c.2.2.val).transport
+      (congrArg Q.source h) (congrArg Q.target h)) 1
+  else 0
+
+theorem noncutJacobianContextTransposedTerm_mem_cut
+    (a : {a : Q.Arrow // Q.cut a = true}) (b : Q.Arrow)
+    (c : Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val)) :
+    Q.noncutJacobianContextTransposedTerm k a b c ∈
+      Q.pathCutComponent k (Q.source b) (Q.target b) 1 := by
+  classical
+  rw [noncutJacobianContextTransposedTerm]
+  split_ifs with h
+  · apply Finsupp.single_mem_supported
+    change (((Q.pathJacobianContextTranspose a.val c.1.val c.2.1.val c.2.2.val).transport
+      (congrArg Q.source h) (congrArg Q.target h)).cutDegree : ℤ) = 1
+    simp only [Path.cutDegree_transport,
+      Q.pathJacobianContextTranspose_cutDegree _ _ _ _ a.property c.2.1.property c.2.2.property]
+    rfl
+  · exact Submodule.zero_mem _
+
+theorem noncutJacobianContextTransposedTerm_noncut
+    (a : {a : Q.Arrow // Q.cut a = true}) (b : Q.Arrow) (hb : Q.cut b = false)
+    (c : Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val)) :
+    Q.noncutJacobianContextTransposedTerm k a b c = 0 := by
+  classical
+  apply dif_neg
+  intro h
+  have hc := c.1.property
+  rw [h, hb] at hc
+  exact Bool.false_ne_true hc
+
+noncomputable def noncutJacobianContextTransposedLinearMap
+    (a : {a : Q.Arrow // Q.cut a = true}) (b : Q.Arrow) :
+    (Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val) →₀ k) →ₗ[k]
+      Q.PathComponent k (Q.source b) (Q.target b) :=
+  Finsupp.linearCombination k (Q.noncutJacobianContextTransposedTerm k a b)
+
+theorem noncutJacobianContextTransposedLinearMap_mem_cut
+    (a : {a : Q.Arrow // Q.cut a = true}) (b : Q.Arrow)
+    (f : Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val) →₀ k) :
+    Q.noncutJacobianContextTransposedLinearMap k a b f ∈
+      Q.pathCutComponent k (Q.source b) (Q.target b) 1 := by
+  classical
+  rw [noncutJacobianContextTransposedLinearMap, Finsupp.linearCombination_apply, Finsupp.sum]
+  apply Submodule.sum_mem
+  intro c _
+  exact Submodule.smul_mem _ _ (Q.noncutJacobianContextTransposedTerm_mem_cut k a b c)
+
+theorem noncutJacobianContextTransposedTerm_trace (ψ : Q.Potential k)
+    (a : {a : Q.Arrow // Q.cut a = true})
+    (c : Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val)) :
+    (∑ b : Q.Arrow, Q.closedPathTrace k (Q.source b)
+      (Q.pathComp k (Q.pathCyclicDerivative k b ψ)
+        (Q.noncutJacobianContextTransposedTerm k a b c))) =
+      Q.closedPathTrace k (Q.source a.val)
+        (Q.pathComp k (Q.noncutJacobianContextValue k ψ _ _ c)
+          (Finsupp.single (Q.baseArrowPath a.val) 1)) := by
+  classical
+  rw [Finset.sum_eq_single c.1.val]
+  · rw [noncutJacobianContextTransposedTerm, dif_pos rfl]
+    exact (Q.pathJacobianContextTranspose_trace k ψ a.val c.1.val c.2.1.val c.2.2.val).symm
+  · intro b _ hbc
+    rw [noncutJacobianContextTransposedTerm, dif_neg (Ne.symm hbc), map_zero, map_zero]
+  · simp
+
+theorem noncutJacobianContextTransposedLinearMap_trace (ψ : Q.Potential k)
+    (a : {a : Q.Arrow // Q.cut a = true})
+    (f : Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val) →₀ k) :
+    (∑ b : Q.Arrow, Q.closedPathTrace k (Q.source b)
+      (Q.pathComp k (Q.pathCyclicDerivative k b ψ)
+        (Q.noncutJacobianContextTransposedLinearMap k a b f))) =
+      Q.closedPathTrace k (Q.source a.val)
+        (Q.pathComp k (Q.noncutJacobianContextLinearMap k ψ _ _ f)
+          (Finsupp.single (Q.baseArrowPath a.val) 1)) := by
+  classical
+  let L : (Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val) →₀ k) →ₗ[k]
+      CyclicPolynomial k Q.Arrow := ∑ b : Q.Arrow, (Q.closedPathTrace k (Q.source b)).comp
+    ((Q.pathComp k (Q.pathCyclicDerivative k b ψ)).comp
+      (Q.noncutJacobianContextTransposedLinearMap k a b))
+  let B : Q.PathComponent k (Q.target a.val) (Q.source a.val) →ₗ[k]
+      Q.PathComponent k (Q.source a.val) (Q.source a.val) :=
+    (Q.pathComp k).flip (Finsupp.single (Q.baseArrowPath a.val) 1)
+  let R : (Q.NoncutJacobianContextIndex (Q.target a.val) (Q.source a.val) →₀ k) →ₗ[k]
+      CyclicPolynomial k Q.Arrow := (Q.closedPathTrace k (Q.source a.val)).comp
+    (B.comp (Q.noncutJacobianContextLinearMap k ψ (Q.target a.val) (Q.source a.val)))
+  have h : L = R := by
+    apply Finsupp.lhom_ext'
+    intro c
+    apply LinearMap.ext_ring
+    simpa only [L, R, B, LinearMap.sum_apply, LinearMap.comp_apply, LinearMap.flip_apply,
+      noncutJacobianContextTransposedLinearMap, noncutJacobianContextLinearMap,
+      Finsupp.linearCombination_single, Finsupp.lsingle_apply, one_smul] using
+      Q.noncutJacobianContextTransposedTerm_trace k ψ a c
+  simpa only [L, R, B, LinearMap.sum_apply, LinearMap.comp_apply, LinearMap.flip_apply] using
+    LinearMap.congr_fun h f
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,62 @@
+import work.ASGinzburgDraft.NoncutJacobianContextClassFormula
+
+/-! The actual minimal class of an arbitrary noncut Jacobian relation
+is its exact constant-context coefficient vector in the cut derivatives. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def zeroCutJacobianRelationNativeElement (φ : Q.Potential k) (i j : Q.Vertex)
+    (f : Q.pathCutComponent k i j 0)
+    (hf : f.val ∈ (Q.pathJacobianIdeal k φ).hom i j) :
+    (Q.unrolledJacobianIdeal k φ).hom (i.val : ℤ) (j.val : ℤ) :=
+  ⟨Q.zeroCutFoundationComponentEquiv k i j f,
+    (Q.zeroCutFoundationComponentEquiv_mem_Jacobian_iff k φ i j f).mpr hf⟩
+
+theorem noncutJacobianContextNativeValue_expansion (φ : Q.Potential k) (i j : Q.Vertex)
+    (f : Q.pathCutComponent k i j 0)
+    (hf : f.val ∈ (Q.pathJacobianIdeal k φ).hom i j) :
+    Q.zeroCutJacobianRelationNativeElement k φ i j f hf =
+      Finsupp.linearCombination k (Q.noncutJacobianContextNativeValue k φ i j)
+        (Q.noncutJacobianContextCoefficients k φ i j f hf) := by
+  let c := Q.noncutJacobianContextCoefficients k φ i j f hf
+  have hcut : Finsupp.linearCombination k (Q.noncutJacobianContextCutValue k φ i j) c = f := by
+    apply Subtype.ext
+    change (Q.pathCutComponent k i j 0).subtype
+      (Finsupp.linearCombination k (Q.noncutJacobianContextCutValue k φ i j) c) = f.val
+    rw [Finsupp.apply_linearCombination]
+    change Q.noncutJacobianContextLinearMap k φ i j c = f.val
+    exact Q.noncutJacobianContextCoefficients_expansion k φ i j f hf
+  have hnative :
+      (Finsupp.linearCombination k (Q.noncutJacobianContextNativeValue k φ i j) c).val =
+      Q.zeroCutFoundationComponentEquiv k i j
+        (Finsupp.linearCombination k (Q.noncutJacobianContextCutValue k φ i j) c) := by
+    change ((Q.unrolledJacobianIdeal k φ).hom (i.val : ℤ) (j.val : ℤ)).subtype
+      (Finsupp.linearCombination k (Q.noncutJacobianContextNativeValue k φ i j) c) = _
+    exact (Finsupp.apply_linearCombination k
+      ((Q.unrolledJacobianIdeal k φ).hom (i.val : ℤ) (j.val : ℤ)).subtype
+      (Q.noncutJacobianContextNativeValue k φ i j) c).trans
+      (Finsupp.apply_linearCombination k (Q.zeroCutFoundationComponentEquiv k i j).toLinearMap
+        (Q.noncutJacobianContextCutValue k φ i j) c).symm
+  apply Subtype.ext
+  change Q.zeroCutFoundationComponentEquiv k i j f = _
+  rw [hnative, hcut]
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem zeroCutJacobianRelationNativeElement_minimalClass (φ : Q.Potential k)
+    (i j : Q.Vertex) (f : Q.pathCutComponent k i j 0)
+    (hf : f.val ∈ (Q.pathJacobianIdeal k φ).hom i j) :
+    (Submodule.Quotient.mk (Q.zeroCutJacobianRelationNativeElement k φ i j f hf) :
+      Q.MinimalRelationComponent (Q.unrolledJacobianIdeal k φ) (i.val : ℤ) (j.val : ℤ)) =
+    Finsupp.linearCombination k (Q.foundationMinimalCutDerivativeClass k φ i j)
+      (Q.noncutJacobianContextConstantProjection k i j
+        (Q.noncutJacobianContextCoefficients k φ i j f hf)) := by
+  let c := Q.noncutJacobianContextCoefficients k φ i j f hf
+  let D := Submodule.comap ((Q.unrolledJacobianIdeal k φ).hom (i.val : ℤ) (j.val : ℤ)).subtype
+    (Q.relationDecomposables (Q.unrolledJacobianIdeal k φ) (i.val : ℤ) (j.val : ℤ))
+  rw [Q.noncutJacobianContextNativeValue_expansion]
+  change D.mkQ (Finsupp.linearCombination k (Q.noncutJacobianContextNativeValue k φ i j) c) = _
+  rw [Finsupp.apply_linearCombination]
+  exact Q.noncutJacobianContextMinimalClass_linearCombination k φ i j c
+
+end ASGinzburg.CutQuiver

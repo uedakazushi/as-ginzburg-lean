@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/GinzburgWordSubstitution.lean:23:20: error: unsolved goals
+case add
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j l : Q.Vertex
+g : Q.GinzburgPathComponent k j l
+f h : Q.GinzburgPath i j →₀ k
+ihf :
+  (Q.ginzburgPathWordMap k i l) (((Q.ginzburgPathComp k) g) f) =
+    (wordConcatenation ((Q.ginzburgPathWordMap k i j) f)) ((Q.ginzburgPathWordMap k j l) g)
+ihh :
+  (Q.ginzburgPathWordMap k i l) (((Q.ginzburgPathComp k) g) h) =
+    (wordConcatenation ((Q.ginzburgPathWordMap k i j) h)) ((Q.ginzburgPathWordMap k j l) g)
+⊢ (wordConcatenation ((Q.ginzburgPathWordMap k i j) f)) ((Q.ginzburgPathWordMap k j l) g) +
+      (wordConcatenation ((Q.ginzburgPathWordMap k i j) h)) ((Q.ginzburgPathWordMap k j l) g) =
+    (wordConcatenation ((Q.ginzburgPathWordMap k i j) f) + wordConcatenation ((Q.ginzburgPathWordMap k i j) h))
+      ((Q.ginzburgPathWordMap k j l) g)

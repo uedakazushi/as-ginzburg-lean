@@ -1,0 +1,24 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingBicomplexComparison.lean:39:4: error: Type mismatch
+  h
+has type
+  (balancedTensorEnvelopingModuleIso k R (P.X i) (Q.X n)).hom ≫
+      ((balancedTensorBifunctor k R).map (P.d i j)).app (Q.X n) =
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+        (ModuleCat.ofHom (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom (P.d i j)) (ModuleCat.Hom.hom (𝟙 (Q.X n))))) ≫
+      (balancedTensorEnvelopingModuleIso k R (P.X j) (Q.X n)).hom
+but is expected to have type
+  (ModuleCat.Hom.hom
+        ((((fun i₁ => Hom.isoOfComponents (fun i₂ => balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X i₂)) ⋯)
+                  i).hom ≫
+              ((((balancedTensorBifunctor k R).mapBifunctorHomologicalComplex c₁ c₂).obj P).obj Q).d i j).f
+          n))
+      x✝ =
+    (ModuleCat.Hom.hom
+        ((((((balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).mapHomologicalComplex c₂).mapHomologicalComplex
+                        c₁).obj
+                    (tensorRightEnvelopingBicomplex k R P Q)).d
+                i j ≫
+              ((fun i₁ => Hom.isoOfComponents (fun i₂ => balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X i₂)) ⋯)
+                  j).hom).f
+          n))
+      x✝

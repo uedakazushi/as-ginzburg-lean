@@ -1,0 +1,42 @@
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:45:35: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (DirectSum.coeAddMonoidHom ?A) ((DirectSum.of (fun i => ↥(?A i)) ?i) ?x)
+in the target expression
+  (↑a).1 = (DirectSum.coeAddMonoidHom G) (DFinsupp.single q ⟨(↑a).1, ⋯⟩)
+
+case of
+k : Type u
+inst✝⁶ : Field k
+M : Type v
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+N : Type w
+inst✝³ : AddCommGroup N
+inst✝² : Module k N
+G : ℤ → Submodule k M
+H : ℤ → Submodule k N
+inst✝¹ : DirectSum.Decomposition G
+inst✝ : DirectSum.Decomposition H
+q : ℤ
+a : ↥((G q).prod (H q))
+⊢ (↑a).1 = (DirectSum.coeAddMonoidHom G) (DFinsupp.single q ⟨(↑a).1, ⋯⟩)
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:62:35: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (DirectSum.coeAddMonoidHom ?A) ((DirectSum.of (fun i => ↥(?A i)) ?i) ?x)
+in the target expression
+  (↑a).2 = (DirectSum.coeAddMonoidHom H) (DFinsupp.single q ⟨(↑a).2, ⋯⟩)
+
+case of
+k : Type u
+inst✝⁶ : Field k
+M : Type v
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+N : Type w
+inst✝³ : AddCommGroup N
+inst✝² : Module k N
+G : ℤ → Submodule k M
+H : ℤ → Submodule k N
+inst✝¹ : DirectSum.Decomposition G
+inst✝ : DirectSum.Decomposition H
+q : ℤ
+a : ↥((G q).prod (H q))
+⊢ (↑a).2 = (DirectSum.coeAddMonoidHom H) (DFinsupp.single q ⟨(↑a).2, ⋯⟩)

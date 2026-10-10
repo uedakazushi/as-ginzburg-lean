@@ -1,0 +1,71 @@
+work/ASGinzburgDraft/OrthogonalIdempotentGradedBasis.lean:29:21: error: Type mismatch
+  Pi.single i ?m.186 j
+has type
+  ?m.183 j
+but is expected to have type
+  M
+work/ASGinzburgDraft/OrthogonalIdempotentGradedBasis.lean:36:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  DirectSum.coeLinearMap fun i => idempotentFixedSpace k R M (e i)
+in the target expression
+  DirectSum.IsInternal fun i => idempotentFixedSpace k R M (e i)
+
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+M : Type w
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+inst✝³ : Module R M
+inst✝² : SMulCommClass k R M
+ι : Type z
+inst✝¹ : Fintype ι
+inst✝ : DecidableEq ι
+e : ι → R
+he : ∀ (i : ι), e i * e i = e i
+horth : ∀ (i j : ι), i ≠ j → e i * e j = 0
+hsum : ∑ i, e i = 1
+E : (⨁ (i : ι), ↥(idempotentFixedSpace k R M (e i))) ≃ₗ[k] M :=
+  (DirectSum.linearEquivFunOnFintype k ι fun i => ↥(idempotentFixedSpace k R M (e i))) ≪≫ₗ
+    (completeOrthogonalModuleComponents k R M e he horth hsum).symm
+hE : ↑E = DirectSum.coeLinearMap fun i => idempotentFixedSpace k R M (e i)
+⊢ DirectSum.IsInternal fun i => idempotentFixedSpace k R M (e i)
+work/ASGinzburgDraft/OrthogonalIdempotentGradedBasis.lean:48:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.idempotentFixedSpace_homogeneous`:
+  [Fintype ι]
+  [DecidableEq ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ι] [DecidableEq ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/OrthogonalIdempotentGradedBasis.lean:90:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ⇑(DirectSum.IsInternal.collectedBasis ?h ?v)
+in the target expression
+  (⋯.collectedBasis fun i => idempotentFixedSpaceGradedBasis k R M e G hG i) a =
+    ↑↑((Module.Basis.ofVectorSpace k
+            ↥(homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.fst)) a.snd.fst))
+          a.snd.snd)
+
+k : Type u
+inst✝⁸ : Field k
+R : Type v
+inst✝⁷ : Ring R
+M : Type w
+inst✝⁶ : AddCommGroup M
+inst✝⁵ : Module k M
+inst✝⁴ : Module R M
+inst✝³ : SMulCommClass k R M
+ι : Type z
+inst✝² : Fintype ι
+inst✝¹ : DecidableEq ι
+e : ι → R
+he : ∀ (i : ι), e i * e i = e i
+horth : ∀ (i j : ι), i ≠ j → e i * e j = 0
+hsum : ∑ i, e i = 1
+G : ℤ → Submodule k M
+inst✝ : DirectSum.Decomposition G
+hG : ∀ (i : ι) (q : ℤ), ∀ x ∈ G q, e i • x ∈ G q
+a : idempotentHomogeneousBasisIndex k R M e G
+⊢ (⋯.collectedBasis fun i => idempotentFixedSpaceGradedBasis k R M e G hG i) a =
+    ↑↑((Module.Basis.ofVectorSpace k
+            ↥(homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.fst)) a.snd.fst))
+          a.snd.snd)

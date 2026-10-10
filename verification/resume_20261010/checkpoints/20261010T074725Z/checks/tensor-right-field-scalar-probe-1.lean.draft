@@ -1,0 +1,37 @@
+import work.ASGinzburgDraft.OrdinaryRightRingHomFieldComplexExactness
+import work.ASGinzburgDraft.OrdinaryRingDualTopExtIso
+import work.ASGinzburgDraft.ProjectiveResolutionTopExtHomQuotientIso
+import work.ASGinzburgDraft.ModuleCatCochainTopCokernelIso
+import work.ASGinzburgDraft.LinearCokernelSquareEquiv
+
+/-! Actual top homology of the universe-lifted ordinary right Hom complex
+is actual ordinary Ext-three. Only the fourth resolution term is zero. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 300000
+set_option synthInstance.maxHeartbeats 200000
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+attribute [local instance 2000] ordinaryRingDualExtStandardDerivedCategory
+attribute [local instance 2500] ModuleCat.linearOverField
+attribute [local instance 3000] ordinaryRingDualExtHomModule
+attribute [local instance] exactExtModule
+
+noncomputable def ordinaryRightScalarProbe
+    (M : ModuleCat.{v} Rᵐᵒᵖ) :
+    ULift.{u} (M →ₗ[Rᵐᵒᵖ] R) ≃ₗ[k] (M ⟶ ModuleCat.of Rᵐᵒᵖ R) where
+  toFun f := ModuleCat.ofHom f.down
+  invFun f := ULift.up f.hom
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+  map_smul' c f := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    simp only [ModuleCat.hom_smul, LinearMap.smul_apply, RingHom.id_apply]
+    set_option pp.all true in trace_state
+
+
+end ASGinzburg

@@ -1,0 +1,60 @@
+import work.ASGinzburgDraft.ASCutGradedRegularHomExactness
+import work.ASGinzburgDraft.ASCutForgottenGradedSimpleResolution
+import work.ASGinzburgDraft.PeriodCutOrdinaryRingDualHomExactness
+
+/-! Original AS graded Hom exactness supplies actual homogeneous
+ordinary ring-dual boundary preimages. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+set_option maxHeartbeats 200000
+set_option synthInstance.maxHeartbeats 30000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+ theorem ASRegular.cutOrdinarySimpleHomogeneousRegular_cycle_zero
+    (hAS : A.ASRegular Q) (i : Q.Vertex) (q : ℤ)
+    (f : ordinaryRingDual (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.X 0))
+    (hf : f ∈ (hAS.cutOrdinarySimpleResolutionTermData A Q i 0).ringDualGrade q)
+    (hc : ordinaryRingDualMap (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.d 1 0) f = 0) : f = 0 := by
+  let E := hAS.periodIso A Q
+  let G := hAS.cutGradedSimpleProjectiveResolution A Q (i,0)
+  apply E.cutOrdinaryRingDual_homogeneous_cycle_eq_zero Q (G.complex.d 1 0) q ⟨f,hf⟩ hc
+  exact (G.homComplex_exactAt_zero_iff (k := k)
+    ((E.cutRegularGradedRightModule Q).shifted q)).mp
+    (hAS.cutGradedSimpleHomComplex_regular_exact_low A Q i q 0 (by decide))
+
+ theorem ASRegular.cutOrdinarySimpleHomogeneousRegular_boundary_low
+    (hAS : A.ASRegular Q) (i : Q.Vertex) (n : ℕ) (hn : n + 1 < 3) (q : ℤ)
+    (f : ordinaryRingDual (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.X (n+1)))
+    (hf : f ∈ (hAS.cutOrdinarySimpleResolutionTermData A Q i (n+1)).ringDualGrade q)
+    (hc : ordinaryRingDualMap (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.d (n+2) (n+1)) f = 0) :
+    ∃ g : ordinaryRingDual (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.X n),
+      ordinaryRingDualMap (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+        ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.d (n+1) n) g = f := by
+  have hCases : n = 0 ∨ n = 1 := by omega
+  rcases hCases with rfl | rfl
+  · let E := hAS.periodIso A Q
+    let G := hAS.cutGradedSimpleProjectiveResolution A Q (i,0)
+    have he := (G.homComplex_exactAt_succ_iff (k := k)
+      ((E.cutRegularGradedRightModule Q).shifted q) 0).mp
+      (hAS.cutGradedSimpleHomComplex_regular_exact_low A Q i q 1 (by decide))
+    have hb := E.cutOrdinaryRingDual_homogeneous_boundary Q
+      (L := G.complex.X 0) (M := G.complex.X 1) (N := G.complex.X 2)
+      (G.complex.d 1 0) (G.complex.d 2 1) q ⟨f,hf⟩ hc he
+    exact hb
+  · let E := hAS.periodIso A Q
+    let G := hAS.cutGradedSimpleProjectiveResolution A Q (i,0)
+    have he := (G.homComplex_exactAt_succ_iff (k := k)
+      ((E.cutRegularGradedRightModule Q).shifted q) 1).mp
+      (hAS.cutGradedSimpleHomComplex_regular_exact_low A Q i q 2 (by decide))
+    have hb := E.cutOrdinaryRingDual_homogeneous_boundary Q
+      (L := G.complex.X 1) (M := G.complex.X 2) (N := G.complex.X 3)
+      (G.complex.d 2 1) (G.complex.d 3 2) q ⟨f,hf⟩ hc he
+    exact hb
+
+end ASGinzburg.ZAlgebra

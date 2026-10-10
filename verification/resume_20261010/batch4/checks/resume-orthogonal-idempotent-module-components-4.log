@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:41:10: error(lean.unknownIdentifier): Unknown constant `Finset.sum_smul`
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:39:16: error: unsolved goals
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+M : Type w
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+inst✝³ : Module R M
+inst✝² : SMulCommClass k R M
+ι : Type z
+inst✝¹ : Fintype ι
+inst✝ : DecidableEq ι
+e : ι → R
+he : ∀ (i : ι), e i * e i = e i
+horth : ∀ (i j : ι), i ≠ j → e i * e j = 0
+hsum : ∑ i, e i = 1
+x : M
+⊢ ∑ i, e i • x = x

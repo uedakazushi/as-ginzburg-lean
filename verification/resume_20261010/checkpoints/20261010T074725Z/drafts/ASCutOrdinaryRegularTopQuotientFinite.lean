@@ -1,0 +1,60 @@
+import work.ASGinzburgDraft.ASCutForgottenGradedSimpleResolution
+import work.ASGinzburgDraft.ASCutGradedRegularTopHomExactness
+import work.ASGinzburgDraft.PeriodCutOrdinaryRingDualShiftedHomNaturality
+import work.ASGinzburgDraft.OrdinaryRingDualTopQuotientType
+import work.ASGinzburgDraft.PeriodCutIntegerGradeFinite
+import work.ASGinzburgDraft.PeriodCutOppositeRingDecomposition
+import work.ASGinzburgDraft.PeriodCutIntegerHomogeneousMultiplication
+
+/-! Original AS regularity makes every non-top homogeneous ordinary
+Hom class a boundary. The actual ordinary top quotient is therefore
+finite dimensional, with no additional vanishing premise. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 200000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+ theorem ASRegular.cutOrdinarySimpleRingDual_top_boundary_other
+    (hAS : A.ASRegular Q) (i : Q.Vertex) (q : ℤ) (hq : q ≠ -1)
+    (f : ordinaryRingDual (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.X 3))
+    (hf : f ∈ (hAS.cutOrdinarySimpleResolutionTermData A Q i 3).ringDualGrade q) :
+    ∃ g : ordinaryRingDual (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.X 2),
+      ordinaryRingDualMap (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+        ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.d 3 2) g = f := by
+  let E := hAS.periodIso A Q
+  let G := hAS.cutGradedSimpleProjectiveResolution A Q (i,0)
+  obtain ⟨g,hg⟩ := hAS.cutGradedSimpleHom_regular_top_surjective_other A Q i q hq
+    (E.cutOrdinaryRingDualShiftedHomEquiv Q (G.complex.X 3) q ⟨f,hf⟩)
+  let h := (E.cutOrdinaryRingDualShiftedHomEquiv Q (G.complex.X 2) q).symm g
+  refine ⟨h.val, ?_⟩
+  apply LinearMap.ext
+  intro x
+  have hx := congrArg (fun a => a.val x) hg
+  change g.val ((G.complex.d 3 2).val x) = (f x).unop at hx
+  change h.val ((G.complex.d 3 2).val x) = f x
+  exact congrArg MulOpposite.op hx
+
+ theorem ASRegular.cutOrdinarySimpleRingDual_topQuotient_finite
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Module.Finite k (ordinaryRingDualTopQuotient k (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.cutForgottenGradedSimpleProjectiveResolution A Q i).complex.d 3 2)) := by
+  let E := hAS.periodIso A Q
+  let R := (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+  let P := hAS.cutForgottenGradedSimpleProjectiveResolution A Q i
+  let M := hAS.cutOrdinarySimpleResolutionTermData A Q i 3
+  let L := hAS.cutOrdinarySimpleResolutionTermData A Q i 2
+  letI := E.cutIntegerOppositeGradeDecomposition Q
+  letI : Module.Finite R M.ringModule :=
+    hAS.cutOrdinarySimpleResolutionTermData_finite A Q i 3
+  letI : ∀ q : ℤ, Module.Finite k (E.cutIntegerOppositeHomogeneousSpace Q q) :=
+    E.cutIntegerOppositeHomogeneousSpace_finite Q
+  exact M.ringDualTopQuotient_finite L
+    (E.cutIntegerOppositeHomogeneousSpace_mul_mem Q) (P.complex.d 3 2) (-1)
+    (fun q hq f hf => hAS.cutOrdinarySimpleRingDual_top_boundary_other A Q i q hq f hf)
+
+end ASGinzburg.ZAlgebra

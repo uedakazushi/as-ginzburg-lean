@@ -1,0 +1,80 @@
+import ASGinzburg.AlgebraEnvelopingRegularModule
+import Mathlib.LinearAlgebra.TensorProduct.RightExactness
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+/-! The genuine enveloping algebra of a quotient is a quotient of the
+genuine enveloping algebra. The augmentation uses the ordinary, unsigned
+tensor product multiplication and its actual two-sided kernel. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (J : Ideal R) [J.IsTwoSided]
+
+noncomputable def algebraEnvelopingQuotientAugmentation :
+    AlgebraEnvelopingRing k R →ₐ[k] AlgebraEnvelopingRing k (R ⧸ J) :=
+  Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k J) (Ideal.Quotient.mkₐ k J).op
+
+theorem algebraEnvelopingQuotientAugmentation_tmul (a b : R) :
+    algebraEnvelopingQuotientAugmentation k R J (a ⊗ₜ[k] MulOpposite.op b) =
+      Ideal.Quotient.mk J a ⊗ₜ[k] MulOpposite.op (Ideal.Quotient.mk J b) := rfl
+
+theorem algebraQuotient_op_surjective :
+    Function.Surjective (Ideal.Quotient.mkₐ k J).op := by
+  intro x
+  obtain ⟨a, ha⟩ := Ideal.Quotient.mkₐ_surjective k J x.unop
+  exact ⟨MulOpposite.op a, congrArg MulOpposite.op ha⟩
+
+theorem algebraEnvelopingQuotientAugmentation_surjective :
+    Function.Surjective (algebraEnvelopingQuotientAugmentation k R J) := by
+  exact TensorProduct.map_surjective (Ideal.Quotient.mkₐ_surjective k J)
+    (algebraQuotient_op_surjective k R J)
+
+noncomputable def algebraEnvelopingQuotientKernel : Ideal (AlgebraEnvelopingRing k R) :=
+  RingHom.ker (algebraEnvelopingQuotientAugmentation k R J)
+
+noncomputable instance algebraEnvelopingQuotientKernelTwoSided :
+    (algebraEnvelopingQuotientKernel k R J).IsTwoSided := by
+  unfold algebraEnvelopingQuotientKernel
+  infer_instance
+
+theorem mem_algebraEnvelopingQuotientKernel (x : AlgebraEnvelopingRing k R) :
+    x ∈ algebraEnvelopingQuotientKernel k R J ↔
+      algebraEnvelopingQuotientAugmentation k R J x = 0 := Iff.rfl
+
+theorem algebraEnvelopingQuotientKernel_eq_sup :
+    algebraEnvelopingQuotientKernel k R J =
+      J.map (Algebra.TensorProduct.includeLeft : R →ₐ[k] AlgebraEnvelopingRing k R) ⊔
+        (RingHom.ker (Ideal.Quotient.mkₐ k J).op).map
+          (Algebra.TensorProduct.includeRight : Rᵐᵒᵖ →ₐ[k] AlgebraEnvelopingRing k R) := by
+  unfold algebraEnvelopingQuotientKernel algebraEnvelopingQuotientAugmentation
+  rw [Algebra.TensorProduct.map_ker _ _ (Ideal.Quotient.mkₐ_surjective k J)
+    (algebraQuotient_op_surjective k R J), Ideal.Quotient.mkₐ_ker]
+
+theorem tmul_mem_algebraEnvelopingQuotientKernel_of_left
+    (a b : R) (ha : a ∈ J) :
+    a ⊗ₜ[k] MulOpposite.op b ∈ algebraEnvelopingQuotientKernel k R J := by
+  rw [mem_algebraEnvelopingQuotientKernel,
+    algebraEnvelopingQuotientAugmentation_tmul,
+    (Ideal.Quotient.eq_zero_iff_mem).mpr ha, TensorProduct.zero_tmul]
+
+theorem tmul_mem_algebraEnvelopingQuotientKernel_of_right
+    (a b : R) (hb : b ∈ J) :
+    a ⊗ₜ[k] MulOpposite.op b ∈ algebraEnvelopingQuotientKernel k R J := by
+  rw [mem_algebraEnvelopingQuotientKernel,
+    algebraEnvelopingQuotientAugmentation_tmul,
+    (Ideal.Quotient.eq_zero_iff_mem).mpr hb, MulOpposite.op_zero,
+    TensorProduct.tmul_zero]
+
+noncomputable def algebraEnvelopingQuotientAlgEquiv :
+    (AlgebraEnvelopingRing k R ⧸ algebraEnvelopingQuotientKernel k R J) ≃ₐ[k]
+      AlgebraEnvelopingRing k (R ⧸ J) :=
+  Ideal.quotientKerAlgEquivOfSurjective
+    (algebraEnvelopingQuotientAugmentation_surjective k R J)
+
+theorem algebraEnvelopingQuotientAlgEquiv_mk (x : AlgebraEnvelopingRing k R) :
+    algebraEnvelopingQuotientAlgEquiv k R J
+      (Ideal.Quotient.mk (algebraEnvelopingQuotientKernel k R J) x) =
+        algebraEnvelopingQuotientAugmentation k R J x := rfl
+
+end ASGinzburg

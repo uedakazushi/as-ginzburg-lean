@@ -1,0 +1,19 @@
+import work.ASGinzburgDraft.ProjectiveSplitKernelFunctor
+import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Kernels
+
+/-! Any additive functor preserves the actual kernel of an epimorphism
+onto a projective object, by its actual split kernel sequence. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v w z
+variable {C : Type u} [Category.{v} C] [Abelian C]
+variable {D : Type w} [Category.{z} D] [Abelian D]
+
+theorem additiveFunctor_preserves_projective_epi_kernel
+    (F : C ⥤ D) [F.Additive] {P Q : C} (f : P ⟶ Q) [Epi f] [Projective Q] :
+    PreservesLimit (parallelPair f 0) F := by
+  apply preservesLimit_of_preserves_limit_cone (kernelIsKernel f)
+  apply (isLimitMapConeForkEquiv' F (kernel.condition f)).symm
+  exact ((projectiveEpiKernelSplitting f).map F).fIsKernel
+
+end ASGinzburg

@@ -1,0 +1,61 @@
+work/ASGinzburgDraft/WordOccurrenceContexts.lean:58:16: error: unsolved goals
+case pos
+A : Type u
+k : Type v
+inst✝¹ : Field k
+inst✝ : DecidableEq A
+b a : A
+s : List A
+ih : ∀ (pre : List A), (wordOccurrenceContextAux b pre s) (Finsupp.single [] 1) = derivativeAux b pre s
+pre : List A
+hba : b = a
+⊢ (wordOccurrenceContextAux a (pre ++ [a]) s) (Finsupp.single [] 1) = derivativeAux a (pre ++ [a]) s
+work/ASGinzburgDraft/WordOccurrenceContexts.lean:105:16: error: unsolved goals
+case pos
+A : Type u
+k : Type v
+inst✝¹ : Field k
+inst✝ : DecidableEq A
+b : A
+q : List A
+a : A
+p : List A
+ih :
+  ∀ (h : WordPolynomial k A),
+    (wordOccurrenceContextWord b (p ++ q)) h =
+      (wordOccurrenceContextWord b p) ((wordConcatenation (Finsupp.single q 1)) h) +
+        (wordOccurrenceContextWord b q) ((wordConcatenation h) (Finsupp.single p 1))
+h : WordPolynomial k A
+hsingle : Finsupp.single (a :: p) 1 = (wordConcatenation (Finsupp.single [a] 1)) (Finsupp.single p 1)
+hba : b = a
+⊢ (wordOccurrenceContextWord a q)
+      ((wordConcatenation ((wordConcatenation h) (Finsupp.single [a] 1))) (Finsupp.single p 1)) =
+    (wordOccurrenceContextWord a q) ((wordConcatenation h) (Finsupp.single (a :: p) 1))
+
+case neg
+A : Type u
+k : Type v
+inst✝¹ : Field k
+inst✝ : DecidableEq A
+b : A
+q : List A
+a : A
+p : List A
+ih :
+  ∀ (h : WordPolynomial k A),
+    (wordOccurrenceContextWord b (p ++ q)) h =
+      (wordOccurrenceContextWord b p) ((wordConcatenation (Finsupp.single q 1)) h) +
+        (wordOccurrenceContextWord b q) ((wordConcatenation h) (Finsupp.single p 1))
+h : WordPolynomial k A
+hsingle : Finsupp.single (a :: p) 1 = (wordConcatenation (Finsupp.single [a] 1)) (Finsupp.single p 1)
+hba : ¬b = a
+⊢ (wordOccurrenceContextWord b q)
+      ((wordConcatenation ((wordConcatenation h) (Finsupp.single [a] 1))) (Finsupp.single p 1)) =
+    (wordOccurrenceContextWord b q) ((wordConcatenation h) (Finsupp.single (a :: p) 1))
+work/ASGinzburgDraft/WordOccurrenceContexts.lean:106:69: warning: This simp argument is unused:
+  map_add
+
+Hint: Omit it from the simp argument list.
+  simp only [List.cons_append, wordOccurrenceContextWord_cons, ih,̵ ̵m̵a̵p̵_̵a̵d̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

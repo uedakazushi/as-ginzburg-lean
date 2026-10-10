@@ -1,0 +1,50 @@
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:13:0: error: cannot find synthesization order for instance envelopingLeftModule with type
+  (k : Type u) →
+    [inst : Field k] →
+      (R : Type v) →
+        [inst_1 : Ring R] →
+          [inst_2 : Algebra k R] →
+            (P : Type w) → [inst_3 : AddCommGroup P] → [Module (AlgebraEnvelopingRing k R) P] → Module R P
+all remaining arguments have metavariables:
+  Field ?k
+  @Algebra ?k R Field.toSemifield.toCommSemiring inst✝³.toSemiring
+  @Module (AlgebraEnvelopingRing ?k R) P Algebra.TensorProduct.instSemiring inst✝¹.toAddCommMonoid
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:16:0: error: cannot find synthesization order for instance envelopingRightModule with type
+  (k : Type u) →
+    [inst : Field k] →
+      (R : Type v) →
+        [inst_1 : Ring R] →
+          [inst_2 : Algebra k R] →
+            (P : Type w) → [inst_3 : AddCommGroup P] → [Module (AlgebraEnvelopingRing k R) P] → Module Rᵐᵒᵖ P
+all remaining arguments have metavariables:
+  Field ?k
+  @Algebra ?k R Field.toSemifield.toCommSemiring inst✝³.toSemiring
+  @Module (AlgebraEnvelopingRing ?k R) P Algebra.TensorProduct.instSemiring inst✝¹.toAddCommMonoid
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:19:37: error: failed to synthesize
+  SMul R P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:26:38: error: failed to synthesize
+  SMul Rᵐᵒᵖ P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:33:36: error: failed to synthesize
+  SMul R P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:40:55: error: failed to synthesize
+  Module R P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:48:85: error: failed to synthesize
+  Module R P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:54:28: error: failed to synthesize
+  HSMul Rᵐᵒᵖ P ?m.44
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:54:35: error: failed to synthesize
+  HSMul Rᵐᵒᵖ P' ?m.49
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

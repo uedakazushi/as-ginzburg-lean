@@ -1,0 +1,42 @@
+import work.ASGinzburgDraft.GinzburgWordSubstitution
+import ASGinzburg.GinzburgLoopWordCoefficients
+
+/-! The actual finite sum of vertex loop differentials is the literal
+original/dual word commutator sum, with its genuine substitution formula. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgLoopDifferential_total_word :
+    (∑ v : Q.Vertex, Q.ginzburgPathWordMap k v v (Q.ginzburgLoopDifferential k v)) =
+      ∑ a : Q.Arrow,
+        (wordConcatenation (Finsupp.single [.original a] 1) (Finsupp.single [.dual a] 1) -
+          wordConcatenation (Finsupp.single [.dual a] 1) (Finsupp.single [.original a] 1)) := by
+  classical
+  simp_rw [Q.ginzburgLoopDifferential_wordMap k]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro a _
+  rw [Finset.sum_sub_distrib]
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true, appendWord,
+    Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, wordConcatenation_single, one_mul]
+  rfl
+
+theorem ginzburgLoopDifferential_total_substitution_word
+    (σ : Q.GinzburgArrowReplacement k) :
+    (∑ v : Q.Vertex, Q.ginzburgPathWordMap k v v
+      (Q.ginzburgArrowSubstitutionComponent k σ v v (Q.ginzburgLoopDifferential k v))) =
+      ∑ a : Q.Arrow,
+        (wordConcatenation (Q.ginzburgWordArrowReplacement k σ (.original a))
+          (Q.ginzburgWordArrowReplacement k σ (.dual a)) -
+        wordConcatenation (Q.ginzburgWordArrowReplacement k σ (.dual a))
+          (Q.ginzburgWordArrowReplacement k σ (.original a))) := by
+  classical
+  simp_rw [Q.ginzburgPathWordMap_substitutionComponent k σ]
+  rw [← map_sum, Q.ginzburgLoopDifferential_total_word k, map_sum]
+  apply Finset.sum_congr rfl
+  intro a _
+  simp only [map_sub, wordSubstitution_concatenation, wordSubstitution_single,
+    one_smul, wordSubstitutionWord, wordConcatenation_unit_right]
+
+end ASGinzburg.CutQuiver

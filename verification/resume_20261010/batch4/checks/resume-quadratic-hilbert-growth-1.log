@@ -1,0 +1,24 @@
+work/ASGinzburgDraft/QuadraticHilbertGrowth.lean:29:4: error: Type mismatch: After simplification, term
+  hom_diagonal_finrank A i
+ has type
+  Module.finrank k (A.Hom i i) = 1
+but is expected to have type
+  Module.finrank k (A.Hom i (i + 0)) = 1
+work/ASGinzburgDraft/QuadraticHilbertGrowth.lean:37:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ a ≤ 2
+where
+ a := ↑(Module.finrank k (A.Hom i (i + ↑1)))
+work/ASGinzburgDraft/QuadraticHilbertGrowth.lean:45:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ b ≤ 5
+  a ≥ 1
+where
+ a := ↑(Module.finrank k (A.Hom i (i + 1)))
+ b := ↑(Module.finrank k (A.Hom i (i + ↑2)))
+work/ASGinzburgDraft/QuadraticHilbertGrowth.lean:65:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  Module.finrank k (A.Hom (i - ↑m) (i - ↑m + ↑m)) = (m + 2).choose 2
+but is expected to have type
+  Module.finrank k (A.Hom (i - ↑m) i) = (m + 2).choose 2

@@ -1,0 +1,141 @@
+import work.ASGinzburgDraft.OrdinaryRingDualTensorEvaluation
+import ASGinzburg.OrdinaryModuleFiniteFreeRetract
+import ASGinzburg.FiniteProjectiveHomColimits
+
+/-! Canonical tensor evaluation is an actual isomorphism on finite
+projective modules over an arbitrary field algebra. Its finite-free
+inverse uses coordinate projections, and naturality transports that
+inverse through genuine finite-free retracts. -/
+namespace ASGinzburg
+open CategoryTheory Opposite
+open scoped ModuleCat.Algebra
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (N : ModuleCat.{v} R)
+attribute [local instance 2100] ordinaryRingDualTensorModuleK
+
+noncomputable def ordinaryRingDualFiniteFreeTensorModuleK (n : ℕ) :
+    Module k (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) :=
+  ordinaryRingDualTensorModuleK k R (ModuleCat.of R (Fin n → R))
+
+attribute [local instance 3000] ordinaryRingDualFiniteFreeTensorModuleK
+
+theorem ordinaryRingDualFiniteFree_coordinate_sum (n : ℕ)
+    (f : ordinaryRingDual R (ModuleCat.of R (Fin n → R))) :
+    (∑ i : Fin n, MulOpposite.op (f (Pi.basisFun R (Fin n) i)) •
+      (LinearMap.proj i : ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) = f := by
+  classical
+  apply (Pi.basisFun R (Fin n)).ext
+  intro j
+  simp [Pi.basisFun_apply, LinearMap.proj_apply, Pi.single_apply]
+
+noncomputable def ordinaryRingDualTensorFiniteFreeInverse (n : ℕ) :
+    ((Fin n → R) →ₗ[R] N) →ₗ[k]
+      BalancedTensorSpace k R (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N where
+  toFun g := ∑ i : Fin n, balancedTensorTmul k R
+    (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N
+    (LinearMap.proj i) (g (Pi.basisFun R (Fin n) i))
+  map_add' g h := by
+    simp only [LinearMap.add_apply]
+    simp_rw [show ∀ (i : Fin n), balancedTensorTmul k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N (LinearMap.proj i)
+      (g (Pi.basisFun R (Fin n) i) + h (Pi.basisFun R (Fin n) i)) =
+      balancedTensorTmul k R (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N
+        (LinearMap.proj i) (g (Pi.basisFun R (Fin n) i)) +
+      balancedTensorTmul k R (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N
+        (LinearMap.proj i) (h (Pi.basisFun R (Fin n) i)) from
+      fun i => (balancedTensorBilinear k R _ N (LinearMap.proj i)).map_add _ _]
+    exact Finset.sum_add_distrib
+  map_smul' c g := by
+    simp only [LinearMap.smul_apply, RingHom.id_apply]
+    simp_rw [show ∀ (i : Fin n), balancedTensorTmul k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N (LinearMap.proj i)
+      (c • g (Pi.basisFun R (Fin n) i)) =
+      c • balancedTensorTmul k R (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N
+        (LinearMap.proj i) (g (Pi.basisFun R (Fin n) i)) from
+      fun i => (balancedTensorBilinear k R _ N (LinearMap.proj i)).map_smul _ _]
+    rw [Finset.smul_sum]
+
+theorem ordinaryRingDualTensorFiniteFreeInverse_evaluation (n : ℕ)
+    (z : BalancedTensorSpace k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N) :
+    ordinaryRingDualTensorFiniteFreeInverse k R N n
+      (ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R)) z) = z := by
+  classical
+  refine balancedTensorSpace_induction k R _ N (fun z =>
+    ordinaryRingDualTensorFiniteFreeInverse k R N n
+      (ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R)) z) = z)
+    ?_ ?_ ?_ z
+  · change ordinaryRingDualTensorFiniteFreeInverse k R N n
+      (ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R)) 0) = 0
+    rw [map_zero, map_zero]
+  · intro f y
+    change (∑ i : Fin n, balancedTensorTmul k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N (LinearMap.proj i)
+      (ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))
+        (balancedTensorTmul k R _ N f y) (Pi.basisFun R (Fin n) i))) = _
+    simp_rw [ordinaryRingDualTensorEvaluation_tmul k R N (ModuleCat.of R (Fin n → R)),
+      ← balancedTensorTmul_balance]
+    change (∑ i : Fin n, balancedTensorBilinear k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N
+      (MulOpposite.op (f (Pi.basisFun R (Fin n) i)) • LinearMap.proj i) y) = _
+    have hsum := congrArg (fun h : N →ₗ[k] BalancedTensorSpace k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N => h y)
+      ((balancedTensorBilinear k R (ordinaryRingDual R
+        (ModuleCat.of R (Fin n → R))) N).map_sum
+        (fun i : Fin n => MulOpposite.op (f (Pi.basisFun R (Fin n) i)) • LinearMap.proj i)
+        Finset.univ)
+    rw [← hsum, ordinaryRingDualFiniteFree_coordinate_sum R n f]
+    rfl
+  · intro x y hx hy
+    rw [map_add, map_add, hx, hy]
+
+theorem ordinaryRingDualTensorFiniteFree_evaluation_inverse (n : ℕ)
+    (g : (Fin n → R) →ₗ[R] N) :
+    ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))
+      (ordinaryRingDualTensorFiniteFreeInverse k R N n g) = g := by
+  classical
+  apply (Pi.basisFun R (Fin n)).ext
+  intro j
+  change ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))
+    (∑ i : Fin n, balancedTensorTmul k R _ N (LinearMap.proj i)
+      (g (Pi.basisFun R (Fin n) i))) (Pi.basisFun R (Fin n) j) = _
+  simp [ordinaryRingDualTensorEvaluation_tmul k R N (ModuleCat.of R (Fin n → R)), Pi.basisFun_apply,
+    LinearMap.proj_apply, Pi.single_apply]
+
+noncomputable def ordinaryRingDualTensorFiniteFreeEquiv (n : ℕ) :
+    BalancedTensorSpace k R
+      (ordinaryRingDual R (ModuleCat.of R (Fin n → R))) N ≃ₗ[k] ((Fin n → R) →ₗ[R] N) where
+  toFun := ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))
+  invFun := ordinaryRingDualTensorFiniteFreeInverse k R N n
+  left_inv := ordinaryRingDualTensorFiniteFreeInverse_evaluation k R N n
+  right_inv := ordinaryRingDualTensorFiniteFree_evaluation_inverse k R N n
+  map_add' := map_add _
+  map_smul' := map_smul _
+
+noncomputable instance ordinaryRingDualTensorFiniteFreeEvaluationIsIso (n : ℕ) :
+    IsIso ((ordinaryRingDualTensorEvaluationNatTrans k R N).app
+      (op (ModuleCat.of R (Fin n → R)))) := by
+  change IsIso (ordinaryRingDualTensorFiniteFreeEquiv k R N n).toModuleIso.hom
+  infer_instance
+
+theorem ordinaryFiniteProjectiveProperty_ringDualTensorEvaluation {P : ModuleCat.{v} R}
+    (hP : ordinaryFiniteProjectiveProperty R P) :
+    IsIso ((ordinaryRingDualTensorEvaluationNatTrans k R N).app (op P)) := by
+  obtain ⟨n, ⟨r⟩⟩ := hP
+  exact isIso_natTrans_app_retract_general
+    (ordinaryRingDualTensorEvaluationNatTrans k R N) r.op
+
+noncomputable def ordinaryFiniteProjectiveRingDualTensorEquiv {P : ModuleCat.{v} R}
+    (hP : ordinaryFiniteProjectiveProperty R P) :
+    BalancedTensorSpace k R (ordinaryRingDual R P) N ≃ₗ[k] (P →ₗ[R] N) := by
+  letI := ordinaryFiniteProjectiveProperty_ringDualTensorEvaluation k R N hP
+  exact (asIso ((ordinaryRingDualTensorEvaluationNatTrans k R N).app (op P))).toLinearEquiv
+
+@[simp] theorem ordinaryFiniteProjectiveRingDualTensorEquiv_tmul {P : ModuleCat.{v} R}
+    (hP : ordinaryFiniteProjectiveProperty R P) (f : ordinaryRingDual R P) (y : N) (x : P) :
+    ordinaryFiniteProjectiveRingDualTensorEquiv k R N hP
+      (balancedTensorTmul k R (ordinaryRingDual R P) N f y) x = f x • y :=
+  ordinaryRingDualTensorEvaluation_tmul k R N P f y x
+
+end ASGinzburg

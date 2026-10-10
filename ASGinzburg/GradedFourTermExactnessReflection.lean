@@ -1,0 +1,69 @@
+import ASGinzburg.GradedFunctorExactnessReflection
+import ASGinzburg.GradedFunctorMonoReflection
+import ASGinzburg.GradedKernelFactorFunctor
+import ASGinzburg.GradedOrdinaryKernelProjective
+
+/-! A genuine bounded graded zero detector detects acyclicity of an
+actual four-term complex of projectives. No exactness of the tensor
+functor is assumed: every required kernel is genuinely split. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v w z
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {S : Type w} [Ring S] {A : ℤ → Submodule k R} {b : ℤ}
+variable (F : ModuleCat.{v} R ⥤ ModuleCat.{z} S) [F.Additive] [PreservesFiniteColimits F]
+
+theorem gradedFourTerm_exact_of_functor_exact
+    (hDetect : ∀ N : GradedOrdinaryModuleData k R A, N.BoundedBelow b →
+      IsZero (F.obj N.ringModule) → IsZero N.ringModule)
+    (P₀ P₁ P₂ P₃ : GradedOrdinaryModuleData k R A)
+    (hb₀ : P₀.BoundedBelow b) (hb₁ : P₁.BoundedBelow b)
+    (hb₂ : P₂.BoundedBelow b) (hb₃ : P₃.BoundedBelow b)
+    (f₀ : P₀.ringModule ⟶ P₁.ringModule)
+    (f₁ : P₁.ringModule ⟶ P₂.ringModule)
+    (f₂ : P₂.ringModule ⟶ P₃.ringModule)
+    (h₀ : f₀ ≫ f₁ = 0) (h₁ : f₁ ≫ f₂ = 0)
+    (hf₀ : P₀.PreservesGrade P₁ f₀) (hf₁ : P₁.PreservesGrade P₂ f₁)
+    (hf₂ : P₂.PreservesGrade P₃ f₂)
+    [Projective P₁.ringModule] [Projective P₂.ringModule] [Projective P₃.ringModule]
+    [Mono (F.map f₀)] [Epi (F.map f₂)]
+    (hF₀ : ((ShortComplex.mk f₀ f₁ h₀).map F).Exact)
+    (hF₁ : ((ShortComplex.mk f₁ f₂ h₁).map F).Exact) :
+    Mono f₀ ∧ (ShortComplex.mk f₀ f₁ h₀).Exact ∧
+      (ShortComplex.mk f₁ f₂ h₁).Exact ∧ Epi f₂ := by
+  haveI : Epi f₂ := gradedMap_epi_of_functor_epi F hDetect P₂ P₃ hb₃ f₂ hf₂
+  have hExact₁ := gradedMap_exact_of_functor_exact F hDetect P₁ P₂ P₃ hb₂
+    f₁ f₂ h₁ hf₁ hf₂ hF₁
+  let K₂ := P₂.kernelData P₃ f₂ hf₂
+  let g₁ := P₁.kernelFactor P₂ P₃ f₁ f₂ h₁
+  have hg₁ : P₁.PreservesGrade K₂ g₁ :=
+    P₁.kernelFactor_preservesGrade P₂ P₃ f₁ f₂ h₁ hf₁ hf₂
+  haveI : Epi g₁ := (P₁.kernelFactor_epi_iff_exact P₂ P₃ f₁ f₂ h₁).mpr hExact₁
+  haveI : Projective K₂.ringModule := P₂.kernelData_projective P₃ f₂ hf₂
+  have h₀g₁ : f₀ ≫ g₁ = 0 :=
+    GradedOrdinaryModuleData.comp_kernelFactor_eq_zero P₀ P₁ P₂ P₃ f₀ f₁ f₂ h₀ h₁
+  have hFg₁ : ((ShortComplex.mk f₀ g₁ h₀g₁).map F).Exact :=
+    GradedOrdinaryModuleData.functor_exact_kernelFactor F P₀ P₁ P₂ P₃
+      f₀ f₁ f₂ h₀ h₁ hF₀
+  have hExact₀g₁ := gradedMap_exact_of_functor_exact F hDetect P₀ P₁ K₂ hb₁
+    f₀ g₁ h₀g₁ hf₀ hg₁ hFg₁
+  have hExact₀ : (ShortComplex.mk f₀ f₁ h₀).Exact := by
+    have h := (exact_comp_mono_iff f₀ g₁ (P₂.kernelInclusion P₃ f₂) h₀g₁).mp hExact₀g₁
+    simpa only [P₁.kernelFactor_inclusion P₂ P₃ f₁ f₂ h₁] using h
+  let K₁ := P₁.kernelData K₂ g₁ hg₁
+  let g₀ := P₀.kernelFactor P₁ K₂ f₀ g₁ h₀g₁
+  have hg₀ : P₀.PreservesGrade K₁ g₀ :=
+    P₀.kernelFactor_preservesGrade P₁ K₂ f₀ g₁ h₀g₁ hf₀ hg₁
+  haveI : Epi g₀ := (P₀.kernelFactor_epi_iff_exact P₁ K₂ f₀ g₁ h₀g₁).mpr hExact₀g₁
+  haveI : Projective K₁.ringModule := P₁.kernelData_projective K₂ g₁ hg₁
+  have hFg₀ : F.map g₀ ≫ F.map (P₁.kernelInclusion K₂ g₁) = F.map f₀ := by
+    rw [← F.map_comp,P₀.kernelFactor_inclusion P₁ K₂ f₀ g₁ h₀g₁]
+  haveI : Mono (F.map g₀) := mono_of_mono_fac hFg₀
+  haveI : Mono g₀ := gradedProjectiveEpi_mono_of_functor_mono F hDetect P₀ K₁ hb₀ g₀ hg₀
+  haveI : Mono f₀ := by
+    rw [← P₀.kernelFactor_inclusion P₁ K₂ f₀ g₁ h₀g₁]
+    infer_instance
+  exact ⟨inferInstance,hExact₀,hExact₁,inferInstance⟩
+
+end ASGinzburg

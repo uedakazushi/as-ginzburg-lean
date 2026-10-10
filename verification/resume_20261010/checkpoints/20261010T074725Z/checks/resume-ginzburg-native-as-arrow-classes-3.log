@@ -1,0 +1,11 @@
+work/ASGinzburgDraft/GinzburgNativeASArrowClasses.lean:15:73: error: unsolved goals
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+s : ℤ
+a : Q.Arrow
+⊢ Finsupp.single ((Path.nil (Q.source a)).snoc a ⋯) 1 =
+    Finsupp.single ((UnrolledPath.nil (Q.source a, s - ↑(Q.cutDegree a))).erase.snoc a ⋯) 1

@@ -1,0 +1,26 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationShuffle.lean:72:2: error: expected '{' or indented tactic sequence
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationShuffle.lean:71:18: error: unsolved goals
+k : Type u
+inst✝¹⁰ : Field k
+R : Type v
+inst✝⁹ : Ring R
+inst✝⁸ : Algebra k R
+M : Type w
+inst✝⁷ : AddCommGroup M
+inst✝⁶ : Module k M
+inst✝⁵ : Module Rᵐᵒᵖ M
+inst✝⁴ : IsScalarTower k Rᵐᵒᵖ M
+D : Type z
+inst✝³ : AddCommGroup D
+inst✝² : Module k D
+inst✝¹ : Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ D
+inst✝ : IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ D
+d e : D
+⊢ envelopingTensorEvaluationShuffleRow k R M D (d + e) =
+    envelopingTensorEvaluationShuffleRow k R M D d + envelopingTensorEvaluationShuffleRow k R M D e
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationShuffle.lean:134:8: warning: automatically included section variable(s) unused in theorem `ASGinzburg.envelopingTensorEvaluationShuffle_tmul`:
+  [IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ D]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ D] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

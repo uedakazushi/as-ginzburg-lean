@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/NoncutFixedPathSubstitution.lean:15:11: error: Tactic `rfl` failed: The left-hand side
+  Q.pathArrowSubstitutionPath k σ (Path.nil i)
+is not definitionally equal to the right-hand side
+  Finsupp.single (Path.nil i) 1
+
+case nil
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+i j : Q.Vertex
+hp : (Path.nil i).cutDegree = 0
+⊢ Q.pathArrowSubstitutionPath k σ (Path.nil i) = Finsupp.single (Path.nil i) 1
+work/ASGinzburgDraft/NoncutFixedPathSubstitution.lean:25:35: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/NoncutFixedPathSubstitution.lean:40:62: error(lean.unknownIdentifier): Unknown identifier `hσ`

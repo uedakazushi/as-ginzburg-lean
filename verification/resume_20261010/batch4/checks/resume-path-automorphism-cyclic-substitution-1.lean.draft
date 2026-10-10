@@ -1,0 +1,67 @@
+import work.ASGinzburgDraft.PathAutomorphismArrowSubstitution
+import work.ASGinzburgDraft.PathWordPolynomialSubstitution
+import work.ASGinzburgDraft.PotentialPathAutomorphismAction
+
+/-! The genuine action on actual potentials is exactly the unrestricted
+cyclic substitution of the actual path automorphism's arrow images. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def VertexCutPathAutomorphism.wordArrowReplacement
+    (E : Q.VertexCutPathAutomorphism k) : Q.Arrow → WordPolynomial k Q.Arrow :=
+  fun a => Q.pathWordMap k (Q.source a) (Q.target a)
+    (VertexCutPathAutomorphism.arrowReplacement Q k E a)
+
+theorem VertexCutPathAutomorphism.wordMap_component
+    (E : Q.VertexCutPathAutomorphism k) (i j : Q.Vertex)
+    (f : Q.PathComponent k i j) :
+    Q.pathWordMap k i j (VertexCutPathAutomorphism.componentLinearEquiv Q k E i j f) =
+      wordSubstitution (VertexCutPathAutomorphism.wordArrowReplacement Q k E)
+        (Q.pathWordMap k i j f) := by
+  rw [VertexCutPathAutomorphism.component_substitution]
+  exact Q.pathWordMap_substitutionComponent k
+    (VertexCutPathAutomorphism.arrowReplacement Q k E) i j f
+
+theorem closedPathTrace_eq_cyclicTrace_pathWordMap (i : Q.Vertex)
+    (f : Q.PathComponent k i i) :
+    Q.closedPathTrace k i f = cyclicTrace (Q.pathWordMap k i i f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add, hf, hg]
+  | single p c => simp [Q.closedPathTrace_single, cyclicTrace]
+
+theorem VertexCutPathAutomorphism.potential_val_cyclicSubstitution
+    (E : Q.VertexCutPathAutomorphism k) (φ : Q.Potential k) :
+    (VertexCutPathAutomorphism.potentialLinearEquiv Q k E φ).val =
+      cyclicSubstitution (VertexCutPathAutomorphism.wordArrowReplacement Q k E) φ.val := by
+  rw [← Q.pathCyclicQuotientTrace_potentialCyclicClass k
+    (VertexCutPathAutomorphism.potentialLinearEquiv Q k E φ),
+    VertexCutPathAutomorphism.potentialLinearEquiv_cyclicClass]
+  let L : CyclicPolynomial k Q.Arrow →ₗ[k] CyclicPolynomial k Q.Arrow :=
+    (Q.pathCyclicQuotientTrace k).comp ((algebraCyclicEquiv k E.val).toLinearMap.comp
+      (Finsupp.linearCombination k (Q.potentialWordCyclicClass k)))
+  change L φ.val =
+    cyclicSubstitution (VertexCutPathAutomorphism.wordArrowReplacement Q k E) φ.val
+  have hφ := φ.property
+  change φ.val ∈ Q.potentialSpace k at hφ
+  rw [Q.potentialSpace_eq_span k] at hφ
+  generalize φ.val = x at hφ ⊢
+  induction hφ using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨i,p,hc,hl,rfl⟩ := hx
+    change Q.pathCyclicQuotientTrace k (algebraCyclicEquiv k E.val
+      (Q.potentialCyclicClass k ⟨traceWord (k := k) p.toList,
+        Q.traceWord_mem_potentialSpace k p hc hl⟩)) =
+          cyclicSubstitution (VertexCutPathAutomorphism.wordArrowReplacement Q k E)
+            (traceWord p.toList)
+    rw [Q.potentialCyclicClass_traceWord, VertexCutPathAutomorphism.cyclicEquiv_closedPathClass,
+      Q.pathCyclicQuotientTrace_closedPathClass, Q.closedPathTrace_eq_cyclicTrace_pathWordMap,
+      VertexCutPathAutomorphism.wordMap_component]
+    simp
+  | zero => simp
+  | add x y hx hy ihx ihy => simp only [map_add, ihx, ihy]
+  | smul c x hx ih => simp only [map_smul, ih]
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,77 @@
+import work.ASGinzburgDraft.ASCutEnvelopingRingHomComplex
+import work.ASGinzburgDraft.GradedOrdinaryRingDualData
+
+/-! Original AS regularity supplies genuine internal graded data on
+every term of the ring-Hom cochain complex of the actual native minimal
+enveloping resolution. These are ordinary finite projective modules,
+their native degrees are bounded below, and their cohomology is the
+actual derived ring dual of the multiplication bimodule. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 1000000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutEnvelopingMinimalRingHomNatComplex (hAS : A.ASRegular Q) :
+    CochainComplex (ModuleCat.{v}
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))ᵐᵒᵖ) ℕ :=
+  ((ordinaryRingDualFunctor (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))).
+    mapHomologicalComplex (ComplexShape.up ℕ)).obj
+      (hAS.cutEnvelopingRegularMinimalResolution A Q).complex.op
+
+noncomputable def ASRegular.cutEnvelopingMinimalRingHomTermData
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    GradedOrdinaryModuleData k (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))ᵐᵒᵖ
+      (ordinaryOppositeRingGrade ((hAS.periodIso A Q).cutEnvelopingIntegerHomogeneousSubspace
+        (fun i : Q.Vertex => (i.val : ℤ)))) := by
+  let M := hAS.cutEnvelopingRegularMinimalResolutionTermData A Q n
+  haveI : Module.Finite (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)) M.ringModule :=
+    hAS.cutEnvelopingRegularMinimalResolution_term_finite A Q n
+  exact M.ringDualData (fun p q a ha b hb =>
+    (hAS.periodIso A Q).cutEnvelopingIntegerHomogeneousSubspace_mul_mem _ p q ha hb)
+
+theorem ASRegular.cutEnvelopingMinimalRingHomTermData_ringModule
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    (hAS.cutEnvelopingMinimalRingHomTermData A Q n).ringModule =
+      (hAS.cutEnvelopingMinimalRingHomNatComplex A Q).X n := rfl
+
+theorem ASRegular.cutEnvelopingMinimalRingHomTermData_isInternal
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    DirectSum.IsInternal (hAS.cutEnvelopingMinimalRingHomTermData A Q n).grade :=
+  (hAS.cutEnvelopingMinimalRingHomTermData A Q n).isInternal
+
+theorem ASRegular.cutEnvelopingMinimalRingHomTermData_exists_lower_bound
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    ∃ b : ℤ, (hAS.cutEnvelopingMinimalRingHomTermData A Q n).BoundedBelow b := by
+  let M := hAS.cutEnvelopingRegularMinimalResolutionTermData A Q n
+  haveI : Module.Finite (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)) M.ringModule :=
+    hAS.cutEnvelopingRegularMinimalResolution_term_finite A Q n
+  exact M.ringDualData_exists_lower_bound
+    (fun p q a ha b hb =>
+      (hAS.periodIso A Q).cutEnvelopingIntegerHomogeneousSubspace_mul_mem _ p q ha hb)
+    (fun p hp => (hAS.periodIso A Q).cutEnvelopingIntegerHomogeneousSubspace_neg _ p hp)
+
+theorem ASRegular.cutEnvelopingMinimalRingHomNatComplex_term_finiteProjective
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    ordinaryFiniteProjectiveProperty
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))ᵐᵒᵖ
+      ((hAS.cutEnvelopingMinimalRingHomNatComplex A Q).X n) := by
+  let R := AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)
+  let P := hAS.cutEnvelopingRegularMinimalResolution A Q
+  haveI : Projective (P.complex.X n) := P.projective n
+  haveI : Module.Finite R (P.complex.X n) :=
+    hAS.cutEnvelopingRegularMinimalResolution_term_finite A Q n
+  exact ordinaryFiniteProjectiveProperty_ringDual R
+    (ordinaryModule_finiteFreeRetract R (P.complex.X n))
+
+noncomputable def ASRegular.cutEnvelopingMinimalRingDualExtHomologyIso
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    hAS.cutEnvelopingRingDualExtObject A Q n ≅
+      (hAS.cutEnvelopingMinimalRingHomNatComplex A Q).homology n :=
+  ordinaryRingDualResolutionHomologyIso
+    (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+    (hAS.cutEnvelopingRegularMinimalResolution A Q) n
+
+end ASGinzburg.ZAlgebra

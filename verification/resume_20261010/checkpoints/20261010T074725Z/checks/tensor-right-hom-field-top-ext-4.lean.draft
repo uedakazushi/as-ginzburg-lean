@@ -1,0 +1,81 @@
+import work.ASGinzburgDraft.OrdinaryRightRingHomFieldComplexExactness
+import work.ASGinzburgDraft.OrdinaryRingDualTopExtIso
+import work.ASGinzburgDraft.ProjectiveResolutionTopExtHomQuotientIso
+import work.ASGinzburgDraft.ModuleCatCochainTopCokernelIso
+import work.ASGinzburgDraft.LinearCokernelSquareEquiv
+
+/-! Actual top homology of the universe-lifted ordinary right Hom complex
+is actual ordinary Ext-three. Only the fourth resolution term is zero. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 300000
+set_option synthInstance.maxHeartbeats 200000
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+attribute [local instance 2000] ordinaryRingDualExtStandardDerivedCategory
+attribute [local instance 2500] ModuleCat.linearOverField
+attribute [local instance 3000] ordinaryRingDualExtHomModule
+attribute [local instance] exactExtModule
+
+noncomputable def ordinaryRightRingHomFieldCategoricalLinearEquiv
+    (M : ModuleCat.{v} Rᵐᵒᵖ) :
+    ULift.{u} (M →ₗ[Rᵐᵒᵖ] R) ≃ₗ[k] (M ⟶ ModuleCat.of Rᵐᵒᵖ R) where
+  toFun f := ModuleCat.ofHom f.down
+  invFun f := ULift.up f.hom
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+  map_smul' c f := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    simp only [ModuleCat.hom_smul, LinearMap.smul_apply, RingHom.id_apply]
+    change c • f.down x = f.down x * (algebraMap k Rᵐᵒᵖ c).unop
+    rw [Algebra.smul_def]
+    change algebraMap k R c * f.down x = f.down x * algebraMap k R c
+    exact (Algebra.commutes c (f.down x)).eq
+
+variable {X : ModuleCat.{v} Rᵐᵒᵖ} (P : ProjectiveResolution X)
+
+theorem ordinaryRightRingHomFieldComplex_isZero_four (h₄ : IsZero (P.complex.X 4)) :
+    IsZero ((ordinaryRightRingHomFieldComplex k R P).X 4) := by
+  apply ModuleCat.isZero_iff_subsingleton.mpr
+  apply subsingleton_of_forall_eq 0
+  intro f
+  apply ULift.ext
+  apply LinearMap.ext
+  intro x
+  have hx : x = 0 := (ModuleCat.subsingleton_of_isZero h₄).elim x 0
+  rw [hx, f.down.map_zero]
+  rfl
+
+noncomputable def ordinaryRightRingHomFieldTopQuotientLinearEquiv :
+    (((ordinaryRightRingHomFieldComplex k R P).X 3) ⧸
+      LinearMap.range ((ordinaryRightRingHomFieldComplex k R P).d 2 3).hom) ≃ₗ[k]
+      ((P.complex.X 3 ⟶ ModuleCat.of Rᵐᵒᵖ R) ⧸
+        LinearMap.range (P.homDifferential (k := k) (ModuleCat.of Rᵐᵒᵖ R) 2).hom) := by
+  let f := ((ordinaryRightRingHomFieldComplex k R P).d 2 3).hom
+  let g := (P.homDifferential (k := k) (ModuleCat.of Rᵐᵒᵖ R) 2).hom
+  let eM := ordinaryRightRingHomFieldCategoricalLinearEquiv k R (P.complex.X 2)
+  let eN := ordinaryRightRingHomFieldCategoricalLinearEquiv k R (P.complex.X 3)
+  exact linearCokernelSquareEquiv f g eM eN (fun x => rfl)
+
+noncomputable def ordinaryRightRingHomFieldHomologyThreeExtLinearEquiv
+    (h₄ : IsZero (P.complex.X 4)) :
+    ((ordinaryRightRingHomFieldComplex k R P).homology 3) ≃ₗ[k]
+      ULift.{u} (Abelian.Ext.{v} X (ModuleCat.of Rᵐᵒᵖ R) 3) := by
+  let e₁ := (moduleCatCochainHomologyThreeIsoTopCokernel
+    (ordinaryRightRingHomFieldComplex k R P)
+    (ordinaryRightRingHomFieldComplex_isZero_four k R P h₄)).toLinearEquiv
+  let e₂ := ordinaryRightRingHomFieldTopQuotientLinearEquiv k R P
+  let e₃ := P.topHomQuotientActualExtThreeLinearEquiv (k := k) h₄ (ModuleCat.of Rᵐᵒᵖ R)
+  exact ((e₁.trans e₂).trans e₃).trans ULift.moduleEquiv.symm
+
+noncomputable def ordinaryRightRingHomFieldHomologyThreeExtIso
+    (h₄ : IsZero (P.complex.X 4)) :
+    (ordinaryRightRingHomFieldComplex k R P).homology 3 ≅
+      ModuleCat.of k (ULift.{u} (Abelian.Ext.{v} X (ModuleCat.of Rᵐᵒᵖ R) 3)) :=
+  (ordinaryRightRingHomFieldHomologyThreeExtLinearEquiv k R P h₄).toModuleIso
+
+end ASGinzburg

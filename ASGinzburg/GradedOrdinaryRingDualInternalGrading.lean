@@ -1,0 +1,76 @@
+import ASGinzburg.GradedOrdinaryRingDualFiniteSupport
+
+/-! For an ordinary finitely generated graded module, its actual ring
+dual is the internal direct sum of its native homogeneous spaces. The
+decomposition is proved using actual component maps and uniform finite
+support; no internal-grading hypothesis on the dual is assumed. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R} [DirectSum.Decomposition G]
+variable (M : GradedOrdinaryModuleData k R G)
+variable (hG : ∀ p q : ℤ, ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q))
+
+theorem ringDual_sum_components
+    (f : ordinaryRingDual R M.ringModule) (s : Finset ℤ)
+    (hs : ∀ q : ℤ, q ∉ s → M.ringDualComponent hG f q = 0) :
+    ∑ q ∈ s, M.ringDualComponent hG f q = f := by
+  classical
+  apply sub_eq_zero.mp
+  apply M.ringDual_eq_zero_of_components_eq_zero hG
+  intro r
+  change M.ringDualComponentMap hG r
+    ((∑ q ∈ s, M.ringDualComponent hG f q) - f) = 0
+  rw [map_sub, map_sum]
+  change (∑ q ∈ s, M.ringDualComponent hG (M.ringDualComponent hG f q) r) -
+    M.ringDualComponent hG f r = 0
+  suffices hsum : (∑ q ∈ s, M.ringDualComponent hG (M.ringDualComponent hG f q) r) =
+      M.ringDualComponent hG f r by rw [hsum, sub_self]
+  by_cases hr : r ∈ s
+  · rw [Finset.sum_eq_single r]
+    · exact M.ringDualComponent_of_mem_same hG _ r (M.ringDualComponent_mem hG f r)
+    · intro q _ hqr
+      exact M.ringDualComponent_of_mem_ne hG _ q r (M.ringDualComponent_mem hG f q) hqr
+    · intro h
+      exact (h hr).elim
+  · rw [hs r hr]
+    apply Finset.sum_eq_zero
+    intro q hq
+    exact M.ringDualComponent_of_mem_ne hG _ q r (M.ringDualComponent_mem hG f q)
+      (fun h => hr (h ▸ hq))
+
+include hG in
+theorem ringDualGrade_iSupIndep : iSupIndep M.ringDualGrade := by
+  intro q
+  apply Submodule.disjoint_def.mpr
+  intro f hf hothers
+  have hle : (⨆ p : ℤ, ⨆ (_ : p ≠ q), M.ringDualGrade p) ≤
+      LinearMap.ker (M.ringDualComponentMap hG q) := by
+    apply iSup_le
+    intro p
+    apply iSup_le
+    intro hp
+    intro g hg
+    exact M.ringDualComponent_of_mem_ne hG g p q hg hp
+  have hz : M.ringDualComponent hG f q = 0 := hle hothers
+  rw [M.ringDualComponent_of_mem_same hG f q hf] at hz
+  exact hz
+
+include hG in
+theorem ringDualGrade_iSup_eq_top [Module.Finite R M.ringModule] :
+    ⨆ q : ℤ, M.ringDualGrade q = ⊤ := by
+  apply top_unique
+  intro f _
+  obtain ⟨s, hs⟩ := M.ringDualComponent_finiteSupport hG f
+  rw [← M.ringDual_sum_components hG f s hs]
+  exact Submodule.sum_mem _ fun q _ =>
+    Submodule.mem_iSup_of_mem q (M.ringDualComponent_mem hG f q)
+
+include hG in
+theorem ringDualGrade_isInternal [Module.Finite R M.ringModule] :
+    DirectSum.IsInternal M.ringDualGrade :=
+  DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top
+    (M.ringDualGrade_iSupIndep hG) (M.ringDualGrade_iSup_eq_top hG)
+
+end ASGinzburg.GradedOrdinaryModuleData

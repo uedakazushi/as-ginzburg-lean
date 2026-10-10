@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/GinzburgNativeASArrowClasses.lean:31:2: error: Tactic `rfl` failed: The left-hand side
+  ↑(Q.ginzburgOriginalArrowPathComponent k a s)
+is not definitionally equal to the right-hand side
+  Finsupp.single (UnrolledPath.snoc ⟨a, ⋯⟩ (UnrolledPath.nil (Q.incomingSource (Q.target a, s) ⟨a, ⋯⟩))).erase 1
+
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+s : ℤ
+a : Q.Arrow
+⊢ ↑(Q.ginzburgOriginalArrowPathComponent k a s) =
+    Finsupp.single (UnrolledPath.snoc ⟨a, ⋯⟩ (UnrolledPath.nil (Q.incomingSource (Q.target a, s) ⟨a, ⋯⟩))).erase 1

@@ -1,0 +1,58 @@
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:13:37: error(lean.unknownIdentifier): Unknown constant `LinearEquiv.symm_trans`
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:11:75: error: unsolved goals
+case h.h
+k : Type u
+inst✝ : Field k
+g : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k
+x : ArrowSpace333 k
+x✝ : Fin 3
+⊢ (Pi.basisFun k (Fin 3)).toDualEquiv.symm (g.symm.dualMap ((Pi.basisFun k (Fin 3)).toDualEquiv x)) x✝ =
+    ((Pi.basisFun k (Fin 3)).toDualEquiv.trans (g.dualMap.trans (Pi.basisFun k (Fin 3)).toDualEquiv.symm)).symm x x✝
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:14:29: warning: This simp argument is unused:
+  LinearEquiv.dualMap_symm
+
+Hint: Omit it from the simp argument list.
+  simp only [triangleArrowTranspose, LinearEquiv.symm_trans, L̵i̵n̵e̵a̵r̵E̵q̵u̵i̵v̵.̵t̵r̵a̵n̵s̵_̵a̵p̵p̵l̵y̵,̵ ̵L̵i̵n̵e̵a̵r̵E̵q̵u̵i̵v̵.̵d̵u̵a̵l̵M̵a̵p̵_̵s̵y̵m̵m̵]̵L̲i̲n̲e̲a̲r̲E̲q̲u̲i̲v̲.̲t̲r̲a̲n̲s̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:20:32: warning: This simp argument is unused:
+  LinearEquiv.dualMap_apply
+
+Hint: Omit it from the simp argument list.
+  simp [triangleArrowTranspose,̵ ̵L̵i̵n̵e̵a̵r̵E̵q̵u̵i̵v̵.̵d̵u̵a̵l̵M̵a̵p̵_̵a̵p̵p̵l̵y̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:40:21: error: failed to synthesize
+  HSMul k ((j : Fin 3) → ?m.10 j) ?m.19
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:45:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:52:22: warning: This simp argument is unused:
+  map_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [map_sum, m̵a̵p̵_̵s̵m̵u̵l̵,̵ ̵Finset.sum_apply, Pi.smul_apply, smul_eq_mul,
+      LinearEquiv.apply_symm_apply] at he
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:52:50: warning: This simp argument is unused:
+  Pi.smul_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [map_sum, map_smul, Finset.sum_apply, P̵i̵.̵smul_a̵p̵p̵l̵y̵,̵ ̵s̵m̵u̵l̵_̵eq_mul,
+  ̵  ̵ ̵ ̵LinearEquiv.apply_symm_apply] at he
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleArrowContragradient.lean:52:65: warning: This simp argument is unused:
+  smul_eq_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [map_sum, map_smul, Finset.sum_apply, Pi.smul_apply, s̵m̵u̵l̵_̵e̵q̵_̵m̵u̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵LinearEquiv.apply_symm_apply] at he
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

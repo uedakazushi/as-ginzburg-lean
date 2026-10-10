@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/TriangleGinzburgGLSubstitutionInverse.lean:80:15: error: unsolved goals
+case original
+k : Type u
+inst✝ : Field k
+g : TriangleGL333 k
+a : triangle333.Arrow
+⊢ Finsupp.single ((CutQuiver.GinzburgPath.nil (triangle333.source a)).snoc (CutQuiver.GinzburgArrow.original a) ⋯) 1 =
+    Finsupp.single
+      ((CutQuiver.GinzburgPath.nil
+            (CutQuiver.GinzburgArrow.source triangle333 (CutQuiver.GinzburgArrow.original a))).snoc
+        (CutQuiver.GinzburgArrow.original a) ⋯)
+      1
+work/ASGinzburgDraft/TriangleGinzburgGLSubstitutionInverse.lean:99:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (CutQuiver.ginzburgArrowSubstitutionComponent ?Q ?k ?σ (CutQuiver.GinzburgArrow.source ?Q ?a)
+      (CutQuiver.GinzburgArrow.target ?Q ?a))
+    (Finsupp.single (CutQuiver.ginzburgArrowPath ?Q ?a) 1)
+in the target expression
+  (triangle333.ginzburgArrowSubstitutionComponent k (triangleGinzburgGLArrowReplacement k g) v v)
+      (Finsupp.single (triangle333.ginzburgArrowPath (CutQuiver.GinzburgArrow.loop v)) 1) =
+    triangle333.ginzburgIdentityArrowReplacement k (CutQuiver.GinzburgArrow.loop v)
+
+case loop
+k : Type u
+inst✝ : Field k
+g : TriangleGL333 k
+v : triangle333.Vertex
+⊢ (triangle333.ginzburgArrowSubstitutionComponent k (triangleGinzburgGLArrowReplacement k g) v v)
+      (Finsupp.single (triangle333.ginzburgArrowPath (CutQuiver.GinzburgArrow.loop v)) 1) =
+    triangle333.ginzburgIdentityArrowReplacement k (CutQuiver.GinzburgArrow.loop v)

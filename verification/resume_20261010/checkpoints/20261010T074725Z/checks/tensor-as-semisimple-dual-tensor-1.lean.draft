@@ -1,0 +1,31 @@
+import work.ASGinzburgDraft.ASCutSemisimpleRingDual
+import work.ASGinzburgDraft.BalancedTensorRightLinearEquiv
+import work.ASGinzburgDraft.ModuleCatULiftExactness
+import ASGinzburg.BalancedTensorLeftFunctor
+
+/-! The actual AS semisimple dual identification replaces the fixed
+left tensor factor naturally, with a canonical universe lift. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutSemisimpleRightDualTensorLeftIso (hAS : A.ASRegular Q) :
+    balancedTensorLeftFunctor.{u,v,max u v,v} k (hAS.CutGradedAlgebra A Q)
+        (BalancedTensorHom k (hAS.CutGradedAlgebra A Q) (hAS.cutSemisimpleRightObject A Q) k) ≅
+      balancedTensorLeftFunctor.{u,v,v,v} k (hAS.CutGradedAlgebra A Q)
+        (hAS.cutSemisimpleLeftObject A Q) ⋙ moduleCatULiftFunctor.{u,v,u} k := by
+  let R := hAS.CutGradedAlgebra A Q
+  let e := hAS.cutSemisimpleRightDualLeftEquiv A Q
+  refine NatIso.ofComponents (fun D =>
+    ((balancedTensorRightLinearEquiv k R D e).trans
+      (ULift.moduleEquiv (R := k)).symm).toModuleIso) ?_
+  intro D D' f
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro z
+  apply ULift.ext
+  exact congrArg (fun h => h z) (balancedTensorRightLinearEquiv_naturality k R D e f.hom)
+
+end ASGinzburg.ZAlgebra

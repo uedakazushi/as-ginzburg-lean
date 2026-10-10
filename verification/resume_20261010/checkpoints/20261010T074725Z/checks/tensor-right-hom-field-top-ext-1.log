@@ -1,0 +1,57 @@
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:31:4: error: 'change' tactic failed, pattern
+  (algebraMap k R) c * f.down x = f.down x * MulOpposite.unop ((algebraMap k Rᵐᵒᵖ) c)
+is not definitionally equal to target
+  (ModuleCat.Hom.hom (ModuleCat.ofHom (c • f).down)) x =
+    (ModuleCat.Hom.hom ((RingHom.id k) c • ModuleCat.ofHom f.down)) x
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:39:2: error: failed to synthesize
+  Subsingleton ↑((ordinaryRightRingHomFieldComplex k R P).X 4)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:53:8: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized
+  ModuleCat.Hom.instModule
+inferred
+  (ModuleCat.of k (P.complex.X 2 ⟶ ModuleCat.of Rᵐᵒᵖ R)).isModule
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:58:38: error: Application type mismatch: The argument
+  eM
+has type
+  @LinearEquiv k k Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring
+    (RingHom.id k) (RingHom.id k) ⋯ ⋯ (ULift.{u, v} (↑(P.complex.X 2) →ₗ[Rᵐᵒᵖ] R)) (P.complex.X 2 ⟶ ModuleCat.of Rᵐᵒᵖ R)
+    ULift.addCommMonoid ModuleCat.instAddCommGroupHom.toAddCommMonoid ULift.module' ModuleCat.Hom.instModule
+but is expected to have type
+  @LinearEquiv k k Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring
+    (RingHom.id k) (RingHom.id k) ⋯ ⋯ (↑((ordinaryRightRingHomFieldComplex k R P).X 2))
+    (↑(ModuleCat.of k (P.complex.X 2 ⟶ ModuleCat.of Rᵐᵒᵖ R)))
+    ((ordinaryRightRingHomFieldComplex k R P).X 2).isAddCommGroup.toAddCommMonoid
+    (ModuleCat.of k (P.complex.X 2 ⟶ ModuleCat.of Rᵐᵒᵖ R)).isAddCommGroup.toAddCommMonoid
+    ((ordinaryRightRingHomFieldComplex k R P).X 2).isModule
+    (ModuleCat.of k (P.complex.X 2 ⟶ ModuleCat.of Rᵐᵒᵖ R)).isModule
+in the application
+  linearCokernelSquareEquiv f g eM
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:58:8: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized
+  ModuleCat.Hom.instModule
+inferred
+  (ModuleCat.of k (P.complex.X 2 ⟶ ModuleCat.of Rᵐᵒᵖ R)).isModule
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:68:12: error: Invalid field `topHomQuotientActualExtThreeLinearEquiv`: The environment does not contain `CategoryTheory.ProjectiveResolution.topHomQuotientActualExtThreeLinearEquiv`
+  P
+has type
+  ProjectiveResolution X
+work/ASGinzburgDraft/OrdinaryRightRingHomFieldTopExtIso.lean:63:63: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+X : ModuleCat Rᵐᵒᵖ
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+e₁ : ↑(HomologicalComplex.homology (ordinaryRightRingHomFieldComplex k R P) 3) ≃ₗ[k]
+  ↑(ModuleCat.of k
+      (↑((ordinaryRightRingHomFieldComplex k R P).X 3) ⧸
+        LinearMap.range (ModuleCat.Hom.hom ((ordinaryRightRingHomFieldComplex k R P).d 2 3)))) :=
+  (moduleCatCochainHomologyThreeIsoTopCokernel (ordinaryRightRingHomFieldComplex k R P) ⋯).toLinearEquiv
+e₂ : (↑((ordinaryRightRingHomFieldComplex k R P).X 3) ⧸
+    LinearMap.range (ModuleCat.Hom.hom ((ordinaryRightRingHomFieldComplex k R P).d 2 3))) ≃ₗ[k]
+  (P.complex.X 3 ⟶ ModuleCat.of Rᵐᵒᵖ R) ⧸ sorry :=
+  ordinaryRightRingHomFieldTopQuotientLinearEquiv k R P
+⊢ ↑(HomologicalComplex.homology (ordinaryRightRingHomFieldComplex k R P) 3) ≃ₗ[k]
+    ULift.{u, v} (Abelian.Ext X (ModuleCat.of Rᵐᵒᵖ R) 3)

@@ -1,0 +1,67 @@
+import work.ASGinzburgDraft.GradedOrdinaryTopCoverConeExactness
+
+/-! Exactness of the genuine top-cover cone makes its actual cover
+map an isomorphism. The actual top cokernel is therefore projective. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {A : ℤ → Submodule k R}
+variable (P₁ P₂ P₃ : GradedOrdinaryModuleData k R A)
+
+ theorem topCoverCone_cover_mono
+    (f₁ : P₁.ringModule ⟶ P₂.ringModule) (f₂ : P₂.ringModule ⟶ P₃.ringModule)
+    (h : f₁ ≫ f₂ = 0) (hf₂ : P₂.PreservesGrade P₃ f₂) (b : ℤ) (J : Ideal R)
+    (C : GradedOrdinaryProjectiveCover (P₂.cokernelData P₃ f₂ hf₂) b J)
+    (l : C.source.ringModule ⟶ P₃.ringModule)
+    (hl : l ≫ P₂.cokernelProjection P₃ f₂ = C.π)
+    (he : (ShortComplex.mk (P₁.topCoverConeIncoming P₂ C.source f₁)
+      (P₂.topCoverConeOutgoing P₃ C.source f₂ l)
+      (P₁.topCoverConeIncoming_comp_outgoing P₂ P₃ C.source f₁ f₂ l h)).Exact) :
+    Mono C.π := by
+  apply (ModuleCat.mono_iff_injective _).mpr
+  apply LinearMap.ker_eq_bot.mp
+  apply bot_unique
+  intro y hy
+  have hy₀ : C.π y = 0 := hy
+  have hl₀ : (P₂.cokernelProjection P₃ f₂) (l y) = 0 := by
+    have hp := congrArg (fun a : C.source.ringModule ⟶ (P₂.cokernelData P₃ f₂ hf₂).ringModule => a y) hl
+    exact hp.trans hy₀
+  obtain ⟨x,hx⟩ := (Submodule.Quotient.mk_eq_zero (LinearMap.range f₂.hom)).mp hl₀
+  have hz : (P₂.topCoverConeOutgoing P₃ C.source f₂ l).hom (-x,y) = 0 := by
+    change f₂ (-x) + l y = 0
+    rw [map_neg,hx,neg_add_cancel]
+  obtain ⟨w,hw⟩ := (ShortComplex.moduleCat_exact_iff _).mp he (-x,y) hz
+  have hs : (0 : C.source.ringModule) = y := congrArg Prod.snd hw
+  exact hs.symm
+
+ theorem topCoverCone_cover_isIso
+    (f₁ : P₁.ringModule ⟶ P₂.ringModule) (f₂ : P₂.ringModule ⟶ P₃.ringModule)
+    (h : f₁ ≫ f₂ = 0) (hf₂ : P₂.PreservesGrade P₃ f₂) (b : ℤ) (J : Ideal R)
+    (C : GradedOrdinaryProjectiveCover (P₂.cokernelData P₃ f₂ hf₂) b J)
+    (l : C.source.ringModule ⟶ P₃.ringModule)
+    (hl : l ≫ P₂.cokernelProjection P₃ f₂ = C.π)
+    (he : (ShortComplex.mk (P₁.topCoverConeIncoming P₂ C.source f₁)
+      (P₂.topCoverConeOutgoing P₃ C.source f₂ l)
+      (P₁.topCoverConeIncoming_comp_outgoing P₂ P₃ C.source f₁ f₂ l h)).Exact) :
+    IsIso C.π := by
+  letI := C.epi
+  letI := P₁.topCoverCone_cover_mono P₂ P₃ f₁ f₂ h hf₂ b J C l hl he
+  exact isIso_of_mono_of_epi C.π
+
+ theorem topCoverCone_topCokernel_projective
+    (f₁ : P₁.ringModule ⟶ P₂.ringModule) (f₂ : P₂.ringModule ⟶ P₃.ringModule)
+    (h : f₁ ≫ f₂ = 0) (hf₂ : P₂.PreservesGrade P₃ f₂) (b : ℤ) (J : Ideal R)
+    (C : GradedOrdinaryProjectiveCover (P₂.cokernelData P₃ f₂ hf₂) b J)
+    (l : C.source.ringModule ⟶ P₃.ringModule)
+    (hl : l ≫ P₂.cokernelProjection P₃ f₂ = C.π)
+    (he : (ShortComplex.mk (P₁.topCoverConeIncoming P₂ C.source f₁)
+      (P₂.topCoverConeOutgoing P₃ C.source f₂ l)
+      (P₁.topCoverConeIncoming_comp_outgoing P₂ P₃ C.source f₁ f₂ l h)).Exact) :
+    Projective (P₂.cokernelData P₃ f₂ hf₂).ringModule := by
+  letI := C.projective
+  letI := P₁.topCoverCone_cover_isIso P₂ P₃ f₁ f₂ h hf₂ b J C l hl he
+  exact Projective.of_iso (asIso C.π) C.projective
+
+end ASGinzburg.GradedOrdinaryModuleData

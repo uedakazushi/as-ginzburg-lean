@@ -1,0 +1,22 @@
+work/ASGinzburgDraft/GinzburgCotangentCochainInvariance.lean:32:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.ginzburgDifferential ?k ?φ (GinzburgArrow.source Q ?a) (GinzburgArrow.target Q ?a))
+    (Finsupp.single (Q.ginzburgArrowPath ?a) 1)
+in the target expression
+  (Q.ginzburgDifferential k ((VertexCutPathAutomorphism.potentialLinearEquiv Q k E) φ) v v)
+      (Finsupp.single (Q.ginzburgArrowPath (GinzburgArrow.loop v)) 1) =
+    (Q.ginzburgArrowSubstitutionComponent k (Q.ginzburgCotangentArrowReplacement k E)
+        (GinzburgArrow.source Q (GinzburgArrow.loop v)) (GinzburgArrow.target Q (GinzburgArrow.loop v)))
+      (Q.ginzburgGeneratorDifferential k φ (GinzburgArrow.loop v))
+
+case loop
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+v : Q.Vertex
+⊢ (Q.ginzburgDifferential k ((VertexCutPathAutomorphism.potentialLinearEquiv Q k E) φ) v v)
+      (Finsupp.single (Q.ginzburgArrowPath (GinzburgArrow.loop v)) 1) =
+    (Q.ginzburgArrowSubstitutionComponent k (Q.ginzburgCotangentArrowReplacement k E)
+        (GinzburgArrow.source Q (GinzburgArrow.loop v)) (GinzburgArrow.target Q (GinzburgArrow.loop v)))
+      (Q.ginzburgGeneratorDifferential k φ (GinzburgArrow.loop v))

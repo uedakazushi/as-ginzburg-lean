@@ -1,0 +1,560 @@
+@ASGinzburg.linearCokernelSquareEquiv : {k : Type u_1} →
+  [inst : Field k] →
+    {M : Type u_2} →
+      [inst_1 : AddCommGroup M] →
+        [inst_2 :
+            @Module k M (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+              (@AddCommGroup.toAddCommMonoid M inst_1)] →
+          {M' : Type u_3} →
+            [inst_3 : AddCommGroup M'] →
+              [inst_4 :
+                  @Module k M'
+                    (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                    (@AddCommGroup.toAddCommMonoid M' inst_3)] →
+                {N : Type u_4} →
+                  [inst_5 : AddCommGroup N] →
+                    [inst_6 :
+                        @Module k N
+                          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                          (@AddCommGroup.toAddCommMonoid N inst_5)] →
+                      {N' : Type u_5} →
+                        [inst_7 : AddCommGroup N'] →
+                          [inst_8 :
+                              @Module k N'
+                                (@DivisionSemiring.toSemiring k
+                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                (@AddCommGroup.toAddCommMonoid N' inst_7)] →
+                            (f :
+                                @LinearMap k k
+                                  (@DivisionSemiring.toSemiring k
+                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                  (@DivisionSemiring.toSemiring k
+                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                  (@RingHom.id k
+                                    (@Semiring.toNonAssocSemiring k
+                                      (@DivisionSemiring.toSemiring k
+                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                  M N (@AddCommGroup.toAddCommMonoid M inst_1) (@AddCommGroup.toAddCommMonoid N inst_5)
+                                  inst_2 inst_6) →
+                              (g :
+                                  @LinearMap k k
+                                    (@DivisionSemiring.toSemiring k
+                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                    (@DivisionSemiring.toSemiring k
+                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                    (@RingHom.id k
+                                      (@Semiring.toNonAssocSemiring k
+                                        (@DivisionSemiring.toSemiring k
+                                          (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                    M' N' (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                    (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8) →
+                                (eM :
+                                    @LinearEquiv k k
+                                      (@DivisionSemiring.toSemiring k
+                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                      (@DivisionSemiring.toSemiring k
+                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                      (@RingHom.id k
+                                        (@Semiring.toNonAssocSemiring k
+                                          (@DivisionSemiring.toSemiring k
+                                            (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                      (@RingHom.id k
+                                        (@Semiring.toNonAssocSemiring k
+                                          (@DivisionSemiring.toSemiring k
+                                            (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                      ⋯ ⋯ M M' (@AddCommGroup.toAddCommMonoid M inst_1)
+                                      (@AddCommGroup.toAddCommMonoid M' inst_3) inst_2 inst_4) →
+                                  (eN :
+                                      @LinearEquiv k k
+                                        (@DivisionSemiring.toSemiring k
+                                          (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                        (@DivisionSemiring.toSemiring k
+                                          (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                        (@RingHom.id k
+                                          (@Semiring.toNonAssocSemiring k
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                        (@RingHom.id k
+                                          (@Semiring.toNonAssocSemiring k
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                        ⋯ ⋯ N N' (@AddCommGroup.toAddCommMonoid N inst_5)
+                                        (@AddCommGroup.toAddCommMonoid N' inst_7) inst_6 inst_8) →
+                                    (∀ (x : M),
+                                        @Eq N'
+                                          (@DFunLike.coe
+                                            (@LinearEquiv k k
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              ⋯ ⋯ N N' (@AddCommGroup.toAddCommMonoid N inst_5)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_6 inst_8)
+                                            N (fun x => N')
+                                            (@EquivLike.toFunLike
+                                              (@LinearEquiv k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                ⋯ ⋯ N N' (@AddCommGroup.toAddCommMonoid N inst_5)
+                                                (@AddCommGroup.toAddCommMonoid N' inst_7) inst_6 inst_8)
+                                              N N'
+                                              (@LinearEquiv.instEquivLike k k N N'
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@AddCommGroup.toAddCommMonoid N inst_5)
+                                                (@AddCommGroup.toAddCommMonoid N' inst_7) inst_6 inst_8
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                ⋯ ⋯))
+                                            eN
+                                            (@DFunLike.coe
+                                              (@LinearMap k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                M N (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6)
+                                              M (fun x => N)
+                                              (@LinearMap.instFunLike k k M N
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                              f x))
+                                          (@DFunLike.coe
+                                            (@LinearMap k k
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              M' N' (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8)
+                                            M' (fun x => N')
+                                            (@LinearMap.instFunLike k k M' N'
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                            g
+                                            (@DFunLike.coe
+                                              (@LinearEquiv k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                ⋯ ⋯ M M' (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid M' inst_3) inst_2 inst_4)
+                                              M (fun x => M')
+                                              (@EquivLike.toFunLike
+                                                (@LinearEquiv k k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                  (@RingHom.id k
+                                                    (@Semiring.toNonAssocSemiring k
+                                                      (@DivisionSemiring.toSemiring k
+                                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                  (@RingHom.id k
+                                                    (@Semiring.toNonAssocSemiring k
+                                                      (@DivisionSemiring.toSemiring k
+                                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                  ⋯ ⋯ M M' (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                  (@AddCommGroup.toAddCommMonoid M' inst_3) inst_2 inst_4)
+                                                M M'
+                                                (@LinearEquiv.instEquivLike k k M M'
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                  (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                  (@AddCommGroup.toAddCommMonoid M' inst_3) inst_2 inst_4
+                                                  (@RingHom.id k
+                                                    (@Semiring.toNonAssocSemiring k
+                                                      (@DivisionSemiring.toSemiring k
+                                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                  (@RingHom.id k
+                                                    (@Semiring.toNonAssocSemiring k
+                                                      (@DivisionSemiring.toSemiring k
+                                                        (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                  ⋯ ⋯))
+                                              eM x))) →
+                                      @LinearEquiv k k
+                                        (@DivisionSemiring.toSemiring k
+                                          (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                        (@DivisionSemiring.toSemiring k
+                                          (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                        (@RingHom.id k
+                                          (@Semiring.toNonAssocSemiring k
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                        (@RingHom.id k
+                                          (@Semiring.toNonAssocSemiring k
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                        ⋯ ⋯
+                                        (@HasQuotient.Quotient N
+                                          (@Submodule k N
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@AddCommGroup.toAddCommMonoid N inst_5) inst_6)
+                                          (@Submodule.hasQuotient k N
+                                            (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_5 inst_6)
+                                          (@LinearMap.range k k M N
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@AddCommGroup.toAddCommMonoid M inst_1)
+                                            (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                            (@RingHom.id k
+                                              (@Semiring.toNonAssocSemiring k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                            (@LinearMap k k
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              M N (@AddCommGroup.toAddCommMonoid M inst_1)
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6)
+                                            (@LinearMap.instFunLike k k M N
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M inst_1)
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                            ⋯ ⋯ f))
+                                        (@HasQuotient.Quotient N'
+                                          (@Submodule k N'
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@AddCommGroup.toAddCommMonoid N' inst_7) inst_8)
+                                          (@Submodule.hasQuotient k N'
+                                            (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_7 inst_8)
+                                          (@LinearMap.range k k M' N'
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                            (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                            (@RingHom.id k
+                                              (@Semiring.toNonAssocSemiring k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                            (@LinearMap k k
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              M' N' (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8)
+                                            (@LinearMap.instFunLike k k M' N'
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                            ⋯ ⋯ g))
+                                        (@AddCommGroup.toAddCommMonoid
+                                          (@HasQuotient.Quotient N
+                                            (@Submodule k N
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_6)
+                                            (@Submodule.hasQuotient k N
+                                              (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_5 inst_6)
+                                            (@LinearMap.range k k M N
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M inst_1)
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              (@LinearMap k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                M N (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6)
+                                              (@LinearMap.instFunLike k k M N
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                              ⋯ ⋯ f))
+                                          (@Submodule.Quotient.addCommGroup k N
+                                            (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_5 inst_6
+                                            (@LinearMap.range k k M N
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M inst_1)
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              (@LinearMap k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                M N (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6)
+                                              (@LinearMap.instFunLike k k M N
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@AddCommGroup.toAddCommMonoid M inst_1)
+                                                (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                              ⋯ ⋯ f)))
+                                        (@AddCommGroup.toAddCommMonoid
+                                          (@HasQuotient.Quotient N'
+                                            (@Submodule k N'
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_8)
+                                            (@Submodule.hasQuotient k N'
+                                              (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_7 inst_8)
+                                            (@LinearMap.range k k M' N'
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              (@LinearMap k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                M' N' (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                                (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8)
+                                              (@LinearMap.instFunLike k k M' N'
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                                (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                              ⋯ ⋯ g))
+                                          (@Submodule.Quotient.addCommGroup k N'
+                                            (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_7 inst_8
+                                            (@LinearMap.range k k M' N'
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              (@LinearMap k k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                                M' N' (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                                (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8)
+                                              (@LinearMap.instFunLike k k M' N'
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                                (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                                (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                                (@RingHom.id k
+                                                  (@Semiring.toNonAssocSemiring k
+                                                    (@DivisionSemiring.toSemiring k
+                                                      (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                              ⋯ ⋯ g)))
+                                        (@Submodule.Quotient.module k N
+                                          (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_5 inst_6
+                                          (@LinearMap.range k k M N
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@AddCommGroup.toAddCommMonoid M inst_1)
+                                            (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                            (@RingHom.id k
+                                              (@Semiring.toNonAssocSemiring k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                            (@LinearMap k k
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              M N (@AddCommGroup.toAddCommMonoid M inst_1)
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6)
+                                            (@LinearMap.instFunLike k k M N
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M inst_1)
+                                              (@AddCommGroup.toAddCommMonoid N inst_5) inst_2 inst_6
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                            ⋯ ⋯ f))
+                                        (@Submodule.Quotient.module k N'
+                                          (@DivisionRing.toRing k (@Field.toDivisionRing k inst)) inst_7 inst_8
+                                          (@LinearMap.range k k M' N'
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@DivisionSemiring.toSemiring k
+                                              (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                            (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                            (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                            (@RingHom.id k
+                                              (@Semiring.toNonAssocSemiring k
+                                                (@DivisionSemiring.toSemiring k
+                                                  (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                            (@LinearMap k k
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+                                              M' N' (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8)
+                                            (@LinearMap.instFunLike k k M' N'
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@DivisionSemiring.toSemiring k
+                                                (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                                              (@AddCommGroup.toAddCommMonoid M' inst_3)
+                                              (@AddCommGroup.toAddCommMonoid N' inst_7) inst_4 inst_8
+                                              (@RingHom.id k
+                                                (@Semiring.toNonAssocSemiring k
+                                                  (@DivisionSemiring.toSemiring k
+                                                    (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+                                            ⋯ ⋯ g))

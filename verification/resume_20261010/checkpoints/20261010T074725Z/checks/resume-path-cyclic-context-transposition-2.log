@@ -1,0 +1,11 @@
+work/ASGinzburgDraft/PathCyclicContextTransposition.lean:21:48: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j x y : Q.Vertex
+a : Q.PathComponent k i j
+l : Q.PathComponent k j x
+d : Q.PathComponent k x y
+r : Q.PathComponent k y i
+⊢ (Q.closedPathTrace k i) (((Q.pathComp k) (((Q.pathComp k) (((Q.pathComp k) r) d)) l)) a) =
+    (Q.closedPathTrace k i) (((Q.pathComp k) r) (((Q.pathComp k) (((Q.pathComp k) d) l)) a))

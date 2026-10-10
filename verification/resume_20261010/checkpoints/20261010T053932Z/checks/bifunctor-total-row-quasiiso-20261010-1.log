@@ -1,0 +1,11 @@
+work/ASGinzburgDraft/BifunctorTotalRowQuasiIso.lean:25:4: error: `simp` made no progress
+work/ASGinzburgDraft/BifunctorTotalRowQuasiIso.lean:34:6: error: 'change' tactic failed, pattern
+  (F.map (𝟙 (P.X i))).app (Q.X j) ≫ (F.obj (P.X i)).map (f.f j) = ?m.391
+is not definitionally equal to target
+  (ModuleCat.Hom.hom
+        (((((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map (𝟙 P)).app Q ≫
+                  ((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P).map f).f
+              i).f
+          j))
+      x✝ =
+    (ModuleCat.Hom.hom ((((F.obj (P.X i)).mapHomologicalComplex (ComplexShape.down ℕ)).map f).f j)) x✝

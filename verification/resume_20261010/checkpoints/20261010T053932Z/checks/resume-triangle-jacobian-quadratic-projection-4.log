@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/TriangleJacobianQuadraticProjection.lean:82:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (triangleXYCutComponentEquiv k).symm (Pi.single xy 1)
+in the target expression
+  (triangleJacobianQuadraticProjection k φ) (↑(triangleXYCutComponentEquiv k).symm (Pi.single xy 1)) =
+    ((triangle333.unrolledJacobianZAlgebra k φ).comp (triangleJacobianYArrow k φ xy.2))
+      (triangleJacobianXArrow k φ xy.1)
+
+k : Type u
+inst✝ : Field k
+φ : ↥(triangle333.Potential k)
+xy : Fin 3 × Fin 3
+hs : (triangleXYCutComponentEquiv k).symm (Pi.single xy 1) = triangleXYCutVector k xy
+⊢ (triangleJacobianQuadraticProjection k φ) (↑(triangleXYCutComponentEquiv k).symm (Pi.single xy 1)) =
+    ((triangle333.unrolledJacobianZAlgebra k φ).comp (triangleJacobianYArrow k φ xy.2))
+      (triangleJacobianXArrow k φ xy.1)

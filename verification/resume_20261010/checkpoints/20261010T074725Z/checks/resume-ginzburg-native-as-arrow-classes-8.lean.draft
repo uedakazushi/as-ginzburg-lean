@@ -1,0 +1,41 @@
+import work.ASGinzburgDraft.GinzburgNativeASGenerators
+
+/-! Canonical native AS generators are literal one-arrow quotient classes. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem GinzburgRegular.nativeIncomingElement_quotientArrow {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (v : Q.LiftVertex) (a : Q.incomingArrows v) :
+    (h.minimalASResolution Q k v).incomingElement a =
+      (Q.unrolledJacobianQuotientMap k φ).map
+        (Q.height (Q.incomingSource v a)) (Q.height v)
+        (Q.unrolledComponentHeightEquiv k (Q.incomingSource v a) v
+          (Finsupp.single (.snoc a (.nil (Q.incomingSource v a))) 1)) := by
+  rw [h.nativeIncomingElement Q k]
+  rcases v with ⟨v, s⟩
+  rcases a with ⟨a, ha⟩
+  change Q.target a = v at ha
+  subst v
+  change Q.ginzburgGeneratorOriginalArrowEntry k φ (Q.target a, s)
+    ⟨.original a, rfl, rfl⟩ = _
+  rw [Q.ginzburgGeneratorOriginalArrowEntry_pathClass]
+  unfold ginzburgJacobianPathClass
+  rw [Q.homogeneousJacobianUnrolledEquiv_mk]
+  apply congrArg Submodule.Quotient.mk
+  apply congrArg (Q.unrolledComponentHeightEquiv k
+    (Q.ginzburgPrefixGeneratorEndpoint (Q.target a, s) (.original a)) (Q.target a, s))
+  apply Q.unrolledPathEraseLinearMap_injective k
+  rw [Q.betweenSheetLinearEquiv_erase, Q.unrolledPathEraseLinearMap_single]
+  simp only [ginzburgOriginalArrowPathComponent, ginzburgOrdinaryArrowPath,
+    UnrolledPath.erase, Path.transport, incomingSource, liftedSource]
+  apply congrArg (fun p => Finsupp.single p (1 : k))
+  apply Path.toList_injective
+  have hn : (UnrolledPath.nil (Q.source a, s - (Q.cutDegree a : ℤ))).erase.toList = [] := by
+    apply List.length_eq_zero_iff.mp
+    rw [Path.length_toList, UnrolledPath.erase_length]
+    rfl
+  simp only [Path.toList, hn, List.nil_append]
+
+end ASGinzburg.CutQuiver

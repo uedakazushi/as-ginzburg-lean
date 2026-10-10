@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/SplitQuotientRingDualCoordinates.lean:41:2: error: 'change' tactic failed, pattern
+  DFunLike.coe.{max (u + 1) (w + 1), max (u + 1) (w + 1), max (u + 1) (w + 1)} (Pi.basisFun k I).toDualEquiv.symm ψ i =
+    ?m.235
+is not definitionally equal to target
+  DFunLike.coe.{max (max (u + 1) (v + 1)) (w + 1), v + 1, max (u + 1) (w + 1)} e
+      ((splitQuotientDualFieldEquiv k R J I e) φ) i =
+    (fun x =>
+        (have this := φ;
+          this)
+          x)
+      (splitQuotientVertexIdempotent k R J I e i)
+work/ASGinzburgDraft/SplitQuotientRingDualCoordinates.lean:54:9: error: Type mismatch
+  Pi.single i ?m.117 j
+has type
+  ?m.112 j
+but is expected to have type
+  k

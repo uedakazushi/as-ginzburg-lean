@@ -1,0 +1,6 @@
+@[reducible] def ASGinzburg.prototypeDefaultDualGroup.{v} : {R : Type v} →
+  [inst : Ring R] → (P : ModuleCat R) → AddCommGroup ↑(ordinaryRingDual R P) :=
+fun {R} [Ring R] P => inferInstance
+@[reducible] def ASGinzburg.prototypeRawDualGroup.{v} : {R : Type v} →
+  [inst : Ring R] → (P : ModuleCat R) → AddCommGroup ↑(ordinaryRingDual R P) :=
+fun {R} [Ring R] P => inferInstanceAs (AddCommGroup (↑P →ₗ[R] R))

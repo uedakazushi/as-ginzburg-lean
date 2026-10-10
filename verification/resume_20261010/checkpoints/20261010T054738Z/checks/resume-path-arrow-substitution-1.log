@@ -1,0 +1,65 @@
+work/ASGinzburgDraft/PathArrowSubstitution.lean:17:47: error: Invalid field notation: Function `DFunLike.coe` (coerced from `pathArrowSubstitutionPath`) does not have a usable parameter of type `CutQuiver` for which to substitute `Q`
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+work/ASGinzburgDraft/PathArrowSubstitution.lean:26:21: error: unsolved goals
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+i j l : Q.Vertex
+p : Q.Path i j
+a : Q.Arrow
+q : Q.Path j (Q.source a)
+ih :
+  Q.pathArrowSubstitutionPath k σ (p.comp q) =
+    ((Q.pathComp k) (Q.pathArrowSubstitutionPath k σ q)) (Q.pathArrowSubstitutionPath k σ p)
+⊢ ((Q.pathComp k) (σ a)) sorry =
+    ((Q.pathComp k) (((Q.pathComp k) (σ a)) sorry))
+      (match i, j, p with
+      | i, .(i), Path.nil i => Q.pathId k i
+      | u, .(Q.target a), p.snoc a h => ((Q.pathComp k) (h ▸ σ a)) sorry)
+work/ASGinzburgDraft/PathArrowSubstitution.lean:25:36: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PathArrowSubstitution.lean:28:51: warning: This simp argument is unused:
+  ih
+
+Hint: Omit it from the simp argument list.
+  simp only [Path.comp, ̲pathArrowSubstitutionPath,i̵h̵,̵ ̲Q.pathComp_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathArrowSubstitution.lean:28:54: warning: This simp argument is unused:
+  Q.pathComp_assoc
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵a̵t̵h̵.̵c̵o̵m̵p̵,̵p̵a̵t̵h̵A̵r̵r̵o̵w̵S̵u̵b̵s̵t̵i̵t̵u̵t̵i̵o̵n̵P̵a̵t̵h̵,̵i̵h̵,̵Q̵.̵p̵a̵t̵h̵C̵o̵m̵p̵_̵a̵s̵s̵o̵c̵]̵[̲P̲a̲t̲h̲.̲c̲o̲m̲p̲,̲ ̲p̲a̲t̲h̲A̲r̲r̲o̲w̲S̲u̲b̲s̲t̲i̲t̲u̲t̲i̲o̲n̲P̲a̲t̲h̲,̲ ̲i̲h̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathArrowSubstitution.lean:42:15: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PathArrowSubstitution.lean:57:17: error: unsolved goals
+case single.single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+i j l : Q.Vertex
+p : Q.Path i j
+a : k
+q : Q.Path j l
+b : k
+⊢ (b * a) • ((Q.pathComp k) (Q.pathArrowSubstitutionPath k σ q)) (Q.pathArrowSubstitutionPath k σ p) =
+    (a * b) • ((Q.pathComp k) (Q.pathArrowSubstitutionPath k σ q)) (Q.pathArrowSubstitutionPath k σ p)
+work/ASGinzburgDraft/PathArrowSubstitution.lean:81:72: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+a : Q.Arrow
+⊢ ((Q.pathComp k) (σ a)) (sorry ()) = σ a
+work/ASGinzburgDraft/PathArrowSubstitution.lean:82:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/PathArrowSubstitution.lean:82:34: warning: This simp argument is unused:
+  Q.id_pathComp
+
+Hint: Omit it from the simp argument list.
+  simp [pathArrowSubstitutionPath,̵Q̵.̵i̵d̵_̵p̵a̵t̵h̵C̵o̵m̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

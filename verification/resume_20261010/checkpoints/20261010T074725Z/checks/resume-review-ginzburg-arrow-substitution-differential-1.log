@@ -1,0 +1,48 @@
+work/ASGinzburgDraft/GinzburgArrowSubstitutionDifferential.lean:23:18: error: unsolved goals
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.GinzburgArrowReplacement k
+φ ψ : ↥(Q.Potential k)
+hDegree :
+  ∀ (a : Q.GinzburgArrow),
+    σ a ∈
+      Q.ginzburgCohomologicalComponent k (GinzburgArrow.source Q a) (GinzburgArrow.target Q a)
+        (GinzburgArrow.cohomologicalDegree Q a)
+hDifferential :
+  ∀ (a : Q.GinzburgArrow),
+    (Q.ginzburgDifferential k ψ (GinzburgArrow.source Q a) (GinzburgArrow.target Q a)) (σ a) =
+      (Q.ginzburgArrowSubstitutionComponent k σ (GinzburgArrow.source Q a) (GinzburgArrow.target Q a))
+        (Q.ginzburgGeneratorDifferential k φ a)
+i j : Q.Vertex
+a : Q.GinzburgArrow
+p : Q.GinzburgPath i (GinzburgArrow.source Q a)
+ih :
+  (Q.ginzburgDifferential k ψ i (GinzburgArrow.source Q a)) (Q.ginzburgArrowSubstitutionPath k σ p) =
+    (Q.ginzburgArrowSubstitutionComponent k σ i (GinzburgArrow.source Q a)) (GinzburgPath.differential Q k φ p)
+⊢ ((Q.ginzburgPathComp k)
+          ((Q.ginzburgArrowSubstitutionComponent k σ (GinzburgArrow.source Q a) (GinzburgArrow.target Q a))
+            (Q.ginzburgGeneratorDifferential k φ a)))
+        (Q.ginzburgArrowSubstitutionPath k σ p) +
+      ginzburgSign k (GinzburgArrow.cohomologicalDegree Q a) •
+        ((Q.ginzburgPathComp k) (σ a))
+          ((Q.ginzburgArrowSubstitutionComponent k σ i (GinzburgArrow.source Q a))
+            (GinzburgPath.differential Q k φ p)) =
+    ((Q.ginzburgPathComp k)
+          ((Q.ginzburgArrowSubstitutionComponent k σ (GinzburgArrow.source Q a) (GinzburgArrow.target Q a))
+            (Q.ginzburgGeneratorDifferential k φ a)))
+        (Q.ginzburgArrowSubstitutionPath k σ p) +
+      ginzburgSign k (GinzburgArrow.cohomologicalDegree Q a) •
+        ((Q.ginzburgPathComp k) (Q.ginzburgArrowSubstitutionPath k σ (Q.ginzburgArrowPath a)))
+          ((Q.ginzburgArrowSubstitutionComponent k σ i (GinzburgArrow.source Q a)) (GinzburgPath.differential Q k φ p))
+work/ASGinzburgDraft/GinzburgArrowSubstitutionDifferential.lean:31:6: warning: This simp argument is unused:
+  Q.ginzburgArrowSubstitutionComponent_arrow
+
+Hint: Omit it from the simp argument list.
+  simp only [̵G̵i̵n̵z̵b̵u̵r̵g̵P̵a̵t̵h̵.̵d̵i̵f̵f̵e̵r̵e̵n̵t̵i̵a̵l̵,̵m̵a̵p̵_̵a̵d̵d̵,̵m̵a̵p̵_̵s̵m̵u̵l̵,̵[̲G̲i̲n̲z̲b̲u̲r̲g̲P̲a̲t̲h̲.̲d̲i̲f̲f̲e̲r̲e̲n̲t̲i̲a̲l̲,̲ ̲m̲a̲p̲_̲a̲d̲d̲,̲ ̲m̲a̲p̲_̲s̲m̲u̲l̲,̲
+        Q.ginzburgArrowSubstitutionComponent_comp, Q̵.̵g̵i̵n̵z̵b̵u̵r̵g̵A̵r̵r̵o̵w̵S̵u̵b̵s̵t̵i̵t̵u̵t̵i̵o̵n̵C̵o̵m̵p̵o̵n̵e̵n̵t̵_̵s̵i̵n̵g̵l̵e̵,̵o̵n̵e̵_̵s̵m̵u̵l̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵Q̵.̵g̵i̵n̵z̵b̵u̵r̵g̵A̵r̵r̵o̵w̵S̵u̵b̵s̵t̵i̵t̵u̵t̵i̵o̵n̵C̵o̵m̵p̵o̵n̵e̵n̵t̵_̵a̵r̵r̵o̵w̵]̵Q̲.̲g̲i̲n̲z̲b̲u̲r̲g̲A̲r̲r̲o̲w̲S̲u̲b̲s̲t̲i̲t̲u̲t̲i̲o̲n̲C̲o̲m̲p̲o̲n̲e̲n̲t̲_̲s̲i̲n̲g̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲o̲n̲e̲_̲s̲m̲u̲l̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

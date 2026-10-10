@@ -1,0 +1,52 @@
+work/ASGinzburgDraft/BifunctorTotalRightResolutionAugmentation.lean:30:13: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ιMapBifunctor ?K ((ChainComplex.single₀ ?m.185).obj ?N) ?F (ComplexShape.down ℕ) ?n 0 ?n ⋯ ≫
+    (mapBifunctorSingleRightIso ?F ?K ?N).hom.f ?n
+in the target expression
+  (F.map (𝟙 (P.X n))).app (Q.complex.X 0) ≫
+      ((F.obj (P.X n)).map (Q.π.f 0) ≫
+          ιMapBifunctor P ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯) ≫
+        (mapBifunctorSingleRightIso F P N).hom.f n =
+    (F.obj (P.X n)).map (Q.π.f 0)
+
+k : Type u
+inst✝⁶ : Ring k
+C₁ : Type u₁
+C₂ : Type u₂
+inst✝⁵ : Category.{v₁, u₁} C₁
+inst✝⁴ : Category.{v₂, u₂} C₂
+inst✝³ : Preadditive C₁
+inst✝² : Abelian C₂
+F : C₁ ⥤ C₂ ⥤ ModuleCat k
+inst✝¹ : F.Additive
+inst✝ : ∀ (X : C₁), (F.obj X).Additive
+P : ChainComplex C₁ ℕ
+N : C₂
+Q : ProjectiveResolution N
+n : ℕ
+⊢ (F.map (𝟙 (P.X n))).app (Q.complex.X 0) ≫
+      ((F.obj (P.X n)).map (Q.π.f 0) ≫
+          ιMapBifunctor P ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯) ≫
+        (mapBifunctorSingleRightIso F P N).hom.f n =
+    (F.obj (P.X n)).map (Q.π.f 0)
+work/ASGinzburgDraft/BifunctorTotalRightResolutionAugmentation.lean:22:2: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/BifunctorTotalRightResolutionAugmentation.lean:29:38: warning: This simp argument is unused:
+  Functor.map_id
+
+Hint: Omit it from the simp argument list.
+  simp only [HomologicalComplex.id_f, F̵u̵n̵c̵t̵o̵r̵.̵m̵a̵p̵_̵i̵d̵,̵ ̵NatTrans.id_app, id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BifunctorTotalRightResolutionAugmentation.lean:29:54: warning: This simp argument is unused:
+  NatTrans.id_app
+
+Hint: Omit it from the simp argument list.
+  simp only [HomologicalComplex.id_f, Functor.map_id, N̵a̵t̵T̵r̵a̵n̵s̵.̵i̵d̵_̵a̵p̵p̵,̵ ̵id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BifunctorTotalRightResolutionAugmentation.lean:29:71: warning: This simp argument is unused:
+  id_comp
+
+Hint: Omit it from the simp argument list.
+  simp only [HomologicalComplex.id_f, Functor.map_id, NatTrans.id_app,̵ ̵i̵d̵_̵c̵o̵m̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

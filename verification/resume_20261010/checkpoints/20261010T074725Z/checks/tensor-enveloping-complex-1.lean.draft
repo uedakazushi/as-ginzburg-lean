@@ -1,0 +1,147 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRingDualTensorEvaluationNaturality
+import ASGinzburg.BalancedTensorFieldModuleChangeNaturality
+import Mathlib.Algebra.Homology.Opposite
+
+/-! The source and target of the actual termwise enveloping evaluation
+are genuine functors. Its source retains the canonical field action
+of the actual right-R restriction functor. -/
+namespace ASGinzburg
+open CategoryTheory Opposite
+open scoped TensorProduct ModuleCat.Algebra
+universe u v t
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+noncomputable def ordinaryRightRingHomFieldFunctor :
+    (ModuleCat.{v} Rᵐᵒᵖ)ᵒᵖ ⥤ ModuleCat.{v} k where
+  obj P := ModuleCat.of k (P.unop →ₗ[Rᵐᵒᵖ] R)
+  map f := ModuleCat.ofHom {
+    toFun := fun h => h.comp f.unop.hom
+    map_add' := fun _ _ => rfl
+    map_smul' := fun _ _ => rfl }
+  map_id P := by apply ModuleCat.hom_ext; ext h x; rfl
+  map_comp f g := by apply ModuleCat.hom_ext; ext h x; rfl
+
+instance ordinaryRightRingHomFieldFunctorPreservesZero :
+    (ordinaryRightRingHomFieldFunctor k R).PreservesZeroMorphisms where
+  map_zero := fun P Q => by
+    apply ModuleCat.hom_ext
+    ext h x
+    change h 0 = 0
+    exact h.map_zero
+
+variable (M : ModuleCat.{v} Rᵐᵒᵖ)
+
+noncomputable def envelopingRingDualTensorEvaluationSourceFunctor :
+    (ModuleCat.{v} (AlgebraEnvelopingRing k R))ᵒᵖ ⥤ ModuleCat.{v} k :=
+  ordinaryRingDualFunctor (AlgebraEnvelopingRing k R) ⋙
+    rightEnvelopingRightRestrictionFunctor k R ⋙
+      balancedTensorLeftFunctor k R (BalancedTensorHom k R M k)
+
+noncomputable def envelopingRingDualTensorEvaluationTargetFunctor :
+    (ModuleCat.{v} (AlgebraEnvelopingRing k R))ᵒᵖ ⥤ ModuleCat.{v} k :=
+  (envelopingBalancedTensorRightFunctor k R M).op ⋙ ordinaryRightRingHomFieldFunctor k R
+
+instance envelopingRingDualTensorEvaluationSourceFunctorPreservesZero :
+    (envelopingRingDualTensorEvaluationSourceFunctor k R M).PreservesZeroMorphisms := by
+  unfold envelopingRingDualTensorEvaluationSourceFunctor
+  infer_instance
+
+instance envelopingRingDualTensorEvaluationTargetFunctorPreservesZero :
+    (envelopingRingDualTensorEvaluationTargetFunctor k R M).PreservesZeroMorphisms := by
+  unfold envelopingRingDualTensorEvaluationTargetFunctor
+  infer_instance
+
+attribute [local instance 2100] ordinaryRingDualTensorModuleK
+attribute [local instance 2100] ordinaryRingDualTensorScalarTower
+attribute [local instance 3500] ordinaryRingDualTensorFieldSMulK
+variable (P : ModuleCat.{v} (AlgebraEnvelopingRing k R))
+
+noncomputable def envelopingRingDualTensorEvaluationSourceFieldIso :
+    letI := envelopingTensorEvaluationRestrictedRightModule k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (envelopingRingDualTensorEvaluationSourceFunctor k R M).obj (op P) ≅
+      ModuleCat.of k (BalancedTensorSpace k R (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+        (BalancedTensorHom k R M k)) := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI : SMul Rᵐᵒᵖ (ordinaryRingDual (AlgebraEnvelopingRing k R) P) :=
+    envelopingTensorEvaluationRestrictedRightSMul k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingTensorEvaluationRestrictedRightScalarTower k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  exact balancedTensorFieldModuleChangeIso k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P) (BalancedTensorHom k R M k)
+    (Module.compHom _ (algebraMap k Rᵐᵒᵖ))
+    (ordinaryRingDualTensorModuleK k (AlgebraEnvelopingRing k R) P)
+    (algebraModuleCompHomField_eq k Rᵐᵒᵖ _)
+
+noncomputable def envelopingRingDualTensorEvaluationCanonicalTmul
+    (f : ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (φ : BalancedTensorHom k R M k) :
+    (envelopingRingDualTensorEvaluationSourceFunctor k R M).obj (op P) := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI : Module k (ordinaryRingDual (AlgebraEnvelopingRing k R) P) :=
+    Module.compHom _ (algebraMap k Rᵐᵒᵖ)
+  exact balancedTensorTmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (BalancedTensorHom k R M k) f φ
+
+@[simp] theorem envelopingRingDualTensorEvaluationSourceFieldIso_tmul
+    (f : ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (φ : BalancedTensorHom k R M k) :
+    letI := envelopingTensorEvaluationRestrictedRightModule k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (envelopingRingDualTensorEvaluationSourceFieldIso k R M P).hom
+      (envelopingRingDualTensorEvaluationCanonicalTmul k R M P f φ) =
+      balancedTensorTmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+        (BalancedTensorHom k R M k) f φ := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI : SMul Rᵐᵒᵖ (ordinaryRingDual (AlgebraEnvelopingRing k R) P) :=
+    envelopingTensorEvaluationRestrictedRightSMul k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingTensorEvaluationRestrictedRightScalarTower k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  exact balancedTensorFieldModuleChangeIso_hom_tmul k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P) (BalancedTensorHom k R M k)
+    (Module.compHom _ (algebraMap k Rᵐᵒᵖ))
+    (ordinaryRingDualTensorModuleK k (AlgebraEnvelopingRing k R) P)
+    (algebraModuleCompHomField_eq k Rᵐᵒᵖ _) f φ
+
+variable [Module.Finite k M]
+
+noncomputable def envelopingFiniteProjectiveRingDualTensorTermIso
+    (hP : ordinaryFiniteProjectiveProperty (AlgebraEnvelopingRing k R) P) :
+    (envelopingRingDualTensorEvaluationSourceFunctor k R M).obj (op P) ≅
+      (envelopingRingDualTensorEvaluationTargetFunctor k R M).obj (op P) := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingBalancedTensorRightModule k R M P
+  letI := envelopingBalancedTensorRightScalarTower k R M P
+  exact envelopingRingDualTensorEvaluationSourceFieldIso k R M P ≪≫
+    (envelopingFiniteProjectiveRingDualTensorEquiv k R M hP).toModuleIso
+
+@[simp] theorem envelopingFiniteProjectiveRingDualTensorTermIso_tmul
+    (hP : ordinaryFiniteProjectiveProperty (AlgebraEnvelopingRing k R) P)
+    (f : ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (φ : BalancedTensorHom k R M k) (m : M) (p : P) :
+    letI := envelopingLeftModule k R P
+    letI := envelopingBalancedTensorHomModule k R M R
+    (envelopingFiniteProjectiveRingDualTensorTermIso k R M P hP).hom
+      (envelopingRingDualTensorEvaluationCanonicalTmul k R M P f φ)
+      (balancedTensorTmul k R M P m p) =
+      envelopingTensorEvaluationContraction k R M φ (f p) m := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingLeftModule k R P
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingBalancedTensorRightModule k R M P
+  letI := envelopingBalancedTensorRightScalarTower k R M P
+  change envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+    ((envelopingRingDualTensorEvaluationSourceFieldIso k R M P).hom
+      (envelopingRingDualTensorEvaluationCanonicalTmul k R M P f φ))
+    (balancedTensorTmul k R M P m p) = _
+  rw [envelopingRingDualTensorEvaluationSourceFieldIso_tmul,
+    envelopingFiniteProjectiveRingDualTensorEquiv_tmul]
+
+end ASGinzburg

@@ -1,0 +1,69 @@
+import work.ASGinzburgDraft.ASCutSemisimpleRingDualTensor
+import work.ASGinzburgDraft.AlgebraEnvelopingRingDualTensorEvaluationComplex
+
+/-! The actual semisimple dual identification transports the reduced
+enveloping ring-Hom complex to tensoring with the actual left quotient.+The canonical universe lift preserves and reflects exactness. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory Opposite
+open scoped ModuleCat.Algebra
+universe u v t
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutEnvelopingRingDualSemisimpleLeftTensorFunctor
+    (hAS : A.ASRegular Q) :
+    (ModuleCat.{v} (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)))ᵒᵖ ⥤
+      ModuleCat.{v} k :=
+  ordinaryRingDualFunctor (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)) ⋙
+    rightEnvelopingRightRestrictionFunctor k (hAS.CutGradedAlgebra A Q) ⋙
+      balancedTensorLeftFunctor k (hAS.CutGradedAlgebra A Q)
+        (hAS.cutSemisimpleLeftObject A Q)
+
+instance ASRegular.cutEnvelopingRingDualSemisimpleLeftTensorFunctorPreservesZero
+    (hAS : A.ASRegular Q) :
+    (hAS.cutEnvelopingRingDualSemisimpleLeftTensorFunctor A Q).PreservesZeroMorphisms := by
+  unfold cutEnvelopingRingDualSemisimpleLeftTensorFunctor
+    rightEnvelopingRightRestrictionFunctor
+  infer_instance
+
+set_option maxHeartbeats 1000000 in
+noncomputable def ASRegular.cutEnvelopingRingDualSemisimpleTensorFunctorIso
+    (hAS : A.ASRegular Q) :
+    envelopingRingDualTensorEvaluationSourceFunctor k (hAS.CutGradedAlgebra A Q)
+        (hAS.cutSemisimpleRightObject A Q) ≅
+      hAS.cutEnvelopingRingDualSemisimpleLeftTensorFunctor A Q ⋙
+        moduleCatULiftFunctor.{u,v,u} k := by
+  let R := hAS.CutGradedAlgebra A Q
+  let F := ordinaryRingDualFunctor (AlgebraEnvelopingRing k R) ⋙
+    rightEnvelopingRightRestrictionFunctor k R
+  exact isoWhiskerLeft F (hAS.cutSemisimpleRightDualTensorLeftIso A Q)
+
+set_option maxHeartbeats 1000000 in
+noncomputable def ASRegular.cutEnvelopingRingDualSemisimpleTensorComplexIso
+    (hAS : A.ASRegular Q) {ι : Type t} {c : ComplexShape ι}
+    (K : HomologicalComplex
+      (ModuleCat.{v} (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))) c) :
+    (((envelopingRingDualTensorEvaluationSourceFunctor k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutSemisimpleRightObject A Q)).mapHomologicalComplex c.symm).obj K.op) ≅
+    ((moduleCatULiftFunctor.{u,v,u} k).mapHomologicalComplex c.symm).obj
+      (((hAS.cutEnvelopingRingDualSemisimpleLeftTensorFunctor A Q).
+        mapHomologicalComplex c.symm).obj K.op) :=
+  (NatIso.mapHomologicalComplex
+    (hAS.cutEnvelopingRingDualSemisimpleTensorFunctorIso A Q) c.symm).app K.op
+
+set_option maxHeartbeats 1000000 in
+theorem ASRegular.cutEnvelopingRingDualSemisimpleTensor_exactAt_iff
+    (hAS : A.ASRegular Q) {ι : Type t} {c : ComplexShape ι}
+    (K : HomologicalComplex
+      (ModuleCat.{v} (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))) c) (i : ι) :
+    (((envelopingRingDualTensorEvaluationSourceFunctor k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutSemisimpleRightObject A Q)).mapHomologicalComplex c.symm).obj K.op).ExactAt i ↔
+      (((hAS.cutEnvelopingRingDualSemisimpleLeftTensorFunctor A Q).
+        mapHomologicalComplex c.symm).obj K.op).ExactAt i := by
+  let e := hAS.cutEnvelopingRingDualSemisimpleTensorComplexIso A Q K
+  constructor
+  · intro h
+    exact (moduleCatULiftFunctor_exactAt_iff k _ i).mp (h.of_iso e)
+  · intro h
+    exact ((moduleCatULiftFunctor_exactAt_iff k _ i).mpr h).of_iso e.symm
+
+end ASGinzburg.ZAlgebra

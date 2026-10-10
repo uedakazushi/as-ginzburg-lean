@@ -1,0 +1,62 @@
+import work.ASGinzburgDraft.TriangleGinzburgGLGenerators
+
+/-! The genuine loop differential is the outgoing original/dual
+contraction minus the incoming contraction at the preceding vertex. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k]
+
+def triangleEdgePredecessor (v : Fin 3) : Fin 3 :=
+  ⟨(v.val + 2) % 3, Nat.mod_lt _ (by decide)⟩
+
+@[simp] theorem triangleEdgeTarget_predecessor (v : Fin 3) :
+    triangleEdgeTarget (triangleEdgePredecessor v) = v := by
+  fin_cases v <;> rfl
+
+noncomputable def triangleGinzburgOutgoingLoopBilinear (s : Fin 3) :
+    ArrowSpace333 k →ₗ[k] ArrowSpace333 k →ₗ[k]
+      triangle333.GinzburgPathComponent k s s :=
+  (triangle333.ginzburgPathComp k (u := s) (v := triangleEdgeTarget s) (w := s)).flip.compl₁₂
+    (triangleGinzburgOriginalCoordinates k s) (triangleGinzburgDualCoordinates k s)
+
+noncomputable def triangleGinzburgIncomingLoopBilinear (s : Fin 3) :
+    ArrowSpace333 k →ₗ[k] ArrowSpace333 k →ₗ[k]
+      triangle333.GinzburgPathComponent k (triangleEdgeTarget s) (triangleEdgeTarget s) :=
+  (triangle333.ginzburgPathComp k (u := triangleEdgeTarget s) (v := s)
+    (w := triangleEdgeTarget s)).compl₁₂
+      (triangleGinzburgOriginalCoordinates k s) (triangleGinzburgDualCoordinates k s)
+
+noncomputable def triangleGinzburgOutgoingLoopCoordinates (s : Fin 3) :
+    triangle333.GinzburgPathComponent k s s :=
+  ∑ i : Fin 3, triangle333.ginzburgPathComp k
+    (triangleGinzburgDualCoordinates k s (Pi.single i 1))
+    (triangleGinzburgOriginalCoordinates k s (Pi.single i 1))
+
+noncomputable def triangleGinzburgIncomingLoopCoordinates (s : Fin 3) :
+    triangle333.GinzburgPathComponent k (triangleEdgeTarget s) (triangleEdgeTarget s) :=
+  ∑ i : Fin 3, triangle333.ginzburgPathComp k
+    (triangleGinzburgOriginalCoordinates k s (Pi.single i 1))
+    (triangleGinzburgDualCoordinates k s (Pi.single i 1))
+
+noncomputable def triangleGinzburgIncomingLoopCoordinatesAt (v : Fin 3) :
+    triangle333.GinzburgPathComponent k v v :=
+  triangleEdgeTarget_predecessor v ▸
+    triangleGinzburgIncomingLoopCoordinates k (triangleEdgePredecessor v)
+
+theorem triangleGinzburgLoopDifferential_coordinates (v : triangle333.Vertex) :
+    triangle333.ginzburgLoopDifferential k v =
+      triangleGinzburgOutgoingLoopCoordinates k v -
+        triangleGinzburgIncomingLoopCoordinatesAt k v := by
+  classical
+  simp only [triangleGinzburgOutgoingLoopCoordinates,triangleGinzburgIncomingLoopCoordinatesAt,
+    triangleGinzburgIncomingLoopCoordinates]
+  simp_rw [triangleGinzburgOriginalCoordinates_single,triangleGinzburgDualCoordinates_single,
+    CutQuiver.ginzburgPathComp_single,one_mul]
+  fin_cases v <;>
+    simp [CutQuiver.ginzburgLoopDifferential,triangleEdgePredecessor,triangleEdgeTarget,triangleEdgePath,
+      triangleEdgeDualGinzburgPath,triangleEdgeArrow,triangle333,Fin.sum_univ_succ,
+      CutQuiver.GinzburgPath.transport,CutQuiver.Path.transport,
+      CutQuiver.originalGinzburgArrowPath,CutQuiver.dualGinzburgArrowPath,
+      CutQuiver.Path.originalGinzburg,CutQuiver.GinzburgPath.comp] <;> abel
+
+end ASGinzburg

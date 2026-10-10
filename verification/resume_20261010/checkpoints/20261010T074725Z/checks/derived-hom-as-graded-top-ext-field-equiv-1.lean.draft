@@ -1,0 +1,49 @@
+import ASGinzburg.ASCutGradedRegularExt
+
+/-! The genuine graded top Ext into the shifted regular module is one
+copy of the field, from the original AS table and vertex decomposition. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutGradedRegularExt_top_evaluation
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted (-1)) 3 →ₗ[k]
+      Abelian.Ext.{v} (A.simpleRightModule (Q.height (i,0)))
+        (A.representable (Q.height (i,-1))) 3 :=
+  (LinearMap.proj i).comp (hAS.cutGradedRegularExtLinearEquiv A Q i 3 (-1)).toLinearMap
+
+ theorem ASRegular.cutGradedRegularExt_top_evaluation_bijective
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Function.Bijective (hAS.cutGradedRegularExt_top_evaluation A Q i) := by
+  let e := hAS.cutGradedRegularExtLinearEquiv A Q i 3 (-1)
+  constructor
+  · intro x y hxy
+    apply e.injective
+    funext j
+    by_cases hji : j = i
+    · subst j
+      exact hxy
+    · have hz (z) : e z j = 0 := by
+        apply hAS.ext_other_eq_zero A Q (j,-1) (i,0) 3
+        intro h
+        have hji' := congrArg (fun a : ℕ × Q.LiftVertex => a.2.1) h
+        exact hji hji'.symm
+      rw [hz x, hz y]
+  · intro z
+    refine ⟨e.symm (Pi.single i z), ?_⟩
+    change e (e.symm (Pi.single i z)) i = z
+    rw [LinearEquiv.apply_symm_apply]
+    exact Pi.single_eq_same i z
+
+noncomputable def ASRegular.cutGradedRegularTopExtFieldEquiv
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Abelian.Ext.{v} (hAS.cutGradedSimple A Q (i,0))
+      (((hAS.periodIso A Q).cutRegularGradedRightModule Q).shifted (-1)) 3 ≃ₗ[k] k :=
+  (LinearEquiv.ofBijective (hAS.cutGradedRegularExt_top_evaluation A Q i)
+    (hAS.cutGradedRegularExt_top_evaluation_bijective A Q i)).trans
+      (hAS.extThreeEquiv A Q (i,-1))
+
+end ASGinzburg.ZAlgebra

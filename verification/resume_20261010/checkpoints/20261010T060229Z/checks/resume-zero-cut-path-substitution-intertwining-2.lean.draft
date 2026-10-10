@@ -1,0 +1,109 @@
+import work.ASGinzburgDraft.ZeroCutJacobianComponentProjection
+import work.ASGinzburgDraft.IdentityLeadingPathSubstitution
+import ASGinzburg.ZAlgebraIsomorphisms
+
+/-! Arrow compatibility with an actual Jacobian foundation isomorphism
+extends to every noncut path, with the original products preserved. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def zeroCutArrowElement (a : Q.Arrow) (ha : Q.cut a = false) :
+    Q.pathCutComponent k (Q.source a) (Q.target a) 0 :=
+  ⟨Q.pathIdentityArrowReplacement k a, Finsupp.single_mem_supported k 1 (by
+    simp [Path.cutDegree,Q.cutDegree_false ha])⟩
+
+theorem pathCutSubstitution_zeroCut_id (σ : Q.PathArrowReplacement k)
+    (hc : ∀ a, σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) (Q.cutDegree a : ℤ))
+    (i : Q.Vertex) :
+    Q.pathCutSubstitution k σ hc i i 0 (Q.zeroCutPathId k i) = Q.zeroCutPathId k i := by
+  apply Subtype.ext
+  exact Q.pathArrowSubstitutionComponent_id k σ i
+
+theorem pathCutSubstitution_zeroCut_comp (σ : Q.PathArrowReplacement k)
+    (hc : ∀ a, σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) (Q.cutDegree a : ℤ))
+    {i j l : Q.Vertex} (f : Q.pathCutComponent k i j 0) (g : Q.pathCutComponent k j l 0) :
+    Q.pathCutSubstitution k σ hc i l 0 (Q.zeroCutPathComp k g f) =
+      Q.zeroCutPathComp k (Q.pathCutSubstitution k σ hc j l 0 g)
+        (Q.pathCutSubstitution k σ hc i j 0 f) := by
+  apply Subtype.ext
+  exact Q.pathArrowSubstitutionComponent_comp k σ f.val g.val
+
+variable {φ ψ : Q.Potential k}
+variable (F : ZAlgebra.Isomorphism (Q.unrolledJacobianZAlgebra k φ)
+  (Q.unrolledJacobianZAlgebra k ψ))
+variable (σ : Q.PathArrowReplacement k)
+  (hc : ∀ a, σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) (Q.cutDegree a : ℤ))
+  (ha : ∀ (a : Q.Arrow) (h : Q.cut a = false),
+    Q.zeroCutJacobianComponentProjection k ψ (Q.source a) (Q.target a)
+      (Q.pathCutSubstitution k σ hc _ _ 0 (Q.zeroCutArrowElement k a h)) =
+        F.map _ _ (Q.zeroCutJacobianComponentProjection k φ _ _
+          (Q.zeroCutArrowElement k a h)))
+
+include ha in
+theorem zeroCutPathSubstitution_projection_path {i j : Q.Vertex} (p : Q.Path i j)
+    (hp : p.cutDegree = 0) :
+    Q.zeroCutJacobianComponentProjection k ψ i j
+      (Q.pathCutSubstitution k σ hc i j 0
+        ⟨Finsupp.single p 1,Finsupp.single_mem_supported k 1 (by simp [hp])⟩) =
+      F.map _ _ (Q.zeroCutJacobianComponentProjection k φ i j
+        ⟨Finsupp.single p 1,Finsupp.single_mem_supported k 1 (by simp [hp])⟩) := by
+  induction p with
+  | nil =>
+    change Q.zeroCutJacobianComponentProjection k ψ i i
+      (Q.pathCutSubstitution k σ hc i i 0 (Q.zeroCutPathId k i)) =
+      F.map _ _ (Q.zeroCutJacobianComponentProjection k φ i i (Q.zeroCutPathId k i))
+    rw [Q.pathCutSubstitution_zeroCut_id,Q.zeroCutJacobianComponentProjection_id,
+      Q.zeroCutJacobianComponentProjection_id,F.map_id]
+  | @snoc j p a h ih =>
+    subst j
+    have hp' : p.cutDegree = 0 := by simp only [Path.cutDegree] at hp; omega
+    have hca : Q.cut a = false := by
+      cases H : Q.cut a
+      · rfl
+      · simp [Path.cutDegree,Q.cutDegree_true H] at hp
+    let x : Q.pathCutComponent k i (Q.source a) 0 :=
+      ⟨Finsupp.single p 1,Finsupp.single_mem_supported k 1 (by simp [hp'])⟩
+    have H : (⟨Finsupp.single (Path.snoc p a rfl) 1,
+        Finsupp.single_mem_supported k 1 (by simp [hp])⟩ :
+        Q.pathCutComponent k i (Q.target a) 0) =
+      Q.zeroCutPathComp k (Q.zeroCutArrowElement k a hca) x := by
+      apply Subtype.ext
+      simp [zeroCutPathComp,zeroCutArrowElement,pathIdentityArrowReplacement,x,
+        Path.comp]
+    rw [H,Q.pathCutSubstitution_zeroCut_comp,
+      Q.zeroCutJacobianComponentProjection_comp,Q.zeroCutJacobianComponentProjection_comp,
+      F.map_comp,ha a hca]
+    rw [ih hp']
+
+include ha in
+theorem zeroCutPathSubstitution_projection (i j : Q.Vertex)
+    (f : Q.pathCutComponent k i j 0) :
+    Q.zeroCutJacobianComponentProjection k ψ i j (Q.pathCutSubstitution k σ hc i j 0 f) =
+      F.map _ _ (Q.zeroCutJacobianComponentProjection k φ i j f) := by
+  have hf := f.property
+  change f.val ∈ Finsupp.supported k k _ at hf
+  rw [Finsupp.supported_eq_span_single] at hf
+  let L := (Q.zeroCutJacobianComponentProjection k ψ i j).comp
+    (Q.pathCutSubstitution k σ hc i j 0)
+  let M := (F.map (i.val : ℤ) (j.val : ℤ)).toLinearMap.comp
+    (Q.zeroCutJacobianComponentProjection k φ i j)
+  change L f = M f
+  have H : ∀ (x : Q.PathComponent k i j) (hx : x ∈ Q.pathCutComponent k i j 0),
+      x ∈ Submodule.span k {x | ∃ p : Q.Path i j, (p.cutDegree : ℤ) = 0 ∧
+        Finsupp.single p 1 = x} → L ⟨x,hx⟩ = M ⟨x,hx⟩ := by
+    intro x hx hxspan
+    induction hxspan using Submodule.span_induction with
+    | mem x hx' =>
+      obtain ⟨p,hp,rfl⟩ := hx'
+      exact Q.zeroCutPathSubstitution_projection_path k F σ hc ha p (by omega)
+    | zero => exact (L.map_zero).trans M.map_zero.symm
+    | add x y hx' hy' ihx ihy =>
+      change L (⟨x,_⟩ + ⟨y,_⟩) = M (⟨x,_⟩ + ⟨y,_⟩)
+      rw [map_add,map_add,ihx,ihy]
+    | smul c x hx' ih =>
+      change L (c • ⟨x,_⟩) = M (c • ⟨x,_⟩)
+      rw [map_smul,map_smul,ih]
+  exact H f.val f.property hf
+
+end ASGinzburg.CutQuiver

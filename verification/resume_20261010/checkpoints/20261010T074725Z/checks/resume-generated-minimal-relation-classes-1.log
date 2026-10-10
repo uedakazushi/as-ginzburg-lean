@@ -1,0 +1,24 @@
+work/ASGinzburgDraft/GeneratedMinimalRelationClasses.lean:29:9: error(lean.unknownIdentifier): Unknown constant `Set.range_coe_subtype`
+work/ASGinzburgDraft/GeneratedMinimalRelationClasses.lean:21:71: error: unsolved goals
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+S : (i j : ℤ) → Set ((Q.unrolledPathZAlgebra k).Hom i j)
+i j : ℤ
+I : (Q.unrolledPathZAlgebra k).LinearIdeal := LinearIdeal.generated S
+h : ⇑(I.hom i j).subtype ∘ Q.generatedRelationElement k S i j = Subtype.val
+⊢ Submodule.span k (Set.range Subtype.val) ⊔ Q.relationDecomposables I i j = I.hom i j
+work/ASGinzburgDraft/GeneratedMinimalRelationClasses.lean:33:4: error: failed to synthesize
+  AddCommMonoid (Q.MinimalRelationComponent (LinearIdeal.generated S) i j)
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/GeneratedMinimalRelationClasses.lean:34:33: error(lean.unknownIdentifier): Unknown identifier `S`
+work/ASGinzburgDraft/GeneratedMinimalRelationClasses.lean:33:82: error: unsolved goals
+i j : ℤ
+⊢ sorry = ⊤

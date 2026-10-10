@@ -1,0 +1,13 @@
+work/ASGinzburgDraft/PathArrowLinearAutomorphism.lean:56:8: error: Type mismatch: After simplification, term
+  H
+ has type
+  (Q.pathArrowSubstitutionComponent k (Q.pathLinearArrowReplacement k L) (Q.source a) (Q.target a))
+      (Finsupp.single ((Path.nil (Q.source a)).snoc a ⋯) 1) =
+    ↑((L (Q.source a) (Q.target a)) ⟨Finsupp.single ((Path.nil (Q.source a)).snoc a ⋯) 1, ⋯⟩)
+but is expected to have type
+  (Q.pathArrowSubstitutionComponent k (Q.pathLinearArrowReplacement k L) (Q.source a) (Q.target a))
+      (Finsupp.single ((Path.nil (Q.source a)).snoc a ⋯) 1) =
+    ↑(↑(L (Q.source a) (Q.target a))
+        ((LinearMap.codRestrict (Q.pathArrowComponent k (Q.source a) (Q.target a))
+            (Q.pathArrowProjection k (Q.source a) (Q.target a)) ⋯)
+          (Finsupp.single ((Path.nil (Q.source a)).snoc a ⋯) 1)))

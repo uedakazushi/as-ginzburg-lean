@@ -1,0 +1,20 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualHomogeneousTopQuotientType
+import work.ASGinzburgDraft.OrdinaryRingDualCanonicalFieldStructures
+import work.ASGinzburgDraft.PeriodCutOrdinaryRingDualShiftedHomNaturality
+import work.ASGinzburgDraft.LinearCokernelSquareEquiv
+
+/-! The actual homogeneous ordinary ring-dual top quotient is the
+actual shifted regular Hom quotient, via the genuine precomposition square. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped ModuleCat.Algebra
+attribute [local instance 4000] ASGinzburg.ordinaryRingDualUnbundledAddCommGroup
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+set_option maxHeartbeats 10000
+noncomputable def prototypeNativeGradeModule (M : E.CutGradedRightModule Q) (q : ℤ) :
+    @Module k ((E.cutRightModuleOrdinaryData Q M).ringDualGrade q) (inferInstanceAs (Semiring k))
+      (Submodule.addCommGroup (R := k) ((E.cutRightModuleOrdinaryData Q M).ringDualGrade q)).toAddCommMonoid :=
+  Submodule.module (R := k) ((E.cutRightModuleOrdinaryData Q M).ringDualGrade q)
+end ASGinzburg.ZAlgebra.PeriodIso

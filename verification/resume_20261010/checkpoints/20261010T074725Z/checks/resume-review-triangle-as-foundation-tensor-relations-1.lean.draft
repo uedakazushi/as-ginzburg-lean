@@ -1,0 +1,64 @@
+import work.ASGinzburgDraft.TriangleASFoundationRelationIndependence
+
+/-! The actual tensor of the chosen foundation potential has independent
+quadratic slices in the actual kernel of the chosen AS evaluation. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k)
+
+noncomputable def ASRegular.triangleFoundationTensor (hAS : A.ASRegular triangle333) :
+    CubicTensor333 k :=
+  (triangleTensorPotentialEquiv k).symm (hAS.foundationPotential A triangle333)
+
+theorem ASRegular.triangleFoundationTensor_cutRelations
+    (hAS : A.ASRegular triangle333) (z : Fin 3) :
+    tensorToCutRelations333 k (hAS.triangleFoundationTensor A) z =
+      triangleXYCutComponentEquiv k (hAS.triangleFoundationZRelation A z) := by
+  rw [hAS.triangleFoundationZRelation_eq_derivative A]
+  have h := triangleTensorPotential_cutZDerivative_coordinates k (hAS.triangleFoundationTensor A) z
+  rw [ASRegular.triangleFoundationTensor,LinearEquiv.apply_symm_apply] at h
+  exact h.symm
+
+theorem ASRegular.triangleFoundationTensor_cutRelations_linearIndependent
+    (hAS : A.ASRegular triangle333) :
+    LinearIndependent k (tensorToCutRelations333 k (hAS.triangleFoundationTensor A)) := by
+  have h := (hAS.triangleFoundationZRelation_linearIndependent A).map'
+    (triangleXYCutComponentEquiv k).toLinearMap (triangleXYCutComponentEquiv k).ker
+  have he : (triangleXYCutComponentEquiv k).toLinearMap ∘ hAS.triangleFoundationZRelation A =
+      tensorToCutRelations333 k (hAS.triangleFoundationTensor A) := by
+    funext z
+    exact (hAS.triangleFoundationTensor_cutRelations A z).symm
+  rw [he] at h
+  exact h
+
+noncomputable def ASRegular.triangleXYCoefficientEvaluation (hAS : A.ASRegular triangle333) :
+    (Fin 3 × Fin 3 → k) →ₗ[k] A.Hom 0 2 :=
+  (hAS.triangleXYPathEvaluation A).comp (triangleXYCutComponentEquiv k).symm.toLinearMap
+
+theorem ASRegular.triangleXYCoefficientEvaluation_surjective
+    (hAS : A.ASRegular triangle333) :
+    Function.Surjective (hAS.triangleXYCoefficientEvaluation A) :=
+  ((A.unrolledPathLinearEvaluation_surjective triangle333 (hAS.resolution A triangle333) (0,0) (2,0))
+    .comp (triangle333.zeroCutNativeUnrollingEquiv k 0 2).surjective)
+      .comp (triangleXYCutComponentEquiv k).symm.surjective
+
+theorem ASRegular.triangleFoundationTensor_cutRelations_evaluation_zero
+    (hAS : A.ASRegular triangle333) (z : Fin 3) :
+    hAS.triangleXYCoefficientEvaluation A
+      (tensorToCutRelations333 k (hAS.triangleFoundationTensor A) z) = 0 := by
+  rw [hAS.triangleFoundationTensor_cutRelations A]
+  change hAS.triangleXYPathEvaluation A
+    ((triangleXYCutComponentEquiv k).symm
+      (triangleXYCutComponentEquiv k (hAS.triangleFoundationZRelation A z))) = 0
+  rw [LinearEquiv.symm_apply_apply]
+  exact hAS.triangleFoundationZRelation_evaluation_zero A z
+
+theorem ASRegular.triangleFoundationTensor_cutRelations_span_le_kernel
+    (hAS : A.ASRegular triangle333) :
+    Submodule.span k (Set.range (tensorToCutRelations333 k (hAS.triangleFoundationTensor A))) ≤
+      LinearMap.ker (hAS.triangleXYCoefficientEvaluation A) := by
+  apply Submodule.span_le.mpr
+  rintro _ ⟨z,rfl⟩
+  exact hAS.triangleFoundationTensor_cutRelations_evaluation_zero A z
+
+end ASGinzburg.ZAlgebra

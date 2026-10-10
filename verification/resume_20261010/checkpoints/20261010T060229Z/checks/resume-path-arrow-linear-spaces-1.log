@@ -1,0 +1,41 @@
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:42:13: error: unsolved goals
+case mem
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : Q.Vertex
+f : ↥(Q.pathArrowComponent k i j)
+x : Q.PathComponent k i j
+p : Q.Path i j
+hp : p ∈ {p | p.length = 1}
+⊢ ¬p.length = 1 → 0 = Finsupp.single p 1
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:44:10: warning: This simp argument is unused:
+  hp
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵p̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:59:2: error: Too many variable names provided at alternative `snoc`: 5 provided, but 4 expected
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:61:4: error: Invalid alternative name `nil`: Expected `mk`
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:70:4: error: Invalid alternative name `snoc`: Expected `mk`
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:60:4: error: Alternative `mk` has not been provided
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:74:2: error: Type mismatch
+  Eq.symm (Path.cutDegree_of_length_one Q ((Path.nil (Q.source a)).snoc a rfl) rfl)
+has type
+  Q.endpointArrowCutDegree (Q.source a) (Q.target a) = ((Path.nil (Q.source a)).snoc a ⋯).cutDegree
+but is expected to have type
+  Q.endpointArrowCutDegree (Q.source a) (Q.target a) = Q.cutDegree a
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:79:6: error: Invalid field `pathCutComponent`: The environment does not contain `ASGinzburg.CutQuiver.pathCutComponent`
+  Q
+has type
+  CutQuiver
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:102:6: error: Type mismatch: After simplification, term
+  Finsupp.single_mem_supported k c hp
+ has type
+  Finsupp.single p.length c ∈ Finsupp.supported k k (Nat.le 2)
+but is expected to have type
+  Finsupp.single p c ∈ Q.pathLengthFiltration k 2 i j
+work/ASGinzburgDraft/PathArrowLinearSpaces.lean:107:9: warning: unused variable `f`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`

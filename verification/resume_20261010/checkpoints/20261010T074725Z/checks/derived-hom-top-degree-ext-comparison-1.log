@@ -1,0 +1,26 @@
+work/ASGinzburgDraft/ASCutOrdinaryTopDegreeExtComparison.lean:32:34: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+E : A.PeriodIso ↑Q.vertices := periodIso A Q hAS
+G : ProjectiveResolution (cutGradedSimple A Q hAS (i, 0)) := cutGradedSimpleProjectiveResolution A Q hAS (i, 0)
+N : PeriodIso.CutGradedRightModule Q E := (PeriodIso.cutRegularGradedRightModule Q E).shifted (-1)
+this : HasDerivedCategory (PeriodIso.CutGradedRightModule Q E) :=
+  HasDerivedCategory.standard (PeriodIso.CutGradedRightModule Q E)
+h₄ : IsZero ((cutGradedSimpleProjectiveResolution A Q hAS (i, 0)).complex.X (0 + 4)) :=
+  cutGradedSimpleProjectiveResolution_isZero_ge_four A Q hAS (i, 0) 0
+e : ↥((PeriodIso.cutRightModuleOrdinaryData Q E (G.complex.X 3)).ringDualGrade (-1)) ≃ₗ[k]
+  G.complex.X 3 ⟶ (PeriodIso.cutRegularGradedRightModule Q E).shifted (-1) :=
+  PeriodIso.cutOrdinaryRingDualShiftedHomEquiv Q E (G.complex.X 3) (-1)
+T : (G.complex.X 3 ⟶ N) →ₗ[k] Abelian.Ext (cutGradedSimple A Q hAS (i, 0)) N 3 := G.homToActualExtThree h₄ N
+c : k
+f : ↥((cutOrdinarySimpleResolutionTermData A Q hAS i 3).ringDualGrade (-1))
+⊢ c • T (e f) = (RingHom.id k) c • T (e f)
+work/ASGinzburgDraft/ASCutOrdinaryTopDegreeExtComparison.lean:45:18: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (300000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

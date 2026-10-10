@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/UnrolledHeightTransportCancellation.lean:42:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯) ∘ ⇑(Q.unrolledPathHeightEquiv (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
+in the target expression
+  Finsupp.mapDomain
+      (⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯) ∘
+        (Q.unrolledPathHeightEquiv (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)).toFun)
+      f =
+    f
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : ℤ
+f : (Q.unrolledPathZAlgebra k).Hom i j
+he :
+  ⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯) ∘ ⇑(Q.unrolledPathHeightEquiv (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)) = id
+⊢ Finsupp.mapDomain
+      (⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯) ∘
+        (Q.unrolledPathHeightEquiv (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)).toFun)
+      f =
+    f

@@ -1,0 +1,73 @@
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:20:83: error: unsolved goals
+R : Type v
+inst✝ : Ring R
+n : ℕ
+f : ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))
+j : Fin n
+⊢ ∑ x, Pi.single j 1 x * f (Pi.single x 1) = f (Pi.single j 1)
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:24:8: warning: This simp argument is unused:
+  ordinaryRingDual_smul_apply
+
+Hint: Omit it from the simp argument list.
+  simp [o̵r̵d̵i̵n̵a̵r̵y̵R̵i̵n̵g̵D̵u̵a̵l̵_̵s̵m̵u̵l̵_̵a̵p̵p̵l̵y̵,̵ ̵Pi.basisFun_apply, LinearMap.proj_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:51:11: error: Function expected at
+  Finset.smul_sum
+but this term has type
+  ?m.98 • ∑ x ∈ ?m.100, ?m.99 x = ∑ x ∈ ?m.100, ?m.98 • ?m.99 x
+
+Note: Expected a function because this term is being applied to the argument
+  _
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:57:75: error: Application type mismatch: The argument
+  z
+has type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) LinearMap.addCommGroup
+    LinearMap.module LinearMap.module (↑N) N.isAddCommGroup ModuleCat.Algebra.instModuleCarrier N.isModule
+but is expected to have type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) LinearMap.addCommGroup
+    (ordinaryRingDualTensorModuleK k R (ModuleCat.of R (Fin n → R))) LinearMap.module (↑N) N.isAddCommGroup
+    ModuleCat.Algebra.instModuleCarrier N.isModule
+in the application
+  (ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))) z
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:61:80: error: Type mismatch
+  z
+has type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) LinearMap.addCommGroup
+    (ordinaryRingDualTensorModuleK k R (ModuleCat.of R (Fin n → R))) LinearMap.module (↑N) N.isAddCommGroup
+    ModuleCat.Algebra.instModuleCarrier N.isModule
+but is expected to have type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) LinearMap.addCommGroup
+    LinearMap.module LinearMap.module (↑N) N.isAddCommGroup ModuleCat.Algebra.instModuleCarrier N.isModule
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:59:9: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized
+  LinearMap.module
+inferred
+  ordinaryRingDualTensorModuleK k R (ModuleCat.of R (Fin n → R))
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:63:2: error: No goals to be solved
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:83:6: error: Application type mismatch: The argument
+  (ordinaryRingDualTensorFiniteFreeInverse k R N n) g
+has type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) LinearMap.addCommGroup
+    LinearMap.module LinearMap.module (↑N) N.isAddCommGroup ModuleCat.Algebra.instModuleCarrier N.isModule
+but is expected to have type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))) LinearMap.addCommGroup
+    (ordinaryRingDualTensorModuleK k R (ModuleCat.of R (Fin n → R))) LinearMap.module (↑N) N.isAddCommGroup
+    ModuleCat.Algebra.instModuleCarrier N.isModule
+in the application
+  (ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R)))
+    ((ordinaryRingDualTensorFiniteFreeInverse k R N n) g)
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:88:18: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized
+  LinearMap.module
+inferred
+  ordinaryRingDualTensorModuleK k R (ModuleCat.of R (Fin n → R))
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:95:11: error: Type mismatch
+  ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))
+has type
+  BalancedTensorSpace k R ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R))) ↑N →ₗ[k]
+    ↑(ModuleCat.of R (Fin n → R)) →ₗ[R] ↑N
+but is expected to have type
+  BalancedTensorSpace k R ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R))) ↑N → (Fin n → R) →ₗ[R] ↑N
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:105:2: error: 'change' tactic failed, pattern
+  IsIso (ordinaryRingDualTensorFiniteFreeEquiv k R N n).toModuleIso.hom
+is not definitionally equal to target
+  IsIso ((ordinaryRingDualTensorEvaluationNatTrans k R N).app (op (ModuleCat.of R (Fin n → R))))

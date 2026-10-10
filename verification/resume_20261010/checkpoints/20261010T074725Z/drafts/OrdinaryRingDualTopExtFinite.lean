@@ -1,0 +1,93 @@
+import work.ASGinzburgDraft.ProjectiveResolutionTopExtLinearMap
+import work.ASGinzburgDraft.OrdinaryRingDualHomFieldEquiv
+import work.ASGinzburgDraft.GradedOrdinaryRingDualTopQuotientFinite
+import ASGinzburg.ModuleCatHomUniverseExt
+
+/-! The genuine raw ordinary ring-dual top quotient surjects onto actual
+ordinary Ext-three. Finite-dimensionality passes through this actual map. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {X : ModuleCat.{v} R} (P : ProjectiveResolution X)
+noncomputable def ordinaryRingDualExtStandardDerivedCategory :
+    HasDerivedCategory.{v+1} (ModuleCat.{v} R) :=
+  HasDerivedCategory.standard (ModuleCat.{v} R)
+
+attribute [local instance 2000] ordinaryRingDualExtStandardDerivedCategory
+attribute [local instance] exactExtModule
+attribute [local instance 2500] ModuleCat.linearOverField
+
+noncomputable def ordinaryRingDualExtHomModule (M N : ModuleCat.{v} R) :
+    Module k (M ⟶ N) := Linear.homModule M N
+attribute [local instance 3000] ordinaryRingDualExtHomModule
+
+noncomputable def ordinaryRingDualCategoricalHomFieldEquiv (M : ModuleCat.{v} R) :
+    ordinaryRingDual R M ≃ₗ[k] (M ⟶ ModuleCat.of R R) where
+  toFun := ModuleCat.ofHom
+  invFun := ModuleCat.Hom.hom
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+  map_smul' c f := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change (c • f) x = algebraMap k R c * f x
+    rw [ordinaryRingDual_field_smul_apply, Algebra.smul_def]
+
+ theorem ordinaryRingDualCategoricalHomFieldEquiv_precomp {M N : ModuleCat.{v} R}
+    (a : M ⟶ N) (f : ordinaryRingDual R N) :
+    ordinaryRingDualCategoricalHomFieldEquiv k R M (ordinaryRingDualMap R a f) =
+      a ≫ ordinaryRingDualCategoricalHomFieldEquiv k R N f := rfl
+
+noncomputable def ordinaryRingDualToActualExtThree (h₄ : IsZero (P.complex.X 4)) :
+    ordinaryRingDual R (P.complex.X 3) →ₗ[k] Abelian.Ext.{v} X (ModuleCat.of R R) 3 where
+  toFun f := P.homToActualExtThree (k := k) h₄ (ModuleCat.of R R)
+    (ordinaryRingDualCategoricalHomFieldEquiv k R (P.complex.X 3) f)
+  map_add' f g := by rw [map_add, map_add]
+  map_smul' c f := by
+    rw [(ordinaryRingDualCategoricalHomFieldEquiv k R (P.complex.X 3)).map_smul]
+    have hs := (P.homToActualExtThree (k := k) h₄ (ModuleCat.of R R)).map_smul' c
+      (ordinaryRingDualCategoricalHomFieldEquiv k R (P.complex.X 3) f)
+    exact hs
+
+ theorem ordinaryRingDualToActualExtThree_surjective (h₄ : IsZero (P.complex.X 4)) :
+    Function.Surjective (ordinaryRingDualToActualExtThree k R P h₄) :=
+  (P.homToActualExtThree_surjective (k := k) h₄ (ModuleCat.of R R)).comp
+    (ordinaryRingDualCategoricalHomFieldEquiv k R (P.complex.X 3)).surjective
+
+ theorem ordinaryRingDualToActualExtThree_boundary_eq_zero (h₄ : IsZero (P.complex.X 4))
+    (f : ordinaryRingDual R (P.complex.X 2)) :
+    ordinaryRingDualToActualExtThree k R P h₄ (ordinaryRingDualMap R (P.complex.d 3 2) f) = 0 := by
+  change P.homToActualExtThree (k := k) h₄ (ModuleCat.of R R)
+    (ordinaryRingDualCategoricalHomFieldEquiv k R (P.complex.X 3) (ordinaryRingDualMap R (P.complex.d 3 2) f)) = 0
+  rw [ordinaryRingDualCategoricalHomFieldEquiv_precomp]
+  exact P.homToActualExtThree_boundary_eq_zero h₄ (ModuleCat.of R R) _
+
+noncomputable def ordinaryRingDualTopQuotientToActualExtThree (h₄ : IsZero (P.complex.X 4)) :
+    (ordinaryRingDual R (P.complex.X 3) ⧸
+      LinearMap.range (ordinaryRingDualMapField (k := k) (P.complex.d 3 2))) →ₗ[k]
+        Abelian.Ext.{v} X (ModuleCat.of R R) 3 :=
+  (LinearMap.range (ordinaryRingDualMapField (k := k) (P.complex.d 3 2))).liftQ
+    (ordinaryRingDualToActualExtThree k R P h₄) (by
+      rintro f ⟨g,rfl⟩
+      exact LinearMap.mem_ker.mpr (ordinaryRingDualToActualExtThree_boundary_eq_zero k R P h₄ g))
+
+ theorem ordinaryRingDualTopQuotientToActualExtThree_surjective (h₄ : IsZero (P.complex.X 4)) :
+    Function.Surjective (ordinaryRingDualTopQuotientToActualExtThree k R P h₄) := by
+  intro e
+  obtain ⟨f,hf⟩ := ordinaryRingDualToActualExtThree_surjective k R P h₄ e
+  refine ⟨(LinearMap.range (ordinaryRingDualMapField (k := k) (P.complex.d 3 2))).mkQ f, ?_⟩
+  exact hf
+
+ theorem actualOrdinaryExtThree_finite_of_ringDualTopQuotient_finite
+    (h₄ : IsZero (P.complex.X 4))
+    [Module.Finite k (ordinaryRingDual R (P.complex.X 3) ⧸
+      LinearMap.range (ordinaryRingDualMapField (k := k) (P.complex.d 3 2)))] :
+    Module.Finite k (Abelian.Ext.{v} X (ModuleCat.of R R) 3) :=
+  Module.Finite.of_surjective (ordinaryRingDualTopQuotientToActualExtThree k R P h₄)
+    (ordinaryRingDualTopQuotientToActualExtThree_surjective k R P h₄)
+
+end ASGinzburg

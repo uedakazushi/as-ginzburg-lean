@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/FoundationCutArrowCoordinates.lean:63:2: error: Tactic `rfl` failed: The left-hand side
+  ↑((Finsupp.supportedEquivFinsupp {p | p.length = 1}).symm
+      (Finsupp.single ((Q.foundationCutArrowPathEquiv i j hij) a) c))
+is not definitionally equal to the right-hand side
+  Finsupp.single (Q.foundationCutArrowPath i j a) c
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : Q.Vertex
+hij : ↑i < ↑j
+a : Q.FoundationRelationArrow i j
+c : k
+⊢ ↑((Finsupp.supportedEquivFinsupp {p | p.length = 1}).symm
+        (Finsupp.single ((Q.foundationCutArrowPathEquiv i j hij) a) c)) =
+    Finsupp.single (Q.foundationCutArrowPath i j a) c
+work/ASGinzburgDraft/FoundationCutArrowCoordinates.lean:62:30: warning: This simp argument is unused:
+  Finsupp.supportedEquivFinsupp_symm_single
+
+Hint: Omit it from the simp argument list.
+  simp only [foundationCutArrowCoordinateEquiv, LinearEquiv.trans_apply, F̵i̵n̵s̵u̵p̵p̵.̵d̵o̵m̵L̵C̵o̵n̵g̵r̵_̵s̵i̵n̵g̵l̵e̵,̵ ̵F̵i̵n̵s̵u̵p̵p̵.̵s̵u̵p̵p̵o̵r̵t̵e̵d̵E̵q̵u̵i̵v̵F̵i̵n̵s̵u̵p̵p̵_̵s̵y̵m̵m̵_̵s̵i̵n̵g̵l̵e̵]̵F̲i̲n̲s̲u̲p̲p̲.̲d̲o̲m̲L̲C̲o̲n̲g̲r̲_̲s̲i̲n̲g̲l̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

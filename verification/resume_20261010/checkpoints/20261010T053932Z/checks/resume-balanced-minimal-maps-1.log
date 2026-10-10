@@ -1,0 +1,59 @@
+work/ASGinzburgDraft/BalancedTensorMinimalMaps.lean:30:38: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  balancedTensorTmul k R M' N a y
+in the target expression
+  ((balancedTensorBilinear k R M' N) a) y + ((balancedTensorBilinear k R M' N) b) y = 0
+
+case add
+k : Type u
+inst✝⁹ : Field k
+R : Type v
+inst✝⁸ : Ring R
+inst✝⁷ : Algebra k R
+M' : Type w'
+inst✝⁶ : AddCommGroup M'
+inst✝⁵ : Module k M'
+inst✝⁴ : Module Rᵐᵒᵖ M'
+inst✝³ : IsScalarTower k Rᵐᵒᵖ M'
+N : Type z
+inst✝² : AddCommGroup N
+inst✝¹ : Module k N
+inst✝ : Module R N
+I : Set R
+hN : ∀ r ∈ I, ∀ (y : N), r • y = 0
+x : M'
+y : N
+a b : M'
+ha : a ∈ Submodule.span k {a | ∃ r ∈ I, ∃ m, MulOpposite.op r • m = a}
+hb : b ∈ Submodule.span k {a | ∃ r ∈ I, ∃ m, MulOpposite.op r • m = a}
+iha : balancedTensorTmul k R M' N a y = 0
+ihb : balancedTensorTmul k R M' N b y = 0
+⊢ ((balancedTensorBilinear k R M' N) a) y + ((balancedTensorBilinear k R M' N) b) y = 0
+work/ASGinzburgDraft/BalancedTensorMinimalMaps.lean:33:40: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  balancedTensorTmul k R M' N a y
+in the target expression
+  c • ((balancedTensorBilinear k R M' N) a) y = 0
+
+case smul
+k : Type u
+inst✝⁹ : Field k
+R : Type v
+inst✝⁸ : Ring R
+inst✝⁷ : Algebra k R
+M' : Type w'
+inst✝⁶ : AddCommGroup M'
+inst✝⁵ : Module k M'
+inst✝⁴ : Module Rᵐᵒᵖ M'
+inst✝³ : IsScalarTower k Rᵐᵒᵖ M'
+N : Type z
+inst✝² : AddCommGroup N
+inst✝¹ : Module k N
+inst✝ : Module R N
+I : Set R
+hN : ∀ r ∈ I, ∀ (y : N), r • y = 0
+x : M'
+y : N
+c : k
+a : M'
+ha : a ∈ Submodule.span k {a | ∃ r ∈ I, ∃ m, MulOpposite.op r • m = a}
+ih : balancedTensorTmul k R M' N a y = 0
+⊢ c • ((balancedTensorBilinear k R M' N) a) y = 0

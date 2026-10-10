@@ -1,0 +1,80 @@
+import ASGinzburg.PathCyclicRotations
+import ASGinzburg.ClosedPathPotentials
+
+/-! Actual potentials embed in the actual cyclic quotient of the actual
+path algebra. The chosen closed path representative of a cyclic word
+has no effect on its class, by genuine cyclic rotation in that quotient. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def potentialClassRepresentative (c : {c : CyclicWord Q.Arrow //
+    c ∈ Q.potentialClasses}) :
+    {t : Σ i : Q.Vertex, Q.Path i i // t.2.cutDegree=1 ∧ 3 ≤ t.2.length ∧
+      wordClass t.2.toList=c.val} := by
+  let i := Classical.choose c.property
+  let p := Classical.choose (Classical.choose_spec c.property)
+  exact ⟨⟨i,p⟩,Classical.choose_spec (Classical.choose_spec c.property)⟩
+
+noncomputable def potentialWordCyclicClass (c : CyclicWord Q.Arrow) :
+    AlgebraCyclicQuotient k (Q.PathRing k) := by
+  classical
+  exact if h : c ∈ Q.potentialClasses then
+    let t := Q.potentialClassRepresentative ⟨c,h⟩
+    Q.closedPathCyclicClass k t.val.1 (Finsupp.single t.val.2 1)
+  else 0
+
+theorem potentialWordCyclicClass_trace (c : CyclicWord Q.Arrow)
+    (hc : c ∈ Q.potentialClasses) :
+    Q.pathCyclicQuotientTrace k (Q.potentialWordCyclicClass k c) = Finsupp.single c 1 := by
+  classical
+  rw [potentialWordCyclicClass,dif_pos hc]
+  rw [Q.pathCyclicQuotientTrace_closedPathClass,Q.closedPathTrace_single,one_smul]
+  change Finsupp.single (wordClass (Q.potentialClassRepresentative ⟨c,hc⟩).val.2.toList) 1 = _
+  rw [(Q.potentialClassRepresentative ⟨c,hc⟩).property.2.2]
+
+noncomputable def potentialCyclicClass :
+    Q.Potential k →ₗ[k] AlgebraCyclicQuotient k (Q.PathRing k) :=
+  (Finsupp.linearCombination k (Q.potentialWordCyclicClass k)).comp
+    (Q.potentialSpace k).subtype
+
+theorem pathCyclicQuotientTrace_potentialCyclicClass (φ : Q.Potential k) :
+    Q.pathCyclicQuotientTrace k (Q.potentialCyclicClass k φ)=φ.val := by
+  classical
+  change Q.pathCyclicQuotientTrace k
+    ((Finsupp.linearCombination k (Q.potentialWordCyclicClass k)) φ.val) = φ.val
+  rw [Finsupp.linearCombination_apply,Finsupp.sum,map_sum]
+  have hsupport : ∀ c ∈ φ.val.support, c ∈ Q.potentialClasses :=
+    (Finsupp.mem_supported _ _).mp φ.property
+  simp only [map_smul]
+  conv_rhs => rw [← Finsupp.sum_single φ.val]
+  apply Finset.sum_congr rfl
+  intro c hc
+  rw [Q.potentialWordCyclicClass_trace k c (hsupport c hc)]
+  simp
+
+theorem potentialCyclicClass_injective : Function.Injective (Q.potentialCyclicClass k) := by
+  intro φ ψ h
+  apply Subtype.ext
+  calc
+    φ.val = Q.pathCyclicQuotientTrace k (Q.potentialCyclicClass k φ) :=
+      (Q.pathCyclicQuotientTrace_potentialCyclicClass k φ).symm
+    _ = Q.pathCyclicQuotientTrace k (Q.potentialCyclicClass k ψ) := congrArg _ h
+    _ = ψ.val := Q.pathCyclicQuotientTrace_potentialCyclicClass k ψ
+
+theorem potentialCyclicClass_traceWord (i : Q.Vertex) (p : Q.Path i i)
+    (hc : p.cutDegree=1) (hl : 3 ≤ p.length) :
+    Q.potentialCyclicClass k ⟨traceWord (k:=k) p.toList,
+      Q.traceWord_mem_potentialSpace k p hc hl⟩ =
+        Q.closedPathCyclicClass k i (Finsupp.single p 1) := by
+  classical
+  have hm : wordClass p.toList ∈ Q.potentialClasses := ⟨i,p,hc,hl,rfl⟩
+  change (Finsupp.linearCombination k (Q.potentialWordCyclicClass k))
+    (traceWord (k:=k) p.toList) = _
+  rw [traceWord,Finsupp.linearCombination_single,one_smul,
+    potentialWordCyclicClass,dif_pos hm]
+  let t := Q.potentialClassRepresentative ⟨wordClass p.toList,hm⟩
+  exact Q.closedPathCyclicClass_eq_of_wordClass k t.val.1 i t.val.2 p
+    (by have h := t.property.2.1; omega) t.property.2.2
+
+end ASGinzburg.CutQuiver

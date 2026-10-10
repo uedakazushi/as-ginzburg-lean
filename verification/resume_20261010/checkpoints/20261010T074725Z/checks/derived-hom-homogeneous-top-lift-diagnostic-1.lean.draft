@@ -1,0 +1,62 @@
+import work.ASGinzburgDraft.OrdinaryRingDualTopQuotientType
+import work.ASGinzburgDraft.GradedOrdinaryRingDualComponentNaturality
+
+/-! Actual homogeneous top cokernels embed in the whole ordinary dual
+cokernel. When all other actual homogeneous degrees are boundaries,
+finite homogeneous support makes this embedding an isomorphism. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R} [DirectSum.Decomposition G]
+variable (M L : GradedOrdinaryModuleData k R G)
+variable (hG : ∀ p q : ℤ, ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q))
+
+noncomputable def ringDualMapDegree (a : M.ringModule ⟶ L.ringModule)
+    (ha : M.PreservesGrade L a) (q : ℤ) : L.ringDualGrade q →ₗ[k] M.ringDualGrade q where
+  toFun f := ⟨ordinaryRingDualMap R a f.val, M.ringDualMap_preservesGrade L a ha q f.val f.property⟩
+  map_add' f g := by apply Subtype.ext; exact (ordinaryRingDualMap R a).map_add _ _
+  map_smul' c f := by apply Subtype.ext; exact (ordinaryRingDualMapField (k := k) a).map_smul c f.val
+
+noncomputable def ringDualGradeHasQuotient (q : ℤ) :
+    HasQuotient (M.ringDualGrade q) (Submodule k (M.ringDualGrade q)) :=
+  @Submodule.hasQuotient k (M.ringDualGrade q) _ _ _
+attribute [local instance 3000] ringDualGradeHasQuotient
+
+noncomputable def ringDualHomogeneousTopQuotient
+    (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ) : Type v :=
+  M.ringDualGrade q ⧸ LinearMap.range (τ₁₂ := RingHom.id k) (M.ringDualMapDegree L a ha q)
+
+noncomputable instance ringDualHomogeneousTopQuotientAddCommGroup
+    (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ) :
+    AddCommGroup (M.ringDualHomogeneousTopQuotient L a ha q) := by
+  unfold ringDualHomogeneousTopQuotient
+  infer_instance
+
+noncomputable instance ringDualHomogeneousTopQuotientModule
+    (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ) :
+    Module k (M.ringDualHomogeneousTopQuotient L a ha q) := by
+  unfold ringDualHomogeneousTopQuotient
+  infer_instance
+
+noncomputable def ringDualGradeToTopQuotient
+    (a : M.ringModule ⟶ L.ringModule) (q : ℤ) :
+    M.ringDualGrade q →ₗ[k] ordinaryRingDualTopQuotient k R a :=
+  (LinearMap.range (ordinaryRingDualMapField (k := k) a)).mkQ.comp (M.ringDualGrade q).subtype
+
+set_option maxHeartbeats 5000
+set_option diagnostics true
+noncomputable def ringDualHomogeneousTopQuotientToTopQuotient
+    (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ) :
+    M.ringDualHomogeneousTopQuotient L a ha q →ₗ[k] ordinaryRingDualTopQuotient k R a :=
+by
+  let B := LinearMap.range (ordinaryRingDualMapField (k := k) a)
+  let C := LinearMap.range (τ₁₂ := RingHom.id k) (M.ringDualMapDegree L a ha q)
+  have hk : C ≤ LinearMap.ker (M.ringDualGradeToTopQuotient L a q) := by
+    rintro f ⟨g,rfl⟩
+    apply LinearMap.mem_ker.mpr
+    exact (Submodule.Quotient.mk_eq_zero B).mpr ⟨g.val,rfl⟩
+  exact C.liftQ (M.ringDualGradeToTopQuotient L a q) hk
+
+end ASGinzburg.GradedOrdinaryModuleData

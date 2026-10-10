@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/TriangleCutZDerivativeCoordinates.lean:57:8: warning: This simp argument is unused:
+  eq_comm
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵e̵q̵_̵c̵o̵m̵m̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleCutZDerivativeCoordinates.lean:66:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑((triangle333.pathCutComponentBasisEquiv k ?u ?v ?d).symm (Finsupp.single ?p ?a))
+in the target expression
+  ↑((triangle333.pathCutComponentBasisEquiv k 0 2 0).symm (Finsupp.single (triangleXYPathIndexEquiv.symm.symm xy) c)) =
+    Finsupp.single (triangleXYPath xy) c
+
+k : Type u
+inst✝ : Field k
+xy : Fin 3 × Fin 3
+c : k
+⊢ ↑((triangle333.pathCutComponentBasisEquiv k 0 2 0).symm (Finsupp.single (triangleXYPathIndexEquiv.symm.symm xy) c)) =
+    Finsupp.single (triangleXYPath xy) c

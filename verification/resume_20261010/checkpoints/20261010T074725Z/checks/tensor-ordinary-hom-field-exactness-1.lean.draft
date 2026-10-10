@@ -1,0 +1,64 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRingDualTensorEvaluationComplex
+import ASGinzburg.ProjectiveResolutionHomExactness
+import ASGinzburg.OrdinaryModuleHasExt
+
+/-! Actual derived Ext vanishing yields exactness of the field-vector
+complex of genuine right-linear maps, with its canonical universe lift. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped ModuleCat.Algebra
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {X : ModuleCat.{v} Rᵐᵒᵖ} (P : ProjectiveResolution X)
+
+noncomputable def ordinaryRightRingHomFieldComplex :
+    CochainComplex (ModuleCat.{max u v} k) ℕ :=
+  ((ordinaryRightRingHomFieldFunctor k R).mapHomologicalComplex
+    (ComplexShape.up ℕ)).obj P.complex.op
+
+theorem ordinaryRightRingHomFieldComplex_exactAt_zero
+    (he : (P.homComplex (k := k) (ModuleCat.of Rᵐᵒᵖ R)).ExactAt 0) :
+    (ordinaryRightRingHomFieldComplex k R P).ExactAt 0 := by
+  rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  intro f hf
+  let h : P.complex.X 0 ⟶ ModuleCat.of Rᵐᵒᵖ R := ModuleCat.ofHom f.down
+  have hh : P.complex.d 1 0 ≫ h = 0 := by
+    apply ModuleCat.hom_ext
+    exact congrArg ULift.down hf
+  have hz := (P.homComplex_exactAt_zero_iff (k := k) (ModuleCat.of Rᵐᵒᵖ R)).mp he h hh
+  have hfz : f = 0 := by
+    apply ULift.ext
+    exact congrArg ModuleCat.Hom.hom hz
+  refine ⟨0, ?_⟩
+  rw [hfz]
+  exact map_zero _
+
+theorem ordinaryRightRingHomFieldComplex_exactAt_succ (n : ℕ)
+    (he : (P.homComplex (k := k) (ModuleCat.of Rᵐᵒᵖ R)).ExactAt (n+1)) :
+    (ordinaryRightRingHomFieldComplex k R P).ExactAt (n+1) := by
+  rw [HomologicalComplex.exactAt_iff' _ n (n+1) (n+2) (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  intro f hf
+  let h : P.complex.X (n+1) ⟶ ModuleCat.of Rᵐᵒᵖ R := ModuleCat.ofHom f.down
+  have hh : P.complex.d (n+2) (n+1) ≫ h = 0 := by
+    apply ModuleCat.hom_ext
+    exact congrArg ULift.down hf
+  obtain ⟨g, hg⟩ := (P.homComplex_exactAt_succ_iff (k := k)
+    (ModuleCat.of Rᵐᵒᵖ R) n).mp he h hh
+  refine ⟨⟨g.hom⟩, ?_⟩
+  apply ULift.ext
+  exact congrArg ModuleCat.Hom.hom hg
+
+theorem ordinaryRightRingHomFieldComplex_exactAt_low_of_ext_zero
+    (h₄ : IsZero (P.complex.X 4))
+    (hExt : ∀ n, n<3 → ∀ e : Abelian.Ext.{v} X (ModuleCat.of Rᵐᵒᵖ R) n, e=0)
+    (n : ℕ) (hn : n<3) :
+    (ordinaryRightRingHomFieldComplex k R P).ExactAt n := by
+  have he := P.homComplex_exactAt_low_of_ext_zero (k := k)
+    h₄ (ModuleCat.of Rᵐᵒᵖ R) hExt n hn
+  cases n with
+  | zero => exact ordinaryRightRingHomFieldComplex_exactAt_zero k R P he
+  | succ n => exact ordinaryRightRingHomFieldComplex_exactAt_succ k R P n he
+
+end ASGinzburg

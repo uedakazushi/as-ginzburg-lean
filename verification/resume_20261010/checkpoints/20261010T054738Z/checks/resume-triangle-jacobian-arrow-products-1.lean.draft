@@ -1,0 +1,85 @@
+import work.ASGinzburgDraft.TriangleJacobianQuadraticProjection
+import ASGinzburg.ZeroCutPathAlgebra
+
+/-! Arbitrary canonical X/Y arrow combinations multiply as the expected
+rank-one XY coefficient array, both before and after the actual quotient. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k]
+
+theorem triangleXYCutComponentEquiv_arrowProduct_single (i j : Fin 3) (a b : k) :
+    triangleXYCutComponentEquiv k
+      (triangle333.zeroCutPathComp k
+        (triangleYArrowCutEquiv k (Pi.single j b))
+        (triangleXArrowCutEquiv k (Pi.single i a))) = Pi.single (i,j) (a*b) := by
+  apply (triangleXYCutComponentEquiv k).symm.injective
+  rw [LinearEquiv.symm_apply_apply]
+  apply Subtype.ext
+  change triangle333.pathComp k
+    (triangleYArrowCutEquiv k (Pi.single j b)).val
+    (triangleXArrowCutEquiv k (Pi.single i a)).val = _
+  rw [triangleXArrowCutEquiv_single,triangleYArrowCutEquiv_single,
+    triangleXYCutComponentEquiv_symm_single,triangle333.pathComp_single k,mul_comm b a]
+  rfl
+
+theorem triangleXYCutComponentEquiv_arrowProduct (x y : ArrowSpace333 k) :
+    triangleXYCutComponentEquiv k
+      (triangle333.zeroCutPathComp k (triangleYArrowCutEquiv k y) (triangleXArrowCutEquiv k x)) =
+        fun xy => x xy.1 * y xy.2 := by
+  classical
+  have hx : x = ∑ i : Fin 3, Pi.single i (x i) := by ext i; simp
+  have hy : y = ∑ j : Fin 3, Pi.single j (y j) := by ext j; simp
+  calc
+    triangleXYCutComponentEquiv k
+      (triangle333.zeroCutPathComp k (triangleYArrowCutEquiv k y) (triangleXArrowCutEquiv k x)) =
+        ∑ j : Fin 3, ∑ i : Fin 3, Pi.single (i,j) (x i * y j) := by
+          conv_lhs => rw [hx,hy]
+          simp only [map_sum,LinearMap.sum_apply,triangleXYCutComponentEquiv_arrowProduct_single]
+    _ = fun xy => x xy.1 * y xy.2 := by
+      ext ⟨i,j⟩
+      simp [Pi.single_apply]
+
+theorem triangleJacobianXArrowEquiv_apply (φ : triangle333.Potential k) (x : ArrowSpace333 k) :
+    triangleJacobianXArrowEquiv k φ x =
+      triangle333.homogeneousJacobianUnrolledEquiv k φ (0,0) (1,0)
+        (Submodule.Quotient.mk (triangleXArrowCutEquiv k x)) := rfl
+
+theorem triangleJacobianYArrowEquiv_apply (φ : triangle333.Potential k) (y : ArrowSpace333 k) :
+    triangleJacobianYArrowEquiv k φ y =
+      triangle333.homogeneousJacobianUnrolledEquiv k φ (1,0) (2,0)
+        (Submodule.Quotient.mk (triangleYArrowCutEquiv k y)) := rfl
+
+theorem triangleJacobianQuadraticProjection_arrowProduct (φ : triangle333.Potential k)
+    (x y : ArrowSpace333 k) :
+    triangleJacobianQuadraticProjection k φ
+      (triangle333.zeroCutPathComp k (triangleYArrowCutEquiv k y) (triangleXArrowCutEquiv k x)) =
+        (triangle333.unrolledJacobianZAlgebra k φ).comp
+          (triangleJacobianYArrowEquiv k φ y) (triangleJacobianXArrowEquiv k φ x) := by
+  have h := triangle333.homogeneousJacobianUnrolledEquiv_comp k φ
+    (u := (0,0)) (v := (1,0)) (w := (2,0))
+    (Submodule.Quotient.mk (triangleXArrowCutEquiv k x))
+    (Submodule.Quotient.mk (triangleYArrowCutEquiv k y))
+  rw [triangle333.cutJacobianQuotientComp_mk k φ] at h
+  have hp : triangle333.pathCutCompBetweenLinear k
+      (u := (0,0)) (v := (1,0)) (w := (2,0))
+      (triangleYArrowCutEquiv k y) (triangleXArrowCutEquiv k x) =
+        triangle333.zeroCutPathComp k (triangleYArrowCutEquiv k y) (triangleXArrowCutEquiv k x) :=
+    Subtype.ext rfl
+  rw [hp] at h
+  exact h
+
+theorem triangleJacobianXYEvaluation_arrowProduct (φ : triangle333.Potential k)
+    (x y : ArrowSpace333 k) :
+    triangleJacobianXYEvaluation k φ (fun xy => x xy.1 * y xy.2) =
+      (triangle333.unrolledJacobianZAlgebra k φ).comp
+        (triangleJacobianYArrowEquiv k φ y) (triangleJacobianXArrowEquiv k φ x) := by
+  have hc := triangleXYCutComponentEquiv_arrowProduct k x y
+  have hp : (triangleXYCutComponentEquiv k).symm (fun xy => x xy.1 * y xy.2) =
+      triangle333.zeroCutPathComp k (triangleYArrowCutEquiv k y) (triangleXArrowCutEquiv k x) := by
+    rw [←hc,LinearEquiv.symm_apply_apply]
+  change triangleJacobianQuadraticProjection k φ
+    ((triangleXYCutComponentEquiv k).symm (fun xy => x xy.1 * y xy.2)) = _
+  rw [hp]
+  exact triangleJacobianQuadraticProjection_arrowProduct k φ x y
+
+end ASGinzburg

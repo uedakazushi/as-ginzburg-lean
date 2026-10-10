@@ -1,0 +1,149 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRingDualTensorEvaluation
+
+/-! Naturality of genuine enveloping tensor evaluation in the finite
+projective term, with the actual first-factor restriction on the ring
+dual and the actual residual right action on the balanced tensor. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+noncomputable def envelopingTensorEvaluationRestrictedRightScalarTower
+    (D : Type w) [AddCommGroup D] [Module k D]
+    [Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ D]
+    [IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ D] :
+    letI := envelopingTensorEvaluationRestrictedRightModule k R D
+    letI : SMul Rᵐᵒᵖ D := envelopingTensorEvaluationRestrictedRightSMul k R D
+    IsScalarTower k Rᵐᵒᵖ D := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R D
+  letI : SMul Rᵐᵒᵖ D := envelopingTensorEvaluationRestrictedRightSMul k R D
+  constructor
+  intro c a d
+  change MulOpposite.op ((c • a.unop) ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • d =
+    c • (MulOpposite.op (a.unop ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • d)
+  rw [← TensorProduct.smul_tmul', MulOpposite.op_smul, smul_assoc]
+
+attribute [local instance 2100] ordinaryRingDualTensorModuleK
+attribute [local instance 2100] ordinaryRingDualTensorScalarTower
+attribute [local instance 3500] ordinaryRingDualTensorFieldSMulK
+variable {P Q : ModuleCat.{v} (AlgebraEnvelopingRing k R)}
+
+noncomputable def envelopingRingDualRestrictedMap (g : P ⟶ Q) :
+    letI := envelopingTensorEvaluationRestrictedRightModule k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    letI := envelopingTensorEvaluationRestrictedRightModule k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+    ordinaryRingDual (AlgebraEnvelopingRing k R) Q →ₗ[Rᵐᵒᵖ]
+      ordinaryRingDual (AlgebraEnvelopingRing k R) P := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+  exact {
+    toFun := ordinaryRingDualMap (AlgebraEnvelopingRing k R) g
+    map_add' := map_add _
+    map_smul' := fun a f =>
+      (ordinaryRingDualMap (AlgebraEnvelopingRing k R) g).map_smul
+        (rightEnvelopingRightRingHom k R a) f }
+
+@[simp] theorem envelopingRingDualRestrictedMap_apply (g : P ⟶ Q)
+    (f : ordinaryRingDual (AlgebraEnvelopingRing k R) Q) (p : P) :
+    envelopingRingDualRestrictedMap k R g f p = f (g p) := rfl
+
+variable (M : ModuleCat.{v} Rᵐᵒᵖ) [Module.Finite k M]
+
+theorem envelopingFiniteProjectiveRingDualTensorEquiv_naturality
+    (hP : ordinaryFiniteProjectiveProperty (AlgebraEnvelopingRing k R) P)
+    (hQ : ordinaryFiniteProjectiveProperty (AlgebraEnvelopingRing k R) Q)
+    (g : P ⟶ Q)
+    (z :
+      letI := envelopingTensorEvaluationRestrictedRightModule k R
+        (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+      BalancedTensorSpace k R (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+        (BalancedTensorHom k R M k)) :
+    letI := envelopingTensorEvaluationRestrictedRightModule k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    letI := envelopingTensorEvaluationRestrictedRightModule k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+    letI : SMul Rᵐᵒᵖ (ordinaryRingDual (AlgebraEnvelopingRing k R) P) :=
+      envelopingTensorEvaluationRestrictedRightSMul k R
+        (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    letI : SMul Rᵐᵒᵖ (ordinaryRingDual (AlgebraEnvelopingRing k R) Q) :=
+      envelopingTensorEvaluationRestrictedRightSMul k R
+        (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+    letI := envelopingTensorEvaluationRestrictedRightScalarTower k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    letI := envelopingTensorEvaluationRestrictedRightScalarTower k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+    letI := envelopingBalancedTensorRightModule k R M P
+    letI := envelopingBalancedTensorRightModule k R M Q
+    letI := envelopingBalancedTensorRightScalarTower k R M P
+    letI := envelopingBalancedTensorRightScalarTower k R M Q
+    envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+      (balancedTensorMapLeft k R (BalancedTensorHom k R M k)
+        (envelopingRingDualRestrictedMap k R g) z) =
+      (envelopingFiniteProjectiveRingDualTensorEquiv k R M hQ z).comp
+        (envelopingBalancedTensorRightMap k R M g.hom) := by
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingTensorEvaluationRestrictedRightModule k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+  letI : SMul Rᵐᵒᵖ (ordinaryRingDual (AlgebraEnvelopingRing k R) P) :=
+    envelopingTensorEvaluationRestrictedRightSMul k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI : SMul Rᵐᵒᵖ (ordinaryRingDual (AlgebraEnvelopingRing k R) Q) :=
+    envelopingTensorEvaluationRestrictedRightSMul k R
+      (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+  letI := envelopingTensorEvaluationRestrictedRightScalarTower k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+  letI := envelopingTensorEvaluationRestrictedRightScalarTower k R
+    (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+  letI := envelopingLeftModule k R P
+  letI := envelopingLeftModule k R Q
+  letI := envelopingLeftScalarTower k R P
+  letI := envelopingLeftScalarTower k R Q
+  letI := envelopingBalancedTensorRightModule k R M P
+  letI := envelopingBalancedTensorRightModule k R M Q
+  letI := envelopingBalancedTensorRightScalarTower k R M P
+  letI := envelopingBalancedTensorRightScalarTower k R M Q
+  refine balancedTensorSpace_induction k R (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+    (BalancedTensorHom k R M k) (fun z => envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+      (balancedTensorMapLeft k R (BalancedTensorHom k R M k)
+        (envelopingRingDualRestrictedMap k R g) z) =
+      (envelopingFiniteProjectiveRingDualTensorEquiv k R M hQ z).comp
+        (envelopingBalancedTensorRightMap k R M g.hom)) ?_ ?_ ?_ z
+  · simp only [map_zero, LinearMap.zero_comp]
+  · intro f φ
+    rw [balancedTensorMapLeft_tmul]
+    apply LinearMap.ext
+    intro t
+    refine balancedTensorSpace_induction k R M P (fun t =>
+      envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+        (balancedTensorTmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+          (BalancedTensorHom k R M k) (envelopingRingDualRestrictedMap k R g f) φ) t =
+        ((envelopingFiniteProjectiveRingDualTensorEquiv k R M hQ
+          (balancedTensorTmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+            (BalancedTensorHom k R M k) f φ)).comp
+              (envelopingBalancedTensorRightMap k R M g.hom)) t) ?_ ?_ ?_ t
+    · simp only [map_zero]
+    · intro m p
+      change envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+        (balancedTensorTmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+          (BalancedTensorHom k R M k) (envelopingRingDualRestrictedMap k R g f) φ)
+          (balancedTensorTmul k R M P m p) =
+        envelopingFiniteProjectiveRingDualTensorEquiv k R M hQ
+          (balancedTensorTmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) Q)
+            (BalancedTensorHom k R M k) f φ)
+          (envelopingBalancedTensorRightMap k R M g.hom (balancedTensorTmul k R M P m p))
+      rw [envelopingFiniteProjectiveRingDualTensorEquiv_tmul,
+        envelopingBalancedTensorRightMap_tmul,
+        envelopingFiniteProjectiveRingDualTensorEquiv_tmul,
+        envelopingRingDualRestrictedMap_apply]
+    · intro x y hx hy
+      simp only [map_add] at hx hy ⊢
+      rw [hx, hy]
+  · intro x y hx hy
+    simp only [map_add, LinearMap.add_comp, hx, hy]
+
+end ASGinzburg

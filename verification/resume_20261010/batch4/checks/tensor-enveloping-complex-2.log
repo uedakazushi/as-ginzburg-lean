@@ -1,0 +1,77 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:16:36: error: Application type mismatch: The argument
+  k
+has type
+  Type u
+of sort `Type (u + 1)` but is expected to have type
+  Type (max u v)
+of sort `Type ((max u v) + 1)` in the application
+  @ModuleCat.of k
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:16:39: error: failed to solve universe constraint
+  u =?= max ?u.1463 ?u.1464
+while trying to unify
+  Type u : Type (u + 1)
+with
+  Type v : Type (v + 1)
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:21:48: warning: `ext` did not consume the patterns `x`
+
+Note: This linter can be disabled with `set_option linter.unusedRCasesPattern false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:22:52: warning: `ext` did not consume the patterns `x`
+
+Note: This linter can be disabled with `set_option linter.unusedRCasesPattern false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:30:41: error: Type mismatch
+  h
+has type
+  ↑((ordinaryRightRingHomFieldFunctor k R).obj P)
+of sort `Type (max u v)` but is expected to have type
+  ↑(unop P) →ₗ[Rᵐᵒᵖ] R
+of sort `Type v`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:51:2: error: failed to synthesize
+  (ordinaryRingDualFunctor (AlgebraEnvelopingRing k R) ⋙
+      rightEnvelopingRightRestrictionFunctor k R ⋙
+        balancedTensorLeftFunctor k R (BalancedTensorHom k R (↑M) k)).PreservesZeroMorphisms
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:109:8: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:126:35: error: Application type mismatch: The argument
+  k
+has type
+  Type u
+of sort `Type (u + 1)` but is expected to have type
+  Type (max u v)
+of sort `Type ((max u v) + 1)` in the application
+  @ModuleCat.of k
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:127:7: error: failed to solve universe constraint
+  u =?= max ?u.65193 ?u.65194
+while trying to unify
+  Type u : Type (u + 1)
+with
+  Type (max u v) : Type ((max u v) + 1)
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:120:76: error: unsolved goals
+case refine_1
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+P : ModuleCat (AlgebraEnvelopingRing k R)
+inst✝ : Module.Finite k ↑M
+hP : ordinaryFiniteProjectiveProperty (AlgebraEnvelopingRing k R) P
+this✝¹ : Module Rᵐᵒᵖ ↑(ordinaryRingDual (AlgebraEnvelopingRing k R) P) := ⋯
+this✝ : Module Rᵐᵒᵖ (EnvelopingBalancedTensorSpace k R ↑M ↑P) := ⋯
+this : IsScalarTower k Rᵐᵒᵖ (EnvelopingBalancedTensorSpace k R ↑M ↑P) := ⋯
+e : BalancedTensorSpace k R (↑(ordinaryRingDual (AlgebraEnvelopingRing k R) P)) (BalancedTensorHom k R (↑M) k) ≃ₗ[k]
+  EnvelopingBalancedTensorSpace k R ↑M ↑P →ₗ[Rᵐᵒᵖ] R := ⋯
+⊢ Ring sorry
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:141:4: error: Function expected at
+  (ConcreteCategory.hom (envelopingFiniteProjectiveRingDualTensorTermIso k R M P hP).hom)
+    (envelopingRingDualTensorEvaluationCanonicalTmul k R M P f φ)
+but this term has type
+  ↑((envelopingRingDualTensorEvaluationTargetFunctor k R M).obj (op P))
+
+Note: Expected a function because this term is being applied to the argument
+  (balancedTensorTmul k R M P m p)

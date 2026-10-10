@@ -1,0 +1,47 @@
+import ASGinzburg.ASGeneratorBasis
+import work.ASGinzburgDraft.TriangleQuadraticTerms
+
+/-! For adjacent triangle vertices the genuine indecomposable generator
+basis of an AS resolution is already a basis of the actual Hom space. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem adjacent_products_span_eq_bot (i j : ℤ) (h : j ≤ i + 1) :
+    Submodule.span k (A.products i j) = ⊥ := by
+  have he : A.products i j = ∅ := by
+    apply Set.eq_empty_iff_forall_notMem.mpr
+    intro x hx
+    rcases hx with ⟨w, hi, hj, _⟩
+    omega
+  rw [he, Submodule.span_empty]
+
+namespace ASResolution
+variable {A} {w : triangle333.LiftVertex} (R : A.ASResolution triangle333 w)
+
+def triangleAdjacentGeneratorIndexEquiv :
+    GeneratorIndex (Q := triangle333) (w := w) (triangle333.height w - 1) ≃ Fin 3 where
+  toFun a := triangleIncomingArrowEquiv w a.val
+  invFun i := ⟨(triangleIncomingArrowEquiv w).symm i,
+    triangleIncomingSource_height w ((triangleIncomingArrowEquiv w).symm i)⟩
+  left_inv a := by
+    apply Subtype.ext
+    exact (triangleIncomingArrowEquiv w).symm_apply_apply a.val
+  right_inv i := (triangleIncomingArrowEquiv w).apply_symm_apply i
+
+noncomputable def triangleAdjacentIncomingBasis :
+    Module.Basis (Fin 3) k (A.Hom (triangle333.height w - 1) (triangle333.height w)) :=
+  ((R.indecomposableGeneratorBasis (triangle333.height w - 1) (by omega)).reindex
+    (triangleAdjacentGeneratorIndexEquiv (w := w))).map
+      ((Submodule.span k (A.products (triangle333.height w - 1) (triangle333.height w)))
+        .quotEquivOfEqBot (A.adjacent_products_span_eq_bot _ _ (by omega)))
+
+theorem triangleAdjacentIncomingBasis_apply (i : Fin 3) :
+    R.triangleAdjacentIncomingBasis i = R.incomingGenerator (triangle333.height w - 1)
+      ((triangleAdjacentGeneratorIndexEquiv (w := w)).symm i) := by
+  rw [triangleAdjacentIncomingBasis, Module.Basis.map_apply, Module.Basis.reindex_apply,
+    R.indecomposableGeneratorBasis_apply]
+  exact Submodule.quotEquivOfEqBot_apply_mk _ _
+
+end ASResolution
+end ASGinzburg.ZAlgebra

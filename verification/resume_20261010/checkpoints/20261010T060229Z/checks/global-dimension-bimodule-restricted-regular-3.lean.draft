@@ -1,0 +1,60 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRestrictionFunctor
+
+/-! Restricting the actual multiplication bimodule R along the left
+tensor inclusion yields its ordinary free rank-one left R module. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+theorem regularEnvelopingLeftModule_eq :
+    letI := regularEnvelopingModule k R
+    envelopingLeftModule k R R=(inferInstance : Module R R) := by
+  letI := regularEnvelopingModule k R
+  apply Module.ext'
+  intro a x
+  change (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • x=a*x
+  simpa only [MulOpposite.op_one,mul_one] using
+    regularEnvelopingModule_tmul_smul k R a 1 x
+
+theorem regularEnvelopingRightModule_eq :
+    letI := regularEnvelopingModule k R
+    envelopingRightModule k R R=(inferInstance : Module Rᵐᵒᵖ R) := by
+  letI := regularEnvelopingModule k R
+  apply Module.ext'
+  intro b x
+  change ((1 : R) ⊗ₜ[k] b) • x=x*b.unop
+  simpa only [one_mul] using
+    regularEnvelopingModule_tmul_smul k R 1 b.unop x
+
+noncomputable def regularEnvelopingLeftRestrictionIso :
+    (envelopingLeftRestrictionFunctor.{u,v,v} k R).obj
+      (regularEnvelopingModuleCat k R) ≅ ModuleCat.of R R :=
+  (show (envelopingLeftRestrictionFunctor.{u,v,v} k R).obj
+      (regularEnvelopingModuleCat k R) ≃ₗ[R] R from {
+    toFun := id
+    invFun := id
+    left_inv := fun _ => rfl
+    right_inv := fun _ => rfl
+    map_add' := fun _ _ => rfl
+    map_smul' := fun a x => by
+      letI := regularEnvelopingModule k R
+      change (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • (show R from x)=a*(show R from x)
+      simpa only [MulOpposite.op_one,mul_one] using
+        regularEnvelopingModule_tmul_smul k R a 1 x}).toModuleIso
+
+instance regularEnvelopingLeftRestrictionProjective :
+    Projective ((envelopingLeftRestrictionFunctor.{u,v,v} k R).obj
+      (regularEnvelopingModuleCat k R)) := by
+  exact Projective.of_iso (regularEnvelopingLeftRestrictionIso k R).symm inferInstance
+
+noncomputable def regularEnvelopingRestrictedResolutionHomotopyEquiv
+    (Q : ProjectiveResolution (regularEnvelopingModuleCat k R)) :
+    HomotopyEquiv
+      ((envelopingLeftRestrictedProjectiveResolution k R Q).complex)
+      ((ProjectiveResolution.self
+        ((envelopingLeftRestrictionFunctor k R).obj (regularEnvelopingModuleCat k R))).complex) :=
+  ProjectiveResolution.homotopyEquiv _ _
+
+end ASGinzburg

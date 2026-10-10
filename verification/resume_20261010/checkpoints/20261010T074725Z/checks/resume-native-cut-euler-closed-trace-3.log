@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/NativeCutEulerClosedTrace.lean:19:18: error: unsolved goals
+case add
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+a : Q.Arrow
+f g : Q.Path (Q.target a) (Q.source a) →₀ k
+hf :
+  (Q.closedPathTrace k (Q.source a)) (((Q.pathComp k) f) (Finsupp.single (Q.baseArrowPath a) 1)) =
+    (Q.relationClosedTrace k a) f
+hg :
+  (Q.closedPathTrace k (Q.source a)) (((Q.pathComp k) g) (Finsupp.single (Q.baseArrowPath a) 1)) =
+    (Q.relationClosedTrace k a) g
+⊢ (Q.closedPathTrace k (Q.source a)) (((Q.pathComp k) f + (Q.pathComp k) g) (Finsupp.single (Q.baseArrowPath a) 1)) =
+    (Q.relationClosedTrace k a) f + (Q.relationClosedTrace k a) g
+work/ASGinzburgDraft/NativeCutEulerClosedTrace.lean:19:41: warning: This simp argument is unused:
+  hf
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, hf̵,̵ ̵h̵g]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/NativeCutEulerClosedTrace.lean:19:45: warning: This simp argument is unused:
+  hg
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, hf,̵ ̵h̵g̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

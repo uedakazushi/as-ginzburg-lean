@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/ZeroCutIsomorphismTransposedLeading.lean:48:34: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  if ?m.50 = ?m.50 then ?m.52 else ?m.53
+in the target expression
+  (if ((Path.nil (Q.source b)).snoc b ⋯).length = 1 then Finsupp.single ((Path.nil (Q.source b)).snoc b ⋯) 1 else 0) =
+    Q.pathIdentityArrowReplacement k b
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+F : (Q.unrolledJacobianZAlgebra k φ).Isomorphism (Q.unrolledJacobianZAlgebra k ψ)
+b : Q.Arrow
+hb : Q.cut b = false
+⊢ (if ((Path.nil (Q.source b)).snoc b ⋯).length = 1 then Finsupp.single ((Path.nil (Q.source b)).snoc b ⋯) 1 else 0) =
+    Q.pathIdentityArrowReplacement k b

@@ -1,0 +1,37 @@
+work/ASGinzburgDraft/RightSmallCoproductRadicals.lean:62:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso g i).hom)
+      ((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso g i).inv)
+        ((DirectSum.lof k I (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) b) x)))
+    a
+in the target expression
+  ((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso g i).hom)
+        ((A.rightSmallCoproductComponentIso g i).toLinearEquiv.symm
+          ((DirectSum.of (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) b) x)))
+      a =
+    (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightSmallCoproductProjection g a)))
+      ((A.rightSmallCoproductComponentIso g i).toLinearEquiv.symm
+        ((DirectSum.of (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) b) x))
+
+case of
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+I : Type v
+inst✝ : DecidableEq I
+g : I → A.RightModule
+i : ℤ
+a b : I
+x : ↑((A.rightModuleEvaluation i).obj (g b))
+hleft :
+  ((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso g i).hom)
+        ((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso g i).inv)
+          ((DirectSum.lof k I (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) b) x)))
+      a =
+    (DFinsupp.single b x) a
+⊢ ((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso g i).hom)
+        ((A.rightSmallCoproductComponentIso g i).toLinearEquiv.symm
+          ((DirectSum.of (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) b) x)))
+      a =
+    (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightSmallCoproductProjection g a)))
+      ((A.rightSmallCoproductComponentIso g i).toLinearEquiv.symm
+        ((DirectSum.of (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) b) x))

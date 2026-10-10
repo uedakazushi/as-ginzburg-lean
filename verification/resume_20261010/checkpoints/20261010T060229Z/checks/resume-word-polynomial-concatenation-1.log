@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/WordPolynomialConcatenation.lean:49:24: error: unsolved goals
+case single.single.add
+A : Type u
+k : Type v
+inst✝ : Field k
+p : List A
+a : k
+q : List A
+b : k
+h h' : List A →₀ k
+hh :
+  (wordConcatenation ((wordConcatenation (Finsupp.single p a)) (Finsupp.single q b))) h =
+    (wordConcatenation (Finsupp.single p a)) ((wordConcatenation (Finsupp.single q b)) h)
+hh' :
+  (wordConcatenation ((wordConcatenation (Finsupp.single p a)) (Finsupp.single q b))) h' =
+    (wordConcatenation (Finsupp.single p a)) ((wordConcatenation (Finsupp.single q b)) h')
+⊢ (wordConcatenation (Finsupp.single (p ++ q) (a * b))) h + (wordConcatenation (Finsupp.single (p ++ q) (a * b))) h' =
+    (wordConcatenation (Finsupp.single p a)) ((wordConcatenation (Finsupp.single q b)) h) +
+      (wordConcatenation (Finsupp.single p a)) ((wordConcatenation (Finsupp.single q b)) h')
+work/ASGinzburgDraft/WordPolynomialConcatenation.lean:49:42: warning: This simp argument is unused:
+  hh
+
+Hint: Omit it from the simp argument list.
+  simp [map_add, hh,̵ ̵h̵h̵']
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/WordPolynomialConcatenation.lean:49:46: warning: This simp argument is unused:
+  hh'
+
+Hint: Omit it from the simp argument list.
+  simp [map_add, hh,̵ ̵h̵h̵'̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

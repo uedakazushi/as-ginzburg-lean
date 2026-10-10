@@ -1,0 +1,79 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:28:10: warning: `ext` did not consume the patterns `x`
+
+Note: This linter can be disabled with `set_option linter.unusedRCasesPattern false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:29:11: error: Function expected at
+  h
+but this term has type
+  ↑((ordinaryRightRingHomFieldFunctor k R).obj P)
+
+Note: Expected a function because this term is being applied to the argument
+  0
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:38:6: error: failed to solve universe constraint
+  v =?= max v ?u.19802
+while trying to unify
+  ModuleCat Rᵐᵒᵖ ⥤ ModuleCat k : Type (max v u (v + 1))
+with
+  ModuleCat Rᵐᵒᵖ ⥤ ModuleCat k : Type (max v (max u v) (v + 1) (max ((max u v) + 1) (v + 1)) u)
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:45:5: error: Function expected at
+  envelopingRingDualTensorEvaluationSourceFunctor k R
+but this term has type
+  (ModuleCat (AlgebraEnvelopingRing k R))ᵒᵖ ⥤ ModuleCat k
+
+Note: Expected a function because this term is being applied to the argument
+  M
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:62:5: error: Function expected at
+  envelopingRingDualTensorEvaluationSourceFunctor k R
+but this term has type
+  (ModuleCat (AlgebraEnvelopingRing k R))ᵒᵖ ⥤ ModuleCat k
+
+Note: Expected a function because this term is being applied to the argument
+  M
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:81:5: error: Function expected at
+  envelopingRingDualTensorEvaluationSourceFunctor k R
+but this term has type
+  (ModuleCat (AlgebraEnvelopingRing k R))ᵒᵖ ⥤ ModuleCat k
+
+Note: Expected a function because this term is being applied to the argument
+  M
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:89:16: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:105:2: warning: 'exact
+  balancedTensorFieldModuleChangeIso_hom_tmul k R (ordinaryRingDual (AlgebraEnvelopingRing k R) P)
+    (BalancedTensorHom k R M k) (Module.compHom _ (algebraMap k Rᵐᵒᵖ))
+    (ordinaryRingDualTensorModuleK k (AlgebraEnvelopingRing k R) P) (algebraModuleCompHomField_eq k Rᵐᵒᵖ _) f
+    φ' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:115:5: error: Function expected at
+  envelopingRingDualTensorEvaluationSourceFunctor k R
+but this term has type
+  (ModuleCat (AlgebraEnvelopingRing k R))ᵒᵖ ⥤ ModuleCat k
+
+Note: Expected a function because this term is being applied to the argument
+  M
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:122:4: error: Application type mismatch: The argument
+  envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+has type
+  LinearEquiv.{u, u, max u v, v} (RingHom.id k)
+    (BalancedTensorSpace k R (↑(ordinaryRingDual (AlgebraEnvelopingRing k R) P)) (BalancedTensorHom k R (↑M) k))
+    (EnvelopingBalancedTensorSpace k R ↑M ↑P →ₗ[Rᵐᵒᵖ] R)
+of sort `Type (max (max u v) v)` but is expected to have type
+  LinearEquiv.{u, u, v, v} (RingHom.id k) ?m.85
+    (↑(unop ((envelopingBalancedTensorRightFunctor k R ↑M).op.obj (op P))) →ₗ[Rᵐᵒᵖ] R)
+of sort `Type v` in the application
+  (envelopingFiniteProjectiveRingDualTensorEquiv k R M hP).toModuleIso
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:124:16: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:144:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:140:2: warning: 'change
+  envelopingFiniteProjectiveRingDualTensorEquiv k R M hP
+      ((envelopingRingDualTensorEvaluationSourceFieldIso k R M P).hom
+        (envelopingRingDualTensorEvaluationCanonicalTmul k R M P f φ))
+      (balancedTensorTmul k R M P m p) =
+    _' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationComplex.lean:144:2: warning: 'rw [envelopingRingDualTensorEvaluationSourceFieldIso_tmul,
+  envelopingFiniteProjectiveRingDualTensorEquiv_tmul]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

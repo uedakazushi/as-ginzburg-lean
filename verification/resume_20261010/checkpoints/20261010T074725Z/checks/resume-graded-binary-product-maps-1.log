@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/GradedOrdinaryBinaryProductMaps.lean:37:2: error: `simp` made no progress
+work/ASGinzburgDraft/GradedOrdinaryBinaryProductMaps.lean:45:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  F.map (?m.128 + ?m.129)
+in the target expression
+  (fun f => F.map f) (M.binaryProductFst N ≫ M.binaryProductInl N + M.binaryProductSnd N ≫ M.binaryProductInr N) =
+    (fun f => F.map f) (𝟙 (M.binaryProductData N).ringModule)
+
+k : Type u
+inst✝⁴ : Field k
+R : Type v
+inst✝³ : Ring R
+inst✝² : Algebra k R
+A : ℤ → Submodule k R
+M N : GradedOrdinaryModuleData k R A
+S : Type w
+inst✝¹ : Ring S
+F : ModuleCat R ⥤ ModuleCat S
+inst✝ : F.Additive
+x : ↑(F.obj (M.binaryProductData N).ringModule)
+h :
+  (fun f => F.map f) (M.binaryProductFst N ≫ M.binaryProductInl N + M.binaryProductSnd N ≫ M.binaryProductInr N) =
+    (fun f => F.map f) (𝟙 (M.binaryProductData N).ringModule)
+⊢ (ConcreteCategory.hom (F.map (M.binaryProductInl N))) ((ConcreteCategory.hom (F.map (M.binaryProductFst N))) x) +
+      (ConcreteCategory.hom (F.map (M.binaryProductInr N))) ((ConcreteCategory.hom (F.map (M.binaryProductSnd N))) x) =
+    x

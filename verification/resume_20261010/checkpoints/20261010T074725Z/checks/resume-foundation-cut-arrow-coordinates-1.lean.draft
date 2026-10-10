@@ -1,0 +1,65 @@
+import work.ASGinzburgDraft.PathArrowLinearSpaces
+import ASGinzburg.FoundationSurvivingArrows
+import ASGinzburg.PathCyclicCommutators
+
+/-! Actual cut arrows are exactly the length-one paths in a backward
+foundation component. Their coordinates are genuine linear equivalences. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+def foundationCutArrowPath (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
+    Q.Path j i :=
+  (Q.baseArrowPath a.val).transport a.property.1 a.property.2.1
+
+theorem foundationCutArrowPath_length (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
+    (Q.foundationCutArrowPath i j a).length = 1 := by
+  simp only [foundationCutArrowPath, Path.length_transport, baseArrowPath, Path.length]
+
+theorem foundationCutArrowPath_bijective (i j : Q.Vertex) (hij : i.val < j.val) :
+    Function.Bijective (fun a : Q.FoundationRelationArrow i j =>
+      (⟨Q.foundationCutArrowPath i j a, Q.foundationCutArrowPath_length i j a⟩ :
+        {p : Q.Path j i // p.length = 1})) := by
+  constructor
+  · intro a b h
+    apply Subtype.ext
+    have hw := congrArg (fun p : {p : Q.Path j i // p.length = 1} => p.val.toList) h
+    simpa only [foundationCutArrowPath, Path.toList_transport, baseArrowPath, Path.toList,
+      List.nil_append, List.singleton_inj] using hw
+  · rintro ⟨p, hp⟩
+    cases p with
+    | nil => simp [Path.length] at hp
+    | @snoc v p a ha =>
+      cases p with
+      | nil =>
+        have hc : Q.cut a = true := by
+          cases H : Q.cut a
+          · have hf := Q.forward a H
+            rw [ha] at hf
+            omega
+          · rfl
+        refine ⟨⟨a, ha, rfl, hc⟩, ?_⟩
+        apply Subtype.ext
+        subst j
+        rfl
+      | snoc p b hb => simp [Path.length] at hp
+
+noncomputable def foundationCutArrowPathEquiv (i j : Q.Vertex) (hij : i.val < j.val) :
+    Q.FoundationRelationArrow i j ≃ {p : Q.Path j i // p.length = 1} :=
+  Equiv.ofBijective _ (Q.foundationCutArrowPath_bijective i j hij)
+
+noncomputable def foundationCutArrowCoordinateEquiv (i j : Q.Vertex) (hij : i.val < j.val) :
+    (Q.FoundationRelationArrow i j →₀ k) ≃ₗ[k] Q.pathArrowComponent k j i :=
+  (Finsupp.domLCongr (Q.foundationCutArrowPathEquiv i j hij)).trans
+    (Finsupp.supportedEquivFinsupp (R := k) {p : Q.Path j i | p.length = 1}).symm
+
+theorem foundationCutArrowCoordinateEquiv_single (i j : Q.Vertex) (hij : i.val < j.val)
+    (a : Q.FoundationRelationArrow i j) (c : k) :
+    (Q.foundationCutArrowCoordinateEquiv k i j hij (Finsupp.single a c)).val =
+      Finsupp.single (Q.foundationCutArrowPath i j a) c := by
+  classical
+  simp only [foundationCutArrowCoordinateEquiv, LinearEquiv.trans_apply,
+    Finsupp.domLCongr_single, Finsupp.supportedEquivFinsupp_symm_single]
+  rfl
+
+end ASGinzburg.CutQuiver

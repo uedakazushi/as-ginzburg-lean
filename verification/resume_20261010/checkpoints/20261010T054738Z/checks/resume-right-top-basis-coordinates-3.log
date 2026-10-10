@@ -1,0 +1,8 @@
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:62:6: error: 'change' tactic failed, pattern
+  (c • Finsupp.single j' 1) j = (A.scalarEndEquiv i).symm ((c • DFinsupp.single ⟨i, j'⟩ (A.id i)) ⟨i, j⟩)
+is not definitionally equal to target
+  (c • Finsupp.single ⟨i, j'⟩.snd 1) j =
+    (A.scalarEndEquiv i).symm
+      (((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j'⟩)
+          (c • A.id i))
+        ⟨i, j⟩)

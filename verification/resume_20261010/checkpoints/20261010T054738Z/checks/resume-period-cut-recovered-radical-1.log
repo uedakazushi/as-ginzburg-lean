@@ -1,0 +1,22 @@
+work/ASGinzburgDraft/PeriodCutRecoveredRadical.lean:44:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  M.recoveredTotalEquiv ((MulOpposite.unop ((cutRightRepresentation Q E M.recoveredRightModule) r)) x)
+in the target expression
+  M.recoveredTotalEquiv ((MulOpposite.unop ((cornerGradedRightModule Q E M.recoveredRightModule).representation r)) x) ∈
+    M.gradedRadicalActionSpan
+
+case mem
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : CutGradedRightModule Q E
+v : CornerModuleTotalSpace Q E M.recoveredRightModule
+r : E.CutGradedRing fun t => ↑↑t
+hr : r ∈ cutGradedJacobson Q E
+x : ↑(cornerGradedRightModule Q E M.recoveredRightModule).space
+he :
+  M.recoveredTotalEquiv ((MulOpposite.unop ((cutRightRepresentation Q E M.recoveredRightModule) r)) x) =
+    (MulOpposite.unop (M.representation r)) (M.recoveredTotalEquiv x)
+⊢ M.recoveredTotalEquiv ((MulOpposite.unop ((cornerGradedRightModule Q E M.recoveredRightModule).representation r)) x) ∈
+    M.gradedRadicalActionSpan

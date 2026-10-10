@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/GinzburgArrowSubstitution.lean:74:11: error: Type mismatch
+  ginzburgArrowSubstitutionComponent_id Q k σ ?m.27
+has type
+  (Q.ginzburgArrowSubstitutionComponent k σ ?m.27 ?m.27) (Q.ginzburgPathId k ?m.27) = Q.ginzburgPathId k ?m.27
+but is expected to have type
+  (Q.ginzburgArrowSubstitutionComponent k σ i i) (Q.ginzburgArrowSubstitutionPath k τ (GinzburgPath.nil i)) =
+    Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) (GinzburgPath.nil i)
+work/ASGinzburgDraft/GinzburgArrowSubstitution.lean:78:4: error: Tactic `rfl` failed: The left-hand side
+  ((Q.ginzburgPathComp k)
+      ((Q.ginzburgArrowSubstitutionComponent k σ (GinzburgArrow.source Q a) (GinzburgArrow.target Q a)) (⋯ ▸ τ a)))
+    (Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) p)
+is not definitionally equal to the right-hand side
+  Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) (p.snoc a ⋯)
+
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ τ : Q.GinzburgArrowReplacement k
+i j : Q.Vertex
+a : Q.GinzburgArrow
+p : Q.GinzburgPath i (GinzburgArrow.source Q a)
+ih :
+  (Q.ginzburgArrowSubstitutionComponent k σ i (GinzburgArrow.source Q a)) (Q.ginzburgArrowSubstitutionPath k τ p) =
+    Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) p
+⊢ ((Q.ginzburgPathComp k)
+        ((Q.ginzburgArrowSubstitutionComponent k σ (GinzburgArrow.source Q a) (GinzburgArrow.target Q a)) (⋯ ▸ τ a)))
+      (Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) p) =
+    Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) (p.snoc a ⋯)

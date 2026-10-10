@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/PathAutomorphismCyclicSubstitution.lean:52:13: error: unsolved goals
+case mem.hc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+L : CyclicPolynomial k Q.Arrow →ₗ[k] CyclicPolynomial k Q.Arrow :=
+  Q.pathCyclicQuotientTrace k ∘ₗ
+    ↑(algebraCyclicEquiv k ↑E) ∘ₗ Finsupp.linearCombination k (Q.potentialWordCyclicClass k)
+x : CyclicPolynomial k Q.Arrow
+i : Q.Vertex
+p : Q.Path i i
+hc : p.cutDegree = 1
+hl : 3 ≤ p.length
+⊢ p.cutDegree = 1
+
+case mem.hl
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+L : CyclicPolynomial k Q.Arrow →ₗ[k] CyclicPolynomial k Q.Arrow :=
+  Q.pathCyclicQuotientTrace k ∘ₗ
+    ↑(algebraCyclicEquiv k ↑E) ∘ₗ Finsupp.linearCombination k (Q.potentialWordCyclicClass k)
+x : CyclicPolynomial k Q.Arrow
+i : Q.Vertex
+p : Q.Path i i
+hc : p.cutDegree = 1
+hl : 3 ≤ p.length
+⊢ 3 ≤ p.length

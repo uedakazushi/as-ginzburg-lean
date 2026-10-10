@@ -1,0 +1,50 @@
+work/ASGinzburgDraft/ModuleTensorBifunctor.lean:23:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case hf.H
+k : Type u
+inst✝ : CommRing k
+M : ModuleCat k
+X✝ Y✝ Z✝ : ModuleCat k
+f : X✝ ⟶ Y✝
+g : Y✝ ⟶ Z✝
+⊢ (TensorProduct.mk k ↑M ↑X✝).compr₂
+      (ModuleCat.Hom.hom (ModuleCat.ofHom (TensorProduct.map LinearMap.id (ModuleCat.Hom.hom (f ≫ g))))) =
+    (TensorProduct.mk k ↑M ↑X✝).compr₂
+      (ModuleCat.Hom.hom
+        (ModuleCat.ofHom (TensorProduct.map LinearMap.id (ModuleCat.Hom.hom f)) ≫
+          ModuleCat.ofHom (TensorProduct.map LinearMap.id (ModuleCat.Hom.hom g))))
+work/ASGinzburgDraft/ModuleTensorBifunctor.lean:40:14: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case hf.H
+k : Type u
+inst✝ : CommRing k
+X✝ Y✝ : ModuleCat k
+f : X✝ ⟶ Y✝
+N N' : ModuleCat k
+g : N ⟶ N'
+⊢ (TensorProduct.mk k ↑X✝ ↑N).compr₂
+      (ModuleCat.Hom.hom
+        ((moduleTensorFunctor k X✝).map g ≫ ModuleCat.ofHom (TensorProduct.map (ModuleCat.Hom.hom f) LinearMap.id))) =
+    (TensorProduct.mk k ↑X✝ ↑N).compr₂
+      (ModuleCat.Hom.hom
+        (ModuleCat.ofHom (TensorProduct.map (ModuleCat.Hom.hom f) LinearMap.id) ≫ (moduleTensorFunctor k Y✝).map g))
+work/ASGinzburgDraft/ModuleTensorBifunctor.lean:52:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case app.h.hf.H
+k : Type u
+inst✝ : CommRing k
+X✝ Y✝ Z✝ : ModuleCat k
+f : X✝ ⟶ Y✝
+g : Y✝ ⟶ Z✝
+N : ModuleCat k
+⊢ (TensorProduct.mk k ↑X✝ ↑N).compr₂
+      (ModuleCat.Hom.hom
+        ({ app := fun N => ModuleCat.ofHom (TensorProduct.map (ModuleCat.Hom.hom (f ≫ g)) LinearMap.id),
+              naturality := ⋯ }.app
+          N)) =
+    (TensorProduct.mk k ↑X✝ ↑N).compr₂
+      (ModuleCat.Hom.hom
+        (({ app := fun N => ModuleCat.ofHom (TensorProduct.map (ModuleCat.Hom.hom f) LinearMap.id), naturality := ⋯ } ≫
+              { app := fun N => ModuleCat.ofHom (TensorProduct.map (ModuleCat.Hom.hom g) LinearMap.id),
+                naturality := ⋯ }).app
+          N))

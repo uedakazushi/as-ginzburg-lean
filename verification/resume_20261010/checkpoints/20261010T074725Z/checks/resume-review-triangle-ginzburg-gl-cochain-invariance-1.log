@@ -1,0 +1,24 @@
+work/ASGinzburgDraft/TriangleGinzburgGLCochainInvariance.lean:36:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (triangle333.ginzburgDifferential ?k ?φ (CutQuiver.GinzburgArrow.source triangle333 ?a)
+      (CutQuiver.GinzburgArrow.target triangle333 ?a))
+    (Finsupp.single (triangle333.ginzburgArrowPath ?a) 1)
+in the target expression
+  (triangle333.ginzburgDifferential k
+        ((CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k (triangleGLPathAutomorphism k g)) φ) v
+        v)
+      (Finsupp.single (triangle333.ginzburgArrowPath (CutQuiver.GinzburgArrow.loop v)) 1) =
+    (triangle333.ginzburgArrowSubstitutionComponent k (triangleGinzburgGLArrowReplacement k g) v v)
+      (triangle333.ginzburgLoopDifferential k v)
+
+case loop
+k : Type u
+inst✝ : Field k
+g : TriangleGL333 k
+φ : ↥(triangle333.Potential k)
+v : triangle333.Vertex
+⊢ (triangle333.ginzburgDifferential k
+        ((CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k (triangleGLPathAutomorphism k g)) φ) v
+        v)
+      (Finsupp.single (triangle333.ginzburgArrowPath (CutQuiver.GinzburgArrow.loop v)) 1) =
+    (triangle333.ginzburgArrowSubstitutionComponent k (triangleGinzburgGLArrowReplacement k g) v v)
+      (triangle333.ginzburgLoopDifferential k v)

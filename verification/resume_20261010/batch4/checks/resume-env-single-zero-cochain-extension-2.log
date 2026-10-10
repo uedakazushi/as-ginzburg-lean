@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/ChainComplexSingleZeroCochainExtension.lean:31:12: error: Tactic `assumption` failed
+
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : HasZeroMorphisms C
+inst✝ : HasZeroObject C
+X : C
+i : ℤ
+hi : i = 0
+⊢ ComplexShape.embeddingDownNat.f 0 = 0
+work/ASGinzburgDraft/ChainComplexSingleZeroCochainExtension.lean:45:54: error(lean.unknownIdentifier): Unknown constant `CategoryTheory.Category.comp_zero`
+work/ASGinzburgDraft/ChainComplexSingleZeroCochainExtension.lean:45:74: error(lean.unknownIdentifier): Unknown constant `CategoryTheory.Category.zero_comp`
+work/ASGinzburgDraft/ChainComplexSingleZeroCochainExtension.lean:36:5: error: unsolved goals
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : HasZeroMorphisms C
+inst✝ : HasZeroObject C
+X : C
+i j : ℤ
+hij : (ComplexShape.up ℤ).Rel i j
+hd : (HomologicalComplex.extend ((ChainComplex.single₀ C).obj X) ComplexShape.embeddingDownNat).d i j = 0
+⊢ (if hi : i = 0 then
+          HomologicalComplex.extendXIso ((ChainComplex.single₀ C).obj X) ComplexShape.embeddingDownNat ⋯ ≪≫
+            HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0 X ≪≫
+              (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0 X i hi).symm
+        else ⋯.iso ⋯).hom ≫
+      0 =
+    0 ≫
+      (if hi : j = 0 then
+          HomologicalComplex.extendXIso ((ChainComplex.single₀ C).obj X) ComplexShape.embeddingDownNat ⋯ ≪≫
+            HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0 X ≪≫
+              (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0 X j hi).symm
+        else ⋯.iso ⋯).hom

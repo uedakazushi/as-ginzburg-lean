@@ -1,0 +1,43 @@
+import work.ASGinzburgDraft.ProjectiveResolutionTopExtLinearMap
+
+/-! The actual final Hom-to-Ext map has precisely the actual differential
+image as its kernel, using the three genuine long exact sequences. -/
+namespace CategoryTheory.ProjectiveResolution
+open CategoryTheory.Limits
+universe u v t w
+variable {k : Type t} [Field k] {C : Type u} [Category.{v} C]
+  [Abelian C] [Linear k C] [HasDerivedCategory.{w} C] [HasExt.{v} C]
+variable {X : C} (P : ProjectiveResolution X)
+attribute [local instance] ASGinzburg.exactExtModule
+
+ theorem homToActualExtThree_eq_zero_iff (h₄ : IsZero (P.complex.X 4))
+    (N : C) (f : P.complex.X 3 ⟶ N) :
+    P.homToActualExtThree (k := k) h₄ N f = 0 ↔
+      ∃ g : P.complex.X 2 ⟶ N, P.complex.d 3 2 ≫ g = f := by
+  constructor
+  · intro hf
+    let z := (P.shortExact₂ h₄).extClass.comp (Abelian.Ext.mk₀ f) (show 1+0=1 from rfl)
+    let y := P.shortExact₁.extClass.comp z (show 1+1=2 from rfl)
+    have hy : y = 0 := by
+      obtain ⟨g,hg⟩ := Abelian.Ext.contravariant_sequence_exact₁ P.shortExact₀ N y
+        (show 1+2=3 from rfl) hf
+      haveI := P.projective 0
+      rw [Abelian.Ext.eq_zero_of_projective g, Abelian.Ext.comp_zero] at hg
+      exact hg.symm
+    have hz : z = 0 := by
+      obtain ⟨g,hg⟩ := Abelian.Ext.contravariant_sequence_exact₁ P.shortExact₁ N z
+        (show 1+1=2 from rfl) hy
+      haveI := P.projective 1
+      rw [Abelian.Ext.eq_zero_of_projective g, Abelian.Ext.comp_zero] at hg
+      exact hg.symm
+    obtain ⟨g,hg⟩ := Abelian.Ext.contravariant_sequence_exact₁ (P.shortExact₂ h₄) N
+      (Abelian.Ext.mk₀ f) (show 1+0=1 from rfl) hz
+    refine ⟨Abelian.Ext.homEquiv₀ g, ?_⟩
+    apply Abelian.Ext.addEquiv₀.symm.injective
+    change Abelian.Ext.mk₀ (P.complex.d 3 2 ≫ Abelian.Ext.homEquiv₀ g) = Abelian.Ext.mk₀ f
+    rw [← Abelian.Ext.mk₀_comp_mk₀, Abelian.Ext.mk₀_homEquiv₀_apply]
+    exact hg
+  · rintro ⟨g,rfl⟩
+    exact P.homToActualExtThree_boundary_eq_zero h₄ N g
+
+end CategoryTheory.ProjectiveResolution

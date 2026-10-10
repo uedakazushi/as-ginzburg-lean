@@ -1,0 +1,92 @@
+import work.ASGinzburgDraft.WordSubstitutedOccurrenceContextsChain
+
+/-! Genuine three-alphabet occurrence composition and transport of arbitrary
+inserted polynomials. These are identities of finite noncommutative operators. -/
+namespace ASGinzburg
+universe u v w z
+variable {A : Type u} {B : Type v} {C : Type w} {k : Type z} [Field k]
+variable [DecidableEq A] [DecidableEq B] [Fintype A]
+
+theorem wordSubstitutedOccurrenceContextWord_composition
+    (σ : A → WordPolynomial k B) (τ : B → WordPolynomial k C)
+    (b : B) (p : List A) (h : WordPolynomial k C) :
+    wordSubstitutedOccurrenceContext τ b (wordSubstitutionBetweenWord σ p) h =
+      ∑ a : A, wordSubstitutedOccurrenceContext τ b (σ a)
+        (wordSubstitutedOccurrenceContextWord
+          (fun c => wordSubstitutionBetween τ (σ c)) a p h) := by
+  classical
+  induction p generalizing h with
+  | nil => simp [wordSubstitutionBetweenWord, wordSubstitutedOccurrenceContextWord,
+      wordSubstitutedOccurrenceContextAux]
+  | cons c p ih =>
+    rw [wordSubstitutionBetweenWord, wordSubstitutedOccurrenceContext_concatenation,
+      ih, wordSubstitutionBetweenWord_composition]
+    simp_rw [wordSubstitutedOccurrenceContextWord_cons]
+    simp only [map_add, Finset.sum_add_distrib]
+    have hfirst (a : A) :
+        wordSubstitutedOccurrenceContext τ b (σ a)
+          (if a = c then wordConcatenation
+            (wordSubstitutionBetweenWord (fun d => wordSubstitutionBetween τ (σ d)) p) h else 0) =
+        if a = c then wordSubstitutedOccurrenceContext τ b (σ c)
+          (wordConcatenation
+            (wordSubstitutionBetweenWord (fun d => wordSubstitutionBetween τ (σ d)) p) h) else 0 := by
+      by_cases hac : a = c
+      · subst a
+        rw [if_pos rfl, if_pos rfl]
+      · rw [if_neg hac, if_neg hac, map_zero]
+    simp_rw [hfirst]
+    simp
+
+theorem wordSubstitutedOccurrenceContext_composition
+    (σ : A → WordPolynomial k B) (τ : B → WordPolynomial k C)
+    (b : B) (f : WordPolynomial k A) (h : WordPolynomial k C) :
+    wordSubstitutedOccurrenceContext τ b (wordSubstitutionBetween σ f) h =
+      ∑ a : A, wordSubstitutedOccurrenceContext τ b (σ a)
+        (wordSubstitutedOccurrenceContext
+          (fun c => wordSubstitutionBetween τ (σ c)) a f h) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add, LinearMap.add_apply, hf, hg,
+      Finset.sum_add_distrib]
+  | single p c =>
+    simp only [wordSubstitutionBetween_single, map_smul, LinearMap.smul_apply,
+      wordSubstitutedOccurrenceContext_single, ← Finset.smul_sum]
+    rw [wordSubstitutedOccurrenceContextWord_composition]
+
+omit [DecidableEq B] [Fintype A] in
+theorem wordSubstitutedOccurrenceContextWord_transport
+    (σ : A → WordPolynomial k B) (τ : B → WordPolynomial k C)
+    (a : A) (p : List A) (h : WordPolynomial k B) :
+    wordSubstitutionBetween τ (wordSubstitutedOccurrenceContextWord σ a p h) =
+      wordSubstitutedOccurrenceContextWord (fun c => wordSubstitutionBetween τ (σ c)) a p
+        (wordSubstitutionBetween τ h) := by
+  classical
+  induction p generalizing h with
+  | nil => simp [wordSubstitutedOccurrenceContextWord, wordSubstitutedOccurrenceContextAux]
+  | cons c p ih =>
+    rw [wordSubstitutedOccurrenceContextWord_cons, map_add,
+      wordSubstitutedOccurrenceContextWord_cons, ih,
+      wordSubstitutionBetween_concatenation]
+    congr 1
+    by_cases hac : a = c
+    · rw [if_pos hac, if_pos hac, wordSubstitutionBetween_concatenation,
+        wordSubstitutionBetweenWord_composition]
+    · rw [if_neg hac, if_neg hac, map_zero]
+
+omit [DecidableEq B] [Fintype A] in
+theorem wordSubstitutedOccurrenceContext_transport
+    (σ : A → WordPolynomial k B) (τ : B → WordPolynomial k C)
+    (a : A) (f : WordPolynomial k A) (h : WordPolynomial k B) :
+    wordSubstitutionBetween τ (wordSubstitutedOccurrenceContext σ a f h) =
+      wordSubstitutedOccurrenceContext (fun c => wordSubstitutionBetween τ (σ c)) a f
+        (wordSubstitutionBetween τ h) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add, LinearMap.add_apply, hf, hg]
+  | single p c =>
+    simp only [wordSubstitutedOccurrenceContext_single, map_smul]
+    rw [wordSubstitutedOccurrenceContextWord_transport]
+
+end ASGinzburg

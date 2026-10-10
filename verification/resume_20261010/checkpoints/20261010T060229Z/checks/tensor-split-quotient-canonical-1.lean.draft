@@ -1,0 +1,20 @@
+import work.ASGinzburgDraft.SplitQuotientRingDualCoordinates
+
+/-! The split quotient dual identification uses the actual canonical
+field action of its bundled right quotient module. -/
+namespace ASGinzburg
+open scoped ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (J : Ideal R) [J.IsTwoSided]
+variable (I : Type w) [Fintype I] [DecidableEq I]
+variable (e : (R ⧸ J) ≃ₐ[k] (I → k))
+attribute [local instance] idealQuotientRightScalarTower
+
+noncomputable def splitQuotientCanonicalDualLeftLinearEquiv :
+    BalancedTensorHom k R (idealQuotientRightObject J) k ≃ₗ[R] (R ⧸ J) := by
+  have hfield := idealQuotientRightInducedField_eq k R J
+  cases hfield
+  exact splitQuotientDualLeftLinearEquiv k R J I e
+
+end ASGinzburg

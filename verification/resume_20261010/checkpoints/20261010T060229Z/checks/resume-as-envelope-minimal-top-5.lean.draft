@@ -1,0 +1,85 @@
+import work.ASGinzburgDraft.ASCutEnvelopingSemisimpleTor
+import work.ASGinzburgDraft.BalancedTensorBundledRightMinimalTop
+
+/-! Actual semisimple enveloping Tor computes the actual radical tops
+of every chosen minimal projective resolution of the regular bimodule.
+The original AS condition makes these tops finite and kills degree four
+and above. No grading or projective-dimension hypothesis is required. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+variable (hAS : A.ASRegular Q)
+
+attribute [local instance] regularEnvelopingModule regularEnvelopingScalarTower
+
+variable (P : ProjectiveResolution
+  (ModuleCat.of (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+    (hAS.CutGradedAlgebra A Q)))
+variable (hP : ∀ i j, ∀ y : P.complex.X i, P.complex.d i j y ∈
+  ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+    (P.complex.X j) (hAS.cutEnvelopingAugmentationKernel A Q))
+
+set_option maxHeartbeats 800000 in
+noncomputable def ASRegular.cutEnvelopingMinimalTorTopEquiv (n : ℕ) :
+    (balancedTensorTorFunctor.{u,v,v,v} k
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (hAS.cutEnvelopingSemisimpleRightObject A Q) n).obj
+        (ModuleCat.of (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+          (hAS.CutGradedAlgebra A Q)) ≃ₗ[k]
+      ((P.complex.X n) ⧸ ordinaryIdealActionSpan k
+        (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+        (P.complex.X n) (hAS.cutEnvelopingAugmentationKernel A Q)) := by
+  let e := @balancedTensorTorBundledRightMinimalTopEquiv.{u,v,v} k inferInstance
+    (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)) inferInstance inferInstance
+    (hAS.cutEnvelopingAugmentationKernel A Q)
+    (hAS.cutEnvelopingAugmentationKernelTwoSided A Q)
+    (ModuleCat.of (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (hAS.CutGradedAlgebra A Q)) P hP n
+  exact e
+
+include hP in
+set_option maxHeartbeats 800000 in
+theorem ASRegular.cutEnvelopingMinimalTop_finite (n : ℕ) :
+    Module.Finite k ((P.complex.X n) ⧸ ordinaryIdealActionSpan k
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (P.complex.X n) (hAS.cutEnvelopingAugmentationKernel A Q)) := by
+  haveI : Module.Finite k ((balancedTensorTorFunctor.{u,v,v,v} k
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (hAS.cutEnvelopingSemisimpleRightObject A Q) n).obj
+        (ModuleCat.of (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+          (hAS.CutGradedAlgebra A Q))) := hAS.cutEnvelopingSemisimpleTor_finite A Q n
+  exact Module.Finite.equiv (hAS.cutEnvelopingMinimalTorTopEquiv A Q P hP n)
+
+include hP in
+set_option maxHeartbeats 800000 in
+theorem ASRegular.cutEnvelopingMinimalTop_isZero_ge_four (n : ℕ) :
+    IsZero (ModuleCat.of k ((P.complex.X (n+4)) ⧸ ordinaryIdealActionSpan k
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (P.complex.X (n+4)) (hAS.cutEnvelopingAugmentationKernel A Q))) :=
+  (hAS.cutEnvelopingMinimalTorTopEquiv A Q P hP (n+4)).toModuleIso.isZero_iff.mp
+    (hAS.cutEnvelopingSemisimpleTor_isZero_ge_four A Q n)
+
+include hP in
+theorem ASRegular.cutEnvelopingMinimalTop_subsingleton_ge_four (n : ℕ) :
+    Subsingleton ((P.complex.X (n+4)) ⧸ ordinaryIdealActionSpan k
+      (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (P.complex.X (n+4)) (hAS.cutEnvelopingAugmentationKernel A Q)) :=
+  ModuleCat.isZero_iff_subsingleton.mp
+    (hAS.cutEnvelopingMinimalTop_isZero_ge_four A Q P hP n)
+
+include hP in
+theorem ASRegular.cutEnvelopingMinimalActionSpan_eq_top_ge_four (n : ℕ) :
+    ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+      (P.complex.X (n+4)) (hAS.cutEnvelopingAugmentationKernel A Q) = ⊤ := by
+  let K := ordinaryIdealActionSpan k
+    (AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q))
+    (P.complex.X (n+4)) (hAS.cutEnvelopingAugmentationKernel A Q)
+  letI : Subsingleton ((P.complex.X (n+4)) ⧸ K) :=
+    hAS.cutEnvelopingMinimalTop_subsingleton_ge_four A Q P hP n
+  apply Submodule.eq_top_iff'.mpr
+  intro x
+  exact (Submodule.Quotient.mk_eq_zero K).mp (Subsingleton.elim _ _)
+
+end ASGinzburg.ZAlgebra

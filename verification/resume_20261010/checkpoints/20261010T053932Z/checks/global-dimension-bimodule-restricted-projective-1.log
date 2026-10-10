@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRestrictedProjective.lean:31:26: error: Application type mismatch: The argument
+  AlgebraEnvelopingRing k R
+has type
+  Type v
+of sort `Type (v + 1)` but is expected to have type
+  Semiring R
+of sort `Type v` in the application
+  @Module.Free R ?m.19 (AlgebraEnvelopingRing k R)
+work/ASGinzburgDraft/AlgebraEnvelopingRestrictedProjective.lean:39:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.envelopingLeftModule_projective`:
+  [Module k P]
+  [IsScalarTower k (AlgebraEnvelopingRing k R) P]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Module k P] [IsScalarTower k (AlgebraEnvelopingRing k R) P] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

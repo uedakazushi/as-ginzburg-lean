@@ -1,0 +1,185 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:31:43: error: typeclass instance problem is stuck, it is often due to metavariables
+  Module (AlgebraEnvelopingRing k R) ?m.214
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:32:38: error: Type mismatch
+  smul_assoc c t ?m.256
+has type
+  (c • t) • ?m.256 = c • t • ?m.256
+but is expected to have type
+  (fun x =>
+        (have this :=
+            ((Algebra.lsmul k k (BalancedTensorHom k R M R)) (c • t) ∘ₗ envelopingTensorEvaluationDualSeed k R M) φ;
+          this)
+          x)
+      x✝ =
+    (fun x =>
+        (have this :=
+            ((RingHom.id k) c •
+                (Algebra.lsmul k k (BalancedTensorHom k R M R)) t ∘ₗ envelopingTensorEvaluationDualSeed k R M)
+              φ;
+          this)
+          x)
+      x✝
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:49:4: error: 'change' tactic failed, pattern
+  (fun x_1 =>
+        (have this := (envelopingTensorEvaluationContraction k R M φ) (x ⊗ₜ[k] y * a ⊗ₜ[k] 1);
+          this)
+          x_1)
+      m =
+    (fun x_1 =>
+        (have this := (envelopingTensorEvaluationContraction k R M (a • φ)) (x ⊗ₜ[k] y);
+          this)
+          x_1)
+      m
+is not definitionally equal to target
+  (fun x_1 =>
+        (have this := ((envelopingTensorEvaluationInductionBilinear k R M) (MulOpposite.op a • x ⊗ₜ[k] y)) φ;
+          this)
+          x_1)
+      m =
+    (fun x_1 =>
+        (have this := ((envelopingTensorEvaluationInductionBilinear k R M) (x ⊗ₜ[k] y)) (a • φ);
+          this)
+          x_1)
+      m
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:70:4: error: Application type mismatch: The argument
+  envelopingTensorEvaluationInductionBilinear_balance k R M
+has type
+  ∀ (a : R) (t : AlgebraEnvelopingRing k R) (φ : BalancedTensorHom k R M k),
+    ((envelopingTensorEvaluationInductionBilinear k R M)
+          (@HSMul.hSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R) (AlgebraEnvelopingRing k R)
+            (@instHSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R) TensorProduct.leftHasSMul) (MulOpposite.op a) t))
+        φ =
+      ((envelopingTensorEvaluationInductionBilinear k R M) t) (a • φ)
+but is expected to have type
+  ∀ (r : R) (x : AlgebraEnvelopingRing k R) (y : BalancedTensorHom k R M k),
+    ((envelopingTensorEvaluationInductionBilinear k R M)
+          (@HSMul.hSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R) (AlgebraEnvelopingRing k R)
+            (@instHSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R) DistribMulAction.toDistribSMul.toSMul) (MulOpposite.op r) x))
+        y =
+      ((envelopingTensorEvaluationInductionBilinear k R M) x) (r • y)
+in the application
+  balancedTensorLift k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
+    (envelopingTensorEvaluationInductionBilinear k R M) ⋯
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:122:50: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((dualTensorHom ?m.217 ?m.218 ?m.219) (?f ⊗ₜ[?m.217] ?n)) ?m
+in the target expression
+  (fun x =>
+          (have this := φ;
+            this)
+            x)
+        (MulOpposite.op 1 • m) •
+      MulOpposite.unop (MulOpposite.op y) =
+    (fun x =>
+        (have this := (dualTensorHom k M R) (φ ⊗ₜ[k] y);
+          this)
+          x)
+      m
+
+case refine_2
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+z : Module.Dual k M ⊗[k] R
+this✝¹ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) := envelopingBalancedTensorHomModule k R M R
+this✝ : IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarTower k R M R
+this : SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarCommute k R M R
+φ : Module.Dual k M
+y : R
+m : M
+⊢ (fun x =>
+          (have this := φ;
+            this)
+            x)
+        (MulOpposite.op 1 • m) •
+      MulOpposite.unop (MulOpposite.op y) =
+    (fun x =>
+        (have this := (dualTensorHom k M R) (φ ⊗ₜ[k] y);
+          this)
+          x)
+      m
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:164:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun z => (envelopingTensorEvaluationInductionInverse k R M) ((envelopingTensorEvaluationInduction k R M) z) = z) 0
+
+case refine_1
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : IsScalarTower k Rᵐᵒᵖ M
+inst✝ : Module.Finite k M
+z : BalancedTensorSpace k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
+this✝¹ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) := envelopingBalancedTensorHomModule k R M R
+this✝ : IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarTower k R M R
+this : SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarCommute k R M R
+⊢ (fun z => (envelopingTensorEvaluationInductionInverse k R M) ((envelopingTensorEvaluationInduction k R M) z) = z) 0
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:194:37: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (envelopingTensorEvaluationInductionInverse k R M)
+    ((envelopingTensorEvaluationInduction k R M)
+      (balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ))
+in the target expression
+  (envelopingTensorEvaluationInductionInverse k R M)
+        ((envelopingTensorEvaluationInduction k R M)
+          (((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) t)) +
+      (envelopingTensorEvaluationInductionInverse k R M)
+        ((envelopingTensorEvaluationInduction k R M)
+          (((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) s)) =
+    ((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) t +
+      ((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) s
+
+case refine_2.refine_3
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : IsScalarTower k Rᵐᵒᵖ M
+inst✝ : Module.Finite k M
+z : BalancedTensorSpace k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
+this✝¹ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) := envelopingBalancedTensorHomModule k R M R
+this✝ : IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarTower k R M R
+this : SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarCommute k R M R
+t✝ : AlgebraEnvelopingRing k R
+φ : BalancedTensorHom k R M k
+t s : R ⊗[k] Rᵐᵒᵖ
+ht :
+  (envelopingTensorEvaluationInductionInverse k R M)
+      ((envelopingTensorEvaluationInduction k R M)
+        (balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ)) =
+    balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ
+hs :
+  (envelopingTensorEvaluationInductionInverse k R M)
+      ((envelopingTensorEvaluationInduction k R M)
+        (balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) s φ)) =
+    balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) s φ
+⊢ (envelopingTensorEvaluationInductionInverse k R M)
+        ((envelopingTensorEvaluationInduction k R M)
+          (((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) t)) +
+      (envelopingTensorEvaluationInductionInverse k R M)
+        ((envelopingTensorEvaluationInduction k R M)
+          (((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) s)) =
+    ((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) t +
+      ((balancedTensorBilinear k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)).flip φ) s

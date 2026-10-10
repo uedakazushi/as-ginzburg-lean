@@ -1,0 +1,80 @@
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:14:18: error: Application type mismatch: The argument
+  M
+has type
+  ModuleCat.{z, v} Rᵐᵒᵖ
+of sort `Type (max v (z + 1))` but is expected to have type
+  ModuleCat.{w, v} Rᵐᵒᵖ
+of sort `Type (max v (w + 1))` in the application
+  P ⟶ M
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:22:8: error(lean.unknownIdentifier): Unknown identifier `π.hom.map_smul`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:24:71: error(lean.unknownIdentifier): Unknown identifier `M`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:26:62: error(lean.unknownIdentifier): Unknown identifier `M`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:28:12: error(lean.unknownIdentifier): Unknown identifier `π.hom.restrictScalars`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:41:44: error: typeclass instance problem is stuck, it is often due to metavariables
+  Zero ?m.106
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:45:59: warning: This simp argument is unused:
+  map_add
+
+Hint: Omit it from the simp argument list.
+  simp only [m̵a̵p̵_̵a̵d̵d̵,̵ ̵hpx, hqy]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:45:73: warning: This simp argument is unused:
+  hqy
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, hpx,̵ ̵h̵q̵y̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:52:8: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:54:5: warning: unused variable `hker`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:55:13: warning: unused variable `hx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:58:2: warning: 'have hsub := hker (x - y) (by simp only [map_sub, hxy, sub_self])' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:59:2: warning: 'simpa only [sub_add_cancel] using (balancedTensorIdealAction k R P J).add_mem hsub hy' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:58:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:59:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:61:18: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:64:37: warning: unused variable `hx`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:69:23: error: Application type mismatch: The argument
+  (balancedTensorIdealQuotientMapLeft k R J) ?m.34
+has type
+  BalancedTensorIdealQuotient k R (↑?m.32) J
+but is expected to have type
+  ?m.26 → ?m.27
+in the application
+  Function.Bijective ((balancedTensorIdealQuotientMapLeft k R J) ?m.34)
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:87:4: error: Function expected at
+  (balancedTensorIdealQuotientMapLeft k R J) ?m.58
+but this term has type
+  BalancedTensorIdealQuotient k R (↑?m.56) J
+
+Note: Expected a function because this term is being applied to the argument
+  (balancedTensorQuotientEquiv k R P J x)
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:105:14: error(lean.unknownIdentifier): Unknown constant `ModuleCat.epi_iff_surjective`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:104:61: error: unsolved goals
+k : Type u
+inst✝⁴ : Field k
+R : Type v
+inst✝³ : Ring R
+inst✝² : Algebra k R
+J : Ideal R
+inst✝¹ : J.IsTwoSided
+P : ModuleCat Rᵐᵒᵖ
+π : P ⟶ sorry
+inst✝ : Epi π
+hker : ∀ (x : ↑P), (ConcreteCategory.hom π) x = 0 → x ∈ balancedTensorIdealAction k R (↑P) J
+⊢ IsIso ((balancedTensorLeftFunctor k R (R ⧸ J)).map π)

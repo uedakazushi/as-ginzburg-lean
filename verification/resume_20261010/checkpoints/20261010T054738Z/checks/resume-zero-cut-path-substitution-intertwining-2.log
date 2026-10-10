@@ -1,0 +1,108 @@
+work/ASGinzburgDraft/ZeroCutPathSubstitutionIntertwining.lean:102:47: error: don't know how to synthesize placeholder for argument `property`
+context:
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+F : (Q.unrolledJacobianZAlgebra k φ).Isomorphism (Q.unrolledJacobianZAlgebra k ψ)
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+ha :
+  ∀ (a : Q.Arrow) (h : Q.cut a = false),
+    (Q.zeroCutJacobianComponentProjection k ψ (Q.source a) (Q.target a))
+        ((Q.pathCutSubstitution k σ hc (Q.source a) (Q.target a) 0) (Q.zeroCutArrowElement k a h)) =
+      (F.map ↑↑(Q.source a) ↑↑(Q.target a))
+        ((Q.zeroCutJacobianComponentProjection k φ (Q.source a) (Q.target a)) (Q.zeroCutArrowElement k a h))
+i j : Q.Vertex
+f : ↥(Q.pathCutComponent k i j 0)
+hf : ↑f ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | ↑p.cutDegree = 0})
+L : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+M : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+x✝ x y : Q.PathComponent k i j
+hx' : x ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+hy' : y ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+ihx : ∀ (hx : x ∈ Q.pathCutComponent k i j 0), L ⟨x, hx⟩ = M ⟨x, hx⟩
+ihy : ∀ (hx : y ∈ Q.pathCutComponent k i j 0), L ⟨y, hx⟩ = M ⟨y, hx⟩
+hx : x + y ∈ Q.pathCutComponent k i j 0
+⊢ y ∈ Q.pathCutComponent k i j 0
+work/ASGinzburgDraft/ZeroCutPathSubstitutionIntertwining.lean:102:39: error: don't know how to synthesize placeholder for argument `property`
+context:
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+F : (Q.unrolledJacobianZAlgebra k φ).Isomorphism (Q.unrolledJacobianZAlgebra k ψ)
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+ha :
+  ∀ (a : Q.Arrow) (h : Q.cut a = false),
+    (Q.zeroCutJacobianComponentProjection k ψ (Q.source a) (Q.target a))
+        ((Q.pathCutSubstitution k σ hc (Q.source a) (Q.target a) 0) (Q.zeroCutArrowElement k a h)) =
+      (F.map ↑↑(Q.source a) ↑↑(Q.target a))
+        ((Q.zeroCutJacobianComponentProjection k φ (Q.source a) (Q.target a)) (Q.zeroCutArrowElement k a h))
+i j : Q.Vertex
+f : ↥(Q.pathCutComponent k i j 0)
+hf : ↑f ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | ↑p.cutDegree = 0})
+L : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+M : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+x✝ x y : Q.PathComponent k i j
+hx' : x ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+hy' : y ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+ihx : ∀ (hx : x ∈ Q.pathCutComponent k i j 0), L ⟨x, hx⟩ = M ⟨x, hx⟩
+ihy : ∀ (hx : y ∈ Q.pathCutComponent k i j 0), L ⟨y, hx⟩ = M ⟨y, hx⟩
+hx : x + y ∈ Q.pathCutComponent k i j 0
+⊢ x ∈ Q.pathCutComponent k i j 0
+work/ASGinzburgDraft/ZeroCutPathSubstitutionIntertwining.lean:102:27: error: don't know how to synthesize placeholder for argument `property`
+context:
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+F : (Q.unrolledJacobianZAlgebra k φ).Isomorphism (Q.unrolledJacobianZAlgebra k ψ)
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+ha :
+  ∀ (a : Q.Arrow) (h : Q.cut a = false),
+    (Q.zeroCutJacobianComponentProjection k ψ (Q.source a) (Q.target a))
+        ((Q.pathCutSubstitution k σ hc (Q.source a) (Q.target a) 0) (Q.zeroCutArrowElement k a h)) =
+      (F.map ↑↑(Q.source a) ↑↑(Q.target a))
+        ((Q.zeroCutJacobianComponentProjection k φ (Q.source a) (Q.target a)) (Q.zeroCutArrowElement k a h))
+i j : Q.Vertex
+f : ↥(Q.pathCutComponent k i j 0)
+hf : ↑f ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | ↑p.cutDegree = 0})
+L : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+M : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+x✝ x y : Q.PathComponent k i j
+hx' : x ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+hy' : y ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+ihx : ∀ (hx : x ∈ Q.pathCutComponent k i j 0), L ⟨x, hx⟩ = M ⟨x, hx⟩
+ihy : ∀ (hx : y ∈ Q.pathCutComponent k i j 0), L ⟨y, hx⟩ = M ⟨y, hx⟩
+hx : x + y ∈ Q.pathCutComponent k i j 0
+⊢ y ∈ Q.pathCutComponent k i j 0
+work/ASGinzburgDraft/ZeroCutPathSubstitutionIntertwining.lean:102:19: error: don't know how to synthesize placeholder for argument `property`
+context:
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+F : (Q.unrolledJacobianZAlgebra k φ).Isomorphism (Q.unrolledJacobianZAlgebra k ψ)
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+ha :
+  ∀ (a : Q.Arrow) (h : Q.cut a = false),
+    (Q.zeroCutJacobianComponentProjection k ψ (Q.source a) (Q.target a))
+        ((Q.pathCutSubstitution k σ hc (Q.source a) (Q.target a) 0) (Q.zeroCutArrowElement k a h)) =
+      (F.map ↑↑(Q.source a) ↑↑(Q.target a))
+        ((Q.zeroCutJacobianComponentProjection k φ (Q.source a) (Q.target a)) (Q.zeroCutArrowElement k a h))
+i j : Q.Vertex
+f : ↥(Q.pathCutComponent k i j 0)
+hf : ↑f ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | ↑p.cutDegree = 0})
+L : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+M : ↥(Q.pathCutComponent k i j 0) →ₗ[k] (Q.unrolledJacobianZAlgebra k ψ).Hom ↑↑i ↑↑j := ⋯
+x✝ x y : Q.PathComponent k i j
+hx' : x ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+hy' : y ∈ Submodule.span k {x | ∃ p, ↑p.cutDegree = 0 ∧ Finsupp.single p 1 = x}
+ihx : ∀ (hx : x ∈ Q.pathCutComponent k i j 0), L ⟨x, hx⟩ = M ⟨x, hx⟩
+ihy : ∀ (hx : y ∈ Q.pathCutComponent k i j 0), L ⟨y, hx⟩ = M ⟨y, hx⟩
+hx : x + y ∈ Q.pathCutComponent k i j 0
+⊢ x ∈ Q.pathCutComponent k i j 0

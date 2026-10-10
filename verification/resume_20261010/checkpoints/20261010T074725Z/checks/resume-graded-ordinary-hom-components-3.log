@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/GradedOrdinaryHomComponents.lean:57:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ModuleCat.Hom.hom f) (↑r • ?x)
+in the target expression
+  (homogeneousComponent k (↑N.ringModule) N.grade (p + s + q)) ((ModuleCat.Hom.hom f) (r • ↑x)) =
+    ↑r • (homogeneousComponent k (↑N.ringModule) N.grade (s + q)) ((ConcreteCategory.hom f) ↑x)
+
+case homogeneous.homogeneous
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M N : GradedOrdinaryModuleData k R G
+f : M.ringModule ⟶ N.ringModule
+q : ℤ
+this✝ : DirectSum.Decomposition M.grade := M.decomposition
+this : DirectSum.Decomposition N.grade := N.decomposition
+p : ℤ
+r : ↥(G p)
+s : ℤ
+x : ↥(M.grade s)
+⊢ (homogeneousComponent k (↑N.ringModule) N.grade (p + s + q)) ((ModuleCat.Hom.hom f) (r • ↑x)) =
+    ↑r • (homogeneousComponent k (↑N.ringModule) N.grade (s + q)) ((ConcreteCategory.hom f) ↑x)

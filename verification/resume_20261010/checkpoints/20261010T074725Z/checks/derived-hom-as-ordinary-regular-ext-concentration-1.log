@@ -1,0 +1,48 @@
+work/ASGinzburgDraft/ASCutOrdinaryRegularExtConcentration.lean:32:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Abelian.Ext.comp ?α ?β ⋯).comp ?γ ?h₁₃
+in the target expression
+  (fun x => x.comp (Abelian.Ext.mk₀ iso.inv) ⋯) (e.comp (Abelian.Ext.mk₀ iso.hom) ⋯) =
+    (fun x => x.comp (Abelian.Ext.mk₀ iso.inv) ⋯) 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+n : ℕ
+hn : n ≠ 3
+e :
+  Abelian.Ext (cutOrdinarySimple A Q hAS (i, 0)) (ModuleCat.of (CutGradedAlgebra A Q hAS)ᵐᵒᵖ (CutGradedAlgebra A Q hAS))
+    n
+iso : ModuleCat.of (CutGradedAlgebra A Q hAS)ᵐᵒᵖ (CutGradedAlgebra A Q hAS) ≅
+  ModuleCat.of (CutGradedAlgebra A Q hAS)ᵐᵒᵖ (CutGradedAlgebra A Q hAS)ᵐᵒᵖ :=
+  (rightRegularOppositeLinearEquiv (CutGradedAlgebra A Q hAS)).toModuleIso
+hz : e.comp (Abelian.Ext.mk₀ iso.hom) ⋯ = 0
+he :
+  (fun x => x.comp (Abelian.Ext.mk₀ iso.inv) ⋯) (e.comp (Abelian.Ext.mk₀ iso.hom) ⋯) =
+    (fun x => x.comp (Abelian.Ext.mk₀ iso.inv) ⋯) 0
+⊢ e = 0
+work/ASGinzburgDraft/ASCutOrdinaryRegularExtConcentration.lean:49:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Abelian.Ext.comp ?α (Abelian.Ext.comp ?β ?γ ⋯) ?h₁₃
+in the target expression
+  (fun x => (Abelian.Ext.mk₀ iso.hom).comp x ⋯) ((Abelian.Ext.mk₀ iso.inv).comp e ⋯) =
+    (fun x => (Abelian.Ext.mk₀ iso.hom).comp x ⋯) 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+n : ℕ
+hn : n ≠ 3
+e :
+  Abelian.Ext (cutSemisimpleRightObject A Q hAS) (ModuleCat.of (CutGradedAlgebra A Q hAS)ᵐᵒᵖ (CutGradedAlgebra A Q hAS))
+    n
+iso : cutSemisimpleRightObject A Q hAS ≅ ⨁ fun i => cutOrdinarySimple A Q hAS (i, 0) :=
+  cutSemisimpleRightVertexIso A Q hAS
+hz : (Abelian.Ext.mk₀ iso.inv).comp e ⋯ = 0
+he :
+  (fun x => (Abelian.Ext.mk₀ iso.hom).comp x ⋯) ((Abelian.Ext.mk₀ iso.inv).comp e ⋯) =
+    (fun x => (Abelian.Ext.mk₀ iso.hom).comp x ⋯) 0
+⊢ e = 0

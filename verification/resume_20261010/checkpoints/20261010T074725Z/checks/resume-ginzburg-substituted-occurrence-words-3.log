@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean:117:6: error: unsolved goals
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+b : Q.Arrow
+i j : Q.Vertex
+h : Q.GinzburgPathComponent k (Q.target b) i
+p : Q.Path i (Q.source b)
+ih :
+  ∀ (h : Q.GinzburgPathComponent k (Q.source b) i),
+    (Q.ginzburgPathWordMap k (Q.target b) (Q.source b)) ((Q.ginzburgSubstitutedOccurrenceOperator k E b p) h) =
+      (wordSubstitutedOccurrenceContextWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) b p.toList)
+        ((Q.ginzburgPathWordMap k (Q.source b) i) h)
+⊢ (wordConcatenation
+        ((wordConcatenation
+            (wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E)
+              (Path.nil (Q.target b)).toList))
+          ((Q.ginzburgPathWordMap k (Q.target b) i) h)))
+      (wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList) =
+    (wordConcatenation ((Q.ginzburgPathWordMap k (Q.target b) i) h))
+      (wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList)

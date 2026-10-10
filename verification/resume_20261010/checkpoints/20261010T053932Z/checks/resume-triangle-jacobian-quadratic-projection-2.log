@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/TriangleJacobianQuadraticProjection.lean:63:4: error: Tactic `rfl` failed: The left-hand side
+  Finsupp.single ((triangleXPath xy.1).comp (triangleYPath xy.2)) (1 * 1)
+is not definitionally equal to the right-hand side
+  Finsupp.single (triangleXYPath xy) 1
+
+case a
+k : Type u
+inst✝ : Field k
+φ : ↥(triangle333.Potential k)
+xy : Fin 3 × Fin 3
+f : ↥(triangle333.pathCutComponent k 0 1 0) := ⟨Finsupp.single (triangleXPath xy.1) 1, ⋯⟩
+g : ↥(triangle333.pathCutComponent k 1 2 0) := ⟨Finsupp.single (triangleYPath xy.2) 1, ⋯⟩
+h :
+  (triangle333.homogeneousJacobianUnrolledEquiv k φ (0, 0) (2, 0))
+      (Submodule.Quotient.mk (((triangle333.pathCutCompBetweenLinear k) g) f)) =
+    ((triangle333.unrolledJacobianZAlgebra k φ).comp
+        ((triangle333.homogeneousJacobianUnrolledEquiv k φ (1, 0) (2, 0)) (Submodule.Quotient.mk g)))
+      ((triangle333.homogeneousJacobianUnrolledEquiv k φ (0, 0) (1, 0)) (Submodule.Quotient.mk f))
+⊢ Finsupp.single ((triangleXPath xy.1).comp (triangleYPath xy.2)) (1 * 1) = Finsupp.single (triangleXYPath xy) 1

@@ -1,0 +1,65 @@
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean:120:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.ginzburgPathWordMap ?k (Q.target ?a) (Q.source ?a)) ((Q.ginzburgSubstitutedOccurrenceContextMap ?k ?E ?C) ?h)
+in the target expression
+  (Q.ginzburgPathWordMap k (Q.target b) (Q.source b))
+      ((List.map (Q.ginzburgSubstitutedOccurrenceContextMap k E)
+            (if h : True then
+              [{ beforePath := Path.transport ⋯ ⋯ p, afterPath := Path.transport ⋯ ⋯ (Path.nil (Q.target b)) }]
+            else [])).sum
+        h) =
+    (wordSubstitutedOccurrenceContextWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) b [b])
+      ((wordConcatenation ((Q.ginzburgPathWordMap k (Q.target b) i) h))
+        (wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList))
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+b : Q.Arrow
+i j : Q.Vertex
+h : Q.GinzburgPathComponent k (Q.target b) i
+p : Q.Path i (Q.source b)
+ih :
+  ∀ (h : Q.GinzburgPathComponent k (Q.source b) i),
+    (Q.ginzburgPathWordMap k (Q.target b) (Q.source b)) ((Q.ginzburgSubstitutedOccurrenceOperator k E b p) h) =
+      (wordSubstitutedOccurrenceContextWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) b p.toList)
+        ((Q.ginzburgPathWordMap k (Q.source b) i) h)
+⊢ (Q.ginzburgPathWordMap k (Q.target b) (Q.source b))
+      ((List.map (Q.ginzburgSubstitutedOccurrenceContextMap k E)
+            (if h : True then
+              [{ beforePath := Path.transport ⋯ ⋯ p, afterPath := Path.transport ⋯ ⋯ (Path.nil (Q.target b)) }]
+            else [])).sum
+        h) =
+    (wordSubstitutedOccurrenceContextWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) b [b])
+      ((wordConcatenation ((Q.ginzburgPathWordMap k (Q.target b) i) h))
+        (wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList))
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean:119:19: warning: This simp argument is unused:
+  dif_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵d̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵L̵i̵s̵t̵.̵m̵a̵p̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵s̵u̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵]̵[̲L̲i̲s̲t̲.̲m̲a̲p̲_̲s̲i̲n̲g̲l̲e̲t̲o̲n̲,̲ ̲L̲i̲s̲t̲.̲s̲u̲m̲_̲s̲i̲n̲g̲l̲e̲t̲o̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean:119:31: warning: This simp argument is unused:
+  List.map_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [dif_pos r̵f̵l̵,̵L̵i̵s̵t̵.̵m̵a̵p̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵s̵u̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵]̵r̲f̲l̲,̲ ̲L̲i̲s̲t̲.̲s̲u̲m̲_̲s̲i̲n̲g̲l̲e̲t̲o̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean:119:50: warning: This simp argument is unused:
+  List.sum_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [dif_pos r̵f̵l̵,̵L̵i̵s̵t̵.̵m̵a̵p̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵,̵L̵i̵s̵t̵.̵s̵u̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵]̵r̲f̲l̲,̲ ̲L̲i̲s̲t̲.̲m̲a̲p̲_̲s̲i̲n̲g̲l̲e̲t̲o̲n̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean:126:46: warning: This simp argument is unused:
+  wordSubstitutionBetweenWord
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵a̵b̵,̵h̵b̵a̵,̵w̵o̵r̵d̵S̵u̵b̵s̵t̵i̵t̵u̵t̵e̵d̵O̵c̵c̵u̵r̵r̵e̵n̵c̵e̵C̵o̵n̵t̵e̵x̵t̵W̵o̵r̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵w̵o̵r̵d̵S̵u̵b̵s̵t̵i̵t̵u̵t̵e̵d̵O̵c̵c̵u̵r̵r̵e̵n̵c̵e̵C̵o̵n̵t̵e̵x̵t̵A̵u̵x̵,̵w̵o̵r̵d̵S̵u̵b̵s̵t̵i̵t̵u̵t̵i̵o̵n̵B̵e̵t̵w̵e̵e̵n̵W̵o̵r̵d̵]̵[̲h̲a̲b̲,̲ ̲h̲b̲a̲,̲ ̲w̲o̲r̲d̲S̲u̲b̲s̲t̲i̲t̲u̲t̲e̲d̲O̲c̲c̲u̲r̲r̲e̲n̲c̲e̲C̲o̲n̲t̲e̲x̲t̲W̲o̲r̲d̲,̲ ̲w̲o̲r̲d̲S̲u̲b̲s̲t̲i̲t̲u̲t̲e̲d̲O̲c̲c̲u̲r̲r̲e̲n̲c̲e̲C̲o̲n̲t̲e̲x̲t̲A̲u̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,73 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationHom.lean:115:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun t => (envelopingBalancedTensorUncurry k R M P X (envelopingBalancedTensorCurry k R M P X f)) t = f t) 0
+
+case h.refine_1
+k : Type u
+inst✝¹⁴ : Field k
+R : Type v
+inst✝¹³ : Ring R
+inst✝¹² : Algebra k R
+M : Type w
+inst✝¹¹ : AddCommGroup M
+inst✝¹⁰ : Module k M
+inst✝⁹ : Module Rᵐᵒᵖ M
+inst✝⁸ : IsScalarTower k Rᵐᵒᵖ M
+X : Type z
+inst✝⁷ : AddCommGroup X
+inst✝⁶ : Module k X
+inst✝⁵ : Module Rᵐᵒᵖ X
+inst✝⁴ : IsScalarTower k Rᵐᵒᵖ X
+P : Type u_1
+inst✝³ : AddCommGroup P
+inst✝² : Module k P
+inst✝¹ : Module (AlgebraEnvelopingRing k R) P
+inst✝ : IsScalarTower k (AlgebraEnvelopingRing k R) P
+this✝⁵ : Module R P := envelopingLeftModule k R P
+this✝⁴ : IsScalarTower k R P := envelopingLeftScalarTower k R P
+this✝³ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) := envelopingBalancedTensorHomModule k R M X
+this✝² : IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) :=
+  envelopingTensorEvaluationHomScalarTower k R M X
+this✝¹ : SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M X) :=
+  envelopingTensorEvaluationHomScalarCommute k R M X
+this✝ : Module Rᵐᵒᵖ (EnvelopingBalancedTensorSpace k R M P) := envelopingBalancedTensorRightModule k R M P
+this : IsScalarTower k Rᵐᵒᵖ (EnvelopingBalancedTensorSpace k R M P) := envelopingBalancedTensorRightScalarTower k R M P
+f : EnvelopingBalancedTensorSpace k R M P →ₗ[Rᵐᵒᵖ] X
+t : EnvelopingBalancedTensorSpace k R M P
+⊢ (fun t => (envelopingBalancedTensorUncurry k R M P X (envelopingBalancedTensorCurry k R M P X f)) t = f t) 0
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationHom.lean:127:29: warning: This simp argument is unused:
+  LinearMap.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [map_zero, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵ ̵add_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationHom.lean:127:50: warning: This simp argument is unused:
+  add_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [map_zero, LinearMap.add_apply,̵ ̵a̵d̵d̵_̵z̵e̵r̵o̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationHom.lean:140:29: warning: This simp argument is unused:
+  LinearMap.smul_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [map_zero, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵s̵m̵u̵l̵_̵a̵p̵p̵l̵y̵,̵ ̵smul_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationHom.lean:140:51: warning: This simp argument is unused:
+  smul_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [map_zero, LinearMap.smul_apply,̵ ̵s̵m̵u̵l̵_̵z̵e̵r̵o̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationHom.lean:145:50: warning: This simp argument is unused:
+  smul_add
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, LinearMap.smul_apply,̵ ̵s̵m̵u̵l̵_̵a̵d̵d̵] at ha hb ⊢
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

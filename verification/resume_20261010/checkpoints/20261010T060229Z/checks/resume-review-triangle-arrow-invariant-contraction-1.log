@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/TriangleArrowInvariantContraction.lean:28:48: error(lean.unknownIdentifier): Unknown identifier `smul_sum`
+work/ASGinzburgDraft/TriangleArrowInvariantContraction.lean:28:17: error: unsolved goals
+k : Type u
+inst✝² : Field k
+M : Type v
+inst✝¹ : AddCommGroup M
+inst✝ : Module k M
+B : ArrowSpace333 k →ₗ[k] ArrowSpace333 k →ₗ[k] M
+x y : ArrowSpace333 k
+j : Fin 3
+hj : j ∈ Finset.univ
+⊢ x j • ∑ x, y x • (B (Pi.single j 1)) (Pi.single x 1) = ∑ l, (x j * y l) • (B (Pi.single j 1)) (Pi.single l 1)
+work/ASGinzburgDraft/TriangleArrowInvariantContraction.lean:28:57: warning: This simp argument is unused:
+  smul_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [̵m̵a̵p̵_̵s̵u̵m̵,̵m̵a̵p̵_̵s̵m̵u̵l̵,̵s̵m̵u̵l̵_̵s̵u̵m̵,̵s̵m̵u̵l̵_̵s̵m̵u̵l̵]̵[̲m̲a̲p̲_̲s̲u̲m̲,̲ ̲m̲a̲p̲_̲s̲m̲u̲l̲,̲ ̲s̲m̲u̲l̲_̲s̲u̲m̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleArrowInvariantContraction.lean:37:11: error: Tactic `simp` failed with a nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information

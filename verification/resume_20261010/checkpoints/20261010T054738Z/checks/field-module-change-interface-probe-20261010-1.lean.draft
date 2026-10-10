@@ -1,0 +1,35 @@
+import work.ASGinzburgDraft.BalancedTensorFieldModuleChange
+import ASGinzburg.BalancedTensorLeftMaps
+
+open CategoryTheory
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M M' : Type w) [AddCommGroup M] [Module Rᵐᵒᵖ M]
+  [AddCommGroup M'] [Module Rᵐᵒᵖ M']
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+noncomputable def researchBalancedTensorLeftMap
+    (P : Module k M) (P' : Module k M')
+    (hP : letI := P; IsScalarTower k Rᵐᵒᵖ M)
+    (hP' : letI := P'; IsScalarTower k Rᵐᵒᵖ M') (f : M →ₗ[Rᵐᵒᵖ] M') :
+    ModuleCat.of k (@ASGinzburg.BalancedTensorSpace k _ R _ M _ P _ N _ _ _) ⟶
+      ModuleCat.of k (@ASGinzburg.BalancedTensorSpace k _ R _ M' _ P' _ N _ _ _) := by
+  letI := P
+  letI := P'
+  letI := hP
+  letI := hP'
+  exact ModuleCat.ofHom (ASGinzburg.balancedTensorMapLeft k R N f)
+
+example (P Q : Module k M) (P' Q' : Module k M')
+    (h : P = Q) (h' : P' = Q')
+    (hP : letI := P; IsScalarTower k Rᵐᵒᵖ M)
+    (hQ : letI := Q; IsScalarTower k Rᵐᵒᵖ M)
+    (hP' : letI := P'; IsScalarTower k Rᵐᵒᵖ M')
+    (hQ' : letI := Q'; IsScalarTower k Rᵐᵒᵖ M') (f : M →ₗ[Rᵐᵒᵖ] M') :
+    researchBalancedTensorLeftMap k R M M' N P P' hP hP' f ≫
+      (ASGinzburg.balancedTensorFieldModuleChangeIso k R M' N P' Q' h').hom =
+      (ASGinzburg.balancedTensorFieldModuleChangeIso k R M N P Q h).hom ≫
+        researchBalancedTensorLeftMap k R M M' N Q Q' hQ hQ' f := by
+  cases h
+  cases h'
+  simp [ASGinzburg.balancedTensorFieldModuleChangeIso]

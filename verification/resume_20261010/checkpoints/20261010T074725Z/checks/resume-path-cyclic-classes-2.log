@@ -1,0 +1,16 @@
+work/ASGinzburgDraft/PathCyclicClasses.lean:40:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathComponentAlgebra k).totalComponent i i (((Q.pathComponentAlgebra k).comp g) f)
+in the target expression
+  (Q.pathComponentAlgebra k).totalComponent i i (((Q.pathComp k) g) f) -
+      (Q.pathComponentAlgebra k).totalComponent j j (((Q.pathComp k) f) g) ∈
+    algebraCommutatorSubspace k (Q.PathRing k)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : Q.Vertex
+f : Q.PathComponent k i j
+g : Q.PathComponent k j i
+⊢ (Q.pathComponentAlgebra k).totalComponent i i (((Q.pathComp k) g) f) -
+      (Q.pathComponentAlgebra k).totalComponent j j (((Q.pathComp k) f) g) ∈
+    algebraCommutatorSubspace k (Q.PathRing k)

@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/TriangleGinzburgFoundationPotentialOrbit.lean:57:6: error(lean.unknownIdentifier): Unknown constant `Module.finrank_span_eq_card`
+work/ASGinzburgDraft/TriangleGinzburgFoundationPotentialOrbit.lean:43:53: error: unsolved goals
+k : Type u
+inst✝ : Field k
+φ : ↥(triangle333.Potential k)
+hG : triangle333.GinzburgRegular k φ
+hle :
+  Submodule.span k
+      (Set.range ((tensorToCutRelations333 k) (triangleGinzburgFoundationTensorInOriginalCoordinates k φ hG))) ≤
+    Submodule.span k (Set.range ((tensorToCutRelations333 k) ((triangleTensorPotentialEquiv k).symm φ)))
+⊢ Module.finrank k
+      ↥(Submodule.span k
+          (Set.range ((tensorToCutRelations333 k) (triangleGinzburgFoundationTensorInOriginalCoordinates k φ hG)))) =
+    Module.finrank k
+      ↥(Submodule.span k (Set.range ((tensorToCutRelations333 k) ((triangleTensorPotentialEquiv k).symm φ))))

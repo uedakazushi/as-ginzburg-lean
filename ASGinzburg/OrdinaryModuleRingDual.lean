@@ -1,0 +1,72 @@
+import Mathlib.Algebra.Category.ModuleCat.Basic
+import Mathlib.Algebra.Module.Opposite
+import Mathlib.LinearAlgebra.StdBasis
+import Mathlib.CategoryTheory.Preadditive.Opposite
+
+/-! The genuine ring dual of a left module has the opposite-ring action
+by right multiplication in the value ring. Precomposition is an actual
+opposite-ring linear contravariant functor. No commutativity is assumed. -/
+namespace ASGinzburg
+open CategoryTheory Opposite
+universe v
+variable (R : Type v) [Ring R]
+
+noncomputable abbrev ordinaryRingDual (P : ModuleCat.{v} R) : ModuleCat.{v} Rᵐᵒᵖ :=
+  ModuleCat.of Rᵐᵒᵖ (P →ₗ[R] R)
+
+@[simp] theorem ordinaryRingDual_smul_apply (P : ModuleCat.{v} R)
+    (b : Rᵐᵒᵖ) (f : ordinaryRingDual R P) (x : P) :
+    (b • f) x = f x * b.unop := rfl
+
+def ordinaryRingDualMap {P Q : ModuleCat.{v} R} (f : P ⟶ Q) :
+    ordinaryRingDual R Q →ₗ[Rᵐᵒᵖ] ordinaryRingDual R P where
+  toFun g := g.comp f.hom
+  map_add' := fun _ _ => rfl
+  map_smul' := fun _ _ => rfl
+
+@[simp] theorem ordinaryRingDualMap_apply {P Q : ModuleCat.{v} R} (f : P ⟶ Q)
+    (g : ordinaryRingDual R Q) (x : P) :
+    ordinaryRingDualMap R f g x = g (f x) := rfl
+
+noncomputable def ordinaryRingDualFunctor : (ModuleCat.{v} R)ᵒᵖ ⥤ ModuleCat.{v} Rᵐᵒᵖ where
+  obj P := ordinaryRingDual R P.unop
+  map f := ModuleCat.ofHom (ordinaryRingDualMap R f.unop)
+  map_id P := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro g
+    apply LinearMap.ext
+    intro x
+    rfl
+  map_comp f g := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    apply LinearMap.ext
+    intro x
+    rfl
+
+instance ordinaryRingDualFunctorAdditive : (ordinaryRingDualFunctor R).Additive where
+  map_add := by
+    intro P Q f g
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    apply LinearMap.ext
+    intro x
+    exact h.map_add (f.unop x) (g.unop x)
+
+def rightRegularOppositeLinearEquiv : R ≃ₗ[Rᵐᵒᵖ] Rᵐᵒᵖ where
+  toFun := MulOpposite.op
+  invFun := MulOpposite.unop
+  left_inv := MulOpposite.unop_op
+  right_inv := MulOpposite.op_unop
+  map_add' := MulOpposite.op_add
+  map_smul' := fun _ _ => rfl
+
+noncomputable def ordinaryRingDualFiniteFreeEquiv (n : ℕ) :
+    ordinaryRingDual R (ModuleCat.of R (Fin n → R)) ≃ₗ[Rᵐᵒᵖ] (Fin n → Rᵐᵒᵖ) :=
+  ((Pi.basisFun R (Fin n)).constr Rᵐᵒᵖ).symm.trans
+    (LinearEquiv.piCongrRight (fun _ => rightRegularOppositeLinearEquiv R))
+
+end ASGinzburg

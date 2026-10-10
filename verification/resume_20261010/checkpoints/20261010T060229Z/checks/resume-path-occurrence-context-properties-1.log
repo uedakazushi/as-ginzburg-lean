@@ -1,0 +1,71 @@
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:12:2: error: Unnecessary `generalizing` argument: Variable `C` is generalized automatically
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:22:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (D.beforePath.comp ((nil (Q.source b)).snoc b ⋯)).comp D.afterPath
+in the target expression
+  ((D.beforePath.snoc b ⋯).comp D.afterPath).snoc a ha = p.snoc a ha
+
+case snoc.inl
+Q : CutQuiver
+b : Q.Arrow
+i j✝ j : Q.Vertex
+p : Q.Path i j
+a : Q.Arrow
+ha : Q.source a = j
+ih : ∀ C ∈ occurrenceContexts Q b p, (C.beforePath.comp ((nil (Q.source b)).snoc b ⋯)).comp C.afterPath = p
+D : Q.PathOccurrenceContext b i j
+hD : D ∈ occurrenceContexts Q b p
+hC✝ :
+  PathOccurrenceContext.snoc Q D a ha ∈
+    List.map (fun C => PathOccurrenceContext.snoc Q C a ha) (occurrenceContexts Q b p) ++
+      if h : a = b then [{ beforePath := transport ⋯ ⋯ p, afterPath := transport ⋯ ⋯ (nil (Q.target b)) }] else []
+hC :
+  PathOccurrenceContext.snoc Q D a ha ∈
+    List.map (fun C => PathOccurrenceContext.snoc Q C a ha) (occurrenceContexts Q b p)
+⊢ ((D.beforePath.snoc b ⋯).comp D.afterPath).snoc a ha = p.snoc a ha
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:26:8: error: Tactic `subst` failed: did not find equation for eliminating 'C'
+
+case pos
+Q : CutQuiver
+b : Q.Arrow
+i j✝ j : Q.Vertex
+p : Q.Path i j
+ih : ∀ C ∈ occurrenceContexts Q b p, (C.beforePath.comp ((nil (Q.source b)).snoc b ⋯)).comp C.afterPath = p
+ha : Q.source b = j
+C : Q.PathOccurrenceContext b i (Q.target b)
+hC✝ :
+  C ∈
+    List.map (fun C => PathOccurrenceContext.snoc Q C b ha) (occurrenceContexts Q b p) ++
+      if h : b = b then [{ beforePath := transport ⋯ ⋯ p, afterPath := transport ⋯ ⋯ (nil (Q.target b)) }] else []
+hC : C ∈ if h : True then [{ beforePath := transport ⋯ ⋯ p, afterPath := transport ⋯ ⋯ (nil (Q.target b)) }] else []
+⊢ (C.beforePath.comp ((nil (Q.source b)).snoc b ⋯)).comp C.afterPath = p.snoc b ha
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:25:19: warning: This simp argument is unused:
+  dif_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [d̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵ ̵List.mem_singleton] at hC
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:25:32: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [dif_pos rfl,̵ ̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵] at hC
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:35:11: error: Tactic `rfl` failed: The left-hand side
+  (occurrenceContexts Q b (nil i)).length
+is not definitionally equal to the right-hand side
+  List.count b (nil i).toList
+
+case nil
+Q : CutQuiver
+b : Q.Arrow
+i j : Q.Vertex
+⊢ (occurrenceContexts Q b (nil i)).length = List.count b (nil i).toList
+work/ASGinzburgDraft/PathOccurrenceContextProperties.lean:39:59: warning: This simp argument is unused:
+  Ne.symm hab
+
+Hint: Omit it from the simp argument list.
+  simp [Path.occurrenceContexts, Path.toList, ih, hab, N̵e̵.̵s̵y̵m̵m̵ ̵h̵a̵b̵,̵ ̵List.count_append]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

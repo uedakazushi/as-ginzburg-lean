@@ -1,0 +1,47 @@
+import work.ASGinzburgDraft.ASCutGradedRegularHomExactness
+import work.ASGinzburgDraft.ASCutOrdinarySimpleGradedResolution
+import work.ASGinzburgDraft.GradedOrdinaryRingDualExactness
+import work.ASGinzburgDraft.PeriodCutOrdinaryRingDualHomExactness
+import work.ASGinzburgDraft.PeriodCutOppositeRingDecomposition
+import work.ASGinzburgDraft.PeriodCutIntegerHomogeneousMultiplication
+
+/-! Original AS regularity gives genuine ordinary-ring Hom exactness.
+Each ordinary cocycle has finitely many actual homogeneous components;
+the graded AS Hom exactness provides boundary preimages for each component. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 50000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+ theorem ASRegular.cutOrdinarySimpleHomComplex_regular_exact_zero
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    ((hAS.cutOrdinarySimpleProjectiveResolution A Q (i,0)).homComplex (k := k)
+      (ModuleCat.of (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ)).ExactAt 0 := by
+  let E := hAS.periodIso A Q
+  let R := (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+  let P := hAS.cutOrdinarySimpleProjectiveResolution A Q (i,0)
+  let G := hAS.cutGradedSimpleProjectiveResolution A Q (i,0)
+  let M := hAS.cutOrdinarySimpleResolutionTermData A Q i 0
+  let N := hAS.cutOrdinarySimpleResolutionTermData A Q i 1
+  letI := E.cutIntegerOppositeGradeDecomposition Q
+  apply (P.homComplex_exactAt_zero_iff (k := k) (ModuleCat.of R R)).mpr
+  intro f hf
+  have hc : ordinaryRingDualMap R (P.complex.d 1 0) f.hom = 0 :=
+    congrArg ModuleCat.Hom.hom hf
+  have hz : f.hom = 0 := M.ringDualCycle_eq_zero_of_homogeneous_cycles_eq_zero N
+    (E.cutIntegerOppositeHomogeneousSpace_mul_mem Q) (P.complex.d 1 0)
+    (hAS.cutOrdinarySimpleResolution_d_preservesGrade A Q i 0) (by
+      intro q g hg hcycle
+      apply E.cutOrdinaryRingDual_homogeneous_cycle_eq_zero Q
+        (G.complex.d 1 0) q ⟨g,hg⟩ hcycle
+      exact (G.homComplex_exactAt_zero_iff (k := k)
+        ((E.cutRegularGradedRightModule Q).shifted q)).mp
+        (hAS.cutGradedSimpleHomComplex_regular_exact_low A Q i q 0 (by omega)))
+    f.hom hc
+  exact ModuleCat.hom_ext hz
+
+
+end ASGinzburg.ZAlgebra

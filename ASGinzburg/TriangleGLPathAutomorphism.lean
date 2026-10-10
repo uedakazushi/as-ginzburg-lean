@@ -1,0 +1,160 @@
+import ASGinzburg.TrianglePathAutomorphismArrowMatrixGroup
+import ASGinzburg.PathArrowSubstitutionCutGrading
+
+/-! Extending an arbitrary triple of invertible arrow matrices to an
+actual vertex- and cut-preserving automorphism of the triangle path algebra. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k]
+
+noncomputable def triangleGLArrowMatrix (g : TriangleGL333 k) (s : Fin 3) :
+    ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k :=
+  if s = 0 then g.1 else if s = 1 then g.2.1 else g.2.2
+
+@[simp] theorem triangleGLArrowMatrix_inv (g : TriangleGL333 k) (s : Fin 3) :
+    triangleGLArrowMatrix k (g⁻¹) s = (triangleGLArrowMatrix k g s).symm := by
+  fin_cases s <;> rfl
+
+def triangleGLArrowIndex (a : triangle333.Arrow) : Fin 3 :=
+  ⟨a.val % 3, Nat.mod_lt _ (by decide)⟩
+
+noncomputable def triangleGLArrowReplacement (g : TriangleGL333 k) :
+    triangle333.PathArrowReplacement k := fun a =>
+  (triangleEdgeArrowEquiv k (triangle333.source a)
+    (triangleGLArrowMatrix k g (triangle333.source a)
+      (Pi.single (triangleGLArrowIndex a) 1))).val
+
+theorem triangleIdentityArrow_coordinates (a : triangle333.Arrow) :
+    triangle333.pathIdentityArrowReplacement k a =
+      (triangleEdgeArrowEquiv k (triangle333.source a)
+        (Pi.single (triangleGLArrowIndex a) 1)).val := by
+  rw [triangleEdgeArrowEquiv_single]
+  unfold CutQuiver.pathIdentityArrowReplacement
+  apply congrArg (fun p => Finsupp.single p (1 : k))
+  apply CutQuiver.Path.toList_injective
+  rw [triangleEdgePath_toList]
+  simp only [CutQuiver.Path.toList, List.nil_append, List.singleton_inj]
+  apply Fin.ext
+  dsimp [triangleEdgeArrow, triangleGLArrowIndex, triangle333]
+  omega
+
+theorem triangleGLArrowReplacement_mem_cut (g : TriangleGL333 k)
+    (a : triangle333.Arrow) :
+    triangleGLArrowReplacement k g a ∈
+      triangle333.pathCutComponent k (triangle333.source a) (triangle333.target a)
+        (triangle333.cutDegree a : ℤ) := by
+  apply Finsupp.supported_mono _
+    (triangleEdgeArrowEquiv k (triangle333.source a)
+      (triangleGLArrowMatrix k g (triangle333.source a)
+        (Pi.single (triangleGLArrowIndex a) 1))).property
+  intro p hp
+  change p.length = 1 at hp
+  change (p.cutDegree : ℤ) = (triangle333.cutDegree a : ℤ)
+  have hpw : p.winding = 1 := by rw [triangle_path_winding, hp]; rfl
+  have haw := triangle_arrow_winding a
+  rw [p.winding_eq] at hpw
+  unfold CutQuiver.winding at haw
+  change (triangle333.target a).val - (triangle333.source a).val +
+    (3 : ℤ) * p.cutDegree = 1 at hpw
+  change (triangle333.target a).val - (triangle333.source a).val +
+    (3 : ℤ) * triangle333.cutDegree a = 1 at haw
+  omega
+
+theorem triangleGLSubstitution_coordinates (g : TriangleGL333 k)
+    (s : Fin 3) (b : ArrowSpace333 k) :
+    triangle333.pathArrowSubstitutionComponent k (triangleGLArrowReplacement k g)
+        s (triangleEdgeTarget s) (triangleEdgeArrowEquiv k s b).val =
+      (triangleEdgeArrowEquiv k s (triangleGLArrowMatrix k g s b)).val := by
+  let V : ArrowSpace333 k →ₗ[k] triangle333.PathComponent k s (triangleEdgeTarget s) :=
+    (triangleArrowComponent k s (triangleEdgeTarget s)).subtype.comp
+      (triangleEdgeArrowEquiv k s).toLinearMap
+  have h :
+      (triangle333.pathArrowSubstitutionComponent k (triangleGLArrowReplacement k g)
+        s (triangleEdgeTarget s)).comp V =
+        V.comp (triangleGLArrowMatrix k g s).toLinearMap := by
+    apply (Pi.basisFun k (Fin 3)).ext
+    intro i
+    simp only [LinearMap.comp_apply, Pi.basisFun_apply]
+    change triangle333.pathArrowSubstitutionComponent k (triangleGLArrowReplacement k g)
+        s (triangleEdgeTarget s) (triangleEdgeArrowEquiv k s (Pi.single i 1)).val =
+      (triangleEdgeArrowEquiv k s (triangleGLArrowMatrix k g s (Pi.single i 1))).val
+    rw [triangleEdgeArrowEquiv_single]
+    have hArrow := triangle333.pathArrowSubstitution_arrow k
+      (triangleGLArrowReplacement k g) (triangleEdgeArrow s i)
+    fin_cases s <;> fin_cases i <;>
+      simpa [triangleEdgePath, triangleEdgeArrow, triangleEdgeTarget,
+        triangleGLArrowReplacement, triangleGLArrowMatrix, triangleGLArrowIndex,
+        triangle333, CutQuiver.Path.transport] using hArrow
+  exact LinearMap.congr_fun h b
+
+theorem triangleGLArrowReplacement_inverse (g : TriangleGL333 k)
+    (a : triangle333.Arrow) :
+    triangle333.pathArrowSubstitutionComponent k (triangleGLArrowReplacement k g)
+        (triangle333.source a) (triangle333.target a)
+        (triangleGLArrowReplacement k (g⁻¹) a) =
+      triangle333.pathIdentityArrowReplacement k a := by
+  change triangle333.pathArrowSubstitutionComponent k (triangleGLArrowReplacement k g)
+      (triangle333.source a) (triangleEdgeTarget (triangle333.source a))
+      (triangleEdgeArrowEquiv k (triangle333.source a)
+        (triangleGLArrowMatrix k (g⁻¹) (triangle333.source a)
+          (Pi.single (triangleGLArrowIndex a) 1))).val = _
+  rw [triangleGLSubstitution_coordinates, triangleGLArrowMatrix_inv,
+    LinearEquiv.apply_symm_apply]
+  exact (triangleIdentityArrow_coordinates k a).symm
+
+noncomputable def triangleGLPathAutomorphism (g : TriangleGL333 k) :
+    triangle333.VertexCutPathAutomorphism k :=
+  triangle333.pathArrowSubstitutionVertexCutAutomorphism k
+    (triangleGLArrowReplacement k g) (triangleGLArrowReplacement k (g⁻¹))
+    (triangleGLArrowReplacement_mem_cut k g)
+    (triangleGLArrowReplacement_mem_cut k (g⁻¹))
+    (triangleGLArrowReplacement_inverse k g)
+    (by intro a; simpa only [inv_inv] using triangleGLArrowReplacement_inverse k (g⁻¹) a)
+
+@[simp] theorem triangleGLPathAutomorphism_apply (g : TriangleGL333 k)
+    (x : triangle333.PathRing k) :
+    (triangleGLPathAutomorphism k g).val x =
+      triangle333.pathArrowSubstitution k (triangleGLArrowReplacement k g) x := rfl
+
+theorem triangleGLPathAutomorphism_component (g : TriangleGL333 k)
+    (i j : triangle333.Vertex) (f : triangle333.PathComponent k i j) :
+    CutQuiver.VertexCutPathAutomorphism.componentLinearEquiv triangle333 k
+        (triangleGLPathAutomorphism k g) i j f =
+      triangle333.pathArrowSubstitutionComponent k (triangleGLArrowReplacement k g) i j f := by
+  change (triangleGLPathAutomorphism k g).val
+      ((triangle333.pathComponentAlgebra k).totalComponent i j f) i j = _
+  rw [triangleGLPathAutomorphism_apply, CutQuiver.pathArrowSubstitution_apply,
+    LinearComponentAlgebra.totalComponent_apply_same]
+
+theorem triangleGLPathAutomorphism_coordinates (g : TriangleGL333 k)
+    (s : Fin 3) (b : ArrowSpace333 k) :
+    CutQuiver.VertexCutPathAutomorphism.componentLinearEquiv triangle333 k
+        (triangleGLPathAutomorphism k g) s (triangleEdgeTarget s)
+        (triangleEdgeArrowEquiv k s b).val =
+      (triangleEdgeArrowEquiv k s (triangleGLArrowMatrix k g s b)).val := by
+  rw [triangleGLPathAutomorphism_component, triangleGLSubstitution_coordinates]
+
+theorem trianglePathAutomorphismGLTriple_extension (g : TriangleGL333 k) :
+    trianglePathAutomorphismGLTriple k (triangleGLPathAutomorphism k g) = g := by
+  apply Prod.ext
+  · apply LinearEquiv.ext
+    intro b
+    apply (triangleXArrowEquiv k).injective
+    apply Subtype.ext
+    rw [trianglePathAutomorphismGLTriple_X_coordinates]
+    exact triangleGLPathAutomorphism_coordinates k g 0 b
+  · apply Prod.ext
+    · apply LinearEquiv.ext
+      intro b
+      apply (triangleYArrowEquiv k).injective
+      apply Subtype.ext
+      rw [trianglePathAutomorphismGLTriple_Y_coordinates]
+      exact triangleGLPathAutomorphism_coordinates k g 1 b
+    · apply LinearEquiv.ext
+      intro b
+      apply (triangleZArrowEquiv k).injective
+      apply Subtype.ext
+      rw [trianglePathAutomorphismGLTriple_Z_coordinates]
+      exact triangleGLPathAutomorphism_coordinates k g 2 b
+
+end ASGinzburg

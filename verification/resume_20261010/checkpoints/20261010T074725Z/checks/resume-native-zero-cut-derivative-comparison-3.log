@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/NativeZeroCutDerivativeComparison.lean:47:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  UnrolledPath.transport ?hi' ?hj' (UnrolledPath.transport ?hi ?hj ?p)
+in the target expression
+  UnrolledPath.transport ⋯ ⋯
+      ({ toFun := UnrolledPath.transport ⋯ ⋯, invFun := UnrolledPath.transport ⋯ ⋯, left_inv := ⋯, right_inv := ⋯ } p) =
+    { toFun := UnrolledPath.transport ⋯ ⋯, invFun := UnrolledPath.transport ⋯ ⋯, left_inv := ⋯, right_inv := ⋯ }
+      (UnrolledPath.transport ⋯ ⋯ p)
+
+case h
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+b : { a // Q.cut a = true }
+p : Q.UnrolledPath (Q.target ↑b, 0) (Q.source ↑b, 0 + ↑(1 - Q.cutDegree ↑b))
+⊢ UnrolledPath.transport ⋯ ⋯
+      ({ toFun := UnrolledPath.transport ⋯ ⋯, invFun := UnrolledPath.transport ⋯ ⋯, left_inv := ⋯, right_inv := ⋯ } p) =
+    { toFun := UnrolledPath.transport ⋯ ⋯, invFun := UnrolledPath.transport ⋯ ⋯, left_inv := ⋯, right_inv := ⋯ }
+      (UnrolledPath.transport ⋯ ⋯ p)

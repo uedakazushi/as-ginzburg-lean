@@ -1,0 +1,44 @@
+import ASGinzburg.UnrolledComponentHeights
+import ASGinzburg.PeriodInverse
+
+/-! Actual integer component transport cancels the canonical height
+reindexing on the genuine free unrolled path components. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem unrolledHomTransport_eq_mapDomain (i j i' j' : ℤ) (hi : i = i') (hj : j = j')
+    (f : (Q.unrolledPathZAlgebra k).Hom i j) :
+    (Q.unrolledPathZAlgebra k).homTransport i j i' j' hi hj f =
+      Finsupp.mapDomain (UnrolledPath.endpointEquiv Q
+        (congrArg Q.heightEquiv.symm hi) (congrArg Q.heightEquiv.symm hj)) f := by
+  subst i' j'
+  change f = Finsupp.mapDomain id f
+  exact Finsupp.mapDomain_id.symm
+
+theorem UnrolledPath.transport_trans {i j i' j' i'' j'' : Q.LiftVertex}
+    (hi : i = i') (hj : j = j') (hi' : i' = i'') (hj' : j' = j'')
+    (p : Q.UnrolledPath i j) :
+    (p.transport hi hj).transport hi' hj' = p.transport (hi.trans hi') (hj.trans hj') := by
+  subst i' j' i'' j''
+  rfl
+
+theorem unrolledComponentHeightEquiv_transport_cancel (i j : ℤ)
+    (f : (Q.unrolledPathZAlgebra k).Hom i j) :
+    (Q.unrolledPathZAlgebra k).homTransport _ _ i j
+      (Q.height_heightEquiv_symm i) (Q.height_heightEquiv_symm j)
+      (Q.unrolledComponentHeightEquiv k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j) f) = f := by
+  rw [Q.unrolledHomTransport_eq_mapDomain]
+  change Finsupp.mapDomain _ (Finsupp.mapDomain _ f) = f
+  rw [← Finsupp.mapDomain_comp]
+  have he : (UnrolledPath.endpointEquiv Q
+      (congrArg Q.heightEquiv.symm (Q.height_heightEquiv_symm i))
+      (congrArg Q.heightEquiv.symm (Q.height_heightEquiv_symm j))) ∘
+      Q.unrolledPathHeightEquiv (Q.heightEquiv.symm i) (Q.heightEquiv.symm j) = id := by
+    funext p
+    change (p.transport _ _).transport _ _ = p
+    rw [UnrolledPath.transport_trans]
+    rfl
+  rw [he, Finsupp.mapDomain_id]
+
+end ASGinzburg.CutQuiver

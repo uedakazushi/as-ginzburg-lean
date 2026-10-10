@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/NoncutJacobianContextLeadingAggregation.lean:28:58: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Finsupp.sum ?m.70 ?m.71) ?m.72
+in the target expression
+  (∑ a, (Q.noncutJacobianContextTransposedLeadingCoordinates k a b hb) (f a)) a =
+    ((Q.noncutJacobianContextConstantProjection k (Q.target ↑a) (Q.source ↑a)) (f ⟨↑a, ⋯⟩)) ⟨b, ⋯⟩
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+b : Q.Arrow
+hb : Q.cut b = true
+f : (a : { a // Q.cut a = true }) → Q.NoncutJacobianContextIndex (Q.target ↑a) (Q.source ↑a) →₀ k
+a : Q.FoundationRelationArrow (Q.target b) (Q.source b)
+⊢ (∑ a, (Q.noncutJacobianContextTransposedLeadingCoordinates k a b hb) (f a)) a =
+    ((Q.noncutJacobianContextConstantProjection k (Q.target ↑a) (Q.source ↑a)) (f ⟨↑a, ⋯⟩)) ⟨b, ⋯⟩

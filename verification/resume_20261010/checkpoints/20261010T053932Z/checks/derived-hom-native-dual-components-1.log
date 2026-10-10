@@ -1,0 +1,41 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponents.lean:33:8: error: Function expected at
+  DirectSum.toModule_lof k ℤ ?m.194
+but this term has type
+  (DirectSum.toModule k Type ?m.190 ?m.193) ((DirectSum.lof k Type ?m.186 ℤ) ?m.194) = (?m.193 ℤ) ?m.194
+
+Note: Expected a function because this term is being applied to the argument
+  _
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponents.lean:33:35: error: Application type mismatch: The argument
+  R
+has type
+  Type v
+but is expected to have type
+  ?m.186 ℤ
+in the application
+  DirectSum.toModule_lof k ℤ R
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponents.lean:51:9: error(lean.unknownIdentifier): Unknown constant `LinearMap.mulLeft`
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponents.lean:55:18: error(lean.unknownIdentifier): Unknown constant `LinearMap.mulLeft_apply`
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponents.lean:109:43: error: Tactic `rfl` failed: The left-hand side
+  0 x + 0 y
+is not definitionally equal to the right-hand side
+  0 (x + y)
+
+case h.add
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M : GradedOrdinaryModuleData k R G
+hG : ∀ (p q : ℤ), ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q)
+f : ↑(ordinaryRingDual R M.ringModule)
+p q : ℤ
+hf : f ∈ M.ringDualGrade p
+hpq : p ≠ q
+this : DirectSum.Decomposition M.grade := M.decomposition
+x y : ↑M.ringModule
+hx : (M.ringDualComponent hG f q) x = 0 x
+hy : (M.ringDualComponent hG f q) y = 0 y
+⊢ 0 x + 0 y = 0 (x + y)

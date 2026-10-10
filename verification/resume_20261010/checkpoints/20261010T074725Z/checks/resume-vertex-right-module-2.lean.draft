@@ -1,0 +1,34 @@
+import ASGinzburg.PeriodCutCharacterClassification
+import Mathlib.Algebra.Category.ModuleCat.Simple
+
+/-! The genuine vertex character equips k with its ordinary right-R
+module structure. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutVertexRightModule (i : Q.Vertex) :
+    Module (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ k :=
+  Module.compHom k ((E.cutVertexCharacter Q i).fromOpposite
+    (fun _ _ => Commute.all _ _)).toRingHom
+
+noncomputable def cutVertexRightScalarTower (i : Q.Vertex) :
+    letI := E.cutVertexRightModule Q i
+    IsScalarTower k (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ k := by
+  letI := E.cutVertexRightModule Q i
+  constructor
+  intro c r x
+  change E.cutVertexCharacter Q i (c • r).unop*x=
+    c*(E.cutVertexCharacter Q i r.unop*x)
+  rw [MulOpposite.unop_smul,map_smul,smul_eq_mul,mul_assoc]
+
+theorem cutVertexRight_isSimple (i : Q.Vertex) :
+    letI := E.cutVertexRightModule Q i
+    IsSimpleModule (E.CutGradedRing (fun t : Q.Vertex => (t.val:ℤ)))ᵐᵒᵖ k := by
+  letI := E.cutVertexRightModule Q i
+  letI := E.cutVertexRightScalarTower Q i
+  exact (isSimpleModule_iff ..).mpr
+    (is_simple_module_of_finrank_eq_one (Module.finrank_self k))
+
+end ASGinzburg.ZAlgebra.PeriodIso

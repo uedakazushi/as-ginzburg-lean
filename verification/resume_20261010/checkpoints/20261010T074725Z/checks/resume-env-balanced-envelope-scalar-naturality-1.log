@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:33:4: error: 'change' tactic failed, pattern
+  ((algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c * a) • x = (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c • a • x
+is not definitionally equal to target
+  (c • a) • x = c • a • x
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:40:4: error: 'change' tactic failed, pattern
+  ((algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c * a) • x = (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c • a • x
+is not definitionally equal to target
+  (c • a) • x = c • a • x
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:45:20: error: Application type mismatch: The argument
+  tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq k R M N
+has type
+  Module.compHom (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ) =
+    @inferInstance (Module k (↑M ⊗[k] ↑N)) TensorProduct.instModule
+but is expected to have type
+  P = @inferInstance (Module k (↑M ⊗[k] ↑N)) P
+in the application
+  balancedTensorFieldModuleChangeIso_naturality k (AlgebraEnvelopingRing k R) (↑M ⊗[k] ↑N) (↑M' ⊗[k] ↑N') R P
+    inferInstance (tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq k R M N)
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:47:4: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

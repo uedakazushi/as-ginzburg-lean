@@ -1,0 +1,54 @@
+import work.ASGinzburgDraft.IdempotentPrincipalProjective
+import Mathlib.Algebra.Category.ModuleCat.Products
+
+/-! Arbitrary direct sums of actual idempotent principal modules are
+projective. Finite families give finite projective ordinary modules. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum
+universe u v
+variable (R : Type u) [Ring R]
+
+def principalIdempotentCoproductModule {ι : Type v} (e : ι → R) : ModuleCat.{max u v} R :=
+  ModuleCat.of R (⨁ i, principalIdempotentModule R (e i))
+
+theorem principalIdempotentCoproductModule_projective {ι : Type v}
+    (e : ι → R) (he : ∀ i, e i * e i = e i) :
+    Projective (principalIdempotentCoproductModule R e) := by
+  letI : ∀ i, Projective (principalIdempotentModule R (e i)) :=
+    fun i => principalIdempotentModule_projective R (e i) (he i)
+  letI : ∀ i, Module.Projective R (principalIdempotentModule R (e i)) :=
+    fun i => inferInstance
+  letI : Module.Projective R (⨁ i, principalIdempotentModule R (e i)) := by
+    change Module.Projective R (Π₀ i, principalIdempotentModule R (e i))
+    infer_instance
+  exact ModuleCat.projective_of_categoryTheory_projective
+    (ModuleCat.of R (⨁ i, principalIdempotentModule R (e i)))
+
+instance principalIdempotentCoproductModule_finite {ι : Type v} [Finite ι] (e : ι → R) :
+    Module.Finite R (principalIdempotentCoproductModule R e) := by
+  letI : Fintype ι := Fintype.ofFinite ι
+  exact Module.Finite.equiv
+    (DFinsupp.linearEquivFunOnFintype (R := R)
+      (M := fun i => principalIdempotentModule R (e i))).symm
+
+theorem principalIdempotentSmallCoproduct_projective {ι : Type u}
+    (e : ι → R) (he : ∀ i, e i * e i = e i) :
+    Projective (∐ fun i => principalIdempotentModule R (e i)) := by
+  letI : ∀ i, Projective (principalIdempotentModule R (e i)) :=
+    fun i => principalIdempotentModule_projective R (e i) (he i)
+  exact coproduct_projective _
+
+noncomputable def principalIdempotentSmallCoproductIso {ι : Type u}
+    [DecidableEq ι] (e : ι → R) :
+    (∐ fun i => principalIdempotentModule R (e i)) ≅
+      principalIdempotentCoproductModule R e :=
+  ModuleCat.coprodIsoDirectSum _
+
+instance principalIdempotentSmallCoproduct_finite {ι : Type u} [Finite ι] (e : ι → R) :
+    Module.Finite R ((∐ fun i => principalIdempotentModule R (e i)) : ModuleCat.{u} R) := by
+  classical
+  exact (Module.Finite.equiv_iff
+    (principalIdempotentSmallCoproductIso R e).toLinearEquiv).mpr inferInstance
+
+end ASGinzburg

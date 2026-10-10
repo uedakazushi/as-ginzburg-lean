@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/PathCutLengthBound.lean:30:13: error: Function expected at
+  Path.length_le_winding Q p
+but this term has type
+  ↑p.length ≤ p.winding
+
+Note: Expected a function because this term is being applied to the argument
+  k
+work/ASGinzburgDraft/PathCutLengthBound.lean:22:57: error: unsolved goals
+case h
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : Q.Vertex
+c : ℤ
+n : ℕ
+hn : ↑↑j - ↑↑i + ↑Q.vertices * c < ↑n
+f : Q.PathComponent k i j
+hc : f ∈ Q.pathCutComponent k i j c
+hl : f ∈ Q.pathLengthFiltration k n i j
+p : Q.Path i j
+h : ¬f p = 0 p
+hp : p ∈ f.support
+Hc : p ∈ {p | ↑p.cutDegree = c}
+Hl : p ∈ {p | n ≤ p.length}
+⊢ False

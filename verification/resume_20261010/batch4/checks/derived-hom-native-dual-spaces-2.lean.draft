@@ -1,0 +1,47 @@
+import ASGinzburg.GradedOrdinaryModuleData
+import work.ASGinzburgDraft.OrdinaryModuleRingDual
+
+/-! The actual noncommutative ring dual has its native homogeneous
+subspaces: a degree-q map carries M_p into R_(p+q). Its opposite-ring
+action shifts the degree, and precomposition by a genuine grade-preserving
+module map preserves every homogeneous subspace. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+variable (M : GradedOrdinaryModuleData k R G)
+
+def ringDualGrade (q : ℤ) : Submodule k (ordinaryRingDual R M.ringModule) where
+  carrier := {f | ∀ p : ℤ, ∀ x : M.ringModule, x ∈ M.grade p → f x ∈ G (p + q)}
+  zero_mem' := fun _ _ _ => (G _).zero_mem
+  add_mem' := fun hf hg p x hx => (G _).add_mem (hf p x hx) (hg p x hx)
+  smul_mem' c f hf p x hx := by
+    rw [← algebraMap_smul Rᵐᵒᵖ c f, ordinaryRingDual_smul_apply,
+      MulOpposite.algebraMap_apply, MulOpposite.unop_op]
+    rw [← (Algebra.commutes c (f x)).eq, ← Algebra.smul_def]
+    exact (G _).smul_mem c (hf p x hx)
+
+@[simp] theorem ringDualGrade_mem_iff (q : ℤ) (f : ordinaryRingDual R M.ringModule) :
+    f ∈ M.ringDualGrade q ↔
+      ∀ p : ℤ, ∀ x : M.ringModule, x ∈ M.grade p → f x ∈ G (p + q) := Iff.rfl
+
+theorem ringDualGrade_smul_mem
+    (hG : ∀ p q : ℤ, ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q))
+    (p q : ℤ) (r : R) (hr : r ∈ G p)
+    (f : ordinaryRingDual R M.ringModule) (hf : f ∈ M.ringDualGrade q) :
+    MulOpposite.op r • f ∈ M.ringDualGrade (p + q) := by
+  intro s x hx
+  change f x * r ∈ G (s + (p + q))
+  simpa only [add_assoc, add_comm, add_left_comm] using hG (s + q) p (f x) (hf s x hx) r hr
+
+variable (N : GradedOrdinaryModuleData k R G)
+
+theorem ringDualMap_preservesGrade (f : M.ringModule ⟶ N.ringModule)
+    (hf : M.PreservesGrade N f) (q : ℤ)
+    (g : ordinaryRingDual R N.ringModule) (hg : g ∈ N.ringDualGrade q) :
+    ordinaryRingDualMap R f g ∈ M.ringDualGrade q :=
+  fun p x hx => hg p (f x) (hf p x hx)
+
+end ASGinzburg.GradedOrdinaryModuleData

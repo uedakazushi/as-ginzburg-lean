@@ -1,0 +1,24 @@
+import ASGinzburg.WordPolynomialConcatenation
+
+/-! Cyclic transposition of a genuine relation context, as in (3.9).
+All four entries are actual finite noncommutative word polynomials. -/
+namespace ASGinzburg
+universe u v
+variable {A : Type u} {k : Type v} [Field k]
+
+theorem cyclicTrace_wordContext_transpose
+    (a l d r : WordPolynomial k A) :
+    cyclicTrace (wordConcatenation a
+      (wordConcatenation l (wordConcatenation d r))) =
+    cyclicTrace (wordConcatenation
+      (wordConcatenation r (wordConcatenation a l)) d) := by
+  calc
+    _ = cyclicTrace (wordConcatenation
+        (wordConcatenation (wordConcatenation a l) d) r) := by
+      rw [wordConcatenation_assoc, wordConcatenation_assoc]
+    _ = cyclicTrace (wordConcatenation r
+        (wordConcatenation (wordConcatenation a l) d)) :=
+      cyclicTrace_wordConcatenation_swap _ _
+    _ = _ := by rw [wordConcatenation_assoc]
+
+end ASGinzburg

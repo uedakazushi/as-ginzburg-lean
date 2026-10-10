@@ -1,0 +1,185 @@
+import Mathlib.Algebra.Homology.TotalComplex
+import Mathlib.Algebra.Homology.Additive
+import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
+import Mathlib.CategoryTheory.Linear.LinearFunctor
+
+/-! An additive functor commuting with the diagonal coproducts commutes
+with the actual total complex, through the canonical coproduct comparison. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Category
+
+variable {C D I₁ I₂ J : Type*} [Category C] [Category D]
+  [Preadditive C] [Preadditive D]
+  {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂}
+  (G : C ⥤ D) [G.Additive] (K : HomologicalComplex₂ C c₁ c₂)
+
+abbrev bicomplexMapFunctor : HomologicalComplex₂ D c₁ c₂ :=
+  (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).obj K)
+
+variable (c : ComplexShape J) [DecidableEq J] [TotalComplexShape c₁ c₂ c]
+  [K.HasTotal c]
+  [∀ j, PreservesColimit
+    (Discrete.functor (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j)) G]
+
+instance bicomplexMapFunctor_hasTotal : (bicomplexMapFunctor G K).HasTotal c := fun j => by
+  exact HasColimit.mk
+    { cocone := Cofan.mk
+        (G.obj ((K.total c).X j))
+        (fun i => G.map (Sigma.ι (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j) i))
+      isColimit := isColimitOfHasCoproductOfPreservesColimit G
+        (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j) }
+
+noncomputable def bicomplexTotalFunctorXIso (j : J) :
+    G.obj ((K.total c).X j) ≅ ((bicomplexMapFunctor G K).total c).X j := by
+  letI : HasCoproduct
+      (fun i => G.obj (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j i)) :=
+    bicomplexMapFunctor_hasTotal G K c j
+  exact PreservesCoproduct.iso G
+    (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j)
+
+@[reassoc (attr := simp)]
+theorem ι_bicomplexTotalFunctorXIso_inv (i₁ : I₁) (i₂ : I₂) (j : J)
+    (h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j) :
+    (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫
+        (bicomplexTotalFunctorXIso G K c j).inv =
+      G.map (K.ιTotal c i₁ i₂ j h) := by
+  letI : HasCoproduct
+      (fun i => G.obj (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j i)) :=
+    bicomplexMapFunctor_hasTotal G K c j
+  exact ι_comp_sigmaComparison G
+    (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j) ⟨⟨i₁, i₂⟩, h⟩
+
+@[reassoc (attr := simp)]
+theorem ιOrZero_bicomplexTotalFunctorXIso_inv (i₁ : I₁) (i₂ : I₂) (j : J) :
+    (bicomplexMapFunctor G K).ιTotalOrZero c i₁ i₂ j ≫
+        (bicomplexTotalFunctorXIso G K c j).inv =
+      G.map (K.ιTotalOrZero c i₁ i₂ j) := by
+  by_cases h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j
+  · rw [HomologicalComplex₂.ιTotalOrZero_eq _ _ _ _ _ h,
+      HomologicalComplex₂.ιTotalOrZero_eq _ _ _ _ _ h]
+    exact ι_bicomplexTotalFunctorXIso_inv G K c i₁ i₂ j h
+  · rw [HomologicalComplex₂.ιTotalOrZero_eq_zero _ _ _ _ _ h,
+      HomologicalComplex₂.ιTotalOrZero_eq_zero _ _ _ _ _ h, zero_comp, G.map_zero]
+
+@[reassoc (attr := simp)]
+theorem d₁_bicomplexTotalFunctorXIso_inv (i₁ : I₁) (i₂ : I₂) (j : J) :
+    (bicomplexMapFunctor G K).d₁ c i₁ i₂ j ≫
+        (bicomplexTotalFunctorXIso G K c j).inv =
+      G.map (K.d₁ c i₁ i₂ j) := by
+  change (ComplexShape.ε₁ c₁ c₂ c (i₁, i₂) •
+      (G.map ((K.d i₁ (c₁.next i₁)).f i₂) ≫
+        (bicomplexMapFunctor G K).ιTotalOrZero c (c₁.next i₁) i₂ j)) ≫ _ =
+    G.map (ComplexShape.ε₁ c₁ c₂ c (i₁, i₂) •
+      ((K.d i₁ (c₁.next i₁)).f i₂ ≫ K.ιTotalOrZero c (c₁.next i₁) i₂ j))
+  rw [Linear.units_smul_comp, Category.assoc,
+    ιOrZero_bicomplexTotalFunctorXIso_inv, ← G.map_comp, G.map_units_smul]
+
+@[reassoc (attr := simp)]
+theorem d₂_bicomplexTotalFunctorXIso_inv (i₁ : I₁) (i₂ : I₂) (j : J) :
+    (bicomplexMapFunctor G K).d₂ c i₁ i₂ j ≫
+        (bicomplexTotalFunctorXIso G K c j).inv =
+      G.map (K.d₂ c i₁ i₂ j) := by
+  change (ComplexShape.ε₂ c₁ c₂ c (i₁, i₂) •
+      (G.map ((K.X i₁).d i₂ (c₂.next i₂)) ≫
+        (bicomplexMapFunctor G K).ιTotalOrZero c i₁ (c₂.next i₂) j)) ≫ _ =
+    G.map (ComplexShape.ε₂ c₁ c₂ c (i₁, i₂) •
+      ((K.X i₁).d i₂ (c₂.next i₂) ≫ K.ιTotalOrZero c i₁ (c₂.next i₂) j))
+  rw [Linear.units_smul_comp, Category.assoc,
+    ιOrZero_bicomplexTotalFunctorXIso_inv, ← G.map_comp, G.map_units_smul]
+
+theorem bicomplexTotalFunctorXIso_inv_comm (j j' : J) :
+    ((bicomplexMapFunctor G K).total c).d j j' ≫
+        (bicomplexTotalFunctorXIso G K c j').inv =
+      (bicomplexTotalFunctorXIso G K c j).inv ≫ G.map ((K.total c).d j j') := by
+  apply HomologicalComplex₂.total.hom_ext
+  intro i₁ i₂ h
+  calc
+    (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫
+        (((bicomplexMapFunctor G K).total c).d j j' ≫
+          (bicomplexTotalFunctorXIso G K c j').inv) =
+        ((bicomplexMapFunctor G K).d₁ c i₁ i₂ j' +
+          (bicomplexMapFunctor G K).d₂ c i₁ i₂ j') ≫
+          (bicomplexTotalFunctorXIso G K c j').inv := by
+      rw [← Category.assoc, HomologicalComplex₂.total_d, Preadditive.comp_add,
+        HomologicalComplex₂.ι_D₁, HomologicalComplex₂.ι_D₂]
+    _ = G.map (K.d₁ c i₁ i₂ j' + K.d₂ c i₁ i₂ j') := by
+      rw [Preadditive.add_comp, d₁_bicomplexTotalFunctorXIso_inv,
+        d₂_bicomplexTotalFunctorXIso_inv, G.map_add]
+    _ = G.map (K.ιTotal c i₁ i₂ j h ≫ (K.total c).d j j') := by
+      rw [HomologicalComplex₂.total_d, Preadditive.comp_add,
+        HomologicalComplex₂.ι_D₁, HomologicalComplex₂.ι_D₂]
+    _ = (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫
+        ((bicomplexTotalFunctorXIso G K c j).inv ≫ G.map ((K.total c).d j j')) := by
+      rw [← Category.assoc, ι_bicomplexTotalFunctorXIso_inv, G.map_comp]
+
+noncomputable def bicomplexTotalFunctorIso :
+    (G.mapHomologicalComplex c).obj (K.total c) ≅
+      (bicomplexMapFunctor G K).total c :=
+  (HomologicalComplex.Hom.isoOfComponents
+    (fun j => (bicomplexTotalFunctorXIso G K c j).symm)
+    (fun j j' _ => (bicomplexTotalFunctorXIso_inv_comm G K c j j').symm)).symm
+
+theorem bicomplexTotalFunctorIso_inv_f (j : J) :
+    (bicomplexTotalFunctorIso G K c).inv.f j =
+      (bicomplexTotalFunctorXIso G K c j).inv := rfl
+
+theorem bicomplexTotalFunctorIso_hom_f (j : J) :
+    (bicomplexTotalFunctorIso G K c).hom.f j =
+      (bicomplexTotalFunctorXIso G K c j).hom := rfl
+
+@[reassoc (attr := simp)]
+theorem ι_bicomplexTotalFunctorIso_inv_f (i₁ : I₁) (i₂ : I₂) (j : J)
+    (h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j) :
+    (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫
+        (bicomplexTotalFunctorIso G K c).inv.f j =
+      G.map (K.ιTotal c i₁ i₂ j h) :=
+  ι_bicomplexTotalFunctorXIso_inv G K c i₁ i₂ j h
+
+@[reassoc (attr := simp)]
+theorem map_ι_bicomplexTotalFunctorIso_hom_f (i₁ : I₁) (i₂ : I₂) (j : J)
+    (h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j) :
+    G.map (K.ιTotal c i₁ i₂ j h) ≫ (bicomplexTotalFunctorIso G K c).hom.f j =
+      (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h := by
+  rw [← ι_bicomplexTotalFunctorXIso_inv G K c i₁ i₂ j h,
+    bicomplexTotalFunctorIso_hom_f, Category.assoc, Iso.inv_hom_id, comp_id]
+
+variable (L : HomologicalComplex₂ C c₁ c₂) [L.HasTotal c]
+  [∀ j, PreservesColimit
+    (Discrete.functor (L.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j)) G]
+  (φ : K ⟶ L)
+
+@[reassoc]
+theorem bicomplexTotalFunctorIso_inv_naturality :
+    HomologicalComplex₂.total.map
+        (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c ≫
+        (bicomplexTotalFunctorIso G L c).inv =
+      (bicomplexTotalFunctorIso G K c).inv ≫
+        (G.mapHomologicalComplex c).map (HomologicalComplex₂.total.map φ c) := by
+  apply HomologicalComplex.Hom.ext
+  funext j
+  apply HomologicalComplex₂.total.hom_ext
+  intro i₁ i₂ h
+  change (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫
+      ((HomologicalComplex₂.total.map
+        (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c).f j ≫
+        (bicomplexTotalFunctorIso G L c).inv.f j) =
+    (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫
+      ((bicomplexTotalFunctorIso G K c).inv.f j ≫
+        G.map ((HomologicalComplex₂.total.map φ c).f j))
+  rw [← Category.assoc, HomologicalComplex₂.ιTotal_map, Category.assoc,
+    ι_bicomplexTotalFunctorIso_inv_f, ← Category.assoc,
+    ι_bicomplexTotalFunctorIso_inv_f, ← G.map_comp, HomologicalComplex₂.ιTotal_map]
+  rfl
+
+@[reassoc]
+theorem bicomplexTotalFunctorIso_hom_naturality :
+    (G.mapHomologicalComplex c).map (HomologicalComplex₂.total.map φ c) ≫
+        (bicomplexTotalFunctorIso G L c).hom =
+      (bicomplexTotalFunctorIso G K c).hom ≫
+        HomologicalComplex₂.total.map
+          (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c := by
+  apply (cancel_mono (bicomplexTotalFunctorIso G L c).inv).1
+  rw [Category.assoc, Iso.hom_inv_id, comp_id, Category.assoc,
+    bicomplexTotalFunctorIso_inv_naturality, ← Category.assoc, Iso.hom_inv_id, id_comp]
+
+end ASGinzburg

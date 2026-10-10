@@ -1,0 +1,121 @@
+import ASGinzburg.BalancedTensorQuotient
+import ASGinzburg.BalancedTensorLeftFunctor
+import Mathlib.CategoryTheory.ConcreteCategory.EpiMono
+import Mathlib.Algebra.Category.ModuleCat.EpiMono
+
+/-! An actual epimorphism whose kernel lies in the ideal action induces
+an isomorphism after tensoring with the genuine quotient ring. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (J : Ideal R) [J.IsTwoSided]
+variable {P M : ModuleCat.{w} Rᵐᵒᵖ}
+variable (π : P ⟶ M)
+
+theorem balancedTensorIdealAction_map_mem {x : P}
+    (hx : x ∈ balancedTensorIdealAction k R P J) :
+    π x ∈ balancedTensorIdealAction k R M J := by
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨⟨r, x⟩, rfl⟩ := hy
+    rw [π.hom.map_smul]
+    exact balancedTensorIdealAction_mem k R M J r r.property (π x)
+  | zero => simpa only [map_zero] using (balancedTensorIdealAction k R M J).zero_mem
+  | add x y hx hy ihx ihy =>
+    simpa only [map_add] using (balancedTensorIdealAction k R M J).add_mem ihx ihy
+  | smul c x hx ihx =>
+    change (π.hom.restrictScalars k) (c • x) ∈ _
+    rw [LinearMap.map_smul]
+    exact (balancedTensorIdealAction k R M J).smul_mem c ihx
+
+theorem balancedTensorIdealAction_exists_preimage (hπ : Function.Surjective π)
+    {x : M} (hx : x ∈ balancedTensorIdealAction k R M J) :
+    ∃ y : P, y ∈ balancedTensorIdealAction k R P J ∧ π y = x := by
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨⟨r, x⟩, rfl⟩ := hy
+    obtain ⟨p, rfl⟩ := hπ x
+    exact ⟨MulOpposite.op (r : R) • p,
+      balancedTensorIdealAction_mem k R P J r r.property p, π.hom.map_smul _ _⟩
+  | zero => exact ⟨0, Submodule.zero_mem _, map_zero π⟩
+  | add x y hx hy ihx ihy =>
+    obtain ⟨p, hp, hpx⟩ := ihx
+    obtain ⟨q, hq, hqy⟩ := ihy
+    exact ⟨p + q, Submodule.add_mem _ hp hq, by simp only [map_add, hpx, hqy]⟩
+  | smul c x hx ihx =>
+    obtain ⟨p, hp, hpx⟩ := ihx
+    refine ⟨c • p, Submodule.smul_mem _ c hp, ?_⟩
+    change (π.hom.restrictScalars k) (c • p) = _
+    rw [LinearMap.map_smul, hpx]
+
+theorem balancedTensorIdealAction_preimage_mem
+    (hπ : Function.Surjective π)
+    (hker : ∀ x : P, π x = 0 → x ∈ balancedTensorIdealAction k R P J)
+    {x : P} (hx : π x ∈ balancedTensorIdealAction k R M J) :
+    x ∈ balancedTensorIdealAction k R P J := by
+  obtain ⟨y, hy, hxy⟩ := balancedTensorIdealAction_exists_preimage k R J π hπ hx
+  have hsub := hker (x - y) (by simp only [map_sub, hxy, sub_self])
+  simpa only [sub_add_cancel] using (balancedTensorIdealAction k R P J).add_mem hsub hy
+
+noncomputable def balancedTensorIdealQuotientMapLeft :
+    BalancedTensorIdealQuotient k R P J →ₗ[k] BalancedTensorIdealQuotient k R M J :=
+  (balancedTensorIdealAction k R P J).mapQ (balancedTensorIdealAction k R M J)
+    (π.hom.restrictScalars k) (fun _ hx => balancedTensorIdealAction_map_mem k R J π hx)
+
+theorem balancedTensorIdealQuotientMapLeft_bijective
+    (hπ : Function.Surjective π)
+    (hker : ∀ x : P, π x = 0 → x ∈ balancedTensorIdealAction k R P J) :
+    Function.Bijective (balancedTensorIdealQuotientMapLeft k R J π) := by
+  constructor
+  · apply LinearMap.ker_eq_bot.mp
+    apply le_antisymm _ bot_le
+    intro x hx
+    obtain ⟨p, rfl⟩ := (balancedTensorIdealAction k R P J).mkQ_surjective x
+    change (balancedTensorIdealAction k R M J).mkQ (π p) = 0 at hx
+    have hp := balancedTensorIdealAction_preimage_mem k R J π hπ hker
+      ((Submodule.Quotient.mk_eq_zero _).mp hx)
+    exact (Submodule.Quotient.mk_eq_zero _).mpr hp
+  · intro x
+    obtain ⟨m, rfl⟩ := (balancedTensorIdealAction k R M J).mkQ_surjective x
+    obtain ⟨p, rfl⟩ := hπ m
+    exact ⟨(balancedTensorIdealAction k R P J).mkQ p, rfl⟩
+
+theorem balancedTensorQuotientEquiv_mapLeft (x : BalancedTensorSpace k R P (R ⧸ J)) :
+    balancedTensorQuotientEquiv k R M J
+      (balancedTensorMapLeft k R (R ⧸ J) π.hom x) =
+    balancedTensorIdealQuotientMapLeft k R J π (balancedTensorQuotientEquiv k R P J x) := by
+  have h : (balancedTensorQuotientEquiv k R M J).toLinearMap.comp
+      (balancedTensorMapLeft k R (R ⧸ J) π.hom) =
+      (balancedTensorIdealQuotientMapLeft k R J π).comp
+        (balancedTensorQuotientEquiv k R P J).toLinearMap := by
+    apply balancedTensorSpace_linearMap_ext
+    intro p q
+    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective q
+    simp only [LinearMap.comp_apply, balancedTensorMapLeft_tmul,
+      LinearEquiv.coe_coe, balancedTensorQuotientEquiv_tmul_mk]
+    change (balancedTensorIdealAction k R M J).mkQ (MulOpposite.op r • π p) =
+      (balancedTensorIdealAction k R M J).mkQ (π (MulOpposite.op r • p))
+    rw [π.hom.map_smul]
+  exact LinearMap.congr_fun h x
+
+theorem balancedTensorLeftFunctor_map_isIso_of_minimal_epi [Epi π]
+    (hker : ∀ x : P, π x = 0 → x ∈ balancedTensorIdealAction k R P J) :
+    IsIso ((balancedTensorLeftFunctor k R (R ⧸ J)).map π) := by
+  have hπ := (ModuleCat.epi_iff_surjective π).mp inferInstance
+  have hbij := balancedTensorIdealQuotientMapLeft_bijective k R J π hπ hker
+  apply (ConcreteCategory.isIso_iff_bijective _).mpr
+  constructor
+  · intro x y hxy
+    apply (balancedTensorQuotientEquiv k R P J).injective
+    apply hbij.1
+    rw [← balancedTensorQuotientEquiv_mapLeft, ← balancedTensorQuotientEquiv_mapLeft]
+    exact congrArg (balancedTensorQuotientEquiv k R M J) hxy
+  · intro y
+    obtain ⟨q, hq⟩ := hbij.2 (balancedTensorQuotientEquiv k R M J y)
+    refine ⟨(balancedTensorQuotientEquiv k R P J).symm q, ?_⟩
+    apply (balancedTensorQuotientEquiv k R M J).injective
+    rw [balancedTensorQuotientEquiv_mapLeft, LinearEquiv.apply_symm_apply, hq]
+
+end ASGinzburg

@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:52:28: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ModuleCat.Hom.hom π) p
+in the target expression
+  c • (↑k (ModuleCat.Hom.hom π)) p = c • x
+
+case smul
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+J : Ideal R
+P M : ModuleCat Rᵐᵒᵖ
+π : P ⟶ M
+hπ : Function.Surjective ⇑(ConcreteCategory.hom π)
+x✝ : ↑M
+c : k
+x : ↑M
+hx : x ∈ Submodule.span k (Set.range fun p => MulOpposite.op ↑p.1 • p.2)
+p : ↑P
+hp : p ∈ balancedTensorIdealAction k R (↑P) J
+hpx : (ModuleCat.Hom.hom π) p = x
+⊢ c • (↑k (ModuleCat.Hom.hom π)) p = c • x

@@ -1,0 +1,10 @@
+import work.ASGinzburgDraft.LinearCokernelSquareEquiv
+import Lean
+open Lean in
+run_cmd do
+  let ci ← getConstInfo `ASGinzburg.linearCokernelSquareEquiv
+  let rec names (e : Expr) : List String :=
+    match e with
+    | .forallE n _ b bi => (n.toString ++ ": " ++ toString bi) :: names b
+    | _ => []
+  logInfo m!"{names ci.type}"

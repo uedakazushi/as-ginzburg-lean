@@ -1,0 +1,22 @@
+work/ASGinzburgDraft/FoundationIdealComponentTransport.lean:42:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (C ?m.487 ?m.489) (((Q.unrolledPathZAlgebra k).comp ?g) ?f)
+in the target expression
+  ↑(C i j) (((Q.unrolledPathZAlgebra k).comp ((C l j).symm g)) ((C i l).symm f)) = ((Q.unrolledPathZAlgebra k).comp g) f
+
+case e_s.h.mpr.refine_3
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+C : (i j : Q.Vertex) → (Q.unrolledPathZAlgebra k).Hom ↑↑i ↑↑j ≃ₗ[k] (Q.unrolledPathZAlgebra k).Hom ↑↑i ↑↑j
+hC :
+  ∀ {i j l : Q.Vertex} (f : (Q.unrolledPathZAlgebra k).Hom ↑↑i ↑↑j) (g : (Q.unrolledPathZAlgebra k).Hom ↑↑j ↑↑l),
+    (C i l) (((Q.unrolledPathZAlgebra k).comp g) f) = ((Q.unrolledPathZAlgebra k).comp ((C j l) g)) ((C i j) f)
+I₁ I₂ J₁ J₂ : (Q.unrolledPathZAlgebra k).LinearIdeal
+hI : ∀ (i j : Q.Vertex) (f : (Q.unrolledPathZAlgebra k).Hom ↑↑i ↑↑j), (C i j) f ∈ I₂.hom ↑↑i ↑↑j ↔ f ∈ I₁.hom ↑↑i ↑↑j
+hJ : ∀ (i j : Q.Vertex) (f : (Q.unrolledPathZAlgebra k).Hom ↑↑i ↑↑j), (C i j) f ∈ J₂.hom ↑↑i ↑↑j ↔ f ∈ J₁.hom ↑↑i ↑↑j
+i j l : Q.Vertex
+f : (Q.unrolledPathZAlgebra k).Hom ↑↑i ↑↑l
+hf : f ∈ I₂.hom ↑↑i ↑↑l
+g : (Q.unrolledPathZAlgebra k).Hom ↑↑l ↑↑j
+hg : g ∈ J₂.hom ↑↑l ↑↑j
+⊢ ↑(C i j) (((Q.unrolledPathZAlgebra k).comp ((C l j).symm g)) ((C i l).symm f)) = ((Q.unrolledPathZAlgebra k).comp g) f

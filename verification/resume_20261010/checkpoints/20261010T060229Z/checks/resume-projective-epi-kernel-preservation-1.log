@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/ProjectiveEpiKernelPreservation.lean:16:2: error: Tactic `apply` failed: could not unify the type of `(isLimitMapConeForkEquiv' F ⋯).symm`
+  IsLimit (KernelFork.ofι (F.map (kernel.ι f)) ⋯) ≃ IsLimit (F.mapCone (KernelFork.ofι (kernel.ι f) ⋯))
+with the goal
+  IsLimit (F.mapCone (Fork.ofι (kernel.ι f) ⋯))
+
+C : Type u
+inst✝⁶ : Category.{v, u} C
+inst✝⁵ : Abelian C
+D : Type w
+inst✝⁴ : Category.{z, w} D
+inst✝³ : Abelian D
+F : C ⥤ D
+inst✝² : F.Additive
+P Q : C
+f : P ⟶ Q
+inst✝¹ : Epi f
+inst✝ : Projective Q
+⊢ IsLimit (F.mapCone (Fork.ofι (kernel.ι f) ⋯))

@@ -1,0 +1,70 @@
+import work.ASGinzburgDraft.ZeroCutIsomorphismMinimalRelationTransport
+import work.ASGinzburgDraft.GinzburgNativeCutDerivativeBasis
+import Mathlib.LinearAlgebra.Dual.Basis
+
+set_option synthInstance.maxHeartbeats 200000
+
+/-! Original Ginzburg regularity supplies literal derivative bases.
+The genuine quotient equivalence gives their basis change and its dual,
+with an actual inverse rather than an invertibility assumption. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+variable {φ ψ : Q.Potential k}
+variable (F : ZAlgebra.Isomorphism (Q.unrolledJacobianZAlgebra k φ)
+  (Q.unrolledJacobianZAlgebra k ψ))
+
+noncomputable def GinzburgRegular.zeroCutIsomorphismTransportedDerivativeBasis
+    (hφ : Q.GinzburgRegular k φ) (i j : Q.Vertex) :
+    Module.Basis (Q.FoundationRelationArrow i j) k
+      (Q.MinimalRelationComponent (Q.unrolledJacobianIdeal k ψ) (i.val : ℤ) (j.val : ℤ)) :=
+  (hφ.foundationCutDerivativeMinimalRelationBasis Q k i j).map
+    (Q.zeroCutIsomorphismMinimalRelationEquiv k F i j)
+
+theorem GinzburgRegular.zeroCutIsomorphismTransportedDerivativeBasis_apply
+    (hφ : Q.GinzburgRegular k φ) (i j : Q.Vertex) (a : Q.FoundationRelationArrow i j) :
+    hφ.zeroCutIsomorphismTransportedDerivativeBasis Q k F i j a =
+      Q.zeroCutIsomorphismMinimalRelationEquiv k F i j
+        (Q.foundationMinimalCutDerivativeClass k φ i j a) := by
+  rw [GinzburgRegular.zeroCutIsomorphismTransportedDerivativeBasis, Module.Basis.map_apply,
+    hφ.foundationCutDerivativeMinimalRelationBasis_apply]
+
+noncomputable def zeroCutIsomorphismDerivativeCoordinateEquiv
+    (hφ : Q.GinzburgRegular k φ) (hψ : Q.GinzburgRegular k ψ) (i j : Q.Vertex) :
+    (Q.FoundationRelationArrow i j →₀ k) ≃ₗ[k] (Q.FoundationRelationArrow i j →₀ k) :=
+  (hφ.foundationCutDerivativeMinimalRelationBasis Q k i j).repr.symm.trans
+    ((Q.zeroCutIsomorphismMinimalRelationEquiv k F i j).trans
+      (hψ.foundationCutDerivativeMinimalRelationBasis Q k i j).repr)
+
+theorem zeroCutIsomorphismDerivativeCoordinateEquiv_single
+    (hφ : Q.GinzburgRegular k φ) (hψ : Q.GinzburgRegular k ψ) (i j : Q.Vertex)
+    (a : Q.FoundationRelationArrow i j) :
+    Q.zeroCutIsomorphismDerivativeCoordinateEquiv k F hφ hψ i j (Finsupp.single a 1) =
+      (hψ.foundationCutDerivativeMinimalRelationBasis Q k i j).repr
+        (Q.zeroCutIsomorphismMinimalRelationEquiv k F i j
+          (Q.foundationMinimalCutDerivativeClass k φ i j a)) := by
+  rw [zeroCutIsomorphismDerivativeCoordinateEquiv, LinearEquiv.trans_apply,
+    LinearEquiv.trans_apply, Module.Basis.repr_symm_single_one,
+    hφ.foundationCutDerivativeMinimalRelationBasis_apply]
+
+noncomputable def zeroCutIsomorphismDerivativeTransposeEquiv
+    (hφ : Q.GinzburgRegular k φ) (hψ : Q.GinzburgRegular k ψ) (i j : Q.Vertex) :
+    (Q.FoundationRelationArrow i j →₀ k) ≃ₗ[k] (Q.FoundationRelationArrow i j →₀ k) := by
+  classical
+  exact (hψ.foundationCutDerivativeMinimalRelationBasis Q k i j).dualBasis.repr.symm.trans
+    ((Q.zeroCutIsomorphismMinimalRelationEquiv k F i j).dualMap.trans
+      (hφ.foundationCutDerivativeMinimalRelationBasis Q k i j).dualBasis.repr)
+
+theorem zeroCutIsomorphismDerivativeTransposeEquiv_single_apply
+    (hφ : Q.GinzburgRegular k φ) (hψ : Q.GinzburgRegular k ψ) (i j : Q.Vertex)
+    (b a : Q.FoundationRelationArrow i j) :
+    Q.zeroCutIsomorphismDerivativeTransposeEquiv k F hφ hψ i j (Finsupp.single b 1) a =
+      Q.zeroCutIsomorphismDerivativeCoordinateEquiv k F hφ hψ i j (Finsupp.single a 1) b := by
+  classical
+  rw [zeroCutIsomorphismDerivativeTransposeEquiv, LinearEquiv.trans_apply,
+    LinearEquiv.trans_apply, Module.Basis.repr_symm_single_one,
+    Module.Basis.dualBasis_repr, LinearEquiv.dualMap_apply, Module.Basis.dualBasis_apply,
+    Q.zeroCutIsomorphismDerivativeCoordinateEquiv_single,
+    hφ.foundationCutDerivativeMinimalRelationBasis_apply]
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,37 @@
+import ASGinzburg.BicomplexTotalRowQuasiIso
+import Mathlib.Algebra.Homology.Bifunctor
+
+/-! Degreewise epimorphic quasi-isomorphisms in the second variable induce
+quasi-isomorphisms on actual bifunctor totals when the row functors preserve homology. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category HomologicalComplex HomologicalComplex₂
+
+universe u w u₁ u₂ v₁ v₂
+variable {k : Type u} [Ring k]
+variable {C₁ : Type u₁} {C₂ : Type u₂} [Category.{v₁} C₁] [Category.{v₂} C₂]
+variable [Preadditive C₁] [Abelian C₂]
+variable (F : C₁ ⥤ C₂ ⥤ ModuleCat.{w} k) [F.Additive] [∀ X, (F.obj X).Additive]
+variable (P : ChainComplex C₁ ℕ) {Q Q' : ChainComplex C₂ ℕ} (f : Q ⟶ Q')
+variable [QuasiIso f] [∀ n, Epi (f.f n)]
+variable [∀ i, (F.obj (P.X i)).PreservesHomology]
+variable [∀ i, (F.obj (P.X i)).PreservesEpimorphisms]
+
+theorem bifunctorTotal_quasiIso_of_row_quasiIso :
+    QuasiIso (mapBifunctorMap (𝟙 P) f F (ComplexShape.down ℕ)) := by
+  have hid :
+      (((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map
+        (𝟙 P)).app Q) =
+      𝟙 (((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P).obj Q) := by
+    exact congrArg (fun τ => τ.app Q)
+      ((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map_id P)
+  unfold mapBifunctorMap
+  rw [hid, id_comp]
+  apply bicomplexTotal_quasiIso_of_row_quasiIso
+  · intro i j
+    change Epi ((F.obj (P.X i)).map (f.f j))
+    infer_instance
+  · intro i
+    change QuasiIso (((F.obj (P.X i)).mapHomologicalComplex (ComplexShape.down ℕ)).map f)
+    infer_instance
+
+end ASGinzburg

@@ -1,0 +1,57 @@
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:23:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathComponentAlgebra k).totalComponent i i
+    (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv ↑E ⋯ i i) f)
+in the target expression
+  Submodule.Quotient.mk (↑E ((Q.pathComponentAlgebra k).totalComponent i i f)) =
+    Submodule.Quotient.mk ((Q.pathComponentAlgebra k).totalComponent i i ((componentLinearEquiv Q k E i i) f))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+i : Q.Vertex
+f : Q.PathComponent k i i
+⊢ Submodule.Quotient.mk (↑E ((Q.pathComponentAlgebra k).totalComponent i i f)) =
+    Submodule.Quotient.mk ((Q.pathComponentAlgebra k).totalComponent i i ((componentLinearEquiv Q k E i i) f))
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:54:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Q.potentialSpace k
+in the target expression
+  ↑φ ∈ Q.Potential k
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+L : CyclicPolynomial k Q.Arrow →ₗ[k] AlgebraCyclicQuotient k (Q.PathRing k) :=
+  ↑(algebraCyclicEquiv k ↑E) ∘ₗ Finsupp.linearCombination k (Q.potentialWordCyclicClass k)
+hφ : ↑φ ∈ Q.Potential k
+⊢ L ↑φ ∈ LinearMap.range (Q.potentialCyclicClass k)
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:85:8: error: typeclass instance problem is stuck, it is often due to metavariables
+  RingHomInvPair ?m.28 ?m.27
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:95:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (potentialCyclicClass ?Q ?k) ((potentialLinearMap ?Q ?k ?E) ?φ)
+in the target expression
+  E⁻¹ • (Q.potentialCyclicClass k) ((potentialLinearMap Q k E).toFun φ) = (Q.potentialCyclicClass k) φ
+
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+⊢ E⁻¹ • (Q.potentialCyclicClass k) ((potentialLinearMap Q k E).toFun φ) = (Q.potentialCyclicClass k) φ
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:99:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (potentialCyclicClass ?Q ?k) ((potentialLinearMap ?Q ?k ?E) ?φ)
+in the target expression
+  (Q.potentialCyclicClass k) ((potentialLinearMap Q k E).toFun ((potentialLinearMap Q k E⁻¹) φ)) =
+    (Q.potentialCyclicClass k) φ
+
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+⊢ (Q.potentialCyclicClass k) ((potentialLinearMap Q k E).toFun ((potentialLinearMap Q k E⁻¹) φ)) =
+    (Q.potentialCyclicClass k) φ

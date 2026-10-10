@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/TriangleCutSliceAction.lean:22:2: error: 'change' tactic failed, pattern
+  (b.coord i) (b.toDualEquiv.symm (g.dualMap (b.toDualEquiv (b j)))) = g (b i) j
+is not definitionally equal to target
+  (triangleArrowTranspose k g) (Pi.single j 1) i = g (Pi.single i 1) j
+work/ASGinzburgDraft/TriangleCutSliceAction.lean:31:43: error: unsolved goals
+k : Type u
+inst✝ : Field k
+x y z : ArrowSpace333 k
+xyz : Triple333
+⊢ (((Pi.basisFun k (Fin 3)).tensorProduct ((Pi.basisFun k (Fin 3)).tensorProduct (Pi.basisFun k (Fin 3)))).repr
+        (x ⊗ₜ[k] (y ⊗ₜ[k] z)))
+      xyz =
+    x xyz.1 * (y xyz.2.1 * z xyz.2.2)
+work/ASGinzburgDraft/TriangleCutSliceAction.lean:32:44: warning: This simp argument is unused:
+  Module.Basis.tensorProduct_repr_tmul_apply
+
+Hint: Omit it from the simp argument list.
+  simp [cubicCoordinates333, cubicBasis333, M̵o̵d̵u̵l̵e̵.̵B̵a̵s̵i̵s̵.̵t̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵_̵r̵e̵p̵r̵_̵t̵m̵u̵l̵_̵a̵p̵p̵l̵y̵,̵Pi.basisFun_repr]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleCutSliceAction.lean:33:4: warning: This simp argument is unused:
+  Pi.basisFun_repr
+
+Hint: Omit it from the simp argument list.
+  simp [cubicCoordinates333, cubicBasis333, Module.Basis.tensorProduct_repr_tmul_apply,̵
+  ̵ ̵ ̵ ̵ ̵P̵i̵.̵b̵a̵s̵i̵s̵F̵u̵n̵_̵r̵e̵p̵r̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleCutSliceAction.lean:60:60: warning: This simp argument is unused:
+  eq_comm
+
+Hint: Omit it from the simp argument list.
+  simp [cubicBasis333, Module.Basis.tensorProduct_apply',
+  ̵  ̵ ̵ ̵ ̵ ̵Pi.basisFun_apply,
+  ̲  ̲ ̲ ̲ ̲ ̲arrowBasisChange333_tmul, cubicCoordinates333_tmul,
+  ̵  ̵ ̵ ̵ ̵ ̵triangleArrowTranspose_single_apply,
+  ̲  ̲ ̲ ̲ ̲ ̲Pi.single_apply,̵ ̵e̵q̵_̵c̵o̵m̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

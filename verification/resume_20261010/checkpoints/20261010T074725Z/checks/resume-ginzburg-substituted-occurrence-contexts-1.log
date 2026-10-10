@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean:68:4: error(lean.unknownIdentifier): Unknown constant `ASGinzburg.CutQuiver.VertexCutPathAutomorphism.component_comp`
+work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean:65:49: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+a : Q.Arrow
+i j : Q.Vertex
+C : Q.PathOccurrenceContext a i j
+h : Q.PathComponent k j i
+⊢ ((Q.ginzburgPathComp k)
+        ((Q.originalGinzburgLinearMap k i (Q.source a))
+          ((VertexCutPathAutomorphism.componentLinearEquiv Q k E i (Q.source a)) (Finsupp.single C.beforePath 1))))
+      (((Q.ginzburgPathComp k)
+          ((Q.originalGinzburgLinearMap k j i) ((VertexCutPathAutomorphism.componentLinearEquiv Q k E j i) h)))
+        ((Q.originalGinzburgLinearMap k (Q.target a) j)
+          ((VertexCutPathAutomorphism.componentLinearEquiv Q k E (Q.target a) j) (Finsupp.single C.afterPath 1)))) =
+    (Q.originalGinzburgLinearMap k (Q.target a) (Q.source a))
+      ((VertexCutPathAutomorphism.componentLinearEquiv Q k E (Q.target a) (Q.source a))
+        (((Q.pathComp k) (Finsupp.single C.beforePath 1)) (((Q.pathComp k) h) (Finsupp.single C.afterPath 1))))

@@ -1,0 +1,73 @@
+import work.ASGinzburgDraft.TriangleCutSliceAction
+
+/-! Actual two-tensor coordinates and the induced invertible X/Y
+action on the true quadratic coefficient space. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u
+variable (k : Type u) [Field k]
+
+noncomputable def triangleQuadraticCoordinates :
+    (ArrowSpace333 k ⊗[k] ArrowSpace333 k) ≃ₗ[k] (Fin 3 × Fin 3 → k) :=
+  ((Pi.basisFun k (Fin 3)).tensorProduct (Pi.basisFun k (Fin 3))).repr.trans
+    (Finsupp.linearEquivFunOnFinite k k (Fin 3 × Fin 3))
+
+theorem triangleQuadraticCoordinates_tmul (x y : ArrowSpace333 k) (xy : Fin 3 × Fin 3) :
+    triangleQuadraticCoordinates k (x ⊗ₜ[k] y) xy = x xy.1 * y xy.2 := by
+  rcases xy with ⟨i,j⟩
+  change ((Pi.basisFun k (Fin 3)).tensorProduct (Pi.basisFun k (Fin 3))).repr
+    (x ⊗ₜ[k] y) (i,j) = _
+  rw [Module.Basis.tensorProduct_repr_tmul_apply]
+  simp [Pi.basisFun_repr,mul_comm]
+
+theorem triangleQuadraticCoordinates_basis (x y : Fin 3) :
+    triangleQuadraticCoordinates k (Pi.single x 1 ⊗ₜ[k] Pi.single y 1) = Pi.single (x,y) 1 := by
+  ext ⟨i,j⟩
+  by_cases hi : i = x <;> by_cases hj : j = y <;>
+    simp [triangleQuadraticCoordinates_tmul,Pi.single_apply,hi,hj]
+
+noncomputable def triangleQuadraticBasisChange
+    (gX gY : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) :
+    (Fin 3 × Fin 3 → k) ≃ₗ[k] (Fin 3 × Fin 3 → k) :=
+  (triangleQuadraticCoordinates k).symm.trans
+    ((TensorProduct.congr gX gY).trans (triangleQuadraticCoordinates k))
+
+theorem triangleQuadraticBasisChange_single
+    (gX gY : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) (ij xy : Fin 3 × Fin 3) :
+    triangleQuadraticBasisChange k gX gY (Pi.single ij 1) xy =
+      gX (Pi.single ij.1 1) xy.1 * gY (Pi.single ij.2 1) xy.2 := by
+  rw [← triangleQuadraticCoordinates_basis k ij.1 ij.2]
+  simp only [triangleQuadraticBasisChange,LinearEquiv.trans_apply,
+    LinearEquiv.symm_apply_apply,TensorProduct.congr_tmul]
+  exact triangleQuadraticCoordinates_tmul k _ _ xy
+
+theorem triangleTensor_cutRelations_basisChangeXY
+    (gX gY : ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) (w : CubicTensor333 k) (z : Fin 3) :
+    tensorToCutRelations333 k
+        (arrowBasisChange333 k gX gY (LinearEquiv.refl k _) w) z =
+      triangleQuadraticBasisChange k gX gY (tensorToCutRelations333 k w z) := by
+  let C : CubicTensor333 k →ₗ[k] (Fin 3 × Fin 3 → k) :=
+    (LinearMap.proj z).comp (tensorToCutRelations333 k).toLinearMap
+  have h : C.comp (arrowBasisChange333 k gX gY (LinearEquiv.refl k _)).toLinearMap =
+      (triangleQuadraticBasisChange k gX gY).toLinearMap.comp C := by
+    apply (cubicBasis333 k).ext
+    intro ijl
+    ext xy
+    simp only [C,LinearMap.comp_apply,LinearMap.proj_apply,LinearEquiv.coe_coe,
+      cubicBasis333,Module.Basis.tensorProduct_apply',Pi.basisFun_apply,
+      arrowBasisChange333_tmul,LinearEquiv.refl_apply,
+      tensorToCutRelations333,LinearEquiv.trans_apply,cutRelationCoordinates333,
+      cubicCoordinates333_tmul]
+    have hr : (fun ij : Fin 3 × Fin 3 =>
+        (Pi.single ijl.1 (1 : k) : ArrowSpace333 k) ij.1 *
+          ((Pi.single ijl.2.1 (1 : k) : ArrowSpace333 k) ij.2 *
+            (Pi.single ijl.2.2 (1 : k) : ArrowSpace333 k) z)) =
+        ((Pi.single ijl.2.2 (1 : k) : ArrowSpace333 k) z) •
+          (Pi.single (ijl.1,ijl.2.1) (1 : k) : Fin 3 × Fin 3 → k) := by
+      ext ij
+      simp [Pi.single_apply,Prod.mk.injEq,mul_comm]
+    rw [hr,map_smul,Pi.smul_apply,triangleQuadraticBasisChange_single]
+    ring
+  exact LinearMap.congr_fun h w
+
+end ASGinzburg

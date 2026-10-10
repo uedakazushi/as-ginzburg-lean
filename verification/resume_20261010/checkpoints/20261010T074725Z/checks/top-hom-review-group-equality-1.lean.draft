@@ -1,0 +1,14 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualHomogeneousTopQuotientType
+namespace ASGinzburg
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+noncomputable abbrev prototypeDefaultDualGroup (P : ModuleCat.{v} R) :
+    AddCommGroup (ordinaryRingDual R P) := inferInstance
+noncomputable abbrev prototypeRawDualGroup (P : ModuleCat.{v} R) :
+    AddCommGroup (ordinaryRingDual R P) := inferInstanceAs (AddCommGroup (P →ₗ[R] R))
+#print prototypeDefaultDualGroup
+#print prototypeRawDualGroup
+set_option maxHeartbeats 10000
+example (P : ModuleCat.{v} R) : prototypeDefaultDualGroup P = prototypeRawDualGroup P := rfl
+end ASGinzburg

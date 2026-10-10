@@ -1,0 +1,14 @@
+import work.ASGinzburgDraft.OrdinaryRingDualTopQuotientType
+import work.ASGinzburgDraft.GradedOrdinaryRingDualComponentNaturality
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R} [DirectSum.Decomposition G]
+variable (M L : GradedOrdinaryModuleData k R G) (q : ℤ)
+#synth AddCommGroup (M.ringDualGrade q)
+#synth Module k (M.ringDualGrade q)
+#synth HasQuotient (M.ringDualGrade q) (Submodule k (M.ringDualGrade q))
+#check @Submodule.hasQuotient k _ (M.ringDualGrade q) _ _
+end ASGinzburg.GradedOrdinaryModuleData

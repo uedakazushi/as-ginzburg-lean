@@ -1,0 +1,30 @@
+import work.ASGinzburgDraft.OrdinaryRingDualTopQuotientType
+import ASGinzburg.GradedOrdinaryRingDualComponents
+
+/-! Actual homogeneous top cokernels embed in the whole ordinary dual
+cokernel. When all other actual homogeneous degrees are boundaries,
+finite homogeneous support makes this embedding an isomorphism. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+variable (M L : GradedOrdinaryModuleData k R G)
+
+noncomputable def ringDualMapDegree (a : M.ringModule ⟶ L.ringModule)
+    (ha : M.PreservesGrade L a) (q : ℤ) : L.ringDualGrade q →ₗ[k] M.ringDualGrade q where
+  toFun f := ⟨ordinaryRingDualMap R a f.val, M.ringDualMap_preservesGrade L a ha q f.val f.property⟩
+  map_add' f g := by apply Subtype.ext; exact (ordinaryRingDualMap R a).map_add _ _
+  map_smul' c f := by apply Subtype.ext; exact (ordinaryRingDualMapField (k := k) (R := R) a).map_smul c f.val
+
+noncomputable abbrev ringDualGradeHasQuotient (q : ℤ) :
+    HasQuotient (M.ringDualGrade q) (Submodule k (M.ringDualGrade q)) :=
+  @Submodule.hasQuotient k (M.ringDualGrade q) _ _ _
+attribute [local instance 3000] ringDualGradeHasQuotient
+
+noncomputable abbrev ringDualHomogeneousTopQuotient
+    (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ) : Type v :=
+  M.ringDualGrade q ⧸ LinearMap.range (τ₁₂ := RingHom.id k) (M.ringDualMapDegree L a ha q)
+
+end ASGinzburg.GradedOrdinaryModuleData

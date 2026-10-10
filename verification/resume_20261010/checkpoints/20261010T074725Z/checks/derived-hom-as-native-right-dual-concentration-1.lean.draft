@@ -1,0 +1,56 @@
+import work.ASGinzburgDraft.PeriodCutGradedTopCokernelProjectivity
+import work.ASGinzburgDraft.ASCutEnvelopingRingHomRightProjectivity
+import work.ASGinzburgDraft.ASCutEnvelopingReducedRingHomExactness
+import work.ASGinzburgDraft.ModuleCatCochainLowExactness
+
+/-! Original AS regularity alone gives genuine low exactness of the
+ordinary enveloping dual and projectivity of its actual top cokernel
+after the first-factor restriction. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 1000000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutEnvelopingMinimalRingHomRight_lowExact_top_projective
+    (hAS : A.ASRegular Q) :
+    let K := hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q
+    let M₂ := hAS.cutEnvelopingMinimalRingHomRightTermData A Q 2
+    let M₃ := hAS.cutEnvelopingMinimalRingHomRightTermData A Q 3
+    Mono (K.d 0 1) ∧
+      (ShortComplex.mk (K.d 0 1) (K.d 1 2) (K.d_comp_d 0 1 2)).Exact ∧
+      (ShortComplex.mk (K.d 1 2) (K.d 2 3) (K.d_comp_d 1 2 3)).Exact ∧
+      Projective (M₂.cokernelData M₃ (K.d 2 3)
+        (hAS.cutEnvelopingMinimalRingHomRightNatComplex_d_preservesGrade A Q 2)).ringModule := by
+  let E := hAS.periodIso A Q
+  let R := hAS.CutGradedAlgebra A Q
+  let K := hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q
+  let M := hAS.cutEnvelopingMinimalRingHomRightTermData A Q
+  let F := balancedTensorLeftFunctor k R (R ⧸ hAS.cutGradedRadical A Q)
+  let K' := (F.mapHomologicalComplex (ComplexShape.up ℕ)).obj K
+  have hE (n : ℕ) (hn : n < 3) : K'.ExactAt n :=
+    hAS.cutEnvelopingMinimalRawSemisimpleReducedRingHom_exactAt_low A Q n hn
+  have hM : Mono (F.map (K.d 0 1)) :=
+    cochain_first_d_mono_of_exactAt_zero K' (hE 0 (by omega))
+  letI := hM
+  have hF₀ : ((ShortComplex.mk (K.d 0 1) (K.d 1 2) (K.d_comp_d 0 1 2)).map F).Exact :=
+    cochain_low_shortComplex_exact K' 0 (hE 1 (by omega))
+  have hF₁ : ((ShortComplex.mk (K.d 1 2) (K.d 2 3) (K.d_comp_d 1 2 3)).map F).Exact :=
+    cochain_low_shortComplex_exact K' 1 (hE 2 (by omega))
+  letI : Projective (M 1).ringModule :=
+    hAS.cutEnvelopingMinimalRingHomRightTermData_projective A Q 1
+  letI : Projective (M 2).ringModule :=
+    hAS.cutEnvelopingMinimalRingHomRightTermData_projective A Q 2
+  letI : Projective (M 3).ringModule :=
+    hAS.cutEnvelopingMinimalRingHomRightTermData_projective A Q 3
+  obtain ⟨b,hb⟩ := hAS.cutEnvelopingMinimalRingHomRightTermData_common_lower_bound A Q
+  exact E.cutGradedTensor_lowExact_topCokernel_projective Q (M 0) (M 1) (M 2) (M 3)
+    b (hb 0 (by omega)) (hb 1 (by omega)) (hb 2 (by omega)) (hb 3 (by omega))
+    (K.d 0 1) (K.d 1 2) (K.d 2 3) (K.d_comp_d 0 1 2) (K.d_comp_d 1 2 3)
+    (hAS.cutEnvelopingMinimalRingHomRightNatComplex_d_preservesGrade A Q 0)
+    (hAS.cutEnvelopingMinimalRingHomRightNatComplex_d_preservesGrade A Q 1)
+    (hAS.cutEnvelopingMinimalRingHomRightNatComplex_d_preservesGrade A Q 2) hF₀ hF₁
+
+end ASGinzburg.ZAlgebra

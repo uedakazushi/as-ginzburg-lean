@@ -1,0 +1,50 @@
+import work.ASGinzburgDraft.ASCutEnvelopingRingHomRightConcentration
+import work.ASGinzburgDraft.ModuleCatRestrictionExactness
+
+/-! The actual enveloping ring-dual Ext of an AS cut algebra is
+concentrated in degree three, under the original AS condition alone. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 1000000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutEnvelopingMinimalRingHomRight_exactAt_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    (hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q).ExactAt n := by
+  let K := hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q
+  have h := hAS.cutEnvelopingMinimalRingHomRight_lowExact_top_projective A Q
+  have hn' : n = 0 ∨ n = 1 ∨ n = 2 := by omega
+  rcases hn' with rfl | rfl | rfl
+  · apply (K.exactAt_iff' 0 0 1 (by simp) (by simp)).mpr
+    exact ((K.sc' 0 0 1).exact_iff_mono (K.shape 0 0 (by simp))).mpr h.1
+  · exact (K.exactAt_iff' 0 1 2 (by simp) (by simp)).mpr h.2.1
+  · exact (K.exactAt_iff' 1 2 3 (by simp) (by simp)).mpr h.2.2.1
+
+theorem ASRegular.cutEnvelopingMinimalRingHom_exactAt_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    (hAS.cutEnvelopingMinimalRingHomNatComplex A Q).ExactAt n := by
+  exact (moduleCatRestrictScalars_exactAt_iff
+    (rightEnvelopingRightRingHom k (hAS.CutGradedAlgebra A Q))
+    (hAS.cutEnvelopingMinimalRingHomNatComplex A Q) n).mp
+      (hAS.cutEnvelopingMinimalRingHomRight_exactAt_low A Q n hn)
+
+theorem ASRegular.cutEnvelopingRingDualExt_isZero_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    IsZero (hAS.cutEnvelopingRingDualExtObject A Q n) := by
+  exact IsZero.of_iso
+    (hAS.cutEnvelopingMinimalRingHom_exactAt_low A Q n hn).isZero_homology
+    (hAS.cutEnvelopingMinimalRingDualExtHomologyIso A Q n)
+
+theorem ASRegular.cutEnvelopingRingDualExt_isZero_other
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n ≠ 3) :
+    IsZero (hAS.cutEnvelopingRingDualExtObject A Q n) := by
+  by_cases hl : n < 3
+  · exact hAS.cutEnvelopingRingDualExt_isZero_low A Q n hl
+  · have he : n = (n - 4) + 4 := by omega
+    rw [he]
+    exact hAS.cutEnvelopingRingDualExt_isZero_ge_four A Q (n - 4)
+
+end ASGinzburg.ZAlgebra

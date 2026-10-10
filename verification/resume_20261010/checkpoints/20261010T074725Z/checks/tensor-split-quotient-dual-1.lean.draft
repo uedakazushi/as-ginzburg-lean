@@ -1,0 +1,84 @@
+import ASGinzburg.IdealQuotientRightFieldComparison
+import ASGinzburg.BalancedTensorHom
+import Mathlib.LinearAlgebra.Dual.Basis
+import Mathlib.LinearAlgebra.StdBasis
+
+/-! The field dual of a split finite quotient carries the genuine
+left quotient action. Coordinates are evaluation on vertex idempotents. -/
+namespace ASGinzburg
+open scoped ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (J : Ideal R) [J.IsTwoSided]
+variable (I : Type w) [Fintype I] [DecidableEq I]
+variable (e : (R ⧸ J) ≃ₐ[k] (I → k))
+attribute [local instance] idealQuotientRightScalarTower
+
+noncomputable def splitQuotientRightFieldEquiv : (R ⧸ J)ᵐᵒᵖ ≃ₗ[k] (I → k) :=
+  (MulOpposite.opLinearEquiv k).symm.trans e.toLinearEquiv
+
+noncomputable def splitQuotientVertexIdempotent (i : I) : (R ⧸ J)ᵐᵒᵖ :=
+  (splitQuotientRightFieldEquiv k R J I e).symm (Pi.single i 1)
+
+noncomputable def splitQuotientDualFieldEquiv :
+    BalancedTensorHom k R (R ⧸ J)ᵐᵒᵖ k ≃ₗ[k] (R ⧸ J) :=
+  (balancedTensorHomLinearEquiv k R (R ⧸ J)ᵐᵒᵖ k).trans
+    (((splitQuotientRightFieldEquiv k R J I e).symm.dualMap).trans
+      ((Pi.basisFun k I).toDualEquiv.symm.trans e.toLinearEquiv.symm))
+
+@[simp] theorem splitQuotientDualFieldEquiv_coordinate
+    (φ : BalancedTensorHom k R (R ⧸ J)ᵐᵒᵖ k) (i : I) :
+    e (splitQuotientDualFieldEquiv k R J I e φ) i =
+      φ (splitQuotientVertexIdempotent k R J I e i) := by
+  let ψ := (splitQuotientRightFieldEquiv k R J I e).symm.dualMap
+    ((balancedTensorHomLinearEquiv k R (R ⧸ J)ᵐᵒᵖ k) φ)
+  have h := congrArg (fun f : Module.Dual k (I → k) => f ((Pi.basisFun k I) i))
+    ((Pi.basisFun k I).toDualEquiv.apply_symm_apply ψ)
+  rw [Module.Basis.toDualEquiv_apply, Module.Basis.toDual_apply_left,
+    Pi.basisFun_repr, Pi.basisFun_apply] at h
+  change ((Pi.basisFun k I).toDualEquiv.symm ψ) i = _
+  exact h
+
+@[simp] theorem splitQuotientVertexIdempotent_action (r : R) (i : I) :
+    MulOpposite.op r • splitQuotientVertexIdempotent k R J I e i =
+      e (Ideal.Quotient.mk J r) i • splitQuotientVertexIdempotent k R J I e i := by
+  apply (splitQuotientRightFieldEquiv k R J I e).injective
+  ext j
+  change e ((splitQuotientVertexIdempotent k R J I e i).unop *
+      Ideal.Quotient.mk J r) j =
+    e ((e (Ideal.Quotient.mk J r) i •
+      splitQuotientVertexIdempotent k R J I e i).unop) j
+  rw [map_mul]
+  change (Pi.single i (1 : k)) j * e (Ideal.Quotient.mk J r) j =
+    (e (Ideal.Quotient.mk J r) i • Pi.single i (1 : k)) j
+  by_cases h : j = i
+  · subst j
+    simp
+  · simp [Pi.single_apply, h, Ne.symm h]
+
+theorem splitQuotientDualFieldEquiv_action (r : R)
+    (φ : BalancedTensorHom k R (R ⧸ J)ᵐᵒᵖ k) :
+    splitQuotientDualFieldEquiv k R J I e (r • φ) =
+      r • splitQuotientDualFieldEquiv k R J I e φ := by
+  apply e.injective
+  ext i
+  rw [splitQuotientDualFieldEquiv_coordinate, balancedTensorHom_smul_apply,
+    splitQuotientVertexIdempotent_action]
+  rw [(show (R ⧸ J)ᵐᵒᵖ →ₗ[k] k from φ).map_smul]
+  change e (Ideal.Quotient.mk J r) i * φ _ =
+    e (Ideal.Quotient.mk J r * splitQuotientDualFieldEquiv k R J I e φ) i
+  rw [map_mul]
+  change _ = e (Ideal.Quotient.mk J r) i *
+    e (splitQuotientDualFieldEquiv k R J I e φ) i
+  rw [splitQuotientDualFieldEquiv_coordinate]
+
+noncomputable def splitQuotientDualLeftLinearEquiv :
+    BalancedTensorHom k R (R ⧸ J)ᵐᵒᵖ k ≃ₗ[R] (R ⧸ J) where
+  toFun := splitQuotientDualFieldEquiv k R J I e
+  invFun := (splitQuotientDualFieldEquiv k R J I e).symm
+  left_inv := (splitQuotientDualFieldEquiv k R J I e).left_inv
+  right_inv := (splitQuotientDualFieldEquiv k R J I e).right_inv
+  map_add' := (splitQuotientDualFieldEquiv k R J I e).map_add
+  map_smul' := splitQuotientDualFieldEquiv_action k R J I e
+
+end ASGinzburg

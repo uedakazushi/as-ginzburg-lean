@@ -1,0 +1,24 @@
+work/ASGinzburgDraft/ASCutGradedRegularTopHomQuotientFieldEquiv.lean:15:7: error: Invalid field `cutGradedSimpleProjectiveResolution`: The environment does not contain `And.cutGradedSimpleProjectiveResolution`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutGradedRegularTopHomQuotientFieldEquiv.lean:19:10: error: Invalid field `cutGradedSimpleProjectiveResolution`: The environment does not contain `And.cutGradedSimpleProjectiveResolution`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutGradedRegularTopHomQuotientFieldEquiv.lean:21:11: error: Invalid field `cutGradedSimpleProjectiveResolution`: The environment does not contain `And.cutGradedSimpleProjectiveResolution`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutGradedRegularTopHomQuotientFieldEquiv.lean:19:89: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+i : Q.Vertex
+E : A.PeriodIso ↑Q.vertices := periodIso A Q hAS
+⊢ ((sorry ⟶ (PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted (-1)) ⧸
+      LinearMap.range
+        (Linear.leftComp k ((PeriodIso.cutRegularGradedRightModule Q (periodIso A Q hAS)).shifted (-1)) sorry)) ≃ₗ[k]
+    k

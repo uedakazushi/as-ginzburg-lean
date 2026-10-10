@@ -1,0 +1,44 @@
+import work.ASGinzburgDraft.BalancedTensorTorBalanceConsequences
+import work.ASGinzburgDraft.BalancedTensorLeftFieldModuleChange
+import work.ASGinzburgDraft.ASCutSemisimpleTorFinite
+import ASGinzburg.ASCutOrdinarySimpleSharpDimension
+
+/-! Actual same-ring Tor balance transfers the nonzero third Tor of an
+ordinary right vertex simple to the actual left radical quotient. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+theorem ASRegular.cutOrdinarySimpleSecondTorRadicalQuotient_three_not_isZero
+    (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    ¬ IsZero ((balancedTensorTorFunctor.{u,v,v,v} k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutOrdinarySimple A Q x) 3).obj (hAS.cutSemisimpleLeftObject A Q)) := by
+  let R := hAS.CutGradedAlgebra A Q
+  let S := R ⧸ hAS.cutGradedRadical A Q
+  let M := hAS.cutOrdinarySimple A Q x
+  let N := hAS.cutSemisimpleLeftObject A Q
+  let eField :
+      (balancedTensorTorLeftFunctor.{u,v,v,v} k R N 3).obj M ≅
+        (balancedTensorTorLeftFunctor.{u,v,v,v} k R S 3).obj M :=
+    (balancedTensorTorLeftCanonicalFieldIso.{u,v,v,v} k R S 3).app M
+  let eBalance :
+      (balancedTensorTorLeftFunctor.{u,v,v,v} k R N 3).obj M ≅
+        (balancedTensorTorFunctor.{u,v,v,v} k R M 3).obj N :=
+    balancedTensorTorBalanceObjIso k R M N 3
+  intro h
+  have hNative : IsZero ((balancedTensorTorLeftFunctor.{u,v,v,v} k R S 3).obj M) :=
+    IsZero.of_iso h (eField.symm ≪≫ eBalance)
+  exact hAS.cutOrdinarySimpleTorRadicalQuotient_three_not_isZero A Q x
+    hNative
+
+theorem ASRegular.cutSemisimpleLeft_projectiveDimension_ge_three
+    (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    (3 : WithBot ℕ∞) ≤ projectiveDimension (hAS.cutSemisimpleLeftObject A Q) :=
+  projectiveDimension_ge_three_of_nonzero_leftDerived_three
+    (balancedTensorRightFunctor.{u,v,v,v} k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutOrdinarySimple A Q x))
+    (hAS.cutOrdinarySimpleSecondTorRadicalQuotient_three_not_isZero A Q x)
+
+end ASGinzburg.ZAlgebra

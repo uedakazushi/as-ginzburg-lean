@@ -1,0 +1,75 @@
+import ASGinzburg.PathAutomorphismUnrolling
+import ASGinzburg.ZeroCutFoundationRingEquiv
+import ASGinzburg.FreePathDecomposableProducts
+
+/-! Genuine path automorphisms induce genuine component automorphisms
+on the finite foundation, preserving products and the actual arrow ideal. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def VertexCutPathAutomorphism.foundationPathComponentLinearEquiv
+    (E : Q.VertexCutPathAutomorphism k) (i j : Q.Vertex) :
+    (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) ≃ₗ[k]
+      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) :=
+  (Q.zeroCutFoundationComponentEquiv k i j).symm.trans
+    ((VertexCutPathAutomorphism.cutComponentLinearEquiv Q k E i j 0).trans
+      (Q.zeroCutFoundationComponentEquiv k i j))
+
+theorem VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_on_cut
+    (E : Q.VertexCutPathAutomorphism k) (i j : Q.Vertex) (f : Q.pathCutComponent k i j 0) :
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv Q k E i j
+      (Q.zeroCutFoundationComponentEquiv k i j f) =
+    Q.zeroCutFoundationComponentEquiv k i j
+      (VertexCutPathAutomorphism.cutComponentLinearEquiv Q k E i j 0 f) := by
+  simp only [VertexCutPathAutomorphism.foundationPathComponentLinearEquiv,
+    LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
+
+theorem VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_comp
+    (E : Q.VertexCutPathAutomorphism k) {i j l : Q.Vertex}
+    (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ))
+    (g : (Q.unrolledPathZAlgebra k).Hom (j.val : ℤ) (l.val : ℤ)) :
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv Q k E i l
+      ((Q.unrolledPathZAlgebra k).comp g f) =
+    (Q.unrolledPathZAlgebra k).comp
+      (VertexCutPathAutomorphism.foundationPathComponentLinearEquiv Q k E j l g)
+      (VertexCutPathAutomorphism.foundationPathComponentLinearEquiv Q k E i j f) := by
+  obtain ⟨f, rfl⟩ := (Q.zeroCutFoundationComponentEquiv k i j).surjective f
+  obtain ⟨g, rfl⟩ := (Q.zeroCutFoundationComponentEquiv k j l).surjective g
+  rw [← Q.zeroCutFoundationComponentEquiv_comp,
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_on_cut,
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_on_cut,
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_on_cut,
+    ← Q.zeroCutFoundationComponentEquiv_comp]
+  apply congrArg (Q.zeroCutFoundationComponentEquiv k i l)
+  apply Subtype.ext
+  exact (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv_comp E.val
+    (VertexCutPathAutomorphism.fixes_vertex Q k E) f.val g.val
+
+theorem VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_id
+    (E : Q.VertexCutPathAutomorphism k) (i : Q.Vertex) :
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv Q k E i i
+      ((Q.unrolledPathZAlgebra k).id (i.val : ℤ)) =
+      (Q.unrolledPathZAlgebra k).id (i.val : ℤ) := by
+  rw [← Q.zeroCutFoundationComponentEquiv_id,
+    VertexCutPathAutomorphism.foundationPathComponentLinearEquiv_on_cut]
+  apply congrArg (Q.zeroCutFoundationComponentEquiv k i i)
+  apply Subtype.ext
+  exact (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv_id E.val
+    (VertexCutPathAutomorphism.fixes_vertex Q k E) i
+
+theorem unrolledArrowIdeal_linearEquiv_mem_iff (i j : ℤ)
+    (E : (Q.unrolledPathZAlgebra k).Hom i j ≃ₗ[k] (Q.unrolledPathZAlgebra k).Hom i j)
+    (f : (Q.unrolledPathZAlgebra k).Hom i j) :
+    E f ∈ (Q.unrolledArrowIdeal k).hom i j ↔ f ∈ (Q.unrolledArrowIdeal k).hom i j := by
+  by_cases hij : i < j
+  · rw [Q.unrolledArrowIdeal_off_diagonal_eq_top k i j hij]
+    simp only [Submodule.mem_top]
+  · have hz (g : (Q.unrolledPathZAlgebra k).Hom i j) :
+        g ∈ (Q.unrolledArrowIdeal k).hom i j ↔ g = 0 :=
+      ⟨Q.unrolledArrowIdeal_member_eq_zero_of_not_lt k i j (le_of_not_gt hij) g,
+        fun h => h.symm ▸ Submodule.zero_mem _⟩
+    rw [hz, hz]
+    exact E.map_eq_zero_iff
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,81 @@
+import ASGinzburg.OrdinaryModuleRingDual
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+
+/-! Actual double ring duality uses the canonical double-opposite
+restriction. Its evaluation is an actual natural module morphism,
+including both noncommutative ring actions. -/
+namespace ASGinzburg
+open CategoryTheory
+universe v
+variable (R : Type v) [Ring R]
+
+noncomputable abbrev ordinaryRingBidual (P : ModuleCat.{v} R) : ModuleCat.{v} R :=
+  (ModuleCat.restrictScalars (RingEquiv.opOp R).toRingHom).obj
+    (ordinaryRingDual Rᵐᵒᵖ (ordinaryRingDual R P))
+
+def ordinaryRingBidualElement (P : ModuleCat.{v} R) (x : P) :
+    ordinaryRingDual R P →ₗ[Rᵐᵒᵖ] Rᵐᵒᵖ where
+  toFun f := MulOpposite.op (f x)
+  map_add' := fun _ _ => rfl
+  map_smul' := fun _ _ => rfl
+
+def ordinaryRingBidualEvaluationLinearMap (P : ModuleCat.{v} R) :
+    P →ₗ[R] ordinaryRingBidual R P where
+  toFun := ordinaryRingBidualElement R P
+  map_add' x y := by
+    apply LinearMap.ext
+    intro f
+    exact congrArg MulOpposite.op (f.map_add x y)
+  map_smul' r x := by
+    apply LinearMap.ext
+    intro f
+    change MulOpposite.op (f (r • x)) = MulOpposite.op (f x) * MulOpposite.op r
+    rw [f.map_smul]
+    rfl
+
+def ordinaryRingBidualMap {P Q : ModuleCat.{v} R} (f : P ⟶ Q) :
+    ordinaryRingBidual R P →ₗ[R] ordinaryRingBidual R Q where
+  toFun h := h.comp (ordinaryRingDualMap R f)
+  map_add' := fun _ _ => rfl
+  map_smul' := fun _ _ => rfl
+
+noncomputable def ordinaryRingBidualFunctor : ModuleCat.{v} R ⥤ ModuleCat.{v} R where
+  obj P := ordinaryRingBidual R P
+  map f := ModuleCat.ofHom (ordinaryRingBidualMap R f)
+  map_id P := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    apply LinearMap.ext
+    intro g
+    rfl
+  map_comp f g := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    apply LinearMap.ext
+    intro a
+    rfl
+
+noncomputable def ordinaryRingBidualEvaluation (P : ModuleCat.{v} R) :
+    P ⟶ (ordinaryRingBidualFunctor R).obj P :=
+  ModuleCat.ofHom (ordinaryRingBidualEvaluationLinearMap R P)
+
+@[simp] theorem ordinaryRingBidualEvaluation_apply (P : ModuleCat.{v} R)
+    (x : P) (f : ordinaryRingDual R P) :
+    (show ordinaryRingDual R P →ₗ[Rᵐᵒᵖ] Rᵐᵒᵖ from ordinaryRingBidualEvaluation R P x) f =
+      MulOpposite.op (f x) := rfl
+
+noncomputable def ordinaryRingBidualEvaluationNatTrans :
+    𝟭 (ModuleCat.{v} R) ⟶ ordinaryRingBidualFunctor R where
+  app P := ordinaryRingBidualEvaluation R P
+  naturality := by
+    intro P Q f
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    apply LinearMap.ext
+    intro g
+    rfl
+
+end ASGinzburg

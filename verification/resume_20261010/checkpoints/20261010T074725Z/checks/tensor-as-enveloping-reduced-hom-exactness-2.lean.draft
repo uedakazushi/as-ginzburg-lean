@@ -1,0 +1,78 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRingDualTensorEvaluationReducedExactness
+import work.ASGinzburgDraft.ASCutOrdinaryRegularExtConcentration
+import ASGinzburg.ASCutEnvelopingFiniteResolution
+import work.ASGinzburgDraft.ASCutEnvelopingRingHomRightGrading
+import work.ASGinzburgDraft.ASCutSemisimpleRingDual
+import work.ASGinzburgDraft.ASCutSemisimpleRightFieldFinite
+import work.ASGinzburgDraft.ASCutSemisimpleRawReducedComplex
+
+/-! The original AS condition alone gives low exactness of the actual
+semisimple reduction of the finite enveloping ring-Hom complex. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 1000000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+ theorem ASRegular.cutEnvelopingReducedRingHom_exactAt_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n<3) :
+    (((envelopingRingDualTensorEvaluationSourceFunctor k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutSemisimpleRightObject A Q)).mapHomologicalComplex (ComplexShape.up ℕ)).obj
+        (hAS.cutEnvelopingFiniteProjectiveResolution A Q).complex.op).ExactAt n := by
+  let R := hAS.CutGradedAlgebra A Q
+  let P := hAS.cutEnvelopingFiniteProjectiveResolution A Q
+  letI := hAS.cutSemisimpleRightObject_fieldFinite A Q
+  apply envelopingRingDualTensorEvaluationSource_exactAt_low_of_ext_zero k R
+    (hAS.cutSemisimpleRightObject A Q) P
+  · intro i
+    exact (ordinaryFiniteProjectiveProperty_iff _ _).mpr
+      ⟨hAS.cutEnvelopingFiniteProjectiveResolution_term_finite A Q i, P.projective i⟩
+  · exact hAS.cutEnvelopingFiniteProjectiveResolution_isZero_ge_four A Q 0
+  · intro i hi e
+    exact hAS.cutSemisimpleRightExt_rightRegular_eq_zero_other A Q i (by omega) e
+  · exact hn
+
+theorem ASRegular.cutEnvelopingRawSemisimpleReducedRingHom_exactAt_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    (((hAS.cutEnvelopingRingDualRawSemisimpleTensorFunctor A Q).mapHomologicalComplex
+      (ComplexShape.up ℕ)).obj
+        (hAS.cutEnvelopingFiniteProjectiveResolution A Q).complex.op).ExactAt n := by
+  exact (hAS.cutEnvelopingRingDualRawSemisimpleTensor_exactAt_iff A Q
+    (hAS.cutEnvelopingFiniteProjectiveResolution A Q).complex n).mp
+      (hAS.cutEnvelopingReducedRingHom_exactAt_low A Q n hn)
+
+set_option maxHeartbeats 1000000 in
+theorem ASRegular.cutEnvelopingMinimalReducedRingHom_exactAt_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    (((envelopingRingDualTensorEvaluationSourceFunctor k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutSemisimpleRightObject A Q)).mapHomologicalComplex (ComplexShape.up ℕ)).obj
+        (hAS.cutEnvelopingRegularMinimalResolution A Q).complex.op).ExactAt n := by
+  let R := hAS.CutGradedAlgebra A Q
+  let P := hAS.cutEnvelopingRegularMinimalResolution A Q
+  letI := hAS.cutSemisimpleRightObject_fieldFinite A Q
+  apply envelopingRingDualTensorEvaluationSource_exactAt_low_of_ext_zero k R
+    (hAS.cutSemisimpleRightObject A Q) P
+  · intro i
+    exact (ordinaryFiniteProjectiveProperty_iff _ _).mpr
+      ⟨hAS.cutEnvelopingRegularMinimalResolution_term_finite A Q i, P.projective i⟩
+  · exact hAS.cutEnvelopingRegularMinimalResolution_isZero_ge_four A Q 0
+  · intro i hi e
+    exact hAS.cutSemisimpleRightExt_rightRegular_eq_zero_other A Q i (by omega) e
+  · exact hn
+
+set_option maxHeartbeats 1000000 in
+theorem ASRegular.cutEnvelopingMinimalRawSemisimpleReducedRingHom_exactAt_low
+    (hAS : A.ASRegular Q) (n : ℕ) (hn : n < 3) :
+    (((balancedTensorLeftFunctor k (hAS.CutGradedAlgebra A Q)
+      (hAS.CutGradedAlgebra A Q ⧸ hAS.cutGradedRadical A Q)).mapHomologicalComplex
+        (ComplexShape.up ℕ)).obj
+          (hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q)).ExactAt n := by
+  change (((hAS.cutEnvelopingRingDualRawSemisimpleTensorFunctor A Q).mapHomologicalComplex
+    (ComplexShape.up ℕ)).obj (hAS.cutEnvelopingRegularMinimalResolution A Q).complex.op).ExactAt n
+  exact (hAS.cutEnvelopingRingDualRawSemisimpleTensor_exactAt_iff A Q
+    (hAS.cutEnvelopingRegularMinimalResolution A Q).complex n).mp
+      (hAS.cutEnvelopingMinimalReducedRingHom_exactAt_low A Q n hn)
+
+end ASGinzburg.ZAlgebra

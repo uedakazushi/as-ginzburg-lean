@@ -1,0 +1,79 @@
+import ASGinzburg.EnvelopingBalancedTensorHomEquiv
+import work.ASGinzburgDraft.AlgebraEnvelopingRightModuleBimodule
+import Mathlib.LinearAlgebra.Contraction
+
+/-! Canonical enveloping contractions use the actual adjoint Hom action.
+The first tensor factor acts by precomposition on a field dual, and the
+second tensor factor acts by right multiplication on the value ring. -/
+namespace ASGinzburg
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+variable (X : Type z) [AddCommGroup X] [Module k X] [Module Rᵐᵒᵖ X]
+variable [IsScalarTower k Rᵐᵒᵖ X]
+
+noncomputable def envelopingTensorEvaluationHomScalarTower :
+    letI := envelopingBalancedTensorHomModule k R M X
+    IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) := by
+  letI := envelopingBalancedTensorHomRightModule k R M X
+  letI := envelopingBalancedTensorHomRightScalarTower k R M X
+  letI := envelopingBalancedTensorHomActionsCommute k R M X
+  letI := envelopingBalancedTensorHomModule k R M X
+  constructor
+  intro c t f
+  change TensorProduct.Algebra.moduleAux (c • t) f =
+    c • TensorProduct.Algebra.moduleAux t f
+  rw [map_smul, LinearMap.smul_apply]
+
+noncomputable def envelopingTensorEvaluationHomScalarCommute :
+    letI := envelopingBalancedTensorHomModule k R M X
+    SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M X) := by
+  letI := envelopingBalancedTensorHomRightModule k R M X
+  letI := envelopingBalancedTensorHomRightScalarTower k R M X
+  letI := envelopingBalancedTensorHomActionsCommute k R M X
+  letI := envelopingBalancedTensorHomModule k R M X
+  constructor
+  intro t c f
+  change TensorProduct.Algebra.moduleAux t (c • f) =
+    c • TensorProduct.Algebra.moduleAux t f
+  exact (TensorProduct.Algebra.moduleAux t).map_smul c f
+
+omit [Module Rᵐᵒᵖ X] [IsScalarTower k Rᵐᵒᵖ X] in
+noncomputable def envelopingTensorEvaluationDualSeed :
+    BalancedTensorHom k R M k →ₗ[k] BalancedTensorHom k R M R where
+  toFun φ := (show M →ₗ[k] k from φ).smulRight (1 : R)
+  map_add' φ ψ := by ext m; exact add_smul (φ m) (ψ m) (1 : R)
+  map_smul' c φ := by ext m; exact smul_assoc c (φ m) (1 : R)
+
+omit [Module Rᵐᵒᵖ X] [IsScalarTower k Rᵐᵒᵖ X] in
+@[simp] theorem envelopingTensorEvaluationDualSeed_apply
+    (φ : BalancedTensorHom k R M k) (m : M) :
+    envelopingTensorEvaluationDualSeed k R M φ m = φ m • (1 : R) := rfl
+
+omit [Module Rᵐᵒᵖ X] [IsScalarTower k Rᵐᵒᵖ X] in
+noncomputable def envelopingTensorEvaluationContraction
+    (φ : BalancedTensorHom k R M k) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    AlgebraEnvelopingRing k R →ₗ[AlgebraEnvelopingRing k R] BalancedTensorHom k R M R := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  exact {
+    toFun := fun t => t • envelopingTensorEvaluationDualSeed k R M φ
+    map_add' := fun t s => add_smul t s _
+    map_smul' := fun t s => mul_smul t s _ }
+
+omit [Module Rᵐᵒᵖ X] [IsScalarTower k Rᵐᵒᵖ X] in
+@[simp] theorem envelopingTensorEvaluationContraction_tmul
+    (φ : BalancedTensorHom k R M k) (a : R) (b : Rᵐᵒᵖ) (m : M) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    envelopingTensorEvaluationContraction k R M φ (a ⊗ₜ[k] b) m =
+      φ (MulOpposite.op a • m) • b.unop := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  change ((a ⊗ₜ[k] b) • envelopingTensorEvaluationDualSeed k R M φ) m = _
+  rw [envelopingBalancedTensorHomModule_tmul_apply,
+    envelopingTensorEvaluationDualSeed_apply]
+  change (φ (MulOpposite.op a • m) • (1 : R)) * b.unop = _
+  rw [smul_mul_assoc, one_mul]
+
+end ASGinzburg

@@ -1,0 +1,68 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorAugmentationRestriction.lean:55:22: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  G.map ?f ≫ G.map ?g
+in the target expression
+  ((tensorRightEnvelopingRestrictScalarsIso k R (P.complex.X 0) (Q.complex.X 0)).inv ≫
+        (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).map
+          (ιMapBifunctor P.complex Q.complex (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ) 0 0 0 hij)) ≫
+      G.map ((tensorRightEnvelopingAugmentation k R P Q).f 0) ≫ (tensorRightEnvelopingRestrictScalarsIso k R M N).hom =
+    ((((moduleTensorBifunctor k).mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj
+                (((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+                  P.complex)).obj
+            (((ModuleCat.restrictScalars (algebraMap k R)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+              Q.complex)).ιTotal
+        (ComplexShape.down ℕ) 0 0 0 hij ≫
+      (moduleFieldTensorResolutionHomotopyEquiv k R P Q).hom.f 0
+
+case a.a.h
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+N : ModuleCat R
+P : ProjectiveResolution M
+Q : ProjectiveResolution N
+G : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ ⥤ ModuleCat k :=
+  ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+e : ((ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).mapHomologicalComplex
+        (ComplexShape.down ℕ)).obj
+    (tensorRightEnvelopingTotal k R P.complex Q.complex (ComplexShape.down ℕ)) ≅
+  (((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+        P.complex).mapBifunctor
+    (((ModuleCat.restrictScalars (algebraMap k R)).mapHomologicalComplex (ComplexShape.down ℕ)).obj Q.complex)
+    (moduleTensorBifunctor k) (ComplexShape.down ℕ) :=
+  tensorRightEnvelopingTotalRestrictScalarsIso k R P.complex Q.complex
+Pk : ProjectiveResolution ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) :=
+  moduleFieldRestrictionResolution k Rᵐᵒᵖ P
+Qk : ProjectiveResolution ((ModuleCat.restrictScalars (algebraMap k R)).obj N) := moduleFieldRestrictionResolution k R Q
+this✝¹ : Projective ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) :=
+  moduleCatField_projective k ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M)
+this✝ : Projective ((ModuleCat.restrictScalars (algebraMap k R)).obj N) :=
+  moduleCatField_projective k ((ModuleCat.restrictScalars (algebraMap k R)).obj N)
+this : IsIso (e.inv.f 0) := Iso.isIso_inv (Hom.isoApp e 0)
+hi :
+  e.inv.f 0 ≫ e.hom.f 0 =
+    𝟙
+      (((((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+                P.complex).mapBifunctor
+            (((ModuleCat.restrictScalars (algebraMap k R)).mapHomologicalComplex (ComplexShape.down ℕ)).obj Q.complex)
+            (moduleTensorBifunctor k) (ComplexShape.down ℕ)).X
+        0)
+hij : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (0, 0) = 0
+hh :
+  ιMapBifunctor Pk.complex Qk.complex (moduleTensorBifunctor k) (ComplexShape.down ℕ) 0 0 0 ⋯ ≫
+      (moduleFieldTensorResolutionHomotopyEquiv k R P Q).hom.f 0 =
+    ((moduleTensorBifunctor k).map (Pk.π.f 0)).app (Qk.complex.X 0) ≫
+      ((moduleTensorBifunctor k).obj ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M)).map (Qk.π.f 0)
+⊢ ((tensorRightEnvelopingRestrictScalarsIso k R (P.complex.X 0) (Q.complex.X 0)).inv ≫
+        (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).map
+          (ιMapBifunctor P.complex Q.complex (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ) 0 0 0 hij)) ≫
+      G.map ((tensorRightEnvelopingAugmentation k R P Q).f 0) ≫ (tensorRightEnvelopingRestrictScalarsIso k R M N).hom =
+    ((((moduleTensorBifunctor k).mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj
+                (((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+                  P.complex)).obj
+            (((ModuleCat.restrictScalars (algebraMap k R)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+              Q.complex)).ιTotal
+        (ComplexShape.down ℕ) 0 0 0 hij ≫
+      (moduleFieldTensorResolutionHomotopyEquiv k R P Q).hom.f 0

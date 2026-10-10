@@ -1,0 +1,59 @@
+work/ASGinzburgDraft/TriangleQuadraticTerms.lean:22:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  -1 ≤ d - 3*e ≤ 1
+  c ≥ 0
+  c - d + 3*e ≥ 2
+  -2 ≤ c - 3*f ≤ 0
+  b ≥ 0
+  b - c ≥ 1
+  0 ≤ a ≤ 2
+  -6 ≤ a + 3*c - 3*d - 9*f ≤ -4
+where
+ a := ↑↑i
+ b := ↑triangle333.vertices
+ c := ↑↑v.1
+ d := ↑(3 * ((↑v.1 + 2) % 3) + ↑i) / 3
+ e := ↑((3 * ((↑v.1 + 2) % 3) + ↑i) / 3 + 1) / 3
+ f := ↑(↑v.1 + 2) / 3
+work/ASGinzburgDraft/TriangleQuadraticTerms.lean:31:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f + g ≥ 2
+  -1 ≤ e - 3*f ≤ 1
+  -3 ≤ e - 3*f - 3*g ≤ -1
+  d ≥ 0
+  0 ≤ d - 3*e ≤ 2
+  c ≥ 0
+  c - d ≥ 1
+  b ≥ 0
+  b - e + 3*f ≥ 2
+where
+ b := ↑triangle333.vertices
+ c := ↑triangle333.arrows
+ d := ↑↑↑a
+ e := ↑↑↑a / 3
+ f := ↑(↑↑a / 3 + 1) / 3
+ g := ↑(↑v.1 + 2) / 3
+work/ASGinzburgDraft/TriangleQuadraticTerms.lean:46:4: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  c ≥ 0
+  b ≥ 0
+  b - c ≥ 1
+  0 ≤ a ≤ 2
+  a + 3*c ≥ 9
+where
+ a := ↑↑i
+ b := ↑triangle333.vertices
+ c := ↑↑v.1
+work/ASGinzburgDraft/TriangleQuadraticTerms.lean:116:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  triangle333.height (triangle333.outgoingTarget ?v ?a)
+in the target expression
+  (g ∘ ⇑(triangleOutgoingArrowEquiv (triangle333.tau.symm v)).symm) i = A.representable (triangle333.height v - 2)
+
+case p.p
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+v : triangle333.LiftVertex
+g : triangle333.outgoingArrows (triangle333.tau.symm v) → A.RightModule := ⋯
+i : Fin 3
+⊢ (g ∘ ⇑(triangleOutgoingArrowEquiv (triangle333.tau.symm v)).symm) i = A.representable (triangle333.height v - 2)

@@ -1,0 +1,34 @@
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+
+/-! The alternating dimension identity of an actual finite exact sequence
+of four projective terms and its quotient, proved by rank-nullity. -/
+
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k]
+
+theorem moduleCatFourTermEuler {X₃ X₂ X₁ X₀ S : ModuleCat.{v} k}
+    (d₃ : X₃ ⟶ X₂) (d₂ : X₂ ⟶ X₁) (d₁ : X₁ ⟶ X₀) (π : X₀ ⟶ S)
+    [Module.Finite k X₂] [Module.Finite k X₁] [Module.Finite k X₀]
+    [Mono d₃] [Epi π]
+    (h₂ : LinearMap.range d₃.hom = LinearMap.ker d₂.hom)
+    (h₁ : LinearMap.range d₂.hom = LinearMap.ker d₁.hom)
+    (h₀ : LinearMap.range d₁.hom = LinearMap.ker π.hom) :
+    (Module.finrank k X₀ : ℤ) - Module.finrank k X₁ + Module.finrank k X₂ -
+      Module.finrank k X₃ = Module.finrank k S := by
+  have e₀ := π.hom.finrank_range_add_finrank_ker
+  have e₁ := d₁.hom.finrank_range_add_finrank_ker
+  have e₂ := d₂.hom.finrank_range_add_finrank_ker
+  rw [← h₀] at e₀
+  rw [← h₁] at e₁
+  rw [← h₂] at e₂
+  have hπ : Module.finrank k (LinearMap.range π.hom) = Module.finrank k S := by
+    rw [LinearMap.range_eq_top.mpr ((ModuleCat.epi_iff_surjective π).mp inferInstance)]
+    exact Submodule.finrank_top k S
+  have hd₃ : Module.finrank k (LinearMap.range d₃.hom) = Module.finrank k X₃ :=
+    LinearMap.finrank_range_of_inj ((ModuleCat.mono_iff_injective d₃).mp inferInstance)
+  omega
+
+end ASGinzburg

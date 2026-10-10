@@ -1,0 +1,966 @@
+{
+  "started_at_utc": "2026-10-10T01:58:11.147607+00:00",
+  "ended_at_utc": "2026-10-10T01:58:57.990359+00:00",
+  "elapsed_seconds": 46.84248930400008,
+  "exit_code": 0,
+  "modules": 33,
+  "declarations": 152,
+  "source_sha256": {
+    "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean": "0252f7e02a7b9ae174a0190218a75198ad7c3e15399bbab9752350d0524252ee",
+    "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean": "813e93e1c73fdeb8a054c5de3e3ebfb6e7214443caeadc309de69b729882a427",
+    "work/ASGinzburgDraft/AlgebraEnvelopingScalars.lean": "2b3a8c44c723f008e6a5412bb4e0060d3eb5d456d0269e8f2f8dc6eeae89d448",
+    "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightMaps.lean": "e06577d3d81d114014070a7abd09f312cce6e7c827cd2c535e6fa00d9bf03d85",
+    "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean": "9decc5ade6bbdbd2b9e52ad53c11082303787dae1554781a6c565fe2ee888350",
+    "work/ASGinzburgDraft/BalancedTensorAdjunction.lean": "0db3b6068902f86f3bef9446d199a4c4e2a6625812ef34675fb48f499338b003",
+    "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean": "cc9a7e2713a11fe55353945d6012c45b1d38ae0513f346c46d7939563d53fa1c",
+    "work/ASGinzburgDraft/BalancedTensorEnvelopingNaturality.lean": "ab1937791c29e686c5b0bfa88e18cbd8eb687c06464fa34d1371b97ab8b0f820",
+    "work/ASGinzburgDraft/BalancedTensorHom.lean": "a0cd011a205c203bc9d993b7197198aa6394684590e4c1ecea639b89f491ac23",
+    "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean": "10295e04098d8c7bfeb1455c69f36b6c4125d0d56e0781f6141f1cd010735f78",
+    "work/ASGinzburgDraft/BalancedTensorHomFunctor.lean": "032b7af2aa1338aa51509a542e7db414c03ca417869dde420ed1d48c9f9457e2",
+    "work/ASGinzburgDraft/BalancedTensorHomMaps.lean": "bf68bdf6cf2c8865a5183f832715069042ac34444b4c202ec4415ef355d6c9a1",
+    "work/ASGinzburgDraft/BalancedTensorLeftAdjunction.lean": "f83a38aef765db6a8888e21e464ac7cd0f5363b788b45cd92c6197437db96087",
+    "work/ASGinzburgDraft/BalancedTensorLeftFunctor.lean": "3019512fefda26f040aa735a59c29770099df0b42beff8366e0ec533dd297afc",
+    "work/ASGinzburgDraft/BalancedTensorLeftMaps.lean": "90725e05f968d859f414fde42f8df6c59bad6beb4cdf612d62675317014b2f31",
+    "work/ASGinzburgDraft/BalancedTensorLeftUnit.lean": "4c354c22ceaaa206905c838d7ed4bf3f06fd5ed3ecff2be61fdf5e8b1e80a72a",
+    "work/ASGinzburgDraft/BalancedTensorMinimalMaps.lean": "d5064b6455c4df697cd756b6e4c641f2d699b987299eb06cd713d66b4b363ffc",
+    "work/ASGinzburgDraft/BalancedTensorRightFunctor.lean": "c59e60312e052b3043d97c6fa04fe9353e3efc0a634fa30f1187fb9e106b9f6b",
+    "work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean": "f71ba612cad1098f839bdaadd8dc4c2d05c3cdb47d2c6d74f07568c69812619f",
+    "work/ASGinzburgDraft/BalancedTensorRightMaps.lean": "f1201845961cd1c70d7ffb726f5704ebded31d22af1ddb8d648a613a1a8ccd5e",
+    "work/ASGinzburgDraft/BalancedTensorSpace.lean": "c07e4b089ba08dab59328b802ac62700168dc4b65f29cb167d9f4f4601fed2a8",
+    "work/ASGinzburgDraft/BalancedTensorSwap.lean": "1c7af8d1b3f0fc6b5474838127db92f27d93c32e5d9f34a989a6dd8d7c64b4f5",
+    "work/ASGinzburgDraft/BalancedTensorSwapNaturality.lean": "32c89b4c6293d0d2125eec20ed19dab85438c715ee13390fdaabe0114a6d8332",
+    "work/ASGinzburgDraft/BalancedTensorTor.lean": "ef01e27cd2b84ed7c2d37f707cdc432d0d1845256ca36004a87799bf87d10b11",
+    "work/ASGinzburgDraft/BalancedTensorTorLeft.lean": "df03099f8decc866c1fc8c9ced03729f4c0213fb50d1ab25309a3f85b185c9e4",
+    "work/ASGinzburgDraft/BalancedTensorTorResolution.lean": "37c246e864e00d0fe6699de280bb3fca0ab1d4af12cf8b7c7df87e83d513457d",
+    "work/ASGinzburgDraft/BalancedTensorUniversal.lean": "bd61fe0bdd360d75d6ecc65c85d9e07e757f241f01fc11f97edc4c6b3e0c1ddb",
+    "work/ASGinzburgDraft/FiniteBiproductProjectiveDimension.lean": "6bceb82f65a07ffd6b3b7e4d551c7ec1e4d1c61382f8b1b83cb7be17466e4691",
+    "work/ASGinzburgDraft/MapProjectiveResolutionOfTerms.lean": "1db09d95701ee94475520919f309d66cb6d583936d1fb59593759ef7c11f348c",
+    "work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean": "09868797f8c2862af0a0a2a185f2cced8bde88b655d05400e69ae2993ac4bc54",
+    "work/ASGinzburgDraft/ScalarProductSeparability.lean": "a9b15f5285eeb016bb10382585e96954f93f17a603168800e643a4d98eb48560",
+    "work/ASGinzburgDraft/ScalarQuotientProjectiveDimension.lean": "a2f15d474526c141fa3fc08f584fb78c54aaca653284cb5c94f5a4247ff7d032",
+    "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean": "a6c001f3efd92cb41159947e09b8fff9e853254644ac8dc6ad7eba9da40c42aa"
+  },
+  "entries": [
+    {
+      "name": "ASGinzburg.bimoduleEnvelopingModule",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.bimoduleEnvelopingModule_tmul_smul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingModule_eq_bimoduleEnvelopingModule",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.bimoduleEnvelopingLinearMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean",
+      "line": 47
+    },
+    {
+      "name": "ASGinzburg.bimoduleEnvelopingLinearMap_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean",
+      "line": 70
+    },
+    {
+      "name": "ASGinzburg.bimoduleEnvelopingLinearMap_smul_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean",
+      "line": 75
+    },
+    {
+      "name": "ASGinzburg.AlgebraEnvelopingRing",
+      "kind": "abbrev",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.regularRightAlgebraRepresentation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingRepresentation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingRepresentation_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 46
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingModule",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 51
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingModuleCat",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 54
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingModule_tmul_smul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingRegularModule.lean",
+      "line": 58
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingScalarTower",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingScalars.lean",
+      "line": 8
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingScalarComm",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingScalars.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.regularEnvelopingModule_finite",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingScalars.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightMaps.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingMap_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightMaps.lean",
+      "line": 44
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingMap_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightMaps.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingMap_id",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightMaps.lean",
+      "line": 54
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingMap_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightMaps.lean",
+      "line": 68
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingRepresentation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingRepresentation_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingModule",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingModule_tmul_smul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingScalarTower",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.tensorRightEnvelopingScalarComm",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.balancedTensorModuleHomEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorAdjunction.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.balancedTensorAdjunction",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorAdjunction.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.balancedTensorRightFunctorIsLeftAdjoint",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorAdjunction.lean",
+      "line": 42
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingPairEvaluation",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingPairEvaluation_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingPairEvaluation_balance",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 66
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonMap_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 73
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingInsertion",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 80
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingInsertion_balance",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 85
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonInverse",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 96
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonInverse_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 103
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean",
+      "line": 109
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonMap_naturality",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingNaturality.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.balancedTensorEnvelopingComparisonInverse_naturality",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorEnvelopingNaturality.lean",
+      "line": 57
+    },
+    {
+      "name": "ASGinzburg.BalancedTensorHom",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomAddCommGroup",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomModuleK",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomCoeFun",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomLinearEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomLinearEquiv_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomLinearEquiv_symm_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHom_ext",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 42
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHom_zero_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 46
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHom_add_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHom_smul_k_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 52
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomModule",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 57
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHom_smul_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 99
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomIsScalarTower",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 103
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomSMulCommClass",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHom.lean",
+      "line": 111
+    },
+    {
+      "name": "ASGinzburg.balancedTensorCurry",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.balancedTensorCurry_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.balancedTensorUncurryBilinear",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.balancedTensorUncurry",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean",
+      "line": 57
+    },
+    {
+      "name": "ASGinzburg.balancedTensorUncurry_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean",
+      "line": 65
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomEquiv.lean",
+      "line": 71
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomFunctor",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomFunctor.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomFunctorAdditive",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomFunctor.lean",
+      "line": 33
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomMaps.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.balancedTensorHomMap_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomMaps.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.balancedTensorCurry_naturality_source",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomMaps.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.balancedTensorCurry_naturality_target",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomMaps.lean",
+      "line": 46
+    },
+    {
+      "name": "ASGinzburg.balancedTensorUncurry_naturality_source",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorHomMaps.lean",
+      "line": 56
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftSwapIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftAdjunction.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftFunctorIsLeftAdjoint",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftAdjunction.lean",
+      "line": 27
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftFunctor",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftFunctor.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftFunctorAdditive",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftFunctor.lean",
+      "line": 38
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftFunctorLinear",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftFunctor.lean",
+      "line": 53
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapLeft",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftMaps.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapLeft_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftMaps.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftUnitMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftUnit.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftUnitInverse",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftUnit.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLeftUnitEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorLeftUnit.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTmul_eq_zero_of_action_span",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorMinimalMaps.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapLeft_eq_zero_of_action_span",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorMinimalMaps.lean",
+      "line": 39
+    },
+    {
+      "name": "ASGinzburg.balancedTensorRightFunctor",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightFunctor.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.balancedTensorRightFunctorAdditive",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightFunctor.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.balancedTensorRightFunctorLinear",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightFunctor.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapRight_id",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapRight_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapRight_add",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean",
+      "line": 25
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapRight_smul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightMapLaws.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapRight",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightMaps.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.balancedTensorMapRight_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorRightMaps.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.balancedTensorRelations",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSpace.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.BalancedTensorSpace",
+      "kind": "abbrev",
+      "file": "work/ASGinzburgDraft/BalancedTensorSpace.lean",
+      "line": 19
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTmul",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSpace.lean",
+      "line": 21
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTmul_balance",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSpace.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLift",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSpace.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.balancedTensorLift_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSpace.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.balancedTensorDoubleOppositeModule",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.BalancedTensorSwapSpace",
+      "kind": "abbrev",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapTmul",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 25
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapMap_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapInverse",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 45
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapInverse_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 55
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 63
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapEquiv_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 89
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapEquiv_symm_tmul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwap.lean",
+      "line": 94
+    },
+    {
+      "name": "ASGinzburg.balancedTensorDoubleOppositeModule_smul",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwapNaturality.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.balancedTensorDoubleOppositeIsScalarTower",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwapNaturality.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapMap_naturality",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwapNaturality.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSwapEquiv_naturality",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorSwapNaturality.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorFunctor",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTor.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorZeroIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTor.lean",
+      "line": 22
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorResolutionIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTor.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTor_projective_succ",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorTor.lean",
+      "line": 38
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeftFunctor",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeftZeroIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 19
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeftSwapIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 25
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeftResolutionIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeft_projective_succ",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 50
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeft_isZero_of_resolution_term",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 56
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorLeftZeroDifferentialsIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorLeft.lean",
+      "line": 66
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTor_isZero_of_resolution_term",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorResolution.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.balancedTensorTorZeroDifferentialsIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorTorResolution.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSpace_induction",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorUniversal.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.balancedTensorSpace_linearMap_ext",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/BalancedTensorUniversal.lean",
+      "line": 25
+    },
+    {
+      "name": "ASGinzburg.balancedTensorBilinear",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/BalancedTensorUniversal.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.finiteBiproduct_hasProjectiveDimensionLT",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/FiniteBiproductProjectiveDimension.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.mapProjectiveResolutionOfTerms",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/MapProjectiveResolutionOfTerms.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.mapProjectiveResolutionOfTerms_isZero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/MapProjectiveResolutionOfTerms.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.oneDimensionalRightRepresentationValue",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.oneDimensionalRightRepresentation_scalar_action_value",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.oneDimensionalRightRepresentationCharacter",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.oneDimensionalRightRepresentationCharacter_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.oneDimensionalRightRepresentation_scalar_action",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean",
+      "line": 52
+    },
+    {
+      "name": "ASGinzburg.scalarProductEnvelopingEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.scalarProductEnveloping_isSemisimple",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 19
+    },
+    {
+      "name": "ASGinzburg.scalarProductBaseChangeEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.scalarProductBaseChange_isSemisimple",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 27
+    },
+    {
+      "name": "ASGinzburg.scalarProductEnvelopingMultiplication",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.scalarProductEnvelopingModule",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.scalarProductEnvelopingModule_projective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/ScalarProductSeparability.lean",
+      "line": 40
+    },
+    {
+      "name": "ASGinzburg.scalarQuotientVertexBiproductIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarQuotientProjectiveDimension.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.scalarQuotient_hasProjectiveDimensionLT",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/ScalarQuotientProjectiveDimension.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.idealQuotientRightModule",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.idealQuotientRightObject",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 20
+    },
+    {
+      "name": "ASGinzburg.idealQuotientRightProjection",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.idealQuotientRightProjection_surjective",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 29
+    },
+    {
+      "name": "ASGinzburg.idealQuotientRight_finite",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.idealQuotientRightLinearEquivOfEq",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.scalarQuotientRightObject",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 47
+    },
+    {
+      "name": "ASGinzburg.scalarQuotientVertexLinearEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean",
+      "line": 50
+    }
+  ],
+  "log": "work/checks/resume-generic-axioms-1.log",
+  "log_sha256": "0ff65c884e955b92f8eb7d062e2756fe90133669a0ddc47eba6fae7814bfcaf5",
+  "strict_coverage": true,
+  "unique_declarations": 152,
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ]
+}

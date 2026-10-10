@@ -1,0 +1,36 @@
+import work.ASGinzburgDraft.BalancedTensorDoubleResolutionRightTor
+import work.ASGinzburgDraft.BalancedTensorTorLeftFinite
+
+/-! Actual same-ring balance transfers first-factor computations to
+second-factor derived tensor, including finiteness and bounded vanishing. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : ModuleCat.{max v w} Rᵐᵒᵖ) (N : ModuleCat.{max v w} R)
+
+noncomputable def balancedTensorTorBalanceObjIso (n : ℕ) :
+    (balancedTensorTorLeftFunctor.{u,v,max v w,w} k R N n).obj M ≅
+      (balancedTensorTorFunctor.{u,v,max v w,w} k R M n).obj N :=
+  balancedTensorTorBalanceIso k R (ProjectiveResolution.of M) (ProjectiveResolution.of N) n
+
+theorem balancedTensorTor_isZero_of_right_resolution_term
+    (P : ProjectiveResolution M) (n : ℕ) (h : IsZero (P.complex.X n)) :
+    IsZero ((balancedTensorTorFunctor.{u,v,max v w,w} k R M n).obj N) :=
+  IsZero.of_iso (balancedTensorTorLeft_isZero_of_resolution_term k R N M P n h)
+    (balancedTensorTorBalanceIso k R P (ProjectiveResolution.of N) n).symm
+
+theorem balancedTensorTor_finite_of_right_resolution_term
+    (P : ProjectiveResolution M) (n : ℕ)
+    [Module.Finite Rᵐᵒᵖ (P.complex.X n)] [Module.Finite k N] :
+    Module.Finite k ((balancedTensorTorFunctor.{u,v,max v w,w} k R M n).obj N) := by
+  haveI : Module.Finite k
+      ((balancedTensorTorLeftFunctor.{u,v,max v w,w} k R N n).obj M) :=
+    balancedTensorTorLeft_finite_of_resolution_term.{u,v,max v w,w} k R N M P n
+  let e : (balancedTensorTorLeftFunctor.{u,v,max v w,w} k R N n).obj M ≅
+      (balancedTensorTorFunctor.{u,v,max v w,w} k R M n).obj N :=
+    balancedTensorTorBalanceIso k R P (ProjectiveResolution.of N) n
+  exact Module.Finite.equiv e.toLinearEquiv
+
+end ASGinzburg

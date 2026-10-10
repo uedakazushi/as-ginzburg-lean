@@ -1,0 +1,50 @@
+work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean:31:40: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  0 • ?m
+in the target expression
+  0 = 0 • x
+
+case w.refine_1
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+t : AlgebraEnvelopingRing k R
+x : R
+this : Module (AlgebraEnvelopingRing k R) R := bimoduleEnvelopingModule k R R
+⊢ 0 = 0 • x
+work/ASGinzburgDraft/AlgebraEnvelopingBimoduleMaps.lean:60:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  0 • ?m
+in the target expression
+  f (0 • x) = 0 • f x
+
+case refine_1
+k : Type u
+inst✝¹⁶ : Field k
+R : Type v
+inst✝¹⁵ : Ring R
+inst✝¹⁴ : Algebra k R
+M : Type w
+inst✝¹³ : AddCommGroup M
+inst✝¹² : Module k M
+inst✝¹¹ : Module R M
+inst✝¹⁰ : Module Rᵐᵒᵖ M
+inst✝⁹ : IsScalarTower k R M
+inst✝⁸ : IsScalarTower k Rᵐᵒᵖ M
+inst✝⁷ : SMulCommClass R Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : Module Rᵐᵒᵖ N
+inst✝² : IsScalarTower k R N
+inst✝¹ : IsScalarTower k Rᵐᵒᵖ N
+inst✝ : SMulCommClass R Rᵐᵒᵖ N
+f : M →ₗ[k] N
+hleft : ∀ (a : R) (x : M), f (a • x) = a • f x
+hright : ∀ (b : Rᵐᵒᵖ) (x : M), f (b • x) = b • f x
+this✝ : Module (AlgebraEnvelopingRing k R) M := bimoduleEnvelopingModule k R M
+this : Module (AlgebraEnvelopingRing k R) N := bimoduleEnvelopingModule k R N
+t : AlgebraEnvelopingRing k R
+x : M
+⊢ f (0 • x) = 0 • f x

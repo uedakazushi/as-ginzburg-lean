@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/GinzburgCotangentWordIdentities.lean:24:36: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (wordSubstitutionBetween ?σ) (Finsupp.single ?p ?a)
+in the target expression
+  c • wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList =
+    (wordSubstitutionBetween (Q.ginzburgOriginalAutomorphismWordReplacement k E)) (c • Finsupp.single p.toList 1)
+
+case single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+i j : Q.Vertex
+p : Q.Path i j
+c : k
+hs : Finsupp.single p c = c • Finsupp.single p 1
+⊢ c • wordSubstitutionBetweenWord (Q.ginzburgOriginalAutomorphismWordReplacement k E) p.toList =
+    (wordSubstitutionBetween (Q.ginzburgOriginalAutomorphismWordReplacement k E)) (c • Finsupp.single p.toList 1)

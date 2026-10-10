@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:27:63: error: unsolved goals
+k : Type u
+inst✝ : Ring k
+K : ChainComplex (ModuleCat k) ℕ
+n : ℕ
+h : ExactAt K n
+x : ↑(K.X n)
+hx : (ConcreteCategory.hom (K.d n (n - 1))) x = 0
+s : ℤˣ
+y : ↑(K.X (n + 1))
+hy : (ConcreteCategory.hom (K.d (n + 1) n)) y = x
+⊢ (↑s * ↑s⁻¹) • x = x
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:31:51: warning: This simp argument is unused:
+  ← Int.cast_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [Units.smul_def, map_zsmul, smul_smul, ←̵ ̵I̵n̵t̵.̵c̵a̵s̵t̵_̵m̵u̵l̵,̵ ̵Units.val_mul, mul_inv_cancel, Units.val_one,
+  ̲  ̲ ̲ ̲one_smul, hy]
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:31:67: warning: This simp argument is unused:
+  Units.val_mul
+
+Hint: Omit it from the simp argument list.
+  simp only [Units.smul_def, map_zsmul, smul_smul, ← Int.cast_mul, U̵n̵i̵t̵s̵.̵v̵a̵l̵_̵m̵u̵l̵,̵mul_inv_cancel, Units.val_one,
+  ̲  ̲ ̲ ̲one_smul, hy]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:32:4: warning: This simp argument is unused:
+  mul_inv_cancel
+
+Hint: Omit it from the simp argument list.
+  simp only [Units.smul_def, map_zsmul, smul_smul, ← Int.cast_mul, Units.val_mul, m̵u̵l̵_̵i̵n̵v̵_̵c̵a̵n̵c̵e̵l̵,̵ ̵Units.val_one,
+  ̲  ̲ ̲ ̲one_smul, hy]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:32:20: warning: This simp argument is unused:
+  Units.val_one
+
+Hint: Omit it from the simp argument list.
+  simp only [Units.smul_def, map_zsmul, smul_smul, ← Int.cast_mul, Units.val_mul, mul_inv_cancel,
+  ̲  ̲ ̲ ̲U̵n̵i̵t̵s̵.̵v̵a̵l̵_̵o̵n̵e̵,̵ ̵one_smul, hy]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:32:35: warning: This simp argument is unused:
+  one_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [Units.smul_def, map_zsmul, smul_smul, ← Int.cast_mul, Units.val_mul, mul_inv_cancel,
+  ̲  ̲ ̲ ̲Units.val_one, o̵n̵e̵_̵s̵m̵u̵l̵,̵ ̵hy]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

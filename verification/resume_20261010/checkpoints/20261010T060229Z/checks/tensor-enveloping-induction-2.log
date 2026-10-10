@@ -1,0 +1,79 @@
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:62:2: error: unsolved goals
+case refine_1
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+a : R
+t : AlgebraEnvelopingRing k R
+φ : BalancedTensorHom k R M k
+this✝¹ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) := envelopingBalancedTensorHomModule k R M R
+this✝ : IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarTower k R M R
+this : SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarCommute k R M R
+⊢ ((envelopingTensorEvaluationInductionBilinear k R M) (MulOpposite.op a • 0)) φ = 0
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:73:2: error: unsolved goals
+case refine_3
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+a : R
+t✝ : AlgebraEnvelopingRing k R
+φ : BalancedTensorHom k R M k
+this✝¹ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) := envelopingBalancedTensorHomModule k R M R
+this✝ : IsScalarTower k (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarTower k R M R
+this : SMulCommClass (AlgebraEnvelopingRing k R) k (BalancedTensorHom k R M R) :=
+  envelopingTensorEvaluationHomScalarCommute k R M R
+t s : R ⊗[k] Rᵐᵒᵖ
+ht :
+  ((envelopingTensorEvaluationInductionBilinear k R M) (MulOpposite.op a • t)) φ =
+    ((envelopingTensorEvaluationInductionBilinear k R M) t) (a • φ)
+hs :
+  ((envelopingTensorEvaluationInductionBilinear k R M) (MulOpposite.op a • s)) φ =
+    ((envelopingTensorEvaluationInductionBilinear k R M) s) (a • φ)
+⊢ ((envelopingTensorEvaluationInductionBilinear k R M) (MulOpposite.op a • (t + s))) φ =
+    ((envelopingTensorEvaluationInductionBilinear k R M) t) (a • φ) +
+      ((envelopingTensorEvaluationInductionBilinear k R M) s) (a • φ)
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:62:15: warning: This simp argument is unused:
+  smul_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵m̵u̵l̵_̵z̵e̵r̵o̵,̵ ̵m̵a̵p̵_̵z̵e̵r̵o̵,̵[̲m̲a̲p̲_̲z̲e̲r̲o̲,̲ LinearMap.zero_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:74:15: warning: This simp argument is unused:
+  smul_add
+
+Hint: Omit it from the simp argument list.
+  simp only [̵s̵m̵u̵l̵_̵a̵d̵d̵,̵ ̵m̵a̵p̵_̵a̵d̵d̵,̵[̲m̲a̲p̲_̲a̲d̲d̲,̲ LinearMap.add_apply, ht, hs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:74:55: warning: This simp argument is unused:
+  ht
+
+Hint: Omit it from the simp argument list.
+  simp only [smul_add, map_add, LinearMap.add_apply, ht̵,̵ ̵h̵s]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingRingDualTensorEvaluationInduction.lean:74:59: warning: This simp argument is unused:
+  hs
+
+Hint: Omit it from the simp argument list.
+  simp only [smul_add, map_add, LinearMap.add_apply, ht,̵ ̵h̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

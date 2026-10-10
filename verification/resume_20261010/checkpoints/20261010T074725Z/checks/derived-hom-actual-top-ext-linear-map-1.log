@@ -1,0 +1,115 @@
+work/ASGinzburgDraft/ProjectiveResolutionTopExtLinearMap.lean:21:19: error: unsolved goals
+k : Type t
+inst✝⁵ : Field k
+C : Type u
+inst✝⁴ : Category.{v, u} C
+inst✝³ : Abelian C
+inst✝² : Linear k C
+inst✝¹ : HasDerivedCategory C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+N : C
+c : k
+f : P.complex.X 3 ⟶ N
+⊢ c • ⋯.extClass.comp (⋯.extClass.comp (⋯.extClass.comp (Abelian.Ext.mk₀ f) ⋯) ⋯) ⋯ =
+    (RingHom.id k) c • ⋯.extClass.comp (⋯.extClass.comp (⋯.extClass.comp (Abelian.Ext.mk₀ f) ⋯) ⋯) ⋯
+work/ASGinzburgDraft/ProjectiveResolutionTopExtLinearMap.lean:37:90: error: don't know how to synthesize placeholder for argument `h`
+context:
+k : Type t
+inst✝⁵ : Field k
+C : Type u
+inst✝⁴ : Category.{v, u} C
+inst✝³ : Abelian C
+inst✝² : Linear k C
+inst✝¹ : HasDerivedCategory C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+N : C
+e : Abelian.Ext X N 3
+x :
+  Abelian.Ext
+    { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0, f := kernel.ι (P.π.f 0),
+        g := P.π.f 0, zero := ⋯ }.X₁
+    N 2
+hx : ⋯.extClass.comp x ⋯ = e
+y :
+  Abelian.Ext
+    { X₁ := kernel P.firstCover, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := kernel.ι P.firstCover,
+        g := P.firstCover, zero := ⋯ }.X₁
+    N 1
+hy : ⋯.extClass.comp y ⋯ = x
+z :
+  Abelian.Ext
+    { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2, g := P.secondCover,
+        zero := ⋯ }.X₁
+    N 0
+hz : ⋯.extClass.comp z ⋯ = y
+⊢ 1 + (1 + (1 + 0)) = 3
+work/ASGinzburgDraft/ProjectiveResolutionTopExtLinearMap.lean:26:65: error: unsolved goals
+k : Type t
+inst✝⁵ : Field k
+C : Type u
+inst✝⁴ : Category.{v, u} C
+inst✝³ : Abelian C
+inst✝² : Linear k C
+inst✝¹ : HasDerivedCategory C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+N : C
+e : Abelian.Ext X N 3
+x :
+  Abelian.Ext
+    { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0, f := kernel.ι (P.π.f 0),
+        g := P.π.f 0, zero := ⋯ }.X₁
+    N 2
+hx : ⋯.extClass.comp x ⋯ = e
+y :
+  Abelian.Ext
+    { X₁ := kernel P.firstCover, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := kernel.ι P.firstCover,
+        g := P.firstCover, zero := ⋯ }.X₁
+    N 1
+hy : ⋯.extClass.comp y ⋯ = x
+z :
+  Abelian.Ext
+    { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2, g := P.secondCover,
+        zero := ⋯ }.X₁
+    N 0
+hz : ⋯.extClass.comp z ⋯ = y
+⊢ (P.homToActualExtThree h₄ N) (Abelian.Ext.homEquiv₀ z) = e
+work/ASGinzburgDraft/ProjectiveResolutionTopExtLinearMap.lean:45:86: error: don't know how to synthesize placeholder for argument `h`
+context:
+k : Type t
+inst✝⁵ : Field k
+C : Type u
+inst✝⁴ : Category.{v, u} C
+inst✝³ : Abelian C
+inst✝² : Linear k C
+inst✝¹ : HasDerivedCategory C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+N : C
+g : P.complex.X 2 ⟶ N
+⊢ 1 + (1 + (1 + 0)) = 3
+work/ASGinzburgDraft/ProjectiveResolutionTopExtLinearMap.lean:42:69: error: unsolved goals
+k : Type t
+inst✝⁵ : Field k
+C : Type u
+inst✝⁴ : Category.{v, u} C
+inst✝³ : Abelian C
+inst✝² : Linear k C
+inst✝¹ : HasDerivedCategory C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+N : C
+g : P.complex.X 2 ⟶ N
+⊢ (P.homToActualExtThree h₄ N) (P.complex.d 3 2 ≫ g) = 0

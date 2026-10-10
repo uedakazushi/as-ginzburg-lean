@@ -1,0 +1,47 @@
+import work.ASGinzburgDraft.ModuleCatCochainTopCokernelIso
+import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Kernels
+import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
+
+/-! An additive functor preserving the actual last differential's
+cokernel commutes with top cochain homology. No preservation of kernels
+or exactness is required, and all ring/carrier universes are independent. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v w t
+variable {R : Type u} [Ring R] {T : Type w} [Ring T]
+
+noncomputable def moduleCatShortComplexZeroOutgoingMapHomologyIso
+    (S : ShortComplex (ModuleCat.{v} R))
+    (F : ModuleCat.{v} R ⥤ ModuleCat.{t} T) [F.Additive]
+    (hg : S.g = 0) [PreservesColimit (parallelPair S.f 0) F] :
+    F.obj S.homology ≅ (S.map F).homology := by
+  have hg' : (S.map F).g = 0 := by
+    change F.map S.g = 0
+    rw [hg, F.map_zero]
+  exact F.mapIso (ShortComplex.LeftHomologyData.ofHasCokernel S hg).homologyIso ≪≫
+    PreservesCokernel.iso F S.f ≪≫
+      (ShortComplex.LeftHomologyData.ofHasCokernel (S.map F) hg').homologyIso.symm
+
+noncomputable def moduleCatCochainTopHomologyFunctorIso
+    (K : CochainComplex (ModuleCat.{v} R) ℕ)
+    (F : ModuleCat.{v} R ⥤ ModuleCat.{t} T) [F.Additive] (n : ℕ)
+    (hNext : IsZero (K.X (n + 2)))
+    [PreservesColimit (parallelPair (K.d n (n + 1)) 0) F] :
+    F.obj (K.homology (n + 1)) ≅
+      ((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj K).homology (n + 1) := by
+  let S := K.sc' n (n + 1) (n + 2)
+  let K' := (F.mapHomologicalComplex (ComplexShape.up ℕ)).obj K
+  have hg : S.g = 0 := hNext.eq_of_tgt _ _
+  exact F.mapIso (K.homologyIsoSc' n (n + 1) (n + 2) (by simp) (by simp)) ≪≫
+    moduleCatShortComplexZeroOutgoingMapHomologyIso S F hg ≪≫
+      (K'.homologyIsoSc' n (n + 1) (n + 2) (by simp) (by simp)).symm
+
+noncomputable def moduleCatCochainHomologyThreeFunctorIso
+    (K : CochainComplex (ModuleCat.{v} R) ℕ)
+    (F : ModuleCat.{v} R ⥤ ModuleCat.{t} T) [F.Additive]
+    (hFour : IsZero (K.X 4)) [PreservesColimit (parallelPair (K.d 2 3) 0) F] :
+    F.obj (K.homology 3) ≅
+      ((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj K).homology 3 :=
+  moduleCatCochainTopHomologyFunctorIso K F 2 hFour
+
+end ASGinzburg

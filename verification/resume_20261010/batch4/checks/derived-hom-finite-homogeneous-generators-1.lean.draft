@@ -1,0 +1,47 @@
+import ASGinzburg.GradedOrdinaryModuleData
+import ASGinzburg.FiniteHomogeneousComponents
+import Mathlib.RingTheory.Finiteness.Defs
+
+/-! Ordinary finite generation of an actually graded ring module gives
+a genuine finite homogeneous generating family. Its degrees and vectors
+are obtained from components of an ordinary finite generating family. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+variable (M : GradedOrdinaryModuleData k R G)
+
+theorem exists_finite_homogeneous_generating_family [Module.Finite R M.ringModule] :
+    ∃ (I : Type v) (_ : Fintype I) (d : I → ℤ) (x : I → M.ringModule),
+      (∀ i : I, x i ∈ M.grade (d i)) ∧ Submodule.span R (Set.range x) = ⊤ := by
+  classical
+  letI := M.decomposition
+  obtain ⟨n, x, hx⟩ := Module.Finite.exists_fin R M.ringModule
+  let T := finiteHomogeneousComponents k M.ringModule M.grade n x
+  have hT : ∀ y ∈ T, ∃ p : ℤ, y ∈ M.grade p := by
+    intro y hy
+    obtain ⟨i, _, hy⟩ := Finset.mem_biUnion.mp hy
+    obtain ⟨p, _, rfl⟩ := Finset.mem_image.mp hy
+    exact ⟨p, (DirectSum.decompose M.grade (x i) p).property⟩
+  have hspan : Submodule.span R (T : Set M.ringModule) = ⊤ := by
+    apply top_unique
+    rw [← hx]
+    apply Submodule.span_le.mpr
+    rintro y ⟨i, rfl⟩
+    rw [← DirectSum.sum_support_decompose M.grade (x i)]
+    apply Submodule.sum_mem
+    intro p hp
+    exact Submodule.subset_span (Finset.mem_biUnion.mpr
+      ⟨i, Finset.mem_univ _, Finset.mem_image.mpr ⟨p, hp, rfl⟩⟩)
+  let I := {y : M.ringModule // y ∈ T}
+  let d : I → ℤ := fun y => (hT y y.property).choose
+  let g : I → M.ringModule := Subtype.val
+  refine ⟨I, inferInstance, d, g, fun i => (hT i i.property).choose_spec, ?_⟩
+  have hg : Set.range g = (T : Set M.ringModule) := by
+    ext y
+    simp [g, I]
+  rw [hg]
+  exact hspan
+
+end ASGinzburg.GradedOrdinaryModuleData

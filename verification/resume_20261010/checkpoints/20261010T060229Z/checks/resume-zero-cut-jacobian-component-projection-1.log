@@ -1,0 +1,13 @@
+work/ASGinzburgDraft/ZeroCutJacobianComponentProjection.lean:60:6: error: Invalid field `unrolledJacobianLiftIdeal_mem_iff_erase`: The environment does not contain `ASGinzburg.CutQuiver.unrolledJacobianLiftIdeal_mem_iff_erase`
+  Q
+has type
+  CutQuiver
+work/ASGinzburgDraft/ZeroCutJacobianComponentProjection.lean:53:51: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+i j : Q.Vertex
+f : ↥(Q.pathCutComponent k i j 0)
+⊢ (Q.zeroCutNativeUnrollingEquiv k i j) f ∈ Q.unrolledJacobianLiftIdeal k φ (i, 0) (j, 0) ↔
+    ↑f ∈ (Q.pathJacobianIdeal k φ).hom i j

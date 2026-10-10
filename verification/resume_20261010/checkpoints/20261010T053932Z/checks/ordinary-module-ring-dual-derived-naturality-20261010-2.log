@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/OrdinaryModuleRingDualDerivedNaturality.lean:12:71: error: unsolved goals
+R : Type v
+inst✝ : Ring R
+M : ModuleCat R
+P : ProjectiveResolution M
+⊢ (Nat.rec (motive := fun x =>
+          0 = x →
+            (((CochainComplex.single₀ (ModuleCat R)ᵒᵖ).obj (op M)).X 0 ≅
+              (HomologicalComplex.op ((ChainComplex.single₀ (ModuleCat R)).obj M)).X 0))
+          (fun h => Iso.refl (((CochainComplex.single₀ (ModuleCat R)ᵒᵖ).obj (op M)).X 0)) (fun n n_ih h => ⋯ ▸ ⋯.iso ⋯)
+          0 ⋯).hom ≫
+      (P.π.f 0).op =
+    (P.π.f 0).op
+work/ASGinzburgDraft/OrdinaryModuleRingDualDerivedNaturality.lean:16:20: warning: This simp argument is unused:
+  Iso.refl_hom
+
+Hint: Omit it from the simp argument list.
+  simp only [ordinaryProjectiveResolutionOpposite, HomologicalComplex.comp_f,
+      ordinarySingleZeroOppositeIso, HomologicalComplex.Hom.isoOfComponents_hom_f,
+      HomologicalComplex.opFunctor_map_f, Quiver.Hom.unop_op,
+  ̵  ̵ ̵ ̵Nat.casesAuxOn, I̵s̵o̵.̵r̵e̵f̵l̵_̵h̵o̵m̵,̵ ̵Category.id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryModuleRingDualDerivedNaturality.lean:16:34: warning: This simp argument is unused:
+  Category.id_comp
+
+Hint: Omit it from the simp argument list.
+  simp only [ordinaryProjectiveResolutionOpposite, HomologicalComplex.comp_f,
+      ordinarySingleZeroOppositeIso, HomologicalComplex.Hom.isoOfComponents_hom_f,
+      HomologicalComplex.opFunctor_map_f, Quiver.Hom.unop_op,
+  ̵  ̵ ̵ ̵Nat.casesAuxOn, Iso.refl_hom,̵ ̵C̵a̵t̵e̵g̵o̵r̵y̵.̵i̵d̵_̵c̵o̵m̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

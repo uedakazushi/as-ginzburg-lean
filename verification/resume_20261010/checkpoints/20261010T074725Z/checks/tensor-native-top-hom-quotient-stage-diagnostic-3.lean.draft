@@ -1,0 +1,74 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualHomogeneousTopQuotientType
+import work.ASGinzburgDraft.PeriodCutOrdinaryRingDualShiftedHomNaturality
+import work.ASGinzburgDraft.LinearCokernelSquareEquiv
+
+/-! The actual homogeneous ordinary ring-dual top quotient is the
+actual shifted regular Hom quotient, via the genuine precomposition square. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped ModuleCat.Algebra
+attribute [local instance 3000] ASGinzburg.GradedOrdinaryModuleData.ringDualGradeHasQuotient
+universe u v
+set_option maxHeartbeats 60000
+set_option diagnostics true
+set_option synthInstance.maxHeartbeats 100000
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+variable {M L : E.CutGradedRightModule Q}
+
+noncomputable def cutOrdinaryRingDualTopShiftedHomQuotientEquiv
+    (a : M ⟶ L) (q : ℤ) :
+    (E.cutRightModuleOrdinaryData Q M).ringDualHomogeneousTopQuotient
+        (E.cutRightModuleOrdinaryData Q L) ((E.cutGradedForgetFunctor Q).map a)
+        (E.cutRightModuleOrdinaryMap_preservesGrade Q a) q ≃ₗ[k]
+      ((M ⟶ (E.cutRegularGradedRightModule Q).shifted q) ⧸
+        LinearMap.range (Linear.leftComp k
+          ((E.cutRegularGradedRightModule Q).shifted q) a)) := by
+  let DM := E.cutRightModuleOrdinaryData Q M
+  let DL := E.cutRightModuleOrdinaryData Q L
+  let f : DL.ringDualGrade q →ₗ[k] DM.ringDualGrade q :=
+    DM.ringDualMapDegree DL ((E.cutGradedForgetFunctor Q).map a)
+    (E.cutRightModuleOrdinaryMap_preservesGrade Q a) q
+  let g : (L ⟶ (E.cutRegularGradedRightModule Q).shifted q) →ₗ[k]
+      (M ⟶ (E.cutRegularGradedRightModule Q).shifted q) :=
+    Linear.leftComp k ((E.cutRegularGradedRightModule Q).shifted q) a
+  let eM : DL.ringDualGrade q ≃ₗ[k]
+      (L ⟶ (E.cutRegularGradedRightModule Q).shifted q) :=
+    E.cutOrdinaryRingDualShiftedHomEquiv Q L q
+  trace "source comparison ready"
+  let eN : DM.ringDualGrade q ≃ₗ[k]
+      (M ⟶ (E.cutRegularGradedRightModule Q).shifted q) :=
+    E.cutOrdinaryRingDualShiftedHomEquiv Q M q
+  trace "target comparison ready"
+  have h : ∀ x, eN (f x) = g (eM x) := by
+    intro x
+    exact E.cutOrdinaryRingDualShiftedHomEquiv_precomp Q a q x
+  trace "square proof ready"
+  let e := linearCokernelSquareEquiv (k := k) (inst := inferInstanceAs (Field k))
+    (M := DL.ringDualGrade q) (N := DM.ringDualGrade q)
+    (M' := L ⟶ (E.cutRegularGradedRightModule Q).shifted q)
+    (N' := M ⟶ (E.cutRegularGradedRightModule Q).shifted q)
+    (inst_1 := Submodule.addCommGroup (DL.ringDualGrade q))
+    (inst_2 := Submodule.module (DL.ringDualGrade q))
+    (inst_3 := Preadditive.homGroup L ((E.cutRegularGradedRightModule Q).shifted q))
+    (inst_4 := Linear.homModule L ((E.cutRegularGradedRightModule Q).shifted q))
+    (inst_5 := Submodule.addCommGroup (DM.ringDualGrade q))
+    (inst_6 := Submodule.module (DM.ringDualGrade q))
+    (inst_7 := Preadditive.homGroup M ((E.cutRegularGradedRightModule Q).shifted q))
+    (inst_8 := Linear.homModule M ((E.cutRegularGradedRightModule Q).shifted q))
+    f g eM eN h
+  trace "quotient comparison ready"
+  exact e
+
+@[simp] theorem cutOrdinaryRingDualTopShiftedHomQuotientEquiv_mk
+    (a : M ⟶ L) (q : ℤ) (f : (E.cutRightModuleOrdinaryData Q M).ringDualGrade q) :
+    E.cutOrdinaryRingDualTopShiftedHomQuotientEquiv Q a q
+      ((LinearMap.range (τ₁₂ := RingHom.id k)
+        ((E.cutRightModuleOrdinaryData Q M).ringDualMapDegree
+        (E.cutRightModuleOrdinaryData Q L) ((E.cutGradedForgetFunctor Q).map a)
+        (E.cutRightModuleOrdinaryMap_preservesGrade Q a) q)).mkQ f) =
+      (LinearMap.range (Linear.leftComp k
+        ((E.cutRegularGradedRightModule Q).shifted q) a)).mkQ
+          (E.cutOrdinaryRingDualShiftedHomEquiv Q M q f) := rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

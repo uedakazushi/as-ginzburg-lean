@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/OrdinaryIdealActionDirectSum.lean:33:4: error: Type mismatch: After simplification, term
+  Submodule.smul_mem (ordinaryIdealActionSpan k R N I) c ihx
+ has type
+  c • f x ∈ ordinaryIdealActionSpan k R N I
+but is expected to have type
+  f (c • x) ∈ ordinaryIdealActionSpan k R N I
+work/ASGinzburgDraft/OrdinaryIdealActionDirectSum.lean:59:8: warning: automatically included section variable(s) unused in theorem `ASGinzburg.ordinaryIdealActionDirectSumTopMap_apply`:
+  [DecidableEq ι]
+  [∀ (i : ι), IsScalarTower k R (M i)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [DecidableEq ι] [∀ (i : ι), IsScalarTower k R (M i)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/OrdinaryIdealActionDirectSum.lean:63:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.ordinaryIdealActionDirectSumTopMap_surjective`:
+  [DecidableEq ι]
+  [∀ (i : ι), IsScalarTower k R (M i)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [DecidableEq ι] [∀ (i : ι), IsScalarTower k R (M i)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

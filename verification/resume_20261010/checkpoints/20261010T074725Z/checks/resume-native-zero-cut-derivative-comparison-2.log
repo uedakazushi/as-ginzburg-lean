@@ -1,0 +1,8 @@
+work/ASGinzburgDraft/NativeZeroCutDerivativeComparison.lean:46:2: error: 'change' tactic failed, pattern
+  UnrolledPath.transport ?m.180 ?m.181 (UnrolledPath.transport ?m.173 ?m.174 p) =
+    UnrolledPath.transport ?m.194 ?m.195 (UnrolledPath.transport ?m.187 ?m.188 p)
+is not definitionally equal to target
+  ((UnrolledPath.endpointEquiv Q ⋯ ⋯).toFun ∘ ⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯)) p =
+    (⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯) ∘
+        (Q.unrolledPathHeightEquiv (Q.target ↑b, 0) (Q.source ↑b, 0 + ↑(1 - Q.cutDegree ↑b))).toFun)
+      p

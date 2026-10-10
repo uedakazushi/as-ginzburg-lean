@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/DirectSumGrading.lean:24:43: warning: unused variable `i`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/DirectSumGrading.lean:35:54: error: unsolved goals
+k : Type u
+inst✝⁵ : Field k
+ι : Type v
+κ : Type w
+inst✝⁴ : DecidableEq ι
+inst✝³ : DecidableEq κ
+M : ι → Type z
+inst✝² : (i : ι) → AddCommGroup (M i)
+inst✝¹ : (i : ι) → Module k (M i)
+G : (i : ι) → κ → Submodule k (M i)
+inst✝ : (i : ι) → DirectSum.Decomposition (G i)
+i : ι
+q : κ
+x : M i
+hx : x ∈ G i q
+⊢ (DirectSum.of (fun q => ↥(directSumGrade k M G q)) q)
+      (↑(directSumGradeEquiv k M G q) ((DirectSum.of (fun i => ↥(G i q)) i) ⟨x, hx⟩)) =
+    (DirectSum.of (fun i => ↥(directSumGrade k M G i)) q)
+      ((directSumGradeEquiv k M G q) ((DirectSum.of (fun i => ↥(G i q)) i) ⟨x, hx⟩))
+work/ASGinzburgDraft/DirectSumGrading.lean:57:4: error: Invalid alternative name `hom`: Expected `homogeneous`
+work/ASGinzburgDraft/DirectSumGrading.lean:54:4: error: Alternative `homogeneous` has not been provided
+work/ASGinzburgDraft/DirectSumGrading.lean:72:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.directSumGrade_mem_iff`:
+  [DecidableEq ι]
+  [DecidableEq κ]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [DecidableEq ι] [DecidableEq κ] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

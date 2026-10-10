@@ -1,0 +1,10 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRegularFree.lean:31:4: error: 'change' tactic failed, pattern
+  (tensorRightEnvelopingRegularLinearEquiv k R) (e • x) =
+    @HSMul.hSMul (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+      (@instHSMul (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ MulOpposite.instSMul) e
+      ((tensorRightEnvelopingRegularLinearEquiv k R) x)
+is not definitionally equal to target
+  (tensorRightEnvelopingRegularLinearEquiv k R) (e • x) =
+    @HSMul.hSMul (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+      (@instHSMul (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ DistribMulAction.toDistribSMul.toSMul)
+      ((RingHom.id (AlgebraEnvelopingRing k R)ᵐᵒᵖ) e) ((tensorRightEnvelopingRegularLinearEquiv k R) x)

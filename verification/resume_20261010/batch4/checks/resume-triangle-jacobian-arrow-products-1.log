@@ -1,0 +1,16 @@
+work/ASGinzburgDraft/TriangleJacobianArrowProducts.lean:35:65: error: unsolved goals
+k : Type u
+inst✝ : Field k
+x y : ArrowSpace333 k
+hx : x = ∑ i, Pi.single i (x i)
+hy : y = ∑ j, Pi.single j (y j)
+⊢ ∑ x_1, ∑ x_2, Pi.single (x_1, x_2) (x x_1 * y x_2) = ∑ j, ∑ i, Pi.single (i, j) (x i * y j)
+work/ASGinzburgDraft/TriangleJacobianArrowProducts.lean:38:37: error: unsolved goals
+case h
+k : Type u
+inst✝ : Field k
+x y : ArrowSpace333 k
+hx : x = ∑ i, Pi.single i (x i)
+hy : y = ∑ j, Pi.single j (y j)
+i j : Fin 3
+⊢ (∑ x_1, ∑ x_2, if i = x_2 ∧ j = x_1 then x x_2 * y x_1 else 0) = x i * y j

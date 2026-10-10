@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:21:19: error: Ambiguous term
+  forget
+Possible interpretations:
+  HomologicalComplex.forget
+    (ModuleCat
+      (AlgebraEnvelopingRing k
+          R)ᵐᵒᵖ) : (c : ComplexShape ?m.70) →
+    HomologicalComplex (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c ⥤
+      GradedObject ?m.70 (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+  
+  CategoryTheory.forget
+    (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ) : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ ⥤ Type ?u.5065
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:22:21: error: Ambiguous term
+  forget
+Possible interpretations:
+  HomologicalComplex.forget
+    (ModuleCat k) : (c : ComplexShape ?m.85) → HomologicalComplex (ModuleCat k) c ⥤ GradedObject ?m.85 (ModuleCat k)
+  
+  CategoryTheory.forget (ModuleCat k) : ModuleCat k ⥤ Type ?u.8160
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:21:80: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+N : ModuleCat R
+P : ProjectiveResolution M
+Q : ProjectiveResolution N
+G : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ ⥤ ModuleCat k :=
+  ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+X Y : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+f : X ⟶ Y
+hf : IsIso (G.map f)
+this : IsIso (G.map f) := hf
+⊢ IsIso sorry
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:17:35: error: unsolved goals
+case reflects
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+N : ModuleCat R
+P : ProjectiveResolution M
+Q : ProjectiveResolution N
+G : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ ⥤ ModuleCat k :=
+  ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+X Y : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+f : X ⟶ Y
+hf : IsIso (G.map f)
+this : IsIso (G.map f) := hf
+⊢ IsIso f

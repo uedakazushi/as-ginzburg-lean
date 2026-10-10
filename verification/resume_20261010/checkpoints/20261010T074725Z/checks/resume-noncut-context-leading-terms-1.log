@@ -1,0 +1,72 @@
+work/ASGinzburgDraft/NoncutJacobianContextLeadingTerms.lean:27:4: error: unsolved goals
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+a : { a // Q.cut a = true }
+b : Q.Arrow
+hb : Q.cut b = true
+hs : Q.source ↑a = Q.source b
+ht : Q.target ↑a = Q.target b
+c : Q.NoncutJacobianContextIndex (Q.target ↑a) (Q.source ↑a)
+hc : ↑c.fst = b
+h0 : (↑c.snd.1).length = 0 ∧ (↑c.snd.2).length = 0
+hp : (Q.pathJacobianContextTranspose ↑a ↑c.fst ↑c.snd.1 ↑c.snd.2).length = 1
+hw :
+  Path.transport ⋯ ⋯ (Q.pathJacobianContextTranspose ↑a ↑c.fst ↑c.snd.1 ↑c.snd.2) =
+    Q.foundationCutArrowPath (Q.target b) (Q.source b) ⟨↑a, ⋯⟩
+he : Q.noncutJacobianContextConstantArrow (Q.target ↑a) (Q.source ↑a) c ⋯ ⋯ = ⟨b, ⋯⟩
+⊢ (if (Q.foundationCutArrowPath (Q.target b) (Q.source b) ⟨↑a, ⋯⟩).length = 1 then
+      Finsupp.single (Q.foundationCutArrowPath (Q.target b) (Q.source b) ⟨↑a, ⋯⟩) 1
+    else 0) =
+    Finsupp.single (Q.foundationCutArrowPath (Q.target b) (Q.source b) ⟨↑a, ⋯⟩) 1
+work/ASGinzburgDraft/NoncutJacobianContextLeadingTerms.lean:48:6: error: `simp` made no progress
+work/ASGinzburgDraft/NoncutJacobianContextLeadingTerms.lean:37:17: warning: This simp argument is unused:
+  Path.length_transport
+
+Hint: Omit it from the simp argument list.
+  simp only [̵P̵a̵t̵h̵.̵l̵e̵n̵g̵t̵h̵_̵t̵r̵a̵n̵s̵p̵o̵r̵t̵,̵ ̵h̵p̵,̵[̲h̲p̲,̲ if_pos, dif_pos h0, he, Finsupp.single_eq_same, hw]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/NoncutJacobianContextLeadingTerms.lean:37:40: warning: This simp argument is unused:
+  hp
+
+Hint: Omit it from the simp argument list.
+  simp only [Path.length_transport, h̵p̵,̵ ̵if_pos, dif_pos h0, he, Finsupp.single_eq_same, hw]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/NoncutJacobianContextLeadingTerms.lean:37:44: warning: This simp argument is unused:
+  if_pos
+
+Hint: Omit it from the simp argument list.
+  simp only [Path.length_transport, hp, i̵f̵_̵p̵o̵s̵,̵ ̵dif_pos h0, he, Finsupp.single_eq_same, hw]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/NoncutJacobianContextLeadingTerms.lean:104:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑((foundationCutArrowCoordinateEquiv ?Q ?k ?i ?j ?hij) (Finsupp.single ?a ?c))
+in the target expression
+  (Q.pathArrowProjection k (Q.source b) (Q.target b)) (Q.noncutJacobianContextTransposedTerm k a b c) =
+    ↑(↑(Q.foundationCutArrowCoordinateEquiv k (Q.target b) (Q.source b) ⋯)
+        (Finsupp.single ⟨↑a, ⋯⟩
+          (((Q.noncutJacobianContextConstantProjection k (Q.target ↑a) (Q.source ↑a)) (Finsupp.single c 1)) ⟨b, ⋯⟩)))
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+a : { a // Q.cut a = true }
+b : Q.Arrow
+hb : Q.cut b = true
+f : Q.NoncutJacobianContextIndex (Q.target ↑a) (Q.source ↑a) →₀ k
+L : (Q.NoncutJacobianContextIndex (Q.target ↑a) (Q.source ↑a) →₀ k) →ₗ[k] Q.PathComponent k (Q.source b) (Q.target b) :=
+  Q.pathArrowProjection k (Q.source b) (Q.target b) ∘ₗ Q.noncutJacobianContextTransposedLinearMap k a b
+R : (Q.NoncutJacobianContextIndex (Q.target ↑a) (Q.source ↑a) →₀ k) →ₗ[k] Q.PathComponent k (Q.source b) (Q.target b) :=
+  (Q.pathArrowComponent k (Q.source b) (Q.target b)).subtype ∘ₗ
+    ↑(Q.foundationCutArrowCoordinateEquiv k (Q.target b) (Q.source b) ⋯) ∘ₗ
+      Q.noncutJacobianContextTransposedLeadingCoordinates k a b hb
+c : Q.NoncutJacobianContextIndex (Q.target ↑a) (Q.source ↑a)
+he : Q.source ↑a = Q.source b ∧ Q.target ↑a = Q.target b
+⊢ (Q.pathArrowProjection k (Q.source b) (Q.target b)) (Q.noncutJacobianContextTransposedTerm k a b c) =
+    ↑(↑(Q.foundationCutArrowCoordinateEquiv k (Q.target b) (Q.source b) ⋯)
+        (Finsupp.single ⟨↑a, ⋯⟩
+          (((Q.noncutJacobianContextConstantProjection k (Q.target ↑a) (Q.source ↑a)) (Finsupp.single c 1)) ⟨b, ⋯⟩)))

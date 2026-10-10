@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/BicomplexTotalRowAcyclic.lean:40:34: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ConcreteCategory.hom (bicomplexTotalProjection K (i + (j + 1)) (i + 1) j)) x
+in the target expression
+  0 =
+    (ConcreteCategory.hom ((K.d (i + 1) i).f j))
+        ((ConcreteCategory.hom (bicomplexTotalProjection K (i + j + 1) (i + 1) j)) x) +
+      (-1) ^ i •
+        (ConcreteCategory.hom ((K.X i).d (j + 1) j))
+          ((ConcreteCategory.hom (bicomplexTotalProjection K (i + j + 1) i (j + 1))) x)
+
+case succ
+k : Type u_1
+inst✝ : Ring k
+K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+i j : ℕ
+x : ↑((K.total (ComplexShape.down ℕ)).X (i + (j + 1)))
+hx : (ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (i + (j + 1)) (i + (j + 1) - 1))) x = 0
+hs : ∀ (a b : ℕ), i < a → (ConcreteCategory.hom (bicomplexTotalProjection K (i + (j + 1)) a b)) x = 0
+h :
+  0 =
+    (ConcreteCategory.hom ((K.d (i + 1) i).f j))
+        ((ConcreteCategory.hom (bicomplexTotalProjection K (i + j + 1) (i + 1) j)) x) +
+      (-1) ^ i •
+        (ConcreteCategory.hom ((K.X i).d (j + 1) j))
+          ((ConcreteCategory.hom (bicomplexTotalProjection K (i + j + 1) i (j + 1))) x)
+⊢ (ConcreteCategory.hom ((K.X i).d (j + 1) (j + 1 - 1)))
+      ((ConcreteCategory.hom (bicomplexTotalProjection K (i + (j + 1)) i (j + 1))) x) =
+    0

@@ -1,0 +1,15 @@
+work/period-cut-ordinary-cover-epi-diagnostic-2.lean:81:2: error: Reached native total-space surjectivity
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E)
+b : ℤ
+hb : M.BoundedBelow b
+N : CutGradedRightModule Q E := ordinaryGradedDataCutRightModule Q E M
+f : (cornerCoverZAlgebra Q E).rightTopBasisFreeModule N.recoveredRightModule ⟶ N.recoveredRightModule :=
+  (cornerCoverZAlgebra Q E).rightTopBasisFreeModuleπ N.recoveredRightModule
+hf : Epi f
+hsurj : Function.Surjective ⇑(cornerTotalModuleLinearMap Q E f)
+⊢ Epi (cutOrdinaryGradedCoverπ Q E M)

@@ -1,0 +1,39 @@
+import ASGinzburg.PathAutomorphismCyclicSubstitution
+import ASGinzburg.RelationClosedTrace
+import ASGinzburg.PathCyclicDerivativeDegrees
+
+/-! The actual cut Euler identity written in composable closed-path
+components, suitable for genuine nonlinear arrow substitutions. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem closedPathTrace_close_arrow (a : Q.Arrow)
+    (f : Q.PathComponent k (Q.target a) (Q.source a)) :
+    Q.closedPathTrace k (Q.source a)
+      (Q.pathComp k f (Finsupp.single (Q.baseArrowPath a) 1)) =
+      Q.relationClosedTrace k a f := by
+  rw [Q.closedPathTrace_eq_cyclicTrace_pathWordMap, Q.pathWordMap_prepend]
+  exact cyclicTrace_prepend a _
+
+theorem potential_cut_closedPathTrace_identity (φ : Q.Potential k) :
+    (∑ a : Q.Arrow, if Q.cut a = true then Q.closedPathTrace k (Q.source a)
+      (Q.pathComp k (Q.pathCyclicDerivative k a φ)
+        (Finsupp.single (Q.baseArrowPath a) 1)) else 0) = φ.val := by
+  classical
+  rw [← Q.cut_cyclic_derivative_potential_identity k φ]
+  apply Finset.sum_congr rfl
+  intro a _
+  by_cases ha : Q.cut a = true
+  · simp only [ha, if_true]
+    rw [Q.closedPathTrace_close_arrow]
+    change prependTrace a (Q.pathWordMap k (Q.target a) (Q.source a)
+      (Q.pathCyclicDerivative k a φ)) = _
+    rw [Q.pathWordMap_pathCyclicDerivative]
+  · have hc : Q.cut a = false := by
+      cases h : Q.cut a
+      · rfl
+      · exact (ha h).elim
+    simp only [hc, Bool.false_eq_true, if_false]
+
+end ASGinzburg.CutQuiver

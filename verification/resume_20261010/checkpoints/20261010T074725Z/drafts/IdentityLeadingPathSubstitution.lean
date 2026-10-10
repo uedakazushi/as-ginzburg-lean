@@ -1,0 +1,159 @@
+import ASGinzburg.PathSubstitutionLengthFiltration
+import ASGinzburg.PathCutLengthBound
+import ASGinzburg.PathArrowSubstitutionCutGrading
+import Mathlib.RingTheory.Nilpotent.Basic
+
+/-! A genuine homogeneous nonlinear path substitution with identity
+leading arrow part is invertible. The inverse follows from the finite
+length filtration in each actual homogeneous component. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+variable (σ : Q.PathArrowReplacement k)
+  (hc : ∀ a, σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) (Q.cutDegree a : ℤ))
+  (hσ : ∀ a, σ a - Q.pathIdentityArrowReplacement k a ∈
+    Q.pathLengthFiltration k 2 (Q.source a) (Q.target a))
+
+noncomputable def pathCutSubstitution (i j : Q.Vertex) (c : ℤ) :
+    Module.End k (Q.pathCutComponent k i j c) :=
+  (Q.pathArrowSubstitutionComponent k σ i j).restrict
+    (fun f hf => Q.pathArrowSubstitutionComponent_mem_cut k σ hc i j c f hf)
+
+include hσ in
+theorem pathCutSubstitution_difference_pow_mem_length (i j : Q.Vertex) (c : ℤ)
+    (n : ℕ) (x : Q.pathCutComponent k i j c) :
+    (((Q.pathCutSubstitution k σ hc i j c - 1) ^ n) x).val ∈
+      Q.pathLengthFiltration k n i j := by
+  induction n with
+  | zero => exact Q.mem_pathLengthFiltration_zero k _
+  | succ n ih =>
+    rw [pow_succ',Module.End.mul_apply]
+    change Q.pathSubstitutionDifference k σ i j
+      (((Q.pathCutSubstitution k σ hc i j c - 1) ^ n) x).val ∈ _
+    exact Q.pathSubstitutionDifference_mem_length k σ hσ n _ ih
+
+include hσ in
+theorem pathCutSubstitution_difference_isNilpotent (i j : Q.Vertex) (c : ℤ) :
+    IsNilpotent (Q.pathCutSubstitution k σ hc i j c - 1) := by
+  let N := ((j.val : ℤ) - i.val + Q.vertices * c).toNat + 1
+  refine ⟨N,?_⟩
+  apply LinearMap.ext
+  intro x
+  apply Subtype.ext
+  apply Q.pathCut_lengthFiltration_eq_zero k i j c N
+  · dsimp [N]
+    omega
+  · exact (((Q.pathCutSubstitution k σ hc i j c - 1) ^ N) x).property
+  · exact Q.pathCutSubstitution_difference_pow_mem_length k σ hc hσ i j c N x
+
+include hσ in
+theorem pathCutSubstitution_bijective (i j : Q.Vertex) (c : ℤ) :
+    Function.Bijective (Q.pathCutSubstitution k σ hc i j c) := by
+  apply (Module.End.isUnit_iff _).mp
+  have H : IsUnit (1 + (Q.pathCutSubstitution k σ hc i j c - 1)) :=
+    IsNilpotent.isUnit_one_add (R := Module.End k (Q.pathCutComponent k i j c))
+      (Q.pathCutSubstitution_difference_isNilpotent k σ hc hσ i j c)
+  have heq : 1 + (Q.pathCutSubstitution k σ hc i j c - 1) =
+      Q.pathCutSubstitution k σ hc i j c := by abel
+  rwa [heq] at H
+
+include hc in
+theorem pathArrowSubstitutionComponent_cutProjection (i j : Q.Vertex) (c : ℤ)
+    (f : Q.PathComponent k i j) :
+    Q.pathArrowSubstitutionComponent k σ i j (Q.pathCutProjection k i j c f) =
+      Q.pathCutProjection k i j c (Q.pathArrowSubstitutionComponent k σ i j f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add,hf,hg]
+  | single p a =>
+    rw [pathCutProjection_single,pathArrowSubstitutionComponent_single]
+    rw [map_smul,Q.pathCutProjection_on_cut k c (p.cutDegree : ℤ)
+      (Q.pathArrowSubstitutionPath_mem_cut k σ hc p)]
+    by_cases H : (p.cutDegree : ℤ) = c <;> simp [H]
+
+omit σ hc hσ in
+theorem pathCutProjection_coeff (i j : Q.Vertex) (c : ℤ)
+    (f : Q.PathComponent k i j) (p : Q.Path i j) :
+    Q.pathCutProjection k i j c f p = if (p.cutDegree : ℤ) = c then f p else 0 := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => by_cases H : (p.cutDegree : ℤ) = c <;> simp [map_add,hf,hg,H]
+  | single q a =>
+    by_cases H : p = q
+    · subst q
+      by_cases Hp : (p.cutDegree : ℤ) = c <;> simp [Hp]
+    · by_cases Hp : (p.cutDegree : ℤ) = c
+      <;> by_cases Hq : (q.cutDegree : ℤ) = c <;> simp [Hp,Hq,H]
+
+include hc hσ in
+theorem identityLeading_pathArrowSubstitutionComponent_injective (i j : Q.Vertex) :
+    Function.Injective (Q.pathArrowSubstitutionComponent k σ i j) := by
+  intro f g h
+  apply eq_of_sub_eq_zero
+  apply Finsupp.ext
+  intro p
+  let c : ℤ := p.cutDegree
+  let x : Q.pathCutComponent k i j c :=
+    ⟨Q.pathCutProjection k i j c (f-g),Q.pathCutProjection_mem k c (f-g)⟩
+  have hzero : Q.pathCutSubstitution k σ hc i j c x = 0 := by
+    apply Subtype.ext
+    change Q.pathArrowSubstitutionComponent k σ i j
+      (Q.pathCutProjection k i j c (f-g)) = 0
+    rw [Q.pathArrowSubstitutionComponent_cutProjection k σ hc,map_sub,h,sub_self,map_zero]
+  have hx : x = 0 := (Q.pathCutSubstitution_bijective k σ hc hσ i j c).injective
+    (by simpa only [map_zero] using hzero)
+  have H := congrArg (fun x : Q.pathCutComponent k i j c => x.val p) hx
+  simpa only [x,c,Q.pathCutProjection_coeff,if_pos rfl,Finsupp.zero_apply] using H
+
+include hc hσ in
+theorem identityLeading_pathArrowSubstitutionComponent_surjective (i j : Q.Vertex) :
+    Function.Surjective (Q.pathArrowSubstitutionComponent k σ i j) := by
+  classical
+  intro f
+  induction f using Finsupp.induction_linear with
+  | zero => exact ⟨0,map_zero _⟩
+  | add f g hf hg =>
+    obtain ⟨f',hf'⟩ := hf
+    obtain ⟨g',hg'⟩ := hg
+    exact ⟨f'+g',by rw [map_add,hf',hg']⟩
+  | single p a =>
+    let x : Q.pathCutComponent k i j (p.cutDegree : ℤ) :=
+      ⟨Finsupp.single p a,Finsupp.single_mem_supported k a rfl⟩
+    obtain ⟨y,hy⟩ := (Q.pathCutSubstitution_bijective k σ hc hσ i j _).surjective x
+    exact ⟨y.val,congrArg Subtype.val hy⟩
+
+include hc hσ in
+theorem identityLeading_pathArrowSubstitution_bijective :
+    Function.Bijective (Q.pathArrowSubstitution k σ) := by
+  classical
+  constructor
+  · intro x y h
+    funext i j
+    apply Q.identityLeading_pathArrowSubstitutionComponent_injective k σ hc hσ i j
+    exact congrArg (fun z : Q.PathRing k => z i j) h
+  · intro y
+    let x : Q.PathRing k := fun i j => Classical.choose
+      (Q.identityLeading_pathArrowSubstitutionComponent_surjective k σ hc hσ i j (y i j))
+    refine ⟨x,?_⟩
+    funext i j
+    exact Classical.choose_spec
+      (Q.identityLeading_pathArrowSubstitutionComponent_surjective k σ hc hσ i j (y i j))
+
+noncomputable def identityLeadingPathSubstitutionAutomorphism : Q.VertexCutPathAutomorphism k := by
+  refine ⟨AlgEquiv.ofBijective (Q.pathArrowSubstitution k σ)
+    (Q.identityLeading_pathArrowSubstitution_bijective k σ hc hσ),?_,?_⟩
+  · exact Q.pathArrowSubstitution_fixes_vertex k σ
+  · intro c x
+    constructor
+    · exact Q.pathArrowSubstitution_mem_cut k σ hc c x
+    · intro hx i j
+      let y : Q.pathCutComponent k i j c := ⟨_,hx i j⟩
+      obtain ⟨z,hz⟩ := (Q.pathCutSubstitution_bijective k σ hc hσ i j c).surjective y
+      have H : z.val = x i j :=
+        Q.identityLeading_pathArrowSubstitutionComponent_injective k σ hc hσ i j
+          (congrArg Subtype.val hz)
+      exact H ▸ z.property
+
+end ASGinzburg.CutQuiver

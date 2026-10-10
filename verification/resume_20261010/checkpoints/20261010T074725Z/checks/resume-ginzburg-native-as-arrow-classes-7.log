@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/GinzburgNativeASArrowClasses.lean:36:8: warning: `List.length_eq_zero` has been deprecated: Use `List.length_eq_zero_iff` instead
+work/ASGinzburgDraft/GinzburgNativeASArrowClasses.lean:36:2: error: Tactic `apply` failed: could not unify the conclusion of `List.length_eq_zero.mp`
+  ?m.166 = []
+with the goal
+  [a] = (UnrolledPath.nil (Q.source a, s - ↑(Q.cutDegree a))).erase.toList ++ [a]
+
+Note: The full type of `List.length_eq_zero.mp` is
+  List.length ?m.166 = 0 → ?m.166 = []
+
+case a.a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+h : Q.GinzburgRegular k φ
+s : ℤ
+a : Q.Arrow
+⊢ [a] = (UnrolledPath.nil (Q.source a, s - ↑(Q.cutDegree a))).erase.toList ++ [a]
+work/ASGinzburgDraft/GinzburgNativeASArrowClasses.lean:35:43: warning: This simp argument is unused:
+  List.append_left_eq_self
+
+Hint: Omit it from the simp argument list.
+  simp only [Path.toList, List.nil_append,̵ ̵L̵i̵s̵t̵.̵a̵p̵p̵e̵n̵d̵_̵l̵e̵f̵t̵_̵e̵q̵_̵s̵e̵l̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,152 @@
+work/ASGinzburgDraft/PeriodCutNativeTopCoverConeDetection.lean:67:52: error: failed to solve universe constraint
+  u =?= max v ?u.204195
+while trying to unify
+  ModuleCat (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ ⥤ ModuleCat k : Type (max v u (v + 1) (u + 1))
+with
+  ModuleCat (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ ⥤ ModuleCat k : Type (max v (v + 1) u)
+work/ASGinzburgDraft/PeriodCutNativeTopCoverConeDetection.lean:68:60: error: failed to solve universe constraint
+  u =?= max v ?u.219954
+while trying to unify
+  ModuleCat (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ ⥤ ModuleCat k : Type (max v u (v + 1) (u + 1))
+with
+  ModuleCat (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ ⥤ ModuleCat k : Type (max v (v + 1) u)
+work/ASGinzburgDraft/PeriodCutNativeTopCoverConeDetection.lean:69:64: error: failed to solve universe constraint
+  u =?= max v ?u.234437
+while trying to unify
+  ModuleCat (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ ⥤ ModuleCat k : Type (max v u (v + 1) (u + 1))
+with
+  ModuleCat (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ ⥤ ModuleCat k : Type (max v (v + 1) u)
+work/ASGinzburgDraft/PeriodCutNativeTopCoverConeDetection.lean:43:56: error: unsolved goals
+case refine_2.refine_1
+k : Type u
+inst✝⁴ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+P₀ P₁ P₂ P₃ : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E)
+b : ℤ
+hb₀ : P₀.BoundedBelow b
+hb₁ : P₁.BoundedBelow b
+hb₂ : P₂.BoundedBelow b
+hb₃ : P₃.BoundedBelow b
+f₀ : P₀.ringModule ⟶ P₁.ringModule
+f₁ : P₁.ringModule ⟶ P₂.ringModule
+f₂ : P₂.ringModule ⟶ P₃.ringModule
+h₀ : f₀ ≫ f₁ = 0
+h₁ : f₁ ≫ f₂ = 0
+hf₀ : P₀.PreservesGrade P₁ f₀
+hf₁ : P₁.PreservesGrade P₂ f₁
+hf₂ : P₂.PreservesGrade P₃ f₂
+inst✝³ : Projective P₁.ringModule
+inst✝² : Projective P₂.ringModule
+inst✝¹ : Projective P₃.ringModule
+inst✝ :
+  Mono
+    ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+          ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+      f₀)
+hF₀ :
+  ({ X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := P₂.ringModule, f := f₀, g := f₁, zero := h₀ }.map
+      (balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E))).Exact
+hF₁ :
+  ({ X₁ := P₁.ringModule, X₂ := P₂.ringModule, X₃ := P₃.ringModule, f := f₁, g := f₂, zero := h₁ }.map
+      (balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E))).Exact
+this✝⁴ : DirectSum.Decomposition (cutIntegerOppositeHomogeneousSpace Q E) := ⋯
+U : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E) := ⋯
+C : GradedOrdinaryProjectiveCover U b (cutGradedJacobsonOppositeIdeal Q E) := ⋯
+this✝³ : Projective C.source.ringModule := ⋯
+l : C.source.ringModule ⟶ P₃.ringModule
+hl : C.source.PreservesGrade P₃ l
+hlq : l ≫ P₂.cokernelProjection P₃ f₂ = C.π
+q : P₃.ringModule ⟶ P₂.cokernelModule P₃ f₂ := ⋯
+hq : f₂ ≫ q = 0
+hTop : { X₁ := P₂.ringModule, X₂ := P₃.ringModule, X₃ := P₂.cokernelModule P₃ f₂, f := f₂, g := q, zero := hq }.Exact
+hFTop :
+  ({ X₁ := P₂.ringModule, X₂ := P₃.ringModule, X₃ := P₂.cokernelModule P₃ f₂, f := f₂, g := q, zero := hq }.map
+      (balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E))).Exact
+this✝² : IsIso
+  ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+    C.π) := ⋯
+this✝¹ : IsIso
+  ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+    (l ≫ q)) := ⋯
+this✝ : Projective (P₂.binaryProductData C.source).ringModule := ⋯
+this : Epi
+  ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+    (P₂.topCoverConeOutgoing P₃ C.source f₂ l)) := ⋯
+hFIn :
+  ({ X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := (P₂.binaryProductData C.source).ringModule, f := f₀,
+          g := P₁.topCoverConeIncoming P₂ C.source f₁, zero := ⋯ }.map
+      sorry).Exact
+⊢ sorry.Additive
+
+case refine_1
+k : Type u
+inst✝⁴ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+P₀ P₁ P₂ P₃ : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E)
+b : ℤ
+hb₀ : P₀.BoundedBelow b
+hb₁ : P₁.BoundedBelow b
+hb₂ : P₂.BoundedBelow b
+hb₃ : P₃.BoundedBelow b
+f₀ : P₀.ringModule ⟶ P₁.ringModule
+f₁ : P₁.ringModule ⟶ P₂.ringModule
+f₂ : P₂.ringModule ⟶ P₃.ringModule
+h₀ : f₀ ≫ f₁ = 0
+h₁ : f₁ ≫ f₂ = 0
+hf₀ : P₀.PreservesGrade P₁ f₀
+hf₁ : P₁.PreservesGrade P₂ f₁
+hf₂ : P₂.PreservesGrade P₃ f₂
+inst✝³ : Projective P₁.ringModule
+inst✝² : Projective P₂.ringModule
+inst✝¹ : Projective P₃.ringModule
+inst✝ :
+  Mono
+    ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+          ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+      f₀)
+hF₀ :
+  ({ X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := P₂.ringModule, f := f₀, g := f₁, zero := h₀ }.map
+      (balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E))).Exact
+hF₁ :
+  ({ X₁ := P₁.ringModule, X₂ := P₂.ringModule, X₃ := P₃.ringModule, f := f₁, g := f₂, zero := h₁ }.map
+      (balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E))).Exact
+this✝⁴ : DirectSum.Decomposition (cutIntegerOppositeHomogeneousSpace Q E) := ⋯
+U : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E) := ⋯
+C : GradedOrdinaryProjectiveCover U b (cutGradedJacobsonOppositeIdeal Q E) := ⋯
+this✝³ : Projective C.source.ringModule := ⋯
+l : C.source.ringModule ⟶ P₃.ringModule
+hl : C.source.PreservesGrade P₃ l
+hlq : l ≫ P₂.cokernelProjection P₃ f₂ = C.π
+q : P₃.ringModule ⟶ P₂.cokernelModule P₃ f₂ := ⋯
+hq : f₂ ≫ q = 0
+hTop : { X₁ := P₂.ringModule, X₂ := P₃.ringModule, X₃ := P₂.cokernelModule P₃ f₂, f := f₂, g := q, zero := hq }.Exact
+hFTop :
+  ({ X₁ := P₂.ringModule, X₂ := P₃.ringModule, X₃ := P₂.cokernelModule P₃ f₂, f := f₂, g := q, zero := hq }.map
+      (balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E))).Exact
+this✝² : IsIso
+  ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+    C.π) := ⋯
+this✝¹ : IsIso
+  ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+    (l ≫ q)) := ⋯
+this✝ : Projective (P₂.binaryProductData C.source).ringModule := ⋯
+this : Epi
+  ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+        ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).map
+    (P₂.topCoverConeOutgoing P₃ C.source f₂ l)) := ⋯
+⊢ sorry.Additive

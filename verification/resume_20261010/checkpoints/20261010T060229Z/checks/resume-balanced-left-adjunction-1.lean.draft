@@ -1,0 +1,35 @@
+import work.ASGinzburgDraft.BalancedTensorLeftFunctor
+import work.ASGinzburgDraft.BalancedTensorSwapNaturality
+import work.ASGinzburgDraft.BalancedTensorAdjunction
+
+/-! Swapping the actual balancing quotient identifies tensoring in the
+first factor with tensoring in the second factor over the opposite ring.
+The proven tensor-Hom adjunction therefore gives the first-factor functor
+a genuine right adjoint. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (N : Type w) [AddCommGroup N] [Module k N] [Module R N]
+
+noncomputable def balancedTensorLeftSwapIso :
+    letI := balancedTensorDoubleOppositeModule R N
+    balancedTensorLeftFunctor.{u,v,w,z} k R N ≅
+      balancedTensorRightFunctor.{u,v,w,z} k Rᵐᵒᵖ N := by
+  letI := balancedTensorDoubleOppositeModule R N
+  exact NatIso.ofComponents
+    (fun M => (balancedTensorSwapEquiv k R M N).toModuleIso)
+    (fun f => by
+      apply ModuleCat.hom_ext
+      exact balancedTensorSwapEquiv_naturality k R N f.hom)
+
+instance balancedTensorLeftFunctorIsLeftAdjoint [IsScalarTower k R N] :
+    (balancedTensorLeftFunctor.{u,v,w,max w z} k R N).IsLeftAdjoint := by
+  letI := balancedTensorDoubleOppositeModule R N
+  letI := balancedTensorDoubleOppositeIsScalarTower k R N
+  letI := (balancedTensorAdjunction.{u,v,w,z} k Rᵐᵒᵖ N).isLeftAdjoint
+  exact Functor.isLeftAdjoint_of_iso
+    (balancedTensorLeftSwapIso.{u,v,w,max w z} k R N).symm
+
+end ASGinzburg

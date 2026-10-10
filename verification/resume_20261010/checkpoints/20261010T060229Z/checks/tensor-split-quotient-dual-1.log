@@ -1,0 +1,69 @@
+work/ASGinzburgDraft/SplitQuotientRingDualCoordinates.lean:37:38: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((Module.Basis.toDual ?b) ?m) (?b ?i)
+in the target expression
+  (fun f => f ((Pi.basisFun k I) i)) ((Pi.basisFun k I).toDual ((Pi.basisFun k I).toDualEquiv.symm ψ)) =
+    (fun f => f ((Pi.basisFun k I) i)) ψ
+
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+inst✝³ : Algebra k R
+J : Ideal R
+inst✝² : J.IsTwoSided
+I : Type w
+inst✝¹ : Fintype I
+inst✝ : DecidableEq I
+e : (R ⧸ J) ≃ₐ[k] I → k
+φ : BalancedTensorHom k R (R ⧸ J)ᵐᵒᵖ k
+i : I
+ψ : Module.Dual k (I → k) :=
+  (splitQuotientRightFieldEquiv k R J I e).symm.dualMap ((balancedTensorHomLinearEquiv k R (R ⧸ J)ᵐᵒᵖ k) φ)
+h :
+  (fun f => f ((Pi.basisFun k I) i)) ((Pi.basisFun k I).toDual ((Pi.basisFun k I).toDualEquiv.symm ψ)) =
+    (fun f => f ((Pi.basisFun k I) i)) ψ
+⊢ e ((splitQuotientDualFieldEquiv k R J I e) φ) i =
+    (fun x =>
+        (have this := φ;
+          this)
+          x)
+      (splitQuotientVertexIdempotent k R J I e i)
+work/ASGinzburgDraft/SplitQuotientRingDualCoordinates.lean:53:4: error: Type mismatch
+  (e ((Ideal.Quotient.mk J) r) i • Pi.single i ?m.134) j
+has type
+  ?m.129 j
+but is expected to have type
+  k
+work/ASGinzburgDraft/SplitQuotientRingDualCoordinates.lean:67:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (have this := φ;
+    this)
+    (?c • ?x)
+in the target expression
+  (fun x =>
+        (have this := φ;
+          this)
+          x)
+      (e ((Ideal.Quotient.mk J) r) i • splitQuotientVertexIdempotent k R J I e i) =
+    e (r • (splitQuotientDualFieldEquiv k R J I e) φ) i
+
+case a.h
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+inst✝³ : Algebra k R
+J : Ideal R
+inst✝² : J.IsTwoSided
+I : Type w
+inst✝¹ : Fintype I
+inst✝ : DecidableEq I
+e : (R ⧸ J) ≃ₐ[k] I → k
+r : R
+φ : BalancedTensorHom k R (R ⧸ J)ᵐᵒᵖ k
+i : I
+⊢ (fun x =>
+        (have this := φ;
+          this)
+          x)
+      (e ((Ideal.Quotient.mk J) r) i • splitQuotientVertexIdempotent k R J I e i) =
+    e (r • (splitQuotientDualFieldEquiv k R J I e) φ) i

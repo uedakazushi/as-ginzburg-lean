@@ -1,0 +1,36 @@
+work/ASGinzburgDraft/ASCutEnvelopingRingHomRightGrading.lean:20:3: error: failed to synthesize
+  (rightEnvelopingRightRestrictionFunctor k (CutGradedAlgebra A Q hAS)).PreservesZeroMorphisms
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutEnvelopingRingHomRightGrading.lean:34:0: error: Not a definitional equality: the left-hand side
+  (cutEnvelopingMinimalRingHomRightTermData A Q hAS n).ringModule
+is not definitionally equal to the right-hand side
+  (cutEnvelopingMinimalRingHomRightNatComplex A Q hAS).X n
+work/ASGinzburgDraft/ASCutEnvelopingRingHomRightGrading.lean:37:66: error: Type mismatch
+  rfl
+has type
+  ?m.21 = ?m.21
+but is expected to have type
+  (cutEnvelopingMinimalRingHomRightTermData A Q hAS n).ringModule =
+    (cutEnvelopingMinimalRingHomRightNatComplex A Q hAS).X n
+work/ASGinzburgDraft/ASCutEnvelopingRingHomRightGrading.lean:39:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutEnvelopingRingHomRightGrading.lean:53:6: error: Application type mismatch: The argument
+  (cutEnvelopingMinimalRingHomRightNatComplex A Q hAS).d n (n + 1)
+has type
+  (cutEnvelopingMinimalRingHomRightNatComplex A Q hAS).X n ⟶
+    (cutEnvelopingMinimalRingHomRightNatComplex A Q hAS).X (n + 1)
+but is expected to have type
+  (cutEnvelopingMinimalRingHomRightTermData A Q hAS n).ringModule ⟶
+    (cutEnvelopingMinimalRingHomRightTermData A Q hAS (n + 1)).ringModule
+in the application
+  (cutEnvelopingMinimalRingHomRightTermData A Q hAS n).PreservesGrade
+    (cutEnvelopingMinimalRingHomRightTermData A Q hAS (n + 1))
+    ((cutEnvelopingMinimalRingHomRightNatComplex A Q hAS).d n (n + 1))
+work/ASGinzburgDraft/ASCutEnvelopingRingHomRightGrading.lean:59:2: error: failed to synthesize
+  (rightEnvelopingRightRestrictionFunctor k (CutGradedAlgebra A Q hAS)).PreservesZeroMorphisms
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

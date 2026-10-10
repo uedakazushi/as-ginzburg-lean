@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/AlgebraEnvelopingQuotientTensorRightModule.lean:39:2: error: Type mismatch
+  TensorProduct.congr (algebraModuleRestrictScalarsIso k Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ).toLinearEquiv
+      (algebraModuleRestrictScalarsIso k R (R ⧸ J)).toLinearEquiv ≪≫ₗ
+    (TensorProduct.congr (MulOpposite.opLinearEquiv k).symm (LinearEquiv.refl k (R ⧸ J)) ≪≫ₗ
+      tensorRightEnvelopingRegularLinearEquiv k (R ⧸ J))
+has type
+  @TensorProduct k Field.toSemifield.toCommSemiring
+      (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj (ModuleCat.of Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ)))
+      (↑((ModuleCat.restrictScalars (algebraMap k R)).obj (ModuleCat.of R (R ⧸ J))))
+      ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj
+            (ModuleCat.of Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ)).isAddCommGroup.toAddCommMonoid
+      ((ModuleCat.restrictScalars (algebraMap k R)).obj (ModuleCat.of R (R ⧸ J))).isAddCommGroup.toAddCommMonoid
+      ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj (ModuleCat.of Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ)).isModule
+      ((ModuleCat.restrictScalars (algebraMap k R)).obj (ModuleCat.of R (R ⧸ J))).isModule ≃ₗ[k]
+    (AlgebraEnvelopingRing k (R ⧸ J))ᵐᵒᵖ
+but is expected to have type
+  @TensorProduct k Field.toSemifield.toCommSemiring (↑(idealQuotientRightObject J)) (↑(ModuleCat.of R (R ⧸ J)))
+      (idealQuotientRightObject J).isAddCommGroup.toAddCommMonoid
+      Ring.toNonAssocRing.toNonUnitalNonAssocSemiring.toAddCommMonoid ModuleCat.Algebra.instModuleCarrier
+      (Submodule.Quotient.module' J) ≃ₗ[k]
+    (AlgebraEnvelopingRing k (R ⧸ J))ᵐᵒᵖ

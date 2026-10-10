@@ -1,0 +1,67 @@
+import work.ASGinzburgDraft.WordCyclicContextTransposition
+import ASGinzburg.PathAutomorphismCyclicSubstitution
+import ASGinzburg.PathJacobianHomogeneousContexts
+import ASGinzburg.PathLengthFiltration
+
+/-! Genuine endpoint-typed transposition of a Jacobian context in (3.9).
+The new cut-arrow replacement is the actual composable path r · α · l. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem closedPathTrace_context_transpose {i j x y : Q.Vertex}
+    (a : Q.PathComponent k i j) (l : Q.PathComponent k j x)
+    (d : Q.PathComponent k x y) (r : Q.PathComponent k y i) :
+    Q.closedPathTrace k i (Q.pathComp k
+      (Q.pathComp k r (Q.pathComp k d l)) a) =
+    Q.closedPathTrace k y (Q.pathComp k d
+      (Q.pathComp k l (Q.pathComp k a r))) := by
+  simp only [Q.closedPathTrace_eq_cyclicTrace_pathWordMap, Q.pathWordMap_comp]
+  exact cyclicTrace_wordContext_transpose _ _ _ _
+
+def pathJacobianContextTranspose (α β : Q.Arrow)
+    (l : Q.Path (Q.target α) (Q.target β))
+    (r : Q.Path (Q.source β) (Q.source α)) :
+    Q.Path (Q.source β) (Q.target β) :=
+  (r.comp (Path.snoc (.nil (Q.source α)) α rfl)).comp l
+
+theorem pathJacobianContextTranspose_trace (ψ : Q.Potential k) (α β : Q.Arrow)
+    (l : Q.Path (Q.target α) (Q.target β))
+    (r : Q.Path (Q.source β) (Q.source α)) :
+    Q.closedPathTrace k (Q.source α) (Q.pathComp k
+      (Q.pathComp k (Finsupp.single r 1)
+        (Q.pathComp k (Q.pathCyclicDerivative k β ψ) (Finsupp.single l 1)))
+      (Finsupp.single (Path.snoc (.nil (Q.source α)) α rfl) 1)) =
+    Q.closedPathTrace k (Q.source β) (Q.pathComp k (Q.pathCyclicDerivative k β ψ)
+      (Finsupp.single (Q.pathJacobianContextTranspose α β l r) 1)) := by
+  simpa only [Q.pathComp_single, one_mul, pathJacobianContextTranspose] using
+    Q.closedPathTrace_context_transpose k
+      (Finsupp.single (Path.snoc (.nil (Q.source α)) α rfl) 1)
+      (Finsupp.single l 1) (Q.pathCyclicDerivative k β ψ) (Finsupp.single r 1)
+
+theorem pathJacobianContextTranspose_cutDegree (α β : Q.Arrow)
+    (l : Q.Path (Q.target α) (Q.target β))
+    (r : Q.Path (Q.source β) (Q.source α))
+    (hα : Q.cut α = true) (hl : l.cutDegree = 0) (hr : r.cutDegree = 0) :
+    (Q.pathJacobianContextTranspose α β l r).cutDegree = 1 := by
+  simp [pathJacobianContextTranspose, Path.cutDegree_comp, Path.cutDegree,
+    Q.cutDegree_true hα, hl, hr]
+
+theorem pathJacobianContextTranspose_mem_cut (α β : Q.Arrow)
+    (l : Q.Path (Q.target α) (Q.target β))
+    (r : Q.Path (Q.source β) (Q.source α))
+    (hα : Q.cut α = true) (hl : l.cutDegree = 0) (hr : r.cutDegree = 0) :
+    Finsupp.single (Q.pathJacobianContextTranspose α β l r) (1 : k) ∈
+      Q.pathCutComponent k (Q.source β) (Q.target β) 1 := by
+  apply Finsupp.single_mem_supported
+  change ((Q.pathJacobianContextTranspose α β l r).cutDegree : ℤ) = 1
+  rw [Q.pathJacobianContextTranspose_cutDegree α β l r hα hl hr]
+  rfl
+
+theorem pathJacobianContextTranspose_length (α β : Q.Arrow)
+    (l : Q.Path (Q.target α) (Q.target β))
+    (r : Q.Path (Q.source β) (Q.source α)) :
+    (Q.pathJacobianContextTranspose α β l r).length = r.length + 1 + l.length := by
+  simp [pathJacobianContextTranspose, Path.length]
+
+end ASGinzburg.CutQuiver

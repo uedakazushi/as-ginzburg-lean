@@ -1,0 +1,62 @@
+work/ASGinzburgDraft/PathSubstitutionAutomorphismCriteria.lean:38:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathArrowSubstitutionComponent ?k ?σ (Q.source ?a) (Q.target ?a))
+    (Finsupp.single ((Path.nil (Q.source ?a)).snoc ?a ⋯) 1)
+in the target expression
+  (Q.pathArrowProjection k (Q.source a) (Q.target a))
+      ((Q.pathArrowSubstitutionComponent k σ (Q.source a) (Q.target a)) (Q.pathIdentityArrowReplacement k a)) =
+    (Q.pathArrowProjection k (Q.source a) (Q.target a)) (σ a)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+hL : ∀ (i j : Q.Vertex), Function.Bijective ⇑(Q.pathSubstitutionArrowLinearMap k σ i j)
+a : Q.Arrow
+⊢ (Q.pathArrowProjection k (Q.source a) (Q.target a))
+      ((Q.pathArrowSubstitutionComponent k σ (Q.source a) (Q.target a)) (Q.pathIdentityArrowReplacement k a)) =
+    (Q.pathArrowProjection k (Q.source a) (Q.target a)) (σ a)
+work/ASGinzburgDraft/PathSubstitutionAutomorphismCriteria.lean:46:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathArrowSubstitutionComponent ?k ?σ (Q.source ?a) (Q.target ?a))
+    (Finsupp.single ((Path.nil (Q.source ?a)).snoc ?a ⋯) 1)
+in the target expression
+  (Q.pathArrowSubstitutionComponent k (Q.pathLinearArrowReplacement k (Q.pathSubstitutionLeadingEquiv k σ hL))
+        (Q.source a) (Q.target a))
+      (Q.pathIdentityArrowReplacement k a) =
+    (Q.pathArrowProjection k (Q.source a) (Q.target a)) (σ a)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+hL : ∀ (i j : Q.Vertex), Function.Bijective ⇑(Q.pathSubstitutionArrowLinearMap k σ i j)
+a : Q.Arrow
+⊢ (Q.pathArrowSubstitutionComponent k (Q.pathLinearArrowReplacement k (Q.pathSubstitutionLeadingEquiv k σ hL))
+        (Q.source a) (Q.target a))
+      (Q.pathIdentityArrowReplacement k a) =
+    (Q.pathArrowProjection k (Q.source a) (Q.target a)) (σ a)
+work/ASGinzburgDraft/PathSubstitutionAutomorphismCriteria.lean:91:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathArrowSubstitutionComponent ?k ?σ (Q.source ?a) (Q.target ?a))
+    (Finsupp.single ((Path.nil (Q.source ?a)).snoc ?a ⋯) 1)
+in the target expression
+  (Q.pathArrowSubstitutionComponent k (Q.pathLinearArrowReplacement k (Q.pathSubstitutionLeadingEquiv k σ hL))
+        (Q.source a) (Q.target a))
+      ((VertexCutPathAutomorphism.componentLinearEquiv Q k
+          (Q.identityLeadingPathSubstitutionAutomorphism k (Q.pathSubstitutionNormalizedReplacement k σ hL) ⋯ ⋯)
+          (Q.source a) (Q.target a))
+        (Q.pathIdentityArrowReplacement k a)) =
+    σ a
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+hL : ∀ (i j : Q.Vertex), Function.Bijective ⇑(Q.pathSubstitutionArrowLinearMap k σ i j)
+a : Q.Arrow
+⊢ (Q.pathArrowSubstitutionComponent k (Q.pathLinearArrowReplacement k (Q.pathSubstitutionLeadingEquiv k σ hL))
+        (Q.source a) (Q.target a))
+      ((VertexCutPathAutomorphism.componentLinearEquiv Q k
+          (Q.identityLeadingPathSubstitutionAutomorphism k (Q.pathSubstitutionNormalizedReplacement k σ hL) ⋯ ⋯)
+          (Q.source a) (Q.target a))
+        (Q.pathIdentityArrowReplacement k a)) =
+    σ a

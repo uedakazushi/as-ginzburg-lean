@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/PrincipalIdempotentOrdinaryGrading.lean:25:2: error: Type mismatch
+  principalIdempotentGradeDecomposition k R G e he
+has type
+  DirectSum.Decomposition (principalIdempotentGrade k R G e)
+but is expected to have type
+  DirectSum.Decomposition (principalIdempotentOrdinaryGrade k R G e)
+work/ASGinzburgDraft/PrincipalIdempotentOrdinaryGrading.lean:31:8: error: failed to synthesize
+  Ring ↑(principalIdempotentModule R e)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PrincipalIdempotentOrdinaryGrading.lean:32:4: error: Application type mismatch: The argument
+  principalIdempotentOrdinaryGrade k R G e
+has type
+  ℤ →
+    @Submodule k (↑(principalIdempotentModule R e)) Field.toSemifield.toDivisionSemiring.toSemiring
+      (principalIdempotentModule R e).isAddCommGroup.toAddCommMonoid ModuleCat.Algebra.instModuleCarrier
+but is expected to have type
+  ℤ →
+    @Submodule k (↑(principalIdempotentModule R e)) Field.toSemifield.toDivisionSemiring.toSemiring
+      Ring.toNonAssocRing.toNonUnitalNonAssocSemiring.toAddCommMonoid Algebra.toModule
+in the application
+  @integerGradingShiftDecomposition k inst✝³ ↑(principalIdempotentModule R e) ?m.47 ?m.48
+    (principalIdempotentOrdinaryGrade k R G e)

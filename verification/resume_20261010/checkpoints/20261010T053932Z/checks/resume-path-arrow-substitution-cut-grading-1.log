@@ -1,0 +1,9 @@
+work/ASGinzburgDraft/PathArrowSubstitutionCutGrading.lean:18:4: error: 'change' tactic failed, pattern
+  Q.pathId k i ∈ Q.pathCutComponent k i i 0
+is not definitionally equal to target
+  Q.pathArrowSubstitutionPath k σ (Path.nil i) ∈ Q.pathCutComponent k i i ↑(Path.nil i).cutDegree
+work/ASGinzburgDraft/PathArrowSubstitutionCutGrading.lean:22:4: error: 'change' tactic failed, pattern
+  ((Q.pathComp k) (σ a)) (Q.pathArrowSubstitutionPath k σ p) ∈
+    Q.pathCutComponent k i (Q.target a) ↑(p.snoc a ⋯).cutDegree
+is not definitionally equal to target
+  Q.pathArrowSubstitutionPath k σ (p.snoc a ⋯) ∈ Q.pathCutComponent k i (Q.target a) ↑(p.snoc a ⋯).cutDegree

@@ -1,0 +1,7 @@
+work/ASGinzburgDraft/OrthogonalIdempotentGradedBasis.lean:29:4: error: 'change' tactic failed, pattern
+  ∑ j, ↑(Pi.single i x j) = ↑x
+is not definitionally equal to target
+  (↑E ∘ₗ DirectSum.lof k ι (fun i => ↥(idempotentFixedSpace k R M (e i))) i) x =
+    ((DirectSum.coeLinearMap fun i => idempotentFixedSpace k R M (e i)) ∘ₗ
+        DirectSum.lof k ι (fun i => ↥(idempotentFixedSpace k R M (e i))) i)
+      x

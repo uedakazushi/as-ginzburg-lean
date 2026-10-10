@@ -1,0 +1,61 @@
+import Mathlib.Algebra.DirectSum.Module
+
+/-! The ordinary linear direct sums over two independent index sets
+commute. The maps are built from the genuine direct-sum universal
+property and retain the two homogeneous coordinates. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z
+variable (k : Type u) [Field k]
+variable {ι : Type v} {κ : Type w} [DecidableEq ι] [DecidableEq κ]
+variable (M : ι → κ → Type z) [∀ i q, AddCommGroup (M i q)] [∀ i q, Module k (M i q)]
+
+noncomputable def directSumModuleSwapMap :
+    (⨁ i, ⨁ q, M i q) →ₗ[k] (⨁ q, ⨁ i, M i q) :=
+  DirectSum.toModule k ι _ (fun i => DirectSum.toModule k κ _
+    (fun q => (DirectSum.lof k κ _ q).comp (DirectSum.lof k ι _ i)))
+
+theorem directSumModuleSwapMap_of_of (i : ι) (q : κ) (x : M i q) :
+    directSumModuleSwapMap k M
+      (DirectSum.of _ i (DirectSum.of _ q x)) =
+      DirectSum.of _ q (DirectSum.of _ i x) := by
+  simp only [directSumModuleSwapMap, DirectSum.toModule_lof, LinearMap.comp_apply]
+  rfl
+
+noncomputable def directSumModuleSwap :
+    (⨁ i, ⨁ q, M i q) ≃ₗ[k] (⨁ q, ⨁ i, M i q) := by
+  let L := directSumModuleSwapMap k M
+  let K := directSumModuleSwapMap k (fun q i => M i q)
+  have hKL : K.comp L = LinearMap.id := by
+    apply DirectSum.linearMap_ext
+    intro i
+    apply DirectSum.linearMap_ext
+    intro q
+    apply LinearMap.ext
+    intro x
+    change K (L (DirectSum.of _ i (DirectSum.of _ q x))) =
+      DirectSum.of _ i (DirectSum.of _ q x)
+    rw [directSumModuleSwapMap_of_of, directSumModuleSwapMap_of_of]
+  have hLK : L.comp K = LinearMap.id := by
+    apply DirectSum.linearMap_ext
+    intro q
+    apply DirectSum.linearMap_ext
+    intro i
+    apply LinearMap.ext
+    intro x
+    change L (K (DirectSum.of _ q (DirectSum.of _ i x))) =
+      DirectSum.of _ q (DirectSum.of _ i x)
+    rw [directSumModuleSwapMap_of_of, directSumModuleSwapMap_of_of]
+  exact {
+    toLinearMap := L
+    invFun := K
+    left_inv := fun x => DFunLike.congr_fun hKL x
+    right_inv := fun x => DFunLike.congr_fun hLK x
+  }
+
+theorem directSumModuleSwap_of_of (i : ι) (q : κ) (x : M i q) :
+    directSumModuleSwap k M (DirectSum.of _ i (DirectSum.of _ q x)) =
+      DirectSum.of _ q (DirectSum.of _ i x) :=
+  directSumModuleSwapMap_of_of k M i q x
+
+end ASGinzburg

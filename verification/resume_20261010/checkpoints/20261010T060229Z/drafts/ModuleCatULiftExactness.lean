@@ -1,0 +1,46 @@
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Algebra.Homology.Additive
+import Mathlib.Algebra.Module.ULift
+
+/-! Canonical universe lifting of field-vector complexes preserves
+and reflects genuine exactness. -/
+namespace ASGinzburg
+open CategoryTheory
+universe u v w t
+variable (k : Type u) [Ring k]
+
+noncomputable def moduleCatULiftFunctor : ModuleCat.{v} k ⥤ ModuleCat.{max v w} k where
+  obj M := ModuleCat.of k (ULift.{w} M)
+  map f := ModuleCat.ofHom {
+    toFun := fun x => ⟨f x.down⟩
+    map_add' := fun _ _ => congrArg ULift.up (f.hom.map_add _ _)
+    map_smul' := fun _ _ => congrArg ULift.up (f.hom.map_smul _ _) }
+  map_id M := by apply ModuleCat.hom_ext; ext x; rfl
+  map_comp f g := by apply ModuleCat.hom_ext; ext x; rfl
+
+instance moduleCatULiftFunctorAdditive : (moduleCatULiftFunctor.{u,v,w} k).Additive where
+  map_add {X Y f g} := by
+    apply ModuleCat.hom_ext
+    ext x
+    rfl
+
+theorem moduleCatULiftFunctor_exact_iff (S : ShortComplex (ModuleCat.{v} k)) :
+    (S.map (moduleCatULiftFunctor.{u,v,w} k)).Exact ↔ S.Exact := by
+  rw [ShortComplex.moduleCat_exact_iff, ShortComplex.moduleCat_exact_iff]
+  constructor
+  · intro he y hy
+    obtain ⟨x, hx⟩ := he (ULift.up y) (congrArg ULift.up hy)
+    exact ⟨x.down, congrArg ULift.down hx⟩
+  · intro he y hy
+    obtain ⟨x, hx⟩ := he y.down (congrArg ULift.down hy)
+    exact ⟨ULift.up x, congrArg ULift.up hx⟩
+
+theorem moduleCatULiftFunctor_exactAt_iff {ι : Type t} {c : ComplexShape ι}
+    (K : HomologicalComplex (ModuleCat.{v} k) c) (i : ι) :
+    (((moduleCatULiftFunctor.{u,v,w} k).mapHomologicalComplex c).obj K).ExactAt i ↔
+      K.ExactAt i := by
+  rw [HomologicalComplex.exactAt_iff, HomologicalComplex.exactAt_iff]
+  exact moduleCatULiftFunctor_exact_iff k (K.sc i)
+
+end ASGinzburg

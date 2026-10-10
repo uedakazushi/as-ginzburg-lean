@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/HomogeneousQuotientDecomposition.lean:35:8: error(lean.unknownIdentifier): Unknown constant `Submodule.Quotient.eq_zero_iff_mem.mpr`
+work/ASGinzburgDraft/HomogeneousQuotientDecomposition.lean:57:2: error: Tactic `apply` failed: could not unify the conclusion of `DirectSum.Decomposition.ofLinearMap ?m.291`
+  DirectSum.Decomposition ?m.291
+with the goal
+  DirectSum.Decomposition (homogeneousQuotientGrade k M G S)
+
+Note: The full type of `DirectSum.Decomposition.ofLinearMap ?m.291` is
+  (decompose : ?m.285 →ₗ[?m.284] ⨁ (i : ?m.283), ↥(?m.291 i)) →
+    DirectSum.coeLinearMap ?m.291 ∘ₗ decompose = LinearMap.id →
+      decompose ∘ₗ DirectSum.coeLinearMap ?m.291 = LinearMap.id → DirectSum.Decomposition ?m.291
+
+k : Type u
+inst✝⁴ : Field k
+M : Type v
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+ι : Type w
+inst✝¹ : DecidableEq ι
+G : ι → Submodule k M
+inst✝ : DirectSum.Decomposition G
+S : Submodule k M
+hS : ∀ (q : ι), ∀ x ∈ S, ↑(((DirectSum.decompose G) x) q) ∈ S
+B : ι → Submodule k (M ⧸ S) := homogeneousQuotientGrade k M G S
+F : M →ₗ[k] ⨁ (q : ι), ↥(homogeneousQuotientGrade k M G S q) := homogeneousQuotientDecomposeMap k M G S
+L : M ⧸ S →ₗ[k] ⨁ (q : ι), ↥(B q) := S.liftQ F ⋯
+hComm :
+  DirectSum.coeLinearMap B ∘ₗ DirectSum.lmap (homogeneousQuotientComponentMap k M G S) =
+    S.mkQ ∘ₗ DirectSum.coeLinearMap G
+⊢ DirectSum.Decomposition (homogeneousQuotientGrade k M G S)

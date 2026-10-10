@@ -1,0 +1,73 @@
+work/ASGinzburgDraft/BalancedTensorQuotient.lean:16:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorIdealAction_mem`:
+  [Algebra k R]
+  [IsScalarTower k Rᵐᵒᵖ M]
+  [I.IsTwoSided]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Algebra k R] [IsScalarTower k Rᵐᵒᵖ M] [I.IsTwoSided] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/BalancedTensorQuotient.lean:30:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a • 0
+in the target expression
+  (fun x x_1 => MulOpposite.op r • x ∈ balancedTensorIdealAction k R M I) 0 ⋯
+
+case refine_2
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : IsScalarTower k Rᵐᵒᵖ M
+I : Ideal R
+inst✝ : I.IsTwoSided
+r : R
+m : M
+hm : m ∈ balancedTensorIdealAction k R M I
+⊢ (fun x x_1 => MulOpposite.op r • x ∈ balancedTensorIdealAction k R M I) 0 ⋯
+work/ASGinzburgDraft/BalancedTensorQuotient.lean:46:19: error: unsolved goals
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : IsScalarTower k Rᵐᵒᵖ M
+I : Ideal R
+inst✝ : I.IsTwoSided
+m : M
+c : k
+r : R
+⊢ c • (balancedTensorIdealAction k R M I).mkQ (MulOpposite.op r • m) =
+    (RingHom.id k) c • (balancedTensorIdealAction k R M I).mkQ (MulOpposite.op r • m)
+work/ASGinzburgDraft/BalancedTensorQuotient.lean:68:19: error: unsolved goals
+case h
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : IsScalarTower k Rᵐᵒᵖ M
+I : Ideal R
+inst✝ : I.IsTwoSided
+c : k
+x : M
+r : R
+⊢ c • (balancedTensorIdealAction k R M I).mkQ (MulOpposite.op r • x) =
+    (RingHom.id k) c • (balancedTensorIdealAction k R M I).mkQ (MulOpposite.op r • x)
+work/ASGinzburgDraft/BalancedTensorQuotient.lean:107:8: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorQuotientInverse_mk`:
+  [IsScalarTower k Rᵐᵒᵖ M]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsScalarTower k Rᵐᵒᵖ M] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

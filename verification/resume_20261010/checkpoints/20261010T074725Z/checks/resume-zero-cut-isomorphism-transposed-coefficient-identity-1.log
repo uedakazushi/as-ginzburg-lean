@@ -1,0 +1,13 @@
+work/ASGinzburgDraft/ZeroCutIsomorphismTransposedCoefficientIdentity.lean:30:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  ((Q.noncutJacobianContextConstantProjection k (Q.target ↑a) (Q.source ↑a))
+        (Q.zeroCutIsomorphismDerivativeContextCoefficients k F ⟨↑a, ⋯⟩))
+      ⟨b, ⋯⟩ =
+    ((Q.zeroCutIsomorphismDerivativeTransposeEquiv k F hφ hψ (Q.target ↑a) (Q.source ↑a)) (Finsupp.single ⟨b, ⋯⟩ 1))
+      ⟨↑a, ⋯⟩
+but is expected to have type
+  ((Q.noncutJacobianContextConstantProjection k (Q.target ↑a) (Q.source ↑a))
+        (Q.zeroCutIsomorphismDerivativeContextCoefficients k F ⟨↑a, ⋯⟩))
+      ⟨b, ⋯⟩ =
+    ((Q.zeroCutIsomorphismDerivativeTransposeEquiv k F hφ hψ (Q.target b) (Q.source b)) (Finsupp.single ⟨b, ⋯⟩ 1)) a

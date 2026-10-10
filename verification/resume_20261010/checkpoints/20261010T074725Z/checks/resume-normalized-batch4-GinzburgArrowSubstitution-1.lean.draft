@@ -1,0 +1,93 @@
+import ASGinzburg.GinzburgPathDifferential
+
+/-! Finite path-valued replacements of actual extended generators extend
+to endpoint-preserving linear maps with the actual Ginzburg multiplication. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+abbrev GinzburgArrowReplacement :=
+  ∀ a : Q.GinzburgArrow, Q.GinzburgPathComponent k (a.source Q) (a.target Q)
+
+noncomputable def ginzburgArrowSubstitutionPath (σ : Q.GinzburgArrowReplacement k) :
+    {i j : Q.Vertex} → Q.GinzburgPath i j → Q.GinzburgPathComponent k i j
+  | _,_,.nil i => Q.ginzburgPathId k i
+  | _,_,.snoc p a h => Q.ginzburgPathComp k (h ▸ σ a) (ginzburgArrowSubstitutionPath σ p)
+
+theorem ginzburgArrowSubstitutionPath_comp (σ : Q.GinzburgArrowReplacement k)
+    {i j l : Q.Vertex} (p : Q.GinzburgPath i j) (q : Q.GinzburgPath j l) :
+    Q.ginzburgArrowSubstitutionPath k σ (p.comp q) =
+      Q.ginzburgPathComp k (Q.ginzburgArrowSubstitutionPath k σ q)
+        (Q.ginzburgArrowSubstitutionPath k σ p) := by
+  induction q with
+  | nil => simp only [GinzburgPath.comp_nil,ginzburgArrowSubstitutionPath,Q.ginzburgPathComp_id]
+  | @snoc j q a h ih =>
+    subst j
+    simp only [GinzburgPath.comp,ginzburgArrowSubstitutionPath,ih,Q.ginzburgPathComp_assoc]
+
+noncomputable def ginzburgArrowSubstitutionComponent (σ : Q.GinzburgArrowReplacement k)
+    (i j : Q.Vertex) : Q.GinzburgPathComponent k i j →ₗ[k] Q.GinzburgPathComponent k i j :=
+  Finsupp.linearCombination k (Q.ginzburgArrowSubstitutionPath k σ)
+
+@[simp] theorem ginzburgArrowSubstitutionComponent_single (σ : Q.GinzburgArrowReplacement k)
+    {i j : Q.Vertex} (p : Q.GinzburgPath i j) (c : k) :
+    Q.ginzburgArrowSubstitutionComponent k σ i j (Finsupp.single p c) =
+      c • Q.ginzburgArrowSubstitutionPath k σ p := by
+  simp [ginzburgArrowSubstitutionComponent]
+
+theorem ginzburgArrowSubstitutionComponent_id (σ : Q.GinzburgArrowReplacement k) (i : Q.Vertex) :
+    Q.ginzburgArrowSubstitutionComponent k σ i i (Q.ginzburgPathId k i) =
+      Q.ginzburgPathId k i := by
+  simp [ginzburgPathId,ginzburgArrowSubstitutionPath]
+
+theorem ginzburgArrowSubstitutionComponent_comp (σ : Q.GinzburgArrowReplacement k)
+    {i j l : Q.Vertex} (f : Q.GinzburgPathComponent k i j) (g : Q.GinzburgPathComponent k j l) :
+    Q.ginzburgArrowSubstitutionComponent k σ i l (Q.ginzburgPathComp k g f) =
+      Q.ginzburgPathComp k (Q.ginzburgArrowSubstitutionComponent k σ j l g)
+        (Q.ginzburgArrowSubstitutionComponent k σ i j f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f f' ih ih' => simp [map_add,ih,ih']
+  | single p a =>
+    induction g using Finsupp.induction_linear with
+    | zero => simp
+    | add g g' ih ih' => simp [map_add,LinearMap.add_apply,ih,ih']
+    | single q b =>
+      simp [Q.ginzburgArrowSubstitutionPath_comp,map_smul,LinearMap.smul_apply,smul_smul,mul_comm]
+
+theorem ginzburgArrowSubstitutionComponent_arrow (σ : Q.GinzburgArrowReplacement k)
+    (a : Q.GinzburgArrow) :
+    Q.ginzburgArrowSubstitutionComponent k σ (a.source Q) (a.target Q)
+      (Finsupp.single (Q.ginzburgArrowPath a) 1) = σ a := by
+  simp [ginzburgArrowSubstitutionPath,ginzburgArrowPath,Q.id_ginzburgPathComp]
+
+noncomputable def ginzburgArrowReplacementComp
+    (σ τ : Q.GinzburgArrowReplacement k) : Q.GinzburgArrowReplacement k :=
+  fun a => Q.ginzburgArrowSubstitutionComponent k σ (a.source Q) (a.target Q) (τ a)
+
+theorem ginzburgArrowSubstitutionPath_substitution
+    (σ τ : Q.GinzburgArrowReplacement k) {i j : Q.Vertex} (p : Q.GinzburgPath i j) :
+    Q.ginzburgArrowSubstitutionComponent k σ i j (Q.ginzburgArrowSubstitutionPath k τ p) =
+      Q.ginzburgArrowSubstitutionPath k (Q.ginzburgArrowReplacementComp k σ τ) p := by
+  induction p with
+  | nil =>
+    simpa only [ginzburgArrowSubstitutionPath] using Q.ginzburgArrowSubstitutionComponent_id k σ i
+  | @snoc j p a h ih =>
+    subst j
+    simp [ginzburgArrowSubstitutionPath,Q.ginzburgArrowSubstitutionComponent_comp,ih,
+      ginzburgArrowReplacementComp]
+
+theorem ginzburgArrowSubstitutionComponent_substitution
+    (σ τ : Q.GinzburgArrowReplacement k) (i j : Q.Vertex)
+    (f : Q.GinzburgPathComponent k i j) :
+    Q.ginzburgArrowSubstitutionComponent k σ i j
+        (Q.ginzburgArrowSubstitutionComponent k τ i j f) =
+      Q.ginzburgArrowSubstitutionComponent k (Q.ginzburgArrowReplacementComp k σ τ) i j f := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g ih ih' => simp [map_add,ih,ih']
+  | single p a => simp [Q.ginzburgArrowSubstitutionPath_substitution]
+
+end ASGinzburg.CutQuiver

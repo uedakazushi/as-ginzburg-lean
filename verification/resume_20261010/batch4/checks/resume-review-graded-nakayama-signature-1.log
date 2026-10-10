@@ -1,0 +1,242 @@
+ASGinzburg.gradedModule_subsingleton_of_linear_grading_nilpotent_action_span_top.{u_1, u_2, u_3,
+  u_4} : ∀ (k : Type u_1) [inst : Field.{u_1} k] (R₀ : Type u_2) [inst_1 : Ring.{u_2} R₀]
+  [inst_2 :
+    @Algebra.{u_1, u_2} k R₀ (@Semifield.toCommSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst))
+      (@Ring.toSemiring.{u_2} R₀ inst_1)]
+  (M : Type u_3) [inst_3 : AddCommGroup.{u_3} M]
+  [inst_4 :
+    @Module.{u_1, u_3} k M
+      (@DivisionSemiring.toSemiring.{u_1} k (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3)]
+  [inst_5 : @Module.{u_2, u_3} R₀ M (@Ring.toSemiring.{u_2} R₀ inst_1) (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3)]
+  [@IsScalarTower.{u_1, u_2, u_3} k R₀ M
+      (@Algebra.toSMul.{u_1, u_2} k R₀ (@Semifield.toCommSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst))
+        (@Ring.toSemiring.{u_2} R₀ inst_1) inst_2)
+      (@SMulZeroClass.toSMul.{u_2, u_3} R₀ M
+        (@AddZero.toZero.{u_3} M
+          (@AddZeroClass.toAddZero.{u_3} M
+            (@AddMonoid.toAddZeroClass.{u_3} M
+              (@SubNegMonoid.toAddMonoid.{u_3} M
+                (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3))))))
+        (@DistribSMul.toSMulZeroClass.{u_2, u_3} R₀ M
+          (@AddMonoid.toAddZeroClass.{u_3} M
+            (@SubNegMonoid.toAddMonoid.{u_3} M
+              (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3))))
+          (@DistribMulAction.toDistribSMul.{u_2, u_3} R₀ M
+            (@MonoidWithZero.toMonoid.{u_2} R₀ (@Semiring.toMonoidWithZero.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)))
+            (@SubNegMonoid.toAddMonoid.{u_3} M
+              (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3)))
+            (@Module.toDistribMulAction.{u_2, u_3} R₀ M (@Ring.toSemiring.{u_2} R₀ inst_1)
+              (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_5))))
+      (@SMulZeroClass.toSMul.{u_1, u_3} k M
+        (@AddZero.toZero.{u_3} M
+          (@AddZeroClass.toAddZero.{u_3} M
+            (@AddMonoid.toAddZeroClass.{u_3} M
+              (@SubNegMonoid.toAddMonoid.{u_3} M
+                (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3))))))
+        (@DistribSMul.toSMulZeroClass.{u_1, u_3} k M
+          (@AddMonoid.toAddZeroClass.{u_3} M
+            (@SubNegMonoid.toAddMonoid.{u_3} M
+              (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3))))
+          (@DistribMulAction.toDistribSMul.{u_1, u_3} k M
+            (@MonoidWithZero.toMonoid.{u_1} k
+              (@Semiring.toMonoidWithZero.{u_1} k
+                (@DivisionSemiring.toSemiring.{u_1} k
+                  (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))))
+            (@SubNegMonoid.toAddMonoid.{u_3} M
+              (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3)))
+            (@Module.toDistribMulAction.{u_1, u_3} k M
+              (@DivisionSemiring.toSemiring.{u_1} k
+                (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+              (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4))))]
+  (G :
+    Int →
+      @Submodule.{u_1, u_3} k M
+        (@DivisionSemiring.toSemiring.{u_1} k (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+        (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+  [@DirectSum.Decomposition.{0, u_3, u_3} Int M
+      (@Submodule.{u_1, u_3} k M
+        (@DivisionSemiring.toSemiring.{u_1} k (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+        (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+      Int.instDecidableEq (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3)
+      (@Submodule.setLike.{u_1, u_3} k M
+        (@DivisionSemiring.toSemiring.{u_1} k (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+        (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+      ⋯ G],
+  (∀ (q : Int) (r : R₀) (x : M),
+      @Membership.mem.{u_3, u_3} M
+          (@Submodule.{u_1, u_3} k M
+            (@DivisionSemiring.toSemiring.{u_1} k
+              (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+            (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+          (@SetLike.instMembership.{u_3, u_3}
+            (@Submodule.{u_1, u_3} k M
+              (@DivisionSemiring.toSemiring.{u_1} k
+                (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+              (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+            M
+            (@Submodule.setLike.{u_1, u_3} k M
+              (@DivisionSemiring.toSemiring.{u_1} k
+                (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+              (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4))
+          (G q) x →
+        @Membership.mem.{u_3, u_3} M
+          (@Submodule.{u_1, u_3} k M
+            (@DivisionSemiring.toSemiring.{u_1} k
+              (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+            (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+          (@SetLike.instMembership.{u_3, u_3}
+            (@Submodule.{u_1, u_3} k M
+              (@DivisionSemiring.toSemiring.{u_1} k
+                (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+              (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+            M
+            (@Submodule.setLike.{u_1, u_3} k M
+              (@DivisionSemiring.toSemiring.{u_1} k
+                (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+              (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4))
+          (G q)
+          (@HSMul.hSMul.{u_2, u_3, u_3} R₀ M M
+            (@instHSMul.{u_2, u_3} R₀ M
+              (@SMulZeroClass.toSMul.{u_2, u_3} R₀ M
+                (@AddZero.toZero.{u_3} M
+                  (@AddZeroClass.toAddZero.{u_3} M
+                    (@AddMonoid.toAddZeroClass.{u_3} M
+                      (@SubNegMonoid.toAddMonoid.{u_3} M
+                        (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3))))))
+                (@DistribSMul.toSMulZeroClass.{u_2, u_3} R₀ M
+                  (@AddMonoid.toAddZeroClass.{u_3} M
+                    (@SubNegMonoid.toAddMonoid.{u_3} M
+                      (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3))))
+                  (@DistribMulAction.toDistribSMul.{u_2, u_3} R₀ M
+                    (@MonoidWithZero.toMonoid.{u_2} R₀
+                      (@Semiring.toMonoidWithZero.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)))
+                    (@SubNegMonoid.toAddMonoid.{u_3} M
+                      (@AddGroup.toSubNegMonoid.{u_3} M (@AddCommGroup.toAddGroup.{u_3} M inst_3)))
+                    (@Module.toDistribMulAction.{u_2, u_3} R₀ M (@Ring.toSemiring.{u_2} R₀ inst_1)
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_5)))))
+            r x)) →
+    ∀ {ι : Type u_4} (d : ι → Nat)
+      (f :
+        ι →
+          @LinearMap.{u_1, u_1, u_3, u_3} k k
+            (@DivisionSemiring.toSemiring.{u_1} k
+              (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+            (@DivisionSemiring.toSemiring.{u_1} k
+              (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+            (@RingHom.id.{u_1} k
+              (@Semiring.toNonAssocSemiring.{u_1} k
+                (@DivisionSemiring.toSemiring.{u_1} k
+                  (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))))
+            M M (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4
+            inst_4)
+      (I₀ : @Ideal.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)) (N : Nat),
+      @Eq.{u_2 + 1} (@Ideal.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1))
+          (@HPow.hPow.{u_2, 0, u_2} (@Ideal.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)) Nat
+            (@Ideal.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1))
+            (@instHPow.{u_2, 0} (@Ideal.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)) Nat
+              (@Submodule.instPowNat.{u_2, u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1) R₀
+                (@Ring.toSemiring.{u_2} R₀ inst_1) (@Semiring.toModule.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)) ⋯))
+            I₀ N)
+          (@Bot.bot.{u_2} (@Ideal.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1))
+            (@Submodule.instBot.{u_2, u_2} R₀ R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)
+              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{u_2} R₀
+                (@NonAssocSemiring.toNonUnitalNonAssocSemiring.{u_2} R₀
+                  (@Semiring.toNonAssocSemiring.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1))))
+              (@Semiring.toModule.{u_2} R₀ (@Ring.toSemiring.{u_2} R₀ inst_1)))) →
+        (∀ (t : ι), @LT.lt.{0} Nat instLTNat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) (d t)) →
+          (∀ (t : ι) (p : Int) (x : M),
+              @Membership.mem.{u_3, u_3} M
+                  (@Submodule.{u_1, u_3} k M
+                    (@DivisionSemiring.toSemiring.{u_1} k
+                      (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                    (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                  (@SetLike.instMembership.{u_3, u_3}
+                    (@Submodule.{u_1, u_3} k M
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                    M
+                    (@Submodule.setLike.{u_1, u_3} k M
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4))
+                  (G p) x →
+                @Membership.mem.{u_3, u_3} M
+                  (@Submodule.{u_1, u_3} k M
+                    (@DivisionSemiring.toSemiring.{u_1} k
+                      (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                    (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                  (@SetLike.instMembership.{u_3, u_3}
+                    (@Submodule.{u_1, u_3} k M
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                    M
+                    (@Submodule.setLike.{u_1, u_3} k M
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4))
+                  (G
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd) p
+                      (@Nat.cast.{0} Int instNatCastInt (d t))))
+                  (@DFunLike.coe.{u_3 + 1, u_3 + 1, u_3 + 1}
+                    (@LinearMap.{u_1, u_1, u_3, u_3} k k
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@RingHom.id.{u_1} k
+                        (@Semiring.toNonAssocSemiring.{u_1} k
+                          (@DivisionSemiring.toSemiring.{u_1} k
+                            (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))))
+                      M M (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3)
+                      inst_4 inst_4)
+                    M (fun x => M)
+                    (@LinearMap.instFunLike.{u_1, u_1, u_3, u_3} k k M M
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3)
+                      inst_4 inst_4
+                      (@RingHom.id.{u_1} k
+                        (@Semiring.toNonAssocSemiring.{u_1} k
+                          (@DivisionSemiring.toSemiring.{u_1} k
+                            (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst))))))
+                    (f t) x)) →
+            ∀ (b : Int),
+              (∀ (p : Int),
+                  @LT.lt.{0} Int Int.instLTInt p b →
+                    @Eq.{u_3 + 1}
+                      (@Submodule.{u_1, u_3} k M
+                        (@DivisionSemiring.toSemiring.{u_1} k
+                          (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                        (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                      (G p)
+                      (@Bot.bot.{u_3}
+                        (@Submodule.{u_1, u_3} k M
+                          (@DivisionSemiring.toSemiring.{u_1} k
+                            (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                          (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                        (@Submodule.instBot.{u_1, u_3} k M
+                          (@DivisionSemiring.toSemiring.{u_1} k
+                            (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                          (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4))) →
+                @Eq.{u_3 + 1}
+                    (@Submodule.{u_1, u_3} k M
+                      (@DivisionSemiring.toSemiring.{u_1} k
+                        (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                      (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                    (@ASGinzburg.gradedNilpotentActionSpan.{u_1, u_2, u_3, u_4} k inst R₀ inst_1 M inst_3 inst_4 inst_5
+                      ι f I₀)
+                    (@Top.top.{u_3}
+                      (@Submodule.{u_1, u_3} k M
+                        (@DivisionSemiring.toSemiring.{u_1} k
+                          (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                        (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)
+                      (@Submodule.instTop.{u_1, u_3} k M
+                        (@DivisionSemiring.toSemiring.{u_1} k
+                          (@Semifield.toDivisionSemiring.{u_1} k (@Field.toSemifield.{u_1} k inst)))
+                        (@AddCommGroup.toAddCommMonoid.{u_3} M inst_3) inst_4)) →
+                  Subsingleton.{u_3 + 1} M

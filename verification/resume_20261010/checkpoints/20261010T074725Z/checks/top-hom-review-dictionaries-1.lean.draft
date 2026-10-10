@@ -1,0 +1,25 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualHomogeneousTopQuotientType
+import Lean
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+variable (M L : GradedOrdinaryModuleData k R G)
+variable (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ)
+attribute [local instance 3000] ringDualGradeHasQuotient
+set_option maxHeartbeats 10000
+set_option pp.explicit true
+#synth AddCommGroup (M.ringDualGrade q)
+#synth Module k (M.ringDualGrade q)
+#synth HasQuotient (M.ringDualGrade q) (Submodule k (M.ringDualGrade q))
+#synth AddCommGroup (M.ringDualHomogeneousTopQuotient L a ha q)
+#synth Module k (M.ringDualHomogeneousTopQuotient L a ha q)
+#synth AddCommGroup (ordinaryRingDual R M.ringModule ⧸ LinearMap.range (ordinaryRingDualMapField (k := k) a))
+#synth Module k (ordinaryRingDual R M.ringModule ⧸ LinearMap.range (ordinaryRingDualMapField (k := k) a))
+#check @Submodule.mapQ
+#check @Submodule.Quotient.module
+#check @Submodule.Quotient.addCommGroup
+#check @Submodule.hasQuotient
+end ASGinzburg.GradedOrdinaryModuleData

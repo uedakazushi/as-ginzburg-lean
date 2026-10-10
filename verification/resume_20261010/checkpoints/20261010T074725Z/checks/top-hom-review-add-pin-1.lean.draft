@@ -1,0 +1,26 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualHomogeneousTopQuotientType
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+variable (M L : GradedOrdinaryModuleData k R G)
+noncomputable abbrev prototypeDualAdd (P : ModuleCat.{v} R) : AddCommGroup (ordinaryRingDual R P) :=
+  inferInstanceAs (AddCommGroup (P →ₗ[R] R))
+noncomputable abbrev prototypeDualModule (P : ModuleCat.{v} R) : Module k (ordinaryRingDual R P) :=
+  inferInstanceAs (Module k (P →ₗ[R] R))
+attribute [local instance 4000] prototypeDualAdd
+attribute [local instance 3000] ringDualGradeHasQuotient
+set_option maxHeartbeats 50000
+noncomputable def testPinnedMapQ
+    (a : M.ringModule ⟶ L.ringModule) (ha : M.PreservesGrade L a) (q : ℤ) :
+    M.ringDualHomogeneousTopQuotient L a ha q →ₗ[k] (ordinaryRingDual R M.ringModule ⧸
+      LinearMap.range (ordinaryRingDualMapField (k := k) (R := R) a)) := by
+  let B := LinearMap.range (ordinaryRingDualMapField (k := k) (R := R) a)
+  let C := LinearMap.range (τ₁₂ := RingHom.id k) (M.ringDualMapDegree L a ha q)
+  have hk : C ≤ B.comap (M.ringDualGrade q).subtype := by
+    rintro f ⟨g,rfl⟩
+    exact ⟨g.val,rfl⟩
+  exact C.mapQ B (M.ringDualGrade q).subtype hk
+end ASGinzburg.GradedOrdinaryModuleData

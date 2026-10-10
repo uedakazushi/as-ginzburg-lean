@@ -1,0 +1,78 @@
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:12:2: error: Type mismatch
+  (((CutQuiver.Path.nil 0).snoc (triangleX xyz.1) ?m.19).snoc (triangleY xyz.2.1) ?m.24).snoc (triangleZ xyz.2.2) ?m.29
+has type
+  triangle333.Path 0 (triangle333.target (triangleZ xyz.2.2))
+but is expected to have type
+  triangle333.Path 0 0
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:13:50: error: No goals to be solved
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:21:44: error: Application type mismatch: The argument
+  rfl
+has type
+  ?m.18 = ?m.18
+but is expected to have type
+  wordClass (triangleCubicPath xyz).toList = triangleCubicWordClass xyz
+in the application
+  ⟨?m.16, rfl⟩
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:38:34: error: Application type mismatch: The argument
+  hx
+has type
+  triangleX a.1 = triangleZ b.2.2 ∨ triangleX a.1 ∈ []
+but is expected to have type
+  ?m.162 = ?m.163
+in the application
+  congrArg Fin.val hx
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:45:34: error: Application type mismatch: The argument
+  hy
+has type
+  triangleY a.2.1 = triangleZ b.2.2 ∨ triangleY a.2.1 ∈ []
+but is expected to have type
+  ?m.217 = ?m.218
+in the application
+  congrArg Fin.val hy
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:52:34: error: Application type mismatch: The argument
+  hz
+has type
+  triangleZ a.2.2 = triangleZ b.2.2 ∨ triangleZ a.2.2 ∈ []
+but is expected to have type
+  ?m.272 = ?m.273
+in the application
+  congrArg Fin.val hz
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:36:30: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [List.mem_cons,̵ ̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵] at hx
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:43:30: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [List.mem_cons,̵ ̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵] at hy
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:50:30: warning: This simp argument is unused:
+  List.mem_singleton
+
+Hint: Omit it from the simp argument list.
+  simp only [List.mem_cons,̵ ̵L̵i̵s̵t̵.̵m̵e̵m̵_̵s̵i̵n̵g̵l̵e̵t̵o̵n̵] at hz
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:146:10: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a => ↑w ∈ _a
+Error: Application type mismatch: The argument
+  w
+has type
+  ↑triangle333.potentialClasses
+but is expected to have type
+  { x // x ∈ _a }
+in the application
+  ↑w
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+w : ↑triangle333.potentialClasses
+hw : ↑w ∈ triangle333.potentialClasses
+⊢ ∃ a, (fun xyz => ⟨triangleCubicWordClass xyz, ⋯⟩) a = w

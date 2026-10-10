@@ -1,0 +1,47 @@
+import ASGinzburg.LinearExtTransport
+
+/-! Actual Abelian Ext commutes with finite biproducts in its source
+as a field-linear equivalence, and finiteness transfers through it. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v w w₁ t
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{w} C]
+variable [HasDerivedCategory.{w₁} C] (k : Type t) [Field k] [Linear k C]
+attribute [local instance] exactExtModule
+
+noncomputable def exactExtFiniteBiproductLinearEquiv {J : Type*} [Fintype J]
+    {X : J → C} {c : Bicone X} (hc : c.IsBilimit) (Y : C) (n : ℕ) :
+    Abelian.Ext.{w} c.pt Y n ≃ₗ[k] (∀ i, Abelian.Ext.{w} (X i) Y n) :=
+  { Abelian.Ext.biproductAddEquiv hc Y n with
+    map_smul' := by
+      intro a e
+      funext i
+      exact exactExt_comp_smul k (Abelian.Ext.mk₀ (c.ι i)) e (zero_add n) a }
+
+theorem exactExtFiniteBiproduct_finite {J : Type*} [Fintype J]
+    {X : J → C} {c : Bicone X} (hc : c.IsBilimit) (Y : C) (n : ℕ)
+    (h : ∀ i, Module.Finite k (Abelian.Ext.{w} (X i) Y n)) :
+    Module.Finite k (Abelian.Ext.{w} c.pt Y n) := by
+  letI : ∀ i, Module.Finite k (Abelian.Ext.{w} (X i) Y n) := h
+  exact Module.Finite.equiv (exactExtFiniteBiproductLinearEquiv k hc Y n).symm
+
+noncomputable def exactExtSourceIsoLinearEquiv {X X' Y : C} (e : X ≅ X') (n : ℕ) :
+    Abelian.Ext.{w} X' Y n ≃ₗ[k] Abelian.Ext.{w} X Y n where
+  toFun a := (Abelian.Ext.mk₀ e.hom).comp a (zero_add n)
+  invFun a := (Abelian.Ext.mk₀ e.inv).comp a (zero_add n)
+  left_inv a := by
+    rw [← Abelian.Ext.comp_assoc_of_second_deg_zero, Abelian.Ext.mk₀_comp_mk₀,
+      e.inv_hom_id, Abelian.Ext.mk₀_id_comp]
+  right_inv a := by
+    rw [← Abelian.Ext.comp_assoc_of_second_deg_zero, Abelian.Ext.mk₀_comp_mk₀,
+      e.hom_inv_id, Abelian.Ext.mk₀_id_comp]
+  map_add' a b := Abelian.Ext.comp_add _ a b _
+  map_smul' a b := exactExt_comp_smul k _ b _ a
+
+theorem exactExt_finite_of_sourceIso {X X' Y : C} (e : X ≅ X') (n : ℕ)
+    (h : Module.Finite k (Abelian.Ext.{w} X' Y n)) :
+    Module.Finite k (Abelian.Ext.{w} X Y n) := by
+  letI := h
+  exact Module.Finite.equiv (exactExtSourceIsoLinearEquiv k (Y := Y) e n)
+
+end ASGinzburg

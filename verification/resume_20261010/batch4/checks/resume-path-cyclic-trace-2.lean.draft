@@ -1,0 +1,72 @@
+import work.ASGinzburgDraft.AlgebraCyclicQuotient
+import ASGinzburg.PathJacobianRing
+import ASGinzburg.PathWordEmbeddings
+
+/-! The actual finite-quiver path algebra has a cyclic trace in the free
+cyclic word space. It vanishes on actual algebra commutators and hence
+factors through the actual cyclic quotient. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def closedPathTrace (i : Q.Vertex) :
+    Q.PathComponent k i i →ₗ[k] CyclicPolynomial k Q.Arrow :=
+  Finsupp.linearCombination k (fun p => traceWord (k:=k) p.toList)
+
+theorem closedPathTrace_single (i : Q.Vertex) (p : Q.Path i i) (a : k) :
+    Q.closedPathTrace k i (Finsupp.single p a) = a • traceWord (k:=k) p.toList := by
+  simp [closedPathTrace]
+
+theorem closedPathTrace_comp (i j : Q.Vertex)
+    (f : Q.PathComponent k i j) (g : Q.PathComponent k j i) :
+    Q.closedPathTrace k i (Q.pathComp k g f) =
+      Q.closedPathTrace k j (Q.pathComp k f g) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f f' ih ih' => simp [map_add,ih,ih']
+  | single p a =>
+    induction g using Finsupp.induction_linear with
+    | zero => simp
+    | add g g' ih ih' => simp [map_add,LinearMap.add_apply,ih,ih']
+    | single q b =>
+      rw [Q.pathComp_single,Q.pathComp_single,Q.closedPathTrace_single,
+        Q.closedPathTrace_single,Path.toList_comp,Path.toList_comp,
+        traceWord_append_swap p.toList q.toList,mul_comm b a]
+
+noncomputable def pathCyclicTrace : Q.PathRing k →ₗ[k] CyclicPolynomial k Q.Arrow where
+  toFun x := ∑ i : Q.Vertex, Q.closedPathTrace k i (x i i)
+  map_add' := by intro x y; simp [map_add,Finset.sum_add_distrib]
+  map_smul' := by intro c x; simp [Finset.smul_sum]
+
+theorem pathCyclicTrace_mul_comm (x y : Q.PathRing k) :
+    Q.pathCyclicTrace k (x*y) = Q.pathCyclicTrace k (y*x) := by
+  classical
+  change (∑ i : Q.Vertex, Q.closedPathTrace k i
+      (∑ j : Q.Vertex, Q.pathComp k (x j i) (y i j))) =
+    ∑ j : Q.Vertex, Q.closedPathTrace k j
+      (∑ i : Q.Vertex, Q.pathComp k (y i j) (x j i))
+  simp only [map_sum]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro j hj
+  apply Finset.sum_congr rfl
+  intro i hi
+  exact Q.closedPathTrace_comp k i j (y i j) (x j i)
+
+theorem algebraCommutatorSubspace_le_ker_pathCyclicTrace :
+    algebraCommutatorSubspace k (Q.PathRing k) ≤ LinearMap.ker (Q.pathCyclicTrace k) := by
+  apply Submodule.span_le.mpr
+  rintro z ⟨x,y,rfl⟩
+  change Q.pathCyclicTrace k (x*y-y*x)=0
+  rw [map_sub,Q.pathCyclicTrace_mul_comm k x y,sub_self]
+
+noncomputable def pathCyclicQuotientTrace :
+    AlgebraCyclicQuotient k (Q.PathRing k) →ₗ[k] CyclicPolynomial k Q.Arrow :=
+  (algebraCommutatorSubspace k (Q.PathRing k)).liftQ (Q.pathCyclicTrace k)
+    (Q.algebraCommutatorSubspace_le_ker_pathCyclicTrace k)
+
+theorem pathCyclicQuotientTrace_mk (x : Q.PathRing k) :
+    Q.pathCyclicQuotientTrace k (Submodule.Quotient.mk x) = Q.pathCyclicTrace k x := rfl
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,31 @@
+import work.ASGinzburgDraft.BalancedTensorTorBalanceConsequences
+import work.ASGinzburgDraft.ASCutSemisimpleTorFinite
+import ASGinzburg.ASCutOrdinarySimpleSharpDimension
+
+/-! Actual same-ring Tor balance transfers the nonzero third Tor of an
+ordinary right vertex simple to the actual left radical quotient. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+set_option maxHeartbeats 1000000 in
+theorem ASRegular.cutOrdinarySimpleSecondTorRadicalQuotient_three_not_isZero
+    (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    ¬ IsZero ((balancedTensorTorFunctor.{u,v,v,v} k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutOrdinarySimple A Q x) 3).obj (hAS.cutSemisimpleLeftObject A Q)) := by
+  intro h
+  exact hAS.cutOrdinarySimpleTorRadicalQuotient_three_not_isZero A Q x
+    (IsZero.of_iso h (balancedTensorTorBalanceObjIso k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutOrdinarySimple A Q x) (hAS.cutSemisimpleLeftObject A Q) 3))
+
+theorem ASRegular.cutSemisimpleLeft_projectiveDimension_ge_three
+    (hAS : A.ASRegular Q) (x : Q.LiftVertex) :
+    (3 : WithBot ℕ∞) ≤ projectiveDimension (hAS.cutSemisimpleLeftObject A Q) :=
+  projectiveDimension_ge_three_of_nonzero_leftDerived_three
+    (balancedTensorRightFunctor.{u,v,v,v} k (hAS.CutGradedAlgebra A Q)
+      (hAS.cutOrdinarySimple A Q x))
+    (hAS.cutOrdinarySimpleSecondTorRadicalQuotient_three_not_isZero A Q x)
+
+end ASGinzburg.ZAlgebra

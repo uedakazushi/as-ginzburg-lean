@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/NoncutJacobianContextTransposedFamily.lean:104:4: error: Type mismatch: After simplification, term
+  noncutJacobianContextTransposedTerm_trace Q k ψ a c
+ has type
+  ∑ b,
+      (Q.closedPathTrace k (Q.source b))
+        (((Q.pathComp k) ((Q.pathCyclicDerivative k b) ψ)) (Q.noncutJacobianContextTransposedTerm k a b c)) =
+    (Q.closedPathTrace k (Q.source ↑a))
+      (((Q.pathComp k) (Q.noncutJacobianContextValue k ψ (Q.target ↑a) (Q.source ↑a) c))
+        (Finsupp.single (Q.baseArrowPath ↑a) 1))
+but is expected to have type
+  (∑ x,
+        Q.closedPathTrace k (Q.source x) ∘ₗ
+          (Q.pathComp k) ((Q.pathCyclicDerivative k x) ψ) ∘ₗ
+            Finsupp.linearCombination k (Q.noncutJacobianContextTransposedTerm k a x)) ∘ₗ
+      Finsupp.lsingle c =
+    (Q.closedPathTrace k (Q.source ↑a) ∘ₗ
+        (Q.pathComp k).flip (Finsupp.single (Q.baseArrowPath ↑a) 1) ∘ₗ
+          Finsupp.linearCombination k (Q.noncutJacobianContextValue k ψ (Q.target ↑a) (Q.source ↑a))) ∘ₗ
+      Finsupp.lsingle c
+work/ASGinzburgDraft/NoncutJacobianContextTransposedFamily.lean:108:2: error: Type mismatch
+  LinearMap.congr_fun h f
+has type
+  L f = R f
+but is expected to have type
+  ∑ b,
+      (Q.closedPathTrace k (Q.source b))
+        (((Q.pathComp k) ((Q.pathCyclicDerivative k b) ψ)) ((Q.noncutJacobianContextTransposedLinearMap k a b) f)) =
+    (Q.closedPathTrace k (Q.source ↑a))
+      (((Q.pathComp k) ((Q.noncutJacobianContextLinearMap k ψ (Q.target ↑a) (Q.source ↑a)) f))
+        (Finsupp.single (Q.baseArrowPath ↑a) 1))

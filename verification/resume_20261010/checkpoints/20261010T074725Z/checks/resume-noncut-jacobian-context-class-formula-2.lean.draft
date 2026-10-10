@@ -1,0 +1,67 @@
+import work.ASGinzburgDraft.NoncutJacobianContextNativeClasses
+import work.ASGinzburgDraft.NoncutJacobianContextConstantProjection
+
+/-! In the actual native minimal-relation quotient, a finite context
+expansion retains exactly its constant relation coefficients. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem noncutJacobianContextMinimalClass_formula (φ : Q.Potential k) (i j : Q.Vertex)
+    (c : Q.NoncutJacobianContextIndex i j) :
+    Q.noncutJacobianContextMinimalClass k φ i j c =
+      if h : c.2.1.val.length = 0 ∧ c.2.2.val.length = 0 then
+        Q.foundationMinimalCutDerivativeClass k φ i j
+          (Q.noncutJacobianContextConstantArrow i j c h.1 h.2) else 0 := by
+  classical
+  by_cases h : c.2.1.val.length = 0 ∧ c.2.2.val.length = 0
+  · rw [dif_pos h]
+    rcases c with ⟨⟨b, hb⟩, ⟨l, hlc⟩, ⟨r, hrc⟩⟩
+    have hli : i = Q.target b := l.endpoints_eq_of_length_zero Q h.1
+    have hrj : Q.source b = j := r.endpoints_eq_of_length_zero Q h.2
+    subst i j
+    have hlNil : l = .nil (Q.target b) := by
+      apply Path.toList_injective
+      exact List.length_eq_zero_iff.mp (l.length_toList.trans h.1)
+    have hrNil : r = .nil (Q.source b) := by
+      apply Path.toList_injective
+      exact List.length_eq_zero_iff.mp (r.length_toList.trans h.2)
+    subst l r
+    unfold noncutJacobianContextMinimalClass foundationMinimalCutDerivativeClass
+      generatedMinimalRelationClass
+    apply congrArg Submodule.Quotient.mk
+    apply Subtype.ext
+    change Q.zeroCutFoundationComponentEquiv k (Q.target b) (Q.source b)
+      (Q.noncutJacobianContextCutValue k φ (Q.target b) (Q.source b)
+        ⟨⟨b, hb⟩, ⟨.nil (Q.target b), hlc⟩, ⟨.nil (Q.source b), hrc⟩⟩) =
+      (Q.foundationCutDerivativeGenerator k φ (Q.target b) (Q.source b)
+        ⟨b, rfl, rfl, hb⟩).val
+    have hc : Q.noncutJacobianContextCutValue k φ (Q.target b) (Q.source b)
+        ⟨⟨b, hb⟩, ⟨.nil (Q.target b), hlc⟩, ⟨.nil (Q.source b), hrc⟩⟩ =
+        Q.zeroCutCyclicDerivative k φ ⟨b, hb⟩ := by
+      apply Subtype.ext
+      change Q.pathComp k (Q.pathId k (Q.source b))
+        (Q.pathComp k (Q.pathCyclicDerivative k b φ) (Q.pathId k (Q.target b))) = _
+      rw [Q.pathComp_id, Q.id_pathComp]
+      rfl
+    rw [hc]
+    exact Q.zeroCutFoundationComponentEquiv_cutDerivative k φ ⟨b, hb⟩
+  · rw [dif_neg h]
+    exact Q.noncutJacobianContextMinimalClass_zero_of_positive_length k φ i j c (by omega)
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem noncutJacobianContextMinimalClass_linearCombination (φ : Q.Potential k)
+    (i j : Q.Vertex) (f : Q.NoncutJacobianContextIndex i j →₀ k) :
+    Finsupp.linearCombination k (Q.noncutJacobianContextMinimalClass k φ i j) f =
+      Finsupp.linearCombination k (Q.foundationMinimalCutDerivativeClass k φ i j)
+        (Q.noncutJacobianContextConstantProjection k i j f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add, hf, hg]
+  | single c a =>
+    rw [Finsupp.linearCombination_single, Q.noncutJacobianContextConstantProjection_single,
+      Q.noncutJacobianContextMinimalClass_formula]
+    split_ifs <;> simp
+
+end ASGinzburg.CutQuiver

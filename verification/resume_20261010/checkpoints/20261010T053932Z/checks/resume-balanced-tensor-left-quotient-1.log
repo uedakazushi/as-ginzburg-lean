@@ -1,0 +1,63 @@
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:40:19: error: unsolved goals
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+J : Ideal R
+inst✝⁴ : J.IsTwoSided
+N : Type w
+inst✝³ : AddCommGroup N
+inst✝² : Module k N
+inst✝¹ : Module R N
+inst✝ : IsScalarTower k R N
+n : N
+c : k
+r : R
+⊢ c • (balancedTensorLeftIdealAction k R J N).mkQ (r • n) =
+    (RingHom.id k) c • (balancedTensorLeftIdealAction k R J N).mkQ (r • n)
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:48:5: error(lean.unknownIdentifier): Unknown constant `MulOpposite.unopLinearEquiv`
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:50:0: error: Not a definitional equality: the left-hand side
+  DFunLike.coe.{max (v + 1) (w + 1), v + 1, w + 1} (balancedTensorLeftQuotientCoefficient k R J N n)
+    (MulOpposite.op ((Ideal.Quotient.mk J) r))
+is not definitionally equal to the right-hand side
+  DFunLike.coe.{w + 1, w + 1, w + 1} (balancedTensorLeftIdealAction k R J N).mkQ (r • n)
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:53:61: error: Type mismatch
+  rfl
+has type
+  ?m.44 = ?m.44
+but is expected to have type
+  (balancedTensorLeftQuotientCoefficient k R J N n) (MulOpposite.op ((Ideal.Quotient.mk J) r)) =
+    (balancedTensorLeftIdealAction k R J N).mkQ (r • n)
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:83:4: error: 'change' tactic failed, pattern
+  (balancedTensorLeftIdealAction k R J N).mkQ ((r * s) • n) = (balancedTensorLeftIdealAction k R J N).mkQ (r • s • n)
+is not definitionally equal to target
+  ((balancedTensorLeftQuotientBilinear k R J N) (MulOpposite.op s • MulOpposite.op ((Ideal.Quotient.mk J) r))) n =
+    ((balancedTensorLeftQuotientBilinear k R J N) (MulOpposite.op ((Ideal.Quotient.mk J) r))) (s • n)
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:92:2: error: Tactic `rfl` failed: The left-hand side
+  ((balancedTensorLeftQuotientBilinear k R J N) (MulOpposite.op ((Ideal.Quotient.mk J) r))) n
+is not definitionally equal to the right-hand side
+  (balancedTensorLeftIdealAction k R J N).mkQ (r • n)
+
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+J : Ideal R
+inst✝⁴ : J.IsTwoSided
+N : Type w
+inst✝³ : AddCommGroup N
+inst✝² : Module k N
+inst✝¹ : Module R N
+inst✝ : IsScalarTower k R N
+r : R
+n : N
+⊢ ((balancedTensorLeftQuotientBilinear k R J N) (MulOpposite.op ((Ideal.Quotient.mk J) r))) n =
+    (balancedTensorLeftIdealAction k R J N).mkQ (r • n)
+work/ASGinzburgDraft/BalancedTensorLeftQuotient.lean:108:8: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorLeftQuotientInverse_mk`:
+  [IsScalarTower k R N]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsScalarTower k R N] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

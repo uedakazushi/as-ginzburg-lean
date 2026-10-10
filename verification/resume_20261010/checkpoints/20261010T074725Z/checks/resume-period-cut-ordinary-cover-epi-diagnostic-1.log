@@ -1,0 +1,14 @@
+work/period-cut-ordinary-cover-epi-diagnostic-1.lean:80:2: error: Reached genuine native epi before total-map surjectivity
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E)
+b : ℤ
+hb : M.BoundedBelow b
+N : CutGradedRightModule Q E := ordinaryGradedDataCutRightModule Q E M
+f : (cornerCoverZAlgebra Q E).rightTopBasisFreeModule N.recoveredRightModule ⟶ N.recoveredRightModule :=
+  (cornerCoverZAlgebra Q E).rightTopBasisFreeModuleπ N.recoveredRightModule
+hf : Epi f
+⊢ Epi (cutOrdinaryGradedCoverπ Q E M)

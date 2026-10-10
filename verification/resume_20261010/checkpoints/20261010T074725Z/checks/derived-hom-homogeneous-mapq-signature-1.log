@@ -1,0 +1,25 @@
+@Submodule.mapQ : {R : Type u_1} →
+  {M : Type u_2} →
+    [inst : Ring R] →
+      [inst_1 : AddCommGroup M] →
+        [inst_2 : Module R M] →
+          (p : Submodule R M) →
+            {R₂ : Type u_3} →
+              {M₂ : Type u_4} →
+                [inst_3 : Ring R₂] →
+                  [inst_4 : AddCommGroup M₂] →
+                    [inst_5 : Module R₂ M₂] →
+                      {τ₁₂ : R →+* R₂} →
+                        (q : Submodule R₂ M₂) → (f : M →ₛₗ[τ₁₂] M₂) → p ≤ Submodule.comap f q → M ⧸ p →ₛₗ[τ₁₂] M₂ ⧸ q
+@Submodule.mkQ : {R : Type u_1} →
+  {M : Type u_2} →
+    [inst : Ring R] → [inst_1 : AddCommGroup M] → [inst_2 : Module R M] → (p : Submodule R M) → M →ₗ[R] M ⧸ p
+@Submodule.hasQuotient : {R : Type u_1} →
+  {M : Type u_2} → [inst : Ring R] → [inst_1 : AddCommGroup M] → [inst_2 : Module R M] → HasQuotient M (Submodule R M)
+@Submodule.Quotient.addCommGroup : {R : Type u_1} →
+  {M : Type u_2} →
+    [inst : Ring R] → [inst_1 : AddCommGroup M] → [inst_2 : Module R M] → (p : Submodule R M) → AddCommGroup (M ⧸ p)
+@Submodule.Quotient.module : {R : Type u_1} →
+  {M : Type u_2} →
+    [inst : Ring R] → [inst_1 : AddCommGroup M] → [inst_2 : Module R M] → (P : Submodule R M) → Module R (M ⧸ P)
+work/homogeneous-mapq-signature.lean:8:7: error(lean.unknownIdentifier): Unknown identifier `ASGinzburg.ordinaryRingDualFieldModule`

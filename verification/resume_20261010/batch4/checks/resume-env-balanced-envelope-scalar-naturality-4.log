@@ -1,0 +1,13 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:43:4: error: Application type mismatch: The argument
+  tP'
+has type
+  @IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (↑M' ⊗[k] ↑N') MulOpposite.instSMul
+    DistribMulAction.toDistribSMul.toSMul TensorProduct.instSMul
+but is expected to have type
+  @IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (↑M' ⊗[k] ↑N') MulOpposite.instSMul
+    DistribMulAction.toDistribSMul.toSMul DistribMulAction.toDistribSMul.toSMul
+in the application
+  balancedTensorFieldModuleChangeIso_naturality k (AlgebraEnvelopingRing k R) (↑M ⊗[k] ↑N) (↑M' ⊗[k] ↑N') R P Q₀
+    (tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq k R M N) P' Q₀'
+    (tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq k R M' N') ?m.326
+    (tensorRightEnvelopingScalarTower k R ↑M ↑N) tP'

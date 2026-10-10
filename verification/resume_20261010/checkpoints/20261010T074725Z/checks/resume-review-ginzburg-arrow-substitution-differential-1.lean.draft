@@ -1,0 +1,53 @@
+import work.ASGinzburgDraft.GinzburgArrowSubstitution
+import ASGinzburg.GinzburgDifferentialSign
+
+/-! Actual degree-preserving generator substitutions that commute with
+the genuine generator differential commute with it on every extended path. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgArrowSubstitutionPath_differential
+    (σ : Q.GinzburgArrowReplacement k) (φ ψ : Q.Potential k)
+    (hDegree : ∀ a : Q.GinzburgArrow, σ a ∈
+      Q.ginzburgCohomologicalComponent k (a.source Q) (a.target Q) (a.cohomologicalDegree Q))
+    (hDifferential : ∀ a : Q.GinzburgArrow,
+      Q.ginzburgDifferential k ψ (a.source Q) (a.target Q) (σ a) =
+        Q.ginzburgArrowSubstitutionComponent k σ (a.source Q) (a.target Q)
+          (Q.ginzburgGeneratorDifferential k φ a))
+    {i j : Q.Vertex} (p : Q.GinzburgPath i j) :
+    Q.ginzburgDifferential k ψ i j (Q.ginzburgArrowSubstitutionPath k σ p) =
+      Q.ginzburgArrowSubstitutionComponent k σ i j (p.differential Q k φ) := by
+  induction p with
+  | nil => simp [ginzburgArrowSubstitutionPath,Q.ginzburgDifferential_id]
+  | snoc p a h ih =>
+    subst h
+    rw [ginzburgArrowSubstitutionPath,
+      Q.ginzburgDifferential_comp_homogeneous k ψ _ _ _ (hDegree a),
+      hDifferential a,ih]
+    simp only [GinzburgPath.differential,map_add,map_smul,
+      Q.ginzburgArrowSubstitutionComponent_comp,
+      Q.ginzburgArrowSubstitutionComponent_single,one_smul,
+      Q.ginzburgArrowSubstitutionComponent_arrow]
+
+theorem ginzburgArrowSubstitutionComponent_differential
+    (σ : Q.GinzburgArrowReplacement k) (φ ψ : Q.Potential k)
+    (hDegree : ∀ a : Q.GinzburgArrow, σ a ∈
+      Q.ginzburgCohomologicalComponent k (a.source Q) (a.target Q) (a.cohomologicalDegree Q))
+    (hDifferential : ∀ a : Q.GinzburgArrow,
+      Q.ginzburgDifferential k ψ (a.source Q) (a.target Q) (σ a) =
+        Q.ginzburgArrowSubstitutionComponent k σ (a.source Q) (a.target Q)
+          (Q.ginzburgGeneratorDifferential k φ a))
+    (i j : Q.Vertex) (f : Q.GinzburgPathComponent k i j) :
+    Q.ginzburgDifferential k ψ i j (Q.ginzburgArrowSubstitutionComponent k σ i j f) =
+      Q.ginzburgArrowSubstitutionComponent k σ i j (Q.ginzburgDifferential k φ i j f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add,hf,hg]
+  | single p c =>
+    simp only [ginzburgArrowSubstitutionComponent_single,map_smul,
+      ginzburgDifferential_single]
+    rw [Q.ginzburgArrowSubstitutionPath_differential k σ φ ψ hDegree hDifferential]
+
+end ASGinzburg.CutQuiver

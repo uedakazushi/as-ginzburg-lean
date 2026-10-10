@@ -1,0 +1,35 @@
+work/ASGinzburgDraft/NativeZeroCutDerivativeComparison.lean:24:7: error: Invalid field `zeroCutCyclicDerivative`: The environment does not contain `ASGinzburg.CutQuiver.zeroCutCyclicDerivative`
+  Q
+has type
+  CutQuiver
+work/ASGinzburgDraft/NativeZeroCutDerivativeComparison.lean:32:7: error: Invalid field `zeroCutCyclicDerivative`: The environment does not contain `ASGinzburg.CutQuiver.zeroCutCyclicDerivative`
+  Q
+has type
+  CutQuiver
+work/ASGinzburgDraft/NativeZeroCutDerivativeComparison.lean:38:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((Q.unrolledPathZAlgebra ?k).homTransport ?i ?j ?i' ?j' ?hi ?hj) ?f
+in the target expression
+  (Q.zeroSheetPathReindexEquiv k (Q.target ↑b) (Q.source ↑b)) (Q.unrolledCutJacobianRelation k ?φ b 0) =
+    ↑(let hi := ⋯;
+      have hj := ⋯;
+      ⟨((Q.unrolledPathZAlgebra k).homTransport (Q.height (Q.target ↑⟨↑b, ⋯⟩, 0))
+            (Q.height (Q.source ↑⟨↑b, ⋯⟩, 0 + ↑(1 - Q.cutDegree ↑⟨↑b, ⋯⟩))) (↑↑(Q.target ↑b)) (↑↑(Q.source ↑b)) hi hj)
+          ((Q.unrolledComponentHeightEquiv k (Q.target ↑⟨↑b, ⋯⟩, 0)
+              (Q.source ↑⟨↑b, ⋯⟩, 0 + ↑(1 - Q.cutDegree ↑⟨↑b, ⋯⟩)))
+            (Q.unrolledJacobianRelation k (↑⟨↑b, ⋯⟩) φ 0)),
+        ⋯⟩)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+b : { a // Q.cut a = true }
+⊢ (Q.zeroSheetPathReindexEquiv k (Q.target ↑b) (Q.source ↑b)) (Q.unrolledCutJacobianRelation k ?φ b 0) =
+    ↑(let hi := ⋯;
+      have hj := ⋯;
+      ⟨((Q.unrolledPathZAlgebra k).homTransport (Q.height (Q.target ↑⟨↑b, ⋯⟩, 0))
+            (Q.height (Q.source ↑⟨↑b, ⋯⟩, 0 + ↑(1 - Q.cutDegree ↑⟨↑b, ⋯⟩))) (↑↑(Q.target ↑b)) (↑↑(Q.source ↑b)) hi hj)
+          ((Q.unrolledComponentHeightEquiv k (Q.target ↑⟨↑b, ⋯⟩, 0)
+              (Q.source ↑⟨↑b, ⋯⟩, 0 + ↑(1 - Q.cutDegree ↑⟨↑b, ⋯⟩)))
+            (Q.unrolledJacobianRelation k (↑⟨↑b, ⋯⟩) φ 0)),
+        ⋯⟩)

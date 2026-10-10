@@ -1,0 +1,36 @@
+Try this:
+  abel_nf
+work/ASGinzburgDraft/WordSubstitutedOccurrenceCommutators.lean:39:6: error: unsolved goals
+case pos
+A : Type u
+B : Type v
+k : Type z
+inst✝² : Field k
+inst✝¹ : DecidableEq A
+inst✝ : Fintype A
+σ : A → WordPolynomial k B
+c : A
+p : List A
+ih :
+  ∀ (h : WordPolynomial k B),
+    ∑ a,
+        ((wordConcatenation (σ a)) ((wordSubstitutedOccurrenceContextWord σ a p) h) -
+          (wordConcatenation ((wordSubstitutedOccurrenceContextWord σ a p) h)) (σ a)) =
+      (wordConcatenation (wordSubstitutionBetweenWord σ p)) h - (wordConcatenation h) (wordSubstitutionBetweenWord σ p)
+h : WordPolynomial k B
+⊢ (wordConcatenation (σ c)) ((wordConcatenation (wordSubstitutionBetweenWord σ p)) h) +
+      ((wordConcatenation (σ c)) ((wordSubstitutedOccurrenceContextWord σ c p) ((wordConcatenation h) (σ c))) +
+        (-1 • (wordConcatenation ((wordConcatenation (wordSubstitutionBetweenWord σ p)) h)) (σ c) +
+          -1 •
+            (wordConcatenation ((wordSubstitutedOccurrenceContextWord σ c p) ((wordConcatenation h) (σ c)))) (σ c))) =
+    (wordConcatenation (σ c)) ((wordSubstitutedOccurrenceContextWord σ c p) ((wordConcatenation h) (σ c))) +
+      (-1 • (wordConcatenation ((wordSubstitutedOccurrenceContextWord σ c p) ((wordConcatenation h) (σ c)))) (σ c) +
+        ((wordConcatenation (σ c)) ((wordConcatenation (wordSubstitutionBetweenWord σ p)) h) +
+          -1 • (wordConcatenation ((wordConcatenation (wordSubstitutionBetweenWord σ p)) h)) (σ c)))
+work/ASGinzburgDraft/WordSubstitutedOccurrenceCommutators.lean:40:19: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵ ̵map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

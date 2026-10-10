@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/PeriodCutOrdinaryGradedNakayama.lean:70:56: error: Invalid field notation: Identifier or numeral expected
+work/ASGinzburgDraft/PeriodCutOrdinaryGradedNakayama.lean:61:46: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : GradedOrdinaryModuleData k (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ (cutIntegerOppositeHomogeneousSpace Q E)
+b : ℤ
+hb : M.BoundedBelow b
+hT :
+  IsZero
+    ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+          ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).obj
+      M.ringModule)
+hNative :
+  IsZero
+    ((balancedTensorLeftFunctor k (E.CutGradedRing fun i => ↑↑i)
+          ((E.CutGradedRing fun i => ↑↑i) ⧸ cutGradedJacobson Q E)).obj
+      (ordinaryGradedDataCutRightModule Q E M).ringModule)
+⊢ IsZero M.ringModule

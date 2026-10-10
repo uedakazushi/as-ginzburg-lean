@@ -1,0 +1,75 @@
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:71:14: error(lean.unknownIdentifier): Unknown identifier `j`
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:74:9: error: unsolved goals
+case a.zero
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ τ : Q.PathArrowReplacement k
+h :
+  ∀ (a : Fin Q.arrows),
+    (Q.pathArrowProjection k (Q.source a) (Q.target a))
+        ((Q.pathArrowSubstitutionComponent k τ (Q.source a) (Q.target a)) (σ a)) =
+      Q.pathIdentityArrowReplacement k a
+i j : Q.Vertex
+f : ↥(Q.pathArrowComponent k i j)
+x : Q.PathComponent k i j
+⊢ (Q.pathSubstitutionArrowLinearMap k τ i j) ((Q.pathSubstitutionArrowLinearMap k σ i j) f) = 0
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:75:26: error: unsolved goals
+case a.add
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ τ : Q.PathArrowReplacement k
+h :
+  ∀ (a : Fin Q.arrows),
+    (Q.pathArrowProjection k (Q.source a) (Q.target a))
+        ((Q.pathArrowSubstitutionComponent k τ (Q.source a) (Q.target a)) (σ a)) =
+      Q.pathIdentityArrowReplacement k a
+i j : Q.Vertex
+f✝ : ↥(Q.pathArrowComponent k i j)
+x f g : Q.PathComponent k i j
+hf : f ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | p.length = 1})
+hg : g ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | p.length = 1})
+ihf : ↑((Q.pathSubstitutionArrowLinearMap k τ i j) ((Q.pathSubstitutionArrowLinearMap k σ i j) f✝)) = f
+ihg : ↑((Q.pathSubstitutionArrowLinearMap k τ i j) ((Q.pathSubstitutionArrowLinearMap k σ i j) f✝)) = g
+⊢ f = f + g
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:77:19: error: unsolved goals
+case a.smul
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ τ : Q.PathArrowReplacement k
+h :
+  ∀ (a : Fin Q.arrows),
+    (Q.pathArrowProjection k (Q.source a) (Q.target a))
+        ((Q.pathArrowSubstitutionComponent k τ (Q.source a) (Q.target a)) (σ a)) =
+      Q.pathIdentityArrowReplacement k a
+i j : Q.Vertex
+f✝ : ↥(Q.pathArrowComponent k i j)
+x : Q.PathComponent k i j
+c : k
+f : Q.PathComponent k i j
+hf : f ∈ Submodule.span k ((fun i_1 => Finsupp.single i_1 1) '' {p | p.length = 1})
+ih : ↑((Q.pathSubstitutionArrowLinearMap k τ i j) ((Q.pathSubstitutionArrowLinearMap k σ i j) f✝)) = f
+⊢ f = c • f
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:76:15: warning: This simp argument is unused:
+  map_add
+
+Hint: Omit it from the simp argument list.
+  simp only [̵m̵a̵p̵_̵a̵d̵d̵,̵i̵h̵f̵,̵i̵h̵g̵]̵[̲i̲h̲f̲,̲ ̲i̲h̲g̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:76:27: warning: This simp argument is unused:
+  ihg
+
+Hint: Omit it from the simp argument list.
+  simp only [̵m̵a̵p̵_̵a̵d̵d̵,̵i̵h̵f̵,̵i̵h̵g̵]̵[̲m̲a̲p̲_̲a̲d̲d̲,̲ ̲i̲h̲f̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PathSubstitutionLeadingComposition.lean:77:33: warning: This simp argument is unused:
+  map_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [m̵a̵p̵_̵s̵m̵u̵l̵,̵ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

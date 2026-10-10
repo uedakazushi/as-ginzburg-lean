@@ -1,0 +1,15 @@
+(M.ringDualGrade q).addCommGroup
+(M.ringDualGrade q).module
+work/homogeneous-top-quotient-instance-diagnostic.lean:12:0: error: failed to synthesize
+  HasQuotient (↥(M.ringDualGrade q)) (Submodule k ↥(M.ringDualGrade q))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/homogeneous-top-quotient-instance-diagnostic.lean:13:34: error: Application type mismatch: The argument
+  M.ringDualGrade q
+has type
+  Submodule k ↑(ordinaryRingDual R M.ringModule)
+of sort `Type v` but is expected to have type
+  Ring k
+of sort `Type u` in the application
+  @Submodule.hasQuotient k ?m.19 (M.ringDualGrade q)
+Submodule.hasQuotient : HasQuotient ?m.19 (Submodule k ?m.19)

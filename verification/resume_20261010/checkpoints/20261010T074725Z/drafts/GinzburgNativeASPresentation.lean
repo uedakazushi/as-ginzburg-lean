@@ -1,0 +1,70 @@
+import work.ASGinzburgDraft.GinzburgNativeASArrowClasses
+import work.ASGinzburgDraft.UnrolledHeightTransportCancellation
+import ASGinzburg.ArrowEvaluationNaturality
+
+/-! The canonical native Ginzburg AS presentation is the actual Jacobian
+quotient map on every integer component. -/
+namespace ASGinzburg.CutQuiver
+open ZAlgebra
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem GinzburgRegular.nativePathEvaluation {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) {u v : Q.LiftVertex} (p : Q.UnrolledPath u v) :
+    (Q.unrolledJacobianZAlgebra k φ).unrolledPathEvaluation Q
+      (fun w => h.minimalASResolution Q k w) p =
+      (Q.unrolledJacobianQuotientMap k φ).map (Q.height u) (Q.height v)
+        (Q.unrolledComponentHeightEquiv k u v (Finsupp.single p 1)) := by
+  induction p with
+  | nil =>
+    rw [Q.unrolledComponentHeightEquiv_single]
+    rw [(Q.unrolledPathHeightEquiv _ _ (.nil _)).diagonal_eq_nil]
+    simpa only [unrolledPathEvaluation, unrolledPathZAlgebra, unrolledPathId] using
+      ((Q.unrolledJacobianQuotientMap k φ).map_id (Q.height u)).symm
+  | @snoc v a p ih =>
+    rw [unrolledPathEvaluation, h.nativeIncomingElement_quotientArrow Q k, ih,
+      ← (Q.unrolledJacobianQuotientMap k φ).map_comp,
+      ← Q.unrolledComponentHeightEquiv_comp, Q.unrolledPathComp_single]
+    simp only [one_mul, UnrolledPath.comp]
+
+theorem GinzburgRegular.nativePathLinearEvaluation {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (u v : Q.LiftVertex) (f : Q.UnrolledPathComponent k u v) :
+    (Q.unrolledJacobianZAlgebra k φ).unrolledPathLinearEvaluation Q
+      (fun w => h.minimalASResolution Q k w) u v f =
+      (Q.unrolledJacobianQuotientMap k φ).map (Q.height u) (Q.height v)
+        (Q.unrolledComponentHeightEquiv k u v f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp only [map_add, hf, hg]
+  | single p c =>
+    rw [unrolledPathLinearEvaluation_single]
+    have hp := h.nativePathEvaluation Q k p
+    have hc : Finsupp.single p c = c • Finsupp.single p (1 : k) := by
+      simp only [Finsupp.smul_single, smul_eq_mul, mul_one]
+    rw [hc, map_smul, map_smul, hp]
+
+theorem GinzburgRegular.nativePathPresentationMap {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (i j : ℤ) :
+    ((Q.unrolledJacobianZAlgebra k φ).unrolledPathPresentation Q
+      (fun w => h.minimalASResolution Q k w)).map i j =
+      (Q.unrolledJacobianQuotientMap k φ).map i j := by
+  apply LinearMap.ext
+  intro f
+  change (Q.unrolledJacobianZAlgebra k φ).homTransport _ _ i j _ _
+    ((Q.unrolledJacobianZAlgebra k φ).unrolledPathLinearEvaluation Q
+      (fun w => h.minimalASResolution Q k w) _ _ f) = _
+  rw [h.nativePathLinearEvaluation Q k,
+    ← (Q.unrolledJacobianQuotientMap k φ).map_homTransport,
+    Q.unrolledComponentHeightEquiv_transport_cancel]
+
+theorem GinzburgRegular.nativePathPresentation_kernel {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (i j : ℤ) :
+    ((Q.unrolledJacobianZAlgebra k φ).unrolledPathPresentation Q
+      (fun w => h.minimalASResolution Q k w)).kernel.hom i j =
+      (Q.unrolledJacobianIdeal k φ).hom i j := by
+  change LinearMap.ker _ = _
+  rw [h.nativePathPresentationMap Q k]
+  exact Q.unrolledJacobianQuotientMap_kernel k φ i j
+
+end ASGinzburg.CutQuiver

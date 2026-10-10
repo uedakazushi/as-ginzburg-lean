@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/PathOccurrenceContextWords.lean:68:4: error: unsolved goals
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+b : Q.Arrow
+i j : Q.Vertex
+h : Q.PathComponent k (Q.target b) i
+p : Q.Path i (Q.source b)
+ih :
+  ∀ (h : Q.PathComponent k (Q.source b) i),
+    (Q.pathWordMap k (Q.target b) (Q.source b)) ((Q.pathOccurrenceContextOperator k b p) h) =
+      (wordOccurrenceContextWord b p.toList) ((Q.pathWordMap k (Q.source b) i) h)
+⊢ (wordConcatenation
+        ((wordConcatenation (Finsupp.single (Path.nil (Q.target b)).toList 1)) ((Q.pathWordMap k (Q.target b) i) h)))
+      (Finsupp.single p.toList 1) =
+    (wordConcatenation ((Q.pathWordMap k (Q.target b) i) h)) (Finsupp.single p.toList 1)

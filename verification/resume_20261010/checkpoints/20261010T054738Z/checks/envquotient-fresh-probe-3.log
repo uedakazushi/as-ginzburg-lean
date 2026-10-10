@@ -1,0 +1,1197 @@
+theorem ASGinzburg.ZAlgebra.PeriodIso.cutEnvelopingAugmentationKernelTwoSided.{u, v} : ∀ {k : Type u} [inst : Field k]
+  {A : ZAlgebra k} (Q : CutQuiver) (E : A.PeriodIso ↑Q.vertices), (cutEnvelopingAugmentationKernel Q E).IsTwoSided :=
+fun {k} [Field k] {A} Q E => _root_.id inferInstance
+cutEnvelopingAugmentationKernelTwoSided Q E
+Algebra.TensorProduct.instRing
+cutGradedRingSelfScalarTower E fun i => ↑↑i
+work/env_quotient_probe3.lean:45:7: error: Type mismatch
+  @Ideal.instHasQuotient.{?u.121878} ?m.23 ?m.24
+has type
+  HasQuotient.{?u.121878, ?u.121878} ?m.23 (@Ideal.{?u.121878} ?m.23 (@Ring.toSemiring.{?u.121878} ?m.23 ?m.24))
+but is expected to have type
+  HasQuotient.{v, v}
+    (@ASGinzburg.AlgebraEnvelopingRing.{u, v} k inst✝
+      (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedRing.{u, v, 0} k inst✝ A
+        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+        fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+      (@DirectSum.ring.{0, v} Nat instDecidableEqNat
+        (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+          fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+        (fun (i : Nat) =>
+          @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+            (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              (j : ASGinzburg.CutQuiver.Vertex Q) →
+                @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    j))
+            fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    j))
+              fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                  i_1)
+                (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_2)
+                  (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul) (@Nat.cast.{0} Int instNatCastInt i)
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+        Nat.instAddMonoid
+        (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+          (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+      (@DirectSum.instAlgebra.{0, u, v} Nat k
+        (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+          fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+        (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝))
+        (fun (i : Nat) =>
+          @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+            (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              (j : ASGinzburg.CutQuiver.Vertex Q) →
+                @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    j))
+            fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    j))
+              fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @AddCommGroup.toAddCommMonoid.{v}
+                (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_2))
+                (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2)
+                    (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                      (@Nat.cast.{0} Int instNatCastInt i)
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+        (fun (i : Nat) =>
+          @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+            (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              (j : ASGinzburg.CutQuiver.Vertex Q) →
+                @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    j))
+            k
+            (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+            (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @AddCommGroup.toAddCommMonoid.{v}
+                  (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2))
+                  (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+            fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                  (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    j))
+              k
+              (@DivisionSemiring.toSemiring.{u} k
+                (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+              (fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @AddCommGroup.toAddCommMonoid.{v}
+                  (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2))
+                  (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+              fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @ASGinzburg.ZAlgebra.homModule.{u, v} k inst✝ A
+                ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                  i_1)
+                (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_2)
+                  (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul) (@Nat.cast.{0} Int instNatCastInt i)
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+        Nat.instAddMonoid
+        (@DirectSum.GRing.toGSemiring.{0, v} Nat
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          Nat.instAddMonoid
+          (fun (i : Nat) =>
+            @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2)
+                    (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                      (@Nat.cast.{0} Int instNatCastInt i)
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+          (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+        (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGAlgebra.{u, v, 0} k inst✝ A
+          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+          (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+        instDecidableEqNat))
+    (@Ideal.{v}
+      (@ASGinzburg.AlgebraEnvelopingRing.{u, v} k inst✝
+        (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedRing.{u, v, 0} k inst✝ A
+          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+          fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+        (@DirectSum.ring.{0, v} Nat instDecidableEqNat
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          (fun (i : Nat) =>
+            @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2)
+                    (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                      (@Nat.cast.{0} Int instNatCastInt i)
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+          Nat.instAddMonoid
+          (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+        (@DirectSum.instAlgebra.{0, u, v} Nat k
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝))
+          (fun (i : Nat) =>
+            @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @AddCommGroup.toAddCommMonoid.{v}
+                  (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2))
+                  (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+          (fun (i : Nat) =>
+            @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              k
+              (@DivisionSemiring.toSemiring.{u} k
+                (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                k
+                (@DivisionSemiring.toSemiring.{u} k
+                  (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+                (fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.homModule.{u, v} k inst✝ A
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2)
+                    (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                      (@Nat.cast.{0} Int instNatCastInt i)
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+          Nat.instAddMonoid
+          (@DirectSum.GRing.toGSemiring.{0, v} Nat
+            (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+            Nat.instAddMonoid
+            (fun (i : Nat) =>
+              @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+            (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+          (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGAlgebra.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          instDecidableEqNat))
+      (@Algebra.TensorProduct.instSemiring.{u, v, v} k
+        (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedRing.{u, v, 0} k inst✝ A
+          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+          fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+        (MulOpposite.{v}
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedRing.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+        (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝))
+        (@DirectSum.semiring.{0, v} Nat instDecidableEqNat
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          (fun (i : Nat) =>
+            @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @AddCommGroup.toAddCommMonoid.{v}
+                  (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2))
+                  (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+          Nat.instAddMonoid
+          (@DirectSum.GRing.toGSemiring.{0, v} Nat
+            (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+            Nat.instAddMonoid
+            (fun (i : Nat) =>
+              @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+            (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))))
+        (@DirectSum.instAlgebra.{0, u, v} Nat k
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝))
+          (fun (i : Nat) =>
+            @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @AddCommGroup.toAddCommMonoid.{v}
+                  (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2))
+                  (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+          (fun (i : Nat) =>
+            @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                (j : ASGinzburg.CutQuiver.Vertex Q) →
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+              k
+              (@DivisionSemiring.toSemiring.{u} k
+                (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+              (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+              fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                    (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      j))
+                k
+                (@DivisionSemiring.toSemiring.{u} k
+                  (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+                (fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+                fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @ASGinzburg.ZAlgebra.homModule.{u, v} k inst✝ A
+                  ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                    i_1)
+                  (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_2)
+                    (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                      (@Nat.cast.{0} Int instNatCastInt i)
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+          Nat.instAddMonoid
+          (@DirectSum.GRing.toGSemiring.{0, v} Nat
+            (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+            Nat.instAddMonoid
+            (fun (i : Nat) =>
+              @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+            (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+          (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGAlgebra.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          instDecidableEqNat)
+        (@MulOpposite.instSemiring.{v}
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedRing.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          (@DirectSum.semiring.{0, v} Nat instDecidableEqNat
+            (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+            (fun (i : Nat) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+            Nat.instAddMonoid
+            (@DirectSum.GRing.toGSemiring.{0, v} Nat
+              (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+                (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+                fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+              Nat.instAddMonoid
+              (fun (i : Nat) =>
+                @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    (j : ASGinzburg.CutQuiver.Vertex Q) →
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                  fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                    (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                    fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+              (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+                (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+                (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))))
+        (@MulOpposite.instAlgebra.{u, v} k
+          (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedRing.{u, v, 0} k inst✝ A
+            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+            fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝))
+          (@DirectSum.semiring.{0, v} Nat instDecidableEqNat
+            (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+            (fun (i : Nat) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+            Nat.instAddMonoid
+            (@DirectSum.GRing.toGSemiring.{0, v} Nat
+              (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+                (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+                fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+              Nat.instAddMonoid
+              (fun (i : Nat) =>
+                @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    (j : ASGinzburg.CutQuiver.Vertex Q) →
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                  fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                    (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                    fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+              (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+                (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+                (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))))
+          (@DirectSum.instAlgebra.{0, u, v} Nat k
+            (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst✝))
+            (fun (i : Nat) =>
+              @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @AddCommGroup.toAddCommMonoid.{v}
+                    (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2))
+                    (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+            (fun (i : Nat) =>
+              @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  (j : ASGinzburg.CutQuiver.Vertex Q) →
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                k
+                (@DivisionSemiring.toSemiring.{u} k
+                  (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+                (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @Pi.addCommMonoid.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                    (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                    fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @AddCommGroup.toAddCommMonoid.{v}
+                      (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2))
+                      (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                          ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                            i_2)
+                          (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                            (@Nat.cast.{0} Int instNatCastInt i)
+                            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+                fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Pi.module.{0, v, u} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                      (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        j))
+                  k
+                  (@DivisionSemiring.toSemiring.{u} k
+                    (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst✝)))
+                  (fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @AddCommGroup.toAddCommMonoid.{v}
+                      (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2))
+                      (@ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                          ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                              @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                            i_2)
+                          (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                            (@Nat.cast.{0} Int instNatCastInt i)
+                            (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q))))))
+                  fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @ASGinzburg.ZAlgebra.homModule.{u, v} k inst✝ A
+                    ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                        @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                      i_1)
+                    (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_2)
+                      (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                        (@Nat.cast.{0} Int instNatCastInt i)
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+            Nat.instAddMonoid
+            (@DirectSum.GRing.toGSemiring.{0, v} Nat
+              (@ASGinzburg.ZAlgebra.PeriodIso.CutGradedBlock.{u, v, 0} k inst✝ A
+                (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+                fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+              Nat.instAddMonoid
+              (fun (i : Nat) =>
+                @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                  (fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    (j : ASGinzburg.CutQuiver.Vertex Q) →
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                  fun (i_1 : ASGinzburg.CutQuiver.Vertex Q) =>
+                  @Pi.addCommGroup.{0, v} (ASGinzburg.CutQuiver.Vertex Q)
+                    (fun (j : ASGinzburg.CutQuiver.Vertex Q) =>
+                      @ASGinzburg.ZAlgebra.PeriodIso.CutGradedHom.{u, v} k inst✝ A
+                        (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E i
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_1)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          j))
+                    fun (i_2 : ASGinzburg.CutQuiver.Vertex Q) =>
+                    @ASGinzburg.ZAlgebra.homAdd.{u, v} k inst✝ A
+                      ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                          @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                        i_1)
+                      (@HAdd.hAdd.{0, 0, 0} Int Int Int (@instHAdd.{0} Int Int.instAdd)
+                        ((fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                            @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i))
+                          i_2)
+                        (@HMul.hMul.{0, 0, 0} Int Int Int (@instHMul.{0} Int Int.instMul)
+                          (@Nat.cast.{0} Int instNatCastInt i)
+                          (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)))))
+              (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGRing.{u, v, 0} k inst✝ A
+                (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+                (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ASGinzburg.CutQuiver.Vertex Q) =>
+                @Nat.cast.{0} Int instNatCastInt (@Fin.val (ASGinzburg.CutQuiver.vertices Q) i)))
+            (@ASGinzburg.ZAlgebra.PeriodIso.cutBlockGAlgebra.{u, v, 0} k inst✝ A
+              (@Nat.cast.{0} Int instNatCastInt (ASGinzburg.CutQuiver.vertices Q)) E (ASGinzburg.CutQuiver.Vertex Q)
+              (Fin.fintype (ASGinzburg.CutQuiver.vertices Q)) fun (i : ⋯) =>
+              @Nat.cast.{0} Int instNatCastInt (@Fin.val ⋯ ⋯))
+            ⋯))))

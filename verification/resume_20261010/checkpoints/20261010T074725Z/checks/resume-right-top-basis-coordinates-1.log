@@ -1,0 +1,120 @@
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:37:18: error: unsolved goals
+case add
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+g : A.rightTopBasisIndex M → A.RightModule := fun g => A.representable g.fst
+e : (A.rightModuleEvaluation i).obj (∐ g) ≅
+  ModuleCat.of k (⨁ (a : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g a))) :=
+  A.rightSmallCoproductComponentIso g i
+x y : ⨁ (i_1 : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g i_1))
+hx :
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+        ((A.positiveActionSpan M i).mkQ
+          ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+            (e.toLinearEquiv.symm x))))
+      j =
+    (A.scalarEndEquiv i).symm
+      (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+          (e.toLinearEquiv.symm x))
+        ⟨i, j⟩)
+hy :
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+        ((A.positiveActionSpan M i).mkQ
+          ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+            (e.toLinearEquiv.symm y))))
+      j =
+    (A.scalarEndEquiv i).symm
+      (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+          (e.toLinearEquiv.symm y))
+        ⟨i, j⟩)
+⊢ ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+          (Submodule.Quotient.mk
+            ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+              (e.toLinearEquiv.symm x))))
+        j +
+      ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+          (Submodule.Quotient.mk
+            ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+              (e.toLinearEquiv.symm y))))
+        j =
+    (A.scalarEndEquiv i).symm
+        (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm x))
+          ⟨i, j⟩) +
+      (A.scalarEndEquiv i).symm
+        (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm y))
+          ⟨i, j⟩)
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:56:35: error(lean.unknownIdentifier): Unknown identifier `Basis.repr_self`
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:76:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.Quotient.mk
+    ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+      ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p))
+in the target expression
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+        ((A.positiveActionSpan M i).mkQ
+          ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+            ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p))))
+      j =
+    (A.scalarEndEquiv i).symm
+      (((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩) p)
+        ⟨i, j⟩)
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+g : A.rightTopBasisIndex M → A.RightModule := fun g => A.representable g.fst
+e : (A.rightModuleEvaluation i).obj (∐ g) ≅
+  ModuleCat.of k (⨁ (a : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g a))) :=
+  A.rightSmallCoproductComponentIso g i
+l : ℤ
+j' : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M l)
+p : ↑((A.rightModuleEvaluation i).obj (g ⟨l, j'⟩))
+hei :
+  (ModuleCat.Hom.hom e.hom)
+      ((ModuleCat.Hom.hom e.inv)
+        ((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩)
+          p)) =
+    (DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩) p
+hl : ¬l = i
+hpr : p ∈ A.positiveActionSpan (A.representable l) i
+hpi :
+  (ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+      ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p) ∈
+    A.positiveActionSpan M i
+hzero :
+  Submodule.Quotient.mk
+      ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+        ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p)) =
+    0
+h' : ⟨l, j'⟩ ≠ ⟨i, j⟩
+⊢ ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+        ((A.positiveActionSpan M i).mkQ
+          ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+            ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p))))
+      j =
+    (A.scalarEndEquiv i).symm
+      (((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩) p)
+        ⟨i, j⟩)
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:37:35: warning: This simp argument is unused:
+  hx
+
+Hint: Omit it from the simp argument list.
+  simp [̵m̵a̵p̵_̵a̵d̵d̵,̵h̵x̵,̵h̵y̵]̵[̲m̲a̲p̲_̲a̲d̲d̲,̲ ̲h̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:37:38: warning: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp [̵m̵a̵p̵_̵a̵d̵d̵,̵h̵x̵,̵h̵y̵]̵[̲m̲a̲p̲_̲a̲d̲d̲,̲ ̲h̲x̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

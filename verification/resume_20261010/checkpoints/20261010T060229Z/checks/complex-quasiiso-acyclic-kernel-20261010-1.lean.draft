@@ -1,0 +1,45 @@
+import Mathlib.Algebra.Homology.HomologySequence
+import Mathlib.Algebra.Homology.QuasiIso
+
+/-! The quotient map of an actual short exact sequence of complexes is a
+quasi-isomorphism precisely when its kernel complex is acyclic. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Limits HomologicalComplex
+
+variable {C ι : Type*} [Category C] [Abelian C] {c : ComplexShape ι}
+variable (S : ShortComplex (HomologicalComplex C c)) (hS : S.ShortExact)
+
+theorem complexShortExact_quasiIso_g_of_acyclic_kernel (hA : S.X₁.Acyclic) : QuasiIso S.g := by
+  rw [quasiIso_iff]
+  intro i
+  rw [quasiIsoAt_iff_isIso_homologyMap]
+  have hm : Mono (homologyMap S.g i) :=
+    (hS.homology_exact₂ i).mono_g ((hA i).isZero_homology.eq_zero_of_src _)
+  have he : Epi (homologyMap S.g i) := by
+    by_cases hi : ∃ j, c.Rel i j
+    · obtain ⟨j, hij⟩ := hi
+      exact (hS.homology_exact₃ i j hij).epi_f ((hA j).isZero_homology.eq_zero_of_tgt _)
+    · have := hS.epi_g
+      exact epi_homologyMap_of_epi_of_not_rel S.g i (by simpa using hi)
+  exact isIso_of_mono_of_epi (homologyMap S.g i)
+
+theorem complexShortExact_acyclic_kernel_of_quasiIso_g (hg : QuasiIso S.g) : S.X₁.Acyclic := by
+  intro i
+  rw [exactAt_iff_isZero_homology]
+  have hfi : homologyMap S.f i = 0 :=
+    (hS.homology_exact₂ i).mono_g_iff.mp inferInstance
+  by_cases hi : ∃ j, c.Rel j i
+  · obtain ⟨j, hji⟩ := hi
+    have hδ : hS.δ j i hji = 0 :=
+      (hS.homology_exact₃ j i hji).epi_f_iff.mp inferInstance
+    exact (hS.homology_exact₁ j i hji).isZero_X₂ hδ hfi
+  · have := hS.mono_f
+    have hm : Mono (homologyMap S.f i) :=
+      mono_homologyMap_of_mono_of_not_rel S.f i (by simpa using hi)
+    exact IsZero.of_mono_eq_zero (homologyMap S.f i) hfi
+
+theorem complexShortExact_quasiIso_g_iff_acyclic_kernel : QuasiIso S.g ↔ S.X₁.Acyclic :=
+  ⟨complexShortExact_acyclic_kernel_of_quasiIso_g S hS,
+    complexShortExact_quasiIso_g_of_acyclic_kernel S hS⟩
+
+end ASGinzburg

@@ -1,0 +1,37 @@
+import ASGinzburg.PeriodCutRepresentableRightIdealGrading
+import ASGinzburg.PeriodCutIdempotents
+
+/-! The actual identity generator of a cover representable is nonzero,
+and its genuine integer grading is bounded below by minus its sheet. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+theorem cornerRepresentableGenerator_ne_zero (z : Q.LiftVertex) :
+    E.cornerRepresentableGenerator Q z≠0 := by
+  intro h
+  have hv := congrArg (E.cornerRepresentableValueMap Q z) h
+  rw [E.cornerRepresentableValueMap_generator Q z,map_zero] at hv
+  exact E.cutVertexIdempotent_ne_zero (fun i : Q.Vertex => (i.val:ℤ)) z.1 hv
+
+theorem cornerGradedRepresentable_grade_eq_bot_of_lt (z : Q.LiftVertex)
+    (q : ℤ) (hq : q < -z.2) :
+    (E.cornerGradedRepresentable Q z).grade q=⊥ := by
+  apply le_antisymm _ bot_le
+  intro x hx
+  change x=0
+  apply E.cornerRepresentableValueMap_injective Q z
+  rw [map_zero]
+  have h := E.cornerRepresentableValueMap_mem_grade Q z q x hx
+  rw [E.cutIntegerHomogeneousSpace_negative Q (by omega)] at h
+  exact h
+
+theorem cornerGradedRepresentable_ringModule_not_isZero (z : Q.LiftVertex) :
+    ¬ IsZero (E.cornerGradedRepresentable Q z).ringModule := by
+  intro h
+  have hs := ModuleCat.isZero_iff_subsingleton.mp h
+  exact E.cornerRepresentableGenerator_ne_zero Q z (hs.elim _ _)
+
+end ASGinzburg.ZAlgebra.PeriodIso

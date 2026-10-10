@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/NoncutJacobianContextNativeExpansion.lean:36:41: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ((Finsupp.linearCombination ?R ?v) ?l)
+in the target expression
+  (Finsupp.linearCombination k
+        (⇑((Q.unrolledJacobianIdeal k φ).hom ↑↑i ↑↑j).subtype ∘ Q.noncutJacobianContextNativeValue k φ i j))
+      c =
+    (Q.zeroCutFoundationComponentEquiv k i j)
+      ((Finsupp.linearCombination k (Q.noncutJacobianContextCutValue k φ i j)) c)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+i j : Q.Vertex
+f : ↥(Q.pathCutComponent k i j 0)
+hf : ↑f ∈ (Q.pathJacobianIdeal k φ).hom i j
+c : Q.NoncutJacobianContextIndex i j →₀ k := Q.noncutJacobianContextCoefficients k φ i j f hf
+hcut : (Finsupp.linearCombination k (Q.noncutJacobianContextCutValue k φ i j)) c = f
+⊢ (Finsupp.linearCombination k
+        (⇑((Q.unrolledJacobianIdeal k φ).hom ↑↑i ↑↑j).subtype ∘ Q.noncutJacobianContextNativeValue k φ i j))
+      c =
+    (Q.zeroCutFoundationComponentEquiv k i j)
+      ((Finsupp.linearCombination k (Q.noncutJacobianContextCutValue k φ i j)) c)

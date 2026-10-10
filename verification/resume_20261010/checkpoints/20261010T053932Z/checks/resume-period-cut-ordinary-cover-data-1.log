@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/PeriodCutOrdinaryCoverData.lean:56:4: error: linarith failed to find a contradiction
+case h
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+N : (cornerCoverZAlgebra Q E).RightModule
+b : ℤ
+hb :
+  ∀ (i : ℤ), ↑Q.vertices * -b + ↑Q.vertices - 1 < i → IsZero (((cornerCoverZAlgebra Q E).rightModuleEvaluation i).obj N)
+q : ℤ
+hq : q < b
+i : Q.Vertex
+hi : 0 ≤ ↑↑i
+hn : 0 ≤ ↑Q.vertices
+hmul : ↑Q.vertices * (-b + 1) ≤ ↑Q.vertices * -q
+a✝ : Q.height (i, -q) ≤ ↑Q.vertices * -b + ↑Q.vertices - 1
+⊢ False
+failed

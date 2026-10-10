@@ -1,0 +1,862 @@
+{
+  "started_at_utc": "2026-10-10T07:26:03.117104+00:00",
+  "ended_at_utc": "2026-10-10T07:26:27.665766+00:00",
+  "elapsed_seconds": 24.54861142700247,
+  "exit_code": 0,
+  "modules": 25,
+  "declarations": 136,
+  "source_sha256": {
+    "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean": "a9dec7652041bfe6aadb51dc28f9240e222012ce2d953b7f632ab2378ff6ff13",
+    "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean": "b1dd6090ce27d10c35cd8c38d7c5ec573be76cf7b55d27e5fecde64c1834217d",
+    "work/ASGinzburgDraft/GinzburgWordSubstitution.lean": "a3c560a59622fcbad2cbf629f501791936929ec13209aaeb05cb3aefd8f30b02",
+    "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean": "13e410b002a464e9d16a1f255025e648cb71d9c46862f3d7de6c6ce65d06576f",
+    "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean": "dd1178b413ff97ada86097a36fbdf2aa37b546556c907f287916261a3b125102",
+    "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean": "f22ad9edc5b3e51d6cd9c992f79e2592f3298f6dd407c1e4e9d50985a5c65d2f",
+    "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceDifferential.lean": "dcfb6aa06b70c2cbfd75acfae130b65f52c9c2555d6ce71a9aabd13e70a99ee8",
+    "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean": "3ac5d0457904f8e0b3d7ffdd26ed108b0ad09ae12f3dc1d65de7811698c71972",
+    "work/ASGinzburgDraft/GinzburgOriginalArrowSubstitution.lean": "3ca2cf8ee2565c5e11d8a3d57dc38f251729deb6a4a1c7628f58ddfd3ea28d79",
+    "work/ASGinzburgDraft/GinzburgCotangentOccurrenceTransport.lean": "b262b0fcaf75bb31ddc8c0bd2c01faa4d88df7b9d5afd073412bef0b7a869f27",
+    "work/ASGinzburgDraft/GinzburgCotangentWordIdentities.lean": "89b0cf515db094b43365a69c2a6edd5f70bb1aa965f89abece4648379d6d8d9c",
+    "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsChain.lean": "4ce1a3d0fafc2f21750191fb4127c25d430da0f28620541158bdbb77a561f07c",
+    "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsComposition.lean": "e52b131ef5936e0d08327b0cf238efbc6c5c7db2455c75707208ccbb8225063e",
+    "work/ASGinzburgDraft/GinzburgCotangentInverseWordHelpers.lean": "9613824982c4a4a67527d85e996da96ab25c111c0de60bde771ecadfcc0474f3",
+    "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean": "7233316e4acd47fa286dd55abd5c88942c72e594a0a30e7c7459c908615c9454",
+    "work/ASGinzburgDraft/GinzburgCotangentSubstitutionInverse.lean": "29c2ff737bfa6b48df7873cd312ca319ea7d0935e09d138e91fedc2b897e0972",
+    "work/ASGinzburgDraft/GinzburgLoopTotalWords.lean": "3eb33070aea8b64281ead1773ae62591e105ad99d8bf14e8e8be6b6a6f1a20f5",
+    "work/ASGinzburgDraft/WordSubstitutedOccurrenceCommutators.lean": "3ca3102c57a3d90292b31410d47b7e79bb8a348b16c050f886ba9fae93642c0f",
+    "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean": "2b0744d8447b083ca7018edc4540faf8a978708320bd2322cafc891fd3f1ba45",
+    "work/ASGinzburgDraft/GinzburgVertexWordLocalization.lean": "74b687ec6c63086091e8673cbe417c8142db26ae05926b32e479e15c3cdb7105",
+    "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean": "86b436ac91419e1e275363d706c08287f85142b529f9abfc5c06a1c9042eceb0",
+    "work/ASGinzburgDraft/GinzburgCotangentLoopTransport.lean": "3675c117310769f8be7280bcf5dd6ed01a9b338af8bb46a539bf97ef9a52c160",
+    "work/ASGinzburgDraft/GinzburgArrowSubstitutionDifferential.lean": "c3a82217b8a22438af6d5cd6f265ceb5f852ccd975a4ee2fcfaf3f77ce5b7c24",
+    "work/ASGinzburgDraft/GinzburgArrowSubstitutionCochainIso.lean": "6b0596e656e92d52229a5f5c6c215a3c99a528734d496323ffc50a28fbd32839",
+    "work/ASGinzburgDraft/GinzburgCotangentCochainInvariance.lean": "4368b629ce74b433b6aefaa84de51138f0461a1b78fc14e0804991cd1557e451"
+  },
+  "entries": [
+    {
+      "name": "ASGinzburg.CutQuiver.VertexCutPathAutomorphism.componentLinearEquiv_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceContextMap",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 23
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceContextMap_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceOperator",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 46
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceDerivative",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 53
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceDerivative_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 60
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceContextMap_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 67
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceOperator_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 82
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceDerivative_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 106
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceContextMap_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 124
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceContextMap_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceContexts.lean",
+      "line": 138
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.GinzburgArrowReplacement",
+      "kind": "abbrev",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_id",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 38
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_arrow",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 59
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowReplacementComp",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 65
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_substitution",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 69
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_substitution",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitution.lean",
+      "line": 81
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgWordSubstitution.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_comp",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgWordSubstitution.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgWordArrowReplacement",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgWordSubstitution.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_substitutionPath",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgWordSubstitution.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_substitutionComponent",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgWordSubstitution.lean",
+      "line": 48
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetweenWord",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetween",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 15
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetween_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 19
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetweenWord_append",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetween_concatenation",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetweenWord_same",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 52
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetween_same",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 59
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetweenWord_composition",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 66
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutionBetween_composition",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsSubstitution.lean",
+      "line": 75
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceSandwich",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceSandwich_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 16
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextAux",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 41
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextAux_prefix",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord_cons",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 74
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord_append",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 86
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_concatenation",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContexts.lean",
+      "line": 108
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalAutomorphismWordReplacement",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalAutomorphismPath_word",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 17
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_substitutedOccurrenceContext",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 38
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceContextMap_snoc",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrence_snoc_sum",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 72
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_substitutedOccurrenceOperator",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 87
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_substitutedOccurrenceDerivative",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceWords.lean",
+      "line": 128
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceOperator_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceDifferential.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceDerivative_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceDifferential.lean",
+      "line": 28
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceOperator_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceDifferential.lean",
+      "line": 46
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgSubstitutedOccurrenceDerivative_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgSubstitutedOccurrenceDifferential.lean",
+      "line": 66
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentDualImage",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentArrowReplacement",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 19
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentArrowReplacement_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentDualImage_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 32
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentArrowReplacement_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 44
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.VertexCutPathAutomorphism.pathCyclicDerivative_inverse_chainRule",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 57
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentDualImage_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentArrowReplacement.lean",
+      "line": 78
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgOriginalArrowSubstitution.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgOriginalArrowSubstitution.lean",
+      "line": 27
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentSubstitution_original",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentOccurrenceTransport.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentSubstitution_occurrenceContext",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentOccurrenceTransport.lean",
+      "line": 21
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentSubstitution_occurrenceOperator",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentOccurrenceTransport.lean",
+      "line": 35
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentSubstitution_occurrenceDerivative",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentOccurrenceTransport.lean",
+      "line": 56
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalAutomorphismComponent_word",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentWordIdentities.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalAutomorphismWordReplacement_one",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentWordIdentities.lean",
+      "line": 27
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalAutomorphismWordReplacement_inverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentWordIdentities.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgPathWordMap_cotangentDualImage",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentWordIdentities.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord_chain",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsChain.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_chain",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsChain.lean",
+      "line": 37
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord_composition",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsComposition.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_composition",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsComposition.lean",
+      "line": 40
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsComposition.lean",
+      "line": 58
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceContextsComposition.lean",
+      "line": 78
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_generator",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentInverseWordHelpers.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalAutomorphismWordReplacement_from_ordinary",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentInverseWordHelpers.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.VertexCutPathAutomorphism.wordArrowReplacement_substitute_inverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentInverseWordHelpers.lean",
+      "line": 34
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentInverseWordComposition",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentInverseWordHelpers.lean",
+      "line": 48
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgIdentityArrowReplacement",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_identity",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 12
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_identity",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 22
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_inverse_on_path",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 31
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_inverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 47
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponentEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 62
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponentEquiv_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 74
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponentEquiv_symm_apply",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionInverse.lean",
+      "line": 84
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentSubstitution_dual_inverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentSubstitutionInverse.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentArrowReplacement_inverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentSubstitutionInverse.lean",
+      "line": 48
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentArrowReplacement_inverse_reverse",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentSubstitutionInverse.lean",
+      "line": 65
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgLoopDifferential_total_word",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgLoopTotalWords.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgLoopDifferential_total_substitution_word",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgLoopTotalWords.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContextWord_commutator",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceCommutators.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.wordSubstitutedOccurrenceContext_commutator",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/WordSubstitutedOccurrenceCommutators.lean",
+      "line": 49
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgWordStartsAt",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgWordStartsAtDecidable",
+      "kind": "instance",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 14
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgWordStartsAt_append_of_nonempty",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 18
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.GinzburgPath.wordStartsAt_source",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 25
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.GinzburgPath.wordStartsAt_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 43
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.GinzburgPath.toList_ne_nil_of_cohomologicalDegree_ne_zero",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 55
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgVertexWordProjection",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 61
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgVertexWordProjection_single",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 67
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgVertexWordProjection_pathWordMap_single_of_nonempty",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 75
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgVertexWordProjection_pathWordMap_of_nonempty",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 86
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgVertexWordProjection_pathWordMap_of_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordProjection.lean",
+      "line": 103
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgVertexWordProjection_sum_pathWordMap_of_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgVertexWordLocalization.lean",
+      "line": 9
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 11
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_mem_cohomological",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 26
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_mem_cut",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 48
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_mem_cut",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 62
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_mem_homogeneous",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 83
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_mem_homogeneous",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 100
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionRestrictedEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 123
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionRestrictedEquiv_coe",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 139
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionCohomologicalEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 162
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionCohomologicalEquiv_coe",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 170
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionCutCohomologicalEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 178
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionCutCohomologicalEquiv_coe",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 189
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionHomogeneousEquiv",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 194
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionHomogeneousEquiv_coe",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionGrading.lean",
+      "line": 206
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentLoopDifferential_total_word",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentLoopTransport.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentLoopDifferential_transport",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentLoopTransport.lean",
+      "line": 36
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionPath_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionDifferential.lean",
+      "line": 10
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionComponent_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionDifferential.lean",
+      "line": 34
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionCochainIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionCochainIso.lean",
+      "line": 24
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgArrowSubstitutionHomologyIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionCochainIso.lean",
+      "line": 40
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgRegular_iff_of_inverse_generator_substitution",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgArrowSubstitutionCochainIso.lean",
+      "line": 47
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentArrowReplacement_differential",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentCochainInvariance.lean",
+      "line": 13
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentCochainIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentCochainInvariance.lean",
+      "line": 34
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgCotangentHomologyIso",
+      "kind": "def",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentCochainInvariance.lean",
+      "line": 47
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgRegular_pathAutomorphism_iff",
+      "kind": "theorem",
+      "file": "work/ASGinzburgDraft/GinzburgCotangentCochainInvariance.lean",
+      "line": 54
+    }
+  ],
+  "log": "work/checks/resume-ginzburg-cotangent-cochain-dependency-closure-axioms-2.log",
+  "log_sha256": "0c60edddb3b6252bab58a63cad8d61b958d6b5f2bab14863a122e8aa37ef1e43",
+  "strict_coverage": true,
+  "unique_declarations": 136,
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ]
+}

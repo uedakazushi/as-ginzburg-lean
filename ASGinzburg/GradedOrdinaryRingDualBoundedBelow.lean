@@ -1,0 +1,35 @@
+import ASGinzburg.GradedOrdinaryRingDualHomogeneousSpaces
+import ASGinzburg.GradedOrdinaryFiniteHomogeneousGenerators
+import Mathlib.Order.ConditionallyCompleteLattice.Basic
+
+/-! The ring dual of an ordinary finitely generated graded module over
+a nonnegative ring is genuinely bounded below. A uniform bound follows
+from the degrees of a finite homogeneous generating family. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+variable (M : GradedOrdinaryModuleData k R G)
+
+theorem ringDualGrade_exists_lower_bound [Module.Finite R M.ringModule]
+    (hG : ∀ p : ℤ, p < 0 → G p = ⊥) :
+    ∃ b : ℤ, ∀ q : ℤ, q < b → M.ringDualGrade q = ⊥ := by
+  classical
+  obtain ⟨I, hI, d, x, hhom, hx⟩ := M.exists_finite_homogeneous_generating_family
+  letI := hI
+  obtain ⟨B, hB⟩ := (Set.finite_range d).bddAbove
+  refine ⟨-B, ?_⟩
+  intro q hq
+  apply bot_unique
+  intro f hf
+  change f = 0
+  apply LinearMap.ext_on_range hx
+  intro i
+  have hd : d i ≤ B := hB (Set.mem_range_self i)
+  have hdeg : d i + q < 0 := by omega
+  have hz := hf (d i) (x i) (hhom i)
+  rw [hG (d i + q) hdeg] at hz
+  exact hz
+
+end ASGinzburg.GradedOrdinaryModuleData

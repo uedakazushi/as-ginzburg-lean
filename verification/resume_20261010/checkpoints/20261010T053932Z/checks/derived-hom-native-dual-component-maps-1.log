@@ -1,0 +1,67 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponentMaps.lean:31:29: error: Tactic `rfl` failed: The left-hand side
+  0
+is not definitionally equal to the right-hand side
+  (M.ringDualComponent hG f q + M.ringDualComponent hG g q) 0
+
+case h.zero
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M : GradedOrdinaryModuleData k R G
+hG : ∀ (p q : ℤ), ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q)
+q : ℤ
+f g : ↑(ordinaryRingDual R M.ringModule)
+this : DirectSum.Decomposition M.grade := M.decomposition
+⊢ 0 = (M.ringDualComponent hG f q + M.ringDualComponent hG g q) 0
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponentMaps.lean:45:23: error: unsolved goals
+case h.homogeneous
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M : GradedOrdinaryModuleData k R G
+hG : ∀ (p q : ℤ), ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q)
+q : ℤ
+c : k
+f : ↑(ordinaryRingDual R M.ringModule)
+this : DirectSum.Decomposition M.grade := M.decomposition
+p : ℤ
+x : ↥(M.grade p)
+⊢ c • (homogeneousComponent k R G (p + q)) (f ↑x) = (RingHom.id k) c • (homogeneousComponent k R G (p + q)) (f ↑x)
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponentMaps.lean:63:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (M.ringDualComponent hG f (s - p)) ↑x
+in the target expression
+  (fun g => g ↑x) (M.ringDualComponent hG f (s - p)) = (fun g => g ↑x) 0
+
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M : GradedOrdinaryModuleData k R G
+hG : ∀ (p q : ℤ), ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q)
+f : ↑(ordinaryRingDual R M.ringModule)
+hf : ∀ (q : ℤ), M.ringDualComponent hG f q = 0
+this : DirectSum.Decomposition M.grade := M.decomposition
+p : ℤ
+x : ↥(M.grade p)
+s : ℤ
+h : (fun g => g ↑x) (M.ringDualComponent hG f (s - p)) = (fun g => g ↑x) 0
+⊢ ↑(((DirectSum.decompose G) (f ↑x)) s) = 0
+work/ASGinzburgDraft/GradedOrdinaryRingDualComponentMaps.lean:67:24: error: Application type mismatch: The argument
+  hcomp s
+has type
+  ↑(((DirectSum.decompose G) (f ↑x)) s) = 0
+but is expected to have type
+  ↑?m.200 = ↑?m.201
+in the application
+  Subtype.ext (hcomp s)

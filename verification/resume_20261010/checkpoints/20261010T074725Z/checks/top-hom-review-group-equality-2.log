@@ -1,0 +1,35 @@
+@[reducible] def ASGinzburg.prototypeDefaultDualGroup.{v} : {R : Type v} →
+  [inst : Ring R] → (P : ModuleCat R) → AddCommGroup ↑(ordinaryRingDual R P) :=
+fun {R} [Ring R] P => inferInstance
+@[reducible] def ASGinzburg.prototypeDefaultDualGroup.{v} : {R : Type v} →
+  [inst : Ring R] →
+    (P : @ModuleCat R inst) →
+      AddCommGroup (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst) (@ordinaryRingDual R inst P)) :=
+fun {R} [inst : Ring R] P =>
+  @inferInstance
+    (AddCommGroup (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst) (@ordinaryRingDual R inst P)))
+    (@LinearMap.addCommGroup R R (@ModuleCat.carrier R inst P) R (@Ring.toSemiring R inst) (@Ring.toSemiring R inst)
+      (@AddCommGroup.toAddCommMonoid (@ModuleCat.carrier R inst P) (@ModuleCat.isAddCommGroup R inst P))
+      (@Ring.toAddCommGroup R inst) (@ModuleCat.isModule R inst P) (@Semiring.toModule R (@Ring.toSemiring R inst))
+      (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst))))
+@[reducible] def ASGinzburg.prototypeRawDualGroup.{v} : {R : Type v} →
+  [inst : Ring R] → (P : ModuleCat R) → AddCommGroup ↑(ordinaryRingDual R P) :=
+fun {R} [Ring R] P => inferInstanceAs (AddCommGroup (↑P →ₗ[R] R))
+@[reducible] def ASGinzburg.prototypeRawDualGroup.{v} : {R : Type v} →
+  [inst : Ring R] →
+    (P : @ModuleCat R inst) →
+      AddCommGroup (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst) (@ordinaryRingDual R inst P)) :=
+fun {R} [inst : Ring R] P =>
+  @inferInstanceAs
+    (AddCommGroup
+      (@LinearMap R R (@Ring.toSemiring R inst) (@Ring.toSemiring R inst)
+        (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst))) (@ModuleCat.carrier R inst P) R
+        (@AddCommGroup.toAddCommMonoid (@ModuleCat.carrier R inst P) (@ModuleCat.isAddCommGroup R inst P))
+        (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+            (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst))))
+        (@ModuleCat.isModule R inst P) (@Semiring.toModule R (@Ring.toSemiring R inst))))
+    (@LinearMap.addCommGroup R R (@ModuleCat.carrier R inst P) R (@Ring.toSemiring R inst) (@Ring.toSemiring R inst)
+      (@AddCommGroup.toAddCommMonoid (@ModuleCat.carrier R inst P) (@ModuleCat.isAddCommGroup R inst P))
+      (@Ring.toAddCommGroup R inst) (@ModuleCat.isModule R inst P) (@Semiring.toModule R (@Ring.toSemiring R inst))
+      (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst))))

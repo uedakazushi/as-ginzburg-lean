@@ -1,0 +1,75 @@
+import work.ASGinzburgDraft.PeriodCutOrdinaryRightModuleData
+import ASGinzburg.PeriodCutOppositeHomogeneousSpaces
+import ASGinzburg.GradedOrdinaryRingDualHomogeneousSpaces
+import ASGinzburg.PeriodCutRegularRightModule
+import ASGinzburg.PeriodCutGradedShift
+
+/-! Each actual homogeneous component of an ordinary right-ring dual
+is exactly a genuine graded map into the correspondingly shifted
+regular module. The comparison uses unop on actual Hom values. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+variable (M : E.CutGradedRightModule Q)
+
+noncomputable def cutOrdinaryRingDualShiftedHomEquiv (q : ℤ) :
+    (E.cutRightModuleOrdinaryData Q M).ringDualGrade q ≃ₗ[k]
+      (M ⟶ (E.cutRegularGradedRightModule Q).shifted q) where
+  toFun f :=
+    ⟨{ toFun := fun x => (f.val x).unop
+       map_add' := fun x y => by rw [f.val.map_add]; rfl
+       map_smul' := fun c x => by
+         rw [← algebraMap_smul
+           (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ c x, f.val.map_smul]
+         change (f.val x).unop * algebraMap k
+           (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) c = c • (f.val x).unop
+         rw [Algebra.smul_def]
+         exact (Algebra.commutes c (f.val x).unop).symm },
+      ⟨by
+        intro r x
+        change (f.val (MulOpposite.op r • x)).unop = (f.val x).unop * r
+        rw [f.val.map_smul]
+        rfl,
+        by
+          intro p x hx
+          exact (E.cutIntegerOppositeHomogeneousSpace_mem_iff_unop Q (p + q) (f.val x)).mp
+            (f.property p x hx)⟩⟩
+  invFun g :=
+    ⟨{ toFun := fun x => MulOpposite.op
+         (g.val x : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))
+       map_add' := fun x y => by rw [g.val.map_add]; rfl
+       map_smul' := fun r x => by
+         change MulOpposite.op
+           (g.val ((M.representation r.unop).unop x) :
+             E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) =
+           MulOpposite.op (Mul.mul
+             (α := E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) (g.val x) r.unop)
+         have h := g.property.1 r.unop x
+         change g.val ((M.representation r.unop).unop x) =
+           Mul.mul (α := E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) (g.val x) r.unop at h
+         exact congrArg (MulOpposite.op :
+           E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) →
+             (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ) h },
+      by
+        intro p x hx
+        exact E.cutIntegerOppositeHomogeneousSpace_op_mem Q (p + q) _
+          (g.property.2 p x hx)⟩
+  left_inv f := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+  right_inv g := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+  map_add' f g := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+  map_smul' c f := by apply Subtype.ext; apply LinearMap.ext; intro x; rfl
+
+@[simp] theorem cutOrdinaryRingDualShiftedHomEquiv_apply (q : ℤ)
+    (f : (E.cutRightModuleOrdinaryData Q M).ringDualGrade q) (x : M.space) :
+    (E.cutOrdinaryRingDualShiftedHomEquiv Q M q f).val x = (f.val x).unop := rfl
+
+@[simp] theorem cutOrdinaryRingDualShiftedHomEquiv_symm_apply (q : ℤ)
+    (g : M ⟶ (E.cutRegularGradedRightModule Q).shifted q) (x : M.space) :
+    ((E.cutOrdinaryRingDualShiftedHomEquiv Q M q).symm g).val x =
+      MulOpposite.op (g.val x) := rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

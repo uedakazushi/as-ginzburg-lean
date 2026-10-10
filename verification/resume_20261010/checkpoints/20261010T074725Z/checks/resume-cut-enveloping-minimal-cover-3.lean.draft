@@ -1,0 +1,104 @@
+import work.ASGinzburgDraft.HomogeneousPrincipalMinimalCover
+import work.ASGinzburgDraft.GradedOrdinaryProjectiveCover
+import work.ASGinzburgDraft.PeriodCutEnvelopingZeroInclusionGrading
+import work.ASGinzburgDraft.PeriodCutEnvelopingGradedActions
+import work.ASGinzburgDraft.PeriodCutEnvelopingGradedActionSpan
+import work.ASGinzburgDraft.PeriodCutEnvelopingCoordinateAugmentation
+import work.ASGinzburgDraft.PeriodCutEnvelopingVertexGrading
+import work.ASGinzburgDraft.PeriodCutEnvelopingIntegerMultiplication
+import work.ASGinzburgDraft.ScalarAugmentationLiftedCoordinates
+
+/-! Every actual bounded-below graded module over the cut enveloping
+algebra has a constructed principal-projective minimal cover. The true
+full augmentation ideal and its genuine degree-zero nilpotence supply
+the Nakayama inputs; no cover existence is assumed. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 1000000
+set_option synthInstance.maxHeartbeats 200000
+set_option quotPrecheck false
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+attribute [local instance 2000] cutEnvelopingOppositeFactorScalarTower
+  cutEnvelopingOppositeFactorScalarComm cutGradedRingSelfScalarTower cutGradedRingSelfScalarComm
+
+local notation "𝓡" => AlgebraEnvelopingRing k
+  (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))
+local notation "𝓡₀" => AlgebraEnvelopingRing k
+  (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0)
+local notation "𝓖" => E.cutEnvelopingIntegerHomogeneousSubspace
+  (fun i : Q.Vertex => (i.val : ℤ))
+
+noncomputable def cutEnvelopingGradedProjectiveCover
+    (b : ℤ) (M : GradedOrdinaryModuleData k 𝓡 𝓖) (hb : M.BoundedBelow b) :
+    GradedOrdinaryProjectiveCover M b (E.cutEnvelopingAugmentationKernel Q) := by
+  classical
+  letI := E.cutEnvelopingGradedModuleFieldModule Q M
+  letI := E.cutEnvelopingGradedModuleFieldSMul Q M
+  letI := E.cutEnvelopingGradedModuleModule Q M
+  letI := E.cutEnvelopingGradedModuleSMul Q M
+  letI := E.cutEnvelopingGradedModuleScalarTower Q M
+  letI := M.decomposition
+  letI := E.cutEnvelopingZeroRestrictedRingModule Q
+  letI := E.cutEnvelopingZeroRestrictedRingSMul Q
+  letI := E.cutEnvelopingZeroRestrictedModule Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedSMul Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedModuleScalarTower Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedModuleEnvelopingScalarTower Q M.ringModule
+  letI := E.cutZeroEnvelopingSelfSMul Q
+  letI := E.cutZeroEnvelopingSelfScalarTower Q
+  let ε : 𝓡 →ₐ[k] (ULift.{v} (Q.Vertex × Q.Vertex) → k) :=
+    liftedCoordinateAugmentation (E.cutEnvelopingCoordinateAugmentation Q)
+  let e : ULift.{v} (Q.Vertex × Q.Vertex) → 𝓡 :=
+    fun i => E.cutEnvelopingVertexIdempotent Q i.down
+  have hεker : RingHom.ker ε = E.cutEnvelopingAugmentationKernel Q := by
+    rw [liftedCoordinateAugmentation_ker, E.cutEnvelopingCoordinateAugmentation_ker Q]
+  apply GradedOrdinaryProjectiveCover.ofExists M b (E.cutEnvelopingAugmentationKernel Q)
+  have h := exists_homogeneous_principal_minimal_cover k 𝓡 𝓖
+    ε e
+    M.ringModule M.grade 𝓡₀
+    (fun q a x hx => by
+      change E.cutEnvelopingZeroInclusion Q a • x ∈ M.grade q
+      simpa only [zero_add] using M.smul_mem 0 q _
+        (E.cutEnvelopingZeroInclusion_mem_integerDegreeZero Q a) x hx)
+    (E.cutEnvelopingPositiveOperatorDegree Q) (E.cutEnvelopingPositiveOperatorValue Q)
+    (E.cutEnvelopingPositiveModuleOperator Q M.ringModule)
+    (E.cutZeroEnvelopingAugmentationKernel Q)
+    (fun p q r hr s hs => E.cutEnvelopingIntegerHomogeneousSubspace_mul_mem _ p q hr hs)
+    (fun q hq => E.cutEnvelopingIntegerHomogeneousSubspace_neg _ q hq)
+    (fun i => E.cutEnvelopingVertexIdempotent_mul_self Q i.down)
+    (fun i j hij => E.cutEnvelopingVertexIdempotent_mul_ne Q i.down j.down
+      (fun h => hij (ULift.ext i j h)))
+    (by
+      change (∑ i : ULift.{v} (Q.Vertex × Q.Vertex), E.cutEnvelopingVertexIdempotent Q i.down)=1
+      rw [sum_liftedIdempotentFamily]
+      exact E.sum_cutEnvelopingVertexIdempotent Q)
+    (fun i => E.cutEnvelopingVertexIdempotent_mem_integerDegreeZero Q i.down)
+    (liftedCoordinateAugmentation_idempotent (E.cutEnvelopingCoordinateAugmentation Q)
+      (E.cutEnvelopingVertexIdempotent Q)
+      (E.cutEnvelopingCoordinateAugmentation_vertexIdempotent Q))
+    M.smul_mem (E.cutEnvelopingPositiveModuleOperator_apply Q M.ringModule)
+    (2*Q.vertices) (E.cutZeroEnvelopingAugmentationKernel_pow_eq_bot Q)
+    (E.cutEnvelopingPositiveOperatorDegree_pos Q)
+    (fun t q x hx => by
+      change E.cutEnvelopingPositiveOperatorValue Q t • x ∈ _
+      have ht : E.cutEnvelopingPositiveOperatorValue Q t ∈
+          𝓖 (E.cutEnvelopingPositiveOperatorDegree Q t:ℤ) := by
+        rw [E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+        exact E.cutEnvelopingPositiveOperatorValue_mem Q t
+      simpa only [add_comm] using M.smul_mem _ q _ ht x hx)
+    (by
+      rw [hεker]
+      exact E.cutEnvelopingAugmentationKernel_moduleActionSpan_eq_gradedNilpotentActionSpan
+        Q M.ringModule)
+    b hb
+  simpa only [hεker] using h
+
+noncomputable def cutEnvelopingGradedCoverSelection (b : ℤ) :
+    ∀ M : GradedOrdinaryBoundedModule k 𝓡 𝓖 b,
+      GradedOrdinaryProjectiveCover M.val b (E.cutEnvelopingAugmentationKernel Q) :=
+  fun M => E.cutEnvelopingGradedProjectiveCover Q b M.val M.property
+
+end ASGinzburg.ZAlgebra.PeriodIso

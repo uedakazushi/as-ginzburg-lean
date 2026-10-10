@@ -1,0 +1,1302 @@
+@[reducible] def ASGinzburg.GradedOrdinaryModuleData.ringDualGradeHasQuotient.{u, v} : {k : Type u} →
+  [inst : Field.{u} k] →
+    {R : Type v} →
+      [inst_1 : Ring.{v} R] →
+        [inst_2 :
+            @Algebra.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+              (@Ring.toSemiring.{v} R inst_1)] →
+          {G :
+              Int →
+                @Submodule.{u, v} k R
+                  (@DivisionSemiring.toSemiring.{u} k
+                    (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                  (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                    (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                      (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                  (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                    (@Ring.toSemiring.{v} R inst_1) inst_2)} →
+            (M : @ASGinzburg.GradedOrdinaryModuleData.{u, v} k inst R inst_1 inst_2 G) →
+              (q : Int) →
+                HasQuotient.{v, v}
+                  (@Subtype.{v + 1}
+                    (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                      (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                        (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                    fun
+                      (x :
+                        @ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                          (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))) =>
+                    @Membership.mem.{v, v}
+                      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                      (@Submodule.{u, v} k
+                        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                          (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@DivisionSemiring.toSemiring.{u} k
+                          (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                        (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                          (@ModuleCat.carrier.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                          (@AddCommGroup.toAddCommMonoid.{v}
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                          (@ModuleCat.isModule.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                          (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                        (@LinearMap.module.{v, v, u, v, v} R R k
+                          (@ModuleCat.carrier.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                          (@AddCommGroup.toAddCommMonoid.{v}
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                          (@ModuleCat.isModule.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                          (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                          (@DivisionSemiring.toSemiring.{u} k
+                            (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                          (@Algebra.toModule.{u, v} k R
+                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                            (@Ring.toSemiring.{v} R inst_1) inst_2)
+                          (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                            (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@Algebra.toModule.{u, v} k R
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                              (@Ring.toSemiring.{v} R inst_1) inst_2)
+                            (@IsScalarTower.right.{u, v} k R
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                              (@Ring.toSemiring.{v} R inst_1) inst_2))))
+                      (@SetLike.instMembership.{v, v}
+                        (@Submodule.{u, v} k
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                          (@DivisionSemiring.toSemiring.{u} k
+                            (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@ModuleCat.isModule.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                          (@LinearMap.module.{v, v, u, v, v} R R k
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@ModuleCat.isModule.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                            (@DivisionSemiring.toSemiring.{u} k
+                              (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                            (@Algebra.toModule.{u, v} k R
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                              (@Ring.toSemiring.{v} R inst_1) inst_2)
+                            (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                              (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@Algebra.toModule.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2)
+                              (@IsScalarTower.right.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2))))
+                        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                          (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@Submodule.setLike.{u, v} k
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                          (@DivisionSemiring.toSemiring.{u} k
+                            (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@ModuleCat.isModule.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                          (@LinearMap.module.{v, v, u, v, v} R R k
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@ModuleCat.isModule.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                            (@DivisionSemiring.toSemiring.{u} k
+                              (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                            (@Algebra.toModule.{u, v} k R
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                              (@Ring.toSemiring.{v} R inst_1) inst_2)
+                            (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                              (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@Algebra.toModule.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2)
+                              (@IsScalarTower.right.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2)))))
+                      (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q) x)
+                  (@Submodule.{u, v} k
+                    (@Subtype.{v + 1}
+                      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                      fun
+                        (x :
+                          @ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))) =>
+                      @Membership.mem.{v, v}
+                        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                          (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@Submodule.{u, v} k
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                          (@DivisionSemiring.toSemiring.{u} k
+                            (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                          (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@ModuleCat.isModule.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                          (@LinearMap.module.{v, v, u, v, v} R R k
+                            (@ModuleCat.carrier.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                            (@AddCommGroup.toAddCommMonoid.{v}
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                            (@ModuleCat.isModule.{v, v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                            (@DivisionSemiring.toSemiring.{u} k
+                              (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                            (@Algebra.toModule.{u, v} k R
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                              (@Ring.toSemiring.{v} R inst_1) inst_2)
+                            (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                              (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                              (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@Algebra.toModule.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2)
+                              (@IsScalarTower.right.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2))))
+                        (@SetLike.instMembership.{v, v}
+                          (@Submodule.{u, v} k
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                              (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@DivisionSemiring.toSemiring.{u} k
+                              (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                            (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@ModuleCat.isModule.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                            (@LinearMap.module.{v, v, u, v, v} R R k
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@ModuleCat.isModule.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                              (@DivisionSemiring.toSemiring.{u} k
+                                (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                              (@Algebra.toModule.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2)
+                              (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                                (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                                (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                  (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                    (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                                (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                                (@Algebra.toModule.{u, v} k R
+                                  (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                  (@Ring.toSemiring.{v} R inst_1) inst_2)
+                                (@IsScalarTower.right.{u, v} k R
+                                  (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                  (@Ring.toSemiring.{v} R inst_1) inst_2))))
+                          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                          (@Submodule.setLike.{u, v} k
+                            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                              (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                            (@DivisionSemiring.toSemiring.{u} k
+                              (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                            (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@ModuleCat.isModule.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                            (@LinearMap.module.{v, v, u, v, v} R R k
+                              (@ModuleCat.carrier.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                              (@AddCommGroup.toAddCommMonoid.{v}
+                                (@ModuleCat.carrier.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                              (@ModuleCat.isModule.{v, v} R inst_1
+                                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                              (@DivisionSemiring.toSemiring.{u} k
+                                (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                              (@Algebra.toModule.{u, v} k R
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                (@Ring.toSemiring.{v} R inst_1) inst_2)
+                              (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                                (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                                (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                                (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                                  (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                                    (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                                (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                                (@Algebra.toModule.{u, v} k R
+                                  (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                  (@Ring.toSemiring.{v} R inst_1) inst_2)
+                                (@IsScalarTower.right.{u, v} k R
+                                  (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                                  (@Ring.toSemiring.{v} R inst_1) inst_2)))))
+                        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q) x)
+                    (@DivisionSemiring.toSemiring.{u} k
+                      (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                    (@Submodule.addCommMonoid.{u, v} k
+                      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                      (@DivisionSemiring.toSemiring.{u} k
+                        (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                      (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                        (@ModuleCat.carrier.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                        (@AddCommGroup.toAddCommMonoid.{v}
+                          (@ModuleCat.carrier.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                        (@ModuleCat.isModule.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                      (@LinearMap.module.{v, v, u, v, v} R R k
+                        (@ModuleCat.carrier.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                        (@AddCommGroup.toAddCommMonoid.{v}
+                          (@ModuleCat.carrier.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                        (@ModuleCat.isModule.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                        (@DivisionSemiring.toSemiring.{u} k
+                          (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                        (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                          (@Ring.toSemiring.{v} R inst_1) inst_2)
+                        (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                          (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                          (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                          (@Algebra.toModule.{u, v} k R
+                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                            (@Ring.toSemiring.{v} R inst_1) inst_2)
+                          (@IsScalarTower.right.{u, v} k R
+                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                            (@Ring.toSemiring.{v} R inst_1) inst_2)))
+                      (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q))
+                    (@Submodule.module.{u, v} k
+                      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+                        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                      (@DivisionSemiring.toSemiring.{u} k
+                        (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                      (@LinearMap.addCommMonoid.{v, v, v, v} R R
+                        (@ModuleCat.carrier.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                        (@AddCommGroup.toAddCommMonoid.{v}
+                          (@ModuleCat.carrier.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                        (@ModuleCat.isModule.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+                      (@LinearMap.module.{v, v, u, v, v} R R k
+                        (@ModuleCat.carrier.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+                        (@AddCommGroup.toAddCommMonoid.{v}
+                          (@ModuleCat.carrier.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+                        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                        (@ModuleCat.isModule.{v, v} R inst_1
+                          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+                        (@DivisionSemiring.toSemiring.{u} k
+                          (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+                        (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                          (@Ring.toSemiring.{v} R inst_1) inst_2)
+                        (@IsScalarTower.to_smulCommClass'.{u, v, v} k
+                          (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst)) R
+                          (@Ring.toSemiring.{v} R inst_1) inst_2 R
+                          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+                          (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+                          (@Algebra.toModule.{u, v} k R
+                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                            (@Ring.toSemiring.{v} R inst_1) inst_2)
+                          (@IsScalarTower.right.{u, v} k R
+                            (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                            (@Ring.toSemiring.{v} R inst_1) inst_2)))
+                      (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q))) :=
+fun {k : Type u} [inst : Field.{u} k] {R : Type v} [inst_1 : Ring.{v} R]
+    [inst_2 :
+      @Algebra.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+        (@Ring.toSemiring.{v} R inst_1)]
+    {G :
+      Int →
+        @Submodule.{u, v} k R
+          (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+              (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+          (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+            (@Ring.toSemiring.{v} R inst_1) inst_2)}
+    (M : @ASGinzburg.GradedOrdinaryModuleData.{u, v} k inst R inst_1 inst_2 G) (q : Int) =>
+  @Submodule.hasQuotient.{u, v} k
+    (@Subtype.{v + 1}
+      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+      fun
+        (x :
+          @ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))) =>
+      @Membership.mem.{v, v}
+        (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+          (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+        (@Submodule.{u, v} k
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+          (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+          (@LinearMap.addCommMonoid.{v, v, v, v} R R
+            (@ModuleCat.carrier.{v, v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+            (@AddCommGroup.toAddCommMonoid.{v}
+              (@ModuleCat.carrier.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+            (@ModuleCat.isModule.{v, v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+          (@LinearMap.module.{v, v, u, v, v} R R k
+            (@ModuleCat.carrier.{v, v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+            R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+            (@AddCommGroup.toAddCommMonoid.{v}
+              (@ModuleCat.carrier.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+            (@ModuleCat.isModule.{v, v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+            (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+            (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+            (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+              (@Ring.toSemiring.{v} R inst_1) inst_2)
+            (@ASGinzburg.GradedOrdinaryModuleData.ringDualMapDegree._proof_1.{v, u} k inst R inst_1 inst_2)))
+        (@SetLike.instMembership.{v, v}
+          (@Submodule.{u, v} k
+            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+              (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+            (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+            (@LinearMap.addCommMonoid.{v, v, v, v} R R
+              (@ModuleCat.carrier.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+              (@AddCommGroup.toAddCommMonoid.{v}
+                (@ModuleCat.carrier.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+              (@ModuleCat.isModule.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+            (@LinearMap.module.{v, v, u, v, v} R R k
+              (@ModuleCat.carrier.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+              (@AddCommGroup.toAddCommMonoid.{v}
+                (@ModuleCat.carrier.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+              (@ModuleCat.isModule.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+              (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+              (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                (@Ring.toSemiring.{v} R inst_1) inst_2)
+              (@ASGinzburg.GradedOrdinaryModuleData.ringDualMapDegree._proof_1.{v, u} k inst R inst_1 inst_2)))
+          (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+            (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+          (@Submodule.setLike.{u, v} k
+            (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+              (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+            (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+            (@LinearMap.addCommMonoid.{v, v, v, v} R R
+              (@ModuleCat.carrier.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+              (@AddCommGroup.toAddCommMonoid.{v}
+                (@ModuleCat.carrier.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+              (@ModuleCat.isModule.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+            (@LinearMap.module.{v, v, u, v, v} R R k
+              (@ModuleCat.carrier.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+              (@AddCommGroup.toAddCommMonoid.{v}
+                (@ModuleCat.carrier.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+                (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+                  (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+              (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+                (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+                  (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+              (@ModuleCat.isModule.{v, v} R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+              (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+              (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+              (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+              (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+                (@Ring.toSemiring.{v} R inst_1) inst_2)
+              (@ASGinzburg.GradedOrdinaryModuleData.ringDualMapDegree._proof_1.{v, u} k inst R inst_1 inst_2))))
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q) x)
+    (@DivisionRing.toRing.{u} k (@Field.toDivisionRing.{u} k inst))
+    (@Submodule.addCommGroup.{u, v} k
+      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+      (@DivisionRing.toRing.{u} k (@Field.toDivisionRing.{u} k inst))
+      (@LinearMap.addCommGroup.{v, v, v, v} R R
+        (@ModuleCat.carrier.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+        (@AddCommGroup.toAddCommMonoid.{v}
+          (@ModuleCat.carrier.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+        (@Ring.toAddCommGroup.{v} R inst_1)
+        (@ModuleCat.isModule.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+      (@LinearMap.module.{v, v, u, v, v} R R k
+        (@ModuleCat.carrier.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+        (@AddCommGroup.toAddCommMonoid.{v}
+          (@ModuleCat.carrier.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+        (@ModuleCat.isModule.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+        (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+        (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+          (@Ring.toSemiring.{v} R inst_1) inst_2)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualMapDegree._proof_1.{v, u} k inst R inst_1 inst_2))
+      (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q))
+    (@Submodule.module.{u, v} k
+      (@ModuleCat.carrier.{v, v} (MulOpposite.{v} R) (@MulOpposite.instRing.{v} R inst_1)
+        (@ASGinzburg.ordinaryRingDual.{v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+      (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+      (@LinearMap.addCommMonoid.{v, v, v, v} R R
+        (@ModuleCat.carrier.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+        (@AddCommGroup.toAddCommMonoid.{v}
+          (@ModuleCat.carrier.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+        (@ModuleCat.isModule.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1))))
+      (@LinearMap.module.{v, v, u, v, v} R R k
+        (@ModuleCat.carrier.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        R (@Ring.toSemiring.{v} R inst_1) (@Ring.toSemiring.{v} R inst_1)
+        (@AddCommGroup.toAddCommMonoid.{v}
+          (@ModuleCat.carrier.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+          (@ModuleCat.isAddCommGroup.{v, v} R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M)))
+        (@NonUnitalNonAssocSemiring.toAddCommMonoid.{v} R
+          (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring.{v} R
+            (@NonAssocRing.toNonUnitalNonAssocRing.{v} R (@Ring.toNonAssocRing.{v} R inst_1))))
+        (@ModuleCat.isModule.{v, v} R inst_1
+          (@ASGinzburg.GradedOrdinaryModuleData.ringModule.{u, v} k inst R inst_1 inst_2 G M))
+        (@Semiring.toModule.{v} R (@Ring.toSemiring.{v} R inst_1))
+        (@RingHom.id.{v} R (@Semiring.toNonAssocSemiring.{v} R (@Ring.toSemiring.{v} R inst_1)))
+        (@DivisionSemiring.toSemiring.{u} k (@Semifield.toDivisionSemiring.{u} k (@Field.toSemifield.{u} k inst)))
+        (@Algebra.toModule.{u, v} k R (@Semifield.toCommSemiring.{u} k (@Field.toSemifield.{u} k inst))
+          (@Ring.toSemiring.{v} R inst_1) inst_2)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualMapDegree._proof_1.{v, u} k inst R inst_1 inst_2))
+      (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade.{u, v} k inst R inst_1 inst_2 G M q))
+@[reducible] def ASGinzburg.GradedOrdinaryModuleData.ringDualHomogeneousTopQuotient.{u, v} : {k : Type u} →
+  [inst : Field k] →
+    {R : Type v} →
+      [inst_1 : Ring R] →
+        [inst_2 : @Algebra k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)] →
+          {G :
+              Int →
+                @Submodule k R
+                  (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+                  (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+                    (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                      (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+                  (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst))
+                    (@Ring.toSemiring R inst_1) inst_2)} →
+            (M L : @ASGinzburg.GradedOrdinaryModuleData k inst R inst_1 inst_2 G) →
+              (a :
+                  @Quiver.Hom (@ModuleCat R inst_1)
+                    (@CategoryTheory.CategoryStruct.toQuiver (@ModuleCat R inst_1)
+                      (@CategoryTheory.Category.toCategoryStruct (@ModuleCat R inst_1)
+                        (@ModuleCat.moduleCategory R inst_1)))
+                    (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)
+                    (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) →
+                @ASGinzburg.GradedOrdinaryModuleData.PreservesGrade k inst R inst_1 inst_2 G M L a → Int → Type v :=
+fun {k} [inst : Field k] {R} [inst_1 : Ring R]
+    [inst_2 : @Algebra k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)] {G} M
+    L a ha q =>
+  @HasQuotient.Quotient (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+    (@Submodule k (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+      (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+      (@Submodule.addCommMonoid k
+        (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+          (@ASGinzburg.ordinaryRingDual R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@LinearMap.addCommMonoid R R
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+        (@LinearMap.module R R k
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+            inst_2)
+          ⋯)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+      (@Submodule.module k
+        (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+          (@ASGinzburg.ordinaryRingDual R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@LinearMap.addCommMonoid R R
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+        (@LinearMap.module R R k
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+            inst_2)
+          ⋯)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q)))
+    (@ASGinzburg.GradedOrdinaryModuleData.ringDualGradeHasQuotient k inst R inst_1 inst_2 G M q)
+    (@LinearMap.range k k (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+      (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+      (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+      (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+      (@Submodule.addCommMonoid k
+        (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+          (@ASGinzburg.ordinaryRingDual R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@LinearMap.addCommMonoid R R
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+        (@LinearMap.module R R k
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+            inst_2)
+          ⋯)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+      (@Submodule.addCommMonoid k
+        (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+          (@ASGinzburg.ordinaryRingDual R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@LinearMap.addCommMonoid R R
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+        (@LinearMap.module R R k
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+            inst_2)
+          ⋯)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+      (@Submodule.module k
+        (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+          (@ASGinzburg.ordinaryRingDual R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@LinearMap.addCommMonoid R R
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+        (@LinearMap.module R R k
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+            inst_2)
+          ⋯)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+      (@Submodule.module k
+        (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+          (@ASGinzburg.ordinaryRingDual R inst_1
+            (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@LinearMap.addCommMonoid R R
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+        (@LinearMap.module R R k
+          (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+          (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+          (@AddCommGroup.toAddCommMonoid
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@ModuleCat.isAddCommGroup R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+            (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+              (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+          (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+          (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+          (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+            inst_2)
+          ⋯)
+        (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+      (@RingHom.id k
+        (@Semiring.toNonAssocSemiring k
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+      (@LinearMap k k (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@RingHom.id k
+          (@Semiring.toNonAssocSemiring k
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))))
+        (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+        (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+        (@Submodule.addCommMonoid k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+        (@Submodule.addCommMonoid k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+        (@Submodule.module k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+        (@Submodule.module k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q)))
+      (@LinearMap.instFunLike k k (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+        (↥(@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+        (@Submodule.addCommMonoid k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+        (@Submodule.addCommMonoid k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+        (@Submodule.module k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G L))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G L q))
+        (@Submodule.module k
+          (@ModuleCat.carrier (MulOpposite R) (@MulOpposite.instRing R inst_1)
+            (@ASGinzburg.ordinaryRingDual R inst_1
+              (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+          (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+          (@LinearMap.addCommMonoid R R
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1))))
+          (@LinearMap.module R R k
+            (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)) R
+            (@Ring.toSemiring R inst_1) (@Ring.toSemiring R inst_1)
+            (@AddCommGroup.toAddCommMonoid
+              (@ModuleCat.carrier R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+              (@ModuleCat.isAddCommGroup R inst_1
+                (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M)))
+            (@NonUnitalNonAssocSemiring.toAddCommMonoid R
+              (@NonUnitalNonAssocRing.toNonUnitalNonAssocSemiring R
+                (@NonAssocRing.toNonUnitalNonAssocRing R (@Ring.toNonAssocRing R inst_1))))
+            (@ModuleCat.isModule R inst_1 (@ASGinzburg.GradedOrdinaryModuleData.ringModule k inst R inst_1 inst_2 G M))
+            (@Semiring.toModule R (@Ring.toSemiring R inst_1))
+            (@RingHom.id R (@Semiring.toNonAssocSemiring R (@Ring.toSemiring R inst_1)))
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst)))
+            (@Algebra.toModule k R (@Semifield.toCommSemiring k (@Field.toSemifield k inst)) (@Ring.toSemiring R inst_1)
+              inst_2)
+            ⋯)
+          (@ASGinzburg.GradedOrdinaryModuleData.ringDualGrade k inst R inst_1 inst_2 G M q))
+        (@RingHom.id k
+          (@Semiring.toNonAssocSemiring k
+            (@DivisionSemiring.toSemiring k (@Semifield.toDivisionSemiring k (@Field.toSemifield k inst))))))
+      ⋯ ⋯ (@ASGinzburg.GradedOrdinaryModuleData.ringDualMapDegree k inst R inst_1 inst_2 G M L a ha q))

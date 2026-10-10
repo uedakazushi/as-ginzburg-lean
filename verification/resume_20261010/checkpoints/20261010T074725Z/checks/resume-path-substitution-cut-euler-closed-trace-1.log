@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/PathSubstitutionCutEulerClosedTrace.lean:30:45: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathArrowSubstitutionComponent ?k ?σ (Q.source ?a) (Q.target ?a))
+    (Finsupp.single ((Path.nil (Q.source ?a)).snoc ?a ⋯) 1)
+in the target expression
+  (Q.closedPathTrace k (Q.source a))
+      (((Q.pathComp k)
+          ((Q.pathArrowSubstitutionComponent k σ (Q.target a) (Q.source a)) ((Q.pathCyclicDerivative k a) φ)))
+        ((Q.pathArrowSubstitutionComponent k σ (Q.source a) (Q.target a)) (Finsupp.single (Q.baseArrowPath a) 1))) =
+    (Q.closedPathTrace k (Q.source a))
+      (((Q.pathComp k)
+          ((Q.pathArrowSubstitutionComponent k σ (Q.target a) (Q.source a)) ((Q.pathCyclicDerivative k a) φ)))
+        (σ a))
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+φ : ↥(Q.Potential k)
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+ha : Q.cut a = true
+⊢ (Q.closedPathTrace k (Q.source a))
+      (((Q.pathComp k)
+          ((Q.pathArrowSubstitutionComponent k σ (Q.target a) (Q.source a)) ((Q.pathCyclicDerivative k a) φ)))
+        ((Q.pathArrowSubstitutionComponent k σ (Q.source a) (Q.target a)) (Finsupp.single (Q.baseArrowPath a) 1))) =
+    (Q.closedPathTrace k (Q.source a))
+      (((Q.pathComp k)
+          ((Q.pathArrowSubstitutionComponent k σ (Q.target a) (Q.source a)) ((Q.pathCyclicDerivative k a) φ)))
+        (σ a))

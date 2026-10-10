@@ -1,0 +1,107 @@
+import work.ASGinzburgDraft.TriangleGinzburgGLDualDifferential
+import work.ASGinzburgDraft.TriangleGinzburgGLLoopInvariant
+import work.ASGinzburgDraft.GinzburgArrowSubstitutionCochainIso
+import ASGinzburg.TrianglePathAutomorphismGLGroupEquiv
+import ASGinzburg.TrianglePathAutomorphismTensorIntertwining
+
+/-! Actual triangle arrow GL changes extend contragrediently to dual
+arrows and fix loops. The resulting genuine cochain isomorphisms preserve
+Ginzburg regularity, proved from generator differentials. -/
+namespace ASGinzburg
+open CategoryTheory
+universe u
+variable (k : Type u) [Field k]
+
+theorem triangleGinzburgGLArrowReplacement_differential (g : TriangleGL333 k)
+    (φ : triangle333.Potential k) (a : triangle333.GinzburgArrow) :
+    triangle333.ginzburgDifferential k
+        (CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k
+          (triangleGLPathAutomorphism k g) φ) (a.source triangle333) (a.target triangle333)
+        (triangleGinzburgGLArrowReplacement k g a) =
+      triangle333.ginzburgArrowSubstitutionComponent k (triangleGinzburgGLArrowReplacement k g)
+        (a.source triangle333) (a.target triangle333)
+        (triangle333.ginzburgGeneratorDifferential k φ a) := by
+  cases a with
+  | original a =>
+    change triangle333.ginzburgDifferential k _ _ _
+        (triangle333.originalGinzburgLinearMap k _ _ (triangleGLArrowReplacement k g a)) =
+      triangle333.ginzburgArrowSubstitutionComponent k _ _ _ 0
+    rw [triangle333.ginzburgDifferential_original,map_zero]
+  | dual a => exact triangleGinzburgGLDualArrow_differential k g φ a
+  | loop v =>
+    change triangle333.ginzburgDifferential k _ v v
+        (Finsupp.single (triangle333.ginzburgArrowPath (.loop v)) 1) =
+      triangle333.ginzburgArrowSubstitutionComponent k _ v v
+        (triangle333.ginzburgLoopDifferential k v)
+    rw [triangle333.ginzburgDifferential_generator]
+    exact (triangleGinzburgGLSubstitution_loopDifferential k g v).symm
+
+theorem triangleGinzburgGLComponentEquiv_differential (g : TriangleGL333 k)
+    (φ : triangle333.Potential k) (i j : triangle333.Vertex)
+    (f : triangle333.GinzburgPathComponent k i j) :
+    triangleGinzburgGLComponentEquiv k g i j (triangle333.ginzburgDifferential k φ i j f) =
+      triangle333.ginzburgDifferential k
+        (CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k
+          (triangleGLPathAutomorphism k g) φ) i j (triangleGinzburgGLComponentEquiv k g i j f) :=
+  (triangle333.ginzburgArrowSubstitutionComponent_differential k
+    (triangleGinzburgGLArrowReplacement k g) φ _
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k g)
+    (triangleGinzburgGLArrowReplacement_differential k g φ) i j f).symm
+
+noncomputable def triangleGinzburgGLCochainIso (g : TriangleGL333 k)
+    (φ : triangle333.Potential k) (i j : triangle333.Vertex) :
+    triangle333.ginzburgCochainComplex k φ i j ≅
+      triangle333.ginzburgCochainComplex k
+        (CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k
+          (triangleGLPathAutomorphism k g) φ) i j :=
+  triangle333.ginzburgArrowSubstitutionCochainIso k
+    (triangleGinzburgGLArrowReplacement k g) (triangleGinzburgGLArrowReplacement k (g⁻¹))
+    φ _ (triangleGinzburgGLArrowReplacement_inverse k g)
+    (by intro a; simpa only [inv_inv] using triangleGinzburgGLArrowReplacement_inverse k (g⁻¹) a)
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k g)
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k (g⁻¹))
+    (triangleGinzburgGLArrowReplacement_differential k g φ) i j
+
+noncomputable def triangleGinzburgGLHomologyIso (g : TriangleGL333 k)
+    (φ : triangle333.Potential k) (i j : triangle333.Vertex) (q : ℤ) :
+    triangle333.ginzburgHomology k φ i j q ≅
+      triangle333.ginzburgHomology k
+        (CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k
+          (triangleGLPathAutomorphism k g) φ) i j q :=
+  triangle333.ginzburgArrowSubstitutionHomologyIso k
+    (triangleGinzburgGLArrowReplacement k g) (triangleGinzburgGLArrowReplacement k (g⁻¹))
+    φ _ (triangleGinzburgGLArrowReplacement_inverse k g)
+    (by intro a; simpa only [inv_inv] using triangleGinzburgGLArrowReplacement_inverse k (g⁻¹) a)
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k g)
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k (g⁻¹))
+    (triangleGinzburgGLArrowReplacement_differential k g φ) i j q
+
+theorem triangleGinzburgRegular_GL_iff (g : TriangleGL333 k)
+    (φ : triangle333.Potential k) :
+    triangle333.GinzburgRegular k φ ↔ triangle333.GinzburgRegular k
+      (CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k
+        (triangleGLPathAutomorphism k g) φ) :=
+  triangle333.ginzburgRegular_iff_of_inverse_generator_substitution k
+    (triangleGinzburgGLArrowReplacement k g) (triangleGinzburgGLArrowReplacement k (g⁻¹))
+    φ _ (triangleGinzburgGLArrowReplacement_inverse k g)
+    (by intro a; simpa only [inv_inv] using triangleGinzburgGLArrowReplacement_inverse k (g⁻¹) a)
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k g)
+    (triangleGinzburgGLArrowReplacement_mem_cohomological k (g⁻¹))
+    (triangleGinzburgGLArrowReplacement_differential k g φ)
+
+theorem triangleGinzburgRegular_pathAutomorphism_iff
+    (E : triangle333.VertexCutPathAutomorphism k) (φ : triangle333.Potential k) :
+    triangle333.GinzburgRegular k φ ↔ triangle333.GinzburgRegular k
+      (CutQuiver.VertexCutPathAutomorphism.potentialLinearEquiv triangle333 k E φ) := by
+  have h := triangleGinzburgRegular_GL_iff k (trianglePathAutomorphismGLTriple k E) φ
+  simpa only [triangleGLPathAutomorphism_restriction] using h
+
+theorem triangleTensorGinzburgRegular_GL_iff (g : TriangleGL333 k)
+    (w : CubicTensor333 k) :
+    triangle333.GinzburgRegular k (triangleTensorPotentialEquiv k w) ↔
+      triangle333.GinzburgRegular k (triangleTensorPotentialEquiv k (g • w)) := by
+  have h := triangleGinzburgRegular_GL_iff k g (triangleTensorPotentialEquiv k w)
+  simpa only [trianglePathAutomorphism_tensorPotential,
+    trianglePathAutomorphismGLTriple_extension] using h
+
+end ASGinzburg

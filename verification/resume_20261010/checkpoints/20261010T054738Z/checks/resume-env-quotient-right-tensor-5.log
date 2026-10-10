@@ -1,0 +1,31 @@
+work/ASGinzburgDraft/AlgebraEnvelopingQuotientTensorRightModule.lean:112:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (algebraEnvelopingQuotientAugmentation ?k ?R ?J) (?a ⊗ₜ[?k] MulOpposite.op ?b)
+in the target expression
+  MulOpposite.op
+      ((MulOpposite.unop s * (Ideal.Quotient.mk J) a) ⊗ₜ[k]
+        MulOpposite.op ((Ideal.Quotient.mk J) (MulOpposite.unop b) * t)) =
+    MulOpposite.op
+      (MulOpposite.unop s ⊗ₜ[k] MulOpposite.op t * (algebraEnvelopingQuotientAugmentation k R J) (a ⊗ₜ[k] b))
+
+case tmul.tmul
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+J : Ideal R
+inst✝ : J.IsTwoSided
+hz : (quotientTensorRightCanonicalFieldEquiv k R J) 0 = 0
+hadd :
+  ∀ (x y : QuotientTensorRightSpace k R J),
+    (quotientTensorRightCanonicalFieldEquiv k R J) (x + y) =
+      (quotientTensorRightCanonicalFieldEquiv k R J) x + (quotientTensorRightCanonicalFieldEquiv k R J) y
+a : R
+b : Rᵐᵒᵖ
+s : ↑(idealQuotientRightObject J)
+t : ↑(ModuleCat.of R (R ⧸ J))
+⊢ MulOpposite.op
+      ((MulOpposite.unop s * (Ideal.Quotient.mk J) a) ⊗ₜ[k]
+        MulOpposite.op ((Ideal.Quotient.mk J) (MulOpposite.unop b) * t)) =
+    MulOpposite.op
+      (MulOpposite.unop s ⊗ₜ[k] MulOpposite.op t * (algebraEnvelopingQuotientAugmentation k R J) (a ⊗ₜ[k] b))

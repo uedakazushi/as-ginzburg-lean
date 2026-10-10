@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/GinzburgNativeASGenerators.lean:21:48: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+v : Q.LiftVertex
+a : Q.incomingArrows v
+⊢ 𝟙
+        ((Q.unrolledJacobianZAlgebra k φ).representable
+          (Q.height (Q.ginzburgPrefixGeneratorEndpoint v (GinzburgArrow.original ↑a)))) ≫
+      Sigma.ι
+        (fun a => (Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint v ↑a)))
+        ((Q.ginzburgOriginalGeneratorEquiv v) a) =
+    Sigma.ι
+      (fun b => (Q.unrolledJacobianZAlgebra k φ).representable (Q.height (Q.ginzburgPrefixGeneratorEndpoint v ↑b)))
+      ((Q.ginzburgOriginalGeneratorEquiv v) a)
+work/ASGinzburgDraft/GinzburgNativeASGenerators.lean:31:8: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

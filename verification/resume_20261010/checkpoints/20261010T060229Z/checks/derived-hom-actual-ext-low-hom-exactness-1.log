@@ -1,0 +1,137 @@
+work/ASGinzburgDraft/ProjectiveResolutionLowHomExactness.lean:37:10: error(lean.unknownIdentifier): Unknown constant `CategoryTheory.Abelian.Ext.mk₀_injective`
+work/ASGinzburgDraft/ProjectiveResolutionLowHomExactness.lean:48:44: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Cofork.π
+      (CokernelCofork.ofπ
+        { X₁ := P.complex.X 2, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := P.complex.d 2 1, g := P.firstCover,
+            zero := ⋯ }.g
+        ⋯) ≫
+    y
+in the target expression
+  P.firstCover ≫ y = f
+
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+N : C
+hExt : ∀ (e : Abelian.Ext X N 1), e = 0
+f : P.complex.X 1 ⟶ N
+hf : P.complex.d 2 1 ≫ f = 0
+y :
+  (CokernelCofork.ofπ
+        { X₁ := P.complex.X 2, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := P.complex.d 2 1, g := P.firstCover,
+            zero := ⋯ }.g
+        ⋯).pt ⟶
+    N
+hy :
+  Cofork.π
+        (CokernelCofork.ofπ
+          { X₁ := P.complex.X 2, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := P.complex.d 2 1, g := P.firstCover,
+              zero := ⋯ }.g
+          ⋯) ≫
+      y =
+    f
+g :
+  { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0, f := kernel.ι (P.π.f 0),
+        g := P.π.f 0, zero := ⋯ }.X₂ ⟶
+    N
+hg :
+  { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0, f := kernel.ι (P.π.f 0),
+          g := P.π.f 0, zero := ⋯ }.f ≫
+      g =
+    y
+⊢ P.firstCover ≫ y = f
+work/ASGinzburgDraft/ProjectiveResolutionLowHomExactness.lean:60:45: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Abelian.Ext.comp 0 ?β ?h
+in the target expression
+  (Abelian.Ext.mk₀
+          { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0,
+              f := kernel.ι (P.π.f 0), g := P.π.f 0, zero := ⋯ }.f).comp
+      0 ⋯ =
+    e
+
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+N : C
+hExt : ∀ (e : Abelian.Ext X N 2), e = 0
+f : P.complex.X 2 ⟶ N
+hf : P.complex.d 3 2 ≫ f = 0
+y :
+  (CokernelCofork.ofπ
+        { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2, g := P.secondCover,
+            zero := ⋯ }.g
+        ⋯).pt ⟶
+    N
+hy :
+  Cofork.π
+        (CokernelCofork.ofπ
+          { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2,
+              g := P.secondCover, zero := ⋯ }.g
+          ⋯) ≫
+      y =
+    f
+e : Abelian.Ext (kernel (P.π.f 0)) N 1
+z :
+  Abelian.Ext
+    { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0, f := kernel.ι (P.π.f 0),
+        g := P.π.f 0, zero := ⋯ }.X₂
+    N 1
+hz :
+  (Abelian.Ext.mk₀
+          { X₁ := kernel (P.π.f 0), X₂ := P.complex.X 0, X₃ := ((ChainComplex.single₀ C).obj X).X 0,
+              f := kernel.ι (P.π.f 0), g := P.π.f 0, zero := ⋯ }.f).comp
+      0 ⋯ =
+    e
+this : Projective (P.complex.X 0)
+⊢ e = 0
+work/ASGinzburgDraft/ProjectiveResolutionLowHomExactness.lean:64:45: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Cofork.π
+      (CokernelCofork.ofπ
+        { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2, g := P.secondCover,
+            zero := ⋯ }.g
+        ⋯) ≫
+    y
+in the target expression
+  P.secondCover ≫ y = f
+
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+inst✝ : HasExt C
+X : C
+P : ProjectiveResolution X
+N : C
+hExt : ∀ (e : Abelian.Ext X N 2), e = 0
+f : P.complex.X 2 ⟶ N
+hf : P.complex.d 3 2 ≫ f = 0
+y :
+  (CokernelCofork.ofπ
+        { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2, g := P.secondCover,
+            zero := ⋯ }.g
+        ⋯).pt ⟶
+    N
+hy :
+  Cofork.π
+        (CokernelCofork.ofπ
+          { X₁ := P.complex.X 3, X₂ := P.complex.X 2, X₃ := kernel P.firstCover, f := P.complex.d 3 2,
+              g := P.secondCover, zero := ⋯ }.g
+          ⋯) ≫
+      y =
+    f
+hKernel : ∀ (e : Abelian.Ext (kernel (P.π.f 0)) N 1), e = 0
+g :
+  { X₁ := kernel P.firstCover, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := kernel.ι P.firstCover,
+        g := P.firstCover, zero := ⋯ }.X₂ ⟶
+    N
+hg :
+  { X₁ := kernel P.firstCover, X₂ := P.complex.X 1, X₃ := kernel (P.π.f 0), f := kernel.ι P.firstCover,
+          g := P.firstCover, zero := ⋯ }.f ≫
+      g =
+    y
+⊢ P.secondCover ≫ y = f

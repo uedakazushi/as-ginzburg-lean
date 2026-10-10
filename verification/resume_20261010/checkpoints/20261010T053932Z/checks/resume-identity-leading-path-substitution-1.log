@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:32:54: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:45:65: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:50:65: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:48:63: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+i j : Q.Vertex
+c : ℤ
+⊢ IsUnit (Q.pathCutSubstitution k σ hc i j c)
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:66:47: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:82:64: warning: This simp argument is unused:
+  Ne.symm H
+
+Hint: Omit it from the simp argument list.
+  simp [̵H̵p̵,̵H̵q̵,̵H̵,̵N̵e̵.̵s̵y̵m̵m̵[̲H̲p̲,̲ ̲H̲q̲,̲ H]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:93:41: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:97:59: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:98:58: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:98:61: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:101:2: error: Type mismatch: After simplification, term
+  H
+ has type
+  (if ↑p.cutDegree = c then (f - g) p else 0) = ↑0 p
+but is expected to have type
+  (f - g) p = 0 p
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:116:58: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:116:61: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:116:11: error: Tactic `rcases` failed: `x✝ : ?m.117` is not an inductive datatype
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:125:73: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:125:76: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:126:4: error: No goals to be solved
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:129:71: error(lean.unknownIdentifier): Unknown identifier `hc`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:129:74: error(lean.unknownIdentifier): Unknown identifier `hσ`
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:137:5: error: Function expected at
+  identityLeading_pathArrowSubstitution_bijective Q k σ
+but this term has type
+  Function.Bijective ⇑(Q.pathArrowSubstitution k σ)
+
+Note: Expected a function because this term is being applied to the argument
+  hc
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:144:63: error: Application type mismatch: The argument
+  hσ
+has type
+  ∀ (a : Fin Q.arrows), σ a - Q.pathIdentityArrowReplacement k a ∈ Q.pathLengthFiltration k 2 (Q.source a) (Q.target a)
+of sort `Prop` but is expected to have type
+  Q.Vertex
+of sort `Type` in the application
+  pathCutSubstitution_bijective Q k σ hc hσ
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:144:13: error: Tactic `rcases` failed: `x✝ : ?m.62` is not an inductive datatype

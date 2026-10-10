@@ -1,0 +1,50 @@
+import work.ASGinzburgDraft.BicomplexTotalRowAcyclic
+import Mathlib.Algebra.Homology.Bifunctor
+import Mathlib.Algebra.Homology.Additive
+
+/-! A bounded first factor and exact positive rows of an additive bifunctor
+give vanishing of the genuine total homology above the bound. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits HomologicalComplex HomologicalComplex₂
+
+universe u w u₁ u₂ v₁ v₂
+variable {k : Type u} [Ring k]
+variable {C₁ : Type u₁} {C₂ : Type u₂} [Category.{v₁} C₁] [Category.{v₂} C₂]
+variable [Preadditive C₁] [Preadditive C₂]
+variable (F : C₁ ⥤ C₂ ⥤ ModuleCat.{w} k) [F.Additive] [∀ X, (F.obj X).Additive]
+variable (P : ChainComplex C₁ ℕ) (Q : ChainComplex C₂ ℕ)
+
+theorem bifunctorBicomplex_exactAt_of_isZero_left (i j : ℕ) (hi : IsZero (P.X i)) :
+    ((((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P).obj Q).X i).ExactAt j := by
+  apply ShortComplex.exact_of_isZero_X₂
+  exact (F.flip.obj (Q.X j)).map_isZero hi
+
+theorem bifunctorBicomplex_diagonal_exactAt_of_bounded_left
+    (a n : ℕ) (hn : a < n)
+    (hzero : ∀ i, a < i → IsZero (P.X i))
+    (hrows : ∀ i j, i ≤ a → 0 < j →
+      (((F.obj (P.X i)).mapHomologicalComplex (ComplexShape.down ℕ)).obj Q).ExactAt j)
+    (i j : ℕ) (hij : i + j = n) :
+    ((((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P).obj Q).X i).ExactAt j := by
+  by_cases hi : a < i
+  · exact bifunctorBicomplex_exactAt_of_isZero_left F P Q i j (hzero i hi)
+  · exact hrows i j (by omega) (by omega)
+
+theorem bifunctorTotal_exactAt_of_bounded_left
+    (a n : ℕ) (hn : a < n)
+    (hzero : ∀ i, a < i → IsZero (P.X i))
+    (hrows : ∀ i j, i ≤ a → 0 < j →
+      (((F.obj (P.X i)).mapHomologicalComplex (ComplexShape.down ℕ)).obj Q).ExactAt j) :
+    (mapBifunctor P Q F (ComplexShape.down ℕ)).ExactAt n := by
+  apply bicomplexTotal_exactAt_of_diagonal_rows
+  exact bifunctorBicomplex_diagonal_exactAt_of_bounded_left F P Q a n hn hzero hrows
+
+theorem bifunctorTotal_isZero_homology_of_bounded_left
+    (a n : ℕ) (hn : a < n)
+    (hzero : ∀ i, a < i → IsZero (P.X i))
+    (hrows : ∀ i j, i ≤ a → 0 < j →
+      (((F.obj (P.X i)).mapHomologicalComplex (ComplexShape.down ℕ)).obj Q).ExactAt j) :
+    IsZero ((mapBifunctor P Q F (ComplexShape.down ℕ)).homology n) :=
+  (bifunctorTotal_exactAt_of_bounded_left F P Q a n hn hzero hrows).isZero_homology
+
+end ASGinzburg

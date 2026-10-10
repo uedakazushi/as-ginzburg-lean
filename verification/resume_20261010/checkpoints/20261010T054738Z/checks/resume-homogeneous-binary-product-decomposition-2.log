@@ -1,0 +1,51 @@
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:26:18: error: unsolved goals
+case h.a
+k : Type u
+inst✝⁶ : Field k
+M : Type v
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+N : Type w
+inst✝³ : AddCommGroup N
+inst✝² : Module k N
+G : ℤ → Submodule k M
+H : ℤ → Submodule k N
+inst✝¹ : DirectSum.Decomposition G
+inst✝ : DirectSum.Decomposition H
+x y : M × N
+q : ℤ
+⊢ (↑(((DirectSum.decompose G) x.1 + (DirectSum.decompose G) y.1) q),
+      ↑(((DirectSum.decompose H) x.2 + (DirectSum.decompose H) y.2) q)) =
+    ↑((DFinsupp.zipWith (fun q a b => ⟨(↑a, ↑b), ⋯⟩) ⋯ ((DirectSum.decompose G) x.1) ((DirectSum.decompose H) x.2) +
+          DFinsupp.zipWith (fun q a b => ⟨(↑a, ↑b), ⋯⟩) ⋯ ((DirectSum.decompose G) y.1) ((DirectSum.decompose H) y.2))
+        q)
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:31:6: warning: This simp argument is unused:
+  DFinsupp.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.fst_add, ̲Prod.snd_add, ̲DirectSum.decompose_add, ̲DFinsupp.zipWith_apply,
+        D̵F̵i̵n̵s̵u̵p̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵Submodule.coe_add, ̲Prod.mk_add_mk]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:31:25: warning: This simp argument is unused:
+  Submodule.coe_add
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.fst_add, ̲Prod.snd_add, ̲DirectSum.decompose_add, ̲DFinsupp.zipWith_apply,
+        DFinsupp.add_apply,S̵u̵b̵m̵o̵d̵u̵l̵e̵.̵c̵o̵e̵_̵a̵d̵d̵,̵ ̲Prod.mk_add_mk]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:31:43: warning: This simp argument is unused:
+  Prod.mk_add_mk
+
+Hint: Omit it from the simp argument list.
+  simp only [Prod.fst_add, ̲Prod.snd_add, ̲DirectSum.decompose_add, ̲DFinsupp.zipWith_apply,
+        DFinsupp.add_apply, ̲Submodule.coe_add,̵P̵r̵o̵d̵.̵m̵k̵_̵a̵d̵d̵_̵m̵k̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:43:9: error: typeclass instance problem is stuck, it is often due to metavariables
+  (i : ℤ) → Zero (?m.155 i)
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:59:9: error: typeclass instance problem is stuck, it is often due to metavariables
+  (i : ℤ) → Zero (?m.155 i)
+work/ASGinzburgDraft/HomogeneousBinaryProductDecomposition.lean:94:42: error: typeclass instance problem is stuck, it is often due to metavariables
+  (i : ℤ) → Zero (?m.283 i)

@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/PotentialCutDerivativeReconstruction.lean:23:2: error: unsolved goals
+case neg
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+h : ∀ (a : Q.Arrow), Q.cut a = true → (Q.pathCyclicDerivative k a) φ = (Q.pathCyclicDerivative k a) ψ
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+ha : ¬Q.cut a = true
+⊢ (if false = true then (prependTrace a) ((cyclicDerivative a) ↑φ) else 0) =
+    if false = true then (prependTrace a) ((cyclicDerivative a) ↑ψ) else 0
+work/ASGinzburgDraft/PotentialCutDerivativeReconstruction.lean:23:19: warning: This simp argument is unused:
+  ↓reduceIte
+
+Hint: Omit it from the simp argument list.
+  simp only [ha,̵ ̵↓̵r̵e̵d̵u̵c̵e̵I̵t̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

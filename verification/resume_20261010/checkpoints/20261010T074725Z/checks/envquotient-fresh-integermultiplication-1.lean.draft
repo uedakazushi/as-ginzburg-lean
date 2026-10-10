@@ -1,0 +1,73 @@
+import work.ASGinzburgDraft.PeriodCutEnvelopingIntegerHomogeneousSubspaces
+import work.ASGinzburgDraft.PeriodCutEnvelopingHomogeneousMultiplication
+import Mathlib.Algebra.GradedMonoid
+
+/-! The ordinary enveloping multiplication respects the internal integer
+grading, with zero-degree identity and strict degree increase by positive
+homogeneous operators. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct DirectSum
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem cutEnvelopingIntegerHomogeneousSubspace_mul_mem (q r : ℤ)
+    {x y : AlgebraEnvelopingRing k (E.CutGradedRing vertex)}
+    (hx : x ∈ E.cutEnvelopingIntegerHomogeneousSubspace vertex q)
+    (hy : y ∈ E.cutEnvelopingIntegerHomogeneousSubspace vertex r) :
+    x*y ∈ E.cutEnvelopingIntegerHomogeneousSubspace vertex (q+r) := by
+  let μ := Algebra.TensorProduct.mul (R := k)
+    (A := E.CutGradedRing vertex) (B := (E.CutGradedRing vertex)ᵐᵒᵖ)
+  by_cases hq : 0 ≤ q
+  · by_cases hr : 0 ≤ r
+    · have hqn := Int.toNat_of_nonneg hq
+      have hrn := Int.toNat_of_nonneg hr
+      rw [← hqn, E.cutEnvelopingIntegerHomogeneousSubspace_natCast] at hx
+      rw [← hrn, E.cutEnvelopingIntegerHomogeneousSubspace_natCast] at hy
+      rw [← hqn, ← hrn, ← Int.natCast_add,
+        E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+      exact E.cutEnvelopingHomogeneousSubspace_mul_mem vertex _ _ hx hy
+    · rw [E.cutEnvelopingIntegerHomogeneousSubspace_neg vertex r (lt_of_not_ge hr)] at hy
+      have hy0 : y = 0 := hy
+      subst y
+      change μ x 0 ∈ _
+      rw [(μ x).map_zero]
+      exact Submodule.zero_mem _
+  · rw [E.cutEnvelopingIntegerHomogeneousSubspace_neg vertex q (lt_of_not_ge hq)] at hx
+    have hx0 : x = 0 := hx
+    subst x
+    change μ 0 y ∈ _
+    rw [μ.map_zero, LinearMap.zero_apply]
+    exact Submodule.zero_mem _
+
+set_option synthInstance.maxHeartbeats 200000 in
+noncomputable instance cutEnvelopingIntegerGradedMul :
+    SetLike.GradedMul (E.cutEnvelopingIntegerHomogeneousSubspace vertex) where
+  mul_mem hx hy := E.cutEnvelopingIntegerHomogeneousSubspace_mul_mem vertex _ _ hx hy
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem cutEnvelopingPositiveHomogeneous_mul_raises_degree (d : ℕ) (hd : 0 < d)
+    (q : ℤ) {a x : AlgebraEnvelopingRing k (E.CutGradedRing vertex)}
+    (ha : a ∈ E.cutEnvelopingHomogeneousSubspace vertex d)
+    (hx : x ∈ E.cutEnvelopingIntegerHomogeneousSubspace vertex q) :
+    q < q+(d : ℤ) ∧ a*x ∈ E.cutEnvelopingIntegerHomogeneousSubspace vertex (q+(d : ℤ)) := by
+  have ha' : a ∈ E.cutEnvelopingIntegerHomogeneousSubspace vertex (d : ℤ) := by
+    rw [E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+    exact ha
+  refine ⟨by omega, ?_⟩
+  simpa only [add_comm] using
+    E.cutEnvelopingIntegerHomogeneousSubspace_mul_mem vertex (d : ℤ) q ha' hx
+
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+
+set_option synthInstance.maxHeartbeats 200000 in
+noncomputable instance cutEnvelopingIntegerGradedOne :
+    SetLike.GradedOne
+      (E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ))) where
+  one_mem := by
+    rw [show (0 : ℤ) = (0 : ℕ) from rfl,
+      E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+    exact E.cutEnvelopingDegreeZeroRange_one Q
+
+end ASGinzburg.ZAlgebra.PeriodIso

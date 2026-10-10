@@ -1,0 +1,36 @@
+import work.ASGinzburgDraft.ASCutOrdinaryRegularTopQuotientFinite
+import work.ASGinzburgDraft.OrdinaryRingDualTopExtFinite
+import ASGinzburg.OrdinaryModuleRingDual
+
+/-! The original AS condition gives finite-dimensional actual ordinary
+Ext-three from each native vertex simple to the right regular module. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+attribute [local instance 2000] ordinaryRingDualExtStandardDerivedCategory
+attribute [local instance 2500] ModuleCat.linearOverField
+attribute [local instance] exactExtModule
+
+ theorem ASRegular.cutOrdinarySimpleExt_regular_three_finite
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Module.Finite k (Abelian.Ext.{v} (hAS.cutOrdinarySimple A Q (i,0))
+      (ModuleCat.of (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ) 3) := by
+  let R := (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+  let P := hAS.cutForgottenGradedSimpleProjectiveResolution A Q i
+  letI := hAS.cutOrdinarySimpleRingDual_topQuotient_finite A Q i
+  exact actualOrdinaryExtThree_finite_of_ringDualTopQuotient_finite k R P
+    (hAS.cutForgottenGradedSimpleResolution_isZero_ge_four A Q i 0)
+
+ theorem ASRegular.cutOrdinarySimpleExt_rightRegular_three_finite
+    (hAS : A.ASRegular Q) (i : Q.Vertex) :
+    Module.Finite k (Abelian.Ext.{v} (hAS.cutOrdinarySimple A Q (i,0))
+      (ModuleCat.of (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ (hAS.CutGradedAlgebra A Q)) 3) := by
+  let iso := (rightRegularOppositeLinearEquiv (hAS.CutGradedAlgebra A Q)).toModuleIso
+  letI := hAS.cutOrdinarySimpleExt_regular_three_finite A Q i
+  exact Module.Finite.of_surjective
+    (exactExtPostcompIso k (M := hAS.cutOrdinarySimple A Q (i,0)) iso.symm 3).toLinearMap
+    (exactExtPostcompIso k (M := hAS.cutOrdinarySimple A Q (i,0)) iso.symm 3).surjective
+
+end ASGinzburg.ZAlgebra

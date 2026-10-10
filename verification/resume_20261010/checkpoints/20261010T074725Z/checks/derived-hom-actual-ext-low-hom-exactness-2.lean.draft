@@ -1,0 +1,80 @@
+import ASGinzburg.ProjectiveResolutionHomComplex
+
+/-! Vanishing of actual Ext in a low degree gives exactness of the
+actual Hom cochain complex of any projective resolution. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{v} C]
+
+theorem hom_extension_of_actual_ext_one_zero {S : ShortComplex C}
+    (hS : S.ShortExact) (N : C)
+    (hExt : ∀ e : Abelian.Ext.{v} S.X₃ N 1, e = 0) (f : S.X₁ ⟶ N) :
+    ∃ g : S.X₂ ⟶ N, S.f ≫ g = f := by
+  obtain ⟨y, hy⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS N
+    (Abelian.Ext.mk₀ f) (by rfl) (hExt _)
+  refine ⟨Abelian.Ext.homEquiv₀ y, ?_⟩
+  apply (Abelian.Ext.homEquiv₀ (X := S.X₁) (Y := N)).symm.injective
+  change Abelian.Ext.mk₀ (S.f ≫ Abelian.Ext.homEquiv₀ y) = Abelian.Ext.mk₀ f
+  rw [← Abelian.Ext.mk₀_comp_mk₀, Abelian.Ext.mk₀_homEquiv₀_apply]
+  exact hy
+
+end ASGinzburg
+
+namespace CategoryTheory.ProjectiveResolution
+open CategoryTheory.Limits
+universe u v t
+variable {k : Type t} [Field k] {C : Type u} [Category.{v} C]
+  [Abelian C] [Linear k C] [HasExt.{v} C]
+variable {X : C} (P : ProjectiveResolution X) (N : C)
+
+theorem hom_zero_exact_of_actual_ext_zero
+    (hExt : ∀ e : Abelian.Ext.{v} X N 0, e = 0)
+    (f : P.complex.X 0 ⟶ N) (hf : P.complex.d 1 0 ≫ f = 0) : f = 0 := by
+  obtain ⟨g, hg⟩ := CokernelCofork.IsColimit.desc' P.exact₀.gIsCokernel f hf
+  have hg0 : g = 0 := by
+    have h := congrArg Abelian.Ext.homEquiv₀ (hExt (Abelian.Ext.mk₀ g))
+    simpa using h
+  rw [hg0, comp_zero] at hg
+  exact hg.symm
+
+theorem hom_one_exact_of_actual_ext_one_zero
+    (hExt : ∀ e : Abelian.Ext.{v} X N 1, e = 0)
+    (f : P.complex.X 1 ⟶ N) (hf : P.complex.d 2 1 ≫ f = 0) :
+    ∃ g : P.complex.X 0 ⟶ N, P.complex.d 1 0 ≫ g = f := by
+  obtain ⟨y, hy⟩ := CokernelCofork.IsColimit.desc' P.exact_d₂_firstCover.gIsCokernel f hf
+  change P.firstCover ≫ y = f at hy
+  obtain ⟨g, hg⟩ := ASGinzburg.hom_extension_of_actual_ext_one_zero P.shortExact₀ N hExt y
+  refine ⟨g, ?_⟩
+  rw [← P.firstCover_ι, Category.assoc, hg, hy]
+
+theorem hom_two_exact_of_actual_ext_two_zero
+    (hExt : ∀ e : Abelian.Ext.{v} X N 2, e = 0)
+    (f : P.complex.X 2 ⟶ N) (hf : P.complex.d 3 2 ≫ f = 0) :
+    ∃ g : P.complex.X 1 ⟶ N, P.complex.d 2 1 ≫ g = f := by
+  obtain ⟨y, hy⟩ := CokernelCofork.IsColimit.desc' P.exact_d₃_secondCover.gIsCokernel f hf
+  change P.secondCover ≫ y = f at hy
+  have hKernel : ∀ e : Abelian.Ext.{v} (kernel (P.π.f 0)) N 1, e = 0 := by
+    intro e
+    obtain ⟨z, hz⟩ := Abelian.Ext.contravariant_sequence_exact₁ P.shortExact₀ N e
+      (show 1 + 1 = 2 from rfl) (hExt _)
+    haveI : Projective (P.complex.X 0) := P.projective 0
+    rw [Abelian.Ext.eq_zero_of_projective z, Abelian.Ext.comp_zero] at hz
+    exact hz.symm
+  obtain ⟨g, hg⟩ := ASGinzburg.hom_extension_of_actual_ext_one_zero P.shortExact₁ N hKernel y
+  refine ⟨g, ?_⟩
+  rw [← P.secondCover_ι, Category.assoc, hg, hy]
+
+theorem homComplex_exactAt_low_of_actual_ext_zero
+    (n : ℕ) (hn : n < 3) (hExt : ∀ e : Abelian.Ext.{v} X N n, e = 0) :
+    (P.homComplex (k := k) N).ExactAt n := by
+  rcases n with _ | _ | _ | n
+  · exact (P.homComplex_exactAt_zero_iff (k := k) N).mpr
+      (P.hom_zero_exact_of_actual_ext_zero N hExt)
+  · exact (P.homComplex_exactAt_succ_iff (k := k) N 0).mpr
+      (P.hom_one_exact_of_actual_ext_one_zero N hExt)
+  · exact (P.homComplex_exactAt_succ_iff (k := k) N 1).mpr
+      (P.hom_two_exact_of_actual_ext_two_zero N hExt)
+  · omega
+
+end CategoryTheory.ProjectiveResolution

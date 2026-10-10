@@ -1,0 +1,27 @@
+work/ASGinzburgDraft/LinearCokernelSquareEquiv.lean:25:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  eN (f ?x)
+in the target expression
+  ↑eN (f (eM.symm x)) = g x
+
+case h.mpr
+k : Type u
+inst✝⁸ : Field k
+M : Type v
+inst✝⁷ : AddCommGroup M
+inst✝⁶ : Module k M
+M' : Type v'
+inst✝⁵ : AddCommGroup M'
+inst✝⁴ : Module k M'
+N : Type w
+inst✝³ : AddCommGroup N
+inst✝² : Module k N
+N' : Type w'
+inst✝¹ : AddCommGroup N'
+inst✝ : Module k N'
+f : M →ₗ[k] N
+g : M' →ₗ[k] N'
+eM : M ≃ₗ[k] M'
+eN : N ≃ₗ[k] N'
+h : ∀ (x : M), eN (f x) = g (eM x)
+x : M'
+⊢ ↑eN (f (eM.symm x)) = g x

@@ -1,0 +1,10 @@
+work/ASGinzburgDraft/GinzburgNativeASPresentation.lean:22:4: error: Type mismatch
+  Eq.symm ((Q.unrolledJacobianQuotientMap k φ).map_id ?m.59)
+has type
+  (Q.unrolledJacobianZAlgebra k φ).id ?m.59 =
+    ((Q.unrolledJacobianQuotientMap k φ).map ?m.59 ?m.59) ((Q.unrolledPathZAlgebra k).id ?m.59)
+but is expected to have type
+  (Q.unrolledJacobianZAlgebra k φ).unrolledPathEvaluation Q (fun w => minimalASResolution Q k h w)
+      (UnrolledPath.nil u) =
+    ((Q.unrolledJacobianQuotientMap k φ).map (Q.height u) (Q.height u))
+      (Finsupp.single (UnrolledPath.nil (Q.heightEquiv.symm (Q.height u))) 1)

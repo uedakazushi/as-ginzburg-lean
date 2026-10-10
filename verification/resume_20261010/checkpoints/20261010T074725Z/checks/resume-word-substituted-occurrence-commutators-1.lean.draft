@@ -1,0 +1,66 @@
+import work.ASGinzburgDraft.WordSubstitutedOccurrenceContexts
+
+/-! Actual occurrence commutators telescope to the commutator of the whole
+substituted word. The inserted polynomial is arbitrary. -/
+namespace ASGinzburg
+universe u v z
+variable {A : Type u} {B : Type v} {k : Type z} [Field k]
+variable [DecidableEq A] [Fintype A]
+
+theorem wordSubstitutedOccurrenceContextWord_commutator
+    (σ : A → WordPolynomial k B) (p : List A) (h : WordPolynomial k B) :
+    (∑ a : A,
+      (wordConcatenation (σ a) (wordSubstitutedOccurrenceContextWord σ a p h) -
+        wordConcatenation (wordSubstitutedOccurrenceContextWord σ a p h) (σ a))) =
+      wordConcatenation (wordSubstitutionBetweenWord σ p) h -
+        wordConcatenation h (wordSubstitutionBetweenWord σ p) := by
+  classical
+  induction p generalizing h with
+  | nil => simp [wordSubstitutedOccurrenceContextWord, wordSubstitutedOccurrenceContextAux,
+      wordSubstitutionBetweenWord]
+  | cons c p ih =>
+    simp_rw [wordSubstitutedOccurrenceContextWord_cons]
+    have hterm (a : A) :
+        wordConcatenation (σ a)
+          ((if a = c then wordConcatenation (wordSubstitutionBetweenWord σ p) h else 0) +
+            wordSubstitutedOccurrenceContextWord σ a p (wordConcatenation h (σ c))) -
+          wordConcatenation
+            ((if a = c then wordConcatenation (wordSubstitutionBetweenWord σ p) h else 0) +
+              wordSubstitutedOccurrenceContextWord σ a p (wordConcatenation h (σ c))) (σ a) =
+        (if a = c then
+          wordConcatenation (σ c) (wordConcatenation (wordSubstitutionBetweenWord σ p) h) -
+            wordConcatenation (wordConcatenation (wordSubstitutionBetweenWord σ p) h) (σ c)
+        else 0) +
+          (wordConcatenation (σ a)
+            (wordSubstitutedOccurrenceContextWord σ a p (wordConcatenation h (σ c))) -
+            wordConcatenation
+              (wordSubstitutedOccurrenceContextWord σ a p (wordConcatenation h (σ c))) (σ a)) := by
+      by_cases hac : a = c
+      · subst a
+        simp only [if_pos rfl, map_add, LinearMap.add_apply]
+        abel
+      · simp only [if_neg hac, zero_add]
+    simp_rw [hterm]
+    rw [Finset.sum_add_distrib, ih]
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true, wordSubstitutionBetweenWord,
+      wordConcatenation_assoc]
+    abel
+
+theorem wordSubstitutedOccurrenceContext_commutator
+    (σ : A → WordPolynomial k B) (f : WordPolynomial k A) (h : WordPolynomial k B) :
+    (∑ a : A,
+      (wordConcatenation (σ a) (wordSubstitutedOccurrenceContext σ a f h) -
+        wordConcatenation (wordSubstitutedOccurrenceContext σ a f h) (σ a))) =
+      wordConcatenation (wordSubstitutionBetween σ f) h -
+        wordConcatenation h (wordSubstitutionBetween σ f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg =>
+    simp only [map_add, LinearMap.add_apply, add_sub_add_comm, Finset.sum_add_distrib, hf, hg]
+  | single p c =>
+    simp only [wordSubstitutedOccurrenceContext_single, wordSubstitutionBetween_single,
+      map_smul, LinearMap.smul_apply, ← smul_sub, ← Finset.smul_sum]
+    rw [wordSubstitutedOccurrenceContextWord_commutator]
+
+end ASGinzburg

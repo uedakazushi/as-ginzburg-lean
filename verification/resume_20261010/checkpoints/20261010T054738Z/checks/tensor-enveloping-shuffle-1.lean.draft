@@ -1,0 +1,296 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRingDualTensorEvaluationInduction
+
+/-! A genuine balanced shuffle from the first-factor restriction of a
+right enveloping module to its tensor with the adjoint Hom module.
+Finite dimensionality is used only in the proved induction inverse. -/
+namespace ASGinzburg
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+variable (D : Type z) [AddCommGroup D] [Module k D]
+variable [Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ D]
+variable [IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ D]
+
+noncomputable def envelopingTensorEvaluationRestrictedRightModule : Module Rᵐᵒᵖ D :=
+  rightEnvelopingRightModule k R D
+
+attribute [local instance 2200] envelopingTensorEvaluationRestrictedRightModule
+
+noncomputable def envelopingTensorEvaluationRestrictedRightSMul : SMul Rᵐᵒᵖ D :=
+  (envelopingTensorEvaluationRestrictedRightModule k R D).toSMul
+
+attribute [local instance 3000] envelopingTensorEvaluationRestrictedRightSMul
+attribute [local instance 2200] envelopingTensorEvaluationFirstRightModule
+attribute [local instance 3000] envelopingTensorEvaluationFirstRightSMul
+
+noncomputable def envelopingTensorEvaluationRightActionAt (d : D) :
+    AlgebraEnvelopingRing k R →ₗ[k] D :=
+  ((Algebra.lsmul k k D).toLinearMap.flip d).comp
+    (MulOpposite.opLinearEquiv k).toLinearMap
+
+noncomputable def envelopingTensorEvaluationShuffleRow (d : D) :
+    BalancedTensorSpace k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) →ₗ[k]
+      BalancedTensorSpace k R D (BalancedTensorHom k R M k) :=
+  balancedTensorLift k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
+    ((balancedTensorBilinear k R D (BalancedTensorHom k R M k)).comp
+      (envelopingTensorEvaluationRightActionAt k R D d)) (by
+        intro a t φ
+        change balancedTensorTmul k R D (BalancedTensorHom k R M k)
+          (MulOpposite.op (t * (a ⊗ₜ[k] (1 : Rᵐᵒᵖ))) • d) φ =
+          balancedTensorTmul k R D (BalancedTensorHom k R M k)
+            (MulOpposite.op t • d) (a • φ)
+        rw [MulOpposite.op_mul, mul_smul]
+        exact balancedTensorTmul_balance k R D (BalancedTensorHom k R M k) a
+          (MulOpposite.op t • d) φ)
+
+@[simp] theorem envelopingTensorEvaluationShuffleRow_tmul (d : D)
+    (t : AlgebraEnvelopingRing k R) (φ : BalancedTensorHom k R M k) :
+    envelopingTensorEvaluationShuffleRow k R M D d
+      (balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ) =
+      balancedTensorTmul k R D (BalancedTensorHom k R M k) (MulOpposite.op t • d) φ := by
+  rw [envelopingTensorEvaluationShuffleRow, balancedTensorLift_tmul]
+  rfl
+
+noncomputable def envelopingTensorEvaluationShuffleRows :
+    D →ₗ[k] BalancedTensorSpace k R (AlgebraEnvelopingRing k R)
+      (BalancedTensorHom k R M k) →ₗ[k] BalancedTensorSpace k R D
+        (BalancedTensorHom k R M k) where
+  toFun := envelopingTensorEvaluationShuffleRow k R M D
+  map_add' d e := by
+    apply balancedTensorSpace_linearMap_ext
+    intro t φ
+    simp only [envelopingTensorEvaluationShuffleRow_tmul, LinearMap.add_apply]
+    change balancedTensorBilinear k R D (BalancedTensorHom k R M k)
+      (MulOpposite.op t • (d+e)) φ =
+      balancedTensorBilinear k R D (BalancedTensorHom k R M k) (MulOpposite.op t • d) φ +
+        balancedTensorBilinear k R D (BalancedTensorHom k R M k) (MulOpposite.op t • e) φ
+    rw [smul_add, map_add, LinearMap.add_apply]
+  map_smul' c d := by
+    apply balancedTensorSpace_linearMap_ext
+    intro t φ
+    simp only [envelopingTensorEvaluationShuffleRow_tmul, LinearMap.smul_apply]
+    change balancedTensorBilinear k R D (BalancedTensorHom k R M k)
+      (MulOpposite.op t • (c • d)) φ =
+      c • balancedTensorBilinear k R D (BalancedTensorHom k R M k) (MulOpposite.op t • d) φ
+    rw [smul_comm, map_smul, LinearMap.smul_apply]
+
+noncomputable def envelopingTensorEvaluationShuffleBilinear :
+    letI := envelopingBalancedTensorHomModule k R M R
+    D →ₗ[k] BalancedTensorHom k R M k →ₗ[k]
+      BalancedTensorSpace k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  exact (balancedTensorBilinear k (AlgebraEnvelopingRing k R) D
+    (BalancedTensorHom k R M R)).compl₂ (envelopingTensorEvaluationDualSeed k R M)
+
+theorem envelopingTensorEvaluationDualSeed_first_action (a : R)
+    (φ : BalancedTensorHom k R M k) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • envelopingTensorEvaluationDualSeed k R M φ =
+      envelopingTensorEvaluationDualSeed k R M (a • φ) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  apply balancedTensorHom_ext k R M R
+  intro m
+  rw [envelopingBalancedTensorHomModule_tmul_apply, one_smul,
+    envelopingTensorEvaluationDualSeed_apply, envelopingTensorEvaluationDualSeed_apply,
+    balancedTensorHom_smul_apply]
+
+noncomputable def envelopingTensorEvaluationShuffle :
+    letI := envelopingBalancedTensorHomModule k R M R
+    BalancedTensorSpace k R D (BalancedTensorHom k R M k) →ₗ[k]
+      BalancedTensorSpace k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  exact balancedTensorLift k R D (BalancedTensorHom k R M k)
+    (envelopingTensorEvaluationShuffleBilinear k R M D) (by
+      intro a d φ
+      change balancedTensorTmul k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R)
+        (MulOpposite.op (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • d)
+          (envelopingTensorEvaluationDualSeed k R M φ) =
+        balancedTensorTmul k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R)
+          d (envelopingTensorEvaluationDualSeed k R M (a • φ))
+      rw [balancedTensorTmul_balance, envelopingTensorEvaluationDualSeed_first_action])
+
+@[simp] theorem envelopingTensorEvaluationShuffle_tmul (d : D)
+    (φ : BalancedTensorHom k R M k) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    envelopingTensorEvaluationShuffle k R M D
+      (balancedTensorTmul k R D (BalancedTensorHom k R M k) d φ) =
+      balancedTensorTmul k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R)
+        d (envelopingTensorEvaluationDualSeed k R M φ) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  rw [envelopingTensorEvaluationShuffle, balancedTensorLift_tmul]
+  rfl
+
+variable [Module.Finite k M]
+
+noncomputable def envelopingTensorEvaluationUnshuffleBilinear :
+    letI := envelopingBalancedTensorHomModule k R M R
+    D →ₗ[k] BalancedTensorHom k R M R →ₗ[k]
+      BalancedTensorSpace k R D (BalancedTensorHom k R M k) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  exact (envelopingTensorEvaluationShuffleRows k R M D).compl₂
+    (envelopingTensorEvaluationInductionInverse k R M)
+
+@[simp] theorem envelopingTensorEvaluationUnshuffleBilinear_contraction
+    (d : D) (t : AlgebraEnvelopingRing k R) (φ : BalancedTensorHom k R M k) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    envelopingTensorEvaluationUnshuffleBilinear k R M D d
+      (envelopingTensorEvaluationContraction k R M φ t) =
+      balancedTensorTmul k R D (BalancedTensorHom k R M k) (MulOpposite.op t • d) φ := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  rw [← envelopingTensorEvaluationInduction_tmul]
+  change envelopingTensorEvaluationShuffleRow k R M D d
+    (envelopingTensorEvaluationInductionInverse k R M
+      (envelopingTensorEvaluationInduction k R M
+        (balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ))) = _
+  rw [envelopingTensorEvaluationInductionInverse_induction,
+    envelopingTensorEvaluationShuffleRow_tmul]
+
+theorem envelopingTensorEvaluationUnshuffleBilinear_balance
+    (t : AlgebraEnvelopingRing k R) (d : D) (h : BalancedTensorHom k R M R) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    envelopingTensorEvaluationUnshuffleBilinear k R M D (MulOpposite.op t • d) h =
+      envelopingTensorEvaluationUnshuffleBilinear k R M D d (t • h) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  rw [← envelopingTensorEvaluationInduction_inverse k R M h]
+  generalize envelopingTensorEvaluationInductionInverse k R M h = z
+  refine balancedTensorSpace_induction k R (AlgebraEnvelopingRing k R)
+    (BalancedTensorHom k R M k) (fun z =>
+      envelopingTensorEvaluationUnshuffleBilinear k R M D (MulOpposite.op t • d)
+        (envelopingTensorEvaluationInduction k R M z) =
+      envelopingTensorEvaluationUnshuffleBilinear k R M D d
+        (t • envelopingTensorEvaluationInduction k R M z)) ?_ ?_ ?_ z
+  · simp only [map_zero, smul_zero]
+  · intro q φ
+    rw [envelopingTensorEvaluationInduction_tmul]
+    have hm : t • envelopingTensorEvaluationContraction k R M φ q =
+        envelopingTensorEvaluationContraction k R M φ (t*q) :=
+      ((envelopingTensorEvaluationContraction k R M φ).map_smul t q).symm
+    rw [hm, envelopingTensorEvaluationUnshuffleBilinear_contraction,
+      envelopingTensorEvaluationUnshuffleBilinear_contraction,
+      MulOpposite.op_mul, mul_smul]
+  · intro x y hx hy
+    simp only [map_add, smul_add] at hx hy ⊢
+    rw [hx, hy]
+
+noncomputable def envelopingTensorEvaluationUnshuffle :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    BalancedTensorSpace k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R) →ₗ[k]
+      BalancedTensorSpace k R D (BalancedTensorHom k R M k) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  exact balancedTensorLift k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R)
+    (envelopingTensorEvaluationUnshuffleBilinear k R M D)
+    (envelopingTensorEvaluationUnshuffleBilinear_balance k R M D)
+
+@[simp] theorem envelopingTensorEvaluationUnshuffle_tmul (d : D)
+    (h : BalancedTensorHom k R M R) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    envelopingTensorEvaluationUnshuffle k R M D
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R) d h) =
+      envelopingTensorEvaluationUnshuffleBilinear k R M D d h := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  rw [envelopingTensorEvaluationUnshuffle, balancedTensorLift_tmul]
+
+theorem envelopingTensorEvaluationUnshuffle_shuffle
+    (z : BalancedTensorSpace k R D (BalancedTensorHom k R M k)) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    envelopingTensorEvaluationUnshuffle k R M D
+      (envelopingTensorEvaluationShuffle k R M D z) = z := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  refine balancedTensorSpace_induction k R D (BalancedTensorHom k R M k) (fun z =>
+    envelopingTensorEvaluationUnshuffle k R M D
+      (envelopingTensorEvaluationShuffle k R M D z) = z) ?_ ?_ ?_ z
+  · simp only [map_zero]
+  · intro d φ
+    rw [envelopingTensorEvaluationShuffle_tmul, envelopingTensorEvaluationUnshuffle_tmul]
+    have hseed : envelopingTensorEvaluationDualSeed k R M φ =
+        envelopingTensorEvaluationContraction k R M φ 1 := (one_smul _ _).symm
+    rw [hseed, envelopingTensorEvaluationUnshuffleBilinear_contraction,
+      MulOpposite.op_one, one_smul]
+  · intro x y hx hy
+    rw [map_add, map_add, hx, hy]
+
+theorem envelopingTensorEvaluationShuffle_unshuffle
+    (z :
+      letI := envelopingBalancedTensorHomModule k R M R
+      BalancedTensorSpace k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R)) :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    envelopingTensorEvaluationShuffle k R M D
+      (envelopingTensorEvaluationUnshuffle k R M D z) = z := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  refine balancedTensorSpace_induction k (AlgebraEnvelopingRing k R) D
+    (BalancedTensorHom k R M R) (fun z => envelopingTensorEvaluationShuffle k R M D
+      (envelopingTensorEvaluationUnshuffle k R M D z) = z) ?_ ?_ ?_ z
+  · simp only [map_zero]
+  · intro d h
+    rw [envelopingTensorEvaluationUnshuffle_tmul,
+      ← envelopingTensorEvaluationInduction_inverse k R M h]
+    generalize envelopingTensorEvaluationInductionInverse k R M h = q
+    refine balancedTensorSpace_induction k R (AlgebraEnvelopingRing k R)
+      (BalancedTensorHom k R M k) (fun q => envelopingTensorEvaluationShuffle k R M D
+        (envelopingTensorEvaluationUnshuffleBilinear k R M D d
+          (envelopingTensorEvaluationInduction k R M q)) =
+        balancedTensorTmul k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R)
+          d (envelopingTensorEvaluationInduction k R M q)) ?_ ?_ ?_ q
+    · simp only [map_zero]
+      exact ((balancedTensorBilinear k (AlgebraEnvelopingRing k R) D
+        (BalancedTensorHom k R M R)) d).map_zero |>.symm
+    · intro t φ
+      rw [envelopingTensorEvaluationInduction_tmul,
+        envelopingTensorEvaluationUnshuffleBilinear_contraction,
+        envelopingTensorEvaluationShuffle_tmul, balancedTensorTmul_balance]
+      rfl
+    · intro x y hx hy
+      change envelopingTensorEvaluationShuffle k R M D
+        (envelopingTensorEvaluationUnshuffleBilinear k R M D d
+          (envelopingTensorEvaluationInduction k R M (x+y))) =
+        (balancedTensorBilinear k (AlgebraEnvelopingRing k R) D
+          (BalancedTensorHom k R M R) d) (envelopingTensorEvaluationInduction k R M (x+y))
+      rw [map_add, map_add, map_add, map_add]
+      exact congrArg₂ (· + ·) hx hy
+  · intro x y hx hy
+    rw [map_add, map_add, hx, hy]
+
+noncomputable def envelopingTensorEvaluationShuffleEquiv :
+    letI := envelopingBalancedTensorHomModule k R M R
+    letI := envelopingTensorEvaluationHomScalarTower k R M R
+    letI := envelopingTensorEvaluationHomScalarCommute k R M R
+    BalancedTensorSpace k R D (BalancedTensorHom k R M k) ≃ₗ[k]
+      BalancedTensorSpace k (AlgebraEnvelopingRing k R) D (BalancedTensorHom k R M R) := by
+  letI := envelopingBalancedTensorHomModule k R M R
+  letI := envelopingTensorEvaluationHomScalarTower k R M R
+  letI := envelopingTensorEvaluationHomScalarCommute k R M R
+  exact {
+    toFun := envelopingTensorEvaluationShuffle k R M D
+    invFun := envelopingTensorEvaluationUnshuffle k R M D
+    left_inv := envelopingTensorEvaluationUnshuffle_shuffle k R M D
+    right_inv := envelopingTensorEvaluationShuffle_unshuffle k R M D
+    map_add' := map_add _
+    map_smul' := map_smul _ }
+
+end ASGinzburg

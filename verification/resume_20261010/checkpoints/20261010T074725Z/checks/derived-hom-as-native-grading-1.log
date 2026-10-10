@@ -1,0 +1,42 @@
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:20:81: error: Invalid field notation: Identifier or numeral expected
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:27:6: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (1000000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:37:5: error: Invalid field `cutEnvelopingMinimalRingHomTermData`: The environment does not contain `And.cutEnvelopingMinimalRingHomTermData`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:42:26: error: Invalid field `cutEnvelopingMinimalRingHomTermData`: The environment does not contain `And.cutEnvelopingMinimalRingHomTermData`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:43:3: error: Invalid field `cutEnvelopingMinimalRingHomTermData`: The environment does not contain `And.cutEnvelopingMinimalRingHomTermData`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:47:14: error: Invalid field `cutEnvelopingMinimalRingHomTermData`: The environment does not contain `And.cutEnvelopingMinimalRingHomTermData`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:66:2: error: Type mismatch
+  ordinaryFiniteProjectiveProperty_ringDual R (ordinaryModule_finiteFreeRetract R (P.complex.X n))
+has type
+  ordinaryFiniteProjectiveProperty Rᵐᵒᵖ (ordinaryRingDual R (P.complex.X n))
+but is expected to have type
+  ordinaryFiniteProjectiveProperty (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS))ᵐᵒᵖ
+    ((cutEnvelopingMinimalRingHomNatComplex A Q hAS).X n)
+work/ASGinzburgDraft/ASCutEnvelopingRingHomGrading.lean:73:2: error: Type mismatch
+  ordinaryRingDualResolutionHomologyIso (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS))
+    (cutEnvelopingRegularMinimalResolution A Q hAS) n
+has type
+  (ordinaryRingDualExtFunctor (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)) n).obj
+      (op (regularEnvelopingModuleCat k (CutGradedAlgebra A Q hAS))) ≅
+    (((ordinaryRingDualFunctor (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS))).mapHomologicalComplex
+              (ComplexShape.up ℕ)).obj
+          (HomologicalComplex.op (cutEnvelopingRegularMinimalResolution A Q hAS).complex)).homology
+      n
+but is expected to have type
+  cutEnvelopingRingDualExtObject A Q hAS n ≅
+    HomologicalComplex.homology (cutEnvelopingMinimalRingHomNatComplex A Q hAS) n

@@ -1,0 +1,14 @@
+work/ASGinzburgDraft/OrdinaryRingDualTopExtFinite.lean:29:15: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized
+  ModuleCat.Hom.instModule
+inferred
+  Linear.homModule (P.complex.X 3) (ModuleCat.of R R)
+work/ASGinzburgDraft/OrdinaryRingDualTopExtFinite.lean:31:4: error: Type mismatch
+  hs
+has type
+  (P.homToActualExtThree h₄ (ModuleCat.of R R)).toFun (c • (ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)) f) =
+    (RingHom.id k) c •
+      (P.homToActualExtThree h₄ (ModuleCat.of R R)).toFun ((ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)) f)
+but is expected to have type
+  (P.homToActualExtThree h₄ (ModuleCat.of R R)) (c • (ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)) f) =
+    (RingHom.id k) c •
+      (P.homToActualExtThree h₄ (ModuleCat.of R R)) ((ordinaryRingDualHomFieldEquiv k R (P.complex.X 3)) f)

@@ -1,0 +1,39 @@
+import work.ASGinzburgDraft.TriangleASFoundationTensorRelations
+import ASGinzburg.QuadraticHilbertGrowth
+
+/-! The chosen foundation slices generate the actual quadratic evaluation
+kernel for every triangle AS-regular algebra. The dimension calculation
+comes from the original finite exact AS resolutions. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k)
+
+theorem ASRegular.triangleQuadraticComponent_finrank
+    (hAS : A.ASRegular triangle333) : Module.finrank k (A.Hom 0 2) = 6 := by
+  have hQ := (A.quadraticASRegular_iff_triangleASRegular).mpr hAS
+  have h := hQ.component_finrank A 0 2
+  norm_num at h
+  exact h
+
+theorem ASRegular.triangleXYCoefficientEvaluation_kernel_finrank
+    (hAS : A.ASRegular triangle333) :
+    Module.finrank k (LinearMap.ker (hAS.triangleXYCoefficientEvaluation A)) = 3 := by
+  have h := (hAS.triangleXYCoefficientEvaluation A).finrank_range_add_finrank_ker
+  rw [LinearMap.range_eq_top.mpr (hAS.triangleXYCoefficientEvaluation_surjective A),
+    Submodule.finrank_top, hAS.triangleQuadraticComponent_finrank A] at h
+  have hd : Module.finrank k (Fin 3 × Fin 3 → k) = 9 := by simp
+  rw [hd] at h
+  omega
+
+theorem ASRegular.triangleFoundationTensor_cutRelations_span_eq_kernel
+    (hAS : A.ASRegular triangle333) :
+    Submodule.span k (Set.range (tensorToCutRelations333 k (hAS.triangleFoundationTensor A))) =
+      LinearMap.ker (hAS.triangleXYCoefficientEvaluation A) := by
+  apply Submodule.eq_of_le_of_finrank_eq
+    (hAS.triangleFoundationTensor_cutRelations_span_le_kernel A)
+  rw [finrank_span_eq_card
+    (hAS.triangleFoundationTensor_cutRelations_linearIndependent A),
+    hAS.triangleXYCoefficientEvaluation_kernel_finrank A]
+  rfl
+
+end ASGinzburg.ZAlgebra

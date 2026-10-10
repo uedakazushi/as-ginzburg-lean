@@ -1,0 +1,86 @@
+import work.ASGinzburgDraft.HomogeneousSubmoduleDecomposition
+import Mathlib.LinearAlgebra.Quotient.Basic
+
+/-! The actual quotient by a homogeneous submodule inherits an internal
+direct-sum grading. Each quotient component is the actual image of the
+original homogeneous component, permitting homogeneous top-basis lifts. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w
+variable (k : Type u) [Field k] (M : Type v) [AddCommGroup M] [Module k M]
+variable {ι : Type w} [DecidableEq ι]
+variable (G : ι → Submodule k M) [DirectSum.Decomposition G]
+variable (S : Submodule k M)
+
+def homogeneousQuotientGrade (q : ι) : Submodule k (M ⧸ S) :=
+  (G q).map S.mkQ
+
+def homogeneousQuotientComponentMap (q : ι) : G q →ₗ[k] homogeneousQuotientGrade k M G S q :=
+  ((S.mkQ).comp (G q).subtype).codRestrict _
+    (fun x => ⟨x.val, x.property, rfl⟩)
+
+noncomputable def homogeneousQuotientDecomposeMap : M →ₗ[k]
+    ⨁ q, homogeneousQuotientGrade k M G S q :=
+  (DirectSum.lmap (homogeneousQuotientComponentMap k M G S)).comp
+    (DirectSum.decomposeLinearEquiv G).toLinearMap
+
+theorem homogeneousQuotientDecomposeMap_ker
+    (hS : ∀ (q : ι) (x : M), x ∈ S → (DirectSum.decompose G x q : M) ∈ S) :
+    S ≤ LinearMap.ker (homogeneousQuotientDecomposeMap k M G S) := by
+  intro x hx
+  apply DFinsupp.ext
+  intro q
+  apply Subtype.ext
+  change S.mkQ (DirectSum.decompose G x q) = 0
+  exact (Submodule.Quotient.mk_eq_zero S).mpr (hS q x hx)
+
+noncomputable def homogeneousQuotientDecomposition
+    (hS : ∀ (q : ι) (x : M), x ∈ S → (DirectSum.decompose G x q : M) ∈ S) :
+    DirectSum.Decomposition (homogeneousQuotientGrade k M G S) := by
+  classical
+  let B := homogeneousQuotientGrade k M G S
+  let F := homogeneousQuotientDecomposeMap k M G S
+  let L : (M ⧸ S) →ₗ[k] ⨁ q, B q :=
+    S.liftQ F (homogeneousQuotientDecomposeMap_ker k M G S hS)
+  have hComm : (DirectSum.coeLinearMap B).comp
+      (DirectSum.lmap (homogeneousQuotientComponentMap k M G S)) =
+      S.mkQ.comp (DirectSum.coeLinearMap G) := by
+    apply DirectSum.linearMap_ext
+    intro q
+    apply LinearMap.ext
+    intro x
+    change (DirectSum.coeLinearMap B)
+        (DirectSum.lmap (homogeneousQuotientComponentMap k M G S) (DirectSum.of _ q x)) =
+      S.mkQ (DirectSum.coeLinearMap G (DirectSum.of _ q x))
+    rw [DirectSum.lmap_of, DirectSum.coeLinearMap_of, DirectSum.coeLinearMap_of]
+    rfl
+  apply DirectSum.Decomposition.ofLinearMap B L
+  · apply LinearMap.ext
+    intro x
+    obtain ⟨y, rfl⟩ := S.mkQ_surjective x
+    change DirectSum.coeLinearMap B (L (S.mkQ y)) = S.mkQ y
+    change DirectSum.coeLinearMap B (F y) = _
+    change (DirectSum.coeLinearMap B)
+        (DirectSum.lmap (homogeneousQuotientComponentMap k M G S) (DirectSum.decompose G y)) = _
+    rw [← LinearMap.comp_apply, hComm, LinearMap.comp_apply]
+    exact congrArg S.mkQ ((DirectSum.decompose G).left_inv y)
+  · apply DirectSum.linearMap_ext
+    intro q
+    apply LinearMap.ext
+    intro x
+    obtain ⟨y, hy, hxy⟩ := x.property
+    let y' : G q := ⟨y, hy⟩
+    have hx : homogeneousQuotientComponentMap k M G S q y' = x := Subtype.ext hxy
+    rw [← hx]
+    change L (DirectSum.coeLinearMap B (DirectSum.of _ q
+      (homogeneousQuotientComponentMap k M G S q y'))) =
+        DirectSum.of _ q (homogeneousQuotientComponentMap k M G S q y')
+    rw [DirectSum.coeLinearMap_of]
+    change L (S.mkQ y) = _
+    change F y = _
+    change DirectSum.lmap (homogeneousQuotientComponentMap k M G S)
+        (DirectSum.decompose G y) = _
+    rw [DirectSum.decompose_of_mem G hy, DirectSum.lmap_of]
+    rfl
+
+end ASGinzburg

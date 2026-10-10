@@ -1,0 +1,49 @@
+import work.ASGinzburgDraft.ZeroCutJacobianComponentProjection
+import work.ASGinzburgDraft.NativeCutDerivativeMinimalRelationClasses
+import work.ASGinzburgDraft.UnrolledHeightTransportCancellation
+import ASGinzburg.UnrolledJacobianRelationShifts
+import ASGinzburg.ZeroCutJacobianRing
+
+/-! The literal noncut cyclic derivative and the literal native
+Jacobian generator agree under the actual foundation unrolling. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem zeroCutFoundationComponentEquiv_mem_Jacobian_iff (φ : Q.Potential k)
+    (i j : Q.Vertex) (f : Q.pathCutComponent k i j 0) :
+    Q.zeroCutFoundationComponentEquiv k i j f ∈
+        (Q.unrolledJacobianIdeal k φ).hom (i.val : ℤ) (j.val : ℤ) ↔
+      f.val ∈ (Q.pathJacobianIdeal k φ).hom i j := by
+  rw [← Q.unrolledJacobianQuotientMap_kernel]
+  change Q.zeroCutJacobianComponentProjection k φ i j f = 0 ↔ _
+  exact Q.zeroCutJacobianComponentProjection_eq_zero_iff k φ i j f
+
+theorem zeroCutNativeUnrollingEquiv_cutDerivative (φ : Q.Potential k)
+    (b : {a : Q.Arrow // Q.cut a = true}) :
+    Q.zeroCutNativeUnrollingEquiv k (Q.target b.val) (Q.source b.val)
+      (Q.zeroCutCyclicDerivative k φ b) = Q.unrolledCutJacobianRelation k φ b 0 := by
+  apply Q.unrolledPathEraseLinearMap_injective k
+  rw [Q.zeroCutNativeUnrollingEquiv_erase, Q.unrolledCutJacobianRelation_erase]
+  rfl
+
+theorem zeroCutFoundationComponentEquiv_cutDerivative (φ : Q.Potential k)
+    (b : {a : Q.Arrow // Q.cut a = true}) :
+    Q.zeroCutFoundationComponentEquiv k (Q.target b.val) (Q.source b.val)
+      (Q.zeroCutCyclicDerivative k φ b) =
+    (Q.foundationCutDerivativeGenerator k φ (Q.target b.val) (Q.source b.val)
+      ⟨b.val, rfl, rfl, b.property⟩).val := by
+  rw [zeroCutFoundationComponentEquiv, LinearEquiv.trans_apply,
+    Q.zeroCutNativeUnrollingEquiv_cutDerivative]
+  unfold foundationCutDerivativeGenerator integerJacobianRelation
+  dsimp only
+  rw [Q.unrolledHomTransport_eq_mapDomain]
+  change Finsupp.mapDomain _ (Finsupp.mapDomain _ (Q.unrolledJacobianRelation k b.val φ 0)) =
+    Finsupp.mapDomain _ (Finsupp.mapDomain _ (Q.unrolledJacobianRelation k b.val φ 0))
+  rw [← Finsupp.mapDomain_comp, ← Finsupp.mapDomain_comp]
+  apply congrArg (fun f => Finsupp.mapDomain f (Q.unrolledJacobianRelation k b.val φ 0))
+  funext p
+  dsimp only [Function.comp_def, UnrolledPath.endpointEquiv, unrolledPathHeightEquiv]
+  rw [UnrolledPath.transport_trans, UnrolledPath.transport_trans]
+
+end ASGinzburg.CutQuiver

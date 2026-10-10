@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeLeftProjective.lean:43:18: error: unsolved goals
+case add
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+this : Module Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ := envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+e : Rᵐᵒᵖ ⊗[k] Rᵐᵒᵖ ≃ₗ[k] (AlgebraEnvelopingRing k R)ᵐᵒᵖ :=
+  TensorProduct.congr (MulOpposite.opLinearEquiv k).symm (LinearEquiv.refl k Rᵐᵒᵖ) ≪≫ₗ MulOpposite.opLinearEquiv k
+r : Rᵐᵒᵖ
+x y : Rᵐᵒᵖ ⊗[k] Rᵐᵒᵖ
+hx : e (r • x) = (RingHom.id Rᵐᵒᵖ) r • e x
+hy : e (r • y) = (RingHom.id Rᵐᵒᵖ) r • e y
+⊢ (RingHom.id Rᵐᵒᵖ) r • e x + (RingHom.id Rᵐᵒᵖ) r • e y = (RingHom.id Rᵐᵒᵖ) r • (e x + e y)

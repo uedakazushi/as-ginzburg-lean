@@ -1,0 +1,11 @@
+work/ASGinzburgDraft/TriangleASFoundationTensorRelations.lean:43:24: error: Application type mismatch: The argument
+  LinearEquiv.surjective (triangle333.zeroCutNativeUnrollingEquiv k 0 2)
+has type
+  Function.Surjective ⇑(triangle333.zeroCutNativeUnrollingEquiv k 0 2)
+but is expected to have type
+  Function.Surjective fun x =>
+    ↑(triangle333.zeroCutNativeUnrollingEquiv k 0 2) (↑(triangleXYCutComponentEquiv k).symm x)
+in the application
+  Function.Surjective.comp
+    (unrolledPathLinearEvaluation_surjective A triangle333 (resolution A triangle333 hAS) (0, 0) (2, 0))
+    (LinearEquiv.surjective (triangle333.zeroCutNativeUnrollingEquiv k 0 2))

@@ -1,0 +1,33 @@
+import work.ASGinzburgDraft.NativeCutEulerClosedTrace
+
+/-! The genuine cut Euler decomposition behaves correctly under every
+actual free path substitution, including nonlinear substitutions. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem closedPathTrace_substitution (σ : Q.PathArrowReplacement k)
+    (i : Q.Vertex) (f : Q.PathComponent k i i) :
+    cyclicSubstitution (fun a => Q.pathWordMap k (Q.source a) (Q.target a) (σ a))
+      (Q.closedPathTrace k i f) =
+      Q.closedPathTrace k i (Q.pathArrowSubstitutionComponent k σ i i f) := by
+  rw [Q.closedPathTrace_eq_cyclicTrace_pathWordMap,
+    Q.closedPathTrace_eq_cyclicTrace_pathWordMap, cyclicSubstitution_cyclicTrace,
+    Q.pathWordMap_substitutionComponent]
+
+theorem potential_cut_closedPathTrace_substitution (σ : Q.PathArrowReplacement k)
+    (φ : Q.Potential k) :
+    cyclicSubstitution (fun a => Q.pathWordMap k (Q.source a) (Q.target a) (σ a)) φ.val =
+    ∑ a : Q.Arrow, if Q.cut a = true then Q.closedPathTrace k (Q.source a)
+      (Q.pathComp k (Q.pathArrowSubstitutionComponent k σ (Q.target a) (Q.source a)
+        (Q.pathCyclicDerivative k a φ)) (σ a)) else 0 := by
+  classical
+  rw [← Q.potential_cut_closedPathTrace_identity k φ, map_sum]
+  apply Finset.sum_congr rfl
+  intro a _
+  by_cases ha : Q.cut a = true
+  · rw [if_pos ha, if_pos ha, Q.closedPathTrace_substitution,
+      Q.pathArrowSubstitutionComponent_comp, baseArrowPath, Q.pathArrowSubstitution_arrow]
+  · rw [if_neg ha, if_neg ha, map_zero]
+
+end ASGinzburg.CutQuiver

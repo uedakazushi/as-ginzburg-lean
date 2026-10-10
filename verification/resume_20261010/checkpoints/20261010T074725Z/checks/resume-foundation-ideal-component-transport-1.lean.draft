@@ -1,0 +1,66 @@
+import work.ASGinzburgDraft.FoundationMinimalRelationProducts
+
+/-! A genuine multiplicative family of foundation component equivalences
+transports actual ideal products and actual minimal-relation denominators. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem foundationIdealProduct_component_map
+    (C : ∀ i j : Q.Vertex,
+      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) ≃ₗ[k]
+        (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ))
+    (hC : ∀ {i j l : Q.Vertex}
+      (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ))
+      (g : (Q.unrolledPathZAlgebra k).Hom (j.val : ℤ) (l.val : ℤ)),
+      C i l ((Q.unrolledPathZAlgebra k).comp g f) =
+        (Q.unrolledPathZAlgebra k).comp (C j l g) (C i j f))
+    (I₁ I₂ J₁ J₂ : (Q.unrolledPathZAlgebra k).LinearIdeal)
+    (hI : ∀ i j (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ)),
+      C i j f ∈ I₂.hom (i.val : ℤ) (j.val : ℤ) ↔ f ∈ I₁.hom (i.val : ℤ) (j.val : ℤ))
+    (hJ : ∀ i j (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ)),
+      C i j f ∈ J₂.hom (i.val : ℤ) (j.val : ℤ) ↔ f ∈ J₁.hom (i.val : ℤ) (j.val : ℤ))
+    (i j : Q.Vertex) :
+    ((I₁.mul J₁).hom (i.val : ℤ) (j.val : ℤ)).map (C i j).toLinearMap =
+      (I₂.mul J₂).hom (i.val : ℤ) (j.val : ℤ) := by
+  rw [Q.foundationIdealProduct_eq_span, Q.foundationIdealProduct_eq_span,
+    Submodule.map_span]
+  congr 1
+  apply Set.ext
+  intro x
+  constructor
+  · rintro ⟨y, ⟨l, f, hf, g, hg, rfl⟩, rfl⟩
+    exact ⟨l, C i l f, (hI i l f).mpr hf,
+      C l j g, (hJ l j g).mpr hg, (hC f g).symm⟩
+  · rintro ⟨l, f, hf, g, hg, rfl⟩
+    refine ⟨(Q.unrolledPathZAlgebra k).comp ((C l j).symm g) ((C i l).symm f),
+      ⟨l, (C i l).symm f, ?_, (C l j).symm g, ?_, rfl⟩, ?_⟩
+    · apply (hI i l ((C i l).symm f)).mp
+      simpa only [LinearEquiv.apply_symm_apply] using hf
+    · apply (hJ l j ((C l j).symm g)).mp
+      simpa only [LinearEquiv.apply_symm_apply] using hg
+    · rw [hC, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
+
+theorem foundationRelationDecomposables_component_map
+    (C : ∀ i j : Q.Vertex,
+      (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ) ≃ₗ[k]
+        (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ))
+    (hC : ∀ {i j l : Q.Vertex}
+      (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ))
+      (g : (Q.unrolledPathZAlgebra k).Hom (j.val : ℤ) (l.val : ℤ)),
+      C i l ((Q.unrolledPathZAlgebra k).comp g f) =
+        (Q.unrolledPathZAlgebra k).comp (C j l g) (C i j f))
+    (I₁ I₂ : (Q.unrolledPathZAlgebra k).LinearIdeal)
+    (hI : ∀ i j (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ)),
+      C i j f ∈ I₂.hom (i.val : ℤ) (j.val : ℤ) ↔ f ∈ I₁.hom (i.val : ℤ) (j.val : ℤ))
+    (hJ : ∀ i j (f : (Q.unrolledPathZAlgebra k).Hom (i.val : ℤ) (j.val : ℤ)),
+      C i j f ∈ (Q.unrolledArrowIdeal k).hom (i.val : ℤ) (j.val : ℤ) ↔
+        f ∈ (Q.unrolledArrowIdeal k).hom (i.val : ℤ) (j.val : ℤ))
+    (i j : Q.Vertex) :
+    (Q.relationDecomposables I₁ (i.val : ℤ) (j.val : ℤ)).map (C i j).toLinearMap =
+      Q.relationDecomposables I₂ (i.val : ℤ) (j.val : ℤ) := by
+  rw [relationDecomposables, relationDecomposables, Submodule.map_sup,
+    Q.foundationIdealProduct_component_map k C hC I₁ I₂ _ _ hI hJ,
+    Q.foundationIdealProduct_component_map k C hC _ _ I₁ I₂ hJ hI]
+
+end ASGinzburg.CutQuiver

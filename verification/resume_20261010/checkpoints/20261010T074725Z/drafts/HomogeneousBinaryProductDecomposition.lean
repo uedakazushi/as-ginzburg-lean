@@ -1,0 +1,107 @@
+import Mathlib.Algebra.DirectSum.Decomposition
+import Mathlib.LinearAlgebra.Prod
+
+/-! The actual product of two internally graded modules inherits the
+componentwise internal grading, using finite homogeneous decompositions. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w
+variable {k : Type u} [Field k]
+variable {M : Type v} [AddCommGroup M] [Module k M]
+variable {N : Type w} [AddCommGroup N] [Module k N]
+variable (G : ℤ → Submodule k M) (H : ℤ → Submodule k N)
+variable [DirectSum.Decomposition G] [DirectSum.Decomposition H]
+
+noncomputable def homogeneousBinaryProductDecompose :
+    M × N →+ ⨁ q, (G q).prod (H q) where
+  toFun x := DFinsupp.zipWith
+    (fun q (a : G q) (b : H q) => (⟨(a.1,b.1),a.2,b.2⟩ : (G q).prod (H q)))
+    (fun _ => rfl) (DirectSum.decompose G x.1) (DirectSum.decompose H x.2)
+  map_zero' := by
+    apply DFinsupp.ext
+    intro q
+    apply Subtype.ext
+    simp only [DirectSum.decompose_zero,DFinsupp.zipWith_apply,DFinsupp.zero_apply,
+      Submodule.coe_zero,Prod.zero_eq_mk]
+  map_add' x y := by
+    apply DFinsupp.ext
+    intro q
+    apply Subtype.ext
+    simp only [Prod.fst_add,Prod.snd_add,DirectSum.decompose_add]
+    rfl
+
+omit [DirectSum.Decomposition G] [DirectSum.Decomposition H] in
+theorem homogeneousBinaryProduct_coe_fst (x : ⨁ q, (G q).prod (H q)) :
+    (DirectSum.coeAddMonoidHom (fun q => (G q).prod (H q)) x).1 =
+      DirectSum.coeAddMonoidHom G
+        (DFinsupp.mapRange (fun q (a : (G q).prod (H q)) =>
+          (⟨a.1.1,a.2.1⟩ : G q)) (fun _ => rfl) x) := by
+  induction x using DirectSum.induction_on with
+  | zero => simp only [map_zero,Prod.fst_zero,DFinsupp.mapRange_zero]
+  | of q a =>
+      rw [DirectSum.coeAddMonoidHom_of]
+      change a.1.1 = DirectSum.coeAddMonoidHom G
+        (DFinsupp.mapRange (fun q (a : (G q).prod (H q)) =>
+          (⟨a.1.1,a.2.1⟩ : G q)) (fun _ => rfl) (DFinsupp.single q a))
+      rw [DFinsupp.mapRange_single]
+      exact (DirectSum.coeAddMonoidHom_of G q (⟨a.1.1,a.2.1⟩ : G q)).symm
+  | add x y hx hy =>
+      rw [map_add,Prod.fst_add,hx,hy]
+      rw [DFinsupp.mapRange_add _ _ (fun _ _ _ => rfl),map_add]
+
+omit [DirectSum.Decomposition G] [DirectSum.Decomposition H] in
+theorem homogeneousBinaryProduct_coe_snd (x : ⨁ q, (G q).prod (H q)) :
+    (DirectSum.coeAddMonoidHom (fun q => (G q).prod (H q)) x).2 =
+      DirectSum.coeAddMonoidHom H
+        (DFinsupp.mapRange (fun q (a : (G q).prod (H q)) =>
+          (⟨a.1.2,a.2.2⟩ : H q)) (fun _ => rfl) x) := by
+  induction x using DirectSum.induction_on with
+  | zero => simp only [map_zero,Prod.snd_zero,DFinsupp.mapRange_zero]
+  | of q a =>
+      rw [DirectSum.coeAddMonoidHom_of]
+      change a.1.2 = DirectSum.coeAddMonoidHom H
+        (DFinsupp.mapRange (fun q (a : (G q).prod (H q)) =>
+          (⟨a.1.2,a.2.2⟩ : H q)) (fun _ => rfl) (DFinsupp.single q a))
+      rw [DFinsupp.mapRange_single]
+      exact (DirectSum.coeAddMonoidHom_of H q (⟨a.1.2,a.2.2⟩ : H q)).symm
+  | add x y hx hy =>
+      rw [map_add,Prod.snd_add,hx,hy]
+      rw [DFinsupp.mapRange_add _ _ (fun _ _ _ => rfl),map_add]
+
+noncomputable def homogeneousBinaryProductDecomposition :
+    DirectSum.Decomposition (fun q => (G q).prod (H q)) where
+  decompose' := homogeneousBinaryProductDecompose G H
+  left_inv x := by
+    apply Prod.ext
+    · rw [homogeneousBinaryProduct_coe_fst G H]
+      have h : DFinsupp.mapRange (fun q (a : (G q).prod (H q)) =>
+          (⟨a.1.1,a.2.1⟩ : G q)) (fun _ => rfl)
+          (homogeneousBinaryProductDecompose G H x) = DirectSum.decompose G x.1 := by
+        apply DFinsupp.ext
+        intro q
+        rfl
+      rw [h]
+      exact (DirectSum.decompose G).left_inv x.1
+    · rw [homogeneousBinaryProduct_coe_snd G H]
+      have h : DFinsupp.mapRange (fun q (a : (G q).prod (H q)) =>
+          (⟨a.1.2,a.2.2⟩ : H q)) (fun _ => rfl)
+          (homogeneousBinaryProductDecompose G H x) = DirectSum.decompose H x.2 := by
+        apply DFinsupp.ext
+        intro q
+        rfl
+      rw [h]
+      exact (DirectSum.decompose H).left_inv x.2
+  right_inv x := by
+    induction x using DirectSum.induction_on with
+    | zero => simp only [map_zero]
+    | of q a =>
+        rw [DirectSum.coeAddMonoidHom_of]
+        change DFinsupp.zipWith
+          (fun q (x : G q) (y : H q) => (⟨(x.1,y.1),x.2,y.2⟩ : (G q).prod (H q)))
+          (fun _ => rfl) (DirectSum.decompose G a.1.1)
+          (DirectSum.decompose H a.1.2) = DFinsupp.single q a
+        rw [DirectSum.decompose_of_mem G a.2.1,DirectSum.decompose_of_mem H a.2.2]
+        exact DFinsupp.zipWith_single_single _ _ _ _
+    | add x y hx hy => rw [map_add,map_add,hx,hy]
+
+end ASGinzburg

@@ -1,0 +1,75 @@
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:24:6: error: unsolved goals
+case pos
+k : Type u
+inst✝¹ : Field k
+ι : Type v
+inst✝ : Fintype ι
+B : LinearComponentAlgebra k ι
+i j : ι
+x : B.Total
+⊢ (Pi.single j (Pi.single j (B.id j)) * x) i j = x i j
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:28:4: error: unsolved goals
+case neg.h
+k : Type u
+inst✝¹ : Field k
+ι : Type v
+inst✝ : Fintype ι
+B : LinearComponentAlgebra k ι
+i j : ι
+x : B.Total
+q : ι
+hq : ¬q = j
+m : ι
+a✝ : m ∈ Finset.univ
+⊢ ∑ c, (B.comp ((B.comp (Pi.single j (Pi.single j (B.id j)) c q)) (x m c))) (Pi.single i (B.id i) m) = 0
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:24:47: warning: This simp argument is unused:
+  totalMul
+
+Hint: Omit it from the simp argument list.
+  simp [totalIdempotent, totalComponent, t̵o̵t̵a̵l̵M̵u̵l̵,̵ ̵B.id_comp, B.comp_id]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:24:68: warning: This simp argument is unused:
+  B.comp_id
+
+Hint: Omit it from the simp argument list.
+  simp [totalIdempotent, totalComponent, totalMul, B.id_comp,̵ ̵B̵.̵c̵o̵m̵p̵_̵i̵d̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:35:45: warning: This simp argument is unused:
+  hq
+
+Hint: Omit it from the simp argument list.
+  simp [totalIdempotent, totalComponent,̵ ̵h̵q̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:67:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  B.totalComponent ?i ?j (E (B.totalComponent ?i ?j ?a) ?i ?j)
+in the target expression
+  (fun a => E.symm (B.totalComponent i j a) i j) ((fun a => E (B.totalComponent i j a) i j) a) = a
+
+k : Type u
+inst✝¹ : Field k
+ι : Type v
+inst✝ : Fintype ι
+B : LinearComponentAlgebra k ι
+E : B.Total ≃ₐ[k] B.Total
+hE : ∀ (i : ι), E (B.totalIdempotent i) = B.totalIdempotent i
+i j : ι
+a : B.Hom i j
+⊢ (fun a => E.symm (B.totalComponent i j a) i j) ((fun a => E (B.totalComponent i j a) i j) a) = a
+work/ASGinzburgDraft/FiniteComponentAutomorphismCorners.lean:70:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  B.totalComponent ?i ?j (E.symm (B.totalComponent ?i ?j ?a) ?i ?j)
+in the target expression
+  (fun a => E (B.totalComponent i j a) i j) ((fun a => E.symm (B.totalComponent i j a) i j) a) = a
+
+k : Type u
+inst✝¹ : Field k
+ι : Type v
+inst✝ : Fintype ι
+B : LinearComponentAlgebra k ι
+E : B.Total ≃ₐ[k] B.Total
+hE : ∀ (i : ι), E (B.totalIdempotent i) = B.totalIdempotent i
+i j : ι
+a : B.Hom i j
+⊢ (fun a => E (B.totalComponent i j a) i j) ((fun a => E.symm (B.totalComponent i j a) i j) a) = a

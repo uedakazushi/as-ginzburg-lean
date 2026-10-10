@@ -1,0 +1,99 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualHomogeneousTopQuotientType
+import work.ASGinzburgDraft.OrdinaryRingDualCanonicalFieldStructures
+import work.ASGinzburgDraft.PeriodCutOrdinaryRingDualShiftedHomNaturality
+import work.ASGinzburgDraft.LinearCokernelSquareEquiv
+
+/-! The actual homogeneous ordinary ring-dual top quotient is the
+actual shifted regular Hom quotient, via the genuine precomposition square. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R}
+noncomputable abbrev prototypeGradeAddGroup (M : GradedOrdinaryModuleData k R G) (q : ℤ) :
+    AddCommGroup (M.ringDualGrade q) := inferInstance
+attribute [local instance 4500] prototypeGradeAddGroup
+noncomputable abbrev prototypeGradeFieldModule (M : GradedOrdinaryModuleData k R G) (q : ℤ) :
+    Module k (M.ringDualGrade q) := inferInstance
+end ASGinzburg.GradedOrdinaryModuleData
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+open scoped ModuleCat.Algebra
+attribute [local instance 3000] ASGinzburg.GradedOrdinaryModuleData.ringDualGradeHasQuotient
+attribute [local instance 4000] ASGinzburg.ordinaryRingDualUnbundledAddCommGroup
+attribute [local instance 4500] ASGinzburg.GradedOrdinaryModuleData.prototypeGradeAddGroup
+attribute [local instance 4500] ASGinzburg.GradedOrdinaryModuleData.prototypeGradeFieldModule
+universe u v
+set_option maxHeartbeats 60000
+set_option diagnostics true
+set_option synthInstance.maxHeartbeats 100000
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+variable {M L : E.CutGradedRightModule Q}
+
+noncomputable abbrev prototypeNativeTopHomAddCommGroup
+    (M N : E.CutGradedRightModule Q) : AddCommGroup (M ⟶ N) :=
+  inferInstanceAs (AddCommGroup ↥(CutGradedRightModule.homSubmodule M N))
+
+noncomputable abbrev prototypeNativeTopHomFieldModule
+    (M N : E.CutGradedRightModule Q) : Module k (M ⟶ N) :=
+  inferInstanceAs (Module k ↥(CutGradedRightModule.homSubmodule M N))
+
+attribute [local instance 4000] prototypeNativeTopHomAddCommGroup
+attribute [local instance 4000] prototypeNativeTopHomFieldModule
+
+noncomputable def prototypeNativeTopHomQuotientEquiv
+    (a : M ⟶ L) (q : ℤ) :
+    (E.cutRightModuleOrdinaryData Q M).ringDualHomogeneousTopQuotient
+        (E.cutRightModuleOrdinaryData Q L) ((E.cutGradedForgetFunctor Q).map a)
+        (E.cutRightModuleOrdinaryMap_preservesGrade Q a) q ≃ₗ[k]
+      ((M ⟶ (E.cutRegularGradedRightModule Q).shifted q) ⧸
+        LinearMap.range (Linear.leftComp k
+          ((E.cutRegularGradedRightModule Q).shifted q) a)) := by
+  let DM := E.cutRightModuleOrdinaryData Q M
+  let DL := E.cutRightModuleOrdinaryData Q L
+  let f : DL.ringDualGrade q →ₗ[k] DM.ringDualGrade q :=
+    DM.ringDualMapDegree DL ((E.cutGradedForgetFunctor Q).map a)
+    (E.cutRightModuleOrdinaryMap_preservesGrade Q a) q
+  let g : (L ⟶ (E.cutRegularGradedRightModule Q).shifted q) →ₗ[k]
+      (M ⟶ (E.cutRegularGradedRightModule Q).shifted q) :=
+    Linear.leftComp k ((E.cutRegularGradedRightModule Q).shifted q) a
+  let eM : DL.ringDualGrade q ≃ₗ[k]
+      (L ⟶ (E.cutRegularGradedRightModule Q).shifted q) :=
+    E.cutOrdinaryRingDualShiftedHomEquiv Q L q
+  trace "source comparison ready"
+  let eN : DM.ringDualGrade q ≃ₗ[k]
+      (M ⟶ (E.cutRegularGradedRightModule Q).shifted q) :=
+    E.cutOrdinaryRingDualShiftedHomEquiv Q M q
+  trace "target comparison ready"
+  have h : ∀ x, eN (f x) = g (eM x) := by
+    intro x
+    exact E.cutOrdinaryRingDualShiftedHomEquiv_precomp Q a q x
+  trace "square proof ready"
+  let F1 := linearCokernelSquareEquiv (k := k) (inst := inferInstanceAs (Field k))
+    (M := DL.ringDualGrade q) (N := DM.ringDualGrade q)
+    (M' := L ⟶ (E.cutRegularGradedRightModule Q).shifted q)
+    (N' := M ⟶ (E.cutRegularGradedRightModule Q).shifted q)
+    (inst_1 := ASGinzburg.GradedOrdinaryModuleData.prototypeGradeAddGroup DL q)
+    (inst_2 := ASGinzburg.GradedOrdinaryModuleData.prototypeGradeFieldModule DL q)
+    (inst_3 := E.prototypeNativeTopHomAddCommGroup Q L ((E.cutRegularGradedRightModule Q).shifted q))
+    (inst_4 := E.prototypeNativeTopHomFieldModule Q L ((E.cutRegularGradedRightModule Q).shifted q))
+    (inst_5 := ASGinzburg.GradedOrdinaryModuleData.prototypeGradeAddGroup DM q)
+    (inst_6 := ASGinzburg.GradedOrdinaryModuleData.prototypeGradeFieldModule DM q)
+    (inst_7 := E.prototypeNativeTopHomAddCommGroup Q M ((E.cutRegularGradedRightModule Q).shifted q))
+    (inst_8 := E.prototypeNativeTopHomFieldModule Q M ((E.cutRegularGradedRightModule Q).shifted q))
+  trace "generic dictionaries ready"
+  let F2 := F1 f
+  trace "generic f ready"
+  let F3 := F2 g
+  trace "generic g ready"
+  let F4 := F3 eM
+  trace "generic eM ready"
+  let F5 := F4 eN
+  trace "generic eN ready"
+  let e := F5 h
+  trace "quotient comparison ready"
+  exact e
+
+
+end ASGinzburg.ZAlgebra.PeriodIso

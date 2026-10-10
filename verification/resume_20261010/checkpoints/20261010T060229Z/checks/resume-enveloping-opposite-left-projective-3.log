@@ -1,0 +1,24 @@
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeLeftProjective.lean:45:6: error: Type mismatch
+  Eq.symm (smul_add ((RingHom.id Rᵐᵒᵖ) r) (e x) (e y))
+has type
+  @HSMul.hSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+        (@instHSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+          (@SMulZeroClass.toSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ MulOpposite.instAddZeroClass.toZero
+            (@DistribSMul.toSMulZeroClass Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ MulOpposite.instAddZeroClass
+              (@DistribMulAction.toDistribSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ MulOpposite.instMonoid
+                MulOpposite.instAddMonoid MulOpposite.instDistribMulAction))))
+        ((RingHom.id Rᵐᵒᵖ) r) (e x) +
+      (RingHom.id Rᵐᵒᵖ) r • e y =
+    (RingHom.id Rᵐᵒᵖ) r • (e x + e y)
+but is expected to have type
+  @HSMul.hSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+        (@instHSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+          (@SMulZeroClass.toSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ MulOpposite.instAddCommMonoid.toAddZeroClass.toZero
+            (@DistribSMul.toSMulZeroClass Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+              MulOpposite.instAddCommMonoid.toAddZeroClass
+              (@DistribMulAction.toDistribSMul Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+                MulOpposite.instSemiring.toMonoidWithZero.toMonoid MulOpposite.instAddCommMonoid.toAddMonoid
+                (envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ).toDistribMulAction))))
+        ((RingHom.id Rᵐᵒᵖ) r) (e x) +
+      (RingHom.id Rᵐᵒᵖ) r • e y =
+    (RingHom.id Rᵐᵒᵖ) r • (e x + e y)

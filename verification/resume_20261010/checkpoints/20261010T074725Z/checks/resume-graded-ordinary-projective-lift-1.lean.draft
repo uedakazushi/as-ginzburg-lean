@@ -1,0 +1,41 @@
+import work.ASGinzburgDraft.GradedOrdinaryHomComponents
+
+/-! An actual ordinary projective module with internal grading lifts
+grade-preserving maps through a genuine graded epimorphism. Taking the
+degree-zero component supplies a homogeneous lift. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {G : ℤ → Submodule k R} [DirectSum.Decomposition G]
+variable (P M N : GradedOrdinaryModuleData k R G)
+attribute [local instance] decomposition
+
+theorem exists_gradePreserving_projective_lift
+    (q : P.ringModule ⟶ N.ringModule) (π : M.ringModule ⟶ N.ringModule)
+    (hq : P.PreservesGrade N q) (hπ : M.PreservesGrade N π)
+    [Projective P.ringModule] [Epi π] :
+    ∃ f : P.ringModule ⟶ M.ringModule, P.PreservesGrade M f ∧ f ≫ π = q := by
+  let f := Projective.factorThru q π
+  refine ⟨P.homComponent M f 0,P.homComponent_zero_preservesGrade M f,?_⟩
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  change π (P.homComponent M f 0 x) = q x
+  induction x using DirectSum.Decomposition.inductionOn P.grade with
+  | zero => simp only [map_zero]
+  | @homogeneous p x =>
+      rw [P.homComponent_apply_homogeneous M f 0 p x x.property,add_zero]
+      have h := homogeneousLinearMap_component k M.ringModule N.ringModule
+        M.grade N.grade (π.hom.restrictScalars k) hπ p (f x)
+      change π (homogeneousComponent k M.ringModule M.grade p (f x)) =
+        homogeneousComponent k N.ringModule N.grade p (π (f x)) at h
+      rw [h]
+      have hfx : π (f x) = q x := congrArg
+        (fun t : P.ringModule ⟶ N.ringModule => t.hom x) (Projective.factorThru_comp q π)
+      rw [hfx]
+      exact DirectSum.decompose_of_mem_same N.grade (hq p x x.property)
+  | add x y hx hy => rw [map_add,map_add,map_add,hx,hy]
+
+end ASGinzburg.GradedOrdinaryModuleData

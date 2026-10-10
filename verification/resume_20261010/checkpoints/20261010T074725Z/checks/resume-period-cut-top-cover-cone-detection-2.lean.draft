@@ -1,0 +1,79 @@
+import work.ASGinzburgDraft.GradedOrdinaryTopCoverConeFunctor
+import work.ASGinzburgDraft.PeriodCutOrdinaryGradedCoverTensor
+import work.ASGinzburgDraft.PeriodCutOppositeRingDecomposition
+import ASGinzburg.PeriodCutGradedFourTermTensorDetection
+import ASGinzburg.BalancedTensorLeftAdjunction
+
+/-! Native semisimple reduction concentrated at the top detects actual
+acyclicity after adjoining the constructed homogeneous top cover. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+local notation "R" => E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))
+local notation "F" => balancedTensorLeftFunctor k R (R ⧸ E.cutGradedJacobson Q)
+local notation "D" => GradedOrdinaryModuleData k Rᵐᵒᵖ (E.cutIntegerOppositeHomogeneousSpace Q)
+
+theorem cutGradedTensor_topCoverCone_exact
+    (P₀ P₁ P₂ P₃ : D) (b : ℤ)
+    (hb₀ : P₀.BoundedBelow b) (hb₁ : P₁.BoundedBelow b)
+    (hb₂ : P₂.BoundedBelow b) (hb₃ : P₃.BoundedBelow b)
+    (f₀ : P₀.ringModule ⟶ P₁.ringModule)
+    (f₁ : P₁.ringModule ⟶ P₂.ringModule) (f₂ : P₂.ringModule ⟶ P₃.ringModule)
+    (h₀ : f₀ ≫ f₁ = 0) (h₁ : f₁ ≫ f₂ = 0)
+    (hf₀ : P₀.PreservesGrade P₁ f₀) (hf₁ : P₁.PreservesGrade P₂ f₁)
+    (hf₂ : P₂.PreservesGrade P₃ f₂)
+    [Projective P₁.ringModule] [Projective P₂.ringModule] [Projective P₃.ringModule]
+    [Mono ((F).map f₀)]
+    (hF₀ : ((ShortComplex.mk f₀ f₁ h₀).map F).Exact)
+    (hF₁ : ((ShortComplex.mk f₁ f₂ h₁).map F).Exact) :
+    ∃ (C : GradedOrdinaryProjectiveCover (P₂.cokernelData P₃ f₂ hf₂) b
+        (E.cutGradedJacobsonOppositeIdeal Q)) (l : C.source.ringModule ⟶ P₃.ringModule),
+      C.source.PreservesGrade P₃ l ∧ l ≫ P₂.cokernelProjection P₃ f₂ = C.π ∧
+      Mono f₀ ∧
+      (ShortComplex.mk f₀ (P₁.topCoverConeIncoming P₂ C.source f₁)
+        (P₀.comp_topCoverConeIncoming P₁ P₂ C.source f₀ f₁ h₀)).Exact ∧
+      (ShortComplex.mk (P₁.topCoverConeIncoming P₂ C.source f₁)
+        (P₂.topCoverConeOutgoing P₃ C.source f₂ l)
+        (P₁.topCoverConeIncoming_comp_outgoing P₂ P₃ C.source f₁ f₂ l h₁)).Exact ∧
+      Epi (P₂.topCoverConeOutgoing P₃ C.source f₂ l) := by
+  letI := E.cutIntegerOppositeGradeDecomposition Q
+  let U := P₂.cokernelData P₃ f₂ hf₂
+  let C := E.cutOrdinaryGradedProjectiveCover Q b U
+    (P₂.cokernelData_boundedBelow P₃ f₂ hf₂ b hb₃)
+  letI := C.projective
+  obtain ⟨l,hl,hlq⟩ := P₂.exists_topCover_homogeneous_lift P₃ f₂ hf₂ b
+    (E.cutGradedJacobsonOppositeIdeal Q) C
+  let q := P₂.cokernelProjection P₃ f₂
+  have hq : f₂ ≫ q = 0 := P₂.comp_cokernelProjection P₃ f₂
+  have hTop : (ShortComplex.mk f₂ q hq).Exact := by
+    apply (ShortComplex.moduleCat_exact_iff _).mpr
+    intro x hx
+    change (LinearMap.range f₂.hom).mkQ x = 0 at hx
+    exact (Submodule.Quotient.mk_eq_zero _).mp hx
+  have hFTop : ((ShortComplex.mk f₂ q hq).map F).Exact :=
+    hTop.map_of_epi_of_preservesCokernel F inferInstance inferInstance
+  letI : IsIso ((F).map C.π) :=
+    E.cutOrdinaryGradedProjectiveCover_tensor_semisimple_isIso Q b U
+      (P₂.cokernelData_boundedBelow P₃ f₂ hf₂ b hb₃)
+  letI : IsIso ((F).map (l ≫ q)) := by rw [hlq]; infer_instance
+  letI : Projective (P₂.binaryProductData C.source).ringModule :=
+    P₂.binaryProductData_projective C.source
+  letI : Epi ((F).map (P₂.topCoverConeOutgoing P₃ C.source f₂ l)) :=
+    P₂.topCoverConeFunctor_outgoing_epi P₃ C.source F f₂ l q hq hFTop
+  have hFIn := P₁.topCoverConeFunctor_exact_one P₂ C.source F P₀ f₀ f₁ h₀ hF₀
+  have hFOut := P₁.topCoverConeFunctor_exact_two P₂ P₃ C.source F f₁ f₂ l h₁ hF₁ q hq
+  refine ⟨C,l,hl,hlq,?_⟩
+  exact E.cutGradedTensor_fourTerm_exact_reflect Q P₀ P₁
+    (P₂.binaryProductData C.source) P₃ b hb₀ hb₁
+    (P₂.binaryProductData_boundedBelow C.source b hb₂ C.boundedBelow) hb₃
+    f₀ (P₁.topCoverConeIncoming P₂ C.source f₁)
+    (P₂.topCoverConeOutgoing P₃ C.source f₂ l)
+    (P₀.comp_topCoverConeIncoming P₁ P₂ C.source f₀ f₁ h₀)
+    (P₁.topCoverConeIncoming_comp_outgoing P₂ P₃ C.source f₁ f₂ l h₁) hf₀
+    (P₁.topCoverConeIncoming_preservesGrade P₂ C.source f₁ hf₁)
+    (P₂.topCoverConeOutgoing_preservesGrade P₃ C.source f₂ l hf₂ hl) hFIn hFOut
+
+end ASGinzburg.ZAlgebra.PeriodIso
