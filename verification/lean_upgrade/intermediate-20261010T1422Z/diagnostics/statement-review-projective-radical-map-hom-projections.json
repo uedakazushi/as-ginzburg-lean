@@ -1,0 +1,93 @@
+{
+  "reviewed_at_utc": "2026-10-10T14:18:06.039410+00:00",
+  "review_mode": "independent_read_only_focused_semantic_review_no_compiler_or_public_edits",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "prior_review": "work/lean-upgrade/statement-review-checkpoint7.json",
+  "prior_focused_review": "work/lean-upgrade/statement-review-projective-connecting-maps-hom-projections.json",
+  "source": "ASGinzburg/GinzburgProjectiveRadicalMap.lean",
+  "source_sha256": "7f71d1965875dffdff86d0177d27fc96366785efdc566cb7a69fa5e489c01b1d",
+  "source_snapshot": "work/lean-upgrade/category-ginzburg-projective-radical-map-compile-01.lean.source",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "provisional": true,
+  "global_compilation_success_claimed": false,
+  "full_source_inventory_captured": false,
+  "declarations_before": 6,
+  "declarations_after": 6,
+  "declaration_names_and_kinds_preserved": true,
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context": [
+    "universe u",
+    "variable (Q : CutQuiver) (k : Type u) [Field k]"
+  ],
+  "changed_header_count": 1,
+  "header_classification_count_verified": true,
+  "changed_header_classifications": {
+    "same_underlying_morphism_with_new_wrapper_projection": 1
+  },
+  "changed_headers": [
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgOriginalRadicalProjectiveMap_whisker",
+      "kind": "theorem",
+      "before": "theorem ginzburgOriginalRadicalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) : ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map (Q.ginzburgOriginalRadicalProjectiveMap k φ v)=Q.ginzburgOriginalRadicalLiftedMap k φ v",
+      "after": "theorem ginzburgOriginalRadicalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) : ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map (Q.ginzburgOriginalRadicalProjectiveMap k φ v).hom=Q.ginzburgOriginalRadicalLiftedMap k φ v",
+      "classification": "same_underlying_morphism_with_new_wrapper_projection",
+      "whole_header_exact_after_underlying_hom_projection_normalization": true
+    }
+  ],
+  "entire_original_source_exact_after_erasing_only_two_new_wrapper_projections": true,
+  "source_reference_sha256": {
+    "ASGinzburg/LiftedModuleIndexing.lean": "c4be7a2e005135d79fa1d357fae700ba1fea33a949c894ed9a8c4b57030f4dfa",
+    ".lake/packages/mathlib/Mathlib/CategoryTheory/InducedCategory.lean": "690fc3f8b5ea7e0bdbafd6cf4b779f75bce05f4f62b8b7ac8aa99c4ecf34b6be",
+    ".lake/packages/mathlib/Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean": "1dff56d1a7b031144855d5400955be63212df3ef8d216a98bc41ebeddcb2f03d"
+  },
+  "definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "induced_index_arrow": "In ginzburgOriginalRadicalLiftedMap.naturality, f is the original LiftedModuleIndex arrow. This category is InducedCategory over A.Objᵒᵖ. Its single hom field projects to the ambient arrow and inducedFunctor.map f=f.hom by definition (pinned InducedCategory.lean62–64/101–103). Therefore f.hom.unop is the same original algebra arrow formerly denoted f.unop; the existing (x:=y)(y:=x) contravariant endpoints and all height indices remain unchanged.",
+    "full_subcategory_module_arrow": "The original ginzburgOriginalRadicalProjectiveMap is still rightModuleHomOfLiftedComponents applied to the identical original lifted map. This helper is ObjectProperty.homMk of the identical ambient whiskering preimage. Pinned FullSubcategory.lean83–84 gives (ObjectProperty.homMk f).hom=f by definition, and inclusion.map is hom (67). Thus the updated public theorem takes precisely the original ambient NatTrans, as required by the ambient liftedModuleIndexWhisker functor, and retains the same original preimage/map_preimage identity.",
+    "whisker_identity": "The single updated public theorem ginzburgOriginalRadicalProjectiveMap_whisker has exactly its original full header after projecting the new full-subcategory wrapper. Its original rightModuleHomOfLiftedComponents_whisker proof is byte-unchanged. No hypothesis, conclusion, quantifier, universe, grade, endpoint or mathematical map changes.",
+    "definitions_and_components": "Both original definitions retain the exact source generatorCoefficientModule Q v 0, target representableRadical(height v).object, original natural transformation app x, and same lifted-module index functor and preimage. Original algebra_naturality, component extraction via congrArg(app x), original rightModuleEvaluation, and original epi proof via rightModule_epi_iff_lift and component epi are wholly byte-unchanged. Removing only the two new wrapper projections recovers the entire original baseline file exactly."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "existing_sha_matching_strict_default_compile_record_read_without_compiler_invocation": {
+    "command": [
+      "bash",
+      "scripts/with_lean.sh",
+      "lake",
+      "env",
+      "lean",
+      "-DautoImplicit=false",
+      "ASGinzburg/GinzburgProjectiveRadicalMap.lean"
+    ],
+    "source": "ASGinzburg/GinzburgProjectiveRadicalMap.lean",
+    "source_sha256": "7f71d1965875dffdff86d0177d27fc96366785efdc566cb7a69fa5e489c01b1d",
+    "source_unchanged": true,
+    "source_snapshot": "work/lean-upgrade/category-ginzburg-projective-radical-map-compile-01.lean.source",
+    "started_at_utc": "2026-10-10T14:13:06.860252+00:00",
+    "finished_at_utc": "2026-10-10T14:13:20.239300+00:00",
+    "elapsed_seconds": 13.379055434001202,
+    "exit_code": 0,
+    "log": "work/lean-upgrade/category-ginzburg-projective-radical-map-compile-01.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrote_olean": false
+  },
+  "expected_global_changed_header_count_if_no_other_new_headers": 89,
+  "header_count_note": "Checkpoint7 approved86, ConnectingMaps two approved projections give88, and this independently reviewed one radical-map hom projection gives89, subject to a fresh complete1373 review at the next announced freeze.",
+  "private_full_review_classifier_already_accepts_exact_hom_projection_normalization": true,
+  "source_consistency_after_manual_review": {
+    "observed_at_utc": "2026-10-10T14:18:06.040771+00:00",
+    "current_source_sha256": "7f71d1965875dffdff86d0177d27fc96366785efdc566cb7a69fa5e489c01b1d",
+    "source_unchanged": true
+  },
+  "manual_review_completed_at_utc": "2026-10-10T14:18:06.040815+00:00",
+  "limitations": [
+    "Focused source review only, not fresh complete1373 snapshot or final verification freeze.",
+    "Existing owner current-source strictdefault compile01 actual0/13.379055s/emptylog source and log hashes were verified. This reviewer launched no compiler and makes no global build, axiom-audit or upgrade-completion claim."
+  ]
+}

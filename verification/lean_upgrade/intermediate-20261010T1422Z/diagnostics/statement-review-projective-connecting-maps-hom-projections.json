@@ -1,0 +1,101 @@
+{
+  "reviewed_at_utc": "2026-10-10T14:10:05.787113+00:00",
+  "review_mode": "independent_read_only_focused_semantic_review_no_compiler_or_public_edits",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "prior_review": "work/lean-upgrade/statement-review-checkpoint7.json",
+  "source": "ASGinzburg/GinzburgProjectiveConnectingMaps.lean",
+  "source_sha256": "b5548462f5dc7d02e2e5a58c37f438c3d6e598f6b26243542c65495eda9ac415",
+  "source_snapshot": "work/lean-upgrade/category-ginzburg-projective-connecting-maps-compile-01.lean.source",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "final_verification_freeze": false,
+  "semantic_review_success": false,
+  "provisional": true,
+  "global_compilation_success_claimed": false,
+  "full_source_inventory_captured": false,
+  "declarations_before": 8,
+  "declarations_after": 8,
+  "declaration_names_and_kinds_preserved": true,
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context": [
+    "universe u",
+    "variable (Q : CutQuiver) (k : Type u) [Field k]"
+  ],
+  "changed_header_count": 2,
+  "header_classification_count_verified": true,
+  "changed_header_classifications": {
+    "same_underlying_morphism_with_new_wrapper_projection": 2
+  },
+  "changed_headers": [
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgLoopDualProjectiveMap_whisker",
+      "kind": "theorem",
+      "before": "theorem ginzburgLoopDualProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) : ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map (Q.ginzburgLoopDualProjectiveMap k φ v) = Q.ginzburgLoopDualLiftedMap k φ v",
+      "after": "theorem ginzburgLoopDualProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) : ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map (Q.ginzburgLoopDualProjectiveMap k φ v).hom = Q.ginzburgLoopDualLiftedMap k φ v",
+      "classification": "same_underlying_morphism_with_new_wrapper_projection",
+      "whole_header_exact_after_underlying_hom_projection_normalization": true
+    },
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgDualOriginalProjectiveMap_whisker",
+      "kind": "theorem",
+      "before": "theorem ginzburgDualOriginalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) : ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map (Q.ginzburgDualOriginalProjectiveMap k φ v) = Q.ginzburgDualOriginalLiftedMap k φ v",
+      "after": "theorem ginzburgDualOriginalProjectiveMap_whisker (φ : Q.Potential k) (v : Q.LiftVertex) : ((Q.unrolledJacobianZAlgebra k φ).liftedModuleIndexWhisker Q).map (Q.ginzburgDualOriginalProjectiveMap k φ v).hom = Q.ginzburgDualOriginalLiftedMap k φ v",
+      "classification": "same_underlying_morphism_with_new_wrapper_projection",
+      "whole_header_exact_after_underlying_hom_projection_normalization": true
+    }
+  ],
+  "entire_original_source_exact_after_erasing_only_four_new_wrapper_projections": true,
+  "source_reference_sha256": {
+    "ASGinzburg/LiftedModuleIndexing.lean": "c4be7a2e005135d79fa1d357fae700ba1fea33a949c894ed9a8c4b57030f4dfa",
+    ".lake/packages/mathlib/Mathlib/CategoryTheory/InducedCategory.lean": "690fc3f8b5ea7e0bdbafd6cf4b779f75bce05f4f62b8b7ac8aa99c4ecf34b6be",
+    ".lake/packages/mathlib/Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean": "1dff56d1a7b031144855d5400955be63212df3ef8d216a98bc41ebeddcb2f03d",
+    "ASGinzburg/GinzburgProjectiveConnectingNaturality.lean": "eecabda8c467942a1877fb8f228cc8893358698d7231b98bd5a395a252236ef0"
+  },
+  "definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "induced_index_arrow": "The naturality f is an arrow in LiftedModuleIndex, an InducedCategory over A.Objᵒᵖ. Pinned InducedCategory.Hom is a one-field structure with hom:F X→F Y, and inducedFunctor.map f=f.hom (InducedCategory.lean62/101). Thus f.hom.unop is precisely the original ambient opposite-index arrow formerly denoted f.unop. Existing (x:=y)(y:=x) order is retained, expressing original contravariance and identical height indices. It is a single required index-wrapper projection, not a new mathematical action.",
+    "full_subcategory_module_arrow": "RightModule is the same full subcategory of ModuleCat-valued presheaves. Its Hom wrapper hom projects to the ambient NatTrans; ObjectProperty.homMk f has hom:=f, and inclusion.map f=f.hom (FullSubcategory.lean59–84). The existing rightModuleHomOfLiftedComponents wraps the same whiskering functor preimage.",
+    "whisker_identity": "liftedModuleIndexWhisker is still the original left-whiskering equivalence on ambient presheaf functors. Both updated public statements apply it to the same original preimage ambient NatTrans via .hom, then equate to the same original lifted map. Removing only .hom returns each entire original header. This is exactly the previously approved rightModuleHomOfLiftedComponents_whisker statement and Functor.map_preimage, with no changed hypothesis or quantifier.",
+    "definitions_and_components": "All four data definitions retain original app components, original loop→dual degrees(-2→-1), dual→original degrees(-1→0), original generatorCoefficientModules, original lift-index functor, original canonical rightModuleHomOfLiftedComponents preimages and original v/height endpoints. Both evaluation component theorem headers/proofs are unchanged and continue extracting original app x from whiskering equality."
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "existing_sha_matching_strict_default_compile_record_read_without_compiler_invocation": {
+    "command": [
+      "bash",
+      "scripts/with_lean.sh",
+      "lake",
+      "env",
+      "lean",
+      "-DautoImplicit=false",
+      "ASGinzburg/GinzburgProjectiveConnectingMaps.lean"
+    ],
+    "source": "ASGinzburg/GinzburgProjectiveConnectingMaps.lean",
+    "source_sha256": "b5548462f5dc7d02e2e5a58c37f438c3d6e598f6b26243542c65495eda9ac415",
+    "source_unchanged": true,
+    "source_snapshot": "work/lean-upgrade/category-ginzburg-projective-connecting-maps-compile-01.lean.source",
+    "started_at_utc": "2026-10-10T14:07:45.013091+00:00",
+    "finished_at_utc": "2026-10-10T14:07:51.339722+00:00",
+    "elapsed_seconds": 6.32731212300132,
+    "exit_code": 0,
+    "log": "work/lean-upgrade/category-ginzburg-projective-connecting-maps-compile-01.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrote_olean": false
+  },
+  "expected_global_changed_header_count_if_no_other_new_headers": 88,
+  "header_count_note": "Checkpoint7 approved86 plus these independently reviewed two hom-projection headers gives88, subject to fresh complete1373 review at next announced freeze.",
+  "private_full_review_classifier_already_accepts_exact_hom_projection_normalization": true,
+  "source_consistency_after_manual_review": {
+    "observed_at_utc": "2026-10-10T14:10:05.788334+00:00",
+    "current_source_sha256": "b5548462f5dc7d02e2e5a58c37f438c3d6e598f6b26243542c65495eda9ac415",
+    "source_unchanged": true
+  },
+  "manual_review_completed_at_utc": "2026-10-10T14:10:05.788368+00:00",
+  "limitations": [
+    "Focused source review only, not fresh full1373 snapshot or final verification freeze.",
+    "Owner current-source default01 actual0/6.3273s/emptylog was read and hashes verified; this reviewer launched no compiler and makes no global build/axiom-audit/upgrade-completion claim."
+  ]
+}
