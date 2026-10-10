@@ -1,0 +1,312 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:23:18: error: unsolved goals
+case a.h.h
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+r s : R
+m : M
+n : N
+⊢ ((TensorProduct.AlgebraTensorModule.curry
+          ((balancedTensorRelations k R M N).mkQ ∘ₗ
+            TensorProduct.map LinearMap.id ((Algebra.lsmul k k N) r + (Algebra.lsmul k k N) s)))
+        m)
+      n =
+    ((TensorProduct.AlgebraTensorModule.curry
+          ((balancedTensorRelations k R M N).mkQ ∘ₗ TensorProduct.map LinearMap.id ((Algebra.lsmul k k N) r) +
+            (balancedTensorRelations k R M N).mkQ ∘ₗ TensorProduct.map LinearMap.id ((Algebra.lsmul k k N) s)))
+        m)
+      n
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:27:19: error: unsolved goals
+case a.h.h
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+c : k
+r : R
+m : M
+n : N
+⊢ ((TensorProduct.AlgebraTensorModule.curry
+          ((balancedTensorRelations k R M N).mkQ ∘ₗ TensorProduct.map LinearMap.id (c • (Algebra.lsmul k k N) r)))
+        m)
+      n =
+    ((TensorProduct.AlgebraTensorModule.curry
+          (c • (balancedTensorRelations k R M N).mkQ ∘ₗ TensorProduct.map LinearMap.id ((Algebra.lsmul k k N) r)))
+        m)
+      n
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:25:15: warning: This simp argument is unused:
+  LinearMap.comp_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵,̵ ̵T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵t̵m̵u̵l̵,̵[̲T̲e̲n̲s̲o̲r̲P̲r̲o̲d̲u̲c̲t̲.̲m̲a̲p̲_̲t̲m̲u̲l̲,̲ LinearMap.id_apply, Algebra.lsmul_coe, add_smul,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_add, map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:25:37: warning: This simp argument is unused:
+  TensorProduct.map_tmul
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵t̵m̵u̵l̵,̵ ̵LinearMap.id_apply, Algebra.lsmul_coe, add_smul,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_add, map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:25:61: warning: This simp argument is unused:
+  LinearMap.id_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵i̵d̵_̵a̵p̵p̵l̵y̵,̵Algebra.lsmul_coe, add_smul,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_add, map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:26:6: warning: This simp argument is unused:
+  Algebra.lsmul_coe
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply, A̵l̵g̵e̵b̵r̵a̵.̵l̵s̵m̵u̵l̵_̵c̵o̵e̵,̵ ̵add_smul,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_add, map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:26:25: warning: This simp argument is unused:
+  add_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply,
+  ̵  ̵ ̵ ̵ ̵ ̵Algebra.lsmul_coe,
+  ̲ a̵d̵d̵_̵s̵m̵u̵l̵,̵  ̲ ̲ ̲ ̲TensorProduct.tmul_add, map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:26:35: warning: This simp argument is unused:
+  TensorProduct.tmul_add
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply, Algebra.lsmul_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲add_smul, T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵t̵m̵u̵l̵_̵a̵d̵d̵,̵ ̵map_add, LinearMap.add_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:26:68: warning: This simp argument is unused:
+  LinearMap.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply, Algebra.lsmul_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲add_smul, TensorProduct.tmul_add, m̵a̵p̵_̵a̵d̵d̵,̵ ̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵]̵m̲a̲p̲_̲a̲d̲d̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:29:15: warning: This simp argument is unused:
+  LinearMap.comp_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵,̵ ̵T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵t̵m̵u̵l̵,̵[̲T̲e̲n̲s̲o̲r̲P̲r̲o̲d̲u̲c̲t̲.̲m̲a̲p̲_̲t̲m̲u̲l̲,̲ LinearMap.id_apply, Algebra.lsmul_coe, smul_assoc,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_smul, map_smul, LinearMap.smul_apply, RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:29:37: warning: This simp argument is unused:
+  TensorProduct.map_tmul
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵t̵m̵u̵l̵,̵ ̵LinearMap.id_apply, Algebra.lsmul_coe, smul_assoc,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_smul, map_smul, LinearMap.smul_apply, RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:29:61: warning: This simp argument is unused:
+  LinearMap.id_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵i̵d̵_̵a̵p̵p̵l̵y̵,̵Algebra.lsmul_coe, smul_assoc,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_smul, map_smul, LinearMap.smul_apply, RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:30:6: warning: This simp argument is unused:
+  Algebra.lsmul_coe
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply, A̵l̵g̵e̵b̵r̵a̵.̵l̵s̵m̵u̵l̵_̵c̵o̵e̵,̵ ̵smul_assoc,
+  ̲  ̲ ̲ ̲ ̲ ̲TensorProduct.tmul_smul, map_smul, LinearMap.smul_apply, RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:30:25: warning: This simp argument is unused:
+  smul_assoc
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply,
+  ̵  ̵ ̵ ̵ ̵ ̵Algebra.lsmul_coe,
+  ̲ s̵m̵u̵l̵_̵a̵s̵s̵o̵c̵,̵  ̲ ̲ ̲ ̲TensorProduct.tmul_smul, map_smul,
+  ̵  ̵ ̵ ̵ ̵ ̵LinearMap.smul_apply, RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:30:37: warning: This simp argument is unused:
+  TensorProduct.tmul_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply, Algebra.lsmul_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲smul_assoc, T̵e̵n̵s̵o̵r̵P̵r̵o̵d̵u̵c̵t̵.̵t̵m̵u̵l̵_̵s̵m̵u̵l̵,̵ ̵map_smul, LinearMap.smul_apply, RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:31:6: warning: This simp argument is unused:
+  LinearMap.smul_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply, Algebra.lsmul_coe,
+  ̲  ̲ ̲ ̲ ̲ ̲smul_assoc, TensorProduct.tmul_smul, map_smul, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵s̵m̵u̵l̵_̵a̵p̵p̵l̵y̵,̵ ̵RingHom.id_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:33:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorEnvelopingPairEvaluation_tmul`:
+  [SMulCommClass k Rᵐᵒᵖ M]
+  [IsScalarTower k Rᵐᵒᵖ M]
+  [SMulCommClass k R N]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [SMulCommClass k Rᵐᵒᵖ M] [IsScalarTower k Rᵐᵒᵖ M] [SMulCommClass k R N] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:42:9: error: unsolved goals
+case zero
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+x : M ⊗[k] N
+r : R
+⊢ 0 = 0 x
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:47:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  MulOpposite.op (?a ⊗ₜ[?k] MulOpposite.op ?b) • ?m ⊗ₜ[?k] ?n
+in the target expression
+  ((balancedTensorEnvelopingPairEvaluation k R M N) r) (MulOpposite.op (a ⊗ₜ[k] b) • m ⊗ₜ[k] n) =
+    ((balancedTensorEnvelopingPairEvaluation k R M N) (a ⊗ₜ[k] b • r)) (m ⊗ₜ[k] n)
+
+case tmul.tmul
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+r a : R
+b : Rᵐᵒᵖ
+m : M
+n : N
+⊢ ((balancedTensorEnvelopingPairEvaluation k R M N) r) (MulOpposite.op (a ⊗ₜ[k] b) • m ⊗ₜ[k] n) =
+    ((balancedTensorEnvelopingPairEvaluation k R M N) (a ⊗ₜ[k] b • r)) (m ⊗ₜ[k] n)
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:86:20: error: Application type mismatch: The argument
+  Eq.symm hright
+has type
+  balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) a =
+    balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R ((MulOpposite.op 1 • m) ⊗ₜ[k] (a • n)) 1
+but is expected to have type
+  balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) a =
+    (balancedTensorEnvelopingInsertion k R M N) (m ⊗ₜ[k] (a • n))
+in the application
+  Eq.trans hleft (Eq.symm hright)
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:110:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun y => (balancedTensorEnvelopingComparisonInverse k R M N) ((balancedTensorEnvelopingComparisonMap k R M N) y) = y)
+    0
+
+case refine_1
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+y : BalancedTensorSpace k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R
+⊢ (fun y => (balancedTensorEnvelopingComparisonInverse k R M N) ((balancedTensorEnvelopingComparisonMap k R M N) y) = y)
+    0
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:114:17: error: A placeholder `_` cannot be used where a function is expected
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:123:10: error: Type mismatch: After simplification, term
+  h
+ has type
+  balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R ((MulOpposite.op 1 • m) ⊗ₜ[k] (r • n)) 1 =
+    balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) r
+but is expected to have type
+  balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] (r • n)) 1 =
+    balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) r
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:125:17: error: A placeholder `_` cannot be used where a function is expected
+work/ASGinzburgDraft/BalancedTensorEnvelopingComparison.lean:134:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun y => (balancedTensorEnvelopingComparisonMap k R M N) ((balancedTensorEnvelopingComparisonInverse k R M N) y) = y)
+    0
+
+case refine_1
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+y : BalancedTensorSpace k R M N
+⊢ (fun y => (balancedTensorEnvelopingComparisonMap k R M N) ((balancedTensorEnvelopingComparisonInverse k R M N) y) = y)
+    0

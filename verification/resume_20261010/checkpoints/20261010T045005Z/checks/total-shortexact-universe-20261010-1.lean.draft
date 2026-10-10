@@ -1,0 +1,143 @@
+import work.ASGinzburgDraft.BicomplexTotalCoordinates
+import Mathlib.Algebra.Homology.HomologicalComplexAbelian
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Algebra.Category.ModuleCat.EpiMono
+
+/-! Finite-diagonal totalization preserves genuine short exact sequences. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Preadditive
+open CategoryTheory.Limits
+open HomologicalComplex HomologicalComplex₂
+universe u v
+variable {k : Type u} [Ring k]
+variable {K L : HomologicalComplex₂ (ModuleCat.{v} k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)}
+
+@[reassoc]
+theorem bicomplexTotalProjection_naturality (φ : K ⟶ L) (n i j : ℕ) :
+    bicomplexTotalProjection K n i j ≫ (φ.f i).f j =
+      (HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n ≫
+        bicomplexTotalProjection L n i j := by
+  apply HomologicalComplex₂.total.hom_ext
+  intro a b hab
+  rw [← assoc, assoc,
+    HomologicalComplex₂.ιTotal_map_assoc, ← assoc]
+  by_cases ha : a = i
+  · subst a
+    by_cases hb : b = j
+    · subst b
+      rw [bicomplexTotal_ι_projection_same, bicomplexTotal_ι_projection_same,
+        id_comp, comp_id]
+    · rw [bicomplexTotal_ι_projection_ne K n i b i j hab (Or.inr hb),
+        bicomplexTotal_ι_projection_ne L n i b i j hab (Or.inr hb), zero_comp, comp_zero]
+  · rw [bicomplexTotal_ι_projection_ne K n a b i j hab (Or.inl ha),
+      bicomplexTotal_ι_projection_ne L n a b i j hab (Or.inl ha), zero_comp, comp_zero]
+
+theorem bicomplexTotalProjection_naturality_apply (φ : K ⟶ L) (n i j : ℕ)
+    (x : (K.total (ComplexShape.down ℕ)).X n) :
+    (φ.f i).f j (bicomplexTotalProjection K n i j x) =
+      bicomplexTotalProjection L n i j
+        ((HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n x) :=
+  congrArg (fun f : (K.total (ComplexShape.down ℕ)).X n ⟶ (L.X i).X j => f x)
+    (bicomplexTotalProjection_naturality φ n i j)
+
+theorem bicomplexTotal_map_injective (φ : K ⟶ L)
+    (hφ : ∀ i j, Function.Injective ((φ.f i).f j)) (n : ℕ) :
+    Function.Injective ((HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n) := by
+  intro x y hxy
+  apply bicomplexTotal_ext K n x y
+  intro i j hij
+  apply hφ i j
+  rw [bicomplexTotalProjection_naturality_apply,
+    bicomplexTotalProjection_naturality_apply, hxy]
+
+theorem bicomplexTotal_map_ιOrZero_apply (φ : K ⟶ L) (n i j : ℕ)
+    (x : (K.X i).X j) :
+    (HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n
+        (K.ιTotalOrZero (ComplexShape.down ℕ) i j n x) =
+      L.ιTotalOrZero (ComplexShape.down ℕ) i j n ((φ.f i).f j x) :=
+  congrArg (fun f : (K.X i).X j ⟶ (L.total (ComplexShape.down ℕ)).X n => f x)
+    (HomologicalComplex₂.ιTotalOrZero_map K L φ (ComplexShape.down ℕ) i j n)
+
+instance bicomplexTotalFunctor_additive :
+    (HomologicalComplex₂.totalFunctor (ModuleCat.{v} k) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (ComplexShape.down ℕ)).Additive where
+  map_add {X Y f g} := by
+    apply HomologicalComplex.Hom.ext
+    funext n
+    apply HomologicalComplex₂.total.hom_ext
+    intro i j hij
+    simp only [HomologicalComplex₂.totalFunctor_map, add_f_apply, comp_add,
+      HomologicalComplex₂.ιTotal_map, add_comp]
+
+theorem bicomplexTotal_map_surjective (φ : K ⟶ L)
+    (hφ : ∀ i j, Function.Surjective ((φ.f i).f j)) (n : ℕ) :
+    Function.Surjective ((HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n) := by
+  classical
+  choose g hg using hφ
+  intro y
+  refine ⟨∑ p ∈ Finset.antidiagonal n,
+    K.ιTotalOrZero (ComplexShape.down ℕ) p.1 p.2 n
+      (g p.1 p.2 (bicomplexTotalProjection L n p.1 p.2 y)), ?_⟩
+  simp only [map_sum, bicomplexTotal_map_ιOrZero_apply, hg]
+  exact bicomplexTotal_decomposition_apply L n y
+
+theorem bicomplexTotal_exact (S : ShortComplex (HomologicalComplex₂ (ModuleCat.{v} k)
+    (ComplexShape.down ℕ) (ComplexShape.down ℕ))) (hS : S.Exact) :
+    (S.map (HomologicalComplex₂.totalFunctor (ModuleCat.{v} k) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (ComplexShape.down ℕ))).Exact := by
+  classical
+  apply HomologicalComplex.exact_of_degreewise_exact
+  intro n
+  rw [ShortComplex.moduleCat_exact_iff]
+  intro x hx
+  have hc : ∀ i j, ∃ y : (S.X₁.X i).X j,
+      (S.f.f i).f j y = bicomplexTotalProjection S.X₂ n i j x := by
+    intro i j
+    have he := (hS.map (HomologicalComplex.eval (ChainComplex (ModuleCat.{v} k) ℕ)
+      (ComplexShape.down ℕ) i)).map
+      (HomologicalComplex.eval (ModuleCat.{v} k) (ComplexShape.down ℕ) j)
+    apply (ShortComplex.moduleCat_exact_iff _).mp he
+    change (S.g.f i).f j (bicomplexTotalProjection S.X₂ n i j x) = 0
+    rw [bicomplexTotalProjection_naturality_apply]
+    change (HomologicalComplex₂.total.map S.g (ComplexShape.down ℕ)).f n x = 0 at hx
+    rw [hx, map_zero]
+  choose y hy using hc
+  refine ⟨∑ p ∈ Finset.antidiagonal n,
+    S.X₁.ιTotalOrZero (ComplexShape.down ℕ) p.1 p.2 n (y p.1 p.2), ?_⟩
+  change (HomologicalComplex₂.total.map S.f (ComplexShape.down ℕ)).f n _ = x
+  simp only [map_sum, bicomplexTotal_map_ιOrZero_apply, hy]
+  exact bicomplexTotal_decomposition_apply S.X₂ n x
+
+theorem bicomplexTotal_shortExact (S : ShortComplex (HomologicalComplex₂ (ModuleCat.{v} k)
+    (ComplexShape.down ℕ) (ComplexShape.down ℕ))) (hS : S.ShortExact) :
+    (S.map (HomologicalComplex₂.totalFunctor (ModuleCat.{v} k) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (ComplexShape.down ℕ))).ShortExact where
+  exact := bicomplexTotal_exact S hS.exact
+  mono_f := by
+    haveI := hS.mono_f
+    haveI := hS.epi_g
+    apply HomologicalComplex.mono_of_mono_f
+    intro n
+    apply (ModuleCat.mono_iff_injective _).mpr
+    apply bicomplexTotal_map_injective
+    intro i j
+    have hSi := hS.map (HomologicalComplex.eval (ChainComplex (ModuleCat.{v} k) ℕ)
+      (ComplexShape.down ℕ) i)
+    haveI := hSi.mono_f
+    haveI := hSi.epi_g
+    exact (hSi.map (HomologicalComplex.eval (ModuleCat.{v} k) (ComplexShape.down ℕ) j)).injective_f
+  epi_g := by
+    haveI := hS.mono_f
+    haveI := hS.epi_g
+    apply HomologicalComplex.epi_of_epi_f
+    intro n
+    apply (ModuleCat.epi_iff_surjective _).mpr
+    apply bicomplexTotal_map_surjective
+    intro i j
+    have hSi := hS.map (HomologicalComplex.eval (ChainComplex (ModuleCat.{v} k) ℕ)
+      (ComplexShape.down ℕ) i)
+    haveI := hSi.mono_f
+    haveI := hSi.epi_g
+    exact (hSi.map (HomologicalComplex.eval (ModuleCat.{v} k) (ComplexShape.down ℕ) j)).surjective_g
+
+end ASGinzburg

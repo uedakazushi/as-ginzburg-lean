@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/OrdinaryModuleRingBidual.lean:42:2: error: failed to synthesize
+  Module R ↑((ordinaryRingDualFunctor Rᵐᵒᵖ).obj ((ordinaryRingDualFunctor R).rightOp.obj P))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/OrdinaryModuleRingBidual.lean:46:4: error: Function expected at
+  (ConcreteCategory.hom (ordinaryRingBidualEvaluation R P)) x
+but this term has type
+  ↑((ordinaryRingBidualFunctor R).obj P)
+
+Note: Expected a function because this term is being applied to the argument
+  f
+work/ASGinzburgDraft/OrdinaryModuleRingBidual.lean:58:4: error: Tactic `rfl` failed: The left-hand side
+  ((ModuleCat.Hom.hom ((𝟭 (ModuleCat R)).map f ≫ ordinaryRingBidualEvaluation R Q)) x) g
+is not definitionally equal to the right-hand side
+  ((ModuleCat.Hom.hom (ordinaryRingBidualEvaluation R P ≫ (ordinaryRingBidualFunctor R).map f)) x) g
+
+case hf.h.h
+R : Type v
+inst✝ : Ring R
+P Q : ModuleCat R
+f : P ⟶ Q
+x : ↑((𝟭 (ModuleCat R)).obj P)
+g : ↑(Opposite.unop ((ordinaryRingDualFunctor R).rightOp.obj Q))
+⊢ ((ModuleCat.Hom.hom ((𝟭 (ModuleCat R)).map f ≫ ordinaryRingBidualEvaluation R Q)) x) g =
+    ((ModuleCat.Hom.hom (ordinaryRingBidualEvaluation R P ≫ (ordinaryRingBidualFunctor R).map f)) x) g

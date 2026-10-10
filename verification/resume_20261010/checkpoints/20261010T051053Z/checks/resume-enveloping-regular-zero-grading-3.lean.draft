@@ -1,0 +1,96 @@
+import work.ASGinzburgDraft.PeriodCutEnvelopingRegularGrading
+import work.ASGinzburgDraft.PeriodCutEnvelopingAugmentationComparison
+import work.ASGinzburgDraft.ScalarStableGradedDecomposition
+import ASGinzburg.PeriodCutRegularLeftMultiplication
+
+/-! The genuine multiplication bimodule R has a lower-bounded internal
+grading by submodules over the actual degree-zero enveloping subalgebra.
+The scalar action is the restriction of the multiplication representation. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+
+noncomputable def cutEnvelopingZeroRegularRepresentation :
+    AlgebraEnvelopingRing k (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0) →ₐ[k]
+      Module.End k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))) :=
+  (regularEnvelopingRepresentation k
+    (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))).comp
+      (E.cutEnvelopingZeroInclusion Q)
+
+noncomputable def cutEnvelopingZeroRegularModule :
+    Module (AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))) :=
+  Module.compHom _ (E.cutEnvelopingZeroRegularRepresentation Q).toRingHom
+
+attribute [local instance 2000] cutEnvelopingZeroRegularModule
+
+theorem cutEnvelopingZeroRegularModule_tmul_smul
+    (a b : E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0)
+    (x : E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))) :
+    (a ⊗ₜ[k] MulOpposite.op b) • x =
+      E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0 a * x *
+        E.cutHomogeneousInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0 b := by
+  change regularEnvelopingRepresentation k _
+    (E.cutEnvelopingZeroInclusion Q (a ⊗ₜ[k] MulOpposite.op b)) x = _
+  rw [E.cutEnvelopingZeroInclusion_tmul Q]
+  exact regularEnvelopingRepresentation_tmul k _ _ _ x
+
+theorem cutEnvelopingZeroRegularScalarTower :
+    IsScalarTower k (AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))) := by
+  constructor
+  intro c a x
+  change E.cutEnvelopingZeroRegularRepresentation Q (c • a) x =
+    c • E.cutEnvelopingZeroRegularRepresentation Q a x
+  exact LinearMap.congr_fun
+    ((E.cutEnvelopingZeroRegularRepresentation Q).toLinearMap.map_smul c a) x
+
+theorem cutIntegerHomogeneousSpace_zeroEnveloping_smul (q : ℤ)
+    (a : AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+    (x : E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))
+    (hx : x ∈ E.cutIntegerHomogeneousSpace Q q) :
+    a • x ∈ E.cutIntegerHomogeneousSpace Q q := by
+  induction a using TensorProduct.induction_on with
+  | zero => rw [zero_smul]; exact Submodule.zero_mem _
+  | tmul a b =>
+    obtain ⟨b, rfl⟩ := MulOpposite.op_surjective b
+    rw [E.cutEnvelopingZeroRegularModule_tmul_smul Q]
+    have hl := E.cutIntegerHomogeneousSpace_mul_left Q q x hx 0 a
+    simp only [Nat.cast_zero, add_zero] at hl
+    simpa only [Nat.cast_zero, add_zero] using
+      E.cutIntegerHomogeneousSpace_mul_right Q q _ hl 0 b
+  | add a b ha hb =>
+    change E.cutEnvelopingZeroRegularRepresentation Q (a+b) x ∈ _
+    have h := LinearMap.congr_fun
+      ((E.cutEnvelopingZeroRegularRepresentation Q).toLinearMap.map_add a b) x
+    rw [h]
+    exact Submodule.add_mem _ ha hb
+
+noncomputable def cutEnvelopingRegularIntegerGrade (q : ℤ) :
+    Submodule (AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))) where
+  carrier := E.cutIntegerHomogeneousSpace Q q
+  zero_mem' := (E.cutIntegerHomogeneousSpace Q q).zero_mem
+  add_mem' := (E.cutIntegerHomogeneousSpace Q q).add_mem
+  smul_mem' := E.cutIntegerHomogeneousSpace_zeroEnveloping_smul Q q
+
+noncomputable def cutEnvelopingRegularIntegerDecomposition :
+    DirectSum.Decomposition (E.cutEnvelopingRegularIntegerGrade Q) where
+  decompose' := E.cutIntegerRegularDecompose Q
+  left_inv := E.cutIntegerRegularDecompose_leftInverse Q
+  right_inv := E.cutIntegerRegularDecompose_rightInverse Q
+
+theorem cutEnvelopingRegularIntegerGrade_negative (q : ℤ) (hq : q < 0) :
+    E.cutEnvelopingRegularIntegerGrade Q q = ⊥ := by
+  ext x
+  change x ∈ E.cutIntegerHomogeneousSpace Q q ↔ x = 0
+  rw [E.cutIntegerHomogeneousSpace_negative Q hq]
+  rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

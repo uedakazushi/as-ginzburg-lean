@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/AlgebraEnvelopingQuotient.lean:52:43: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  RingHom.ker ↑(Ideal.Quotient.mkₐ ?R₁ ?I)
+in the target expression
+  Ideal.map Algebra.TensorProduct.includeLeft (RingHom.ker (Ideal.Quotient.mkₐ k J)) ⊔
+      Ideal.map Algebra.TensorProduct.includeRight (RingHom.ker (AlgHom.op (Ideal.Quotient.mkₐ k J))) =
+    Ideal.map Algebra.TensorProduct.includeLeft J ⊔
+      Ideal.map Algebra.TensorProduct.includeRight (RingHom.ker (AlgHom.op (Ideal.Quotient.mkₐ k J)))
+
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+J : Ideal R
+inst✝ : J.IsTwoSided
+⊢ Ideal.map Algebra.TensorProduct.includeLeft (RingHom.ker (Ideal.Quotient.mkₐ k J)) ⊔
+      Ideal.map Algebra.TensorProduct.includeRight (RingHom.ker (AlgHom.op (Ideal.Quotient.mkₐ k J))) =
+    Ideal.map Algebra.TensorProduct.includeLeft J ⊔
+      Ideal.map Algebra.TensorProduct.includeRight (RingHom.ker (AlgHom.op (Ideal.Quotient.mkₐ k J)))

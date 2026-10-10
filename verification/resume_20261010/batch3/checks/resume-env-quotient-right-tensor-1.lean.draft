@@ -1,0 +1,46 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingQuotient
+import ASGinzburg.AlgebraEnvelopingTensorRegularFree
+import ASGinzburg.AlgebraEnvelopingTensorBifunctor
+import ASGinzburg.ScalarQuotientVertexDecomposition
+import ASGinzburg.AlgebraModuleRestrictionComparison
+
+/-! The tensor of the actual ordinary quotient modules has the genuine
+right enveloping quotient action. All field actions on bundled modules
+are compared with their canonical quotient actions explicitly. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (J : Ideal R) [J.IsTwoSided]
+
+noncomputable def quotientEnvelopingRightTargetModule :
+    Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+      (AlgebraEnvelopingRing k (R ⧸ J))ᵐᵒᵖ :=
+  Module.compHom _ (algebraEnvelopingQuotientAugmentation k R J).toRingHom.op
+
+attribute [local instance] quotientEnvelopingRightTargetModule
+
+noncomputable def quotientEnvelopingRightTargetObject :
+    ModuleCat.{v} (AlgebraEnvelopingRing k R)ᵐᵒᵖ :=
+  ModuleCat.of _ (AlgebraEnvelopingRing k (R ⧸ J))ᵐᵒᵖ
+
+def idealQuotientRightScalarTower : IsScalarTower k Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ := by
+  apply IsScalarTower.of_algebraMap_smul
+  intro c x
+  change (Ideal.Quotient.mkₐ k J).op (algebraMap k Rᵐᵒᵖ c) * x = c • x
+  rw [AlgHom.commutes, Algebra.smul_def]
+
+attribute [local instance] idealQuotientRightScalarTower
+
+noncomputable def quotientTensorRightCanonicalFieldEquiv :
+    ((idealQuotientRightObject J) ⊗[k] (ModuleCat.of R (R ⧸ J))) ≃ₗ[k]
+      (AlgebraEnvelopingRing k (R ⧸ J))ᵐᵒᵖ :=
+  (TensorProduct.congr
+    (algebraModuleRestrictScalarsIso k Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ).toLinearEquiv
+    (algebraModuleRestrictScalarsIso k R (R ⧸ J)).toLinearEquiv).trans
+      ((TensorProduct.congr (MulOpposite.opLinearEquiv k).symm
+        (LinearEquiv.refl k (R ⧸ J))).trans
+          (tensorRightEnvelopingRegularLinearEquiv k (R ⧸ J)))
+
+end ASGinzburg

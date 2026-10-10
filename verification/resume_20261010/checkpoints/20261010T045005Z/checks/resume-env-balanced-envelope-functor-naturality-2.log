@@ -1,0 +1,38 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorNaturality.lean:42:38: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (tensorRightEnvelopingMap ?k ?R ?f ?g) (?m ⊗ₜ[?k] ?n)
+in the target expression
+  (ConcreteCategory.hom (balancedTensorEnvelopingModuleIso k R M' N').hom)
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M').obj N')) R
+        ((tensorRightEnvelopingMap k R (ModuleCat.Hom.hom f) (ModuleCat.Hom.hom g)) (m ⊗ₜ[k] n)) r) =
+    (balancedTensorMapLeft k R (↑N') (ModuleCat.Hom.hom f))
+      ((balancedTensorMapRight k R (↑M) (ModuleCat.Hom.hom g))
+        ((ConcreteCategory.hom (balancedTensorEnvelopingModuleIso k R M N).hom)
+          (balancedTensorTmul k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) R
+            (m ⊗ₜ[k] n) r)))
+
+case hf.tmul
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M M' : ModuleCat Rᵐᵒᵖ
+N N' : ModuleCat R
+f : M ⟶ M'
+g : N ⟶ N'
+r : R
+m : ↑M
+n : ↑N
+⊢ (ConcreteCategory.hom (balancedTensorEnvelopingModuleIso k R M' N').hom)
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M').obj N')) R
+        ((tensorRightEnvelopingMap k R (ModuleCat.Hom.hom f) (ModuleCat.Hom.hom g)) (m ⊗ₜ[k] n)) r) =
+    (balancedTensorMapLeft k R (↑N') (ModuleCat.Hom.hom f))
+      ((balancedTensorMapRight k R (↑M) (ModuleCat.Hom.hom g))
+        ((ConcreteCategory.hom (balancedTensorEnvelopingModuleIso k R M N).hom)
+          (balancedTensorTmul k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) R
+            (m ⊗ₜ[k] n) r)))
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorNaturality.lean:54:13: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

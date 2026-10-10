@@ -1,0 +1,30 @@
+import work.ASGinzburgDraft.ScalarQuotientVertexDecomposition
+import work.ASGinzburgDraft.FiniteBiproductProjectiveDimension
+
+/-! The projective dimension of a genuine scalar quotient is bounded
+by that of its coordinate modules. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {I : Type} [Fintype I] (f : R →ₐ[k] (I → k))
+
+noncomputable def scalarQuotientVertexBiproductIso
+    (hf : Function.Surjective f) (V : I → ModuleCat.{v} Rᵐᵒᵖ)
+    [∀ i, Module k (V i)] (e : ∀ i, V i ≃ₗ[k] k)
+    (hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : V i), e i (r • x)=f r.unop i*e i x) :
+    scalarQuotientRightObject f ≅ ⨁ V :=
+  (scalarQuotientVertexLinearEquiv f hf V e hscalar).toModuleIso ≪≫
+    (ModuleCat.biproductIsoPi V).symm
+
+theorem scalarQuotient_hasProjectiveDimensionLT
+    (hf : Function.Surjective f) (V : I → ModuleCat.{v} Rᵐᵒᵖ)
+    [∀ i, Module k (V i)] (e : ∀ i, V i ≃ₗ[k] k)
+    (hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : V i), e i (r • x)=f r.unop i*e i x)
+    (n : ℕ) [∀ i, HasProjectiveDimensionLT (V i) n] :
+    HasProjectiveDimensionLT (scalarQuotientRightObject f) n := by
+  letI := finiteBiproduct_hasProjectiveDimensionLT V n
+  exact hasProjectiveDimensionLT_of_iso
+    (scalarQuotientVertexBiproductIso f hf V e hscalar).symm n
+
+end ASGinzburg

@@ -1,0 +1,26 @@
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:57:2: error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
+  ↑φ
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:87:8: error: don't know how to synthesize implicit argument `h`
+  @LinearEquiv.ofInjective_symm_apply k k (↥(Q.Potential k)) (AlgebraCyclicQuotient k (Q.PathRing k))
+    Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring
+    (Q.Potential k).addCommMonoid
+    (Submodule.Quotient.addCommGroup (algebraCommutatorSubspace k (Q.PathRing k))).toAddCommMonoid
+    (Q.Potential k).module (Submodule.Quotient.module (algebraCommutatorSubspace k (Q.PathRing k))) (RingHom.id k)
+    (RingHom.id k) (Q.potentialCyclicClass k) RingHomInvPair.ids RingHomInvPair.ids ?m.32
+    ((LinearMap.codRestrict (LinearMap.range (Q.potentialCyclicClass k))
+        (↑(algebraCyclicEquiv k ↑E) ∘ₗ Q.potentialCyclicClass k) (cyclicEquiv_potential_mem_range Q k E))
+      φ)
+context:
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+⊢ Function.Injective ⇑(Q.potentialCyclicClass k)
+work/ASGinzburgDraft/PotentialPathAutomorphismAction.lean:86:40: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+φ : ↥(Q.Potential k)
+⊢ (Q.potentialCyclicClass k) ((potentialLinearMap Q k E) φ) = E • (Q.potentialCyclicClass k) φ

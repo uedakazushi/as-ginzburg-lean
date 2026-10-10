@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/PathArrowSubstitutionInverse.lean:16:11: error: Tactic `rfl` failed: The left-hand side
+  Q.pathArrowSubstitutionPath k (Q.pathIdentityArrowReplacement k) (Path.nil i)
+is not definitionally equal to the right-hand side
+  Finsupp.single (Path.nil i) 1
+
+case nil
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : Q.Vertex
+⊢ Q.pathArrowSubstitutionPath k (Q.pathIdentityArrowReplacement k) (Path.nil i) = Finsupp.single (Path.nil i) 1
+work/ASGinzburgDraft/PathArrowSubstitutionInverse.lean:38:11: error: Type mismatch
+  pathArrowSubstitutionComponent_id Q k σ i
+has type
+  (Q.pathArrowSubstitutionComponent k σ i i) (Q.pathId k i) = Q.pathId k i
+but is expected to have type
+  (Q.pathArrowSubstitutionComponent k σ i i) (Q.pathArrowSubstitutionPath k τ (Path.nil i)) =
+    Finsupp.single (Path.nil i) 1
+work/ASGinzburgDraft/PathArrowSubstitutionInverse.lean:75:15: error: Type mismatch
+  pathArrowSubstitution_inverse Q k σ τ hστ x
+has type
+  (Q.pathArrowSubstitution k σ) ((Q.pathArrowSubstitution k τ) x) = x
+but is expected to have type
+  ((Q.pathArrowSubstitution k σ).comp (Q.pathArrowSubstitution k τ)) x x✝¹ x✝ = (AlgHom.id k (Q.PathRing k)) x x✝¹ x✝
+work/ASGinzburgDraft/PathArrowSubstitutionInverse.lean:76:15: error: Type mismatch
+  pathArrowSubstitution_inverse Q k τ σ hτσ x
+has type
+  (Q.pathArrowSubstitution k τ) ((Q.pathArrowSubstitution k σ) x) = x
+but is expected to have type
+  ((Q.pathArrowSubstitution k τ).comp (Q.pathArrowSubstitution k σ)) x x✝¹ x✝ = (AlgHom.id k (Q.PathRing k)) x x✝¹ x✝

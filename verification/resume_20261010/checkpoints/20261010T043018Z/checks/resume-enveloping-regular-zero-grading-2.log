@@ -1,0 +1,56 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:49:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutEnvelopingZeroRegularRepresentation Q E).toLinearMap (?c • ?x)
+in the target expression
+  ((cutEnvelopingZeroRegularRepresentation Q E) (c • a)) x = c • ((cutEnvelopingZeroRegularRepresentation Q E) a) x
+
+case smul_assoc
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+c : k
+a : AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)
+x : E.CutGradedRing fun i => ↑↑i
+⊢ ((cutEnvelopingZeroRegularRepresentation Q E) (c • a)) x = c • ((cutEnvelopingZeroRegularRepresentation Q E) a) x
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:69:8: error: failed to synthesize
+  AddHomClass
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0) →ₐ[k] Module.End k (E.CutGradedRing fun i => ↑↑i))
+    ?m.158 ?m.159
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:67:18: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+q : ℤ
+x : E.CutGradedRing fun i => ↑↑i
+hx : x ∈ cutIntegerHomogeneousSpace Q E q
+a b : E.CutGradedBlock (fun i => ↑↑i) 0 ⊗[k] (E.CutGradedBlock (fun i => ↑↑i) 0)ᵐᵒᵖ
+ha : a • x ∈ cutIntegerHomogeneousSpace Q E q
+hb : b • x ∈ cutIntegerHomogeneousSpace Q E q
+⊢ AddHomClass
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0) →ₐ[k] Module.End k (E.CutGradedRing fun i => ↑↑i))
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) (Module.End k (E.CutGradedRing fun i => ↑↑i))
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:87:5: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:81:18: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:89:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

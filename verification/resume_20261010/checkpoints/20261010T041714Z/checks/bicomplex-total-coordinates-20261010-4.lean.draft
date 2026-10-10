@@ -1,0 +1,162 @@
+import Mathlib.Algebra.Homology.TotalComplex
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+import Mathlib.Algebra.Category.ModuleCat.Colimits
+import Mathlib.Data.Finset.NatAntidiagonal
+
+/-! Coordinate projections and finite decompositions of first-quadrant total complexes. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Preadditive
+open CategoryTheory.Limits
+open HomologicalComplex₂
+
+variable {k : Type*} [Ring k]
+variable (K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ))
+
+/-- A coordinate projection from the chosen categorical total object. -/
+noncomputable def bicomplexTotalProjection (n i j : ℕ) :
+    (K.total (ComplexShape.down ℕ)).X n ⟶ (K.X i).X j := by
+  classical
+  exact K.totalDesc (fun a b _ =>
+    if ha : a = i then
+      if hb : b = j then (K.XXIsoOfEq _ _ _ ha hb).hom else 0
+    else 0)
+
+@[simp]
+theorem bicomplexTotal_ι_projection_same (n i j : ℕ) (h : i + j = n) :
+    K.ιTotal (ComplexShape.down ℕ) i j n h ≫ bicomplexTotalProjection K n i j =
+      𝟙 ((K.X i).X j) := by
+  classical
+  simp [bicomplexTotalProjection]
+
+theorem bicomplexTotal_ι_projection_ne (n a b i j : ℕ) (h : a + b = n)
+    (hne : a ≠ i ∨ b ≠ j) :
+    K.ιTotal (ComplexShape.down ℕ) a b n h ≫ bicomplexTotalProjection K n i j = 0 := by
+  classical
+  rcases hne with ha | hb
+  · simp [bicomplexTotalProjection, ha]
+  · simp [bicomplexTotalProjection, hb]
+
+@[simp]
+theorem bicomplexTotal_projection_ι_apply (n i j : ℕ) (h : i + j = n)
+    (x : (K.X i).X j) :
+    bicomplexTotalProjection K n i j (K.ιTotal (ComplexShape.down ℕ) i j n h x) = x := by
+  exact congrArg (fun f : (K.X i).X j ⟶ (K.X i).X j => f x)
+    (bicomplexTotal_ι_projection_same K n i j h)
+
+theorem bicomplexTotal_projection_ι_apply_ne (n a b i j : ℕ) (h : a + b = n)
+    (hne : a ≠ i ∨ b ≠ j) (x : (K.X a).X b) :
+    bicomplexTotalProjection K n i j (K.ιTotal (ComplexShape.down ℕ) a b n h x) = 0 := by
+  exact congrArg (fun f : (K.X a).X b ⟶ (K.X i).X j => f x)
+    (bicomplexTotal_ι_projection_ne K n a b i j h hne)
+
+theorem bicomplexTotalProjection_eq_zero (n i j : ℕ) (h : i + j ≠ n) :
+    bicomplexTotalProjection K n i j = 0 := by
+  apply HomologicalComplex₂.total.hom_ext
+  intro a b hab
+  rw [comp_zero]
+  apply bicomplexTotal_ι_projection_ne
+  by_contra hne
+  push_neg at hne
+  exact h (by simpa [hne.1, hne.2] using hab)
+
+/-- The identity on a total object is the finite sum of its coordinate inclusions and projections. -/
+theorem bicomplexTotal_decomposition (n : ℕ) :
+    (∑ p ∈ Finset.antidiagonal n,
+      bicomplexTotalProjection K n p.1 p.2 ≫
+        K.ιTotalOrZero (ComplexShape.down ℕ) p.1 p.2 n) =
+      𝟙 ((K.total (ComplexShape.down ℕ)).X n) := by
+  classical
+  apply HomologicalComplex₂.total.hom_ext
+  intro a b h
+  rw [comp_sum]
+  rw [Finset.sum_eq_single (a, b)]
+  · rw [← assoc, bicomplexTotal_ι_projection_same K n a b h, id_comp, comp_id]
+    exact K.ιTotalOrZero_eq (ComplexShape.down ℕ) a b n h
+  · intro p hp hne
+    rw [← assoc, bicomplexTotal_ι_projection_ne, zero_comp]
+    rcases p with ⟨i, j⟩
+    dsimp at hne ⊢
+    by_contra hh
+    push_neg at hh
+    exact hne (Prod.ext hh.1.symm hh.2.symm)
+  · intro hn
+    exact (hn (Finset.mem_antidiagonal.mpr h)).elim
+
+/-- Every element of the total object is the finite sum of its coordinates. -/
+theorem bicomplexTotal_decomposition_apply (n : ℕ)
+    (x : (K.total (ComplexShape.down ℕ)).X n) :
+    (∑ p ∈ Finset.antidiagonal n,
+      K.ιTotalOrZero (ComplexShape.down ℕ) p.1 p.2 n
+        (bicomplexTotalProjection K n p.1 p.2 x)) = x := by
+  have h := congrArg (fun f : (K.total (ComplexShape.down ℕ)).X n ⟶
+    (K.total (ComplexShape.down ℕ)).X n => f x) (bicomplexTotal_decomposition K n)
+  simpa using h
+
+theorem bicomplexTotal_D₁_projection (i j : ℕ) :
+    K.D₁ (ComplexShape.down ℕ) (i + j + 1) (i + j) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    bicomplexTotalProjection K (i + j + 1) (i + 1) j ≫ (K.d (i + 1) i).f j := by
+  apply HomologicalComplex₂.total.hom_ext
+  intro a b hab
+  rw [← assoc, K.ι_D₁]
+  rw [← assoc]
+  cases a with
+  | zero =>
+      rw [K.d₁_eq_zero (ComplexShape.down ℕ) 0 b (i + j) (by simp)]
+      rw [bicomplexTotal_ι_projection_ne K (i + j + 1) 0 b (i + 1) j hab
+        (Or.inl (by omega)), zero_comp, zero_comp]
+  | succ a =>
+      rw [K.d₁_eq (ComplexShape.down ℕ) (show (ComplexShape.down ℕ).Rel (a + 1) a from rfl)
+        b (i + j) (by dsimp at hab ⊢; omega)]
+      simp only [ComplexShape.ε₁, one_smul, assoc]
+      by_cases ha : a = i
+      · subst a
+        have hb : b = j := by dsimp at hab; omega
+        subst b
+        rw [bicomplexTotal_ι_projection_same, bicomplexTotal_ι_projection_same]
+        simp only [comp_id, id_comp]
+      · rw [bicomplexTotal_ι_projection_ne K (i + j) a b i j
+          (by dsimp at hab ⊢; omega) (Or.inl ha), comp_zero]
+        rw [bicomplexTotal_ι_projection_ne K (i + j + 1) (a + 1) b (i + 1) j
+          hab (Or.inl (by omega)), zero_comp]
+
+theorem bicomplexTotal_D₂_projection (i j : ℕ) :
+    K.D₂ (ComplexShape.down ℕ) (i + j + 1) (i + j) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    (-1 : ℤˣ) ^ i •
+      (bicomplexTotalProjection K (i + j + 1) i (j + 1) ≫ (K.X i).d (j + 1) j) := by
+  apply HomologicalComplex₂.total.hom_ext
+  intro a b hab
+  rw [← assoc, K.ι_D₂, Linear.comp_units_smul, ← assoc]
+  cases b with
+  | zero =>
+      rw [K.d₂_eq_zero (ComplexShape.down ℕ) a 0 (i + j) (by simp)]
+      rw [bicomplexTotal_ι_projection_ne K (i + j + 1) a 0 i (j + 1) hab
+        (Or.inr (by omega)), zero_comp, zero_comp, smul_zero]
+  | succ b =>
+      rw [K.d₂_eq (ComplexShape.down ℕ) a
+        (show (ComplexShape.down ℕ).Rel (b + 1) b from rfl) (i + j)
+        (by dsimp at hab ⊢; omega)]
+      simp only [ComplexShape.ε₂, ComplexShape.ε_down_ℕ, Linear.units_smul_comp, assoc]
+      by_cases ha : a = i
+      · subst a
+        have hb : b = j := by dsimp at hab; omega
+        subst b
+        rw [bicomplexTotal_ι_projection_same, bicomplexTotal_ι_projection_same]
+        simp only [comp_id, id_comp]
+      · rw [bicomplexTotal_ι_projection_ne K (i + j) a b i j
+          (by dsimp at hab ⊢; omega) (Or.inl ha), comp_zero, smul_zero]
+        rw [bicomplexTotal_ι_projection_ne K (i + j + 1) a (b + 1) i (j + 1)
+          hab (Or.inl ha), zero_comp, smul_zero]
+
+/-- The actual total differential has its two expected incoming coordinate terms. -/
+theorem bicomplexTotal_d_projection (i j : ℕ) :
+    (K.total (ComplexShape.down ℕ)).d (i + j + 1) (i + j) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    bicomplexTotalProjection K (i + j + 1) (i + 1) j ≫ (K.d (i + 1) i).f j +
+      (-1 : ℤˣ) ^ i •
+        (bicomplexTotalProjection K (i + j + 1) i (j + 1) ≫ (K.X i).d (j + 1) j) := by
+  rw [HomologicalComplex₂.total_d, add_comp,
+    bicomplexTotal_D₁_projection, bicomplexTotal_D₂_projection]
+
+end ASGinzburg

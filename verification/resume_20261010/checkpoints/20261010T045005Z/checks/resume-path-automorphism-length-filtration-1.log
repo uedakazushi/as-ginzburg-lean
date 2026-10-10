@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/PathAutomorphismLengthFiltration.lean:49:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  E ((Q.pathComponentAlgebra k).totalComponent ?i ?j ?a)
+in the target expression
+  E.toMulEquiv ((Q.pathComponentAlgebra k).totalComponent i l (((Q.pathComponentAlgebra k).comp g) f)) =
+    E.toMulEquiv ((Q.pathComponentAlgebra k).totalComponent j l g) *
+      E.toMulEquiv ((Q.pathComponentAlgebra k).totalComponent i j f)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : Q.PathRing k ≃ₐ[k] Q.PathRing k
+hE : ∀ (i : Q.Vertex), E ((Q.pathComponentAlgebra k).totalIdempotent i) = (Q.pathComponentAlgebra k).totalIdempotent i
+i j l : Q.Vertex
+f : Q.PathComponent k i j
+g : Q.PathComponent k j l
+h :
+  E.toMulEquiv ((Q.pathComponentAlgebra k).totalComponent i l (((Q.pathComponentAlgebra k).comp g) f)) =
+    E.toMulEquiv ((Q.pathComponentAlgebra k).totalComponent j l g) *
+      E.toMulEquiv ((Q.pathComponentAlgebra k).totalComponent i j f)
+⊢ ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i l) (((Q.pathComp k) g) f) =
+    ((Q.pathComp k) (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE j l) g))
+      (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j) f)
+work/ASGinzburgDraft/PathAutomorphismLengthFiltration.lean:63:2: error: Too many variable names provided at alternative `nil`: 1 provided, but 0 expected
+work/ASGinzburgDraft/PathAutomorphismLengthFiltration.lean:64:2: error: Too many variable names provided at alternative `snoc`: 6 provided, but 5 expected
+work/ASGinzburgDraft/PathAutomorphismLengthFiltration.lean:65:4: error: Tactic `subst` failed: did not find equation for eliminating 'j'
+
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : Q.PathRing k ≃ₐ[k] Q.PathRing k
+hE : ∀ (i : Q.Vertex), E ((Q.pathComponentAlgebra k).totalIdempotent i) = (Q.pathComponentAlgebra k).totalIdempotent i
+i✝ j✝ : Q.Vertex
+c : k
+i : Q.Vertex
+j : Q.Path i✝ i
+p : Q.Arrow
+a : Q.source p = i
+ha :
+  ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i✝ i) (Finsupp.single j c) ∈
+    Q.pathLengthFiltration k j.length i✝ i
+⊢ ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i✝ (Q.target p)) (Finsupp.single (j.snoc p a) c) ∈
+    Q.pathLengthFiltration k (j.snoc p a).length i✝ (Q.target p)
+work/ASGinzburgDraft/PathAutomorphismLengthFiltration.lean:90:9: error: unsolved goals
+case zero
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : Q.PathRing k ≃ₐ[k] Q.PathRing k
+hE : ∀ (i : Q.Vertex), E ((Q.pathComponentAlgebra k).totalIdempotent i) = (Q.pathComponentAlgebra k).totalIdempotent i
+n : ℕ
+i j : Q.Vertex
+f : Q.PathComponent k i j
+⊢ E ((Q.pathComponentAlgebra k).totalComponent i j 0) i j ∈ Q.pathLengthFiltration k n i j

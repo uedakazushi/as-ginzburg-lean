@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorComparison.lean:50:75: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+N : ModuleCat R
+x : ↑M ⊗[k] ↑N
+r : R
+⊢ (ConcreteCategory.hom
+        (id
+            (id
+              (⋯.mpr
+                (Iso.refl
+                  (ModuleCat.of k
+                    (BalancedTensorSpace k (AlgebraEnvelopingRing k R)
+                      (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) R)))))).hom)
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) R x r) =
+    balancedTensorTmul k (AlgebraEnvelopingRing k R) (↑M ⊗[k] ↑N) R x r
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorComparison.lean:46:8: error: (kernel) deterministic timeout
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorComparison.lean:52:13: warning: This simp argument is unused:
+  tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq
+
+Hint: Omit it from the simp argument list.
+  simp only ̵[̵t̵e̵n̵s̵o̵r̵R̵i̵g̵h̵t̵E̵n̵v̵e̵l̵o̵p̵i̵n̵g̵B̵i̵f̵u̵n̵c̵t̵o̵r̵_̵m̵o̵d̵u̵l̵e̵O̵f̵A̵l̵g̵e̵b̵r̵a̵M̵o̵d̵u̵l̵e̵_̵e̵q̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorComparison.lean:66:2: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

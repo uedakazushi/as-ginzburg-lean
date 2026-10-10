@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/BalancedTensorRightMinimalResolution.lean:32:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  balancedTensorTmul k R M N' x a
+in the target expression
+  ((balancedTensorBilinear k R M N') x) a + ((balancedTensorBilinear k R M N') x) b = 0
+
+case add
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+M : Type w
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+inst✝³ : Module Rᵐᵒᵖ M
+N' : Type z'
+inst✝² : AddCommGroup N'
+inst✝¹ : Module k N'
+inst✝ : Module R N'
+I : Set R
+hM : ∀ r ∈ I, ∀ (x : M), MulOpposite.op r • x = 0
+x : M
+y a b : N'
+ha : a ∈ Submodule.span k {a | ∃ r ∈ I, ∃ n, r • n = a}
+hb : b ∈ Submodule.span k {a | ∃ r ∈ I, ∃ n, r • n = a}
+iha : balancedTensorTmul k R M N' x a = 0
+ihb : balancedTensorTmul k R M N' x b = 0
+⊢ ((balancedTensorBilinear k R M N') x) a + ((balancedTensorBilinear k R M N') x) b = 0
+work/ASGinzburgDraft/BalancedTensorRightMinimalResolution.lean:35:17: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  balancedTensorTmul k R M N' x a
+in the target expression
+  c • ((balancedTensorBilinear k R M N') x) a = 0
+
+case smul
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+M : Type w
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+inst✝³ : Module Rᵐᵒᵖ M
+N' : Type z'
+inst✝² : AddCommGroup N'
+inst✝¹ : Module k N'
+inst✝ : Module R N'
+I : Set R
+hM : ∀ r ∈ I, ∀ (x : M), MulOpposite.op r • x = 0
+x : M
+y : N'
+c : k
+a : N'
+ha : a ∈ Submodule.span k {a | ∃ r ∈ I, ∃ n, r • n = a}
+ih : balancedTensorTmul k R M N' x a = 0
+⊢ c • ((balancedTensorBilinear k R M N') x) a = 0

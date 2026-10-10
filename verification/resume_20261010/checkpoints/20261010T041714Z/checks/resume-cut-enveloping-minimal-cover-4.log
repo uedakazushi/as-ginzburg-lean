@@ -1,0 +1,140 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingMinimalCover.lean:76:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ∑ i, ?e i.down
+in the target expression
+  ∑ i, cutEnvelopingVertexIdempotent Q E i.down = 1
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+b : ℤ
+M :
+  GradedOrdinaryModuleData k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i))
+    (E.cutEnvelopingIntegerHomogeneousSubspace fun i => ↑↑i)
+hb : M.BoundedBelow b
+this✝¹² : Module k ↑M.ringModule := cutEnvelopingGradedModuleFieldModule Q E M
+this✝¹¹ : SMul k ↑M.ringModule := cutEnvelopingGradedModuleFieldSMul Q E M
+this✝¹⁰ : Module (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingGradedModuleModule Q E M
+this✝⁹ : SMul (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingGradedModuleSMul Q E M
+this✝⁸ : IsScalarTower k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingGradedModuleScalarTower Q E M
+this✝⁷ : DirectSum.Decomposition M.grade := M.decomposition
+this✝⁶ : Module (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) :=
+  cutEnvelopingZeroRestrictedRingModule Q E
+this✝⁵ : SMul (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) :=
+  cutEnvelopingZeroRestrictedRingSMul Q E
+this✝⁴ : Module (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedModule Q E ↑M.ringModule
+this✝³ : SMul (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedSMul Q E ↑M.ringModule
+this✝² : IsScalarTower k (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedModuleScalarTower Q E ↑M.ringModule
+this✝¹ : IsScalarTower (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedModuleEnvelopingScalarTower Q E ↑M.ringModule
+this✝ : SMul (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) :=
+  cutZeroEnvelopingSelfSMul Q E
+this : IsScalarTower (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) :=
+  cutZeroEnvelopingSelfScalarTower Q E
+ε : AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i) →ₐ[k] ULift.{v, 0} (Q.Vertex × Q.Vertex) → k :=
+  liftedCoordinateAugmentation (cutEnvelopingCoordinateAugmentation Q E)
+e : ULift.{v, 0} (Q.Vertex × Q.Vertex) → AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i) :=
+  fun i => cutEnvelopingVertexIdempotent Q E i.down
+hεker : RingHom.ker ε = cutEnvelopingAugmentationKernel Q E
+⊢ ∑ i, cutEnvelopingVertexIdempotent Q E i.down = 1
+work/ASGinzburgDraft/PeriodCutEnvelopingMinimalCover.lean:93:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  RingHom.ker ε
+in the target expression
+  ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) (↑M.ringModule)
+      (RingHom.ker ε.toRingHom) =
+    gradedNilpotentActionSpan k (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) (↑M.ringModule)
+      (cutEnvelopingPositiveModuleOperator Q E ↑M.ringModule) (cutZeroEnvelopingAugmentationKernel Q E)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+b : ℤ
+M :
+  GradedOrdinaryModuleData k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i))
+    (E.cutEnvelopingIntegerHomogeneousSubspace fun i => ↑↑i)
+hb : M.BoundedBelow b
+this✝¹² : Module k ↑M.ringModule := cutEnvelopingGradedModuleFieldModule Q E M
+this✝¹¹ : SMul k ↑M.ringModule := cutEnvelopingGradedModuleFieldSMul Q E M
+this✝¹⁰ : Module (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingGradedModuleModule Q E M
+this✝⁹ : SMul (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingGradedModuleSMul Q E M
+this✝⁸ : IsScalarTower k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingGradedModuleScalarTower Q E M
+this✝⁷ : DirectSum.Decomposition M.grade := M.decomposition
+this✝⁶ : Module (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) :=
+  cutEnvelopingZeroRestrictedRingModule Q E
+this✝⁵ : SMul (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) :=
+  cutEnvelopingZeroRestrictedRingSMul Q E
+this✝⁴ : Module (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedModule Q E ↑M.ringModule
+this✝³ : SMul (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedSMul Q E ↑M.ringModule
+this✝² : IsScalarTower k (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedModuleScalarTower Q E ↑M.ringModule
+this✝¹ : IsScalarTower (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) ↑M.ringModule :=
+  cutEnvelopingZeroRestrictedModuleEnvelopingScalarTower Q E ↑M.ringModule
+this✝ : SMul (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) :=
+  cutZeroEnvelopingSelfSMul Q E
+this : IsScalarTower (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0))
+  (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) :=
+  cutZeroEnvelopingSelfScalarTower Q E
+ε : AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i) →ₐ[k] ULift.{v, 0} (Q.Vertex × Q.Vertex) → k :=
+  liftedCoordinateAugmentation (cutEnvelopingCoordinateAugmentation Q E)
+e : ULift.{v, 0} (Q.Vertex × Q.Vertex) → AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i) :=
+  fun i => cutEnvelopingVertexIdempotent Q E i.down
+hεker : RingHom.ker ε = cutEnvelopingAugmentationKernel Q E
+⊢ ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) (↑M.ringModule)
+      (RingHom.ker ε.toRingHom) =
+    gradedNilpotentActionSpan k (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) (↑M.ringModule)
+      (cutEnvelopingPositiveModuleOperator Q E ↑M.ringModule) (cutZeroEnvelopingAugmentationKernel Q E)
+work/ASGinzburgDraft/PeriodCutEnvelopingMinimalCover.lean:97:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  ∃ P H π,
+    Projective P ∧
+      DirectSum.IsInternal H ∧
+        (∀ q < b, H q = ⊥) ∧
+          (∀ (p q : ℤ),
+              ∀ r ∈ E.cutEnvelopingIntegerHomogeneousSubspace (fun i => ↑↑i) p, ∀ x ∈ H q, r • x ∈ H (p + q)) ∧
+            (∀ (q : ℤ), ∀ x ∈ H q, (ConcreteCategory.hom π) x ∈ M.grade q) ∧
+              Epi π ∧
+                ∀ (p : ↑P),
+                  (ConcreteCategory.hom π) p = 0 →
+                    p ∈
+                      ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) (↑P)
+                        (RingHom.ker ε.toRingHom)
+but is expected to have type
+  ∃ P G π,
+    Projective P ∧
+      DirectSum.IsInternal G ∧
+        (∀ q < b, G q = ⊥) ∧
+          (∀ (p q : ℤ),
+              ∀ r ∈ E.cutEnvelopingIntegerHomogeneousSubspace (fun i => ↑↑i) p, ∀ x ∈ G q, r • x ∈ G (p + q)) ∧
+            (∀ (q : ℤ), ∀ x ∈ G q, (ConcreteCategory.hom π) x ∈ M.grade q) ∧
+              Epi π ∧
+                ∀ (x : ↑P),
+                  (ConcreteCategory.hom π) x = 0 →
+                    x ∈
+                      ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)) (↑P)
+                        (cutEnvelopingAugmentationKernel Q E)

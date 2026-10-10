@@ -1,0 +1,60 @@
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:67:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun z =>
+      (ordinaryRingDualTensorFiniteFreeInverse k R N n)
+          ((ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))) z) =
+        z)
+    0
+
+case refine_1
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+N : ModuleCat R
+n : ℕ
+z : BalancedTensorSpace k R ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R))) ↑N
+⊢ (fun z =>
+      (ordinaryRingDualTensorFiniteFreeInverse k R N n)
+          ((ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R))) z) =
+        z)
+    0
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:73:13: error: `simp` made no progress
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:87:65: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+N : ModuleCat R
+n : ℕ
+g : (Fin n → R) →ₗ[R] ↑N
+j : Fin n
+⊢ ∑ c,
+      ((ordinaryRingDualTensorEvaluation k R N (ModuleCat.of R (Fin n → R)))
+          (balancedTensorTmul k R ((Fin n → R) →ₗ[R] R) (↑N) (LinearMap.proj c) (g (Pi.single c 1))))
+        (Pi.single j 1) =
+    g (Pi.single j 1)
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:94:8: warning: This simp argument is unused:
+  ordinaryRingDualTensorEvaluation_tmul
+
+Hint: Omit it from the simp argument list.
+  simp [̵o̵r̵d̵i̵n̵a̵r̵y̵R̵i̵n̵g̵D̵u̵a̵l̵T̵e̵n̵s̵o̵r̵E̵v̵a̵l̵u̵a̵t̵i̵o̵n̵_̵t̵m̵u̵l̵,̵ ̵P̵i̵.̵b̵a̵s̵i̵s̵F̵u̵n̵_̵a̵p̵p̵l̵y̵,̵[̲P̲i̲.̲b̲a̲s̲i̲s̲F̲u̲n̲_̲a̲p̲p̲l̲y̲,̲ LinearMap.proj_apply, Pi.single_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:95:4: warning: This simp argument is unused:
+  LinearMap.proj_apply
+
+Hint: Omit it from the simp argument list.
+  simp [ordinaryRingDualTensorEvaluation_tmul, Pi.basisFun_apply, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵p̵r̵o̵j̵_̵a̵p̵p̵l̵y̵,̵ ̵Pi.single_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:95:26: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  simp [ordinaryRingDualTensorEvaluation_tmul, Pi.basisFun_apply, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵p̵r̵o̵j̵_̵a̵p̵p̵l̵y̵,̵ ̵P̵i̵.̵s̵i̵n̵g̵l̵e̵_̵a̵p̵p̵l̵y̵]̵L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲p̲r̲o̲j̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

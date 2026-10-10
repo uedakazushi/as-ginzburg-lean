@@ -1,0 +1,69 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingAugmentationComparison.lean:37:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutEnvelopingAugmentation Q E).toRingHom 0
+in the target expression
+  (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) 0) =
+    (algebraEnvelopingMap k (cutAugmentation Q E)) 0
+
+case zero
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+⊢ (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) 0) =
+    (algebraEnvelopingMap k (cutAugmentation Q E)) 0
+work/ASGinzburgDraft/PeriodCutEnvelopingAugmentationComparison.lean:50:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutEnvelopingAugmentation Q E).toRingHom (?a + ?b)
+in the target expression
+  (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) (x + y)) =
+    (algebraEnvelopingMap k (cutAugmentation Q E)) (x + y)
+
+case add
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x y : (E.CutGradedRing fun i => ↑↑i) ⊗[k] (E.CutGradedRing fun i => ↑↑i)ᵐᵒᵖ
+hx :
+  (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) x) =
+    (algebraEnvelopingMap k (cutAugmentation Q E)) x
+hy :
+  (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) y) =
+    (algebraEnvelopingMap k (cutAugmentation Q E)) y
+⊢ (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) (x + y)) =
+    (algebraEnvelopingMap k (cutAugmentation Q E)) (x + y)
+work/ASGinzburgDraft/PeriodCutEnvelopingAugmentationComparison.lean:63:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutEnvelopingQuotientTensorEquiv Q E).toAddEquiv 0
+in the target expression
+  (cutEnvelopingQuotientTensorEquiv Q E) 0 = 0
+
+case h.mp
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)
+hx : (cutEnvelopingAugmentation Q E) x = 0
+⊢ (cutEnvelopingQuotientTensorEquiv Q E) 0 = 0
+work/ASGinzburgDraft/PeriodCutEnvelopingAugmentationComparison.lean:66:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutEnvelopingQuotientTensorEquiv Q E).toAddEquiv 0
+in the target expression
+  (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) x) = (cutEnvelopingQuotientTensorEquiv Q E) 0
+
+case h.mpr.a
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)
+hx : (algebraEnvelopingMap k (cutAugmentation Q E)) x = 0
+⊢ (cutEnvelopingQuotientTensorEquiv Q E) ((cutEnvelopingAugmentation Q E) x) = (cutEnvelopingQuotientTensorEquiv Q E) 0
+work/ASGinzburgDraft/PeriodCutEnvelopingAugmentationComparison.lean:72:2: error: Type mismatch
+  cutAugmentation_zero_component Q E x
+has type
+  (cutAugmentation Q E) ((E.cutHomogeneousInclusion (fun i => ↑↑i) 0) x) = (cutZeroDiagonalAlgHom Q E) x
+but is expected to have type
+  ((cutAugmentation Q E).comp (cutZeroRingInclusion Q E)) x x✝ = (cutZeroDiagonalAlgHom Q E) x x✝

@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/BalancedTensorLeftFunctor.lean:22:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (balancedTensorMapLeft ?k ?R ?N ?f) (balancedTensorTmul ?k ?R ?M ?N ?x ?y)
+in the target expression
+  (ModuleCat.Hom.hom (ModuleCat.ofHom (balancedTensorMapLeft k R N (ModuleCat.Hom.hom (𝟙 M)))))
+      (balancedTensorTmul k R (↑M) N x y) =
+    (ModuleCat.Hom.hom (𝟙 (ModuleCat.of k (BalancedTensorSpace k R (↑M) N)))) (balancedTensorTmul k R (↑M) N x y)
+
+case hf.h
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+inst✝³ : Algebra k R
+N : Type w
+inst✝² : AddCommGroup N
+inst✝¹ : Module k N
+inst✝ : Module R N
+M : ModuleCat Rᵐᵒᵖ
+x : ↑M
+y : N
+⊢ (ModuleCat.Hom.hom (ModuleCat.ofHom (balancedTensorMapLeft k R N (ModuleCat.Hom.hom (𝟙 M)))))
+      (balancedTensorTmul k R (↑M) N x y) =
+    (ModuleCat.Hom.hom (𝟙 (ModuleCat.of k (BalancedTensorSpace k R (↑M) N)))) (balancedTensorTmul k R (↑M) N x y)

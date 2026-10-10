@@ -1,0 +1,94 @@
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:116:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ιTotal ?K (ComplexShape.down ℕ) ?i ?j ?n ?h ≫ bicomplexTotalProjection ?K ?n ?i ?j
+in the target expression
+  (TotalComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (i + 1, j) •
+        (K.d (i + 1) i).f j ≫ K.ιTotal (ComplexShape.down ℕ) i j (i + j) ⋯) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    K.ιTotal (ComplexShape.down ℕ) (i + 1) j (i + j + 1) hab ≫
+      bicomplexTotalProjection K (i + j + 1) (i + 1) j ≫ (K.d (i + 1) i).f j
+
+case pos
+k : Type u_1
+inst✝ : Ring k
+K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+i j : ℕ
+hab : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (i + 1, j) = i + j + 1
+⊢ (TotalComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (i + 1, j) •
+        (K.d (i + 1) i).f j ≫ K.ιTotal (ComplexShape.down ℕ) i j (i + j) ⋯) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    K.ιTotal (ComplexShape.down ℕ) (i + 1) j (i + j + 1) hab ≫
+      bicomplexTotalProjection K (i + j + 1) (i + 1) j ≫ (K.d (i + 1) i).f j
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:118:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  K.ιTotal (ComplexShape.down ℕ) a b (i + j) ?m.346 ≫ bicomplexTotalProjection K (i + j) i j
+in the target expression
+  (TotalComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (a + 1, b) •
+        (K.d (a + 1) a).f b ≫ K.ιTotal (ComplexShape.down ℕ) a b (i + j) ⋯) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    K.ιTotal (ComplexShape.down ℕ) (a + 1) b (i + j + 1) hab ≫
+      bicomplexTotalProjection K (i + j + 1) (i + 1) j ≫ (K.d (i + 1) i).f j
+
+case neg
+k : Type u_1
+inst✝ : Ring k
+K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+i j b a : ℕ
+hab : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (a + 1, b) = i + j + 1
+ha : ¬a = i
+⊢ (TotalComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (a + 1, b) •
+        (K.d (a + 1) a).f b ≫ K.ιTotal (ComplexShape.down ℕ) a b (i + j) ⋯) ≫
+      bicomplexTotalProjection K (i + j) i j =
+    K.ιTotal (ComplexShape.down ℕ) (a + 1) b (i + j + 1) hab ≫
+      bicomplexTotalProjection K (i + j + 1) (i + 1) j ≫ (K.d (i + 1) i).f j
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:111:34: warning: This simp argument is unused:
+  one_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [ComplexShape.ε₁, o̵n̵e̵_̵s̵m̵u̵l̵,̵ ̵assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:145:46: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ιTotal ?K (ComplexShape.down ℕ) ?i ?j ?n ?h ≫ bicomplexTotalProjection ?K ?n ?i ?j
+in the target expression
+  TotalComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (i, j + 1) •
+      (K.X i).d (j + 1) j ≫ 𝟙 ((K.X i).X j) =
+    (-1) ^ i •
+      K.ιTotal (ComplexShape.down ℕ) i (j + 1) (i + j + 1) hab ≫
+        bicomplexTotalProjection K (i + j + 1) i (j + 1) ≫ (K.X i).d (j + 1) j
+
+case pos
+k : Type u_1
+inst✝ : Ring k
+K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+i j : ℕ
+hab : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (i, j + 1) = i + j + 1
+⊢ TotalComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (i, j + 1) •
+      (K.X i).d (j + 1) j ≫ 𝟙 ((K.X i).X j) =
+    (-1) ^ i •
+      K.ιTotal (ComplexShape.down ℕ) i (j + 1) (i + j + 1) hab ≫
+        bicomplexTotalProjection K (i + j + 1) i (j + 1) ≫ (K.X i).d (j + 1) j
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:149:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  K.ιTotal (ComplexShape.down ℕ) a (b + 1) (i + j + 1) hab ≫ bicomplexTotalProjection K (i + j + 1) i (j + 1)
+in the target expression
+  0 =
+    (-1) ^ i •
+      K.ιTotal (ComplexShape.down ℕ) a (b + 1) (i + j + 1) hab ≫
+        bicomplexTotalProjection K (i + j + 1) i (j + 1) ≫ (K.X i).d (j + 1) j
+
+case neg
+k : Type u_1
+inst✝ : Ring k
+K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+i j a b : ℕ
+hab : (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (a, b + 1) = i + j + 1
+ha : ¬a = i
+⊢ 0 =
+    (-1) ^ i •
+      K.ιTotal (ComplexShape.down ℕ) a (b + 1) (i + j + 1) hab ≫
+        bicomplexTotalProjection K (i + j + 1) i (j + 1) ≫ (K.X i).d (j + 1) j
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:140:34: warning: This simp argument is unused:
+  ComplexShape.ε_down_ℕ
+
+Hint: Omit it from the simp argument list.
+  simp only [ComplexShape.ε₂, C̵o̵m̵p̵l̵e̵x̵S̵h̵a̵p̵e̵.̵ε̵_̵d̵o̵w̵n̵_̵ℕ̵,̵ ̵Linear.units_smul_comp, assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

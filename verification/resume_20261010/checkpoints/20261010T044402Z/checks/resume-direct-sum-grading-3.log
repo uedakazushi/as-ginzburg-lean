@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/DirectSumGrading.lean:58:23: error: unsolved goals
+case H.h.homogeneous
+k : Type u
+inst✝⁵ : Field k
+ι : Type v
+κ : Type w
+inst✝⁴ : DecidableEq ι
+inst✝³ : DecidableEq κ
+M : ι → Type z
+inst✝² : (i : ι) → AddCommGroup (M i)
+inst✝¹ : (i : ι) → Module k (M i)
+G : (i : ι) → κ → Submodule k (M i)
+inst✝ : (i : ι) → DirectSum.Decomposition (G i)
+L : (⨁ (i : ι), M i) →ₗ[k] ⨁ (q : κ), ↥(directSumGrade k M G q) := ↑(directSumGradingLinearEquiv k M G)
+i : ι
+q : κ
+x : ↥(G i q)
+⊢ (DirectSum.of M i) ((G i q).subtype x) = (DirectSum.of M i) ↑x

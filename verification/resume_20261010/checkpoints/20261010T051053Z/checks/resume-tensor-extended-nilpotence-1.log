@@ -1,0 +1,40 @@
+work/ASGinzburgDraft/TensorExtendedIdealNilpotence.lean:54:32: error: Application type mismatch: The argument
+  hy
+has type
+  (LinearMap.rTensor S (Submodule.restrictScalars k J).subtype) (y + z) ∈ Ideal.map Algebra.TensorProduct.includeLeft J
+but is expected to have type
+  (LinearMap.rTensor S (Submodule.restrictScalars k I).subtype) (a ⊗ₜ[k] b) *
+      (LinearMap.rTensor S (Submodule.restrictScalars k J).subtype) y ∈
+    Ideal.map Algebra.TensorProduct.includeLeft (I * J)
+in the application
+  Submodule.add_mem (Ideal.map Algebra.TensorProduct.includeLeft (I * J)) hy
+work/ASGinzburgDraft/TensorExtendedIdealNilpotence.lean:57:30: error: Application type mismatch: The argument
+  hx
+has type
+  (LinearMap.rTensor S (Submodule.restrictScalars k I).subtype) (x + z) ∈ Ideal.map Algebra.TensorProduct.includeLeft I
+but is expected to have type
+  (LinearMap.rTensor S (Submodule.restrictScalars k I).subtype) x *
+      (LinearMap.rTensor S (Submodule.restrictScalars k J).subtype) y ∈
+    Ideal.map Algebra.TensorProduct.includeLeft (I * J)
+in the application
+  Submodule.add_mem (Ideal.map Algebra.TensorProduct.includeLeft (I * J)) hx
+work/ASGinzburgDraft/TensorExtendedIdealNilpotence.lean:86:32: error: Application type mismatch: The argument
+  hy
+has type
+  (LinearMap.lTensor R (Submodule.restrictScalars k J).subtype) (y + z) ∈ Ideal.map Algebra.TensorProduct.includeRight J
+but is expected to have type
+  (LinearMap.lTensor R (Submodule.restrictScalars k I).subtype) (a ⊗ₜ[k] b) *
+      (LinearMap.lTensor R (Submodule.restrictScalars k J).subtype) y ∈
+    Ideal.map Algebra.TensorProduct.includeRight (I * J)
+in the application
+  Submodule.add_mem (Ideal.map Algebra.TensorProduct.includeRight (I * J)) hy
+work/ASGinzburgDraft/TensorExtendedIdealNilpotence.lean:89:30: error: Application type mismatch: The argument
+  hx
+has type
+  (LinearMap.lTensor R (Submodule.restrictScalars k I).subtype) (x + z) ∈ Ideal.map Algebra.TensorProduct.includeRight I
+but is expected to have type
+  (LinearMap.lTensor R (Submodule.restrictScalars k I).subtype) x *
+      (LinearMap.lTensor R (Submodule.restrictScalars k J).subtype) y ∈
+    Ideal.map Algebra.TensorProduct.includeRight (I * J)
+in the application
+  Submodule.add_mem (Ideal.map Algebra.TensorProduct.includeRight (I * J)) hx

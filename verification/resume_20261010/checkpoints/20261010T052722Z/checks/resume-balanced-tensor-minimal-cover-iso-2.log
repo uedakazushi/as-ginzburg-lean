@@ -1,0 +1,63 @@
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:17:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorIdealAction_map_mem`:
+  [J.IsTwoSided]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [J.IsTwoSided] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:42:44: error: failed to synthesize
+  FunLike (P ⟶ M) ?m.143 ?m.144
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:51:28: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ConcreteCategory.hom π) p
+in the target expression
+  c • (↑k (ModuleCat.Hom.hom π)) p = c • x
+
+case smul
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+J : Ideal R
+inst✝ : J.IsTwoSided
+P M : ModuleCat Rᵐᵒᵖ
+π : P ⟶ M
+hπ : Function.Surjective ⇑(ConcreteCategory.hom π)
+x✝ : ↑M
+c : k
+x : ↑M
+hx : x ∈ Submodule.span k (Set.range fun p => MulOpposite.op ↑p.1 • p.2)
+p : ↑P
+hp : p ∈ balancedTensorIdealAction k R (↑P) J
+hpx : (ConcreteCategory.hom π) p = x
+⊢ c • (↑k (ModuleCat.Hom.hom π)) p = c • x
+work/ASGinzburgDraft/BalancedTensorMinimalCoverIso.lean:119:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (balancedTensorQuotientEquiv ?k ?R ↑?M ?J) ((balancedTensorMapLeft ?k ?R (?R ⧸ ?J) (ModuleCat.Hom.hom ?π)) ?x)
+in the target expression
+  (balancedTensorQuotientEquiv k R (↑M) J)
+      ((ConcreteCategory.hom ((balancedTensorLeftFunctor k R (R ⧸ J)).map π))
+        ((balancedTensorQuotientEquiv k R (↑P) J).symm q)) =
+    (balancedTensorQuotientEquiv k R (↑M) J) y
+
+case right.a
+k : Type u
+inst✝⁴ : Field k
+R : Type v
+inst✝³ : Ring R
+inst✝² : Algebra k R
+J : Ideal R
+inst✝¹ : J.IsTwoSided
+P M : ModuleCat Rᵐᵒᵖ
+π : P ⟶ M
+inst✝ : Epi π
+hker : ∀ (x : ↑P), (ConcreteCategory.hom π) x = 0 → x ∈ balancedTensorIdealAction k R (↑P) J
+hπ : Function.Surjective ⇑(ConcreteCategory.hom π)
+hbij : Function.Bijective ⇑(balancedTensorIdealQuotientMapLeft k R J π)
+y : ↑((balancedTensorLeftFunctor k R (R ⧸ J)).obj M)
+q : BalancedTensorIdealQuotient k R (↑P) J
+hq : (balancedTensorIdealQuotientMapLeft k R J π) q = (balancedTensorQuotientEquiv k R (↑M) J) y
+⊢ (balancedTensorQuotientEquiv k R (↑M) J)
+      ((ConcreteCategory.hom ((balancedTensorLeftFunctor k R (R ⧸ J)).map π))
+        ((balancedTensorQuotientEquiv k R (↑P) J).symm q)) =
+    (balancedTensorQuotientEquiv k R (↑M) J) y

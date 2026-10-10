@@ -1,0 +1,58 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:35:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?r • ?x
+in the target expression
+  (c • a) • x = c • a • x
+
+case smul_assoc
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M M' : ModuleCat Rᵐᵒᵖ
+N N' : ModuleCat R
+f : M ⟶ M'
+g : N ⟶ N'
+Q₀ : Module k (↑M ⊗[k] ↑N) := inferInstance
+Q₀' : Module k (↑M' ⊗[k] ↑N') := inferInstance
+P : Module k (↑M ⊗[k] ↑N) :=
+  Module.compHom (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+P' : Module k (↑M' ⊗[k] ↑N') :=
+  Module.compHom (↑(((tensorRightEnvelopingBifunctor k R).obj M').obj N')) (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+this : Module k (↑M ⊗[k] ↑N) := P
+c : k
+a : (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+x : ↑M ⊗[k] ↑N
+⊢ (c • a) • x = c • a • x
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:43:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?r • ?x
+in the target expression
+  (c • a) • x = c • a • x
+
+case smul_assoc
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M M' : ModuleCat Rᵐᵒᵖ
+N N' : ModuleCat R
+f : M ⟶ M'
+g : N ⟶ N'
+Q₀ : Module k (↑M ⊗[k] ↑N) := inferInstance
+Q₀' : Module k (↑M' ⊗[k] ↑N') := inferInstance
+P : Module k (↑M ⊗[k] ↑N) :=
+  Module.compHom (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+P' : Module k (↑M' ⊗[k] ↑N') :=
+  Module.compHom (↑(((tensorRightEnvelopingBifunctor k R).obj M').obj N')) (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+tP : IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (↑M ⊗[k] ↑N)
+this : Module k (↑M' ⊗[k] ↑N') := P'
+c : k
+a : (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+x : ↑M' ⊗[k] ↑N'
+⊢ (c • a) • x = c • a • x
+work/ASGinzburgDraft/BalancedTensorEnvelopingScalarNaturality.lean:51:7: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

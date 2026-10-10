@@ -1,0 +1,35 @@
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:21:26: error: unsolved goals
+case a.h
+R : Type v
+inst✝ : Ring R
+n : ℕ
+i j : Fin n
+⊢ Pi.single i 1 j = (ordinaryRingDualFiniteFreeEquiv R n) (LinearMap.proj i) j
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:25:8: warning: This simp argument is unused:
+  ordinaryRingDualFiniteFreeEquiv_apply
+
+Hint: Omit it from the simp argument list.
+  simp [o̵r̵d̵i̵n̵a̵r̵y̵R̵i̵n̵g̵D̵u̵a̵l̵F̵i̵n̵i̵t̵e̵F̵r̵e̵e̵E̵q̵u̵i̵v̵_̵a̵p̵p̵l̵y̵,̵ ̵Pi.basisFun_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:31:7: error: Function expected at
+  h
+but this term has type
+  ↑(ordinaryRingBidual R (ModuleCat.of R (Fin n → R)))
+
+Note: Expected a function because this term is being applied to the argument
+  ((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i))
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:45:15: error: Function expected at
+  h
+but this term has type
+  ↑(ordinaryRingBidual R (ModuleCat.of R (Fin n → R)))
+
+Note: Expected a function because this term is being applied to the argument
+  ((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) j))
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:47:8: error: Function expected at
+  h
+but this term has type
+  ↑(ordinaryRingBidual R (ModuleCat.of R (Fin n → R)))
+
+Note: Expected a function because this term is being applied to the argument
+  ((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i))

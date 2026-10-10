@@ -1,0 +1,51 @@
+import work.ASGinzburgDraft.BicomplexTotalCoordinates
+import Mathlib.Algebra.Homology.HomologicalComplexAbelian
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Algebra.Category.ModuleCat.EpiMono
+
+/-! Finite-diagonal totalization preserves genuine short exact sequences. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Preadditive
+open HomologicalComplex HomologicalComplex₂
+variable {k : Type*} [Ring k]
+variable {K L : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)}
+
+@[reassoc]
+theorem bicomplexTotalProjection_naturality (φ : K ⟶ L) (n i j : ℕ) :
+    bicomplexTotalProjection K n i j ≫ (φ.f i).f j =
+      (HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n ≫
+        bicomplexTotalProjection L n i j := by
+  apply HomologicalComplex₂.total.hom_ext
+  intro a b hab
+  rw [← assoc, assoc,
+    HomologicalComplex₂.ιTotal_map_assoc, ← assoc]
+  by_cases ha : a = i
+  · subst a
+    by_cases hb : b = j
+    · subst b
+      rw [bicomplexTotal_ι_projection_same, bicomplexTotal_ι_projection_same,
+        id_comp, comp_id]
+    · rw [bicomplexTotal_ι_projection_ne K n i b i j hab (Or.inr hb),
+        bicomplexTotal_ι_projection_ne L n i b i j hab (Or.inr hb), zero_comp, comp_zero]
+  · rw [bicomplexTotal_ι_projection_ne K n a b i j hab (Or.inl ha),
+      bicomplexTotal_ι_projection_ne L n a b i j hab (Or.inl ha), zero_comp, comp_zero]
+
+theorem bicomplexTotalProjection_naturality_apply (φ : K ⟶ L) (n i j : ℕ)
+    (x : (K.total (ComplexShape.down ℕ)).X n) :
+    (φ.f i).f j (bicomplexTotalProjection K n i j x) =
+      bicomplexTotalProjection L n i j
+        ((HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n x) :=
+  congrArg (fun f : (K.total (ComplexShape.down ℕ)).X n ⟶ (L.X i).X j => f x)
+    (bicomplexTotalProjection_naturality φ n i j)
+
+theorem bicomplexTotal_map_injective (φ : K ⟶ L)
+    (hφ : ∀ i j, Function.Injective ((φ.f i).f j)) (n : ℕ) :
+    Function.Injective ((HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)).f n) := by
+  intro x y hxy
+  apply bicomplexTotal_ext K n x y
+  intro i j hij
+  apply hφ i j
+  rw [bicomplexTotalProjection_naturality_apply,
+    bicomplexTotalProjection_naturality_apply, hxy]
+
+end ASGinzburg

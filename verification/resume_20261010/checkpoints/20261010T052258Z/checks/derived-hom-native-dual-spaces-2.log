@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualHomogeneousSpaces.lean:23:10: error: Invalid field `eq`: The environment does not contain `Eq.eq`
+  Algebra.commutes c (f x)
+has type
+  (algebraMap k R) c * f x = f x * (algebraMap k R) c
+work/ASGinzburgDraft/GradedOrdinaryRingDualHomogeneousSpaces.lean:20:29: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+G : ℤ → Submodule k R
+M : GradedOrdinaryModuleData k R G
+q : ℤ
+c : k
+f : ↑(ordinaryRingDual R M.ringModule)
+hf : f ∈ {f | ∀ (p : ℤ), ∀ x ∈ M.grade p, f x ∈ G (p + q)}
+p : ℤ
+x : ↑M.ringModule
+hx : x ∈ M.grade p
+⊢ f x * (algebraMap k R) c ∈ G (p + q)

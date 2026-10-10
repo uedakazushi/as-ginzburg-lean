@@ -1,0 +1,21 @@
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
+
+/-! Elementwise boundaries in actual chain complexes of modules. -/
+namespace ASGinzburg
+open CategoryTheory HomologicalComplex
+universe u v
+variable {k : Type u} [Ring k]
+
+theorem moduleChain_exactAt_iff (K : ChainComplex (ModuleCat.{v} k) ℕ) (n : ℕ) :
+    K.ExactAt n ↔ ∀ x : K.X n, K.d n (n - 1) x = 0 →
+      ∃ y : K.X (n + 1), K.d (n + 1) n y = x := by
+  rw [K.exactAt_iff' (i := n + 1) (k := n - 1) (by simp) (by simp)]
+  exact (K.sc' (n + 1) n (n - 1)).moduleCat_exact_iff
+
+theorem moduleChain_exists_boundary (K : ChainComplex (ModuleCat.{v} k) ℕ)
+    (n : ℕ) (h : K.ExactAt n) (x : K.X n) (hx : K.d n (n - 1) x = 0) :
+    ∃ y : K.X (n + 1), K.d (n + 1) n y = x :=
+  (moduleChain_exactAt_iff K n).mp h x hx
+
+end ASGinzburg

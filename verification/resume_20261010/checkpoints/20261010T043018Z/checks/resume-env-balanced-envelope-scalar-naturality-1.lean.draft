@@ -1,0 +1,51 @@
+import work.ASGinzburgDraft.BalancedTensorEnvelopingFunctorComparison
+import work.ASGinzburgDraft.BalancedTensorFieldModuleChangeNaturality
+
+/-! The equality of the induced and canonical field actions commutes
+with every genuine tensor map of ordinary module morphisms. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {M M' : ModuleCat.{max v w} Rᵐᵒᵖ} {N N' : ModuleCat.{max v z} R}
+
+attribute [local instance] tensorRightEnvelopingModule tensorRightEnvelopingScalarTower
+  regularEnvelopingModule regularEnvelopingScalarTower
+
+theorem balancedTensorEnvelopingTensorScalarIso_naturality (f : M ⟶ M') (g : N ⟶ N') :
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+        (ModuleCat.ofHom (tensorRightEnvelopingMap k R f.hom g.hom)) ≫
+      (balancedTensorEnvelopingTensorScalarIso k R M' N').hom =
+    (balancedTensorEnvelopingTensorScalarIso k R M N).hom ≫
+      ModuleCat.ofHom (balancedTensorMapLeft k (AlgebraEnvelopingRing k R) R
+        (tensorRightEnvelopingMap k R f.hom g.hom)) := by
+  let P : Module k (M ⊗[k] N) := Module.compHom
+    (((tensorRightEnvelopingBifunctor k R).obj M).obj N)
+    (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+  let P' : Module k (M' ⊗[k] N') := Module.compHom
+    (((tensorRightEnvelopingBifunctor k R).obj M').obj N')
+    (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+  have tP : letI := P; IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (M ⊗[k] N) := by
+    letI := P
+    constructor
+    intro c a x
+    change (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ c * a) • x =
+      algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ c • (a • x)
+    exact mul_smul _ _ _
+  have tP' : letI := P'; IsScalarTower k (AlgebraEnvelopingRing k R)ᵐᵒᵖ (M' ⊗[k] N') := by
+    letI := P'
+    constructor
+    intro c a x
+    change (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ c * a) • x =
+      algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ c • (a • x)
+    exact mul_smul _ _ _
+  exact balancedTensorFieldModuleChangeIso_naturality k (AlgebraEnvelopingRing k R)
+    (M ⊗[k] N) (M' ⊗[k] N') R
+    P inferInstance (tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq k R M N)
+    P' inferInstance (tensorRightEnvelopingBifunctor_moduleOfAlgebraModule_eq k R M' N')
+    tP (tensorRightEnvelopingScalarTower k R M N)
+    tP' (tensorRightEnvelopingScalarTower k R M' N')
+    (tensorRightEnvelopingMap k R f.hom g.hom)
+
+end ASGinzburg

@@ -1,0 +1,13 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorRightModule
+import Mathlib.Algebra.Module.Projective
+namespace ASGinzburg
+open scoped TensorProduct
+variable (k R : Type) [Field k] [Ring R] [Algebra k R]
+attribute [local instance] tensorRightEnvelopingModule
+set_option pp.all true in
+#synth Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+set_option pp.all true in
+#synth Module R R
+set_option pp.all true in
+#synth Module Rᵐᵒᵖ R
+end ASGinzburg

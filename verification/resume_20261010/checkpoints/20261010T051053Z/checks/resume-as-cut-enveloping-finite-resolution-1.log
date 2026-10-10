@@ -1,0 +1,44 @@
+work/ASGinzburgDraft/ASCutEnvelopingFiniteResolution.lean:38:18: error: failed to synthesize
+  FiniteDimensional k
+    (↑M.ringModule ⧸
+      ordinaryIdealActionSpan k (AlgebraEnvelopingRing k ((periodIso A Q hAS).CutGradedRing fun i => ↑↑i))
+        (↑M.ringModule) (PeriodIso.cutEnvelopingAugmentationKernel Q (periodIso A Q hAS)))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutEnvelopingFiniteResolution.lean:40:6: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a => Module.Finite (AlgebraEnvelopingRing k ((periodIso A Q hAS).CutGradedRing fun i => ↑↑i)) ↑_a
+Error: Application type mismatch: The argument
+  PeriodIso.cutEnvelopingGradedModuleModule Q (periodIso A Q hAS) M
+has type
+  Module (AlgebraEnvelopingRing k ((periodIso A Q hAS).CutGradedRing fun i => ↑↑i)) ↑M.ringModule
+but is expected to have type
+  Module (AlgebraEnvelopingRing k ((periodIso A Q hAS).CutGradedRing fun i => ↑↑i)) ↑_a
+in the application
+  @Module.Finite (AlgebraEnvelopingRing k ((periodIso A Q hAS).CutGradedRing fun i => ↑↑i)) (↑_a)
+    Algebra.TensorProduct.instSemiring _a.isAddCommGroup.toAddCommMonoid
+    (PeriodIso.cutEnvelopingGradedModuleModule Q (periodIso A Q hAS) M)
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+n : ℕ
+P : ProjectiveResolution (regularEnvelopingModuleCat k (CutGradedAlgebra A Q hAS)) :=
+  cutEnvelopingRegularMinimalResolution A Q hAS
+M : GradedOrdinaryModuleData k (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS))
+  ((periodIso A Q hAS).cutEnvelopingIntegerHomogeneousSubspace fun i => ↑↑i) :=
+  cutEnvelopingRegularMinimalResolutionTermData A Q hAS n
+hM : M.ringModule = P.complex.X n
+this :
+  FiniteDimensional k
+    (↑M.ringModule ⧸
+      ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)) (↑M.ringModule)
+        (cutEnvelopingAugmentationKernel A Q hAS))
+hFinite : Module.Finite (AlgebraEnvelopingRing k ((periodIso A Q hAS).CutGradedRing fun i => ↑↑i)) ↑M.ringModule
+⊢ Module.Finite (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS))
+    ↑((cutEnvelopingRegularMinimalResolution A Q hAS).complex.X n)

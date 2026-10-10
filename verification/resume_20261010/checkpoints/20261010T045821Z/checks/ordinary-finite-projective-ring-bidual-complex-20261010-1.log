@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidualComplex.lean:19:11: error: Function expected at
+  h
+but this term has type
+  ↑((ordinaryRingBidualFunctor R).obj P)
+
+Note: Expected a function because this term is being applied to the argument
+  (ordinaryRingDualMap R (f + g) a)
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidualComplex.lean:20:6: error: Function expected at
+  h
+but this term has type
+  ↑((ordinaryRingBidualFunctor R).obj P)
+
+Note: Expected a function because this term is being applied to the argument
+  (ordinaryRingDualMap R f a)
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidualComplex.lean:20:38: error: Function expected at
+  h
+but this term has type
+  ↑((ordinaryRingBidualFunctor R).obj P)
+
+Note: Expected a function because this term is being applied to the argument
+  (ordinaryRingDualMap R g a)
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidualComplex.lean:59:2: error: Type mismatch
+  (ordinaryRingBidualEvaluationNatTrans R).naturality (f.f i)
+has type
+  (𝟭 (ModuleCat R)).map (f.f i) ≫ (ordinaryRingBidualEvaluationNatTrans R).app (L.X i) =
+    (ordinaryRingBidualEvaluationNatTrans R).app (K.X i) ≫ (ordinaryRingBidualFunctor R).map (f.f i)
+but is expected to have type
+  (ModuleCat.Hom.hom ((f ≫ (ordinaryFiniteProjectiveRingBidualComplexIso R L hL).hom).f i)) x✝ =
+    (ModuleCat.Hom.hom
+        (((ordinaryFiniteProjectiveRingBidualComplexIso R K hK).hom ≫
+              ((ordinaryRingBidualFunctor R).mapHomologicalComplex c).map f).f
+          i))
+      x✝

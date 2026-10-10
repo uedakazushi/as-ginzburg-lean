@@ -1,0 +1,135 @@
+import ASGinzburg.BalancedTensorUniversal
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+import Mathlib.Algebra.Algebra.Opposite
+
+/-! The actual right quotient module (R/J)ᵐᵒᵖ tensor a left module
+is its genuine quotient by the J-action span. -/
+namespace ASGinzburg
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (J : Ideal R) [J.IsTwoSided]
+
+def balancedTensorRightQuotientModule : Module Rᵐᵒᵖ (R ⧸ J)ᵐᵒᵖ :=
+  Module.compHom (R ⧸ J)ᵐᵒᵖ (Ideal.Quotient.mk J).op
+attribute [local instance] balancedTensorRightQuotientModule
+
+@[simp] theorem balancedTensorRightQuotientModule_smul (r : R) (x : R ⧸ J) :
+    MulOpposite.op r • MulOpposite.op x =
+      MulOpposite.op (x * Ideal.Quotient.mk J r) := rfl
+
+theorem balancedTensorRightQuotientModule_annihilated
+    (r : R) (hr : r ∈ J) (x : (R ⧸ J)ᵐᵒᵖ) : MulOpposite.op r • x=0 := by
+  obtain ⟨x,rfl⟩ := MulOpposite.op_surjective x
+  rw [balancedTensorRightQuotientModule_smul,Ideal.Quotient.eq_zero_iff_mem.mpr hr,mul_zero]
+  rfl
+
+variable (N : Type w) [AddCommGroup N] [Module k N] [Module R N] [IsScalarTower k R N]
+
+def balancedTensorLeftIdealAction : Submodule k N :=
+  Submodule.span k {a : N | ∃ r ∈ J, ∃ n : N, r • n=a}
+
+omit [Algebra k R] [J.IsTwoSided] [IsScalarTower k R N] in
+theorem balancedTensorLeftIdealAction_mem (r : R) (hr : r ∈ J) (n : N) :
+    r • n ∈ balancedTensorLeftIdealAction k R J N :=
+  Submodule.subset_span ⟨r,hr,n,rfl⟩
+
+noncomputable def balancedTensorLeftQuotientScalar (n : N) :
+    R →ₗ[k] (N ⧸ balancedTensorLeftIdealAction k R J N) where
+  toFun r := (balancedTensorLeftIdealAction k R J N).mkQ (r • n)
+  map_add' r s := by rw [add_smul,map_add]
+  map_smul' c r := by rw [smul_assoc,map_smul]
+
+noncomputable def balancedTensorLeftQuotientCoefficient (n : N) :
+    (R ⧸ J)ᵐᵒᵖ →ₗ[k] (N ⧸ balancedTensorLeftIdealAction k R J N) :=
+  ((J.restrictScalars k).liftQ (balancedTensorLeftQuotientScalar k R J N n) (by
+    intro r hr
+    exact (Submodule.Quotient.mk_eq_zero _).mpr
+      (balancedTensorLeftIdealAction_mem k R J N r hr n))).comp
+    (MulOpposite.unopLinearEquiv k (R ⧸ J)).toLinearMap
+
+@[simp] theorem balancedTensorLeftQuotientCoefficient_mk (n : N) (r : R) :
+    balancedTensorLeftQuotientCoefficient k R J N n
+      (MulOpposite.op (Ideal.Quotient.mk J r)) =
+      (balancedTensorLeftIdealAction k R J N).mkQ (r • n) := rfl
+
+noncomputable def balancedTensorLeftQuotientBilinear :
+    (R ⧸ J)ᵐᵒᵖ →ₗ[k] N →ₗ[k] (N ⧸ balancedTensorLeftIdealAction k R J N) :=
+  LinearMap.flip
+    { toFun := balancedTensorLeftQuotientCoefficient k R J N
+      map_add' := by
+        intro n m
+        apply LinearMap.ext
+        intro x
+        obtain ⟨x,rfl⟩ := MulOpposite.op_surjective x
+        obtain ⟨r,rfl⟩ := Ideal.Quotient.mk_surjective x
+        simp only [LinearMap.add_apply,balancedTensorLeftQuotientCoefficient_mk,smul_add,map_add]
+      map_smul' := by
+        intro c n
+        apply LinearMap.ext
+        intro x
+        obtain ⟨x,rfl⟩ := MulOpposite.op_surjective x
+        obtain ⟨r,rfl⟩ := Ideal.Quotient.mk_surjective x
+        simp only [LinearMap.smul_apply,balancedTensorLeftQuotientCoefficient_mk]
+        rw [smul_comm,map_smul]
+        rfl }
+
+noncomputable def balancedTensorLeftQuotientMap :
+    BalancedTensorSpace k R (R ⧸ J)ᵐᵒᵖ N →ₗ[k]
+      (N ⧸ balancedTensorLeftIdealAction k R J N) :=
+  balancedTensorLift k R (R ⧸ J)ᵐᵒᵖ N (balancedTensorLeftQuotientBilinear k R J N) (by
+    intro s x n
+    obtain ⟨x,rfl⟩ := MulOpposite.op_surjective x
+    obtain ⟨r,rfl⟩ := Ideal.Quotient.mk_surjective x
+    change (balancedTensorLeftIdealAction k R J N).mkQ ((r*s) • n) =
+      (balancedTensorLeftIdealAction k R J N).mkQ (r • s • n)
+    rw [mul_smul])
+
+@[simp] theorem balancedTensorLeftQuotientMap_tmul_mk (r : R) (n : N) :
+    balancedTensorLeftQuotientMap k R J N
+      (balancedTensorTmul k R (R ⧸ J)ᵐᵒᵖ N (MulOpposite.op (Ideal.Quotient.mk J r)) n) =
+      (balancedTensorLeftIdealAction k R J N).mkQ (r • n) := by
+  rw [balancedTensorLeftQuotientMap,balancedTensorLift_tmul]
+  rfl
+
+noncomputable def balancedTensorLeftQuotientInverse :
+    (N ⧸ balancedTensorLeftIdealAction k R J N) →ₗ[k]
+      BalancedTensorSpace k R (R ⧸ J)ᵐᵒᵖ N :=
+  (balancedTensorLeftIdealAction k R J N).liftQ
+    (balancedTensorBilinear k R (R ⧸ J)ᵐᵒᵖ N (MulOpposite.op (Ideal.Quotient.mk J 1))) (by
+      apply Submodule.span_le.mpr
+      rintro n ⟨r,hr,m,rfl⟩
+      change balancedTensorTmul k R (R ⧸ J)ᵐᵒᵖ N
+        (MulOpposite.op (Ideal.Quotient.mk J 1)) (r • m)=0
+      rw [← balancedTensorTmul_balance,balancedTensorRightQuotientModule_annihilated R J r hr]
+      change (balancedTensorBilinear k R (R ⧸ J)ᵐᵒᵖ N 0) m=0
+      rw [map_zero]
+      rfl)
+
+@[simp] theorem balancedTensorLeftQuotientInverse_mk (n : N) :
+    balancedTensorLeftQuotientInverse k R J N
+      ((balancedTensorLeftIdealAction k R J N).mkQ n) =
+      balancedTensorTmul k R (R ⧸ J)ᵐᵒᵖ N (MulOpposite.op (Ideal.Quotient.mk J 1)) n := rfl
+
+noncomputable def balancedTensorLeftQuotientEquiv :
+    BalancedTensorSpace k R (R ⧸ J)ᵐᵒᵖ N ≃ₗ[k]
+      (N ⧸ balancedTensorLeftIdealAction k R J N) where
+  toFun := balancedTensorLeftQuotientMap k R J N
+  invFun := balancedTensorLeftQuotientInverse k R J N
+  left_inv a := by
+    have h : (balancedTensorLeftQuotientInverse k R J N).comp
+        (balancedTensorLeftQuotientMap k R J N)=LinearMap.id := by
+      apply balancedTensorSpace_linearMap_ext k R (R ⧸ J)ᵐᵒᵖ N
+      intro x n
+      obtain ⟨x,rfl⟩ := MulOpposite.op_surjective x
+      obtain ⟨r,rfl⟩ := Ideal.Quotient.mk_surjective x
+      simp only [LinearMap.comp_apply,balancedTensorLeftQuotientMap_tmul_mk,
+        balancedTensorLeftQuotientInverse_mk,LinearMap.id_apply]
+      rw [← balancedTensorTmul_balance,balancedTensorRightQuotientModule_smul,← map_mul,one_mul]
+    exact LinearMap.congr_fun h a
+  right_inv a := by
+    obtain ⟨n,rfl⟩ := (balancedTensorLeftIdealAction k R J N).mkQ_surjective a
+    rw [balancedTensorLeftQuotientInverse_mk,balancedTensorLeftQuotientMap_tmul_mk,one_smul]
+  map_add' := map_add (balancedTensorLeftQuotientMap k R J N)
+  map_smul' := map_smul (balancedTensorLeftQuotientMap k R J N)
+
+end ASGinzburg

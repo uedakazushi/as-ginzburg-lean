@@ -1,0 +1,92 @@
+import work.ASGinzburgDraft.OrdinaryModuleRingBidual
+import work.ASGinzburgDraft.OrdinaryModuleFiniteFreeRetract
+import ASGinzburg.FiniteProjectiveBidual
+
+/-! Canonical bidual evaluation is an actual isomorphism on finite
+projective modules over an arbitrary ring. The finite free case is proved
+in coordinates, then the evaluation natural transformation is transported
+through genuine finite free retracts. -/
+namespace ASGinzburg
+open CategoryTheory
+universe v
+variable (R : Type v) [Ring R]
+
+theorem ordinaryRingDualFiniteFreeEquiv_apply (n : ℕ)
+    (f : ordinaryRingDual R (ModuleCat.of R (Fin n → R))) (i : Fin n) :
+    ordinaryRingDualFiniteFreeEquiv R n f i =
+      MulOpposite.op (f (Pi.basisFun R (Fin n) i)) := rfl
+
+theorem ordinaryRingDualFiniteFreeEquiv_symm_basis (n : ℕ) (i : Fin n) :
+    (ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i) =
+      LinearMap.proj i := by
+  classical
+  apply (ordinaryRingDualFiniteFreeEquiv R n).injective
+  rw [LinearEquiv.apply_symm_apply]
+  funext j
+  change Pi.basisFun Rᵐᵒᵖ (Fin n) i j =
+    MulOpposite.op ((LinearMap.proj i : (Fin n → R) →ₗ[R] R)
+      (Pi.basisFun R (Fin n) j))
+  rw [Pi.basisFun_apply, Pi.basisFun_apply]
+  by_cases h : i = j
+  · subst j
+    simp
+  · simp [Pi.single_eq_of_ne h, Pi.single_eq_of_ne (Ne.symm h)]
+
+noncomputable def ordinaryRingBidualFiniteFreeEquiv (n : ℕ) :
+    (Fin n → R) ≃ₗ[R] ordinaryRingBidual R (ModuleCat.of R (Fin n → R)) :=
+  { ordinaryRingBidualEvaluationLinearMap R (ModuleCat.of R (Fin n → R)) with
+    invFun := fun h i => MulOpposite.unop
+      ((show ordinaryRingDual R (ModuleCat.of R (Fin n → R)) →ₗ[Rᵐᵒᵖ] Rᵐᵒᵖ from h)
+        ((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i)))
+    left_inv := by
+      intro x
+      funext i
+      change MulOpposite.unop (MulOpposite.op
+        (((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i)) x)) = x i
+      rw [ordinaryRingDualFiniteFreeEquiv_symm_basis]
+      rfl
+    right_inv := by
+      intro h
+      apply ((Pi.basisFun Rᵐᵒᵖ (Fin n)).map
+        (ordinaryRingDualFiniteFreeEquiv R n).symm).ext
+      intro i
+      change MulOpposite.op
+          (((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i))
+            (fun j => MulOpposite.unop
+              ((show ordinaryRingDual R (ModuleCat.of R (Fin n → R)) →ₗ[Rᵐᵒᵖ] Rᵐᵒᵖ from h)
+                ((ordinaryRingDualFiniteFreeEquiv R n).symm
+                (Pi.basisFun Rᵐᵒᵖ (Fin n) j))))) =
+        (show ordinaryRingDual R (ModuleCat.of R (Fin n → R)) →ₗ[Rᵐᵒᵖ] Rᵐᵒᵖ from h)
+          ((ordinaryRingDualFiniteFreeEquiv R n).symm (Pi.basisFun Rᵐᵒᵖ (Fin n) i))
+      simp only [ordinaryRingDualFiniteFreeEquiv_symm_basis, LinearMap.proj_apply,
+        MulOpposite.op_unop] }
+
+noncomputable instance ordinaryRingBidualFiniteFreeEvaluationIsIso (n : ℕ) :
+    IsIso (ordinaryRingBidualEvaluation R (ModuleCat.of R (Fin n → R))) := by
+  change IsIso (ordinaryRingBidualFiniteFreeEquiv R n).toModuleIso.hom
+  infer_instance
+
+theorem ordinaryFiniteProjectiveProperty_ringBidualEvaluation {P : ModuleCat.{v} R}
+    (hP : ordinaryFiniteProjectiveProperty R P) :
+    IsIso (ordinaryRingBidualEvaluation R P) := by
+  obtain ⟨n, ⟨r⟩⟩ := hP
+  letI : IsIso ((ordinaryRingBidualEvaluationNatTrans R).app
+      (ModuleCat.of R (Fin n → R))) := ordinaryRingBidualFiniteFreeEvaluationIsIso R n
+  exact isIso_natTrans_app_retract (ordinaryRingBidualEvaluationNatTrans R) r
+
+noncomputable instance ordinaryRingBidualFiniteProjectiveEvaluationIsIso
+    (P : ModuleCat.{v} R) [Module.Finite R P] [Projective P] :
+    IsIso (ordinaryRingBidualEvaluation R P) :=
+  ordinaryFiniteProjectiveProperty_ringBidualEvaluation R
+    ((ordinaryFiniteProjectiveProperty_iff R P).mpr ⟨inferInstance, inferInstance⟩)
+
+noncomputable def ordinaryFiniteProjectiveRingBidualIso {P : ModuleCat.{v} R}
+    (hP : ordinaryFiniteProjectiveProperty R P) : P ≅ ordinaryRingBidual R P := by
+  letI := ordinaryFiniteProjectiveProperty_ringBidualEvaluation R hP
+  exact asIso (ordinaryRingBidualEvaluation R P)
+
+@[simp] theorem ordinaryFiniteProjectiveRingBidualIso_hom {P : ModuleCat.{v} R}
+    (hP : ordinaryFiniteProjectiveProperty R P) :
+    (ordinaryFiniteProjectiveRingBidualIso R hP).hom = ordinaryRingBidualEvaluation R P := rfl
+
+end ASGinzburg

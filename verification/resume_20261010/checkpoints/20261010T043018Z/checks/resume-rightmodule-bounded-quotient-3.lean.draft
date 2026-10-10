@@ -1,0 +1,26 @@
+import work.ASGinzburgDraft.RightModuleBoundedNakayama
+
+/-! A bounded-above directed-cover right module is detected by its
+actual categorical quotient by the positive-action radical. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem rightModule_isZero_of_boundedAbove_radical_quotient
+    (M : A.RightModule) (b : ℤ)
+    (hb : ∀ i : ℤ, b < i → IsZero ((A.rightModuleEvaluation i).obj M))
+    (hQ : IsZero (A.rightModuleRadical M).quotient) : IsZero M := by
+  letI : Epi (A.rightModuleRadical M).inclusion :=
+    (Preadditive.epi_iff_isZero_cokernel _).mpr hQ
+  apply A.rightModule_isZero_of_boundedAbove_radical_top M b hb
+  intro i
+  apply (Submodule.eq_top_iff').mpr
+  intro x
+  obtain ⟨y, hy⟩ :=
+    (A.rightModule_epi_iff_surjective (A.rightModuleRadical M).inclusion).mp
+      (by infer_instance) i x
+  change y.val = x at hy
+  exact hy ▸ y.property
+
+end ASGinzburg.ZAlgebra

@@ -1,0 +1,99 @@
+import work.ASGinzburgDraft.GradedOrdinaryModuleData
+import work.ASGinzburgDraft.GradedLinearMapKernel
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+
+/-! The actual concrete kernel of a grade-preserving ordinary ring map
+inherits genuine graded data, its lower bound, and its actual inclusion.
+The module is the ordinary linear-map kernel, without a kernel hypothesis. -/
+namespace ASGinzburg.GradedOrdinaryModuleData
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {A : ℤ → Submodule k R}
+variable (P M : GradedOrdinaryModuleData k R A)
+
+def kernelModule (f : P.ringModule ⟶ M.ringModule) : ModuleCat.{v} R :=
+  ModuleCat.of R (LinearMap.ker f.hom)
+
+def kernelGrade (f : P.ringModule ⟶ M.ringModule) (q : ℤ) :
+    Submodule k (P.kernelModule M f) where
+  carrier := {x | x.val ∈ P.grade q}
+  zero_mem' := (P.grade q).zero_mem
+  add_mem' := (P.grade q).add_mem
+  smul_mem' c x hx := by
+    change (algebraMap k R c) • x.val ∈ P.grade q
+    simpa only [algebraMap_smul] using (P.grade q).smul_mem c hx
+
+@[simp] theorem kernelGrade_mem_iff (f : P.ringModule ⟶ M.ringModule)
+    (q : ℤ) (x : P.kernelModule M f) :
+    x ∈ P.kernelGrade M f q ↔ x.val ∈ P.grade q := Iff.rfl
+
+noncomputable def kernelGradeDecomposition (f : P.ringModule ⟶ M.ringModule)
+    (hf : P.PreservesGrade M f) : DirectSum.Decomposition (P.kernelGrade M f) := by
+  letI := P.decomposition
+  letI := M.decomposition
+  letI := ordinaryHomogeneousKernelDecomposition k R P.grade M.grade f hf
+  exact {
+    decompose' := DirectSum.decompose
+      (homogeneousSubmoduleGrade k P.ringModule P.grade ((LinearMap.ker f.hom).restrictScalars k))
+    left_inv := (DirectSum.decompose
+      (homogeneousSubmoduleGrade k P.ringModule P.grade ((LinearMap.ker f.hom).restrictScalars k))).left_inv
+    right_inv := (DirectSum.decompose
+      (homogeneousSubmoduleGrade k P.ringModule P.grade ((LinearMap.ker f.hom).restrictScalars k))).right_inv
+  }
+
+noncomputable def kernelData (f : P.ringModule ⟶ M.ringModule)
+    (hf : P.PreservesGrade M f) : GradedOrdinaryModuleData k R A where
+  ringModule := P.kernelModule M f
+  grade := P.kernelGrade M f
+  isInternal := by
+    letI := P.kernelGradeDecomposition M f hf
+    exact DirectSum.Decomposition.isInternal (P.kernelGrade M f)
+  smul_mem := by
+    intro p q r hr x hx
+    change r • x.val ∈ P.grade (p + q)
+    exact P.smul_mem p q r hr x.val hx
+
+theorem kernelGrade_eq_bot_of_lower_bound (f : P.ringModule ⟶ M.ringModule)
+    (b : ℤ) (hb : P.BoundedBelow b) (q : ℤ) (hq : q < b) :
+    P.kernelGrade M f q = ⊥ := by
+  ext x
+  change x.val ∈ P.grade q ↔ x = 0
+  rw [hb q hq]
+  change x.val = 0 ↔ x = 0
+  exact ⟨fun hx => Subtype.ext hx, fun hx => congrArg (fun y => y.val) hx⟩
+
+theorem kernelData_boundedBelow (f : P.ringModule ⟶ M.ringModule)
+    (hf : P.PreservesGrade M f) (b : ℤ) (hb : P.BoundedBelow b) :
+    (P.kernelData M f hf).BoundedBelow b :=
+  fun q hq => P.kernelGrade_eq_bot_of_lower_bound M f b hb q hq
+
+def kernelInclusion (f : P.ringModule ⟶ M.ringModule) :
+    P.kernelModule M f ⟶ P.ringModule :=
+  ModuleCat.ofHom (LinearMap.ker f.hom).subtype
+
+theorem kernelInclusion_preservesGrade (f : P.ringModule ⟶ M.ringModule)
+    (hf : P.PreservesGrade M f) :
+    (P.kernelData M f hf).PreservesGrade P (P.kernelInclusion M f) :=
+  fun _ _ hx => hx
+
+instance kernelInclusion_mono (f : P.ringModule ⟶ M.ringModule) :
+    Mono (P.kernelInclusion M f) :=
+  (ModuleCat.mono_iff_injective _).mpr Subtype.val_injective
+
+theorem kernelInclusion_comp (f : P.ringModule ⟶ M.ringModule) :
+    P.kernelInclusion M f ≫ f = 0 := by
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  exact x.property
+
+noncomputable def kernelIsoKernelModule (f : P.ringModule ⟶ M.ringModule) :
+    kernel f ≅ P.kernelModule M f := ModuleCat.kernelIsoKer f
+
+theorem kernelIsoKernelModule_hom_inclusion (f : P.ringModule ⟶ M.ringModule) :
+    (P.kernelIsoKernelModule M f).hom ≫ P.kernelInclusion M f = kernel.ι f :=
+  ModuleCat.kernelIsoKer_hom_ker_subtype f
+
+end ASGinzburg.GradedOrdinaryModuleData

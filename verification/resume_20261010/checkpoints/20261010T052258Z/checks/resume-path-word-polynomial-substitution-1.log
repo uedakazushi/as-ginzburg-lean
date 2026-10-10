@@ -1,0 +1,18 @@
+work/ASGinzburgDraft/PathWordPolynomialSubstitution.lean:11:16: error: `ASGinzburg.CutQuiver.pathWordMap_single` has already been declared
+work/ASGinzburgDraft/PathWordPolynomialSubstitution.lean:23:20: error: unsolved goals
+case add
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j l : Q.Vertex
+g : Q.PathComponent k j l
+f f' : Q.Path i j →₀ k
+hf :
+  (Q.pathWordMap k i l) (((Q.pathComp k) g) f) = (wordConcatenation ((Q.pathWordMap k i j) f)) ((Q.pathWordMap k j l) g)
+hf' :
+  (Q.pathWordMap k i l) (((Q.pathComp k) g) f') =
+    (wordConcatenation ((Q.pathWordMap k i j) f')) ((Q.pathWordMap k j l) g)
+⊢ (wordConcatenation ((Q.pathWordMap k i j) f)) ((Q.pathWordMap k j l) g) +
+      (wordConcatenation ((Q.pathWordMap k i j) f')) ((Q.pathWordMap k j l) g) =
+    (wordConcatenation ((Q.pathWordMap k i j) f) + wordConcatenation ((Q.pathWordMap k i j) f'))
+      ((Q.pathWordMap k j l) g)

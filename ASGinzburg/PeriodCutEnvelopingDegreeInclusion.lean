@@ -1,0 +1,55 @@
+import ASGinzburg.PeriodCutEnvelopingHomogeneousSubspaces
+
+/-! Inclusion of a fixed total-degree pair agrees with the genuine
+unsigned enveloping bigrading inclusion. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct DirectSum
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+theorem cutEnvelopingDegreeEquiv_homogeneousInclusion (n : ℕ)
+    (d : CutEnvelopingDegreePairs n) (x : E.CutEnvelopingBlock vertex d.val) :
+    E.cutEnvelopingDegreeEquiv vertex (E.cutEnvelopingHomogeneousInclusion vertex d.val x) =
+      DirectSum.lof k ℕ (E.CutEnvelopingDegreeBlock vertex) n
+        (DirectSum.lof k (CutEnvelopingDegreePairs n)
+          (fun d => E.CutEnvelopingBlock vertex d.val) d x) := by
+  apply DFinsupp.ext
+  intro m
+  apply DFinsupp.ext
+  intro c
+  rw [cutEnvelopingDegreeEquiv_apply, cutEnvelopingBigradingEquiv_inclusion]
+  by_cases hm : m = n
+  · subst m
+    simp only [DirectSum.lof_eq_of, DirectSum.of_eq_same]
+    by_cases hc : c = d
+    · subst c
+      simp only [DirectSum.of_eq_same]
+    · have hcd : c.val ≠ d.val := fun h => hc (Subtype.ext h)
+      simp only [DirectSum.of_eq_of_ne _ _ _ hcd, DirectSum.of_eq_of_ne _ _ _ hc]
+  · have hcd : c.val ≠ d.val := by
+      intro h
+      have hs := c.property
+      rw [h, d.property] at hs
+      exact hm hs.symm
+    simp only [DirectSum.lof_eq_of, DirectSum.of_eq_of_ne _ _ _ hm,
+      DirectSum.of_eq_of_ne _ _ _ hcd, DFinsupp.zero_apply]
+
+theorem cutEnvelopingDegreeInclusion_lof (n : ℕ)
+    (d : CutEnvelopingDegreePairs n) (x : E.CutEnvelopingBlock vertex d.val) :
+    E.cutEnvelopingDegreeInclusion vertex n
+      (DirectSum.lof k (CutEnvelopingDegreePairs n)
+        (fun d => E.CutEnvelopingBlock vertex d.val) d x) =
+      E.cutEnvelopingHomogeneousInclusion vertex d.val x := by
+  apply (E.cutEnvelopingDegreeEquiv vertex).injective
+  rw [cutEnvelopingDegreeEquiv_inclusion,
+    cutEnvelopingDegreeEquiv_homogeneousInclusion]
+
+theorem cutEnvelopingHomogeneousInclusion_mem_totalDegree (n : ℕ)
+    (d : CutEnvelopingDegreePairs n) (x : E.CutEnvelopingBlock vertex d.val) :
+    E.cutEnvelopingHomogeneousInclusion vertex d.val x ∈
+      E.cutEnvelopingHomogeneousSubspace vertex n := by
+  rw [← E.cutEnvelopingDegreeInclusion_lof vertex n d x]
+  exact E.cutEnvelopingDegreeInclusion_mem_homogeneousSubspace vertex n _
+
+end ASGinzburg.ZAlgebra.PeriodIso

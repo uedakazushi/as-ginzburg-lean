@@ -1,0 +1,62 @@
+import work.ASGinzburgDraft.ASCutEnvelopingRingHomDifferentialGrading
+import work.ASGinzburgDraft.GradedOrdinaryRestrictionData
+import work.ASGinzburgDraft.PeriodCutEnvelopingGradedInclusions
+
+/-! The genuine ring-Hom complex of the native minimal enveloping
+resolution is a bounded-below internally graded right module complex
+over the native cut ring. Its grades and differential use the actual
+first-factor restriction and the actual ring-Hom dual. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v
+set_option maxHeartbeats 1000000
+set_option synthInstance.maxHeartbeats 200000
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+noncomputable def ASRegular.cutEnvelopingMinimalRingHomRightNatComplex
+    (hAS : A.ASRegular Q) :
+    CochainComplex (ModuleCat.{v} (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ) ℕ :=
+  ((rightEnvelopingRightRestrictionFunctor k (hAS.CutGradedAlgebra A Q)).mapHomologicalComplex
+    (ComplexShape.up ℕ)).obj
+      (hAS.cutEnvelopingMinimalRingHomNatComplex A Q)
+
+noncomputable def ASRegular.cutEnvelopingMinimalRingHomRightTermData
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    GradedOrdinaryModuleData k (hAS.CutGradedAlgebra A Q)ᵐᵒᵖ
+      ((hAS.periodIso A Q).cutIntegerOppositeHomogeneousSpace Q) :=
+  (hAS.cutEnvelopingMinimalRingHomTermData A Q n).restrictionData
+    (AlgHom.op (Algebra.TensorProduct.includeLeft : hAS.CutGradedAlgebra A Q →ₐ[k]
+      AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)))
+    (fun p r hr => (hAS.periodIso A Q).cutEnveloping_includeLeft_op_mem_integerGrade
+      Q p r hr)
+
+theorem ASRegular.cutEnvelopingMinimalRingHomRightTermData_ringModule
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    (hAS.cutEnvelopingMinimalRingHomRightTermData A Q n).ringModule =
+      (hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q).X n := rfl
+
+theorem ASRegular.cutEnvelopingMinimalRingHomRightTermData_exists_lower_bound
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    ∃ b : ℤ, (hAS.cutEnvelopingMinimalRingHomRightTermData A Q n).BoundedBelow b := by
+  obtain ⟨b, hb⟩ := hAS.cutEnvelopingMinimalRingHomTermData_exists_lower_bound A Q n
+  exact ⟨b, (hAS.cutEnvelopingMinimalRingHomTermData A Q n).restrictionData_boundedBelow
+    (AlgHom.op (Algebra.TensorProduct.includeLeft : hAS.CutGradedAlgebra A Q →ₐ[k]
+      AlgebraEnvelopingRing k (hAS.CutGradedAlgebra A Q)))
+    (fun p r hr => (hAS.periodIso A Q).cutEnveloping_includeLeft_op_mem_integerGrade
+      Q p r hr) b hb⟩
+
+theorem ASRegular.cutEnvelopingMinimalRingHomRightNatComplex_d_preservesGrade
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    (hAS.cutEnvelopingMinimalRingHomRightTermData A Q n).PreservesGrade
+      (hAS.cutEnvelopingMinimalRingHomRightTermData A Q (n + 1))
+      ((hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q).d n (n + 1)) :=
+  hAS.cutEnvelopingMinimalRingHomNatComplex_d_preservesGrade A Q n
+
+theorem ASRegular.cutEnvelopingMinimalRingHomRightNatComplex_isZero_ge_four
+    (hAS : A.ASRegular Q) (n : ℕ) :
+    IsZero ((hAS.cutEnvelopingMinimalRingHomRightNatComplex A Q).X (n + 4)) :=
+  (rightEnvelopingRightRestrictionFunctor k (hAS.CutGradedAlgebra A Q)).map_isZero
+    (hAS.cutEnvelopingMinimalRingHomNatComplex_isZero_ge_four A Q n)
+
+end ASGinzburg.ZAlgebra

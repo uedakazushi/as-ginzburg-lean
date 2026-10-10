@@ -1,0 +1,31 @@
+work/ASGinzburgDraft/BifunctorTotalResolutionLeft.lean:33:4: error: Type mismatch: After simplification, term
+  h
+ has type
+  (P.homotopyEquiv (ProjectiveResolution.self M)).hom ≫ 𝟙 ((ChainComplex.single₀ C₁).obj M) = P.π
+but is expected to have type
+  (P.homotopyEquiv (ProjectiveResolution.self M)).hom = P.π
+work/ASGinzburgDraft/BifunctorTotalResolutionLeft.lean:34:9: error: failed to synthesize
+  HasMapBifunctor (ProjectiveResolution.self M).complex Q F (ComplexShape.down ℕ)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BifunctorTotalResolutionLeft.lean:28:49: error: unsolved goals
+C₁ : Type u_1
+C₂ : Type u_2
+D : Type u_3
+inst✝⁹ : Category.{u_5, u_1} C₁
+inst✝⁸ : Category.{u_6, u_2} C₂
+inst✝⁷ : Category.{u_4, u_3} D
+inst✝⁶ : Abelian C₁
+inst✝⁵ : Preadditive C₂
+inst✝⁴ : Preadditive D
+F : C₁ ⥤ C₂ ⥤ D
+inst✝³ : F.Additive
+inst✝² : ∀ (X : C₁), (F.obj X).Additive
+M : C₁
+inst✝¹ : Projective M
+P : ProjectiveResolution M
+Q : ChainComplex C₂ ℕ
+inst✝ : HasMapBifunctor P.complex Q F (ComplexShape.down ℕ)
+hh : (P.homotopyEquiv (ProjectiveResolution.self M)).hom = P.π
+⊢ mapBifunctorMap P.π (𝟙 Q) F (ComplexShape.down ℕ) ≫ (HomotopyEquiv.ofIso (mapBifunctorSingleLeftIso F M Q)).hom =
+    mapBifunctorMap P.π (𝟙 Q) F (ComplexShape.down ℕ) ≫ (mapBifunctorSingleLeftIso F M Q).hom

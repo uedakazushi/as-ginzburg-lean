@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingGradedActions.lean:46:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?r • ?x
+in the target expression
+  (c • a) • x = (algebraMap k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i))) c • a • x
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M :
+  GradedOrdinaryModuleData k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i))
+    (E.cutEnvelopingIntegerHomogeneousSubspace fun i => ↑↑i)
+c : k
+a : AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)
+x : ↑M.ringModule
+⊢ (c • a) • x = (algebraMap k (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i))) c • a • x

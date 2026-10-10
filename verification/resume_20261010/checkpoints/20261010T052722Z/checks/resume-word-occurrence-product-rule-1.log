@@ -1,0 +1,48 @@
+work/ASGinzburgDraft/WordOccurrenceProductRule.lean:24:17: error: unsolved goals
+case single.single
+A : Type u
+inst✝¹ : DecidableEq A
+k : Type v
+inst✝ : Field k
+b : A
+h : WordPolynomial k A
+p : List A
+a : k
+q : List A
+c : k
+hp : Finsupp.single p a = a • Finsupp.single p 1
+hq : Finsupp.single q c = c • Finsupp.single q 1
+⊢ (a * c) • (wordOccurrenceContextWord b p) ((wordConcatenation (Finsupp.single q 1)) h) +
+      (a * c) • (wordOccurrenceContextWord b q) ((wordConcatenation h) (Finsupp.single p 1)) =
+    a • (wordOccurrenceContextWord b p) ((wordConcatenation (Finsupp.single q c)) h) +
+      c • (wordOccurrenceContextWord b q) ((wordConcatenation h) (Finsupp.single p a))
+work/ASGinzburgDraft/WordOccurrenceProductRule.lean:28:12: warning: This simp argument is unused:
+  map_smul
+
+Hint: Omit it from the simp argument list.
+  simp [m̵a̵p̵_̵s̵m̵u̵l̵,̵ ̵LinearMap.smul_apply, smul_smul, smul_add,
+  ̵  ̵ ̵ ̵ ̵ ̵ ̵ ̵wordOccurrenceContextWord_append, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/WordOccurrenceProductRule.lean:28:22: warning: This simp argument is unused:
+  LinearMap.smul_apply
+
+Hint: Omit it from the simp argument list.
+  simp [map_smul, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵s̵m̵u̵l̵_̵a̵p̵p̵l̵y̵,̵ ̵smul_smul, smul_add, wordOccurrenceContextWord_append, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/WordOccurrenceProductRule.lean:28:44: warning: This simp argument is unused:
+  smul_smul
+
+Hint: Omit it from the simp argument list.
+  simp [map_smul, LinearMap.smul_apply, s̵m̵u̵l̵_̵s̵m̵u̵l̵,̵ ̵smul_add, wordOccurrenceContextWord_append, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/WordOccurrenceProductRule.lean:29:42: warning: This simp argument is unused:
+  mul_comm
+
+Hint: Omit it from the simp argument list.
+  simp [map_smul, LinearMap.smul_apply, smul_smul, smul_add,
+  ̵  ̵ ̵ ̵ ̵ ̵ ̵ ̵wordOccurrenceContextWord_append,̵ ̵m̵u̵l̵_̵c̵o̵m̵m̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

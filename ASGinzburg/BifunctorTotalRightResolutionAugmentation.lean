@@ -1,0 +1,50 @@
+import ASGinzburg.BifunctorTotalRowQuasiIso
+import ASGinzburg.BifunctorTotalSingleRight
+import Mathlib.CategoryTheory.Abelian.Projective.Resolution
+
+/-! The actual second-resolution augmentation on an additive bifunctor total,
+its quasi-isomorphism under exact row functors, and its genuine homology isomorphism. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category HomologicalComplex
+universe u w u₁ u₂ v₁ v₂
+variable {k : Type u} [Ring k]
+variable {C₁ : Type u₁} {C₂ : Type u₂} [Category.{v₁} C₁] [Category.{v₂} C₂]
+variable [Preadditive C₁] [Abelian C₂]
+variable (F : C₁ ⥤ C₂ ⥤ ModuleCat.{w} k) [F.Additive] [∀ X, (F.obj X).Additive]
+variable (P : ChainComplex C₁ ℕ) {N : C₂} (Q : ProjectiveResolution N)
+
+noncomputable def bifunctorTotalRightResolutionAugmentation :
+    mapBifunctor P Q.complex F (ComplexShape.down ℕ) ⟶
+      ((F.flip.obj N).mapHomologicalComplex (ComplexShape.down ℕ)).obj P :=
+  mapBifunctorMap (𝟙 P) Q.π F (ComplexShape.down ℕ) ≫
+    (mapBifunctorSingleRightIso F P N).hom
+
+@[reassoc (attr := simp)]
+theorem ι_bifunctorTotalRightResolutionAugmentation_f (n : ℕ) :
+    ιMapBifunctor P Q.complex F (ComplexShape.down ℕ) n 0 n (by simp) ≫
+        (bifunctorTotalRightResolutionAugmentation F P Q).f n =
+      (F.obj (P.X n)).map (Q.π.f 0) := by
+  unfold bifunctorTotalRightResolutionAugmentation
+  rw [HomologicalComplex.comp_f, ← assoc, ι_mapBifunctorMap]
+  rw [HomologicalComplex.id_f, F.map_id, NatTrans.id_app, id_comp, assoc,
+    ι_mapBifunctorSingleRightIso_hom_f, comp_id]
+
+variable [∀ i, (F.obj (P.X i)).PreservesHomology]
+variable [∀ i, (F.obj (P.X i)).PreservesEpimorphisms]
+
+instance bifunctorTotalRightResolutionAugmentation_quasiIso :
+    QuasiIso (bifunctorTotalRightResolutionAugmentation F P Q) := by
+  unfold bifunctorTotalRightResolutionAugmentation
+  haveI := bifunctorTotal_quasiIso_of_row_quasiIso F P Q.π
+  infer_instance
+
+noncomputable def bifunctorTotalRightResolutionHomologyIso (n : ℕ) :
+    (mapBifunctor P Q.complex F (ComplexShape.down ℕ)).homology n ≅
+      (((F.flip.obj N).mapHomologicalComplex (ComplexShape.down ℕ)).obj P).homology n :=
+  asIso (HomologicalComplex.homologyMap (bifunctorTotalRightResolutionAugmentation F P Q) n)
+
+theorem bifunctorTotalRightResolutionHomologyIso_hom (n : ℕ) :
+    (bifunctorTotalRightResolutionHomologyIso F P Q n).hom =
+      HomologicalComplex.homologyMap (bifunctorTotalRightResolutionAugmentation F P Q) n := rfl
+
+end ASGinzburg

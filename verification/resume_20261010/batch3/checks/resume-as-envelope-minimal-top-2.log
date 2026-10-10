@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/ASCutEnvelopingMinimalTop.lean:41:49: error: failed to synthesize
+  HasQuotient R (Ideal (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutEnvelopingMinimalTop.lean:34:70: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (800000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/ASCutEnvelopingMinimalTop.lean:60:29: error: Invalid field `cutEnvelopingMinimalTorTopEquiv`: The environment does not contain `And.cutEnvelopingMinimalTorTopEquiv`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1
+work/ASGinzburgDraft/ASCutEnvelopingMinimalTop.lean:54:68: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+hAS : A.ASRegular Q
+P : ProjectiveResolution (ModuleCat.of (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)) (CutGradedAlgebra A Q hAS))
+hP :
+  ∀ (i j : ℕ) (y : ↑(P.complex.X i)),
+    (ConcreteCategory.hom (P.complex.d i j)) y ∈
+      ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)) (↑(P.complex.X j))
+        (cutEnvelopingAugmentationKernel A Q hAS)
+n : ℕ
+this :
+  Module.Finite k
+    ↑((balancedTensorTorFunctor k (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS))
+            (↑(cutEnvelopingSemisimpleRightObject A Q hAS)) n).obj
+        (ModuleCat.of (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)) (CutGradedAlgebra A Q hAS)))
+⊢ Module.Finite k
+    (↑(P.complex.X n) ⧸
+      ordinaryIdealActionSpan k (AlgebraEnvelopingRing k (CutGradedAlgebra A Q hAS)) (↑(P.complex.X n))
+        (cutEnvelopingAugmentationKernel A Q hAS))
+work/ASGinzburgDraft/ASCutEnvelopingMinimalTop.lean:68:3: error: Invalid field `cutEnvelopingMinimalTorTopEquiv`: The environment does not contain `And.cutEnvelopingMinimalTorTopEquiv`
+  hAS
+has type
+  (∀ (v : Q.LiftVertex), Nonempty (A.ASResolution Q v)) ∧ ∀ (v : Q.LiftVertex), A.asExtTotalRank Q v = 1

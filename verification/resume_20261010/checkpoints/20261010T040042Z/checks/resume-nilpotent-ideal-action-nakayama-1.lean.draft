@@ -1,0 +1,49 @@
+import Mathlib.RingTheory.Ideal.Operations
+import Mathlib.LinearAlgebra.Span.Basic
+
+/-! An actual nilpotent ideal detects zero modules from its action span,
+without a finite generation hypothesis. This is the degree-zero step in
+bounded-below graded Nakayama when the degree-zero radical is nilpotent. -/
+namespace ASGinzburg
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R M]
+  [SMulCommClass k R M]
+variable (I : Ideal R)
+
+theorem module_eq_zero_of_ideal_power_annihilates_action_span_top
+    (n : ℕ) (hn : ∀ r ∈ I^n, ∀ x : M, r • x = 0)
+    (hI : Submodule.span k {y : M | ∃ r ∈ I, ∃ x : M, r • x = y} = ⊤) :
+    ∀ x : M, x = 0 := by
+  induction n generalizing hn with
+  | zero =>
+    intro x
+    have hx := hn 1 (by rw [Submodule.pow_zero, Ideal.one_eq_top]; exact Submodule.mem_top) x
+    simpa only [one_smul] using hx
+  | succ n ih =>
+    apply ih
+    intro r hr x
+    have hx : x ∈ Submodule.span k {y : M | ∃ i ∈ I, ∃ z : M, i • z = y} := by
+      rw [hI]
+      exact Submodule.mem_top
+    induction hx using Submodule.span_induction with
+    | mem y hy =>
+      obtain ⟨i, hi, z, rfl⟩ := hy
+      have hri : r*i ∈ I^(n+1) := by
+        rw [Submodule.pow_succ]
+        exact Ideal.mul_mem_mul hr hi
+      rw [← mul_smul]
+      exact hn (r*i) hri z
+    | zero => exact smul_zero r
+    | add y z hy hz ihy ihz => rw [smul_add, ihy, ihz, add_zero]
+    | smul c y hy ihy => rw [(smul_comm c r y).symm, ihy, smul_zero]
+
+theorem module_subsingleton_of_nilpotent_ideal_action_span_top
+    (n : ℕ) (hn : I^n = ⊥)
+    (hI : Submodule.span k {y : M | ∃ r ∈ I, ∃ x : M, r • x = y} = ⊤) :
+    Subsingleton M := by
+  have hzero := module_eq_zero_of_ideal_power_annihilates_action_span_top k R M I n
+    (fun r hr x => by have hr0 : r = 0 := by simpa [hn] using hr; rw [hr0, zero_smul]) hI
+  exact ⟨fun x y => (hzero x).trans (hzero y).symm⟩
+
+end ASGinzburg

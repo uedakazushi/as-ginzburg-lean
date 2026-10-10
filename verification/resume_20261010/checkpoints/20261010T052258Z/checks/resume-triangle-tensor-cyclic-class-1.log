@@ -1,0 +1,13 @@
+work/ASGinzburgDraft/TriangleTensorCyclicClass.lean:96:29: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  triangle333.potentialCyclicClass ?k ∘ₗ ↑(triangleTensorPotentialEquiv ?k)
+in the target expression
+  (triangle333.potentialCyclicClass k) ((triangleTensorPotentialEquiv k) (x ⊗ₜ[k] (y ⊗ₜ[k] z))) =
+    (triangle333.closedPathCyclicClass k 0 ∘ₗ (triangle333.pathComp k) ↑((triangleZArrowEquiv k) z))
+      (((triangle333.pathComp k) ↑((triangleYArrowEquiv k) y)) ↑((triangleXArrowEquiv k) x))
+
+k : Type u
+inst✝ : Field k
+x y z : ArrowSpace333 k
+⊢ (triangle333.potentialCyclicClass k) ((triangleTensorPotentialEquiv k) (x ⊗ₜ[k] (y ⊗ₜ[k] z))) =
+    (triangle333.closedPathCyclicClass k 0 ∘ₗ (triangle333.pathComp k) ↑((triangleZArrowEquiv k) z))
+      (((triangle333.pathComp k) ↑((triangleYArrowEquiv k) y)) ↑((triangleXArrowEquiv k) x))

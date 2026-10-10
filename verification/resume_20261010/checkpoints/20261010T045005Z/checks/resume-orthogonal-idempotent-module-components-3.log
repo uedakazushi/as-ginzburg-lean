@@ -1,0 +1,76 @@
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:15:27: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a • (?b₁ + ?b₂)
+in the target expression
+  a✝ + b✝ ∈ {x | e • x = x}
+
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module R M
+inst✝ : SMulCommClass k R M
+e : R
+a✝ b✝ : M
+hx : a✝ ∈ {x | e • x = x}
+hy : b✝ ∈ {x | e • x = x}
+⊢ a✝ + b✝ ∈ {x | e • x = x}
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:16:29: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  e • c • x
+in the target expression
+  c • x ∈ {x | e • x = x}
+
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module R M
+inst✝ : SMulCommClass k R M
+e : R
+c : k
+x : M
+hx : x ∈ {x | e • x = x}
+⊢ c • x ∈ {x | e • x = x}
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:20:28: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?x • ?y • ?b
+in the target expression
+  e • x ∈ idempotentFixedSpace k R M e
+
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module R M
+inst✝ : SMulCommClass k R M
+e : R
+he : e * e = e
+x : M
+⊢ e • x ∈ idempotentFixedSpace k R M e
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:34:10: error(lean.unknownIdentifier): Unknown constant `Finset.sum_smul`
+work/ASGinzburgDraft/OrthogonalIdempotentModuleComponents.lean:32:16: error: unsolved goals
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+M : Type w
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+inst✝³ : Module R M
+inst✝² : SMulCommClass k R M
+ι : Type z
+inst✝¹ : Fintype ι
+inst✝ : DecidableEq ι
+e : ι → R
+he : ∀ (i : ι), e i * e i = e i
+horth : ∀ (i j : ι), i ≠ j → e i * e j = 0
+hsum : ∑ i, e i = 1
+x : M
+⊢ ∑ i, e i • x = x

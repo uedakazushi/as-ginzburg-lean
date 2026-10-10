@@ -1,0 +1,38 @@
+import work.ASGinzburgDraft.NatTotalExists
+import work.ASGinzburgDraft.BifunctorTotalSingleLeft
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorTotal
+import ASGinzburg.MapProjectiveResolutionOfTerms
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+
+/-! The actual enveloping-module augmentation of the tensor total of
+two genuine ordinary module projective resolutions. Its acyclicity is
+proved separately by exact, faithful scalar restriction. -/
+namespace ASGinzburg
+open CategoryTheory HomologicalComplex
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {M : ModuleCat.{w} Rᵐᵒᵖ} {N : ModuleCat.{z} R}
+variable (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
+
+noncomputable def tensorRightEnvelopingAugmentation :
+    tensorRightEnvelopingTotal k R P.complex Q.complex (ComplexShape.down ℕ) ⟶
+      (ChainComplex.single₀ (ModuleCat.{max w z} (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).obj
+        (((tensorRightEnvelopingBifunctor k R).obj M).obj N) :=
+  (mapBifunctorMap P.π Q.π (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ) ≫
+    (mapBifunctorSingleLeftIso (tensorRightEnvelopingBifunctor k R) M
+      ((ChainComplex.single₀ (ModuleCat.{z} R)).obj N)).hom) ≫
+    (singleMapHomologicalComplex ((tensorRightEnvelopingBifunctor k R).obj M)
+      (ComplexShape.down ℕ) 0).hom.app N
+
+theorem tensorRightEnvelopingAugmentation_ι_zero :
+    ιMapBifunctor P.complex Q.complex (tensorRightEnvelopingBifunctor k R)
+        (ComplexShape.down ℕ) 0 0 0 (by simp) ≫
+        (tensorRightEnvelopingAugmentation k R P Q).f 0 =
+      ((tensorRightEnvelopingBifunctor k R).map (P.π.f 0)).app (Q.complex.X 0) ≫
+        ((tensorRightEnvelopingBifunctor k R).obj M).map (Q.π.f 0) := by
+  simp only [tensorRightEnvelopingAugmentation, HomologicalComplex.comp_f, Category.assoc]
+  rw [ι_mapBifunctorMap_assoc]
+  rw [ι_mapBifunctorSingleLeftIso_hom_f_assoc]
+  simp
+
+end ASGinzburg

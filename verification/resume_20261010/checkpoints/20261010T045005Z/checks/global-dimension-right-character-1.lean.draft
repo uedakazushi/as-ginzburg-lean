@@ -1,0 +1,23 @@
+import ASGinzburg.OneDimensionalRepresentationCharacter
+import Mathlib.Algebra.Algebra.Opposite
+
+/-! An actual one-dimensional right representation determines a scalar
+character of the original algebra. -/
+namespace ASGinzburg
+universe u v w
+variable {k : Type u} [Field k] {R : Type w} [Ring R] [Algebra k R]
+variable {V : Type v} [AddCommGroup V] [Module k V]
+variable (ρ : R →ₐ[k] (Module.End k V)ᵐᵒᵖ) (e : V ≃ₗ[k] k)
+
+noncomputable def oneDimensionalRightRepresentationCharacter : R →ₐ[k] k :=
+  ((oneDimensionalRepresentationCharacter (AlgHom.opComm ρ) e).fromOpposite
+    (fun _ _ => Commute.all _ _)).comp (AlgEquiv.opOp k R).toAlgHom
+
+theorem oneDimensionalRightRepresentationCharacter_apply (r : R) :
+    oneDimensionalRightRepresentationCharacter ρ e r=e ((ρ r).unop (e.symm 1)) := rfl
+
+theorem oneDimensionalRightRepresentation_scalar_action (r : R) (x : V) :
+    e ((ρ r).unop x)=oneDimensionalRightRepresentationCharacter ρ e r*e x :=
+  oneDimensionalRepresentation_scalar_action (AlgHom.opComm ρ) e (MulOpposite.op r) x
+
+end ASGinzburg

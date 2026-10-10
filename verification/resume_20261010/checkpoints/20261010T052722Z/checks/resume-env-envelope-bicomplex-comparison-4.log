@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingBicomplexComparison.lean:35:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case refine_2.f
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+I₁ : Type u_1
+I₂ : Type u_2
+c₁ : ComplexShape I₁
+c₂ : ComplexShape I₂
+P : HomologicalComplex (ModuleCat Rᵐᵒᵖ) c₁
+Q : HomologicalComplex (ModuleCat R) c₂
+i j : I₁
+hij : c₁.Rel i j
+⊢ (((fun i₁ => Hom.isoOfComponents (fun i₂ => balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X i₂)) ⋯) i).hom ≫
+        ((((balancedTensorBifunctor k R).mapBifunctorHomologicalComplex c₁ c₂).obj P).obj Q).d i j).f =
+    (((((balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).mapHomologicalComplex c₂).mapHomologicalComplex
+                  c₁).obj
+              (tensorRightEnvelopingBicomplex k R P Q)).d
+          i j ≫
+        ((fun i₁ => Hom.isoOfComponents (fun i₂ => balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X i₂)) ⋯) j).hom).f

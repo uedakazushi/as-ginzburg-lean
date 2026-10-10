@@ -1,0 +1,11 @@
+theorem ASGinzburg.ZAlgebra.PeriodIso.cutEnvelopingAugmentationKernelTwoSided.{u, v} : ∀ {k : Type u} [inst : Field k]
+  {A : ZAlgebra k} (Q : CutQuiver) (E : A.PeriodIso ↑Q.vertices), (cutEnvelopingAugmentationKernel Q E).IsTwoSided :=
+fun {k} [Field k] {A} Q E => _root_.id inferInstance
+cutEnvelopingAugmentationKernelTwoSided Q E
+Algebra.TensorProduct.instRing
+IsScalarTower.right
+work/env_quotient_probe2.lean:42:0: error: failed to synthesize
+  HasQuotient (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i))
+    (Ideal (AlgebraEnvelopingRing k (E.CutGradedRing fun i => ↑↑i)))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

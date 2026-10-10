@@ -1,0 +1,116 @@
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:34:31: error: Application type mismatch: The argument
+  h
+has type
+  (homogeneousSubmoduleGradeEmbedding k M G S q) x = (homogeneousSubmoduleGradeEmbedding k M G S q) y
+but is expected to have type
+  ↑x = ↑y
+in the application
+  congrArg Subtype.val h
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:36:43: error: unsolved goals
+case H.h
+k : Type u
+inst✝⁴ : Field k
+M : Type v
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+ι : Type w
+inst✝¹ : DecidableEq ι
+G : ι → Submodule k M
+inst✝ : DirectSum.Decomposition G
+S : Submodule k M
+hS : ∀ (q : ι), ∀ x ∈ S, ↑(((DirectSum.decompose G) x) q) ∈ S
+B : ι → Submodule k ↥S := homogeneousSubmoduleGrade k M G S
+L : (⨁ (i : ι), ↥(homogeneousSubmoduleGrade k M G S i)) →ₗ[k] ⨁ (i : ι), ↥(G i) :=
+  DirectSum.lmap (homogeneousSubmoduleGradeEmbedding k M G S)
+hL : Function.Injective ⇑L
+q : ι
+x : ↥(B q)
+⊢ ↑((DirectSum.coeLinearMap B) ((DirectSum.lof k ι (fun i => ↥(B i)) q) x)) =
+    (DirectSum.coeLinearMap G)
+      ((DirectSum.lmap (homogeneousSubmoduleGradeEmbedding k M G S)) ((DirectSum.lof k ι (fun i => ↥(B i)) q) x))
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:58:6: error: unsolved goals
+case pos
+k : Type u
+inst✝⁴ : Field k
+M : Type v
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+ι : Type w
+inst✝¹ : DecidableEq ι
+G : ι → Submodule k M
+inst✝ : DirectSum.Decomposition G
+S : Submodule k M
+hS : ∀ (q : ι), ∀ x ∈ S, ↑(((DirectSum.decompose G) x) q) ∈ S
+B : ι → Submodule k ↥S := homogeneousSubmoduleGrade k M G S
+L : (⨁ (i : ι), ↥(homogeneousSubmoduleGrade k M G S i)) →ₗ[k] ⨁ (i : ι), ↥(G i) :=
+  DirectSum.lmap (homogeneousSubmoduleGradeEmbedding k M G S)
+hL : Function.Injective ⇑L
+hComm : S.subtype ∘ₗ DirectSum.coeLinearMap B = DirectSum.coeLinearMap G ∘ₗ L
+x : ↥S
+a : ⨁ (i : ι), ↥(G i) := (DirectSum.decompose G) ↑x
+y : ⨁ (q : ι), ↥(B q) := DFinsupp.mk (DFinsupp.support a) fun q => ⟨⟨↑(a ↑q), ⋯⟩, ⋯⟩
+q : ι
+hq : q ∈ DFinsupp.support a
+⊢ ↑↑((DFinsupp.mk (DFinsupp.support a) fun q => ⟨⟨↑(a ↑q), ⋯⟩, ⋯⟩) q) = ↑(a q)
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:59:6: error: unsolved goals
+case neg
+k : Type u
+inst✝⁴ : Field k
+M : Type v
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+ι : Type w
+inst✝¹ : DecidableEq ι
+G : ι → Submodule k M
+inst✝ : DirectSum.Decomposition G
+S : Submodule k M
+hS : ∀ (q : ι), ∀ x ∈ S, ↑(((DirectSum.decompose G) x) q) ∈ S
+B : ι → Submodule k ↥S := homogeneousSubmoduleGrade k M G S
+L : (⨁ (i : ι), ↥(homogeneousSubmoduleGrade k M G S i)) →ₗ[k] ⨁ (i : ι), ↥(G i) :=
+  DirectSum.lmap (homogeneousSubmoduleGradeEmbedding k M G S)
+hL : Function.Injective ⇑L
+hComm : S.subtype ∘ₗ DirectSum.coeLinearMap B = DirectSum.coeLinearMap G ∘ₗ L
+x : ↥S
+a : ⨁ (i : ι), ↥(G i) := (DirectSum.decompose G) ↑x
+y : ⨁ (q : ι), ↥(B q) := DFinsupp.mk (DFinsupp.support a) fun q => ⟨⟨↑(a ↑q), ⋯⟩, ⋯⟩
+q : ι
+hq : q ∉ DFinsupp.support a
+ha : a q = 0
+⊢ (DFinsupp.mk (DFinsupp.support a) fun q => ⟨⟨↑(a ↑q), ⋯⟩, ⋯⟩) q = 0
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:41:13: warning: This simp argument is unused:
+  homogeneousSubmoduleGradeEmbedding
+
+Hint: Omit it from the simp argument list.
+  simp [L,̵ ̵h̵o̵m̵o̵g̵e̵n̵e̵o̵u̵s̵S̵u̵b̵m̵o̵d̵u̵l̵e̵G̵r̵a̵d̵e̵E̵m̵b̵e̵d̵d̵i̵n̵g̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:58:20: warning: This simp argument is unused:
+  DFinsupp.mk_apply
+
+Hint: Omit it from the simp argument list.
+  simp [L, y, D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵k̵_̵a̵p̵p̵l̵y̵,̵ ̵hq, homogeneousSubmoduleGradeEmbedding]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:58:39: warning: This simp argument is unused:
+  hq
+
+Hint: Omit it from the simp argument list.
+  simp [L, y, DFinsupp.mk_apply, hq̵,̵ ̵h̵omogeneousSubmoduleGradeEmbedding]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:60:20: warning: This simp argument is unused:
+  DFinsupp.mk_apply
+
+Hint: Omit it from the simp argument list.
+  simp [L, y, D̵F̵i̵n̵s̵u̵p̵p̵.̵m̵k̵_̵a̵p̵p̵l̵y̵,̵ ̵hq, homogeneousSubmoduleGradeEmbedding, ha]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:60:39: warning: This simp argument is unused:
+  hq
+
+Hint: Omit it from the simp argument list.
+  simp [L, y, DFinsupp.mk_apply, hq̵,̵ ̵h̵omogeneousSubmoduleGradeEmbedding, ha]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:78:8: error(lean.unknownIdentifier): Unknown constant `Submodule.comap_bot_of_injective`
+work/ASGinzburgDraft/HomogeneousSubmoduleDecomposition.lean:79:2: error: No goals to be solved

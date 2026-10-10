@@ -1,0 +1,129 @@
+import ASGinzburg.OrthogonalIdempotentModuleComponents
+import ASGinzburg.GradedLinearMapKernel
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+
+/-! A genuine internally graded module with a finite complete orthogonal
+family of degree-preserving idempotents has an actual basis consisting of
+homogeneous vectors fixed by their designated idempotents. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R M]
+  [SMulCommClass k R M]
+variable {ι : Type z} [Fintype ι] [DecidableEq ι]
+variable (e : ι → R) (he : ∀ i, e i*e i=e i)
+variable (horth : ∀ i j, i≠j → e i*e j=0) (hsum : ∑ i, e i=1)
+
+noncomputable def idempotentFixedSpaceIsInternal :
+    DirectSum.IsInternal (fun i => idempotentFixedSpace k R M (e i)) := by
+  let E := (DirectSum.linearEquivFunOnFintype k ι
+    (fun i => idempotentFixedSpace k R M (e i))).trans
+      (completeOrthogonalModuleComponents k R M e he horth hsum).symm
+  have hE : E.toLinearMap = DirectSum.coeLinearMap
+      (fun i => idempotentFixedSpace k R M (e i)) := by
+    apply DirectSum.linearMap_ext
+    intro i
+    apply LinearMap.ext
+    intro x
+    change E (DirectSum.of _ i x) =
+      DirectSum.coeLinearMap (fun i => idempotentFixedSpace k R M (e i)) (DirectSum.of _ i x)
+    rw [DirectSum.coeLinearMap_of]
+    change (completeOrthogonalModuleComponents k R M e he horth hsum).symm
+      ((DirectSum.linearEquivFunOnFintype k ι
+        (fun i => idempotentFixedSpace k R M (e i))) (DirectSum.lof k ι _ i x)) = (x : M)
+    rw [DirectSum.linearEquivFunOnFintype_lof]
+    change (∑ j : ι, ((Pi.single i x : ∀ j, idempotentFixedSpace k R M (e j)) j : M)) = (x : M)
+    rw [Finset.sum_eq_single i]
+    · simp
+    · intro j hj hji
+      simp only [Pi.single_eq_of_ne hji, Submodule.coe_zero]
+    · intro hi
+      exact False.elim (hi (Finset.mem_univ i))
+  change Function.Bijective (DirectSum.coeLinearMap (fun i => idempotentFixedSpace k R M (e i)))
+  rw [← hE]
+  exact E.bijective
+
+def idempotentSmulLinearMap (a : R) : M →ₗ[k] M where
+  toFun x := a • x
+  map_add' := smul_add a
+  map_smul' c x := (smul_comm c a x).symm
+
+variable (G : ℤ → Submodule k M) [DirectSum.Decomposition G]
+variable (hG : ∀ i q, ∀ x : M, x ∈ G q → e i • x ∈ G q)
+
+omit [Fintype ι] [DecidableEq ι] in
+include hG in
+theorem idempotentFixedSpace_homogeneous (i : ι) (q : ℤ) (x : M)
+    (hx : x ∈ idempotentFixedSpace k R M (e i)) :
+    (DirectSum.decompose G x q : M) ∈ idempotentFixedSpace k R M (e i) := by
+  change idempotentSmulLinearMap k R M (e i) (homogeneousComponent k M G q x) =
+    homogeneousComponent k M G q x
+  rw [homogeneousLinearMap_component k M M G G
+    (idempotentSmulLinearMap k R M (e i)) (hG i) q x]
+  exact congrArg (homogeneousComponent k M G q) hx
+
+noncomputable def idempotentFixedSpaceGradeDecomposition (i : ι) :
+    DirectSum.Decomposition (homogeneousSubmoduleGrade k M G
+      (idempotentFixedSpace k R M (e i))) :=
+  homogeneousSubmoduleDecomposition k M G (idempotentFixedSpace k R M (e i))
+    (idempotentFixedSpace_homogeneous k R M e G hG i)
+
+noncomputable def idempotentFixedSpaceGradedBasis (i : ι) :
+    Module.Basis (Σ q : ℤ, Module.Basis.ofVectorSpaceIndex k
+      (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e i)) q))
+        k (idempotentFixedSpace k R M (e i)) := by
+  letI := idempotentFixedSpaceGradeDecomposition k R M e G hG i
+  exact (DirectSum.Decomposition.isInternal
+    (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e i)))).collectedBasis
+      (fun q => Module.Basis.ofVectorSpace k
+        (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e i)) q))
+
+noncomputable def idempotentHomogeneousBasisIndex : Type (max w z) :=
+  Σ i : ι, Σ q : ℤ, Module.Basis.ofVectorSpaceIndex k
+    (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e i)) q)
+
+noncomputable def idempotentHomogeneousBasis :
+    Module.Basis (idempotentHomogeneousBasisIndex k R M e G) k M :=
+  (idempotentFixedSpaceIsInternal k R M e he horth hsum).collectedBasis
+    (fun i => idempotentFixedSpaceGradedBasis k R M e G hG i)
+
+theorem idempotentHomogeneousBasis_apply
+    (a : idempotentHomogeneousBasisIndex k R M e G) :
+    idempotentHomogeneousBasis k R M e he horth hsum G hG a =
+      (((Module.Basis.ofVectorSpace k
+        (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.1)) a.2.1)
+          a.2.2 : homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.1)) a.2.1) :
+            idempotentFixedSpace k R M (e a.1)) : M) := by
+  have hOuter := congrFun (DirectSum.IsInternal.collectedBasis_coe
+    (idempotentFixedSpaceIsInternal k R M e he horth hsum)
+      (fun i => idempotentFixedSpaceGradedBasis k R M e G hG i)) a
+  change idempotentHomogeneousBasis k R M e he horth hsum G hG a =
+    (idempotentFixedSpaceGradedBasis k R M e G hG a.1 a.2 : M) at hOuter
+  rw [hOuter]
+  letI := idempotentFixedSpaceGradeDecomposition k R M e G hG a.1
+  have hInner := congrFun (DirectSum.IsInternal.collectedBasis_coe
+    (DirectSum.Decomposition.isInternal
+      (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.1))))
+        (fun q => Module.Basis.ofVectorSpace k
+          (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.1)) q))) a.2
+  exact congrArg (fun y : idempotentFixedSpace k R M (e a.1) => (y : M)) hInner
+
+include hG in
+theorem idempotentHomogeneousBasis_mem_grade
+    (a : idempotentHomogeneousBasisIndex k R M e G) :
+    idempotentHomogeneousBasis k R M e he horth hsum G hG a ∈ G a.2.1 := by
+  rw [idempotentHomogeneousBasis_apply]
+  exact (Module.Basis.ofVectorSpace k
+    (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.1)) a.2.1) a.2.2).property
+
+include hG in
+theorem idempotentHomogeneousBasis_fixed
+    (a : idempotentHomogeneousBasisIndex k R M e G) :
+    e a.1 • idempotentHomogeneousBasis k R M e he horth hsum G hG a =
+      idempotentHomogeneousBasis k R M e he horth hsum G hG a := by
+  rw [idempotentHomogeneousBasis_apply]
+  exact (Module.Basis.ofVectorSpace k
+    (homogeneousSubmoduleGrade k M G (idempotentFixedSpace k R M (e a.1)) a.2.1) a.2.2).val.property
+
+end ASGinzburg

@@ -1,0 +1,43 @@
+import ASGinzburg.BalancedTensorTorLeft
+
+/-! Equality transport of the fixed left factor's field module,
+including genuine derived tensor. This explicitly bridges the field
+action induced by a bundled algebra module and its original action. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (N : Type w) [AddCommGroup N] [Module R N]
+
+noncomputable def balancedTensorLeftFunctorFieldModuleChangeIso
+    (P Q : Module k N) (h : P = Q) :
+    @balancedTensorLeftFunctor.{u,v,w,z} k _ R _ _ N _ P _ ≅
+      @balancedTensorLeftFunctor.{u,v,w,z} k _ R _ _ N _ Q _ := by
+  cases h
+  exact Iso.refl _
+
+noncomputable def balancedTensorTorLeftFieldModuleChangeIso
+    (P Q : Module k N) (h : P = Q) (n : ℕ) :
+    @balancedTensorTorLeftFunctor.{u,v,w,z} k _ R _ _ N _ P _ n ≅
+      @balancedTensorTorLeftFunctor.{u,v,w,z} k _ R _ _ N _ Q _ n := by
+  cases h
+  exact Iso.refl _
+
+variable [fieldModule : Module k N] [IsScalarTower k R N]
+
+theorem algebraModuleCompHomField_eq :
+    (Module.compHom N (algebraMap k R) : Module k N) = fieldModule := by
+  apply Module.ext'
+  intro c x
+  exact algebraMap_smul R c x
+
+set_option maxHeartbeats 800000 in
+noncomputable def balancedTensorTorLeftCanonicalFieldIso (n : ℕ) :
+    balancedTensorTorLeftFunctor.{u,v,w,z} k R (ModuleCat.of R N) n ≅
+      balancedTensorTorLeftFunctor.{u,v,w,z} k R N n :=
+  balancedTensorTorLeftFieldModuleChangeIso.{u,v,w,z} k R N
+    (Module.compHom N (algebraMap k R)) fieldModule
+    (algebraModuleCompHomField_eq k R N) n
+
+end ASGinzburg

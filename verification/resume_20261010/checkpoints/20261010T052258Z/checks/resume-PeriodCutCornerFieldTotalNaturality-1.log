@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/PeriodCutCornerFieldTotalNaturality.lean:16:86: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+M : (cornerCoverZAlgebra Q E).RightModule
+x : Q.LiftVertex
+⊢ colimit.ι (Discrete.functor (((cornerFieldComponents Q E).obj M).obj ∘ Discrete.mk)) { as := x } ≫
+      (ModuleCat.coprodIsoDirectSum fun x => M.obj.obj (op (cornerCoordinateObject Q E x))).hom =
+    ModuleCat.ofHom (DirectSum.lof k Q.LiftVertex (CornerModuleSpace Q E M) x)
+work/ASGinzburgDraft/PeriodCutCornerFieldTotalNaturality.lean:12:2: warning: declaration uses 'sorry'

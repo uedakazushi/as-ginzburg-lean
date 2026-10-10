@@ -1,0 +1,101 @@
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.DFinsupp
+import Mathlib.LinearAlgebra.Isomorphisms
+import Mathlib.RingTheory.Ideal.Operations
+
+/-! Ideal action spans of genuine ordinary modules commute with arbitrary
+direct sums. Their actual quotient tops therefore commute with direct sums. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+def ordinaryIdealActionSpan (M : Type w) [AddCommGroup M] [Module k M]
+    [Module R M] (I : Ideal R) : Submodule k M :=
+  Submodule.span k {y : M | ∃ r ∈ I, ∃ x : M, r • x = y}
+
+theorem ordinaryIdealActionSpan_map_mem
+    {M : Type w} [AddCommGroup M] [Module k M] [Module R M]
+    [IsScalarTower k R M]
+    {N : Type z} [AddCommGroup N] [Module k N] [Module R N]
+    [IsScalarTower k R N]
+    (I : Ideal R) (f : M →ₗ[R] N) {x : M}
+    (hx : x ∈ ordinaryIdealActionSpan k R M I) :
+    f x ∈ ordinaryIdealActionSpan k R N I := by
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨r, hr, x, rfl⟩ := hy
+    exact Submodule.subset_span ⟨r, hr, f x, (f.map_smul r x).symm⟩
+  | zero => simpa only [map_zero] using (ordinaryIdealActionSpan k R N I).zero_mem
+  | add x y hx hy ihx ihy =>
+    simpa only [map_add] using (ordinaryIdealActionSpan k R N I).add_mem ihx ihy
+  | smul c x hx ihx =>
+    change (f.restrictScalars k) (c • x) ∈ ordinaryIdealActionSpan k R N I
+    rw [LinearMap.map_smul]
+    exact (ordinaryIdealActionSpan k R N I).smul_mem c ihx
+
+section DirectSum
+variable {ι : Type z} [DecidableEq ι] (M : ι → Type w)
+variable [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)] [∀ i, Module R (M i)]
+variable [∀ i, IsScalarTower k R (M i)] (I : Ideal R)
+
+theorem ordinaryIdealActionSpan_directSum_iff (x : ⨁ i, M i) :
+    x ∈ ordinaryIdealActionSpan k R (⨁ i, M i) I ↔
+      ∀ i, x i ∈ ordinaryIdealActionSpan k R (M i) I := by
+  classical
+  constructor
+  · intro hx i
+    exact ordinaryIdealActionSpan_map_mem k R I
+      (DFinsupp.lapply i : (⨁ i, M i) →ₗ[R] M i) hx
+  · intro hx
+    rw [← DirectSum.sum_support_of x]
+    apply (ordinaryIdealActionSpan k R (⨁ i, M i) I).sum_mem
+    intro i hi
+    exact ordinaryIdealActionSpan_map_mem k R I (DirectSum.lof R ι M i) (hx i)
+
+noncomputable def ordinaryIdealActionDirectSumTopMap :
+    (⨁ i, M i) →ₗ[k] ⨁ i, (M i ⧸ ordinaryIdealActionSpan k R (M i) I) :=
+  DirectSum.lmap (fun i => (ordinaryIdealActionSpan k R (M i) I).mkQ)
+
+omit [Algebra k R] [DecidableEq ι] [∀ i, IsScalarTower k R (M i)] in
+@[simp] theorem ordinaryIdealActionDirectSumTopMap_apply (x : ⨁ i, M i) (i : ι) :
+    ordinaryIdealActionDirectSumTopMap k R M I x i =
+      (ordinaryIdealActionSpan k R (M i) I).mkQ (x i) := rfl
+
+omit [Algebra k R] [DecidableEq ι] [∀ i, IsScalarTower k R (M i)] in
+theorem ordinaryIdealActionDirectSumTopMap_surjective :
+    Function.Surjective (ordinaryIdealActionDirectSumTopMap k R M I) :=
+  (DirectSum.lmap_surjective _).mpr
+    (fun i => (ordinaryIdealActionSpan k R (M i) I).mkQ_surjective)
+
+theorem ordinaryIdealActionDirectSumTopMap_ker :
+    LinearMap.ker (ordinaryIdealActionDirectSumTopMap k R M I) =
+      ordinaryIdealActionSpan k R (⨁ i, M i) I := by
+  ext x
+  rw [ordinaryIdealActionSpan_directSum_iff k R M I x]
+  constructor
+  · intro hx i
+    have hi := congrArg (fun z => z i) hx
+    change (ordinaryIdealActionSpan k R (M i) I).mkQ (x i) = 0 at hi
+    exact (Submodule.Quotient.mk_eq_zero _).mp hi
+  · intro hx
+    apply DFinsupp.ext
+    intro i
+    change (ordinaryIdealActionSpan k R (M i) I).mkQ (x i) = 0
+    exact (Submodule.Quotient.mk_eq_zero _).mpr (hx i)
+
+noncomputable def ordinaryIdealActionDirectSumTopEquiv :
+    ((⨁ i, M i) ⧸ ordinaryIdealActionSpan k R (⨁ i, M i) I) ≃ₗ[k]
+      ⨁ i, (M i ⧸ ordinaryIdealActionSpan k R (M i) I) :=
+  (Submodule.quotEquivOfEq _ _
+    (ordinaryIdealActionDirectSumTopMap_ker k R M I).symm).trans
+    ((ordinaryIdealActionDirectSumTopMap k R M I).quotKerEquivOfSurjective
+      (ordinaryIdealActionDirectSumTopMap_surjective k R M I))
+
+@[simp] theorem ordinaryIdealActionDirectSumTopEquiv_mkQ (x : ⨁ i, M i) :
+    ordinaryIdealActionDirectSumTopEquiv k R M I
+      ((ordinaryIdealActionSpan k R (⨁ i, M i) I).mkQ x) =
+      ordinaryIdealActionDirectSumTopMap k R M I x := rfl
+
+end DirectSum
+end ASGinzburg

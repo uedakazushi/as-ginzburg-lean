@@ -1,0 +1,71 @@
+import ASGinzburg.PeriodCutGradedAlgebra
+import ASGinzburg.AlgebraEnvelopingBimoduleMaps
+import Mathlib.LinearAlgebra.DirectSum.TensorProduct
+
+/-! The ordinary enveloping algebra has its genuine unsigned linear
+bigrading. The multiplication reverses the second factor's order, as
+required by R tensor R-opposite. No super tensor multiplication is used. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct DirectSum
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+abbrev CutEnvelopingBlock (d : ℕ × ℕ) :=
+  E.CutGradedBlock vertex d.1 ⊗[k] E.CutGradedBlock vertex d.2
+
+noncomputable def cutEnvelopingBigradingEquiv :
+    AlgebraEnvelopingRing k (E.CutGradedRing vertex) ≃ₗ[k]
+      ⨁ d : ℕ × ℕ, E.CutEnvelopingBlock vertex d :=
+  (TensorProduct.congr (LinearEquiv.refl k (E.CutGradedRing vertex))
+    (MulOpposite.opLinearEquiv k).symm).trans
+      (TensorProduct.directSum k k (E.CutGradedBlock vertex) (E.CutGradedBlock vertex))
+
+noncomputable def cutEnvelopingHomogeneousInclusion (d : ℕ × ℕ) :
+    E.CutEnvelopingBlock vertex d →ₗ[k]
+      AlgebraEnvelopingRing k (E.CutGradedRing vertex) :=
+  TensorProduct.map (E.cutHomogeneousLinearInclusion vertex d.1)
+    ((MulOpposite.opLinearEquiv k).toLinearMap.comp
+      (E.cutHomogeneousLinearInclusion vertex d.2))
+
+@[simp] theorem cutEnvelopingHomogeneousInclusion_tmul (i j : ℕ)
+    (x : E.CutGradedBlock vertex i) (y : E.CutGradedBlock vertex j) :
+    E.cutEnvelopingHomogeneousInclusion vertex (i,j) (x ⊗ₜ[k] y) =
+      E.cutHomogeneousInclusion vertex i x ⊗ₜ[k]
+        MulOpposite.op (E.cutHomogeneousInclusion vertex j y) := by
+  simp only [cutEnvelopingHomogeneousInclusion, TensorProduct.map_tmul, LinearMap.comp_apply]
+  rfl
+
+set_option synthInstance.maxHeartbeats 200000 in
+@[simp] theorem cutEnvelopingBigradingEquiv_inclusion (d : ℕ × ℕ)
+    (x : E.CutEnvelopingBlock vertex d) :
+    E.cutEnvelopingBigradingEquiv vertex (E.cutEnvelopingHomogeneousInclusion vertex d x) =
+      DirectSum.lof k (ℕ × ℕ) (E.CutEnvelopingBlock vertex) d x := by
+  rcases d with ⟨i,j⟩
+  induction x using TensorProduct.induction_on with
+  | zero => simp only [map_zero]
+  | tmul x y =>
+      rw [cutEnvelopingHomogeneousInclusion_tmul]
+      simp only [cutEnvelopingBigradingEquiv, LinearEquiv.trans_apply,
+        TensorProduct.congr_tmul, LinearEquiv.refl_apply]
+      exact TensorProduct.directSum_lof_tmul_lof k k i x j y
+  | add x y hx hy => simp only [map_add, hx, hy]
+
+theorem cutEnvelopingHomogeneousInclusion_mul_tmul (i j m n : ℕ)
+    (x : E.CutGradedBlock vertex i) (y : E.CutGradedBlock vertex j)
+    (z : E.CutGradedBlock vertex m) (t : E.CutGradedBlock vertex n) :
+    E.cutEnvelopingHomogeneousInclusion vertex (i,j) (x ⊗ₜ[k] y) *
+      E.cutEnvelopingHomogeneousInclusion vertex (m,n) (z ⊗ₜ[k] t) =
+    E.cutEnvelopingHomogeneousInclusion vertex (i+m,n+j)
+      ((E.cutBlockMul vertex i m x z) ⊗ₜ[k] (E.cutBlockMul vertex n j t y)) := by
+  letI : IsScalarTower k (E.CutGradedRing vertex) (E.CutGradedRing vertex) :=
+    ⟨fun c a b => Algebra.smul_mul_assoc c a b⟩
+  letI : SMulCommClass k (E.CutGradedRing vertex) (E.CutGradedRing vertex) :=
+    ⟨fun c a b => (Algebra.mul_smul_comm c a b).symm⟩
+  rw [cutEnvelopingHomogeneousInclusion_tmul,
+    cutEnvelopingHomogeneousInclusion_tmul,
+    cutEnvelopingHomogeneousInclusion_tmul,
+    Algebra.TensorProduct.tmul_mul_tmul, ← MulOpposite.op_mul,
+    cutHomogeneousInclusion_mul, cutHomogeneousInclusion_mul]
+
+end ASGinzburg.ZAlgebra.PeriodIso

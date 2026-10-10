@@ -1,0 +1,46 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:48:44: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:54:40: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:55:32: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:56:38: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:43:63: error: unsolved goals
+k : Type u
+inst✝³ : Field k
+R : Type v
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+G : ℤ → Submodule k R
+inst✝ : DirectSum.Decomposition G
+M : GradedOrdinaryModuleData k R G
+q : ℤ
+f : ↑(ordinaryRingDual R M.ringModule)
+hf : f ∈ M.ringDualGrade q
+hothers : f ∈ ⨆ j, ⨆ (_ : j ≠ q), M.ringDualGrade j
+hle : ⨆ p, ⨆ (_ : p ≠ q), M.ringDualGrade p ≤ LinearMap.ker (M.ringDualComponentMap ⋯ q)
+hz : M.ringDualComponent ⋯ f q = 0
+⊢ f = 0
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:63:54: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:64:34: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:60:38: error: unsolved goals
+case h
+k : Type u
+inst✝⁴ : Field k
+R : Type v
+inst✝³ : Ring R
+inst✝² : Algebra k R
+G : ℤ → Submodule k R
+inst✝¹ : DirectSum.Decomposition G
+M : GradedOrdinaryModuleData k R G
+inst✝ : Module.Finite R ↑M.ringModule
+f : ↑(ordinaryRingDual R M.ringModule)
+a✝ : f ∈ ⊤
+s : Finset ℤ
+hs : ∀ q ∉ s, M.ringDualComponent ⋯ f q = 0
+⊢ f ∈ ⨆ q, M.ringDualGrade q
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:71:31: error(lean.unknownIdentifier): Unknown identifier `hG`
+work/ASGinzburgDraft/GradedOrdinaryRingDualInternalGrading.lean:71:36: error: Function expected at
+  ringDualGrade_iSup_eq_top M
+but this term has type
+  ⨆ q, M.ringDualGrade q = ⊤
+
+Note: Expected a function because this term is being applied to the argument
+  hG

@@ -1,0 +1,43 @@
+import work.ASGinzburgDraft.OrdinaryModuleRingDualDerived
+import Mathlib.CategoryTheory.Limits.Yoneda
+
+/-! The genuine contravariant ring dual preserves limits. Its underlying
+set-valued functor is represented by the regular left module, and the
+module forgetful functor reflects limits. Consequently the actual zeroth
+right derived functor is canonically the ring dual. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Opposite
+universe v
+variable (R : Type v) [Ring R]
+
+noncomputable def ordinaryRingDualForgetYonedaIso :
+    ordinaryRingDualFunctor R ⋙ forget (ModuleCat.{v} Rᵐᵒᵖ) ≅
+      yoneda.obj (ModuleCat.of R R) :=
+  NatIso.ofComponents
+    (fun P => ({
+      toFun := ModuleCat.ofHom
+      invFun := fun f => f.hom
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl } :
+        ordinaryRingDual R P.unop ≃ (P.unop ⟶ ModuleCat.of R R)).toIso)
+    (fun f => by funext g; rfl)
+
+instance ordinaryRingDualFunctor_preservesLimits : PreservesLimits (ordinaryRingDualFunctor R) := by
+  letI : PreservesLimits
+      (ordinaryRingDualFunctor R ⋙ forget (ModuleCat.{v} Rᵐᵒᵖ)) :=
+    preservesLimits_of_natIso (ordinaryRingDualForgetYonedaIso R).symm
+  exact preservesLimits_of_reflects_of_preserves
+    (ordinaryRingDualFunctor R) (forget (ModuleCat.{v} Rᵐᵒᵖ))
+
+instance ordinaryRingDualFunctor_preservesFiniteLimits :
+    PreservesFiniteLimits (ordinaryRingDualFunctor R) := inferInstance
+
+noncomputable def ordinaryRingDualExtZeroIso :
+    ordinaryRingDualExtFunctor R 0 ≅ ordinaryRingDualFunctor R :=
+  (ordinaryRingDualFunctor R).rightDerivedZeroIsoSelf
+
+noncomputable def ordinaryRingDualExtZeroObjIso (P : ModuleCat.{v} R) :
+    (ordinaryRingDualExtFunctor R 0).obj (op P) ≅ ordinaryRingDual R P :=
+  (ordinaryRingDualExtZeroIso R).app (op P)
+
+end ASGinzburg

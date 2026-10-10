@@ -1,0 +1,32 @@
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:48:17: error: unsolved goals
+R : Type v
+inst✝ : Ring R
+n : ℕ
+h : ↑(ordinaryRingBidual R (ModuleCat.of R (Fin n → R)))
+i : Fin n
+⊢ MulOpposite.op
+      (((ordinaryRingDualFiniteFreeEquiv R n).symm ((Pi.basisFun Rᵐᵒᵖ (Fin n)) i)) fun j =>
+        MulOpposite.unop (h ((ordinaryRingDualFiniteFreeEquiv R n).symm ((Pi.basisFun Rᵐᵒᵖ (Fin n)) j)))) =
+    h ((ordinaryRingDualFiniteFreeEquiv R n).symm ((Pi.basisFun Rᵐᵒᵖ (Fin n)) i))
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:61:17: warning: This simp argument is unused:
+  ordinaryRingDualFiniteFreeEquiv_symm_basis
+
+Hint: Omit it from the simp argument list.
+  simp only [̵o̵r̵d̵i̵n̵a̵r̵y̵R̵i̵n̵g̵D̵u̵a̵l̵F̵i̵n̵i̵t̵e̵F̵r̵e̵e̵E̵q̵u̵i̵v̵_̵s̵y̵m̵m̵_̵b̵a̵s̵i̵s̵,̵ ̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵p̵r̵o̵j̵_̵a̵p̵p̵l̵y̵,̵[̲L̲i̲n̲e̲a̲r̲M̲a̲p̲.̲p̲r̲o̲j̲_̲a̲p̲p̲l̲y̲,̲ MulOpposite.op_unop]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:61:61: warning: This simp argument is unused:
+  LinearMap.proj_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [ordinaryRingDualFiniteFreeEquiv_symm_basis, L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵p̵r̵o̵j̵_̵a̵p̵p̵l̵y̵,̵MulOpposite.op_unop]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:62:8: warning: This simp argument is unused:
+  MulOpposite.op_unop
+
+Hint: Omit it from the simp argument list.
+  simp only [ordinaryRingDualFiniteFreeEquiv_symm_basis, LinearMap.proj_apply,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵M̵u̵l̵O̵p̵p̵o̵s̵i̵t̵e̵.̵o̵p̵_̵u̵n̵o̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

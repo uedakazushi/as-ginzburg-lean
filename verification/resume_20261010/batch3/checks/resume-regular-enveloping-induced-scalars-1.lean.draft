@@ -1,0 +1,18 @@
+import ASGinzburg.AlgebraEnvelopingScalars
+
+/-! The field action induced through the genuine multiplication-bimodule
+object agrees with its original field action. -/
+namespace ASGinzburg
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+theorem regularEnvelopingModuleCat_inducedScalarModule_eq :
+    Module.compHom (regularEnvelopingModuleCat k R)
+      (algebraMap k (AlgebraEnvelopingRing k R)) = (inferInstance : Module k R) := by
+  apply Module.ext'
+  intro c x
+  change regularEnvelopingRepresentation k R (algebraMap k _ c) x = c • x
+  rw [(regularEnvelopingRepresentation k R).commutes]
+  rfl
+
+end ASGinzburg

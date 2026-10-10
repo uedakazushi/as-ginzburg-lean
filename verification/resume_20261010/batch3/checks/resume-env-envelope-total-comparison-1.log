@@ -1,0 +1,40 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingTotalComparison.lean:22:9: error: failed to synthesize
+  HasMapBifunctor P Q (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BalancedTensorEnvelopingTotalComparison.lean:23:6: error: failed to synthesize
+  HasMapBifunctor P Q (balancedTensorBifunctor k R) (ComplexShape.down ℕ)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BalancedTensorEnvelopingTotalComparison.lean:30:8: error: failed to synthesize
+  K.HasTotal (ComplexShape.down ℕ)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BalancedTensorEnvelopingTotalComparison.lean:31:4: error: failed to synthesize
+  HomologicalComplex₂.HasTotal
+    ((((balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).mapHomologicalComplex
+              (ComplexShape.down ℕ)).mapHomologicalComplex
+          (ComplexShape.down ℕ)).obj
+      (tensorRightEnvelopingBicomplex k R P Q))
+    (ComplexShape.down ℕ)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BalancedTensorEnvelopingTotalComparison.lean:23:78: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+P : ChainComplex (ModuleCat Rᵐᵒᵖ) ℕ
+Q : ChainComplex (ModuleCat R) ℕ
+G : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ ⥤ ModuleCat k := balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R
+K : HomologicalComplex₂ (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ) (ComplexShape.down ℕ) (ComplexShape.down ℕ) :=
+  tensorRightEnvelopingBicomplex k R P Q
+this : ∀ (n : ℕ),
+  PreservesColimit
+    (Discrete.functor
+      (K.toGradedObject.mapObjFun ((ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n))
+    G :=
+  fun x => inferInstance
+⊢ ((balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).mapHomologicalComplex (ComplexShape.down ℕ)).obj sorry ≅
+    sorry

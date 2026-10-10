@@ -1,0 +1,26 @@
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluation.lean:27:4: error: 'change' tactic failed, pattern
+  ((algebraMap k Rᵐᵒᵖ) c • f) x • y = c • f x • y
+is not definitionally equal to target
+  ({ toFun := fun y => { toFun := fun x => (c • f) x • y, map_add' := ⋯, map_smul' := ⋯ }, map_add' := ⋯,
+          map_smul' := ⋯ }
+        y)
+      x =
+    (((RingHom.id k) c •
+          { toFun := fun y => { toFun := fun x => f x • y, map_add' := ⋯, map_smul' := ⋯ }, map_add' := ⋯,
+            map_smul' := ⋯ })
+        y)
+      x
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluation.lean:66:27: error: Application type mismatch: The argument
+  ordinaryRingDualTensorEvaluation k R N (unop P)
+has type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑(ordinaryRingDual R (unop P))) LinearMap.addCommGroup LinearMap.module
+      LinearMap.module (↑N) N.isAddCommGroup ModuleCat.Algebra.instModuleCarrier N.isModule →ₗ[k]
+    ↑(unop P) →ₗ[R] ↑N
+but is expected to have type
+  @BalancedTensorSpace k inst✝² R inst✝¹ (↑((ordinaryRingDualFunctor R).obj P))
+      ((ordinaryRingDualFunctor R).obj P).isAddCommGroup ModuleCat.Algebra.instModuleCarrier
+      ((ordinaryRingDualFunctor R).obj P).isModule (↑N) N.isAddCommGroup ModuleCat.Algebra.instModuleCarrier
+      N.isModule →ₗ[k]
+    ↑(unop P) →ₗ[R] ↑N
+in the application
+  ModuleCat.ofHom (ordinaryRingDualTensorEvaluation k R N (unop P))

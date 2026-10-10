@@ -1,0 +1,44 @@
+import work.ASGinzburgDraft.BalancedTensorAdjunction
+import Mathlib.CategoryTheory.Adjunction.Limits
+import Mathlib.CategoryTheory.Abelian.LeftDerived
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+import Mathlib.Algebra.Category.ModuleCat.Projective
+
+/-! Genuine Tor for a noncommutative k-algebra, defined as the actual
+left-derived functors of the balanced tensor functor. The degree-zero
+comparison follows from the proven tensor-Hom adjunction. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+
+noncomputable def balancedTensorTorFunctor (n : ℕ) :
+    ModuleCat.{max v w z} R ⥤ ModuleCat.{max v w z} k :=
+  (balancedTensorRightFunctor.{u,v,w,max v w z} k R M).leftDerived n
+
+noncomputable def balancedTensorTorZeroIso :
+    balancedTensorTorFunctor.{u,v,w,z} k R M 0 ≅
+      balancedTensorRightFunctor.{u,v,w,max v w z} k R M := by
+  letI := (balancedTensorAdjunction.{u,v,w,max v z} k R M).isLeftAdjoint
+  exact (balancedTensorRightFunctor.{u,v,w,max v w z} k R M).leftDerivedZeroIsoSelf
+
+noncomputable def balancedTensorTorResolutionIso
+    (N : ModuleCat.{max v w z} R) (Q : ProjectiveResolution N) (n : ℕ) :
+    (balancedTensorTorFunctor.{u,v,w,z} k R M n).obj N ≅
+      (HomologicalComplex.homologyFunctor (ModuleCat.{max v w z} k)
+        (ComplexShape.down ℕ) n).obj
+        (((balancedTensorRightFunctor.{u,v,w,max v w z} k R M).mapHomologicalComplex
+          (ComplexShape.down ℕ)).obj Q.complex) :=
+  Q.isoLeftDerivedObj (balancedTensorRightFunctor k R M) n
+
+omit [IsScalarTower k Rᵐᵒᵖ M] in
+theorem balancedTensorTor_projective_succ (n : ℕ)
+    (N : ModuleCat.{max v w z} R) [Projective N] :
+    IsZero ((balancedTensorTorFunctor.{u,v,w,z} k R M (n+1)).obj N) :=
+  Functor.isZero_leftDerived_obj_projective_succ
+    (balancedTensorRightFunctor k R M) n N
+
+end ASGinzburg

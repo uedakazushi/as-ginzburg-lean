@@ -1,0 +1,55 @@
+work/ASGinzburgDraft/GradedNilpotentFiniteGeneration.lean:50:52: error(lean.unknownIdentifier): Unknown identifier `h₀`
+work/ASGinzburgDraft/GradedNilpotentFiniteGeneration.lean:60:26: error(lean.unknownIdentifier): Unknown identifier `ha`
+work/ASGinzburgDraft/GradedNilpotentFiniteGeneration.lean:60:19: error: unsolved goals
+k : Type u
+inst✝¹⁴ : Field k
+R₀ : Type v
+inst✝¹³ : Ring R₀
+inst✝¹² : Algebra k R₀
+R : Type z
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+inst✝⁹ : SMul R₀ R
+M : Type w
+inst✝⁸ : AddCommGroup M
+inst✝⁷ : Module k M
+inst✝⁶ : Module R₀ M
+inst✝⁵ : Module R M
+inst✝⁴ : IsScalarTower k R₀ M
+inst✝³ : IsScalarTower k R M
+inst✝² : IsScalarTower R₀ R M
+G : ℤ → Submodule k M
+inst✝¹ : DirectSum.Decomposition G
+ι : Type t
+d : ι → ℕ
+f : ι → M →ₗ[k] M
+I₀ : Ideal R₀
+inst✝ : FiniteDimensional k (M ⧸ gradedNilpotentActionSpan k R₀ M f I₀)
+N₀ : ℕ
+hN₀ : I₀ ^ N₀ = ⊥
+hd : ∀ (i : ι), 0 < d i
+hf : ∀ (i : ι) (q : ℤ), ∀ x ∈ G q, (f i) x ∈ G (q + ↑(d i))
+b : ℤ
+hb : ∀ q < b, G q = ⊥
+K : Submodule k M := gradedNilpotentActionSpan k R₀ M f I₀
+B : Module.Basis (Fin (Module.finrank k (M ⧸ K))) k (M ⧸ K) := Module.finBasis k (M ⧸ K)
+lift : Fin (Module.finrank k (M ⧸ K)) → M := fun i => Classical.choose ⋯
+hLift : ∀ (i : Fin (Module.finrank k (M ⧸ K))), K.mkQ (lift i) = B i
+T : Finset M := finiteHomogeneousComponents k M G (Module.finrank k (M ⧸ K)) lift
+N : Submodule R M := Submodule.span R ↑T
+S : Submodule k M := Submodule.restrictScalars k N
+H : Submodule k M := homogeneousCore k M G S
+hLiftH : ∀ (i : Fin (Module.finrank k (M ⧸ K))), lift i ∈ H
+hH₀ : ∀ (r : R₀), ∀ x ∈ H, r • x ∈ H
+H₀ : Submodule R₀ M := { carrier := ↑H, add_mem' := ⋯, zero_mem' := ⋯, smul_mem' := hH₀ }
+i : ι
+x : M
+hx : x ∈ H₀
+y : M
+hy : y ∈ S
+⊢ (f i) y ∈ S
+work/ASGinzburgDraft/GradedNilpotentFiniteGeneration.lean:68:14: error: Invalid field `mp`: The environment does not contain `Function.mp`
+  Submodule.map_mkQ_eq_top
+has type
+  ∀ (p p' : Submodule ?m.412 ?m.413), Submodule.map p.mkQ p' = ⊤ ↔ p ⊔ p' = ⊤
+work/ASGinzburgDraft/GradedNilpotentFiniteGeneration.lean:81:17: error(lean.unknownIdentifier): Unknown identifier `h₀`

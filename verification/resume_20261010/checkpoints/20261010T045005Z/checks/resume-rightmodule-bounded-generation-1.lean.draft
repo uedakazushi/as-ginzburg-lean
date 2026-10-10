@@ -1,0 +1,64 @@
+import ASGinzburg.RightModuleRadical
+import ASGinzburg.RightModuleAbelian
+
+/-! For a genuinely bounded-above directed right module, generation
+modulo the positive radical already gives generation of the module.
+This is the surjective form of graded Nakayama, with no finiteness assumption. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem rightModule_surjective_of_boundedAbove_range_add_radical
+    {M N : A.RightModule} (f : M ⟶ N) (b : ℤ)
+    (hb : ∀ i : ℤ, b < i → IsZero ((A.rightModuleEvaluation i).obj N))
+    (hf : ∀ i : ℤ, LinearMap.range ((A.rightModuleEvaluation i).map f).hom ⊔
+      A.positiveActionSpan N i = ⊤) :
+    ∀ i : ℤ, Function.Surjective ((A.rightModuleEvaluation i).map f) := by
+  have H : ∀ n : ℕ, ∀ i : ℤ, b+1-(n:ℤ) ≤ i →
+      ∀ x : (A.rightModuleEvaluation i).obj N,
+        x ∈ LinearMap.range ((A.rightModuleEvaluation i).map f).hom := by
+    intro n
+    induction n with
+    | zero =>
+      intro i hi x
+      letI := ModuleCat.isZero_iff_subsingleton.mp (hb i (by omega))
+      have hx : x = 0 := Subsingleton.elim _ _
+      rw [hx]
+      exact Submodule.zero_mem _
+    | succ n ih =>
+      intro i hi x
+      by_cases hit : b+1-(n:ℤ) ≤ i
+      · exact ih i hit x
+      · have hx : x ∈ LinearMap.range ((A.rightModuleEvaluation i).map f).hom ⊔
+            A.positiveActionSpan N i := by
+          rw [hf i]
+          exact Submodule.mem_top
+        obtain ⟨y, hy, z, hz, rfl⟩ := Submodule.mem_sup.mp hx
+        apply Submodule.add_mem _ hy
+        induction hz using Submodule.span_induction with
+        | mem w hw =>
+          obtain ⟨j, hij, a, r, rfl⟩ := hw
+          obtain ⟨a', ha'⟩ := ih j (by omega) a
+          refine ⟨M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op a', ?_⟩
+          have hn := congrArg (fun g => g a')
+            (f.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op)
+          change f.app (op ⟨i⟩) (M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op a') =
+            N.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op (f.app (op ⟨j⟩) a') at hn
+          rw [ha'] at hn
+          exact hn
+        | zero => exact Submodule.zero_mem _
+        | add y z hy hz ihy ihz => exact Submodule.add_mem _ ihy ihz
+        | smul c y hy ihy => exact Submodule.smul_mem _ c ihy
+  intro i x
+  exact H (b+1-i).toNat i (by omega) x
+
+theorem rightModule_epi_of_boundedAbove_range_add_radical
+    {M N : A.RightModule} (f : M ⟶ N) (b : ℤ)
+    (hb : ∀ i : ℤ, b < i → IsZero ((A.rightModuleEvaluation i).obj N))
+    (hf : ∀ i : ℤ, LinearMap.range ((A.rightModuleEvaluation i).map f).hom ⊔
+      A.positiveActionSpan N i = ⊤) : Epi f :=
+  (A.rightModule_epi_iff_surjective f).mpr
+    (A.rightModule_surjective_of_boundedAbove_range_add_radical f b hb hf)
+
+end ASGinzburg.ZAlgebra

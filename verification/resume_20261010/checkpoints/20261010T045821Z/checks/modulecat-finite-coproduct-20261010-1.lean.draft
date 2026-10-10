@@ -1,0 +1,24 @@
+import Mathlib.Algebra.Category.ModuleCat.Products
+import Mathlib.RingTheory.Finiteness.Basic
+
+/-! Finite coproducts of finitely generated modules are finitely generated.
+The proof uses the actual coproduct-to-direct-sum comparison. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v w
+variable (R : Type u) [Ring R] {I : Type v}
+variable (F : I → ModuleCat.{max v w} R) [HasCoproduct F]
+
+noncomputable def moduleCatFiniteCoproductEquivPi [Fintype I] :
+    (∐ F) ≃ₗ[R] (∀ i, F i) := by
+  classical
+  exact (ModuleCat.coprodIsoDirectSum F).toLinearEquiv.trans
+    (DirectSum.linearEquivFunOnFintype R I (fun i => F i))
+
+theorem moduleCatFiniteCoproduct_finite [Finite I] [∀ i, Module.Finite R (F i)] :
+    Module.Finite R (∐ F) := by
+  classical
+  letI := Fintype.ofFinite I
+  exact Module.Finite.equiv (moduleCatFiniteCoproductEquivPi R F).symm
+
+end ASGinzburg

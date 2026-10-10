@@ -1,0 +1,72 @@
+import work.ASGinzburgDraft.GradedOrdinaryRingDualComponents
+
+/-! The native homogeneous-component projections on the actual ring
+dual are field-linear. All of them together detect a zero ring-linear
+map, and their action on a homogeneous map is the expected projection. -/
+namespace ASGinzburg
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+
+theorem ordinaryRingDual_field_smul_apply (M : ModuleCat.{v} R)
+    (c : k) (f : ordinaryRingDual R M) (x : M) : (c • f) x = c • f x := by
+  rw [← algebraMap_smul Rᵐᵒᵖ c f, ordinaryRingDual_smul_apply,
+    MulOpposite.algebraMap_apply, MulOpposite.unop_op,
+    ← Algebra.commutes c (f x), ← Algebra.smul_def]
+
+namespace GradedOrdinaryModuleData
+open scoped DirectSum
+variable {G : ℤ → Submodule k R} [DirectSum.Decomposition G]
+variable (M : GradedOrdinaryModuleData k R G)
+variable (hG : ∀ p q : ℤ, ∀ a ∈ G p, ∀ b ∈ G q, a * b ∈ G (p + q))
+
+noncomputable def ringDualComponentMap (q : ℤ) :
+    ordinaryRingDual R M.ringModule →ₗ[k] ordinaryRingDual R M.ringModule where
+  toFun f := M.ringDualComponent hG f q
+  map_add' f g := by
+    letI := M.decomposition
+    apply LinearMap.ext
+    intro x
+    induction x using DirectSum.Decomposition.inductionOn M.grade with
+    | zero => rw [map_zero]; rfl
+    | @homogeneous p x =>
+      rw [M.ringDualComponent_apply_homogeneous hG (f + g) q p x x.property]
+      change homogeneousComponent k R G (p + q) (f x + g x) =
+        M.ringDualComponent hG f q x + M.ringDualComponent hG g q x
+      rw [map_add, M.ringDualComponent_apply_homogeneous hG f q p x x.property,
+        M.ringDualComponent_apply_homogeneous hG g q p x x.property]
+    | add x y hx hy => rw [map_add, map_add, hx, hy]
+  map_smul' c f := by
+    letI := M.decomposition
+    apply LinearMap.ext
+    intro x
+    induction x using DirectSum.Decomposition.inductionOn M.grade with
+    | zero => rw [map_zero]; simp
+    | @homogeneous p x =>
+      rw [M.ringDualComponent_apply_homogeneous hG (c • f) q p x x.property,
+        ordinaryRingDual_field_smul_apply, map_smul,
+        ordinaryRingDual_field_smul_apply,
+        M.ringDualComponent_apply_homogeneous hG f q p x x.property]
+    | add x y hx hy => rw [map_add, map_add, hx, hy]
+
+theorem ringDual_eq_zero_of_components_eq_zero
+    (f : ordinaryRingDual R M.ringModule)
+    (hf : ∀ q : ℤ, M.ringDualComponent hG f q = 0) : f = 0 := by
+  letI := M.decomposition
+  apply LinearMap.ext
+  intro x
+  induction x using DirectSum.Decomposition.inductionOn M.grade with
+  | zero => rw [map_zero]; rfl
+  | @homogeneous p x =>
+    have hcomp (s : ℤ) : (DirectSum.decompose G (f x) s : R) = 0 := by
+      have h := congrArg (fun g : ordinaryRingDual R M.ringModule => g x) (hf (s - p))
+      rw [M.ringDualComponent_apply_homogeneous hG f (s - p) p x x.property] at h
+      simpa only [show p + (s - p) = s by omega, LinearMap.zero_apply] using h
+    have hzero : DirectSum.decompose G (f x) = 0 := by
+      ext s
+      exact Subtype.ext (hcomp s)
+    exact (DirectSum.decompose G).injective (hzero.trans (DirectSum.decompose_zero G).symm)
+  | add x y hx hy => rw [map_add, hx, hy]; simp
+
+end GradedOrdinaryModuleData
+end ASGinzburg

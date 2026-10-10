@@ -1,0 +1,74 @@
+import ASGinzburg.FiniteFourTermProjectiveResolution
+import ASGinzburg.OrdinaryPerfectComplex
+import ASGinzburg.ChainComplexSingleZeroCochainExtension
+
+/-! A genuine finite four-term module resolution is an actual perfect
+cochain complex in degrees -3 through 0, with a quasi-isomorphism to its
+resolved module concentrated in degree zero. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe v
+variable {R : Type v} [Ring R] {X : ModuleCat.{v} R}
+
+namespace FiniteFourTermProjectiveResolution
+variable (F : FiniteFourTermProjectiveResolution X)
+
+noncomputable def perfectCochainComplex : CochainComplex (ModuleCat.{v} R) ℤ :=
+  F.toProjectiveResolution.complex.extend ComplexShape.embeddingDownNat
+
+theorem perfectCochainComplex_term_finiteProjective (i : ℤ) :
+    ordinaryFiniteProjectiveProperty R (F.perfectCochainComplex.X i) := by
+  by_cases h : ∃ n : ℕ, ComplexShape.embeddingDownNat.f n = i
+  · obtain ⟨n, hn⟩ := h
+    haveI : Projective (F.toProjectiveResolution.complex.X n) :=
+      F.toProjectiveResolution.projective n
+    haveI : Module.Finite R (F.toProjectiveResolution.complex.X n) :=
+      F.toProjectiveResolution_term_finite n
+    exact ordinaryFiniteProjectiveProperty_of_iso R
+      (F.toProjectiveResolution.complex.extendXIso ComplexShape.embeddingDownNat hn)
+      (ordinaryModule_finiteFreeRetract R (F.toProjectiveResolution.complex.X n))
+  · exact ordinaryFiniteProjectiveProperty_of_isZero R
+      (F.toProjectiveResolution.complex.isZero_extend_X ComplexShape.embeddingDownNat i
+        (fun n hn => h ⟨n, hn⟩))
+
+theorem perfectCochainComplex_isZero_outside (i : ℤ) (hi : i < -3 ∨ 0 < i) :
+    IsZero (F.perfectCochainComplex.X i) := by
+  by_cases h : ∃ n : ℕ, ComplexShape.embeddingDownNat.f n = i
+  · obtain ⟨n, hn⟩ := h
+    have hn4 : 4 ≤ n := by
+      dsimp [ComplexShape.embeddingDownNat] at hn
+      omega
+    obtain ⟨m, rfl⟩ := Nat.exists_eq_add_of_le hn4
+    rw [Nat.add_comm 4 m] at hn
+    exact (F.toProjectiveResolution_isZero_ge_four m).of_iso
+      (F.toProjectiveResolution.complex.extendXIso ComplexShape.embeddingDownNat hn)
+  · exact F.toProjectiveResolution.complex.isZero_extend_X ComplexShape.embeddingDownNat i
+      (fun n hn => h ⟨n, hn⟩)
+
+theorem perfectCochainComplex_perfect :
+    ordinaryFiniteProjectiveCochainProperty R F.perfectCochainComplex :=
+  ⟨F.perfectCochainComplex_term_finiteProjective,
+    -3, 0, F.perfectCochainComplex_isZero_outside⟩
+
+noncomputable def perfectCochainAugmentation :
+    F.perfectCochainComplex ⟶
+      (HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0).obj X :=
+  HomologicalComplex.extendMap F.toProjectiveResolution.π ComplexShape.embeddingDownNat ≫
+    (chainSingleZeroExtendIso (ModuleCat R) X).hom
+
+instance perfectCochainAugmentation_quasiIso : QuasiIso F.perfectCochainAugmentation := by
+  haveI : QuasiIso (HomologicalComplex.extendMap F.toProjectiveResolution.π
+      ComplexShape.embeddingDownNat) :=
+    (HomologicalComplex.quasiIso_extendMap_iff _ _ F.toProjectiveResolution.π
+      ComplexShape.embeddingDownNat).mpr F.toProjectiveResolution.quasiIso
+  change QuasiIso (HomologicalComplex.extendMap F.toProjectiveResolution.π
+    ComplexShape.embeddingDownNat ≫ (chainSingleZeroExtendIso (ModuleCat R) X).hom)
+  infer_instance
+
+include F in
+theorem ordinaryPerfectModule : ordinaryPerfectModuleProperty R X :=
+  ⟨F.perfectCochainComplex, F.perfectCochainComplex_perfect,
+    F.perfectCochainAugmentation, F.perfectCochainAugmentation_quasiIso⟩
+
+end FiniteFourTermProjectiveResolution
+end ASGinzburg

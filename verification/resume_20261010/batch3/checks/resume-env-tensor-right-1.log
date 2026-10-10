@@ -1,0 +1,35 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean:20:55: error: failed to synthesize
+  Module Rᵐᵒᵖᵐᵒᵖ N
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean:20:55: error: failed to synthesize
+  IsScalarTower k Rᵐᵒᵖᵐᵒᵖ N
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRightModule.lean:26:2: error: Tactic `rfl` failed: The left-hand side
+  ((tensorRightEnvelopingRepresentation k R M N) (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b))) (m ⊗ₜ[k] n)
+is not definitionally equal to the right-hand side
+  (MulOpposite.op a • m) ⊗ₜ[k] (b • n)
+
+k : Type u
+inst✝¹² : Field k
+R : Type v
+inst✝¹¹ : Ring R
+inst✝¹⁰ : Algebra k R
+M : Type w
+inst✝⁹ : AddCommGroup M
+inst✝⁸ : Module k M
+inst✝⁷ : Module Rᵐᵒᵖ M
+N : Type z
+inst✝⁶ : AddCommGroup N
+inst✝⁵ : Module k N
+inst✝⁴ : Module R N
+inst✝³ : SMulCommClass k Rᵐᵒᵖ M
+inst✝² : IsScalarTower k Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k R N
+inst✝ : IsScalarTower k R N
+a b : R
+m : M
+n : N
+⊢ ((tensorRightEnvelopingRepresentation k R M N) (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b))) (m ⊗ₜ[k] n) =
+    (MulOpposite.op a • m) ⊗ₜ[k] (b • n)

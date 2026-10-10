@@ -1,0 +1,47 @@
+work/ASGinzburgDraft/PathAutomorphismArrowSubstitution.lean:22:4: error: Type mismatch
+  LinearComponentAlgebra.totalAlgEquivComponentLinearEquiv_id (Q.pathComponentAlgebra k) (↑E) (fixes_vertex Q k E) i
+has type
+  ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv ↑E ⋯ i i) ((Q.pathComponentAlgebra k).id i) =
+    (Q.pathComponentAlgebra k).id i
+but is expected to have type
+  (componentLinearEquiv Q k E i i) (Finsupp.single (Path.nil i) 1) =
+    Q.pathArrowSubstitutionPath k (arrowReplacement Q k E) (Path.nil i)
+work/ASGinzburgDraft/PathAutomorphismArrowSubstitution.lean:39:4: error: Tactic `rfl` failed: The left-hand side
+  ((Q.pathComp k) (arrowReplacement Q k E a)) (Q.pathArrowSubstitutionPath k (arrowReplacement Q k E) p)
+is not definitionally equal to the right-hand side
+  Q.pathArrowSubstitutionPath k (arrowReplacement Q k E) (p.snoc a ⋯)
+
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+i j : Q.Vertex
+a : Q.Arrow
+p : Q.Path i (Q.source a)
+ih :
+  (componentLinearEquiv Q k E i (Q.source a)) (Finsupp.single p 1) =
+    Q.pathArrowSubstitutionPath k (arrowReplacement Q k E) p
+hp : ((Q.pathComp k) (Q.pathIdentityArrowReplacement k a)) (Finsupp.single p 1) = Finsupp.single (p.snoc a ⋯) 1
+hE :
+  (componentLinearEquiv Q k E i (Q.target a))
+      (((Q.pathComp k) (Q.pathIdentityArrowReplacement k a)) (Finsupp.single p 1)) =
+    ((Q.pathComponentAlgebra k).comp
+        (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv ↑E ⋯ (Q.source a) (Q.target a))
+          (Q.pathIdentityArrowReplacement k a)))
+      (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv ↑E ⋯ i (Q.source a)) (Finsupp.single p 1))
+⊢ ((Q.pathComp k) (arrowReplacement Q k E a)) (Q.pathArrowSubstitutionPath k (arrowReplacement Q k E) p) =
+    Q.pathArrowSubstitutionPath k (arrowReplacement Q k E) (p.snoc a ⋯)
+work/ASGinzburgDraft/PathAutomorphismArrowSubstitution.lean:63:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑E ?x ?i ?j
+in the target expression
+  ↑↑E x i j = (Q.pathArrowSubstitution k (arrowReplacement Q k E)) x i j
+
+case H.h.h
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : ↥(Q.VertexCutPathAutomorphism k)
+x : Q.PathRing k
+i j : Q.Vertex
+⊢ ↑↑E x i j = (Q.pathArrowSubstitution k (arrowReplacement Q k E)) x i j

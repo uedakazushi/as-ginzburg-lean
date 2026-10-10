@@ -1,0 +1,16 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:17:31: error: unexpected token 'where'; expected ':=' or '|'
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:17:7: error: Missing cases:
+work/ASGinzburgDraft/AlgebraEnvelopingTensorResolution.lean:15:60: error: unsolved goals
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+N : ModuleCat R
+P : ProjectiveResolution M
+Q : ProjectiveResolution N
+G : ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ ⥤ ModuleCat k :=
+  ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+this : G.ReflectsIsomorphisms := nomatch
+⊢ QuasiIso (tensorRightEnvelopingAugmentation k R P Q)

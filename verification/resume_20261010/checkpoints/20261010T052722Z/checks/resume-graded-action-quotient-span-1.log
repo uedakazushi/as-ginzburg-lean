@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/GradedActionQuotientSpan.lean:56:19: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.Quotient.mk a
+in the target expression
+  S.mkQ a + S.mkQ b ∈ gradedNilpotentActionSpan k R₀ (M ⧸ S) (scalarSubmoduleQuotientOperator k R₀ M S f hf) I₀
+
+k : Type u
+inst✝⁶ : Field k
+R₀ : Type v
+inst✝⁵ : Ring R₀
+inst✝⁴ : Algebra k R₀
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module R₀ M
+inst✝ : IsScalarTower k R₀ M
+S : Submodule R₀ M
+ι : Type z
+f : ι → M →ₗ[k] M
+hf : ∀ (t : ι), ∀ x ∈ S, (f t) x ∈ S
+I₀ : Ideal R₀
+h : Submodule.restrictScalars k S ⊔ gradedNilpotentActionSpan k R₀ M f I₀ = ⊤
+x : M
+hx✝ : x ∈ Submodule.restrictScalars k S ⊔ gradedNilpotentActionSpan k R₀ M f I₀
+a : M
+ha : a ∈ Submodule.restrictScalars k S
+b : M
+hb : b ∈ gradedNilpotentActionSpan k R₀ M f I₀
+hx : a + b = x
+⊢ S.mkQ a + S.mkQ b ∈ gradedNilpotentActionSpan k R₀ (M ⧸ S) (scalarSubmoduleQuotientOperator k R₀ M S f hf) I₀

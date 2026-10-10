@@ -1,0 +1,52 @@
+import Mathlib.Algebra.Algebra.Pi
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.RingTheory.Ideal.Maps
+
+/-! An actual scalar augmentation and its idempotent coordinates can be
+reindexed through ULift without changing the genuine kernel. -/
+namespace ASGinzburg
+universe u v w z
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {ι : Type w}
+variable (ε : R →ₐ[k] (ι → k))
+
+def liftedCoordinateAugmentation : R →ₐ[k] (ULift.{z} ι → k) where
+  toFun r i := ε r i.down
+  map_one' := by ext i; exact congrFun ε.map_one i.down
+  map_mul' r s := by ext i; exact congrFun (ε.map_mul r s) i.down
+  map_zero' := by ext i; exact congrFun ε.map_zero i.down
+  map_add' r s := by ext i; exact congrFun (ε.map_add r s) i.down
+  commutes' c := by ext i; exact congrFun (ε.commutes c) i.down
+
+@[simp] theorem liftedCoordinateAugmentation_apply (r : R) (i : ULift.{z} ι) :
+    liftedCoordinateAugmentation ε r i = ε r i.down := rfl
+
+theorem liftedCoordinateAugmentation_ker :
+    RingHom.ker (liftedCoordinateAugmentation.{u,v,w,z} ε) = RingHom.ker ε := by
+  ext r
+  change (fun i : ULift.{z} ι => ε r i.down) = 0 ↔ ε r = 0
+  constructor
+  · intro h
+    ext i
+    exact congrFun h (ULift.up i)
+  · intro h
+    ext i
+    exact congrFun h i.down
+
+theorem liftedCoordinateAugmentation_idempotent [DecidableEq ι] (e : ι → R)
+    (hε : ∀ i, ε (e i) = Pi.single i 1) (i : ULift.{z} ι) :
+    liftedCoordinateAugmentation ε (e i.down) = Pi.single i 1 := by
+  ext j
+  change ε (e i.down) j.down = (Pi.single i (1:k) : ULift.{z} ι → k) j
+  rw [hε i.down]
+  by_cases h : j = i
+  · subst j
+    simp
+  · have h' : j.down ≠ i.down := fun hh => h (ULift.ext hh)
+    simp [Pi.single_apply, h, h']
+
+theorem sum_liftedIdempotentFamily [Fintype ι] (e : ι → R) :
+    (∑ i : ULift.{z} ι, e i.down) = ∑ i : ι, e i :=
+  Fintype.sum_equiv Equiv.ulift (fun i => e i.down) e (fun _ => rfl)
+
+end ASGinzburg

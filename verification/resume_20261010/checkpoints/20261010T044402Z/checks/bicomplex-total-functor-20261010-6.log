@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:151:2: error: Tactic `apply` failed: could not unify the conclusion of `@HomologicalComplex₂.total.hom_ext`
+  ?f = ?g
+with the goal
+  HomologicalComplex₂.ιTotal (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).obj K) c i₁✝ i₂✝ j hi✝ ≫
+      (HomologicalComplex₂.total.map (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c ≫
+            (bicomplexTotalFunctorIso G L c).inv).f
+        j =
+    HomologicalComplex₂.ιTotal (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).obj K) c i₁✝ i₂✝ j hi✝ ≫
+      ((bicomplexTotalFunctorIso G K c).inv ≫ (G.mapHomologicalComplex c).map (HomologicalComplex₂.total.map φ c)).f j
+
+Note: The full type of `@HomologicalComplex₂.total.hom_ext` is
+  ∀ {C : Type ?u.33189} [inst : Category.{?u.33185, ?u.33189} C] [inst_1 : Preadditive C] {I₁ : Type ?u.33188}
+    {I₂ : Type ?u.33187} {I₁₂ : Type ?u.33186} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂}
+    {K : HomologicalComplex₂ C c₁ c₂} (c₁₂ : ComplexShape I₁₂) [inst_2 : TotalComplexShape c₁ c₂ c₁₂]
+    [inst_3 : DecidableEq I₁₂] [inst_4 : K.HasTotal c₁₂] {A : C} {i₁₂ : I₁₂} {f g : (K.total c₁₂).X i₁₂ ⟶ A},
+    (∀ (i₁ : I₁) (i₂ : I₂) (hi : c₁.π c₂ c₁₂ (i₁, i₂) = i₁₂),
+        K.ιTotal c₁₂ i₁ i₂ i₁₂ hi ≫ f = K.ιTotal c₁₂ i₁ i₂ i₁₂ hi ≫ g) →
+      f = g
+
+case h.h
+C : Type u_1
+D : Type u_2
+I₁ : Type u_3
+I₂ : Type u_4
+J : Type u_5
+inst✝¹⁰ : Category.{u_7, u_1} C
+inst✝⁹ : Category.{u_6, u_2} D
+inst✝⁸ : Preadditive C
+inst✝⁷ : Preadditive D
+c₁ : ComplexShape I₁
+c₂ : ComplexShape I₂
+G : C ⥤ D
+inst✝⁶ : G.Additive
+K : HomologicalComplex₂ C c₁ c₂
+c : ComplexShape J
+inst✝⁵ : DecidableEq J
+inst✝⁴ : TotalComplexShape c₁ c₂ c
+inst✝³ : K.HasTotal c
+inst✝² : ∀ (j : J), PreservesColimit (Discrete.functor (K.toGradedObject.mapObjFun (c₁.π c₂ c) j)) G
+L : HomologicalComplex₂ C c₁ c₂
+inst✝¹ : L.HasTotal c
+inst✝ : ∀ (j : J), PreservesColimit (Discrete.functor (L.toGradedObject.mapObjFun (c₁.π c₂ c) j)) G
+φ : K ⟶ L
+j : J
+i₁✝ : I₁
+i₂✝ : I₂
+hi✝ : c₁.π c₂ c (i₁✝, i₂✝) = j
+⊢ HomologicalComplex₂.ιTotal (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).obj K) c i₁✝ i₂✝ j hi✝ ≫
+      (HomologicalComplex₂.total.map (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c ≫
+            (bicomplexTotalFunctorIso G L c).inv).f
+        j =
+    HomologicalComplex₂.ιTotal (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).obj K) c i₁✝ i₂✝ j hi✝ ≫
+      ((bicomplexTotalFunctorIso G K c).inv ≫ (G.mapHomologicalComplex c).map (HomologicalComplex₂.total.map φ c)).f j
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:143:2: warning: declaration uses 'sorry'

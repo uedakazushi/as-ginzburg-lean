@@ -1,0 +1,44 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingRestrictedProjective
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+import Mathlib.CategoryTheory.Abelian.Projective.Resolution
+import Mathlib.CategoryTheory.Abelian.Exact
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+
+/-! Genuine restriction along the left tensor inclusion is exact and
+preserves projective objects, hence maps actual projective resolutions
+to actual left R projective resolutions. -/
+namespace ASGinzburg
+open CategoryTheory
+universe u v z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+noncomputable abbrev envelopingLeftRestrictionFunctor :
+    ModuleCat.{z} (AlgebraEnvelopingRing k R) ⥤ ModuleCat.{z} R :=
+  ModuleCat.restrictScalars (Algebra.TensorProduct.includeLeft :
+    R →ₐ[k] AlgebraEnvelopingRing k R).toRingHom
+
+instance envelopingLeftRestrictionFunctorPreservesProjectiveObjects
+    [Small.{z} (AlgebraEnvelopingRing k R)] :
+    (envelopingLeftRestrictionFunctor.{u,v,z} k R).PreservesProjectiveObjects where
+  projective_obj {P} hP := by
+    letI := hP
+    letI := envelopingLeftModule k R P
+    haveI : Module.Projective R P := envelopingLeftModule_projective k R P
+    exact ModuleCat.projective_of_categoryTheory_projective (ModuleCat.of R P)
+
+instance envelopingLeftRestrictionFunctorPreservesHomology :
+    (envelopingLeftRestrictionFunctor.{u,v,z} k R).PreservesHomology := by
+  apply Functor.preservesHomology_of_map_exact
+  intro S hS
+  exact (ShortComplex.moduleCat_exact_iff _).mpr
+    ((ShortComplex.moduleCat_exact_iff S).mp hS)
+
+noncomputable def envelopingLeftRestrictedProjectiveResolution
+    [Small.{z} (AlgebraEnvelopingRing k R)]
+    {P : ModuleCat.{z} (AlgebraEnvelopingRing k R)} (Q : ProjectiveResolution P) :
+    ProjectiveResolution ((envelopingLeftRestrictionFunctor k R).obj P) :=
+  (envelopingLeftRestrictionFunctor k R).mapProjectiveResolution Q
+
+end ASGinzburg

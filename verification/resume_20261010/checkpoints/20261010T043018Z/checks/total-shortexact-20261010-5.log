@@ -1,0 +1,41 @@
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:99:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ConcreteCategory.hom ((Hom.f ?φ ?i).f ?j)) ((ConcreteCategory.hom (bicomplexTotalProjection ?m.185 ?n ?i ?j)) ?x)
+in the target expression
+  (ConcreteCategory.hom
+        ((S.map (eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i)).map
+            (eval (ModuleCat k) (ComplexShape.down ℕ) j)).g)
+      ((ConcreteCategory.hom (bicomplexTotalProjection S.X₂ n i j)) x) =
+    0
+
+case x
+k : Type u_1
+inst✝ : Ring k
+S : ShortComplex (HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ))
+hS : S.Exact
+n : ℕ
+x :
+  ↑((S.map (totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ))).map
+        (eval (ModuleCat k) (ComplexShape.down ℕ) n)).X₂
+hx :
+  (ConcreteCategory.hom
+        ((S.map (totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ))).map
+            (eval (ModuleCat k) (ComplexShape.down ℕ) n)).g)
+      x =
+    0
+i j : ℕ
+he :
+  ((S.map (eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i)).map
+      (eval (ModuleCat k) (ComplexShape.down ℕ) j)).Exact
+⊢ (ConcreteCategory.hom
+        ((S.map (eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i)).map
+            (eval (ModuleCat k) (ComplexShape.down ℕ) j)).g)
+      ((ConcreteCategory.hom (bicomplexTotalProjection S.X₂ n i j)) x) =
+    0
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:122:12: error: failed to synthesize
+  Mono ((eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i).map S.f)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:131:12: error: failed to synthesize
+  Mono ((eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i).map S.f)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

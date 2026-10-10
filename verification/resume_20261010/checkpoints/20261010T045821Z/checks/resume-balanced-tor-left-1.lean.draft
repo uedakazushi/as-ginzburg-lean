@@ -1,0 +1,77 @@
+import work.ASGinzburgDraft.BalancedTensorLeftAdjunction
+import work.ASGinzburgDraft.BalancedTensorTorResolution
+
+/-! Genuine first-factor Tor, computed from projective resolutions of
+ordinary right R-modules. Canonical swap identifies it with second-factor
+Tor over the opposite ring; this does not assert balance of the two derived
+constructions over the same ring. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (N : Type w) [AddCommGroup N] [Module k N] [Module R N]
+
+noncomputable def balancedTensorTorLeftFunctor (n : ℕ) :
+    ModuleCat.{max v w z} Rᵐᵒᵖ ⥤ ModuleCat.{max v w z} k :=
+  (balancedTensorLeftFunctor.{u,v,w,max v w z} k R N).leftDerived n
+
+noncomputable def balancedTensorTorLeftZeroIso [IsScalarTower k R N] :
+    balancedTensorTorLeftFunctor.{u,v,w,z} k R N 0 ≅
+      balancedTensorLeftFunctor.{u,v,w,max v w z} k R N := by
+  letI := balancedTensorLeftFunctorIsLeftAdjoint.{u,v,w,max v z} k R N
+  exact (balancedTensorLeftFunctor.{u,v,w,max v w z} k R N).leftDerivedZeroIsoSelf
+
+noncomputable def balancedTensorTorLeftSwapIso (n : ℕ) :
+    letI := balancedTensorDoubleOppositeModule R N
+    balancedTensorTorLeftFunctor.{u,v,w,z} k R N n ≅
+      balancedTensorTorFunctor.{u,v,w,z} k Rᵐᵒᵖ N n := by
+  letI := balancedTensorDoubleOppositeModule R N
+  let e := balancedTensorLeftSwapIso.{u,v,w,max v w z} k R N
+  exact
+    { hom := NatTrans.leftDerived e.hom n
+      inv := NatTrans.leftDerived e.inv n
+      hom_inv_id := by
+        rw [← NatTrans.leftDerived_comp, e.hom_inv_id, NatTrans.leftDerived_id]
+      inv_hom_id := by
+        rw [← NatTrans.leftDerived_comp, e.inv_hom_id, NatTrans.leftDerived_id] }
+
+noncomputable def balancedTensorTorLeftResolutionIso
+    (M : ModuleCat.{max v w z} Rᵐᵒᵖ) (Q : ProjectiveResolution M) (n : ℕ) :
+    (balancedTensorTorLeftFunctor.{u,v,w,z} k R N n).obj M ≅
+      (HomologicalComplex.homologyFunctor (ModuleCat.{max v w z} k)
+        (ComplexShape.down ℕ) n).obj
+        (((balancedTensorLeftFunctor.{u,v,w,max v w z} k R N).mapHomologicalComplex
+          (ComplexShape.down ℕ)).obj Q.complex) :=
+  Q.isoLeftDerivedObj (balancedTensorLeftFunctor k R N) n
+
+theorem balancedTensorTorLeft_projective_succ (n : ℕ)
+    (M : ModuleCat.{max v w z} Rᵐᵒᵖ) [Projective M] :
+    IsZero ((balancedTensorTorLeftFunctor.{u,v,w,z} k R N (n+1)).obj M) :=
+  Functor.isZero_leftDerived_obj_projective_succ
+    (balancedTensorLeftFunctor k R N) n M
+
+theorem balancedTensorTorLeft_isZero_of_resolution_term
+    (M : ModuleCat.{max v w z} Rᵐᵒᵖ) (Q : ProjectiveResolution M) (n : ℕ)
+    (h : IsZero (Q.complex.X n)) :
+    IsZero ((balancedTensorTorLeftFunctor.{u,v,w,z} k R N n).obj M) := by
+  let F := balancedTensorLeftFunctor.{u,v,w,max v w z} k R N
+  let K := (F.mapHomologicalComplex (ComplexShape.down ℕ)).obj Q.complex
+  have hK : IsZero (K.homology n) :=
+    (K.sc n).isZero_homology_of_isZero_X₂ (F.map_isZero h)
+  exact IsZero.of_iso hK (balancedTensorTorLeftResolutionIso k R N M Q n)
+
+noncomputable def balancedTensorTorLeftZeroDifferentialsIso
+    (M : ModuleCat.{max v w z} Rᵐᵒᵖ) (Q : ProjectiveResolution M) (n : ℕ)
+    (hin : (balancedTensorLeftFunctor.{u,v,w,max v w z} k R N).map
+      (Q.complex.d ((ComplexShape.down ℕ).prev n) n) = 0)
+    (hout : (balancedTensorLeftFunctor.{u,v,w,max v w z} k R N).map
+      (Q.complex.d n ((ComplexShape.down ℕ).next n)) = 0) :
+    (balancedTensorTorLeftFunctor.{u,v,w,z} k R N n).obj M ≅
+      (balancedTensorLeftFunctor.{u,v,w,max v w z} k R N).obj (Q.complex.X n) := by
+  let F := balancedTensorLeftFunctor.{u,v,w,max v w z} k R N
+  let K := (F.mapHomologicalComplex (ComplexShape.down ℕ)).obj Q.complex
+  exact balancedTensorTorLeftResolutionIso k R N M Q n ≪≫
+    (ShortComplex.HomologyData.ofZeros (K.sc n) hin hout).left.homologyIso
+
+end ASGinzburg

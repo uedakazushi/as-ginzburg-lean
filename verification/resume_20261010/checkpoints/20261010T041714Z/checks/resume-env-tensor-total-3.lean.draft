@@ -1,0 +1,48 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorProjective
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorBifunctor
+import work.ASGinzburgDraft.BicomplexTotalProjective
+import Mathlib.Algebra.Homology.Bifunctor
+import Mathlib.Algebra.Category.ModuleCat.Projective
+
+/-! The genuine enveloping-module tensor bicomplex and its projective
+total terms, obtained from projective ordinary right and left factors. -/
+namespace ASGinzburg
+open CategoryTheory HomologicalComplex
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {I₁ I₂ J : Type*} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂}
+attribute [local instance] tensorRightEnvelopingModule
+
+variable (P : HomologicalComplex (ModuleCat.{w} Rᵐᵒᵖ) c₁)
+variable (Q : HomologicalComplex (ModuleCat.{z} R) c₂)
+
+noncomputable def tensorRightEnvelopingBicomplex :
+    HomologicalComplex₂ (ModuleCat.{max w z} (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c₁ c₂ :=
+  (((tensorRightEnvelopingBifunctor k R).mapBifunctorHomologicalComplex c₁ c₂).obj P).obj Q
+
+theorem tensorRightEnvelopingBicomplex_projective
+    [∀ i, Module.Projective Rᵐᵒᵖ (P.X i)] [∀ i, Module.Projective R (Q.X i)]
+    (i₁ : I₁) (i₂ : I₂) :
+    Projective (((tensorRightEnvelopingBicomplex k R P Q).X i₁).X i₂) := by
+  change Projective (ModuleCat.of (AlgebraEnvelopingRing k R)ᵐᵒᵖ ((P.X i₁) ⊗[k] (Q.X i₂)))
+  letI := tensorRightEnvelopingModule_projective k R (P.X i₁) (Q.X i₂)
+  exact ModuleCat.projective_of_categoryTheory_projective _
+
+variable (c : ComplexShape J) [DecidableEq J] [TotalComplexShape c₁ c₂ c]
+variable [HasMapBifunctor P Q (tensorRightEnvelopingBifunctor k R) c]
+
+noncomputable def tensorRightEnvelopingTotal :
+    HomologicalComplex (ModuleCat.{max w z} (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c :=
+  mapBifunctor P Q (tensorRightEnvelopingBifunctor k R) c
+
+theorem tensorRightEnvelopingTotal_projective
+    [∀ i, Module.Projective Rᵐᵒᵖ (P.X i)] [∀ i, Module.Projective R (Q.X i)] (j : J) :
+    Projective ((tensorRightEnvelopingTotal k R P Q c).X j) := by
+  letI : (tensorRightEnvelopingBicomplex k R P Q).HasTotal c :=
+    inferInstanceAs (HasMapBifunctor P Q (tensorRightEnvelopingBifunctor k R) c)
+  letI : ∀ i₁ i₂, Projective (((tensorRightEnvelopingBicomplex k R P Q).X i₁).X i₂) :=
+    fun i₁ i₂ => tensorRightEnvelopingBicomplex_projective k R P Q i₁ i₂
+  exact bicomplexTotal_projective (tensorRightEnvelopingBicomplex k R P Q) c j
+
+end ASGinzburg

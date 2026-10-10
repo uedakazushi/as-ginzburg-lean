@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/TriangleArrowCoordinates.lean:97:49: error: unsolved goals
+k : Type u
+inst✝ : Field k
+s i : Fin 3
+a : k
+⊢ ↑((Finsupp.supportedEquivFinsupp fun p => p.length = 1).symm (Finsupp.single ⟨triangleEdgePath s i, ⋯⟩ a)) =
+    Finsupp.single (triangleEdgePath s i) a
+work/ASGinzburgDraft/TriangleArrowCoordinates.lean:100:4: warning: This simp argument is unused:
+  Finsupp.domLCongr_single
+
+Hint: Omit it from the simp argument list.
+  simp [triangleEdgeArrowEquiv, Finsupp.linearEquivFunOnFinite_symm_single,
+      F̵i̵n̵s̵u̵p̵p̵.̵d̵o̵m̵L̵C̵o̵n̵g̵r̵_̵s̵i̵n̵g̵l̵e̵,̵ ̵Finsupp.supportedEquivFinsupp_symm_single, triangleEdgePathIndexEquiv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TriangleArrowCoordinates.lean:100:30: warning: This simp argument is unused:
+  Finsupp.supportedEquivFinsupp_symm_single
+
+Hint: Omit it from the simp argument list.
+  simp [triangleEdgeArrowEquiv, Finsupp.linearEquivFunOnFinite_symm_single,
+      Finsupp.domLCongr_single, F̵i̵n̵s̵u̵p̵p̵.̵s̵u̵p̵p̵o̵r̵t̵e̵d̵E̵q̵u̵i̵v̵F̵i̵n̵s̵u̵p̵p̵_̵s̵y̵m̵m̵_̵s̵i̵n̵g̵l̵e̵,̵triangleEdgePathIndexEquiv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

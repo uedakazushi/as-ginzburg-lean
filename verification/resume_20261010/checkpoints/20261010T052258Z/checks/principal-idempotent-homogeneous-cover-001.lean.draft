@@ -1,0 +1,105 @@
+import work.ASGinzburgDraft.DirectSumGrading
+import work.ASGinzburgDraft.PrincipalIdempotentOrdinaryGrading
+import work.ASGinzburgDraft.IdempotentPrincipalHom
+
+/-! A direct sum of shifted principal modules has a genuine grading.
+Maps defined by homogeneous target vectors preserve that grading and
+uniform lower bounds of the generator degrees give lower bounds of the source. -/
+namespace ASGinzburg
+open scoped DirectSum ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (G : ℤ → Submodule k R) [DirectSum.Decomposition G]
+variable {γ : Type w} [DecidableEq γ] (e : γ → R) (t : γ → ℤ)
+
+def principalHomogeneousCoverSummandGrade (a : γ) (q : ℤ) :
+    Submodule k (principalIdempotentModule R (e a)) :=
+  principalIdempotentOrdinaryGrade k R G (e a) (q - t a)
+
+def principalHomogeneousCoverGrade (q : ℤ) :
+    Submodule k (⨁ a, principalIdempotentModule R (e a)) :=
+  directSumGrade k (fun a => principalIdempotentModule R (e a))
+    (principalHomogeneousCoverSummandGrade k R G e t) q
+
+noncomputable def principalHomogeneousCoverGradeDecomposition
+    (hMul : ∀ p q : ℤ, ∀ r ∈ G p, ∀ s ∈ G q, r * s ∈ G (p + q))
+    (he : ∀ a, e a ∈ G 0) :
+    DirectSum.Decomposition (principalHomogeneousCoverGrade k R G e t) := by
+  letI : ∀ a, DirectSum.Decomposition
+      (principalHomogeneousCoverSummandGrade k R G e t a) := fun a =>
+    principalIdempotentShiftedGradeDecomposition k R G (e a)
+      (fun q r hr => by simpa only [add_zero] using hMul q 0 r hr (e a) (he a)) (t a)
+  exact directSumGradeDecomposition k (fun a => principalIdempotentModule R (e a))
+    (principalHomogeneousCoverSummandGrade k R G e t)
+
+omit [DirectSum.Decomposition G] [DecidableEq γ] in
+theorem principalHomogeneousCoverGrade_mem_iff
+    (q : ℤ) (p : ⨁ a, principalIdempotentModule R (e a)) :
+    p ∈ principalHomogeneousCoverGrade k R G e t q ↔
+      ∀ a, (p a).val ∈ G (q - t a) :=
+  directSumGrade_mem_iff k (fun a => principalIdempotentModule R (e a))
+    (principalHomogeneousCoverSummandGrade k R G e t) q p
+
+noncomputable def principalHomogeneousCoverMap (M : ModuleCat.{v} R) (x : γ → M) :
+    (⨁ a, principalIdempotentModule R (e a)) →ₗ[R] M :=
+  DirectSum.toModule R γ M (fun a => (principalIdempotentMap R (e a) M (x a)).hom)
+
+@[simp] theorem principalHomogeneousCoverMap_of (M : ModuleCat.{v} R) (x : γ → M)
+    (a : γ) (p : principalIdempotentModule R (e a)) :
+    principalHomogeneousCoverMap R e M x (DirectSum.of _ a p) = p.val • x a := by
+  change DirectSum.toModule R γ M (fun a => (principalIdempotentMap R (e a) M (x a)).hom)
+    (DirectSum.lof R γ (fun a => principalIdempotentModule R (e a)) a p) = _
+  rw [DirectSum.toModule_lof]
+  rfl
+
+omit [DirectSum.Decomposition G] in
+theorem principalHomogeneousCoverMap_mem_grade
+    (M : ModuleCat.{v} R) (H : ℤ → Submodule k M)
+    (hAct : ∀ p q : ℤ, ∀ r ∈ G p, ∀ y ∈ H q, r • y ∈ H (p + q))
+    (x : γ → M) (hx : ∀ a, x a ∈ H (t a))
+    (q : ℤ) (p : ⨁ a, principalIdempotentModule R (e a))
+    (hp : p ∈ principalHomogeneousCoverGrade k R G e t q) :
+    principalHomogeneousCoverMap R e M x p ∈ H q := by
+  classical
+  have hcoord := (principalHomogeneousCoverGrade_mem_iff k R G e t q p).mp hp
+  have hsum := congrArg (principalHomogeneousCoverMap R e M x)
+    (DirectSum.sum_support_of p)
+  rw [map_sum] at hsum
+  rw [← hsum]
+  apply (H q).sum_mem
+  intro a ha
+  rw [principalHomogeneousCoverMap_of]
+  have h := hAct (q - t a) (t a) (p a).val (hcoord a) (x a) (hx a)
+  simpa only [sub_add_cancel] using h
+
+omit [DirectSum.Decomposition G] [DecidableEq γ] in
+theorem principalHomogeneousCoverSummandGrade_eq_bot_of_lower_bound
+    (hG : ∀ q : ℤ, q < 0 → G q = ⊥)
+    (b : ℤ) (ht : ∀ a, b ≤ t a) (a : γ) (q : ℤ) (hq : q < b) :
+    principalHomogeneousCoverSummandGrade k R G e t a q = ⊥ :=
+  principalIdempotentOrdinaryGrade_eq_bot_of_lower_bound k R G (e a) 0 hG
+    (q - t a) (by omega)
+
+omit [DirectSum.Decomposition G] [DecidableEq γ] in
+theorem principalHomogeneousCoverGrade_eq_bot_of_lower_bound
+    (hG : ∀ q : ℤ, q < 0 → G q = ⊥)
+    (b : ℤ) (ht : ∀ a, b ≤ t a) (q : ℤ) (hq : q < b) :
+    principalHomogeneousCoverGrade k R G e t q = ⊥ := by
+  ext p
+  change p ∈ principalHomogeneousCoverGrade k R G e t q ↔ p = 0
+  constructor
+  · intro hp
+    have hcoord := (directSumGrade_mem_iff k
+      (fun a => principalIdempotentModule R (e a))
+      (principalHomogeneousCoverSummandGrade k R G e t) q p).mp hp
+    apply DFinsupp.ext
+    intro a
+    have ha := hcoord a
+    rw [principalHomogeneousCoverSummandGrade_eq_bot_of_lower_bound k R G e t hG b ht a q hq]
+      at ha
+    exact ha
+  · intro hp
+    rw [hp]
+    exact (principalHomogeneousCoverGrade k R G e t q).zero_mem
+
+end ASGinzburg

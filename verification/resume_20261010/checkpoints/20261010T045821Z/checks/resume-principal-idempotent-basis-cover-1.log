@@ -1,0 +1,36 @@
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:23:9: error: typeclass instance problem is stuck, it is often due to metavariables
+  (i : γ) → Module R (?m.39 i)
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:32:9: error(lean.unknownIdentifier): Unknown identifier `Basis`
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:33:88: error: unsolved goals
+k : Type u
+inst✝⁴ : Field k
+R : Type v
+inst✝³ : Ring R
+inst✝² : Algebra k R
+ι : Type w
+inst✝¹ : DecidableEq ι
+ε : R →ₐ[k] ι → k
+γ : Type z
+inst✝ : DecidableEq γ
+e : γ → R
+c : γ → ι
+M : ModuleCat R
+x : γ → ↑M
+B : sorry
+⊢ (⨁ (x : γ), k) ≃ₗ[k] ↑M ⧸ ordinaryIdealActionSpan k R (↑M) (RingHom.ker ε.toRingHom)
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:38:9: error(lean.unknownIdentifier): Unknown identifier `Basis`
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:48:9: error(lean.unknownIdentifier): Unknown identifier `Basis`
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:67:4: error: Type mismatch
+  sub_self (T p)
+has type
+  T p - T p = 0
+but is expected to have type
+  T p - T p • 1 = 0
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:98:9: error(lean.unknownIdentifier): Unknown identifier `Basis`
+work/ASGinzburgDraft/PrincipalIdempotentBasisCover.lean:112:4: error: Type mismatch: After simplification, term
+  Eq.symm h
+ has type
+  (radicalTopBasisDirectSumEquiv k R ε M B) ((principalIdempotentBasisCoverCoordinates k R ε e c) p) =
+    (ordinaryIdealActionSpan k R (↑M) (RingHom.ker ε.toRingHom)).mkQ ((↑k (principalIdempotentBasisCoverMap R e M x)) p)
+but is expected to have type
+  (radicalTopBasisDirectSumEquiv k R ε M B) ((principalIdempotentBasisCoverCoordinates k R ε e c) p) = 0

@@ -1,0 +1,73 @@
+import work.ASGinzburgDraft.BalancedTensorBifunctor
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorBifunctor
+import ASGinzburg.BalancedTensorEnvelopingNaturality
+import ASGinzburg.BalancedTensorLeftAdjunction
+import ASGinzburg.AlgebraEnvelopingScalars
+
+/-! The concrete enveloping balancing equivalence on bundled module
+objects, including the change from their induced field action to the
+canonical field action on the tensor product. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+set_option maxHeartbeats 20000
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : ModuleCat.{max v w} Rᵐᵒᵖ) (N : ModuleCat.{max v z} R)
+
+attribute [local instance] tensorRightEnvelopingModule tensorRightEnvelopingScalarTower
+  regularEnvelopingModule regularEnvelopingScalarTower
+
+noncomputable def balancedTensorEnvelopingTensorScalarIso :
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).obj
+        (((tensorRightEnvelopingBifunctor k R).obj M).obj N) ≅
+      ModuleCat.of k (BalancedTensorSpace k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R) := by
+  let T := (((tensorRightEnvelopingBifunctor k R).obj M).obj N)
+  let f : T →ₗ[(AlgebraEnvelopingRing k R)ᵐᵒᵖ] M ⊗[k] N := LinearMap.id
+  let g : (M ⊗[k] N) →ₗ[(AlgebraEnvelopingRing k R)ᵐᵒᵖ] T := LinearMap.id
+  apply LinearEquiv.toModuleIso
+  refine LinearEquiv.ofLinear
+    (balancedTensorMapLeft k (AlgebraEnvelopingRing k R) (M := T) (M' := M ⊗[k] N) R f)
+    (balancedTensorMapLeft k (AlgebraEnvelopingRing k R) (M := M ⊗[k] N) (M' := T) R g) ?_ ?_
+  · apply balancedTensorSpace_linearMap_ext
+    intro x r
+    change balancedTensorMapLeft k (AlgebraEnvelopingRing k R) (M := T) (M' := M ⊗[k] N) R f
+      (balancedTensorMapLeft k (AlgebraEnvelopingRing k R) (M := M ⊗[k] N) (M' := T) R g
+        (balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R x r)) = _
+    rw [balancedTensorMapLeft_tmul, balancedTensorMapLeft_tmul]
+    rfl
+  · apply balancedTensorSpace_linearMap_ext
+    intro x r
+    change balancedTensorMapLeft k (AlgebraEnvelopingRing k R) (M := M ⊗[k] N) (M' := T) R g
+      (balancedTensorMapLeft k (AlgebraEnvelopingRing k R) (M := T) (M' := M ⊗[k] N) R f
+        (balancedTensorTmul k (AlgebraEnvelopingRing k R) T R x r)) = _
+    rw [balancedTensorMapLeft_tmul, balancedTensorMapLeft_tmul]
+    rfl
+
+theorem balancedTensorEnvelopingTensorScalarIso_hom_tmul (x : M ⊗[k] N) (r : R) :
+    (balancedTensorEnvelopingTensorScalarIso k R M N).hom
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R)
+        (((tensorRightEnvelopingBifunctor k R).obj M).obj N) R x r) =
+      balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R x r :=
+  balancedTensorMapLeft_tmul k (AlgebraEnvelopingRing k R)
+    (M := (((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+    (M' := M ⊗[k] N) R LinearMap.id x r
+
+noncomputable def balancedTensorEnvelopingModuleIso :
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).obj
+        (((tensorRightEnvelopingBifunctor k R).obj M).obj N) ≅
+      (((balancedTensorBifunctor k R).obj M).obj N) :=
+  balancedTensorEnvelopingTensorScalarIso k R M N ≪≫
+    (balancedTensorEnvelopingComparisonEquiv k R M N).toModuleIso
+
+theorem balancedTensorEnvelopingModuleIso_hom_tmul (m : M) (n : N) (r : R) :
+    (balancedTensorEnvelopingModuleIso k R M N).hom
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R)
+        (((tensorRightEnvelopingBifunctor k R).obj M).obj N) R (m ⊗ₜ[k] n) r) =
+      balancedTensorTmul k R M N m (r • n) := by
+  change balancedTensorEnvelopingComparisonMap k R M N
+    ((balancedTensorEnvelopingTensorScalarIso k R M N).hom _) = _
+  rw [balancedTensorEnvelopingTensorScalarIso_hom_tmul,
+    balancedTensorEnvelopingComparisonMap_tmul]
+
+end ASGinzburg

@@ -1,0 +1,77 @@
+import work.ASGinzburgDraft.PrincipalIdempotentHomogeneousCoverAction
+import work.ASGinzburgDraft.IdempotentPrincipalCoproductProjective
+import ASGinzburg.AlgebraModuleRestrictionComparison
+
+/-! The shifted principal direct sum with its canonical ModuleCat scalar
+action has the actual cover grading. The scalar comparison is the identity
+on elements, so grading, action, maps, and lower bounds transfer explicitly. -/
+namespace ASGinzburg
+open scoped DirectSum ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (G : ℤ → Submodule k R) [DirectSum.Decomposition G]
+variable {γ : Type w} [DecidableEq γ] (e : γ → R) (t : γ → ℤ)
+
+noncomputable def principalHomogeneousCoverOrdinaryScalarsEquiv :
+    principalIdempotentCoproductModule R e ≃ₗ[k]
+      (⨁ a, principalIdempotentModule R (e a)) :=
+  (algebraModuleRestrictScalarsIso k R
+    (⨁ a, principalIdempotentModule R (e a))).toLinearEquiv
+
+omit [DecidableEq γ] in
+@[simp] theorem principalHomogeneousCoverOrdinaryScalarsEquiv_apply
+    (p : principalIdempotentCoproductModule R e) :
+    principalHomogeneousCoverOrdinaryScalarsEquiv k R e p = p := rfl
+
+noncomputable def principalHomogeneousCoverOrdinaryGrade (q : ℤ) :
+    Submodule k (principalIdempotentCoproductModule R e) :=
+  (principalHomogeneousCoverGrade k R G e t q).comap
+    (principalHomogeneousCoverOrdinaryScalarsEquiv k R e).toLinearMap
+
+omit [DirectSum.Decomposition G] [DecidableEq γ] in
+@[simp] theorem principalHomogeneousCoverOrdinaryGrade_mem_iff
+    (q : ℤ) (p : principalIdempotentCoproductModule R e) :
+    p ∈ principalHomogeneousCoverOrdinaryGrade k R G e t q ↔
+      p ∈ principalHomogeneousCoverGrade k R G e t q := Iff.rfl
+
+noncomputable def principalHomogeneousCoverOrdinaryGradeDecomposition
+    (hMul : ∀ p q : ℤ, ∀ r ∈ G p, ∀ s ∈ G q, r * s ∈ G (p + q))
+    (he : ∀ a, e a ∈ G 0) :
+    DirectSum.Decomposition (principalHomogeneousCoverOrdinaryGrade k R G e t) := by
+  letI := principalHomogeneousCoverGradeDecomposition k R G e t hMul he
+  exact {
+    decompose' := DirectSum.decompose (principalHomogeneousCoverGrade k R G e t)
+    left_inv := (DirectSum.decompose (principalHomogeneousCoverGrade k R G e t)).left_inv
+    right_inv := (DirectSum.decompose (principalHomogeneousCoverGrade k R G e t)).right_inv
+  }
+
+omit [DirectSum.Decomposition G] [DecidableEq γ] in
+theorem principalHomogeneousCoverOrdinaryGrade_smul_mem
+    (hMul : ∀ p q : ℤ, ∀ r ∈ G p, ∀ s ∈ G q, r * s ∈ G (p + q))
+    (p q : ℤ) (r : R) (hr : r ∈ G p)
+    (x : principalIdempotentCoproductModule R e)
+    (hx : x ∈ principalHomogeneousCoverOrdinaryGrade k R G e t q) :
+    r • x ∈ principalHomogeneousCoverOrdinaryGrade k R G e t (p + q) :=
+  principalHomogeneousCoverGrade_smul_mem k R G e t hMul p q r hr x hx
+
+omit [DirectSum.Decomposition G] in
+theorem principalHomogeneousCoverOrdinaryMap_mem_grade
+    (M : ModuleCat.{v} R) (H : ℤ → Submodule k M)
+    (hAct : ∀ p q : ℤ, ∀ r ∈ G p, ∀ y ∈ H q, r • y ∈ H (p + q))
+    (x : γ → M) (hx : ∀ a, x a ∈ H (t a))
+    (q : ℤ) (p : principalIdempotentCoproductModule R e)
+    (hp : p ∈ principalHomogeneousCoverOrdinaryGrade k R G e t q) :
+    principalHomogeneousCoverMap R e M x p ∈ H q :=
+  principalHomogeneousCoverMap_mem_grade k R G e t M H hAct x hx q p hp
+
+omit [DirectSum.Decomposition G] [DecidableEq γ] in
+theorem principalHomogeneousCoverOrdinaryGrade_eq_bot_of_lower_bound
+    (hG : ∀ q : ℤ, q < 0 → G q = ⊥)
+    (b : ℤ) (ht : ∀ a, b ≤ t a) (q : ℤ) (hq : q < b) :
+    principalHomogeneousCoverOrdinaryGrade k R G e t q = ⊥ := by
+  ext p
+  change p ∈ principalHomogeneousCoverGrade k R G e t q ↔ p = 0
+  rw [principalHomogeneousCoverGrade_eq_bot_of_lower_bound k R G e t hG b ht q hq]
+  rfl
+
+end ASGinzburg

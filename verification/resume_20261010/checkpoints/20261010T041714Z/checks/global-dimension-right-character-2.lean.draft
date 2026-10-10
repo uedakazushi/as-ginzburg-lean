@@ -1,0 +1,55 @@
+import ASGinzburg.LinearRepresentationEquivalence
+import Mathlib.Algebra.Algebra.Opposite
+
+/-! An actual one-dimensional right representation determines a scalar
+character of the original algebra. -/
+namespace ASGinzburg
+universe u v w
+variable {k : Type u} [Field k] {R : Type w} [Ring R] [Algebra k R]
+variable {V : Type v} [AddCommGroup V] [Module k V]
+variable (ρ : R →ₐ[k] (Module.End k V)ᵐᵒᵖ) (e : V ≃ₗ[k] k)
+
+noncomputable def oneDimensionalRightRepresentationValue (r : R) : k :=
+  e ((ρ r).unop (e.symm 1))
+
+theorem oneDimensionalRightRepresentation_scalar_action_value (r : R) (x : V) :
+    e ((ρ r).unop x)=oneDimensionalRightRepresentationValue ρ e r*e x := by
+  have hx : x=(e x) • e.symm 1 := by
+    apply e.injective
+    rw [e.map_smul,e.apply_symm_apply,smul_eq_mul,mul_one]
+  conv_lhs => rw [hx]
+  rw [map_smul,map_smul]
+  exact mul_comm _ _
+
+noncomputable def oneDimensionalRightRepresentationCharacter : R →ₐ[k] k where
+  toFun := oneDimensionalRightRepresentationValue ρ e
+  map_zero' := by
+    change e ((ρ 0).unop (e.symm 1))=0
+    rw [map_zero,MulOpposite.unop_zero,LinearMap.zero_apply,map_zero]
+  map_one' := by
+    change e ((ρ 1).unop (e.symm 1))=1
+    rw [map_one,MulOpposite.unop_one]
+    exact e.apply_symm_apply 1
+  map_add' r s := by
+    change e ((ρ (r+s)).unop (e.symm 1))=_
+    rw [map_add,MulOpposite.unop_add,LinearMap.add_apply,map_add]
+    rfl
+  map_mul' r s := by
+    change e ((ρ (r*s)).unop (e.symm 1))=_
+    rw [map_mul,MulOpposite.unop_mul]
+    rw [oneDimensionalRightRepresentation_scalar_action_value]
+    exact mul_comm _ _
+  commutes' c := by
+    change e ((ρ (algebraMap k R c)).unop (e.symm 1))=c
+    rw [AlgHom.commutes]
+    change e (c • e.symm 1)=c
+    rw [e.map_smul,e.apply_symm_apply,smul_eq_mul,mul_one]
+
+theorem oneDimensionalRightRepresentationCharacter_apply (r : R) :
+    oneDimensionalRightRepresentationCharacter ρ e r=e ((ρ r).unop (e.symm 1)) := rfl
+
+theorem oneDimensionalRightRepresentation_scalar_action (r : R) (x : V) :
+    e ((ρ r).unop x)=oneDimensionalRightRepresentationCharacter ρ e r*e x :=
+  oneDimensionalRightRepresentation_scalar_action_value ρ e r x
+
+end ASGinzburg

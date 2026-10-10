@@ -1,0 +1,55 @@
+import ASGinzburg.PathJacobianRing
+import ASGinzburg.PathCutGrading
+import ASGinzburg.FiniteComponentIdempotents
+import Mathlib.Algebra.Group.Subgroup.Defs
+
+/-! The actual vertex- and cut-preserving path algebra automorphisms
+form a subgroup. Preservation is required in both directions for the
+actual homogeneous cut subspaces, and imposes no arrow-linearity rule. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def pathRingCutSubspace (c : ℤ) : Submodule k (Q.PathRing k) where
+  carrier := {x | ∀ i j, x i j ∈ Q.pathCutComponent k i j c}
+  zero_mem' := fun i j => (Q.pathCutComponent k i j c).zero_mem
+  add_mem' := fun hx hy i j => (Q.pathCutComponent k i j c).add_mem (hx i j) (hy i j)
+  smul_mem' := fun a _ hx i j => (Q.pathCutComponent k i j c).smul_mem a (hx i j)
+
+noncomputable def pathRingVertexIdempotent (i : Q.Vertex) : Q.PathRing k :=
+  (Q.pathComponentAlgebra k).totalIdempotent i
+
+noncomputable def vertexCutPathAutomorphismSubgroup :
+    Subgroup (Q.PathRing k ≃ₐ[k] Q.PathRing k) where
+  carrier := {E | (∀ i, E (Q.pathRingVertexIdempotent k i) = Q.pathRingVertexIdempotent k i) ∧
+    (∀ c x, x ∈ Q.pathRingCutSubspace k c ↔ E x ∈ Q.pathRingCutSubspace k c)}
+  one_mem' := by constructor <;> intros <;> rfl
+  mul_mem' := by
+    intro E F hE hF
+    constructor
+    · intro i
+      rw [AlgEquiv.mul_apply,hF.1 i,hE.1 i]
+    · intro c x
+      exact (hF.2 c x).trans (hE.2 c (F x))
+  inv_mem' := by
+    intro E hE
+    constructor
+    · intro i
+      change E.symm (Q.pathRingVertexIdempotent k i) = Q.pathRingVertexIdempotent k i
+      apply E.injective
+      rw [E.apply_symm_apply,hE.1 i]
+    · intro c x
+      change x ∈ Q.pathRingCutSubspace k c ↔ E.symm x ∈ Q.pathRingCutSubspace k c
+      simpa only [E.apply_symm_apply] using (hE.2 c (E.symm x)).symm
+
+noncomputable abbrev VertexCutPathAutomorphism := Q.vertexCutPathAutomorphismSubgroup k
+
+theorem VertexCutPathAutomorphism.fixes_vertex
+    (E : Q.VertexCutPathAutomorphism k) (i : Q.Vertex) :
+    E.val (Q.pathRingVertexIdempotent k i) = Q.pathRingVertexIdempotent k i := E.property.1 i
+
+theorem VertexCutPathAutomorphism.preserves_cut
+    (E : Q.VertexCutPathAutomorphism k) (c : ℤ) (x : Q.PathRing k) :
+    x ∈ Q.pathRingCutSubspace k c ↔ E.val x ∈ Q.pathRingCutSubspace k c := E.property.2 c x
+
+end ASGinzburg.CutQuiver

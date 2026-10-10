@@ -1,0 +1,81 @@
+import Mathlib.Algebra.DirectSum.Decomposition
+
+/-! An actual homogeneous submodule inherits the internal direct-sum
+decomposition and every lower bound. This supports recursive concrete
+kernels without introducing a separate category of graded modules. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w
+variable (k : Type u) [Field k] (M : Type v) [AddCommGroup M] [Module k M]
+variable {ι : Type w} [DecidableEq ι]
+variable (G : ι → Submodule k M) [DirectSum.Decomposition G]
+variable (S : Submodule k M)
+
+def homogeneousSubmoduleGrade (q : ι) : Submodule k S :=
+  (G q).comap S.subtype
+
+def homogeneousSubmoduleGradeEmbedding (q : ι) :
+    homogeneousSubmoduleGrade k M G S q →ₗ[k] G q where
+  toFun x := ⟨x.val.val, x.property⟩
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+theorem homogeneousSubmoduleGrade_isInternal
+    (hS : ∀ (q : ι) (x : M), x ∈ S → (DirectSum.decompose G x q : M) ∈ S) :
+    DirectSum.IsInternal (homogeneousSubmoduleGrade k M G S) := by
+  classical
+  let B := homogeneousSubmoduleGrade k M G S
+  let L := DirectSum.lmap (homogeneousSubmoduleGradeEmbedding k M G S)
+  have hL : Function.Injective L := by
+    apply (DirectSum.lmap_injective _).mpr
+    intro q x y h
+    apply Subtype.ext
+    apply Subtype.ext
+    exact congrArg Subtype.val h
+  have hComm : S.subtype.comp (DirectSum.coeLinearMap B) =
+      (DirectSum.coeLinearMap G).comp L := by
+    apply DirectSum.linearMap_ext
+    intro q
+    apply LinearMap.ext
+    intro x
+    simp [L, homogeneousSubmoduleGradeEmbedding]
+  constructor
+  · intro x y h
+    apply hL
+    apply (DirectSum.Decomposition.isInternal G).injective
+    change DirectSum.coeLinearMap G (L x) = DirectSum.coeLinearMap G (L y)
+    rw [← LinearMap.comp_apply, ← LinearMap.comp_apply, ← hComm]
+    exact congrArg (fun z : S => (z : M)) h
+  · intro x
+    let a := DirectSum.decompose G (x : M)
+    let y : ⨁ q, B q := DFinsupp.mk a.support
+      (fun q => ⟨⟨(a q.val : M), hS q.val x x.property⟩, (a q.val).property⟩)
+    have hy : L y = a := by
+      apply DFinsupp.ext
+      intro q
+      apply Subtype.ext
+      by_cases hq : q ∈ a.support
+      · simp [L, y, DFinsupp.mk_apply, hq, homogeneousSubmoduleGradeEmbedding]
+      · have ha : a q = 0 := DFinsupp.notMem_support_iff.mp hq
+        simp [L, y, DFinsupp.mk_apply, hq, homogeneousSubmoduleGradeEmbedding, ha]
+    refine ⟨y, ?_⟩
+    apply Subtype.ext
+    change S.subtype (DirectSum.coeLinearMap B y) = (x : M)
+    rw [← LinearMap.comp_apply, hComm, LinearMap.comp_apply, hy]
+    exact (DirectSum.decompose G).left_inv (x : M)
+
+noncomputable def homogeneousSubmoduleDecomposition
+    (hS : ∀ (q : ι) (x : M), x ∈ S → (DirectSum.decompose G x q : M) ∈ S) :
+    DirectSum.Decomposition (homogeneousSubmoduleGrade k M G S) :=
+  (homogeneousSubmoduleGrade_isInternal k M G S hS).chooseDecomposition
+
+variable (G' : ℤ → Submodule k M)
+
+theorem homogeneousSubmoduleGrade_eq_bot_of_lower_bound
+    (b : ℤ) (hb : ∀ q : ℤ, q < b → G' q = ⊥) (q : ℤ) (hq : q < b) :
+    homogeneousSubmoduleGrade k M G' S q = ⊥ := by
+  rw [homogeneousSubmoduleGrade, hb q hq]
+  apply Submodule.comap_bot_of_injective
+  exact Subtype.val_injective
+
+end ASGinzburg

@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/PotentialPathAutomorphismOrbitComparison.lean:19:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.potentialCyclicClass k) (E • φ)
+in the target expression
+  (Q.potentialCyclicClass k) (SMul.smul E φ) = (Q.potentialCyclicClass k) ψ
+
+case mp
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+E : ↥(Q.VertexCutPathAutomorphism k)
+hE : (algebraCyclicEquiv k ↑E) ((Q.potentialCyclicClass k) φ) = (Q.potentialCyclicClass k) ψ
+⊢ (Q.potentialCyclicClass k) (SMul.smul E φ) = (Q.potentialCyclicClass k) ψ
+work/ASGinzburgDraft/PotentialPathAutomorphismOrbitComparison.lean:26:76: error: unsolved goals
+case a
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ ψ : ↥(Q.Potential k)
+⊢ (∃ E, SMul.smul E φ = ψ) ↔ ∃ x, x • φ = ψ

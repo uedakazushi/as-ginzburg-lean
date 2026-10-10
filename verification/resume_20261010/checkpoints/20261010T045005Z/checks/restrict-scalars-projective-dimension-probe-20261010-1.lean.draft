@@ -1,0 +1,23 @@
+import ASGinzburg.ProjectiveDimensionThreeDerivedVanishing
+import ASGinzburg.FourTermProjectiveDimension
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Category.ModuleCat.EnoughProjectives
+
+open CategoryTheory CategoryTheory.Limits ASGinzburg
+universe u v w
+
+example (R : Type u) [Ring R] (S : Type v) [Ring S] (e : R ≃+* S) :
+    (ModuleCat.restrictScalars.{w} e.toRingHom).PreservesProjectiveObjects := inferInstance
+
+example (R : Type u) [Ring R] (S : Type v) [Ring S] (e : R ≃+* S) :
+    (ModuleCat.restrictScalars.{w} e.toRingHom).PreservesHomology := inferInstance
+
+example (R : Type u) [Ring R] (S : Type v) [Ring S] (e : R ≃+* S)
+    (X : ModuleCat.{w} S) (hX : HasProjectiveDimensionLE X 3) :
+    HasProjectiveDimensionLE ((ModuleCat.restrictScalars e.toRingHom).obj X) 3 := by
+  let F := ModuleCat.restrictScalars.{w} e.toRingHom
+  let P := projectiveDimensionThreeResolution (projectiveResolution X) hX
+  exact fourTermProjectiveResolution_hasProjectiveDimensionLE
+    (F.mapProjectiveResolution P)
+    (F.map_isZero (projectiveDimensionThreeResolution_isZero_ge_four
+      (projectiveResolution X) hX 0))

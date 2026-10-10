@@ -1,0 +1,25 @@
+work/ASGinzburgDraft/OrdinaryRingDualTensorEvaluationFinite.lean:80:28: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ∑ x ∈ ?s, ?g (?f x)
+in the target expression
+  (∑ c,
+        ⇑((balancedTensorBilinear k R ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R))) ↑N)
+            (MulOpposite.op (f ((Pi.basisFun R (Fin n)) c)) • LinearMap.proj c)))
+      y =
+    balancedTensorTmul k R ((Fin n → R) →ₗ[R] R) (↑N) f y
+
+case refine_2
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+N : ModuleCat R
+n : ℕ
+z : BalancedTensorSpace k R ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R))) ↑N
+f : ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R)))
+y : ↑N
+⊢ (∑ c,
+        ⇑((balancedTensorBilinear k R ↑(ordinaryRingDual R (ModuleCat.of R (Fin n → R))) ↑N)
+            (MulOpposite.op (f ((Pi.basisFun R (Fin n)) c)) • LinearMap.proj c)))
+      y =
+    balancedTensorTmul k R ((Fin n → R) →ₗ[R] R) (↑N) f y

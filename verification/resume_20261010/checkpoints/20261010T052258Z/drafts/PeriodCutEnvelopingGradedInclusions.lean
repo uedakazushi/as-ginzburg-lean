@@ -1,0 +1,53 @@
+import ASGinzburg.PeriodCutEnvelopingDegreeInclusion
+import ASGinzburg.PeriodCutEnvelopingIntegerHomogeneousSubspaces
+import work.ASGinzburgDraft.PeriodCutOppositeHomogeneousSpaces
+import work.ASGinzburgDraft.GradedOrdinaryRingDualData
+import work.ASGinzburgDraft.AlgebraEnvelopingRightModuleBimodule
+
+/-! The actual two factor inclusions of the unsigned cut enveloping
+algebra preserve internal degree. In particular the native right-ring
+restriction of an actual right enveloping module uses a graded map. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+set_option synthInstance.maxHeartbeats 200000
+
+theorem cutEnveloping_includeLeft_mem_integerGrade (q : ℤ)
+    (r : E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))
+    (hr : r ∈ E.cutIntegerHomogeneousSpace Q q) :
+    (Algebra.TensorProduct.includeLeft :
+      E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)) →ₐ[k] AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))) r ∈
+      E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val:ℤ)) q := by
+  by_cases hq : q < 0
+  · rw [E.cutIntegerHomogeneousSpace_negative Q hq] at hr
+    have hz : r = 0 := hr
+    subst r
+    change (0 ⊗ₜ[k] (1 : (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ)) ∈ _
+    rw [TensorProduct.zero_tmul]
+    exact (E.cutEnvelopingIntegerHomogeneousSubspace
+      (fun i : Q.Vertex => (i.val:ℤ)) q).zero_mem
+  · have hq0 : 0 ≤ q := le_of_not_gt hq
+    obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hq0
+    rw [E.cutIntegerHomogeneousSpace_ofNat] at hr
+    obtain ⟨x, rfl⟩ := hr
+    rw [E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+    have h := E.cutEnvelopingHomogeneousInclusion_mem_totalDegree
+      (fun i : Q.Vertex => (i.val:ℤ)) n ⟨(n,0), by simp⟩
+      (x ⊗ₜ[k] E.cutMatrixId (fun i : Q.Vertex => (i.val:ℤ)))
+    simpa only [cutEnvelopingHomogeneousInclusion_tmul,
+      cutHomogeneousInclusion_one] using h
+
+theorem cutEnveloping_includeLeft_op_mem_integerGrade (q : ℤ)
+    (r : (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ)
+    (hr : r ∈ E.cutIntegerOppositeHomogeneousSpace Q q) :
+    rightEnvelopingRightRingHom k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ))) r ∈
+      ordinaryOppositeRingGrade (k := k)
+        (E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val:ℤ))) q :=
+  E.cutEnveloping_includeLeft_mem_integerGrade Q q r.unop
+    ((E.cutIntegerOppositeHomogeneousSpace_mem_iff_unop Q q r).mp hr)
+
+end ASGinzburg.ZAlgebra.PeriodIso

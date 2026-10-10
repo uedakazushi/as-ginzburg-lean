@@ -1,0 +1,167 @@
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:37:18: error: unsolved goals
+case add
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+g : A.rightTopBasisIndex M → A.RightModule := fun g => A.representable g.fst
+e : (A.rightModuleEvaluation i).obj (∐ g) ≅
+  ModuleCat.of k (⨁ (a : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g a))) :=
+  A.rightSmallCoproductComponentIso g i
+x y : ⨁ (i_1 : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g i_1))
+hx :
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+        ((A.positiveActionSpan M i).mkQ
+          ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+            (e.toLinearEquiv.symm x))))
+      j =
+    (A.scalarEndEquiv i).symm
+      (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+          (e.toLinearEquiv.symm x))
+        ⟨i, j⟩)
+hy :
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+        ((A.positiveActionSpan M i).mkQ
+          ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+            (e.toLinearEquiv.symm y))))
+      j =
+    (A.scalarEndEquiv i).symm
+      (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+          (e.toLinearEquiv.symm y))
+        ⟨i, j⟩)
+⊢ (A.scalarEndEquiv i).symm
+        (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm x))
+          ⟨i, j⟩) +
+      (A.scalarEndEquiv i).symm
+        (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm y))
+          ⟨i, j⟩) =
+    (A.scalarEndEquiv i).symm
+      (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm x) +
+          (ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm y))
+        ⟨i, j⟩)
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:58:6: error: unsolved goals
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+g : A.rightTopBasisIndex M → A.RightModule := fun g => A.representable g.fst
+e : (A.rightModuleEvaluation i).obj (∐ g) ≅
+  ModuleCat.of k (⨁ (a : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g a))) :=
+  A.rightSmallCoproductComponentIso g i
+p : ↑((A.rightModuleEvaluation i).obj (g ⟨i, j⟩))
+hei :
+  (ModuleCat.Hom.hom e.hom)
+      ((ModuleCat.Hom.hom e.inv)
+        ((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j⟩) p)) =
+    (DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j⟩) p
+c : k := (A.scalarEndEquiv i).symm p
+hp : p = c • A.id i
+⊢ p =
+    ((A.scalarEndEquiv i).symm p •
+        (DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j⟩)
+          (A.id i))
+      ⟨i, j⟩
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:60:6: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+g : A.rightTopBasisIndex M → A.RightModule := fun g => A.representable g.fst
+e : (A.rightModuleEvaluation i).obj (∐ g) ≅
+  ModuleCat.of k (⨁ (a : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g a))) :=
+  A.rightSmallCoproductComponentIso g i
+j' : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+p : ↑((A.rightModuleEvaluation i).obj (g ⟨i, j'⟩))
+hei :
+  (ModuleCat.Hom.hom e.hom)
+      ((ModuleCat.Hom.hom e.inv)
+        ((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j'⟩)
+          p)) =
+    (DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j'⟩) p
+c : k := (A.scalarEndEquiv i).symm p
+hp : p = c • A.id i
+h : ¬j' = j
+h' : ⟨i, j'⟩ ≠ ⟨i, j⟩
+⊢ 0 =
+    (A.scalarEndEquiv i).symm
+      (((A.scalarEndEquiv i).symm p •
+          (DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨i, j'⟩)
+            (A.id i))
+        ⟨i, j⟩)
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:65:4: error: unsolved goals
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i)
+g : A.rightTopBasisIndex M → A.RightModule := fun g => A.representable g.fst
+e : (A.rightModuleEvaluation i).obj (∐ g) ≅
+  ModuleCat.of k (⨁ (a : A.rightTopBasisIndex M), ↑((A.rightModuleEvaluation i).obj (g a))) :=
+  A.rightSmallCoproductComponentIso g i
+l : ℤ
+j' : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M l)
+p : ↑((A.rightModuleEvaluation i).obj (g ⟨l, j'⟩))
+hei :
+  (ModuleCat.Hom.hom e.hom)
+      ((ModuleCat.Hom.hom e.inv)
+        ((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩)
+          p)) =
+    (DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩) p
+hl : ¬l = i
+hpr : p ∈ A.positiveActionSpan (A.representable l) i
+hpi :
+  (ConcreteCategory.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+      ((ConcreteCategory.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p) ∈
+    A.positiveActionSpan M i
+hzero :
+  (A.positiveActionSpan M i).mkQ
+      ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+        ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l, j'⟩))) p)) =
+    0
+h' : ⟨l, j'⟩ ≠ ⟨i, j⟩
+⊢ 0 =
+    (A.scalarEndEquiv i).symm
+      (((DirectSum.lof k (A.rightTopBasisIndex M) (fun i_1 => ↑((A.rightModuleEvaluation i).obj (g i_1))) ⟨l, j'⟩) p)
+        ⟨i, j⟩)
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:37:60: warning: This simp argument is unused:
+  DFinsupp.add_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, Finsupp.add_apply, D̵F̵i̵n̵s̵u̵p̵p̵.̵a̵d̵d̵_̵a̵p̵p̵l̵y̵,̵ ̵hx, hy]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:64:14: warning: This simp argument is unused:
+  Finsupp.single_apply
+
+Hint: Omit it from the simp argument list.
+  simp [F̵i̵n̵s̵u̵p̵p̵.̵s̵i̵n̵g̵l̵e̵_̵a̵p̵p̵l̵y̵,̵ ̵h, DFinsupp.single_eq_of_ne (Ne.symm h'), c]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:64:39: warning: This simp argument is unused:
+  DFinsupp.single_eq_of_ne (Ne.symm h')
+
+Hint: Omit it from the simp argument list.
+  simp [Finsupp.single_apply, h, D̵F̵i̵n̵s̵u̵p̵p̵.̵s̵i̵n̵g̵l̵e̵_̵e̵q̵_̵o̵f̵_̵n̵e̵ ̵(̵N̵e̵.̵s̵y̵m̵m̵ ̵h̵'̵)̵,̵ ̵c]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/RightTopBasisCoordinates.lean:80:12: warning: This simp argument is unused:
+  DFinsupp.single_eq_of_ne (Ne.symm h')
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵D̵F̵i̵n̵s̵u̵p̵p̵.̵s̵i̵n̵g̵l̵e̵_̵e̵q̵_̵o̵f̵_̵n̵e̵ ̵(̵N̵e̵.̵s̵y̵m̵m̵ ̵h̵'̵)̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

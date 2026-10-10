@@ -1,0 +1,83 @@
+import work.ASGinzburgDraft.BalancedTensorDoubleResolutionTor
+import work.ASGinzburgDraft.BalancedTensorLeftProjectiveExactness
+import work.ASGinzburgDraft.NatDownTotalComplexSymmetry
+
+/-! The same genuine double projective resolution also computes
+second-factor Tor. The actual signed total-complex flip and exactness
+from projective left factors supply the other augmentation. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category HomologicalComplex
+open scoped ModuleCat.Algebra
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+instance balancedTensorFlippedBifunctor_obj_additive
+    (N : ModuleCat.{max v w} R) :
+    ((balancedTensorBifunctor.{u,v,max v w,max v w} k R).flip.obj N).Additive :=
+  balancedTensorLeftFunctorAdditive k R N
+
+instance balancedTensorFlippedBifunctor_additive :
+    (balancedTensorBifunctor.{u,v,max v w,max v w} k R).flip.Additive where
+  map_add {N N' f g} := by
+    apply NatTrans.ext
+    funext M
+    exact (balancedTensorRightFunctor k R M).map_add (f := f) (g := g)
+
+variable {M : ModuleCat.{max v w} Rᵐᵒᵖ} {N : ModuleCat.{max v w} R}
+variable (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
+
+instance balancedTensorDoubleResolutionColumnPreservesHomology (j : ℕ) :
+    ((balancedTensorBifunctor.{u,v,max v w,max v w} k R).flip.obj
+      (Q.complex.X j)).PreservesHomology := by
+  letI := Q.projective j
+  letI : Module.Projective R (Q.complex.X j) := inferInstance
+  exact balancedTensorLeftFunctorPreservesHomology k R (Q.complex.X j)
+
+instance balancedTensorDoubleResolutionColumnPreservesEpimorphisms (j : ℕ) :
+    ((balancedTensorBifunctor.{u,v,max v w,max v w} k R).flip.obj
+      (Q.complex.X j)).PreservesEpimorphisms := by
+  change (balancedTensorLeftFunctor.{u,v,max v w,max v w} k R
+    (Q.complex.X j)).PreservesEpimorphisms
+  infer_instance
+
+noncomputable def balancedTensorDoubleResolutionLeftAugmentation :
+    mapBifunctor P.complex Q.complex (balancedTensorBifunctor k R)
+        (ComplexShape.down ℕ) ⟶
+      ((balancedTensorRightFunctor.{u,v,max v w,max v w} k R M).mapHomologicalComplex
+        (ComplexShape.down ℕ)).obj Q.complex :=
+  (mapBifunctorFlipIso P.complex Q.complex (balancedTensorBifunctor k R)
+    (ComplexShape.down ℕ)).inv ≫
+      bifunctorTotalRightResolutionAugmentation (balancedTensorBifunctor k R).flip Q.complex P
+
+instance balancedTensorDoubleResolutionLeftAugmentation_quasiIso :
+    QuasiIso (balancedTensorDoubleResolutionLeftAugmentation k R P Q) := by
+  letI : ∀ j, ((balancedTensorBifunctor.{u,v,max v w,max v w} k R).flip.obj
+    (Q.complex.X j)).PreservesHomology :=
+    fun j => balancedTensorDoubleResolutionColumnPreservesHomology k R Q j
+  letI : ∀ j, ((balancedTensorBifunctor.{u,v,max v w,max v w} k R).flip.obj
+    (Q.complex.X j)).PreservesEpimorphisms :=
+    fun j => balancedTensorDoubleResolutionColumnPreservesEpimorphisms k R Q j
+  unfold balancedTensorDoubleResolutionLeftAugmentation
+  infer_instance
+
+noncomputable def balancedTensorDoubleResolutionRightHomologyIso (n : ℕ) :
+    (mapBifunctor P.complex Q.complex (balancedTensorBifunctor k R)
+      (ComplexShape.down ℕ)).homology n ≅
+      (((balancedTensorRightFunctor.{u,v,max v w,max v w} k R M).mapHomologicalComplex
+        (ComplexShape.down ℕ)).obj Q.complex).homology n :=
+  asIso (homologyMap (balancedTensorDoubleResolutionLeftAugmentation k R P Q) n)
+
+noncomputable def balancedTensorDoubleResolutionTorRightIso (n : ℕ) :
+    (mapBifunctor P.complex Q.complex (balancedTensorBifunctor k R)
+      (ComplexShape.down ℕ)).homology n ≅
+      (balancedTensorTorFunctor.{u,v,max v w,w} k R M n).obj N :=
+  balancedTensorDoubleResolutionRightHomologyIso k R P Q n ≪≫
+    (balancedTensorTorResolutionIso.{u,v,max v w,w} k R M N Q n).symm
+
+noncomputable def balancedTensorTorBalanceIso (n : ℕ) :
+    (balancedTensorTorLeftFunctor.{u,v,max v w,w} k R N n).obj M ≅
+      (balancedTensorTorFunctor.{u,v,max v w,w} k R M n).obj N :=
+  (balancedTensorDoubleResolutionTorLeftIso k R P Q n).symm ≪≫
+    balancedTensorDoubleResolutionTorRightIso k R P Q n
+
+end ASGinzburg

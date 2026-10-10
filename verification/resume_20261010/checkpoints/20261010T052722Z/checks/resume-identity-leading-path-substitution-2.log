@@ -1,0 +1,20 @@
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:53:12: error: typeclass instance problem is stuck, it is often due to metavariables
+  Ring ?m.35
+work/ASGinzburgDraft/IdentityLeadingPathSubstitution.lean:69:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.pathCutProjection k i j c) (Q.pathArrowSubstitutionPath k σ p)
+in the target expression
+  (Q.pathArrowSubstitutionComponent k σ i j) (if ↑p.cutDegree = c then Finsupp.single p a else 0) =
+    (Q.pathCutProjection k i j c) (a • Q.pathArrowSubstitutionPath k σ p)
+
+case single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+σ : Q.PathArrowReplacement k
+hc : ∀ (a : Fin Q.arrows), σ a ∈ Q.pathCutComponent k (Q.source a) (Q.target a) ↑(Q.cutDegree a)
+i j : Q.Vertex
+c : ℤ
+p : Q.Path i j
+a : k
+⊢ (Q.pathArrowSubstitutionComponent k σ i j) (if ↑p.cutDegree = c then Finsupp.single p a else 0) =
+    (Q.pathCutProjection k i j c) (a • Q.pathArrowSubstitutionPath k σ p)

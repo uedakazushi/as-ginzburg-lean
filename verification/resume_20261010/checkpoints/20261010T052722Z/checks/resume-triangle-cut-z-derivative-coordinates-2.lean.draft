@@ -1,0 +1,93 @@
+import work.ASGinzburgDraft.TriangleQuadraticPaths
+import work.ASGinzburgDraft.TriangleJacobianQuadraticRelations
+import ASGinzburg.PathCutUnrollingComparison
+
+/-! Actual original cut-Z path derivatives agree with the tensor's
+three coefficient slices in the canonical nine XY-path coordinates. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k]
+
+theorem cyclicDerivative_triangleCubic_single (xyz : Triple333) (z : Fin 3) (c : k) :
+    cyclicDerivative (triangleZ z) (Finsupp.single (triangleCubicWordClass xyz) c) =
+      if z = xyz.2.2 then Finsupp.single [triangleX xyz.1,triangleY xyz.2.1] c else 0 := by
+  classical
+  have hzx : triangleZ z ≠ triangleX xyz.1 := by
+    intro h
+    have hv := congrArg Fin.val h
+    dsimp [triangleZ,triangleX] at hv
+    omega
+  have hzy : triangleZ z ≠ triangleY xyz.2.1 := by
+    intro h
+    have hv := congrArg Fin.val h
+    dsimp [triangleZ,triangleY] at hv
+    omega
+  have hzz : triangleZ z = triangleZ xyz.2.2 ↔ z = xyz.2.2 := by
+    constructor
+    · intro h
+      apply Fin.ext
+      have hv := congrArg Fin.val h
+      dsimp [triangleZ] at hv
+      omega
+    · intro h
+      rw [h]
+  simp [cyclicDerivative,triangleCubicWordClass,derivativeWord,derivativeAux,hzx,hzy,hzz]
+
+theorem triangleCoefficientPotential_cutZDerivative_val (c : CubicCoefficients333 k)
+    (z : Fin 3) :
+    (triangleCutZDerivative k (triangleCoefficientPotentialEquiv k c) z).val =
+      ∑ xy : Fin 3 × Fin 3, Finsupp.single (triangleXYPath xy) (c (xy.1,xy.2,z)) := by
+  classical
+  apply triangle333.pathWordMap_injective k 0 2
+  change triangle333.pathWordMap k 0 2
+    (triangle333.transportPathComponent k (triangleZ_target_zero z) (triangleZ_source_two z)
+      (triangle333.pathCyclicDerivative k (triangleZ z) (triangleCoefficientPotentialEquiv k c))) = _
+  rw [triangle333.pathWordMap_transport k,triangle333.pathWordMap_pathCyclicDerivative k]
+  have hc : c = ∑ xyz : Triple333, Pi.single xyz (c xyz) := by
+    ext xyz
+    simp
+  have hval : (triangleCoefficientPotentialEquiv k c).val =
+      ∑ xyz : Triple333, Finsupp.single (triangleCubicWordClass xyz) (c xyz) := by
+    conv_lhs => rw [hc]
+    simp only [map_sum,Submodule.coe_sum,triangleCoefficientPotentialEquiv_single]
+  rw [hval,map_sum]
+  simp only [cyclicDerivative_triangleCubic_single,map_sum,CutQuiver.pathWordMap,
+    Finsupp.lmapDomain_apply,Finsupp.mapDomain_single,triangleXYPath_toList]
+  simp only [Fintype.sum_prod_type]
+  simp
+
+theorem triangleXYCutComponentEquiv_symm_single (xy : Fin 3 × Fin 3) (c : k) :
+    ((triangleXYCutComponentEquiv k).symm (Pi.single xy c)).val =
+      Finsupp.single (triangleXYPath xy) c := by
+  classical
+  simp only [triangleXYCutComponentEquiv,LinearEquiv.trans_symm,LinearEquiv.trans_apply,
+    Finsupp.linearEquivFunOnFinite_symm_single,Finsupp.domLCongr_symm,
+    Finsupp.domLCongr_single]
+  exact triangle333.pathCutComponentBasisEquiv_symm_single k 0 2 0
+    (triangleXYPathIndexEquiv xy) c
+
+theorem triangleCoefficientPotential_cutZDerivative_coordinates
+    (c : CubicCoefficients333 k) (z : Fin 3) :
+    triangleXYCutComponentEquiv k
+      (triangleCutZDerivative k (triangleCoefficientPotentialEquiv k c) z) =
+        fun xy => c (xy.1,xy.2,z) := by
+  classical
+  apply (triangleXYCutComponentEquiv k).symm.injective
+  rw [LinearEquiv.symm_apply_apply]
+  apply Subtype.ext
+  rw [triangleCoefficientPotential_cutZDerivative_val]
+  have hc : (fun xy : Fin 3 × Fin 3 => c (xy.1,xy.2,z)) =
+      ∑ xy : Fin 3 × Fin 3, Pi.single xy (c (xy.1,xy.2,z)) := by
+    ext xy
+    simp
+  conv_rhs => rw [hc]
+  simp only [map_sum,Submodule.coe_sum,triangleXYCutComponentEquiv_symm_single]
+
+theorem triangleTensorPotential_cutZDerivative_coordinates (w : CubicTensor333 k)
+    (z : Fin 3) :
+    triangleXYCutComponentEquiv k
+      (triangleCutZDerivative k (triangleTensorPotentialEquiv k w) z) =
+        tensorToCutRelations333 k w z :=
+  triangleCoefficientPotential_cutZDerivative_coordinates k (cubicCoordinates333 k w) z
+
+end ASGinzburg

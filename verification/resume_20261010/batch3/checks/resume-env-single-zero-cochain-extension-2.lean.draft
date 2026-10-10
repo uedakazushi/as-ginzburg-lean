@@ -1,0 +1,47 @@
+import Mathlib.Algebra.Homology.Embedding.ExtendHomology
+import Mathlib.Algebra.Homology.Single
+
+/-! Extension of the actual degree-zero chain complex is the actual
+degree-zero cochain complex. This makes extended resolution augmentations
+land in the usual module concentrated in cochain degree zero. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable (C : Type u) [Category.{v} C] [HasZeroMorphisms C] [HasZeroObject C]
+
+theorem chainSingleZeroExtend_isZero_away (X : C) (i : ℤ) (hi : i ≠ 0) :
+    IsZero ((((ChainComplex.single₀ C).obj X).extend ComplexShape.embeddingDownNat).X i) := by
+  by_cases h : ∃ n : ℕ, ComplexShape.embeddingDownNat.f n = i
+  · obtain ⟨n, hn⟩ := h
+    have hn0 : n ≠ 0 := by
+      intro hn0
+      subst n
+      exact hi hn.symm
+    exact (HomologicalComplex.isZero_single_obj_X (ComplexShape.down ℕ) 0 X n hn0).of_iso
+      (((ChainComplex.single₀ C).obj X).extendXIso ComplexShape.embeddingDownNat hn)
+  · exact ((ChainComplex.single₀ C).obj X).isZero_extend_X ComplexShape.embeddingDownNat i
+      (fun n hn => h ⟨n, hn⟩)
+
+noncomputable def chainSingleZeroExtendIso (X : C) :
+    ((ChainComplex.single₀ C).obj X).extend ComplexShape.embeddingDownNat ≅
+      (HomologicalComplex.single C (ComplexShape.up ℤ) 0).obj X :=
+  HomologicalComplex.Hom.isoOfComponents
+    (fun i => if hi : i = 0 then
+      (((ChainComplex.single₀ C).obj X).extendXIso ComplexShape.embeddingDownNat
+        (by simpa only [hi])).trans
+          ((HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0 X).trans
+            (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0 X i hi).symm)
+      else IsZero.iso (chainSingleZeroExtend_isZero_away C X i hi)
+        (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 X i hi))
+    (by
+      intro i j hij
+      have hd : (((ChainComplex.single₀ C).obj X).extend
+          ComplexShape.embeddingDownNat).d i j = 0 := by
+        change HomologicalComplex.extend.d ((ChainComplex.single₀ C).obj X)
+          (ComplexShape.embeddingDownNat.r i) (ComplexShape.embeddingDownNat.r j) = 0
+        generalize ComplexShape.embeddingDownNat.r i = a
+        generalize ComplexShape.embeddingDownNat.r j = b
+        cases a <;> cases b <;> rfl
+      simp only [hd, HomologicalComplex.single_obj_d, Category.comp_zero, Category.zero_comp])
+
+end ASGinzburg

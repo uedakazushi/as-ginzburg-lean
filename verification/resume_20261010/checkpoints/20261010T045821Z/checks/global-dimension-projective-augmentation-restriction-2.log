@@ -1,0 +1,43 @@
+work/ASGinzburgDraft/ProjectiveResolutionMapAfterRestriction.lean:29:6: error: Application type mismatch: The argument
+  (HomologicalComplex.singleMapHomologicalComplex L (ComplexShape.down ℕ) 0).hom.app
+has type
+  (X : C) →
+    (HomologicalComplex.single C (ComplexShape.down ℕ) 0 ⋙ L.mapHomologicalComplex (ComplexShape.down ℕ)).obj X ⟶
+      (L ⋙ HomologicalComplex.single D (ComplexShape.down ℕ) 0).obj X
+of sort `Type (max u v')` but is expected to have type
+  ?m.280 ⟶ ?m.281
+of sort `Type v'` in the application
+  (G.mapHomologicalComplex (ComplexShape.down ℕ)).map
+    (HomologicalComplex.singleMapHomologicalComplex L (ComplexShape.down ℕ) 0).hom.app
+work/ASGinzburgDraft/ProjectiveResolutionMapAfterRestriction.lean:17:80: error: unsolved goals
+C : Type u
+inst✝¹⁰ : Category.{v, u} C
+inst✝⁹ : Abelian C
+D : Type u'
+inst✝⁸ : Category.{v', u'} D
+inst✝⁷ : Abelian D
+E : Type u''
+inst✝⁶ : Category.{v'', u''} E
+inst✝⁵ : Abelian E
+L : C ⥤ D
+inst✝⁴ : L.Additive
+inst✝³ : L.PreservesProjectiveObjects
+inst✝² : L.PreservesHomology
+G : D ⥤ E
+inst✝¹ : G.Additive
+X : C
+inst✝ : Projective (L.obj X)
+Q : ProjectiveResolution X
+q : ProjectiveResolution (L.obj X) := L.mapProjectiveResolution Q
+h :
+  QuasiIso
+    ((G.mapHomologicalComplex (ComplexShape.down ℕ)).map ((L.mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π) ≫
+      (G.mapHomologicalComplex (ComplexShape.down ℕ)).map
+        ((HomologicalComplex.singleMapHomologicalComplex L (ComplexShape.down ℕ) 0).hom.app X))
+this : QuasiIso
+  ((G.mapHomologicalComplex (ComplexShape.down ℕ)).map ((L.mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π) ≫
+    (G.mapHomologicalComplex (ComplexShape.down ℕ)).map
+      ((HomologicalComplex.singleMapHomologicalComplex L (ComplexShape.down ℕ) 0).hom.app X)) :=
+  h
+⊢ QuasiIso
+    ((G.mapHomologicalComplex (ComplexShape.down ℕ)).map ((L.mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π))

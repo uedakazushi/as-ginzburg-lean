@@ -1,0 +1,143 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorRightModule
+import work.ASGinzburgDraft.BalancedTensorUniversal
+
+/-! The concrete tensor comparison underlying the enveloping Tor
+comparison: `(M ⊗[k] N) ⊗[Rᵉ] R ≃ M ⊗[R] N`. Both sides use the
+actual balancing quotient, and the right enveloping action is the
+actual action on the two tensor factors. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+variable [SMulCommClass k Rᵐᵒᵖ M] [IsScalarTower k Rᵐᵒᵖ M]
+variable [SMulCommClass k R N] [IsScalarTower k R N]
+
+attribute [local instance] tensorRightEnvelopingModule regularEnvelopingModule
+
+noncomputable def balancedTensorEnvelopingPairEvaluation :
+    R →ₗ[k] (M ⊗[k] N) →ₗ[k] BalancedTensorSpace k R M N where
+  toFun r := (balancedTensorRelations k R M N).mkQ.comp
+    (TensorProduct.map LinearMap.id (Algebra.lsmul k k N r))
+  map_add' r s := by
+    ext m n
+    simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply,
+      Algebra.lsmul_coe, add_smul, TensorProduct.tmul_add, map_add, LinearMap.add_apply]
+  map_smul' c r := by
+    ext m n
+    simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_apply,
+      Algebra.lsmul_coe, smul_assoc, TensorProduct.tmul_smul, map_smul,
+      LinearMap.smul_apply, RingHom.id_apply]
+
+theorem balancedTensorEnvelopingPairEvaluation_tmul (r : R) (m : M) (n : N) :
+    balancedTensorEnvelopingPairEvaluation k R M N r (m ⊗ₜ[k] n) =
+      balancedTensorTmul k R M N m (r • n) := rfl
+
+theorem balancedTensorEnvelopingPairEvaluation_balance
+    (e : AlgebraEnvelopingRing k R) (x : M ⊗[k] N) (r : R) :
+    balancedTensorEnvelopingPairEvaluation k R M N r (MulOpposite.op e • x) =
+      balancedTensorEnvelopingPairEvaluation k R M N (e • r) x := by
+  induction e using TensorProduct.induction_on with
+  | zero => simp only [MulOpposite.op_zero, zero_smul, map_zero]
+  | tmul a b =>
+      induction x using TensorProduct.induction_on with
+      | zero => simp only [smul_zero, map_zero]
+      | tmul m n =>
+          rw [tensorRightEnvelopingModule_tmul_smul,
+            regularEnvelopingModule_tmul_smul,
+            balancedTensorEnvelopingPairEvaluation_tmul,
+            balancedTensorEnvelopingPairEvaluation_tmul,
+            balancedTensorTmul_balance]
+          simp only [mul_smul]
+      | add x y hx hy =>
+          simp only [smul_add, map_add, hx, hy]
+  | add e f he hf =>
+      simp only [MulOpposite.op_add, add_smul, map_add, LinearMap.add_apply, he, hf]
+
+noncomputable def balancedTensorEnvelopingComparisonMap :
+    BalancedTensorSpace k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R →ₗ[k]
+      BalancedTensorSpace k R M N :=
+  balancedTensorLift k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R
+    (balancedTensorEnvelopingPairEvaluation k R M N).flip
+    (balancedTensorEnvelopingPairEvaluation_balance k R M N)
+
+theorem balancedTensorEnvelopingComparisonMap_tmul (m : M) (n : N) (r : R) :
+    balancedTensorEnvelopingComparisonMap k R M N
+      (balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) r) =
+      balancedTensorTmul k R M N m (r • n) := by
+  rw [balancedTensorEnvelopingComparisonMap, balancedTensorLift_tmul]
+  rfl
+
+noncomputable def balancedTensorEnvelopingInsertion :
+    (M ⊗[k] N) →ₗ[k]
+      BalancedTensorSpace k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R :=
+  (balancedTensorBilinear k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R).flip 1
+
+theorem balancedTensorEnvelopingInsertion_balance (a : R) (m : M) (n : N) :
+    balancedTensorEnvelopingInsertion k R M N ((MulOpposite.op a • m) ⊗ₜ[k] n) =
+      balancedTensorEnvelopingInsertion k R M N (m ⊗ₜ[k] (a • n)) := by
+  have hleft := balancedTensorTmul_balance k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R
+    (a ⊗ₜ[k] MulOpposite.op (1 : R)) (m ⊗ₜ[k] n) 1
+  have hright := balancedTensorTmul_balance k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R
+    ((1 : R) ⊗ₜ[k] MulOpposite.op a) (m ⊗ₜ[k] n) 1
+  rw [tensorRightEnvelopingModule_tmul_smul, regularEnvelopingModule_tmul_smul] at hleft hright
+  simp only [one_smul, one_mul, mul_one] at hleft hright
+  exact hleft.trans hright.symm
+
+noncomputable def balancedTensorEnvelopingComparisonInverse :
+    BalancedTensorSpace k R M N →ₗ[k]
+      BalancedTensorSpace k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R :=
+  balancedTensorLift k R M N
+    ((TensorProduct.mk k M N).compr₂ (balancedTensorEnvelopingInsertion k R M N))
+    (balancedTensorEnvelopingInsertion_balance k R M N)
+
+theorem balancedTensorEnvelopingComparisonInverse_tmul (m : M) (n : N) :
+    balancedTensorEnvelopingComparisonInverse k R M N (balancedTensorTmul k R M N m n) =
+      balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) 1 := by
+  rw [balancedTensorEnvelopingComparisonInverse, balancedTensorLift_tmul]
+  rfl
+
+noncomputable def balancedTensorEnvelopingComparisonEquiv :
+    BalancedTensorSpace k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R ≃ₗ[k]
+      BalancedTensorSpace k R M N where
+  toFun := balancedTensorEnvelopingComparisonMap k R M N
+  invFun := balancedTensorEnvelopingComparisonInverse k R M N
+  left_inv y := by
+    refine balancedTensorSpace_induction k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R
+      (fun y => balancedTensorEnvelopingComparisonInverse k R M N
+        (balancedTensorEnvelopingComparisonMap k R M N y) = y) ?_ ?_ ?_ y
+    · rw [map_zero, map_zero]
+    · intro x r
+      induction x using TensorProduct.induction_on with
+      | zero =>
+          change _ ((balancedTensorBilinear k (AlgebraEnvelopingRing k R)
+            (M ⊗[k] N) R) 0 r) = _
+          simp only [map_zero, LinearMap.zero_apply]
+      | tmul m n =>
+          rw [balancedTensorEnvelopingComparisonMap_tmul,
+            balancedTensorEnvelopingComparisonInverse_tmul]
+          have h := balancedTensorTmul_balance k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R
+            ((1 : R) ⊗ₜ[k] MulOpposite.op r) (m ⊗ₜ[k] n) 1
+          rw [tensorRightEnvelopingModule_tmul_smul, regularEnvelopingModule_tmul_smul] at h
+          simpa only [one_smul, one_mul, mul_one] using h
+      | add x y hx hy =>
+          change _ ((balancedTensorBilinear k (AlgebraEnvelopingRing k R)
+            (M ⊗[k] N) R) (x+y) r) = _
+          simp only [map_add, LinearMap.add_apply, hx, hy]
+    · intro x y hx hy
+      rw [map_add, map_add, hx, hy]
+  right_inv y := by
+    refine balancedTensorSpace_induction k R M N
+      (fun y => balancedTensorEnvelopingComparisonMap k R M N
+        (balancedTensorEnvelopingComparisonInverse k R M N y) = y) ?_ ?_ ?_ y
+    · rw [map_zero, map_zero]
+    · intro m n
+      rw [balancedTensorEnvelopingComparisonInverse_tmul,
+        balancedTensorEnvelopingComparisonMap_tmul, one_smul]
+    · intro x y hx hy
+      rw [map_add, map_add, hx, hy]
+  map_add' := map_add (balancedTensorEnvelopingComparisonMap k R M N)
+  map_smul' := map_smul (balancedTensorEnvelopingComparisonMap k R M N)
+
+end ASGinzburg

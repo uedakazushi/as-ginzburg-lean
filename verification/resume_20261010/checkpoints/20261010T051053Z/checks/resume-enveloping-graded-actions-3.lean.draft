@@ -1,0 +1,61 @@
+import work.ASGinzburgDraft.GradedOrdinaryModuleData
+import work.ASGinzburgDraft.PeriodCutEnvelopingZeroInclusionGrading
+import work.ASGinzburgDraft.PeriodCutEnvelopingZeroModuleRestriction
+import work.ASGinzburgDraft.PeriodCutEnvelopingPositiveModuleOperators
+
+/-! Every genuine graded ordinary enveloping module has the actual
+degree-zero invariant action and positive degree-shifting operators. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+variable (M : GradedOrdinaryModuleData k
+  (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+  (E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ))))
+attribute [local instance 2000] cutEnvelopingOppositeFactorScalarTower
+  cutEnvelopingOppositeFactorScalarComm cutGradedRingSelfScalarTower cutGradedRingSelfScalarComm
+
+noncomputable def cutEnvelopingGradedModuleModule :
+    Module (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) M.ringModule :=
+  M.ringModule.isModule
+
+noncomputable def cutEnvelopingGradedModuleSMul :
+    SMul (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) M.ringModule :=
+  (E.cutEnvelopingGradedModuleModule Q M).toSMul
+
+attribute [local instance 3000] cutEnvelopingGradedModuleModule cutEnvelopingGradedModuleSMul
+
+theorem cutEnvelopingGradedModuleScalarTower :
+    IsScalarTower k (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) M.ringModule :=
+  ModuleCat.isScalarTower_of_algebra_moduleCat M.ringModule
+
+attribute [local instance 3000] cutEnvelopingGradedModuleScalarTower
+attribute [local instance 2000] cutEnvelopingZeroRestrictedModule
+  cutEnvelopingZeroRestrictedSMul
+
+theorem cutEnvelopingGradedModule_zeroAction_preserves
+    (q : ℤ) (a : AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+    (x : M.ringModule) (hx : x ∈ M.grade q) : a • x ∈ M.grade q := by
+  change E.cutEnvelopingZeroInclusion Q a • x ∈ M.grade q
+  simpa only [zero_add] using M.smul_mem 0 q _
+    (E.cutEnvelopingZeroInclusion_mem_integerDegreeZero Q a) x hx
+
+theorem cutEnvelopingGradedModule_positiveAction_raises
+    (t : E.CutEnvelopingPositiveOperator Q) (q : ℤ)
+    (x : M.ringModule) (hx : x ∈ M.grade q) :
+    E.cutEnvelopingPositiveModuleOperator Q M.ringModule t x ∈
+      M.grade (q+(E.cutEnvelopingPositiveOperatorDegree Q t:ℤ)) := by
+  change E.cutEnvelopingPositiveOperatorValue Q t • x ∈ _
+  have ht : E.cutEnvelopingPositiveOperatorValue Q t ∈
+      E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ))
+        (E.cutEnvelopingPositiveOperatorDegree Q t:ℤ) := by
+    rw [E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+    exact E.cutEnvelopingPositiveOperatorValue_mem Q t
+  simpa only [add_comm] using M.smul_mem _ q _ ht x hx
+
+end ASGinzburg.ZAlgebra.PeriodIso

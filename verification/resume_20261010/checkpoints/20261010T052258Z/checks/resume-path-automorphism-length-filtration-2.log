@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/PathAutomorphismLengthFiltration.lean:56:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  LinearComponentAlgebra.totalComponent ?B ?j ?l ?g * LinearComponentAlgebra.totalComponent ?B ?i ?j ?f
+in the target expression
+  (Q.pathComponentAlgebra k).totalComponent i l
+      ((Q.pathComponentAlgebra k).totalComponent i l
+        ((Q.pathComponentAlgebra k).totalComponent i l
+          (E ((Q.pathComponentAlgebra k).totalComponent i l (((Q.pathComponentAlgebra k).comp g) f)) i l) i l)
+        i l) =
+    E ((Q.pathComponentAlgebra k).totalComponent j l g) * E ((Q.pathComponentAlgebra k).totalComponent i j f)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+E : Q.PathRing k ≃ₐ[k] Q.PathRing k
+hE : ∀ (i : Q.Vertex), E ((Q.pathComponentAlgebra k).totalIdempotent i) = (Q.pathComponentAlgebra k).totalIdempotent i
+i j l : Q.Vertex
+f : Q.PathComponent k i j
+g : Q.PathComponent k j l
+h :
+  (Q.pathComponentAlgebra k).totalComponent i l
+      ((Q.pathComponentAlgebra k).totalComponent i l
+        ((Q.pathComponentAlgebra k).totalComponent i l
+          (E ((Q.pathComponentAlgebra k).totalComponent i l (((Q.pathComponentAlgebra k).comp g) f)) i l) i l)
+        i l) =
+    E ((Q.pathComponentAlgebra k).totalComponent j l g) * E ((Q.pathComponentAlgebra k).totalComponent i j f)
+⊢ ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i l) (((Q.pathComp k) g) f) =
+    ((Q.pathComp k) (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE j l) g))
+      (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j) f)

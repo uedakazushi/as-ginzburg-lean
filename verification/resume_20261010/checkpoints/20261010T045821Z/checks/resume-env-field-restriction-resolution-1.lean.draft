@@ -1,0 +1,25 @@
+import ASGinzburg.MapProjectiveResolutionOfTerms
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+
+/-! Every genuine algebra-module projective resolution restricts to a
+genuine vector-space projective resolution: scalar restriction is exact
+and every vector space is free. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+theorem moduleCatField_projective (M : ModuleCat.{w} k) : Projective M := by
+  letI : Module.Projective k M := inferInstance
+  exact ModuleCat.projective_of_categoryTheory_projective M
+
+noncomputable def moduleFieldRestrictionResolution {M : ModuleCat.{w} R}
+    (P : ProjectiveResolution M) :
+    ProjectiveResolution ((ModuleCat.restrictScalars (algebraMap k R)).obj M) :=
+  mapProjectiveResolutionOfTerms (ModuleCat.restrictScalars (algebraMap k R)) P
+    (fun n => moduleCatField_projective k _)
+
+end ASGinzburg

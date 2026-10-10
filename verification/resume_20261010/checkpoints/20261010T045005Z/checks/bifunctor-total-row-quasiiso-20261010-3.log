@@ -1,0 +1,15 @@
+work/ASGinzburgDraft/BifunctorTotalRowQuasiIso.lean:24:4: error: 'change' tactic failed, pattern
+  Epi ((F.obj (P.X i)).map (f.f j))
+is not definitionally equal to target
+  Epi
+    (((((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map (𝟙 P)).app Q ≫
+              ((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P).map f).f
+          i).f
+      j)
+work/ASGinzburgDraft/BifunctorTotalRowQuasiIso.lean:27:4: error: 'change' tactic failed, pattern
+  QuasiIso (((F.obj (P.X i)).mapHomologicalComplex (ComplexShape.down ℕ)).map f)
+is not definitionally equal to target
+  QuasiIso
+    ((((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map (𝟙 P)).app Q ≫
+          ((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P).map f).f
+      i)

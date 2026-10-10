@@ -1,0 +1,14 @@
+work/ASGinzburgDraft/PrincipalIdempotentTop.lean:28:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.principalIdempotentTopCoordinate_apply`:
+  [DecidableEq ι]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [DecidableEq ι] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/PrincipalIdempotentTop.lean:43:22: error: Application type mismatch: The argument
+  a
+has type
+  k
+of sort `Type u` but is expected to have type
+  Type u
+of sort `Type (u + 1)` in the application
+  smul_eq_mul k a

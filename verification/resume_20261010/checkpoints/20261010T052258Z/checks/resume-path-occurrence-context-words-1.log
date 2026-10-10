@@ -1,0 +1,66 @@
+work/ASGinzburgDraft/PathOccurrenceContextWords.lean:31:29: error: Application type mismatch: The argument
+  Finsupp.single C.afterPath 1
+has type
+  Q.Path (Q.target b) j →₀ ?m.136
+but is expected to have type
+  Type ?u.3957
+in the application
+  @pathComp_assoc Q (Finsupp.single C.afterPath 1)
+work/ASGinzburgDraft/PathOccurrenceContextWords.lean:24:73: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+b : Q.Arrow
+i j : Q.Vertex
+C : Q.PathOccurrenceContext b i j
+a : Q.Arrow
+ha : Q.source a = j
+h : Q.PathComponent k (Q.target a) i
+hC :
+  ((Q.pathComp k) (Finsupp.single ((Path.nil j).snoc a ha) 1)) (Finsupp.single C.afterPath 1) =
+    Finsupp.single (C.afterPath.snoc a ha) 1
+⊢ ((Q.pathComp k) (Finsupp.single C.beforePath 1))
+      (((Q.pathComp k) h)
+        (((Q.pathComp k) (Finsupp.single ((Path.nil j).snoc a ha) 1)) (Finsupp.single C.afterPath 1))) =
+    ((Q.pathComp k) (Finsupp.single C.beforePath 1))
+      (((Q.pathComp k) (((Q.pathComp k) h) (Finsupp.single ((Path.nil j).snoc a ha) 1))) (Finsupp.single C.afterPath 1))
+work/ASGinzburgDraft/PathOccurrenceContextWords.lean:57:50: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (List.map (fun C => Q.pathOccurrenceContextMap ?k (PathOccurrenceContext.snoc Q C ?a ?ha)) ?L).sum ?h
+in the target expression
+  (Q.pathWordMap k (Q.target b) (Q.source b))
+        ((List.map (Q.pathOccurrenceContextMap k ∘ fun C => PathOccurrenceContext.snoc Q C a ha)
+              (Path.occurrenceContexts Q b p)).sum
+          h) +
+      (Q.pathWordMap k (Q.target b) (Q.source b))
+        ((List.map (Q.pathOccurrenceContextMap k)
+              (if h : a = b then
+                [{ beforePath := Path.transport ⋯ ⋯ p, afterPath := Path.transport ⋯ ⋯ (Path.nil (Q.target b)) }]
+              else [])).sum
+          h) =
+    (wordOccurrenceContextWord b (p.snoc a ha).toList) ((Q.pathWordMap k (Q.target a) i) h)
+
+case snoc
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+b : Q.Arrow
+i j✝ j : Q.Vertex
+p : Q.Path i j
+a : Q.Arrow
+ha : Q.source a = j
+ih :
+  ∀ (h : Q.PathComponent k j i),
+    (Q.pathWordMap k (Q.target b) (Q.source b)) ((Q.pathOccurrenceContextOperator k b p) h) =
+      (wordOccurrenceContextWord b p.toList) ((Q.pathWordMap k j i) h)
+h : Q.PathComponent k (Q.target a) i
+⊢ (Q.pathWordMap k (Q.target b) (Q.source b))
+        ((List.map (Q.pathOccurrenceContextMap k ∘ fun C => PathOccurrenceContext.snoc Q C a ha)
+              (Path.occurrenceContexts Q b p)).sum
+          h) +
+      (Q.pathWordMap k (Q.target b) (Q.source b))
+        ((List.map (Q.pathOccurrenceContextMap k)
+              (if h : a = b then
+                [{ beforePath := Path.transport ⋯ ⋯ p, afterPath := Path.transport ⋯ ⋯ (Path.nil (Q.target b)) }]
+              else [])).sum
+          h) =
+    (wordOccurrenceContextWord b (p.snoc a ha).toList) ((Q.pathWordMap k (Q.target a) i) h)

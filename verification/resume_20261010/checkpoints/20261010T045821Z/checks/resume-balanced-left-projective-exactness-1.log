@@ -1,0 +1,34 @@
+work/ASGinzburgDraft/BalancedTensorLeftProjectiveExactness.lean:18:4: error: failed to synthesize
+  RingHomInvPair (RingEquiv.opOp R).toRingHom ?m.21
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BalancedTensorLeftProjectiveExactness.lean:32:8: error: typeclass instance problem is stuck, it is often due to metavariables
+  Module.Projective R ?m.28
+work/ASGinzburgDraft/BalancedTensorLeftProjectiveExactness.lean:41:10: error: Function expected at
+  balancedTensorDoubleOppositeModule_projective k R
+but this term has type
+  Module.Projective kᵐᵒᵖᵐᵒᵖ R
+
+Note: Expected a function because this term is being applied to the argument
+  N
+work/ASGinzburgDraft/BalancedTensorLeftProjectiveExactness.lean:38:74: error: unsolved goals
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+N : Type w
+inst✝⁴ : AddCommGroup N
+inst✝³ : Module k N
+inst✝² : Module R N
+inst✝¹ : IsScalarTower k R N
+inst✝ : Module.Projective R N
+this✝ : Module Rᵐᵒᵖᵐᵒᵖ N := balancedTensorDoubleOppositeModule R N
+this : IsScalarTower k Rᵐᵒᵖᵐᵒᵖ N := balancedTensorDoubleOppositeIsScalarTower k R N
+⊢ (balancedTensorLeftFunctor k R N).PreservesMonomorphisms
+work/ASGinzburgDraft/BalancedTensorLeftProjectiveExactness.lean:50:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorLeftFunctor_map_exact`:
+  [Module.Projective R N]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Module.Projective R N] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

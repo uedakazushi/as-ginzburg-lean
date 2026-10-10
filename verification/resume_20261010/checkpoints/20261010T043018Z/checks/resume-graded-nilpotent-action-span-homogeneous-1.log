@@ -1,0 +1,29 @@
+work/ASGinzburgDraft/GradedNilpotentActionSpanHomogeneity.lean:20:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.gradedNilpotentActionSpan_projection_positive`:
+  [Algebra k R₀]
+  [IsScalarTower k R₀ M]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Algebra k R₀] [IsScalarTower k R₀ M] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/GradedNilpotentActionSpanHomogeneity.lean:44:4: error(lean.unknownIdentifier): Unknown constant `SetLike.IsHomogeneous`
+work/ASGinzburgDraft/GradedNilpotentActionSpanHomogeneity.lean:45:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+k : Type u
+inst✝⁷ : Field k
+R₀ : Type v
+inst✝⁶ : Ring R₀
+inst✝⁵ : Algebra k R₀
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module R₀ M
+inst✝¹ : IsScalarTower k R₀ M
+G : ℤ → Submodule R₀ M
+inst✝ : DirectSum.Decomposition G
+ι : Type z
+d : ι → ℕ
+f : ι → M →ₗ[k] M
+hf : ∀ (t : ι) (p : ℤ), ∀ x ∈ G p, (f t) x ∈ G (p + ↑(d t))
+⊢ sorry
+work/ASGinzburgDraft/GradedNilpotentActionSpanHomogeneity.lean:70:4: error(lean.unknownIdentifier): Unknown constant `SetLike.IsHomogeneous`
+work/ASGinzburgDraft/GradedNilpotentActionSpanHomogeneity.lean:73:60: error(lean.unknownIdentifier): Unknown identifier `I₀`

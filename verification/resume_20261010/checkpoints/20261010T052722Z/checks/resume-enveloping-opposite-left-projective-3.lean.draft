@@ -1,0 +1,79 @@
+import ASGinzburg.AlgebraEnvelopingRestrictedProjective
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+
+/-! Restriction of genuine right enveloping modules along includeLeft.op
+preserves projectivity. The actual regular right enveloping module is
+free over R-op, by its tensor identification. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+noncomputable def envelopingOppositeLeftModule (P : Type w) [AddCommGroup P]
+    [Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ P] : Module Rᵐᵒᵖ P :=
+  Module.compHom P (AlgHom.op (Algebra.TensorProduct.includeLeft :
+    R →ₐ[k] AlgebraEnvelopingRing k R)).toRingHom
+
+noncomputable def envelopingOppositeLeftRegularEquiv :
+    letI := envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+    (Rᵐᵒᵖ ⊗[k] Rᵐᵒᵖ) ≃ₗ[Rᵐᵒᵖ] (AlgebraEnvelopingRing k R)ᵐᵒᵖ := by
+  letI := envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+  let e : (Rᵐᵒᵖ ⊗[k] Rᵐᵒᵖ) ≃ₗ[k] (AlgebraEnvelopingRing k R)ᵐᵒᵖ :=
+    (TensorProduct.congr (MulOpposite.opLinearEquiv k).symm (LinearEquiv.refl k Rᵐᵒᵖ)).trans
+      (MulOpposite.opLinearEquiv k)
+  refine {
+    toFun := e
+    invFun := e.symm
+    left_inv := e.left_inv
+    right_inv := e.right_inv
+    map_add' := e.map_add
+    map_smul' := ?_ }
+  intro r x
+  induction x using TensorProduct.induction_on with
+  | zero => simp only [smul_zero,map_zero]
+  | tmul a b =>
+      change e (r • (a ⊗ₜ[k] b)) =
+        MulOpposite.op ((a.unop ⊗ₜ[k] b) * (r.unop ⊗ₜ[k] (1 : Rᵐᵒᵖ)))
+      rw [TensorProduct.smul_tmul']
+      change MulOpposite.op ((r*a).unop ⊗ₜ[k] b) = _
+      rw [Algebra.TensorProduct.tmul_mul_tmul,mul_one]
+      rfl
+  | add x y hx hy =>
+      simp only [smul_add,map_add,hx,hy]
+      exact (smul_add ((RingHom.id Rᵐᵒᵖ) r) (e x) (e y)).symm
+
+theorem envelopingOppositeLeftModule_regular_free :
+    letI := envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+    Module.Free Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ := by
+  letI := envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+  exact Module.Free.of_equiv (envelopingOppositeLeftRegularEquiv k R)
+
+theorem envelopingOppositeLeftModule_projective
+    (P : Type w) [AddCommGroup P] [Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ P]
+    [Module.Projective (AlgebraEnvelopingRing k R)ᵐᵒᵖ P] :
+    letI := envelopingOppositeLeftModule k R P
+    Module.Projective Rᵐᵒᵖ P := by
+  letI := envelopingOppositeLeftModule k R P
+  letI := envelopingOppositeLeftModule k R (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+  haveI : Module.Free Rᵐᵒᵖ (AlgebraEnvelopingRing k R)ᵐᵒᵖ :=
+    envelopingOppositeLeftModule_regular_free k R
+  obtain ⟨i,hi⟩ := Module.Projective.out (R := (AlgebraEnvelopingRing k R)ᵐᵒᵖ) (P := P)
+  let s := Finsupp.linearCombination (AlgebraEnvelopingRing k R)ᵐᵒᵖ (id : P → P)
+  let ι := (AlgHom.op (Algebra.TensorProduct.includeLeft :
+    R →ₐ[k] AlgebraEnvelopingRing k R))
+  let iR : P →ₗ[Rᵐᵒᵖ] P →₀ (AlgebraEnvelopingRing k R)ᵐᵒᵖ := {
+    toFun := i
+    map_add' := i.map_add
+    map_smul' := fun r p => i.map_smul (ι r) p }
+  let sR : (P →₀ (AlgebraEnvelopingRing k R)ᵐᵒᵖ) →ₗ[Rᵐᵒᵖ] P := {
+    toFun := s
+    map_add' := s.map_add
+    map_smul' := fun r p => s.map_smul (ι r) p }
+  refine Module.Projective.of_split iR sR ?_
+  apply LinearMap.ext
+  intro p
+  exact hi p
+
+end ASGinzburg

@@ -1,0 +1,54 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingFunctorNaturality.lean:50:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (balancedTensorMapLeft ?k ?R ?N ?f) (balancedTensorTmul ?k ?R ?M ?N ?x ?y)
+in the target expression
+  (ModuleCat.Hom.hom (balancedTensorEnvelopingModuleIso k R M' N').hom)
+      ((balancedTensorMapLeft k (AlgebraEnvelopingRing k R) R
+          (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom f) (ModuleCat.Hom.hom g)))
+        (((balancedTensorBilinear k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+                  R).flip
+              r ∘ₗ
+            t)
+          (m ⊗ₜ[k] n))) =
+    (balancedTensorMapLeft k R (↑N') (ModuleCat.Hom.hom f))
+      ((balancedTensorMapRight k R (↑M) (ModuleCat.Hom.hom g))
+        ((ModuleCat.Hom.hom (balancedTensorEnvelopingModuleIso k R M N).hom)
+          (((balancedTensorBilinear k (AlgebraEnvelopingRing k R)
+                (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) R)
+              (m ⊗ₜ[k] n))
+            r)))
+
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M M' : ModuleCat Rᵐᵒᵖ
+N N' : ModuleCat R
+f : M ⟶ M'
+g : N ⟶ N'
+x : ↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)
+r : R
+e : (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).obj
+    (((tensorRightEnvelopingBifunctor k R).obj M).obj N) ≅
+  ((moduleTensorBifunctor k).obj ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M)).obj
+    ((ModuleCat.restrictScalars (algebraMap k R)).obj N) :=
+  tensorRightEnvelopingRestrictScalarsIso k R M N
+t : ↑M ⊗[k] ↑N →ₗ[k] ↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N) := ModuleCat.Hom.hom e.inv
+m : ↑M
+n : ↑N
+ht : t (m ⊗ₜ[k] n) = m ⊗ₜ[k] n
+⊢ (ModuleCat.Hom.hom (balancedTensorEnvelopingModuleIso k R M' N').hom)
+      ((balancedTensorMapLeft k (AlgebraEnvelopingRing k R) R
+          (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom f) (ModuleCat.Hom.hom g)))
+        (((balancedTensorBilinear k (AlgebraEnvelopingRing k R) (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+                  R).flip
+              r ∘ₗ
+            t)
+          (m ⊗ₜ[k] n))) =
+    (balancedTensorMapLeft k R (↑N') (ModuleCat.Hom.hom f))
+      ((balancedTensorMapRight k R (↑M) (ModuleCat.Hom.hom g))
+        ((ModuleCat.Hom.hom (balancedTensorEnvelopingModuleIso k R M N).hom)
+          (((balancedTensorBilinear k (AlgebraEnvelopingRing k R)
+                (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N)) R)
+              (m ⊗ₜ[k] n))
+            r)))

@@ -1,0 +1,125 @@
+import work.ASGinzburgDraft.NilpotentIdealActionNakayama
+import Mathlib.Algebra.DirectSum.Decomposition
+import Mathlib.Algebra.Module.Submodule.RestrictScalars
+
+/-! Bounded-below graded Nakayama for an actual nilpotent degree-zero
+ideal and positive homogeneous operators. The degree-zero action and the
+positive operators are actual linear actions on the module, and the
+radical condition is their genuine action span. No finiteness assumption
+on the module or its homogeneous pieces is used. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z
+variable (k : Type u) [Field k] (R₀ : Type v) [Ring R₀] [Algebra k R₀]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R₀ M]
+  [IsScalarTower k R₀ M] [SMulCommClass k R₀ M]
+variable (G : ℤ → Submodule R₀ M) [DirectSum.Decomposition G]
+
+noncomputable def gradedZeroComponent (q : ℤ) : M →ₗ[R₀] G q :=
+  (DirectSum.component R₀ ℤ (fun q => G q) q).comp
+    (DirectSum.decomposeLinearEquiv G).toLinearMap
+
+theorem gradedZeroComponent_homogeneous_eq_zero
+    (p q : ℤ) (x : M) (hx : x ∈ G p) (hpq : p ≠ q) :
+    gradedZeroComponent R₀ M G q x = 0 := by
+  apply Subtype.ext
+  exact DirectSum.decompose_of_mem_ne G hx hpq
+
+theorem gradedZeroComponent_positive_eq_zero
+    (q : ℤ) (hLower : ∀ p : ℤ, p < q → ∀ x : G p, x = 0)
+    (d : ℕ) (hd : 0 < d) (f : M →ₗ[k] M)
+    (hf : ∀ (p : ℤ) (x : M), x ∈ G p → f x ∈ G (p+(d:ℤ))) :
+    ∀ x : M, gradedZeroComponent R₀ M G q (f x) = 0 := by
+  apply DirectSum.Decomposition.inductionOn G
+  · rw [map_zero, map_zero]
+  · intro p x
+    by_cases hp : p < q
+    · have hx : (x : M) = 0 := congrArg Subtype.val (hLower p hp x)
+      rw [hx, map_zero, map_zero]
+    · exact gradedZeroComponent_homogeneous_eq_zero R₀ M G (p+(d:ℤ)) q
+        (f x) (hf p x x.property) (by omega)
+  · intro x y hx hy
+    rw [map_add, map_add, hx, hy, add_zero]
+
+variable {ι : Type z} (d : ι → ℕ) (f : ι → M →ₗ[k] M)
+variable (I₀ : Ideal R₀)
+
+def gradedNilpotentActionSpan : Submodule k M :=
+  Submodule.span k
+    ({y : M | ∃ r ∈ I₀, ∃ x : M, r • x = y} ∪
+      {y : M | ∃ t : ι, ∃ x : M, f t x = y})
+
+theorem gradedModule_eq_zero_of_boundedBelow_nilpotent_action_span_top
+    (N : ℕ) (hN : I₀^N = ⊥)
+    (hd : ∀ t : ι, 0 < d t)
+    (hf : ∀ (t : ι) (p : ℤ) (x : M), x ∈ G p → f t x ∈ G (p+(d t:ℤ)))
+    (b : ℤ) (hb : ∀ p : ℤ, p < b → G p = ⊥)
+    (hRad : gradedNilpotentActionSpan k R₀ M f I₀ = ⊤) :
+    ∀ x : M, x = 0 := by
+  have H : ∀ n : ℕ, ∀ q : ℤ, q < b+(n:ℤ) → ∀ x : G q, x = 0 := by
+    intro n
+    induction n with
+    | zero =>
+      intro q hq x
+      apply Subtype.ext
+      have hx := x.property
+      simpa [hb q (by simpa using hq)] using hx
+    | succ n ih =>
+      intro q hq x
+      by_cases hprev : q < b+(n:ℤ)
+      · exact ih q hprev x
+      · have hLower : ∀ p : ℤ, p < q → ∀ y : G p, y = 0 :=
+          fun p hp => ih p (by omega)
+        have hPos := fun t => gradedZeroComponent_positive_eq_zero k R₀ M G q
+          hLower (d t) (hd t) (f t) (hf t)
+        have hSpan : Submodule.span k
+            {y : G q | ∃ r ∈ I₀, ∃ z : G q, r • z = y} = ⊤ := by
+          apply Submodule.eq_top_iff'.mpr
+          intro y
+          have hy : (y : M) ∈ gradedNilpotentActionSpan k R₀ M f I₀ := by
+            rw [hRad]
+            exact Submodule.mem_top
+          have hproj : gradedZeroComponent R₀ M G q (y : M) = y := by
+            apply Subtype.ext
+            exact DirectSum.decompose_of_mem_same G y.property
+          rw [← hproj]
+          unfold gradedNilpotentActionSpan at hy
+          induction hy using Submodule.span_induction with
+          | mem z hz =>
+            rcases hz with hz | hz
+            · obtain ⟨r, hr, z, rfl⟩ := hz
+              rw [map_smul]
+              exact Submodule.subset_span ⟨r, hr, gradedZeroComponent R₀ M G q z, rfl⟩
+            · obtain ⟨t, z, rfl⟩ := hz
+              rw [hPos t z]
+              exact Submodule.zero_mem _
+          | zero => rw [map_zero]; exact Submodule.zero_mem _
+          | add y z hy hz ihy ihz => rw [map_add]; exact Submodule.add_mem _ ihy ihz
+          | smul c y hy ihy =>
+            rw [(gradedZeroComponent R₀ M G q).restrictScalars k |>.map_smul]
+            exact Submodule.smul_mem _ c ihy
+        letI := module_subsingleton_of_nilpotent_ideal_action_span_top k R₀ (G q) I₀
+          N hN hSpan
+        exact Subsingleton.elim x 0
+  have hz : ∀ q : ℤ, ∀ x : G q, x = 0 := by
+    intro q x
+    exact H (q-b+1).toNat q (by omega) x
+  apply DirectSum.Decomposition.inductionOn G
+  · rfl
+  · intro q x
+    exact congrArg Subtype.val (hz q x)
+  · intro x y hx hy
+    rw [hx, hy, add_zero]
+
+theorem gradedModule_subsingleton_of_boundedBelow_nilpotent_action_span_top
+    (N : ℕ) (hN : I₀^N = ⊥)
+    (hd : ∀ t : ι, 0 < d t)
+    (hf : ∀ (t : ι) (p : ℤ) (x : M), x ∈ G p → f t x ∈ G (p+(d t:ℤ)))
+    (b : ℤ) (hb : ∀ p : ℤ, p < b → G p = ⊥)
+    (hRad : gradedNilpotentActionSpan k R₀ M f I₀ = ⊤) :
+    Subsingleton M := by
+  have hzero := gradedModule_eq_zero_of_boundedBelow_nilpotent_action_span_top k R₀ M G
+    d f I₀ N hN hd hf b hb hRad
+  exact ⟨fun x y => (hzero x).trans (hzero y).symm⟩
+
+end ASGinzburg

@@ -1,0 +1,81 @@
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:65:4: error: Tactic `apply` failed: could not unify the conclusion of `@total.hom_ext`
+  ?f = ?g
+with the goal
+  (ModuleCat.Hom.hom
+        (((totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map (f + g)).f
+          n))
+      x✝ =
+    (ModuleCat.Hom.hom
+        (((totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map f +
+              (totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map g).f
+          n))
+      x✝
+
+Note: The full type of `@total.hom_ext` is
+  ∀ {C : Type ?u.9749} [inst : Category.{?u.9745, ?u.9749} C] [inst_1 : Preadditive C] {I₁ : Type ?u.9748}
+    {I₂ : Type ?u.9747} {I₁₂ : Type ?u.9746} {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂}
+    {K : HomologicalComplex₂ C c₁ c₂} (c₁₂ : ComplexShape I₁₂) [inst_2 : TotalComplexShape c₁ c₂ c₁₂]
+    [inst_3 : DecidableEq I₁₂] [inst_4 : K.HasTotal c₁₂] {A : C} {i₁₂ : I₁₂} {f g : (K.total c₁₂).X i₁₂ ⟶ A},
+    (∀ (i₁ : I₁) (i₂ : I₂) (hi : c₁.π c₂ c₁₂ (i₁, i₂) = i₁₂),
+        K.ιTotal c₁₂ i₁ i₂ i₁₂ hi ≫ f = K.ιTotal c₁₂ i₁ i₂ i₁₂ hi ≫ g) →
+      f = g
+
+case h.hf.h
+k : Type u_1
+inst✝ : Ring k
+K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+L : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+X Y : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+f g : X ⟶ Y
+n : ℕ
+x✝ : ↑(((totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj X).X n)
+⊢ (ModuleCat.Hom.hom
+        (((totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map (f + g)).f
+          n))
+      x✝ =
+    (ModuleCat.Hom.hom
+        (((totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map f +
+              (totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)).map g).f
+          n))
+      x✝
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:98:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ConcreteCategory.hom ((Hom.f ?φ ?i).f ?j)) ((ConcreteCategory.hom (bicomplexTotalProjection ?m.185 ?n ?i ?j)) ?x)
+in the target expression
+  (ConcreteCategory.hom
+        ((S.map (eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i)).map
+            (eval (ModuleCat k) (ComplexShape.down ℕ) j)).g)
+      ((ConcreteCategory.hom (bicomplexTotalProjection S.X₂ n i j)) x) =
+    0
+
+case x
+k : Type u_1
+inst✝ : Ring k
+S : ShortComplex (HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ))
+hS : S.Exact
+n : ℕ
+x :
+  ↑((S.map (totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ))).map
+        (eval (ModuleCat k) (ComplexShape.down ℕ) n)).X₂
+hx :
+  (ConcreteCategory.hom
+        ((S.map (totalFunctor (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ))).map
+            (eval (ModuleCat k) (ComplexShape.down ℕ) n)).g)
+      x =
+    0
+i j : ℕ
+he :
+  ((S.map (eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i)).map
+      (eval (ModuleCat k) (ComplexShape.down ℕ) j)).Exact
+⊢ (ConcreteCategory.hom
+        ((S.map (eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i)).map
+            (eval (ModuleCat k) (ComplexShape.down ℕ) j)).g)
+      ((ConcreteCategory.hom (bicomplexTotalProjection S.X₂ n i j)) x) =
+    0
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:121:12: error: failed to synthesize
+  Mono ((eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i).map S.f)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/BicomplexTotalShortExact.lean:130:12: error: failed to synthesize
+  Mono ((eval (ChainComplex (ModuleCat k) ℕ) (ComplexShape.down ℕ) i).map S.f)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

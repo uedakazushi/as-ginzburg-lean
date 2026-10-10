@@ -1,0 +1,75 @@
+import work.ASGinzburgDraft.GradedOrdinaryMinimalSyzygies
+
+/-! The actual chain complex of recursively constructed ordinary graded
+covers is a genuine projective resolution. Its differentials have image
+in the actual ideal-action span and every term keeps the common bound. -/
+namespace ASGinzburg.GradedOrdinaryBoundedModule
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {A : ℤ → Submodule k R} {b : ℤ} {J : Ideal R}
+variable (C : ∀ M : GradedOrdinaryBoundedModule k R A b,
+  GradedOrdinaryProjectiveCover M.val b J)
+variable (M : GradedOrdinaryBoundedModule k R A b)
+
+noncomputable def complex : ChainComplex (ModuleCat.{v} R) ℕ :=
+  ChainComplex.of (term C M) (differential C M) (differential_sq C M)
+
+theorem complex_exactAt_succ (n : ℕ) : (complex C M).ExactAt (n + 1) := by
+  rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp)]
+  change (ShortComplex.mk ((complex C M).d (n + 2) (n + 1)) ((complex C M).d (n + 1) n) _).Exact
+  simpa only [show (complex C M).d (n + 2) (n + 1) = differential C M (n + 1)
+      from ChainComplex.of_d _ _ _ (n + 1),
+    show (complex C M).d (n + 1) n = differential C M n from ChainComplex.of_d _ _ _ n]
+    using differential_exact C M n
+
+noncomputable def augmentation :
+    complex C M ⟶ (ChainComplex.single₀ (ModuleCat.{v} R)).obj M.val.ringModule :=
+  (ChainComplex.toSingle₀Equiv _ _).symm ⟨cover C M 0, by
+    rw [show (complex C M).d 1 0 = differential C M 0 from ChainComplex.of_d _ _ _ 0]
+    exact differential_cover C M 0⟩
+
+noncomputable instance augmentation_quasiIso : QuasiIso (augmentation C M) := ⟨fun n => by
+  cases n
+  · rw [ChainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros']
+    · dsimp
+      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2
+        ⟨differential_cover_exact C M 0, inferInstance⟩
+      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
+        (by
+          simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]
+          exact (ChainComplex.of_d (term C M) (differential C M) (differential_sq C M) 0).symm)
+        (by simp [augmentation])
+    all_goals rfl
+  · rw [quasiIsoAt_iff_exactAt']
+    · exact complex_exactAt_succ C M _
+    · exact ChainComplex.exactAt_succ_single_obj _ _⟩
+
+noncomputable def resolution : ProjectiveResolution M.val.ringModule where
+  complex := complex C M
+  projective n := by change Projective (term C M n); infer_instance
+  π := augmentation C M
+  quasiIso := augmentation_quasiIso C M
+
+theorem resolution_d_minimal (n : ℕ) (x : (resolution C M).complex.X (n + 1)) :
+    (resolution C M).complex.d (n + 1) n x ∈
+      ordinaryIdealActionSpan k R ((resolution C M).complex.X n) J := by
+  rw [show (resolution C M).complex.d (n + 1) n = differential C M n
+    from ChainComplex.of_d _ _ _ n]
+  exact differential_minimal C M n x
+
+theorem resolution_grade_isInternal (n : ℕ) :
+    DirectSum.IsInternal (termData C M n).grade := (termData C M n).isInternal
+
+theorem resolution_grade_boundedBelow (n : ℕ) :
+    (termData C M n).BoundedBelow b := term_boundedBelow C M n
+
+theorem resolution_d_preservesGrade (n : ℕ) :
+    (termData C M (n + 1)).PreservesGrade (termData C M n)
+      ((resolution C M).complex.d (n + 1) n) := by
+  rw [show (resolution C M).complex.d (n + 1) n = differential C M n
+    from ChainComplex.of_d _ _ _ n]
+  exact differential_preservesGrade C M n
+
+end ASGinzburg.GradedOrdinaryBoundedModule

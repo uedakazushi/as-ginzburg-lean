@@ -1,0 +1,62 @@
+import Mathlib.Algebra.DirectSum.Decomposition
+import Mathlib.LinearAlgebra.Span.Basic
+
+/-! The homogeneous core of an actual submodule is contained in it,
+is homogeneous, and is stable under homogeneous operators preserving
+the original submodule. No grading of the full scalar ring is required. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v
+variable (k : Type u) [Field k] (M : Type v) [AddCommGroup M] [Module k M]
+variable (G : ℤ → Submodule k M) [DirectSum.Decomposition G]
+variable (S : Submodule k M)
+
+def homogeneousCore : Submodule k M := ⨆ q : ℤ, G q ⊓ S
+
+omit [DirectSum.Decomposition G] in
+theorem homogeneousCore_le : homogeneousCore k M G S ≤ S :=
+  iSup_le fun _ => inf_le_right
+
+omit [DirectSum.Decomposition G] in
+theorem mem_homogeneousCore_of_mem (q : ℤ) (x : M)
+    (hx : x ∈ G q) (hS : x ∈ S) : x ∈ homogeneousCore k M G S :=
+  Submodule.mem_iSup_of_mem q ⟨hx,hS⟩
+
+theorem homogeneousCore_component_mem (q : ℤ) (x : M)
+    (hx : x ∈ homogeneousCore k M G S) :
+    (DirectSum.decompose G x q : M) ∈ homogeneousCore k M G S := by
+  let L : M →ₗ[k] M := (G q).subtype.comp
+    ((DirectSum.component k ℤ (fun r => G r) q).comp
+      (DirectSum.decomposeLinearEquiv G).toLinearMap)
+  have h : homogeneousCore k M G S ≤ (homogeneousCore k M G S).comap L := by
+    apply iSup_le
+    intro r y hy
+    change (DirectSum.decompose G y q : M) ∈ homogeneousCore k M G S
+    by_cases hr : r=q
+    · subst r
+      rw [DirectSum.decompose_of_mem_same G hy.1]
+      exact mem_homogeneousCore_of_mem k M G S q y hy.1 hy.2
+    · rw [DirectSum.decompose_of_mem_ne G hy.1 hr]
+      exact Submodule.zero_mem _
+  exact h hx
+
+theorem mem_homogeneousCore_of_components_mem (x : M)
+    (hx : ∀ q : ℤ, (DirectSum.decompose G x q : M) ∈ S) :
+    x ∈ homogeneousCore k M G S := by
+  classical
+  rw [← DirectSum.sum_support_decompose G x]
+  exact Submodule.sum_mem _ fun q _ =>
+    mem_homogeneousCore_of_mem k M G S q _ (DirectSum.decompose G x q).property (hx q)
+
+theorem homogeneousCore_map_mem (f : M →ₗ[k] M) (d : ℤ)
+    (hf : ∀ (q : ℤ) (x : M), x ∈ G q → f x ∈ G (q+d))
+    (hS : ∀ x : M, x ∈ S → f x ∈ S) (x : M)
+    (hx : x ∈ homogeneousCore k M G S) :
+    f x ∈ homogeneousCore k M G S := by
+  have h : homogeneousCore k M G S ≤ (homogeneousCore k M G S).comap f := by
+    apply iSup_le
+    intro q y hy
+    exact mem_homogeneousCore_of_mem k M G S (q+d) (f y) (hf q y hy.1) (hS y hy.2)
+  exact h hx
+
+end ASGinzburg

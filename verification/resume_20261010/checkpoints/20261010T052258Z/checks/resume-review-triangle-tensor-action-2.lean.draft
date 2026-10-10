@@ -1,0 +1,58 @@
+import ASGinzburg.Tensor333
+import Mathlib.GroupTheory.GroupAction.Quotient
+
+/-! The actual product of the three arrow-space general linear groups and
+its usual tensor-product action in Corollary 5.2. -/
+namespace ASGinzburg
+universe u
+variable (k : Type u) [Field k]
+
+abbrev TriangleGL333 :=
+  (ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) ×
+    ((ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k) ×
+      (ArrowSpace333 k ≃ₗ[k] ArrowSpace333 k))
+
+noncomputable def triangleTensorRepresentation :
+    TriangleGL333 k →* (CubicTensor333 k ≃ₗ[k] CubicTensor333 k) where
+  toFun g := arrowBasisChange333 k g.1 g.2.1 g.2.2
+  map_one' := by
+    change TensorProduct.congr (LinearEquiv.refl k _) (TensorProduct.congr
+      (LinearEquiv.refl k _) (LinearEquiv.refl k _)) = LinearEquiv.refl k _
+    rw [TensorProduct.congr_refl_refl, TensorProduct.congr_refl_refl]
+  map_mul' g h := by
+    simp only [Prod.fst_mul, Prod.snd_mul, arrowBasisChange333,
+      TensorProduct.congr_mul]
+
+noncomputable instance triangleTensorMulAction :
+    MulAction (TriangleGL333 k) (CubicTensor333 k) where
+  smul g w := triangleTensorRepresentation k g w
+  one_smul w := by
+    change triangleTensorRepresentation k 1 w = w
+    rw [map_one]
+    rfl
+  mul_smul g h w := by
+    change triangleTensorRepresentation k (g * h) w =
+      triangleTensorRepresentation k g (triangleTensorRepresentation k h w)
+    rw [map_mul]
+    rfl
+
+theorem triangleTensor_smul_tmul (g : TriangleGL333 k)
+    (x y z : ArrowSpace333 k) :
+    g • (x ⊗ₜ[k] (y ⊗ₜ[k] z)) =
+      g.1 x ⊗ₜ[k] (g.2.1 y ⊗ₜ[k] g.2.2 z) :=
+  arrowBasisChange333_tmul k g.1 g.2.1 g.2.2 x y z
+
+abbrev TriangleTensorOrbit :=
+  Quotient (MulAction.orbitRel (TriangleGL333 k) (CubicTensor333 k))
+
+def triangleTensorOrbit (w : CubicTensor333 k) : TriangleTensorOrbit k :=
+  Quotient.mk _ w
+
+theorem triangleTensorOrbit_eq_iff (w w' : CubicTensor333 k) :
+    triangleTensorOrbit k w = triangleTensorOrbit k w' ↔
+      ∃ g : TriangleGL333 k, g • w = w' := by
+  rw [triangleTensorOrbit, triangleTensorOrbit, Quotient.eq]
+  change w ∈ MulAction.orbit (TriangleGL333 k) w' ↔ _
+  rw [MulAction.mem_orbit_symm, MulAction.mem_orbit_iff]
+
+end ASGinzburg

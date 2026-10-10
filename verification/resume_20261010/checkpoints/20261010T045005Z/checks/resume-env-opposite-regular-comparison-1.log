@@ -1,0 +1,75 @@
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:41:29: error(lean.unknownIdentifier): Unknown constant `Module.End.zero_apply`
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:40:11: error: unsolved goals
+case zero
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+x : ↑(regularEnvelopingModuleCat k Rᵐᵒᵖ)
+⊢ MulOpposite.unop (0 x) = 0 (MulOpposite.unop x)
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:45:50: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (algebraEnvelopingOppositeAlgEquiv ?k ?R) (MulOpposite.op ?a ⊗ₜ[?k] MulOpposite.op (MulOpposite.op ?b))
+in the target expression
+  MulOpposite.unop (MulOpposite.op (MulOpposite.unop a) * x * MulOpposite.op (MulOpposite.unop (MulOpposite.unop b))) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) (a ⊗ₜ[k] b))) (MulOpposite.unop x)
+
+case tmul
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+x : ↑(regularEnvelopingModuleCat k Rᵐᵒᵖ)
+a : Rᵐᵒᵖ
+b : Rᵐᵒᵖᵐᵒᵖ
+⊢ MulOpposite.unop (MulOpposite.op (MulOpposite.unop a) * x * MulOpposite.op (MulOpposite.unop (MulOpposite.unop b))) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) (a ⊗ₜ[k] b))) (MulOpposite.unop x)
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:49:28: error(lean.unknownIdentifier): Unknown constant `Module.End.add_apply`
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:48:20: error: unsolved goals
+case add
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+x : ↑(regularEnvelopingModuleCat k Rᵐᵒᵖ)
+t s : Rᵐᵒᵖ ⊗[k] Rᵐᵒᵖᵐᵒᵖ
+ht :
+  MulOpposite.unop (((regularEnvelopingRepresentation k Rᵐᵒᵖ) t) x) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) t)) (MulOpposite.unop x)
+hs :
+  MulOpposite.unop (((regularEnvelopingRepresentation k Rᵐᵒᵖ) s) x) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) s)) (MulOpposite.unop x)
+⊢ MulOpposite.unop (((regularEnvelopingRepresentation k Rᵐᵒᵖ) t + (regularEnvelopingRepresentation k Rᵐᵒᵖ) s) x) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) t) +
+        (regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) s))
+      (MulOpposite.unop x)
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:41:52: warning: This simp argument is unused:
+  MulOpposite.unop_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [map_zero, Module.End.zero_apply,̵ ̵M̵u̵l̵O̵p̵p̵o̵s̵i̵t̵e̵.̵u̵n̵o̵p̵_̵z̵e̵r̵o̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:49:50: warning: This simp argument is unused:
+  MulOpposite.unop_add
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, Module.End.add_apply, M̵u̵l̵O̵p̵p̵o̵s̵i̵t̵e̵.̵u̵n̵o̵p̵_̵a̵d̵d̵,̵ ̵ht, hs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:49:72: warning: This simp argument is unused:
+  ht
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, Module.End.add_apply, MulOpposite.unop_add, ht̵,̵ ̵h̵s]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/AlgebraEnvelopingOppositeRegularComparison.lean:49:76: warning: This simp argument is unused:
+  hs
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, Module.End.add_apply, MulOpposite.unop_add, ht,̵ ̵h̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

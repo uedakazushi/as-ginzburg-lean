@@ -1,0 +1,80 @@
+import work.ASGinzburgDraft.DirectSumModuleSwap
+import Mathlib.Algebra.DirectSum.Decomposition
+
+/-! An arbitrary direct sum of genuinely graded modules has its actual
+coordinatewise internal grading. The construction commutes the two
+direct sums and maps each grade into the ordinary direct-sum module. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z
+variable (k : Type u) [Field k]
+variable {ι : Type v} {κ : Type w} [DecidableEq ι] [DecidableEq κ]
+variable (M : ι → Type z) [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
+variable (G : ∀ i, κ → Submodule k (M i)) [∀ i, DirectSum.Decomposition (G i)]
+
+def directSumGradeInclusion (q : κ) : (⨁ i, G i q) →ₗ[k] (⨁ i, M i) :=
+  DirectSum.lmap (fun i => (G i q).subtype)
+
+def directSumGrade (q : κ) : Submodule k (⨁ i, M i) :=
+  LinearMap.range (directSumGradeInclusion k M G q)
+
+noncomputable def directSumGradeEquiv (q : κ) :
+    (⨁ i, G i q) ≃ₗ[k] directSumGrade k M G q :=
+  LinearEquiv.ofInjective (directSumGradeInclusion k M G q)
+    ((DirectSum.lmap_injective _).mpr (fun _ => Subtype.val_injective))
+
+noncomputable def directSumGradingLinearEquiv :
+    (⨁ i, M i) ≃ₗ[k] (⨁ q, directSumGrade k M G q) :=
+  (DFinsupp.mapRange.linearEquiv (fun i => DirectSum.decomposeLinearEquiv (G i))).trans
+    ((directSumModuleSwap k (fun i q => G i q)).trans
+      (DFinsupp.mapRange.linearEquiv (fun q => directSumGradeEquiv k M G q)))
+
+theorem directSumGradingLinearEquiv_of_mem (i : ι) (q : κ) (x : M i) (hx : x ∈ G i q) :
+    directSumGradingLinearEquiv k M G (DirectSum.of M i x) =
+      DirectSum.of _ q (directSumGradeEquiv k M G q
+        (DirectSum.of (fun i => G i q) i ⟨x, hx⟩)) := by
+  change DirectSum.lmap (fun q => (directSumGradeEquiv k M G q).toLinearMap)
+    (directSumModuleSwap k (fun i q => G i q)
+      (DirectSum.lmap (fun i => (DirectSum.decomposeLinearEquiv (G i)).toLinearMap)
+        (DirectSum.of M i x))) = _
+  rw [DirectSum.lmap_of]
+  change DirectSum.lmap (fun q => (directSumGradeEquiv k M G q).toLinearMap)
+    (directSumModuleSwap k (fun i q => G i q)
+      (DirectSum.of _ i (DirectSum.decompose (G i) x))) = _
+  rw [DirectSum.decompose_of_mem (G i) hx, directSumModuleSwap_of_of, DirectSum.lmap_of]
+  rfl
+
+noncomputable def directSumGradeDecomposition :
+    DirectSum.Decomposition (directSumGrade k M G) := by
+  let L := (directSumGradingLinearEquiv k M G).toLinearMap
+  have hLeft : (DirectSum.coeLinearMap (directSumGrade k M G)).comp L = LinearMap.id := by
+    apply DirectSum.linearMap_ext
+    intro i
+    apply LinearMap.ext
+    intro x
+    induction x using DirectSum.Decomposition.inductionOn (G i) with
+    | zero => simp
+    | add x y hx hy => simp [map_add, hx, hy]
+    | homogeneous q x =>
+      change DirectSum.coeLinearMap (directSumGrade k M G)
+        (directSumGradingLinearEquiv k M G (DirectSum.of M i x.val)) = DirectSum.of M i x.val
+      rw [directSumGradingLinearEquiv_of_mem k M G i q x.val x.property, DirectSum.coeLinearMap_of]
+      change DirectSum.lmap (fun i => (G i q).subtype)
+        (DirectSum.of _ i x) = DirectSum.of M i x.val
+      rw [DirectSum.lmap_of]
+  apply DirectSum.Decomposition.ofLinearMap (directSumGrade k M G) L hLeft
+  apply LinearMap.ext
+  intro x
+  obtain ⟨y, rfl⟩ := (directSumGradingLinearEquiv k M G).surjective x
+  change L (DirectSum.coeLinearMap (directSumGrade k M G) (L y)) = L y
+  exact congrArg L (DFunLike.congr_fun hLeft y)
+
+omit [∀ i, DirectSum.Decomposition (G i)] [DecidableEq ι] [DecidableEq κ] in
+theorem directSumGrade_mem_iff (q : κ) (x : ⨁ i, M i) :
+    x ∈ directSumGrade k M G q ↔ ∀ i, x i ∈ G i q := by
+  rw [directSumGrade, directSumGradeInclusion, DirectSum.range_lmap]
+  simp only [Submodule.mem_comap, Submodule.mem_pi, Set.mem_univ, true_implies,
+    Submodule.range_subtype]
+  rfl
+
+end ASGinzburg

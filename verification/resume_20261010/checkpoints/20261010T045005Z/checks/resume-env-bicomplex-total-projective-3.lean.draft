@@ -1,0 +1,27 @@
+import Mathlib.Algebra.Homology.TotalComplex
+import Mathlib.CategoryTheory.Preadditive.Projective.Basic
+
+/-! Projectivity of the actual diagonal coproducts in a total complex. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+variable {C I₁ I₂ J : Type*} [Category C] [Preadditive C]
+variable {c₁ : ComplexShape I₁} {c₂ : ComplexShape I₂}
+
+theorem bicomplexTotal_projective
+    (K : HomologicalComplex₂ C c₁ c₂) (c : ComplexShape J)
+    [DecidableEq J] [TotalComplexShape c₁ c₂ c] [K.HasTotal c]
+    [∀ i₁ i₂, Projective ((K.X i₁).X i₂)] (j : J) :
+    Projective ((K.total c).X j) := by
+  change Projective (∐ (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j))
+  letI : ∀ i, Projective (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j i) :=
+    fun i => inferInstanceAs (Projective ((K.X i.1.1).X i.1.2))
+  letI : HasCoproduct (K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c) j) :=
+    inferInstance
+  refine ⟨fun {X E} f e he => ?_⟩
+  letI : Epi e := he
+  refine ⟨Sigma.desc (fun i => Projective.factorThru (Sigma.ι _ i ≫ f) e), ?_⟩
+  apply Sigma.hom_ext
+  intro i
+  simp only [Category.assoc, Sigma.ι_desc_assoc, Projective.factorThru_comp]
+
+end ASGinzburg

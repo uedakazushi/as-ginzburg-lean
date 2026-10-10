@@ -1,0 +1,133 @@
+import ASGinzburg.Triangle333
+import ASGinzburg.PathUnrolling
+
+/-! Actual length-one path coordinates for the three arrow spaces in
+Corollary 5.2. -/
+
+namespace ASGinzburg
+
+def triangleEdgeTarget (s : Fin 3) : Fin 3 :=
+  ⟨(s.val + 1) % 3, Nat.mod_lt _ (by decide)⟩
+
+def triangleEdgeArrow (s i : Fin 3) : triangle333.Arrow :=
+  ⟨3 * s.val + i.val, by change 3 * s.val + i.val < 9; omega⟩
+
+def triangleEdgePath (s i : Fin 3) : triangle333.Path s (triangleEdgeTarget s) :=
+  (CutQuiver.Path.snoc (.nil s) (triangleEdgeArrow s i)
+    (by apply Fin.ext; dsimp [triangle333, triangleEdgeArrow]; omega)).transport rfl
+    (by apply Fin.ext; dsimp [triangle333, triangleEdgeArrow, triangleEdgeTarget]; omega)
+
+@[simp] theorem triangleEdgePath_length (s i : Fin 3) :
+    (triangleEdgePath s i).length = 1 := by
+  simp [triangleEdgePath, CutQuiver.Path.length]
+
+@[simp] theorem triangleEdgePath_toList (s i : Fin 3) :
+    (triangleEdgePath s i).toList = [triangleEdgeArrow s i] := by
+  simp [triangleEdgePath, CutQuiver.Path.toList]
+
+theorem triangleLengthOnePathArrow {s t : triangle333.Vertex}
+    (p : triangle333.Path s t) (hp : p.length = 1) :
+    ∃ a : triangle333.Arrow,
+      triangle333.source a = s ∧ triangle333.target a = t ∧ p.toList = [a] := by
+  cases p with
+  | nil => simp [CutQuiver.Path.length] at hp
+  | @snoc t p a ha =>
+    have hp0 : p.length = 0 := by
+      simp only [CutQuiver.Path.length] at hp
+      omega
+    cases p with
+    | nil => exact ⟨a, ha, rfl, by simp [CutQuiver.Path.toList]⟩
+    | snoc p b hb => simp [CutQuiver.Path.length] at hp0
+
+noncomputable def triangleEdgePathIndexEquiv (s : Fin 3) :
+    Fin 3 ≃ {p : triangle333.Path s (triangleEdgeTarget s) // p.length = 1} :=
+  Equiv.ofBijective (fun i => ⟨triangleEdgePath s i, triangleEdgePath_length s i⟩) (by
+    constructor
+    · intro i j h
+      have hword := congrArg (fun p => p.val.toList) h
+      simp only [triangleEdgePath_toList, List.singleton_inj] at hword
+      have hv := congrArg Fin.val hword
+      apply Fin.ext
+      dsimp [triangleEdgeArrow] at hv
+      omega
+    · intro p
+      obtain ⟨a, ha, _, hword⟩ := triangleLengthOnePathArrow p.val p.property
+      have hav : a.val / 3 = s.val := congrArg Fin.val ha
+      let i : Fin 3 := ⟨a.val % 3, Nat.mod_lt _ (by decide)⟩
+      have hai : triangleEdgeArrow s i = a := by
+        apply Fin.ext
+        dsimp [triangleEdgeArrow, i]
+        omega
+      refine ⟨i, Subtype.ext ?_⟩
+      apply CutQuiver.Path.toList_injective
+      rw [triangleEdgePath_toList, hai, hword])
+
+def triangleXPath (i : Fin 3) : triangle333.Path 0 1 := triangleEdgePath 0 i
+
+def triangleYPath (i : Fin 3) : triangle333.Path 1 2 := triangleEdgePath 1 i
+
+def triangleZPath (i : Fin 3) : triangle333.Path 2 0 := triangleEdgePath 2 i
+
+@[simp] theorem triangleXPath_toList (i : Fin 3) :
+    (triangleXPath i).toList = [triangleX i] := by
+  simp [triangleXPath, triangleEdgeArrow, triangleX]
+
+@[simp] theorem triangleYPath_toList (i : Fin 3) :
+    (triangleYPath i).toList = [triangleY i] := by
+  simp [triangleYPath, triangleEdgeArrow, triangleY]
+
+@[simp] theorem triangleZPath_toList (i : Fin 3) :
+    (triangleZPath i).toList = [triangleZ i] := by
+  simp [triangleZPath, triangleEdgeArrow, triangleZ]
+
+universe u
+variable (k : Type u) [Field k]
+
+noncomputable def triangleEdgeArrowEquiv (s : Fin 3) :
+    ArrowSpace333 k ≃ₗ[k]
+      Finsupp.supported k k
+        {p : triangle333.Path s (triangleEdgeTarget s) | p.length = 1} :=
+  (Finsupp.linearEquivFunOnFinite k k (Fin 3)).symm.trans
+    ((Finsupp.domLCongr (triangleEdgePathIndexEquiv s)).trans
+      (Finsupp.supportedEquivFinsupp (M := k) (R := k) _).symm)
+
+@[simp] theorem triangleEdgeArrowEquiv_single (s i : Fin 3) (a : k) :
+    ((triangleEdgeArrowEquiv k s (Pi.single i a)) :
+      triangle333.PathComponent k s (triangleEdgeTarget s)) =
+      Finsupp.single (triangleEdgePath s i) a := by
+  classical
+  simp [triangleEdgeArrowEquiv, Finsupp.linearEquivFunOnFinite_symm_single,
+    Finsupp.domLCongr_single, Finsupp.supportedEquivFinsupp_symm_single,
+    triangleEdgePathIndexEquiv]
+
+noncomputable def triangleXArrowEquiv :
+    ArrowSpace333 k ≃ₗ[k]
+      Finsupp.supported k k {p : triangle333.Path 0 1 | p.length = 1} :=
+  triangleEdgeArrowEquiv k 0
+
+noncomputable def triangleYArrowEquiv :
+    ArrowSpace333 k ≃ₗ[k]
+      Finsupp.supported k k {p : triangle333.Path 1 2 | p.length = 1} :=
+  triangleEdgeArrowEquiv k 1
+
+noncomputable def triangleZArrowEquiv :
+    ArrowSpace333 k ≃ₗ[k]
+      Finsupp.supported k k {p : triangle333.Path 2 0 | p.length = 1} :=
+  triangleEdgeArrowEquiv k 2
+
+@[simp] theorem triangleXArrowEquiv_single (i : Fin 3) (a : k) :
+    ((triangleXArrowEquiv k (Pi.single i a)) : triangle333.PathComponent k 0 1) =
+      Finsupp.single (triangleXPath i) a :=
+  triangleEdgeArrowEquiv_single k 0 i a
+
+@[simp] theorem triangleYArrowEquiv_single (i : Fin 3) (a : k) :
+    ((triangleYArrowEquiv k (Pi.single i a)) : triangle333.PathComponent k 1 2) =
+      Finsupp.single (triangleYPath i) a :=
+  triangleEdgeArrowEquiv_single k 1 i a
+
+@[simp] theorem triangleZArrowEquiv_single (i : Fin 3) (a : k) :
+    ((triangleZArrowEquiv k (Pi.single i a)) : triangle333.PathComponent k 2 0) =
+      Finsupp.single (triangleZPath i) a :=
+  triangleEdgeArrowEquiv_single k 2 i a
+
+end ASGinzburg

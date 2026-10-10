@@ -1,0 +1,128 @@
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:37:2: error: Application type mismatch: The argument
+  CutQuiver.Path.snoc
+has type
+  CutQuiver.Path ?m.12 ?m.13 ?m.14 →
+    (a : CutQuiver.Arrow ?m.12) →
+      CutQuiver.source ?m.12 a = ?m.14 → CutQuiver.Path ?m.12 ?m.13 (CutQuiver.target ?m.12 a)
+but is expected to have type
+  triangle333.Path ?m.5 (triangle333.target (triangleZ xyz.2.2))
+in the application
+  pathTargetCast triangle333 ⋯ CutQuiver.Path.snoc
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:47:2: error: unsolved goals
+case refine_1
+xyz : Triple333
+⊢ (sorry ()).cutDegree = 1
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:49:2: error: unsolved goals
+case refine_2
+xyz : Triple333
+⊢ 3 ≤ (sorry ()).length
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:50:2: error: unsolved goals
+case refine_3
+xyz : Triple333
+⊢ wordClass (sorry ()).toList = wordClass [triangleX xyz.1, triangleY xyz.2.1, triangleZ xyz.2.2]
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:47:10: warning: declaration uses 'sorry'
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:47:29: warning: This simp argument is unused:
+  path_target_cast_cutDegree
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, p̵a̵t̵h̵_̵t̵a̵r̵g̵e̵t̵_̵c̵a̵s̵t̵_̵c̵u̵t̵D̵e̵g̵r̵e̵e̵,̵ ̵CutQuiver.Path.cutDegree, CutQuiver.cutDegree, triangleX_cut,
+  ̲  ̲ ̲ ̲triangleY_cut, triangleZ_cut]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:47:57: warning: This simp argument is unused:
+  CutQuiver.Path.cutDegree
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_cutDegree, C̵u̵t̵Q̵u̵i̵v̵e̵r̵.̵P̵a̵t̵h̵.̵c̵u̵t̵D̵e̵g̵r̵e̵e̵,̵CutQuiver.cutDegree, triangleX_cut,
+  ̲  ̲ ̲ ̲triangleY_cut, triangleZ_cut]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:48:6: warning: This simp argument is unused:
+  CutQuiver.cutDegree
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_cutDegree, CutQuiver.Path.cutDegree, C̵u̵t̵Q̵u̵i̵v̵e̵r̵.̵c̵u̵t̵D̵e̵g̵r̵e̵e̵,̵ ̵triangleX_cut,
+  ̲  ̲ ̲ ̲triangleY_cut, triangleZ_cut]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:48:27: warning: This simp argument is unused:
+  triangleX_cut
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_cutDegree, CutQuiver.Path.cutDegree,
+       ̵ ̵CutQuiver.cutDegree, triangleX̵_̵c̵u̵t̵,̵ ̵t̵r̵i̵a̵n̵g̵l̵e̵Y_cut, triangleZ_cut]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:48:42: warning: This simp argument is unused:
+  triangleY_cut
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_cutDegree, CutQuiver.Path.cutDegree,
+       ̵ ̵CutQuiver.cutDegree, triangleX_cut, triangleY̵_̵c̵u̵t̵,̵ ̵t̵r̵i̵a̵n̵g̵l̵e̵Z_cut]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:48:57: warning: This simp argument is unused:
+  triangleZ_cut
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_cutDegree, CutQuiver.Path.cutDegree,
+       ̵ ̵CutQuiver.cutDegree, triangleX_cut, triangleY_cut,̵ ̵t̵r̵i̵a̵n̵g̵l̵e̵Z̵_̵c̵u̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:49:29: warning: This simp argument is unused:
+  path_target_cast_length
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, p̵a̵t̵h̵_̵t̵a̵r̵g̵e̵t̵_̵c̵a̵s̵t̵_̵l̵e̵n̵g̵t̵h̵,̵ ̵CutQuiver.Path.length]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:49:54: warning: This simp argument is unused:
+  CutQuiver.Path.length
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_length,̵ ̵C̵u̵t̵Q̵u̵i̵v̵e̵r̵.̵P̵a̵t̵h̵.̵l̵e̵n̵g̵t̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:50:29: warning: This simp argument is unused:
+  path_target_cast_toList
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, p̵a̵t̵h̵_̵t̵a̵r̵g̵e̵t̵_̵c̵a̵s̵t̵_̵t̵o̵L̵i̵s̵t̵,̵ ̵CutQuiver.Path.toList, triangleCubicWordClass]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:50:54: warning: This simp argument is unused:
+  CutQuiver.Path.toList
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCubicPath, path_target_cast_toList, C̵u̵t̵Q̵u̵i̵v̵e̵r̵.̵P̵a̵t̵h̵.̵t̵o̵L̵i̵s̵t̵,̵triangleCubicWordClass]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:194:55: error: unsolved goals
+k : Type u
+inst✝ : Field k
+xyz : Triple333
+c : k
+⊢ ↑((Finsupp.supportedEquivFinsupp triangle333.potentialClasses).symm
+        (Finsupp.single (triangleCubicClassEquiv xyz) c)) =
+    Finsupp.single (triangleCubicWordClass xyz) c
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:196:43: warning: This simp argument is unused:
+  Finsupp.domLCongr_single
+
+Hint: Omit it from the simp argument list.
+  simp [triangleCoefficientPotentialEquiv,̵ ̵F̵i̵n̵s̵u̵p̵p̵.̵d̵o̵m̵L̵C̵o̵n̵g̵r̵_̵s̵i̵n̵g̵l̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:207:52: error: Application type mismatch: The argument
+  hc
+has type
+  c = ∑ xyz, Pi.single xyz (c xyz)
+but is expected to have type
+  (triangleCoefficientPotentialEquiv k) c = (triangleCoefficientPotentialEquiv k) (∑ xyz, Pi.single xyz (c xyz))
+in the application
+  congrArg Subtype.val hc
+work/ASGinzburgDraft/TrianglePotentialCoordinates.lean:223:77: error: unsolved goals
+case h
+k : Type u
+inst✝ : Field k
+xyz abc : Triple333
+⊢ (Finsupp.single xyz 1) abc = Pi.single xyz 1 abc

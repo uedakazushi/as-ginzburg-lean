@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/PathCyclicClasses.lean:24:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  LinearComponentAlgebra.totalComponent ?m.54 i i ?m.55 j j
+in the target expression
+  (Q.closedPathTrace k j) ((Q.pathComponentAlgebra k).totalComponent i i f j j) = 0
+
+case h₀
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i : Q.Vertex
+f : Q.PathComponent k i i
+j : Q.Vertex
+hj : j ∈ Finset.univ
+hji : j ≠ i
+⊢ (Q.closedPathTrace k j) ((Q.pathComponentAlgebra k).totalComponent i i f j j) = 0
+work/ASGinzburgDraft/PathCyclicClasses.lean:24:72: error: Application type mismatch: The argument
+  f
+has type
+  Q.PathComponent k i i
+but is expected to have type
+  LinearComponentAlgebra.Hom ?m.54 i i
+in the application
+  LinearComponentAlgebra.totalComponent_apply_source_ne ?m.54 i i j j f
+work/ASGinzburgDraft/PathCyclicClasses.lean:40:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  LinearComponentAlgebra.totalComponent ?B ?i ?l (((LinearComponentAlgebra.comp ?B) ?g) ?f)
+in the target expression
+  (Q.pathComponentAlgebra k).totalComponent i i (((Q.pathComp k) g) f) -
+      (Q.pathComponentAlgebra k).totalComponent j j (((Q.pathComp k) f) g) ∈
+    algebraCommutatorSubspace k (Q.PathRing k)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+i j : Q.Vertex
+f : Q.PathComponent k i j
+g : Q.PathComponent k j i
+⊢ (Q.pathComponentAlgebra k).totalComponent i i (((Q.pathComp k) g) f) -
+      (Q.pathComponentAlgebra k).totalComponent j j (((Q.pathComp k) f) g) ∈
+    algebraCommutatorSubspace k (Q.PathRing k)

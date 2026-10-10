@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeDecomposition.lean:25:54: error: Type mismatch
+  DirectSum.sigmaLcurryEquiv k
+has type
+  (@DirectSum ((x : ?m.115) × ?m.116 x) (fun i => ?m.117 i.fst i.snd) fun i => ?m.119 i.fst i.snd) ≃ₗ[k]
+    ⨁ (i : ?m.115) (j : ?m.116 i), ?m.117 i j
+but is expected to have type
+  (@DirectSum ((n : ℕ) × CutEnvelopingDegreePairs n) (fun d => E.CutEnvelopingBlock vertex ↑d.snd) fun i =>
+      TensorProduct.addCommMonoid) ≃ₗ[k]
+    ⨁ (n : ℕ), E.CutEnvelopingDegreeBlock vertex n
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeDecomposition.lean:28:0: error: Not a definitional equality: the left-hand side
+  (DFunLike.coe.{(max v w) + 1, 1, (max v w) + 1} ((E.cutEnvelopingDegreeEquiv vertex) x) n) d
+is not definitionally equal to the right-hand side
+  (DFunLike.coe.{max (v + 1) (w + 1), max (v + 1) (w + 1), max (v + 1) (w + 1)} (E.cutEnvelopingBigradingEquiv vertex)
+      x)
+    ↑d
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeDecomposition.lean:31:94: error: Type mismatch
+  rfl
+has type
+  ?m.33 = ?m.33
+but is expected to have type
+  (((E.cutEnvelopingDegreeEquiv vertex) x) n) d = ((E.cutEnvelopingBigradingEquiv vertex) x) ↑d

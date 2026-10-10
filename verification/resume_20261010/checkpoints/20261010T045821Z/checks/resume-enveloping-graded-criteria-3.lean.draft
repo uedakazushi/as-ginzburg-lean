@@ -1,0 +1,110 @@
+import work.ASGinzburgDraft.PeriodCutEnvelopingGradedActions
+import work.ASGinzburgDraft.PeriodCutEnvelopingGradedActionSpan
+import work.ASGinzburgDraft.PeriodCutEnvelopingKernelZeroNilpotence
+import work.ASGinzburgDraft.GradedNilpotentFiniteGeneration
+
+/-! Genuine bounded-below graded enveloping modules satisfy Nakayama,
+and a finite-dimensional actual augmentation top gives finite generation.
+The radical decomposition and zero-degree nilpotence are proved native
+facts, rather than additional hypotheses. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+variable (M : GradedOrdinaryModuleData k
+  (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+  (E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ))))
+attribute [local instance 3000] cutEnvelopingGradedModuleModule
+  cutEnvelopingGradedModuleSMul cutEnvelopingGradedModuleScalarTower
+  cutEnvelopingGradedModuleFieldModule cutEnvelopingGradedModuleFieldSMul
+attribute [local instance 2000] cutEnvelopingOppositeFactorScalarTower
+  cutEnvelopingOppositeFactorScalarComm cutGradedRingSelfScalarTower cutGradedRingSelfScalarComm
+  cutZeroSelfScalarTower cutZeroEnvelopingSelfSMul cutZeroEnvelopingSelfScalarTower
+attribute [local instance 2000] cutEnvelopingZeroRestrictedModule
+  cutEnvelopingZeroRestrictedSMul cutEnvelopingZeroRestrictedModuleScalarTower
+  cutEnvelopingZeroRestrictedRingModule cutEnvelopingZeroRestrictedRingSMul
+  cutEnvelopingZeroRestrictedModuleEnvelopingScalarTower
+
+theorem cutEnvelopingGradedModule_subsingleton_of_radical_top
+    (b : ℤ) (hb : M.BoundedBelow b)
+    (hRad : ordinaryIdealActionSpan k
+      (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+      M.ringModule (E.cutEnvelopingAugmentationKernel Q) = ⊤) :
+    Subsingleton M.ringModule := by
+  letI := E.cutEnvelopingGradedModuleModule Q M
+  letI := E.cutEnvelopingGradedModuleSMul Q M
+  letI := E.cutEnvelopingGradedModuleFieldModule Q M
+  letI := E.cutEnvelopingGradedModuleFieldSMul Q M
+  letI := E.cutEnvelopingGradedModuleScalarTower Q M
+  letI := E.cutEnvelopingZeroRestrictedModule Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedSMul Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedModuleScalarTower Q M.ringModule
+  letI := M.decomposition
+  have h₀ : ∀ q (a : AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0)) (x : M.ringModule),
+      x ∈ M.grade q → a • x ∈ M.grade q := by
+    intro q a x hx
+    change E.cutEnvelopingZeroInclusion Q a • x ∈ M.grade q
+    simpa only [zero_add] using M.smul_mem 0 q _
+      (E.cutEnvelopingZeroInclusion_mem_integerDegreeZero Q a) x hx
+  apply gradedModule_subsingleton_of_linear_grading_nilpotent_action_span_top k
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+    M.ringModule M.grade h₀
+    (E.cutEnvelopingPositiveOperatorDegree Q)
+    (E.cutEnvelopingPositiveModuleOperator Q M.ringModule)
+    (E.cutZeroEnvelopingAugmentationKernel Q) (2*Q.vertices)
+    (E.cutZeroEnvelopingAugmentationKernel_pow_eq_bot Q)
+    (E.cutEnvelopingPositiveOperatorDegree_pos Q)
+    (E.cutEnvelopingGradedModule_positiveAction_raises Q M) b hb
+  rw [← E.cutEnvelopingAugmentationKernel_moduleActionSpan_eq_gradedNilpotentActionSpan
+    Q M.ringModule]
+  exact hRad
+
+theorem cutEnvelopingGradedModule_finite_of_finite_top
+    [FiniteDimensional k (M.ringModule ⧸ ordinaryIdealActionSpan k
+      (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+      M.ringModule (E.cutEnvelopingAugmentationKernel Q))]
+    (b : ℤ) (hb : M.BoundedBelow b) :
+    Module.Finite
+      (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+      M.ringModule := by
+  letI := E.cutEnvelopingGradedModuleModule Q M
+  letI := E.cutEnvelopingGradedModuleSMul Q M
+  letI := E.cutEnvelopingGradedModuleFieldModule Q M
+  letI := E.cutEnvelopingGradedModuleFieldSMul Q M
+  letI := E.cutEnvelopingGradedModuleScalarTower Q M
+  letI := E.cutEnvelopingZeroRestrictedModule Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedSMul Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedModuleScalarTower Q M.ringModule
+  letI := E.cutEnvelopingZeroRestrictedRingModule Q
+  letI := E.cutEnvelopingZeroRestrictedRingSMul Q
+  letI := E.cutEnvelopingZeroRestrictedModuleEnvelopingScalarTower Q M.ringModule
+  letI := M.decomposition
+  have h₀ : ∀ q (a : AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0)) (x : M.ringModule),
+      x ∈ M.grade q → a • x ∈ M.grade q := by
+    intro q a x hx
+    change E.cutEnvelopingZeroInclusion Q a • x ∈ M.grade q
+    simpa only [zero_add] using M.smul_mem 0 q _
+      (E.cutEnvelopingZeroInclusion_mem_integerDegreeZero Q a) x hx
+  letI : FiniteDimensional k (M.ringModule ⧸ gradedNilpotentActionSpan k
+      (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+      M.ringModule (E.cutEnvelopingPositiveModuleOperator Q M.ringModule)
+      (E.cutZeroEnvelopingAugmentationKernel Q)) := by
+    rw [← E.cutEnvelopingAugmentationKernel_moduleActionSpan_eq_gradedNilpotentActionSpan
+      Q M.ringModule]
+    infer_instance
+  exact moduleFinite_of_boundedBelow_finite_radical_top k
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+    (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+    M.ringModule M.grade h₀
+    (E.cutEnvelopingPositiveOperatorDegree Q) (E.cutEnvelopingPositiveOperatorValue Q)
+    (E.cutEnvelopingPositiveModuleOperator Q M.ringModule)
+    (E.cutEnvelopingPositiveModuleOperator_apply Q M.ringModule)
+    (E.cutZeroEnvelopingAugmentationKernel Q) (2*Q.vertices)
+    (E.cutZeroEnvelopingAugmentationKernel_pow_eq_bot Q)
+    (E.cutEnvelopingPositiveOperatorDegree_pos Q)
+    (E.cutEnvelopingGradedModule_positiveAction_raises Q M) b hb
+
+end ASGinzburg.ZAlgebra.PeriodIso

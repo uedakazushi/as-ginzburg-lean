@@ -1,0 +1,89 @@
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:36:2: error: Too many variable names provided at alternative `homogeneous`: 2 provided, but 1 expected
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:37:22: error: Type mismatch
+  q
+has type
+  ℤ
+of sort `Type` but is expected to have type
+  ↥(G i✝)
+of sort `Type w`
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:38:17: error(lean.unknownIdentifier): Unknown identifier `x`
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:38:60: error: Application type mismatch: The argument
+  p
+has type
+  ↥(G i✝)
+of sort `Type w` but is expected to have type
+  ℤ
+of sort `Type` in the application
+  hLower p
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:38:65: error(lean.unknownIdentifier): Unknown identifier `x`
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:40:60: error: failed to synthesize
+  HAdd ↥(G i✝) ℤ ?m.131
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:41:11: error(lean.unknownIdentifier): Unknown identifier `x`
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:41:18: error: Application type mismatch: The argument
+  p
+has type
+  ↥(G i✝)
+of sort `Type w` but is expected to have type
+  ℤ
+of sort `Type` in the application
+  hf p
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:41:20: error(lean.unknownIdentifier): Unknown identifier `x`
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:41:22: error(lean.unknownIdentifier): Unknown identifier `x.property`
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:100:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (↑k (gradedZeroComponent R₀ M G q)) (?c • ?x)
+in the target expression
+  (gradedZeroComponent R₀ M G q) (c • y) ∈ Submodule.span k {y | ∃ r ∈ I₀, ∃ z, r • z = y}
+
+case smul
+k : Type u
+inst✝⁸ : Field k
+R₀ : Type v
+inst✝⁷ : Ring R₀
+inst✝⁶ : Algebra k R₀
+M : Type w
+inst✝⁵ : AddCommGroup M
+inst✝⁴ : Module k M
+inst✝³ : Module R₀ M
+inst✝² : IsScalarTower k R₀ M
+inst✝¹ : SMulCommClass k R₀ M
+G : ℤ → Submodule R₀ M
+inst✝ : DirectSum.Decomposition G
+ι : Type z
+d : ι → ℕ
+f : ι → M →ₗ[k] M
+I₀ : Ideal R₀
+N : ℕ
+hN : I₀ ^ N = ⊥
+hd : ∀ (t : ι), 0 < d t
+hf : ∀ (t : ι) (p : ℤ), ∀ x ∈ G p, (f t) x ∈ G (p + ↑(d t))
+b : ℤ
+hb : ∀ p < b, G p = ⊥
+hRad : gradedNilpotentActionSpan k R₀ M f I₀ = ⊤
+n : ℕ
+ih : ∀ q < b + ↑n, ∀ (x : ↥(G q)), x = 0
+q : ℤ
+hq : q < b + ↑(n + 1)
+x : ↥(G q)
+hprev : ¬q < b + ↑n
+hLower : ∀ p < q, ∀ (y : ↥(G p)), y = 0
+hPos : ∀ (t : ι) (x : M), (gradedZeroComponent R₀ M G q) ((f t) x) = 0
+y✝ : ↥(G q)
+hproj : (gradedZeroComponent R₀ M G q) ↑y✝ = y✝
+z : M
+c : k
+y : M
+hy : y ∈ Submodule.span k ({y | ∃ r ∈ I₀, ∃ x, r • x = y} ∪ {y | ∃ t x, (f t) x = y})
+ihy : (gradedZeroComponent R₀ M G q) y ∈ Submodule.span k {y | ∃ r ∈ I₀, ∃ z, r • z = y}
+⊢ (gradedZeroComponent R₀ M G q) (c • y) ∈ Submodule.span k {y | ∃ r ∈ I₀, ∃ z, r • z = y}
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:111:2: error: Too many variable names provided at alternative `homogeneous`: 2 provided, but 1 expected
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:111:54: error: Application type mismatch: The argument
+  q
+has type
+  ↥(G i✝)
+of sort `Type w` but is expected to have type
+  ℤ
+of sort `Type` in the application
+  hz q
+work/ASGinzburgDraft/GradedNilpotentNakayama.lean:111:56: error(lean.unknownIdentifier): Unknown identifier `x`

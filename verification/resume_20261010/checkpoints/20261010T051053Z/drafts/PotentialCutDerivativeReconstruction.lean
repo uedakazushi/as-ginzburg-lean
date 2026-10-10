@@ -1,0 +1,41 @@
+import ASGinzburg.PathCyclicDerivatives
+
+/-! The actual cut Euler identity (3.8) reconstructs a potential uniquely
+from its genuine path-valued cut derivatives, without regularity or
+characteristic assumptions beyond the existing field structure. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem potential_eq_of_cut_pathCyclicDerivative_eq (φ ψ : Q.Potential k)
+    (h : ∀ a : Q.Arrow, Q.cut a = true →
+      Q.pathCyclicDerivative k a φ = Q.pathCyclicDerivative k a ψ) : φ = ψ := by
+  apply Subtype.ext
+  rw [← Q.cut_cyclic_derivative_potential_identity k φ,
+    ← Q.cut_cyclic_derivative_potential_identity k ψ]
+  apply Finset.sum_congr rfl
+  intro a _
+  by_cases ha : Q.cut a = true
+  · simp [ha]
+    apply congrArg (prependTrace a)
+    have hd := congrArg (Q.pathWordMap k (Q.target a) (Q.source a)) (h a ha)
+    simpa only [Q.pathWordMap_pathCyclicDerivative] using hd
+  · simp only [ha, ↓reduceIte]
+
+noncomputable def cutPathDerivativeFamily :
+    Q.Potential k →ₗ[k]
+      ((a : {a : Q.Arrow // Q.cut a = true}) →
+        Q.PathComponent k (Q.target a.val) (Q.source a.val)) :=
+  LinearMap.pi (fun a => Q.pathCyclicDerivative k a.val)
+
+theorem cutPathDerivativeFamily_injective : Function.Injective (Q.cutPathDerivativeFamily k) := by
+  intro φ ψ h
+  apply Q.potential_eq_of_cut_pathCyclicDerivative_eq k φ ψ
+  intro a ha
+  exact congrFun h ⟨a,ha⟩
+
+noncomputable def cutPathDerivativeImageEquiv :
+    Q.Potential k ≃ₗ[k] LinearMap.range (Q.cutPathDerivativeFamily k) :=
+  LinearEquiv.ofInjective (Q.cutPathDerivativeFamily k) (Q.cutPathDerivativeFamily_injective k)
+
+end ASGinzburg.CutQuiver

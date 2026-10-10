@@ -1,0 +1,30 @@
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:151:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case f
+C : Type u_1
+D : Type u_2
+I₁ : Type u_3
+I₂ : Type u_4
+J : Type u_5
+inst✝¹⁰ : Category.{u_7, u_1} C
+inst✝⁹ : Category.{u_6, u_2} D
+inst✝⁸ : Preadditive C
+inst✝⁷ : Preadditive D
+c₁ : ComplexShape I₁
+c₂ : ComplexShape I₂
+G : C ⥤ D
+inst✝⁶ : G.Additive
+K : HomologicalComplex₂ C c₁ c₂
+c : ComplexShape J
+inst✝⁵ : DecidableEq J
+inst✝⁴ : TotalComplexShape c₁ c₂ c
+inst✝³ : K.HasTotal c
+inst✝² : ∀ (j : J), PreservesColimit (Discrete.functor (K.toGradedObject.mapObjFun (c₁.π c₂ c) j)) G
+L : HomologicalComplex₂ C c₁ c₂
+inst✝¹ : L.HasTotal c
+inst✝ : ∀ (j : J), PreservesColimit (Discrete.functor (L.toGradedObject.mapObjFun (c₁.π c₂ c) j)) G
+φ : K ⟶ L
+⊢ (HomologicalComplex₂.total.map (((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ) c ≫
+        (bicomplexTotalFunctorIso G L c).inv).f =
+    ((bicomplexTotalFunctorIso G K c).inv ≫ (G.mapHomologicalComplex c).map (HomologicalComplex₂.total.map φ c)).f
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:143:2: warning: declaration uses 'sorry'

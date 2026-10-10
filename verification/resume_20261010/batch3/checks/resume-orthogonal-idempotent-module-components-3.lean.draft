@@ -1,0 +1,52 @@
+import Mathlib.LinearAlgebra.Quotient.Basic
+
+/-! An actual module decomposes into the fixed spaces of a finite complete
+orthogonal family of idempotents. This applies degree by degree to the
+homogeneous top spaces used by idempotent projective covers. -/
+namespace ASGinzburg
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R M]
+  [SMulCommClass k R M]
+
+def idempotentFixedSpace (e : R) : Submodule k M where
+  carrier := {x : M | e • x = x}
+  zero_mem' := smul_zero e
+  add_mem' hx hy := by rw [smul_add, hx, hy]
+  smul_mem' c x hx := by rw [(smul_comm c e x).symm, hx]
+
+def idempotentComponentProjection (e : R) (he : e*e=e) :
+    M →ₗ[k] idempotentFixedSpace k R M e where
+  toFun x := ⟨e • x, by rw [← mul_smul, he]⟩
+  map_add' x y := Subtype.ext (smul_add e x y)
+  map_smul' c x := Subtype.ext (smul_comm c e x).symm
+
+variable {ι : Type z} [Fintype ι] [DecidableEq ι]
+variable (e : ι → R) (he : ∀ i : ι, e i * e i = e i)
+variable (horth : ∀ i j : ι, i ≠ j → e i * e j = 0) (hsum : ∑ i : ι, e i = 1)
+
+def completeOrthogonalModuleComponents :
+    M ≃ₗ[k] ∀ i : ι, idempotentFixedSpace k R M (e i) where
+  toFun x i := idempotentComponentProjection k R M (e i) (he i) x
+  invFun x := ∑ i : ι, (x i : M)
+  left_inv x := by
+    change ∑ i : ι, e i • x = x
+    rw [← Finset.sum_smul, hsum, one_smul]
+  right_inv x := by
+    funext i
+    apply Subtype.ext
+    change e i • ∑ j : ι, (x j : M) = (x i : M)
+    rw [Finset.smul_sum, Finset.sum_eq_single i]
+    · exact (x i).property
+    · intro j hj hji
+      rw [← (x j).property, ← mul_smul, horth i j hji.symm, zero_smul]
+    · intro hi
+      exact False.elim (hi (Finset.mem_univ i))
+  map_add' x y := by
+    funext i
+    exact (idempotentComponentProjection k R M (e i) (he i)).map_add x y
+  map_smul' c x := by
+    funext i
+    exact (idempotentComponentProjection k R M (e i) (he i)).map_smul c x
+
+end ASGinzburg

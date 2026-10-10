@@ -1,0 +1,246 @@
+import ASGinzburg.Triangle333
+import ASGinzburg.ClosedPathPotentials
+
+/-! Every actual cut-degree-one triangle potential has unique coefficients
+on the 27 cyclic words consisting of an X, a Y, and a Z arrow. -/
+namespace ASGinzburg
+
+def triangleCubicWordClass (xyz : Triple333) : CyclicWord triangle333.Arrow :=
+  wordClass [triangleX xyz.1, triangleY xyz.2.1, triangleZ xyz.2.2]
+
+theorem triangleZ_target_zero (z : Fin 3) : triangle333.target (triangleZ z) = 0 := by
+  apply Fin.ext
+  simp [triangle333, triangleZ]
+  omega
+
+def pathTargetCast (Q : CutQuiver) {s t t' : Q.Vertex}
+    (h : t = t') (p : Q.Path s t) : Q.Path s t' :=
+  Eq.rec (motive := fun t' _ => Q.Path s t') p h
+
+theorem path_target_cast_toList (Q : CutQuiver) {s t t' : Q.Vertex}
+    (h : t = t') (p : Q.Path s t) : (pathTargetCast Q h p).toList = p.toList := by
+  cases h
+  rfl
+
+theorem path_target_cast_cutDegree (Q : CutQuiver) {s t t' : Q.Vertex}
+    (h : t = t') (p : Q.Path s t) : (pathTargetCast Q h p).cutDegree = p.cutDegree := by
+  cases h
+  rfl
+
+theorem path_target_cast_length (Q : CutQuiver) {s t t' : Q.Vertex}
+    (h : t = t') (p : Q.Path s t) : (pathTargetCast Q h p).length = p.length := by
+  cases h
+  rfl
+
+def triangleCubicPath (xyz : Triple333) : triangle333.Path 0 0 :=
+  pathTargetCast triangle333 (triangleZ_target_zero xyz.2.2)
+  (.snoc (.snoc (.snoc (.nil 0) (triangleX xyz.1) (by
+    apply Fin.ext; simp [triangle333, triangleX]))
+      (triangleY xyz.2.1) (by
+        apply Fin.ext; simp [triangle333, triangleX, triangleY]; omega))
+        (triangleZ xyz.2.2) (by
+          apply Fin.ext; simp [triangle333, triangleY, triangleZ]; omega))
+
+theorem triangleCubicWordClass_mem (xyz : Triple333) :
+    triangleCubicWordClass xyz ∈ triangle333.potentialClasses := by
+  refine ⟨0, triangleCubicPath xyz, ?_, ?_, ?_⟩
+  · simp [triangleCubicPath, path_target_cast_cutDegree, CutQuiver.Path.cutDegree,
+      CutQuiver.cutDegree, triangleX_cut, triangleY_cut, triangleZ_cut]
+  · simp [triangleCubicPath, path_target_cast_length, CutQuiver.Path.length]
+  · simp [triangleCubicPath, path_target_cast_toList, CutQuiver.Path.toList,
+      triangleCubicWordClass]
+
+theorem triangleCubicWordClass_injective : Function.Injective triangleCubicWordClass := by
+  intro a b h
+  have hp := (Quotient.exact h).perm
+  have hx : triangleX a.1 ∈ [triangleX b.1, triangleY b.2.1, triangleZ b.2.2] :=
+    hp.mem_iff.mp (by simp)
+  have hy : triangleY a.2.1 ∈ [triangleX b.1, triangleY b.2.1, triangleZ b.2.2] :=
+    hp.mem_iff.mp (by simp)
+  have hz : triangleZ a.2.2 ∈ [triangleX b.1, triangleY b.2.1, triangleZ b.2.2] :=
+    hp.mem_iff.mp (by simp)
+  have hx' : a.1 = b.1 := by
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
+    rcases hx with hx | hx | hx <;>
+      have hv := congrArg Fin.val hx
+    · exact Fin.ext hv
+    · dsimp [triangleX, triangleY] at hv; omega
+    · dsimp [triangleX, triangleZ] at hv; omega
+  have hy' : a.2.1 = b.2.1 := by
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hy
+    rcases hy with hy | hy | hy <;>
+      have hv := congrArg Fin.val hy
+    · dsimp [triangleX, triangleY] at hv; omega
+    · apply Fin.ext; dsimp [triangleY] at hv; omega
+    · dsimp [triangleY, triangleZ] at hv; omega
+  have hz' : a.2.2 = b.2.2 := by
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hz
+    rcases hz with hz | hz | hz <;>
+      have hv := congrArg Fin.val hz
+    · dsimp [triangleX, triangleZ] at hv; omega
+    · dsimp [triangleY, triangleZ] at hv; omega
+    · apply Fin.ext; dsimp [triangleZ] at hv; omega
+  exact Prod.ext hx' (Prod.ext hy' hz')
+
+theorem path_length_three_arrows (Q : CutQuiver) {s t : Q.Vertex}
+    (p : Q.Path s t) (hp : p.length = 3) :
+    ∃ a b c : Q.Arrow, p.toList = [a, b, c] ∧
+      Q.source b = Q.target a ∧ Q.source c = Q.target b := by
+  cases p with
+  | nil => simp [CutQuiver.Path.length] at hp
+  | snoc p c hc =>
+    cases p with
+    | nil => simp [CutQuiver.Path.length] at hp
+    | snoc p b hb =>
+      cases p with
+      | nil => simp [CutQuiver.Path.length] at hp
+      | snoc p a ha =>
+        cases p with
+        | nil => exact ⟨a, b, c, rfl, hb, hc⟩
+        | snoc p d hd => simp [CutQuiver.Path.length] at hp
+
+theorem triangle_composable_triple_normal_form
+    (a b c : triangle333.Arrow)
+    (hb : triangle333.source b = triangle333.target a)
+    (hc : triangle333.source c = triangle333.target b) :
+    ∃ xyz : Triple333, wordClass [a,b,c] = triangleCubicWordClass xyz := by
+  have hb' := congrArg Fin.val hb
+  have hc' := congrArg Fin.val hc
+  change b.val / 3 = (a.val / 3 + 1) % 3 at hb'
+  change c.val / 3 = (b.val / 3 + 1) % 3 at hc'
+  have ha9 : a.val < 9 := a.isLt
+  have hb9 : b.val < 9 := b.isLt
+  have hc9 : c.val < 9 := c.isLt
+  by_cases ha3 : a.val < 3
+  · have hb3 : 3 ≤ b.val ∧ b.val < 6 := by omega
+    have hc6 : 6 ≤ c.val := by omega
+    let x : Fin 3 := ⟨a.val, ha3⟩
+    let y : Fin 3 := ⟨b.val - 3, by omega⟩
+    let z : Fin 3 := ⟨c.val - 6, by omega⟩
+    have hx : a = triangleX x := Fin.ext rfl
+    have hy : b = triangleY y := by apply Fin.ext; dsimp [triangleY, y]; omega
+    have hz : c = triangleZ z := by apply Fin.ext; dsimp [triangleZ, z]; omega
+    exact ⟨(x,y,z), by rw [hx,hy,hz]; rfl⟩
+  · by_cases ha6 : a.val < 6
+    · have ha3' : 3 ≤ a.val := by omega
+      have hb6 : 6 ≤ b.val := by omega
+      have hc3 : c.val < 3 := by omega
+      let x : Fin 3 := ⟨c.val, hc3⟩
+      let y : Fin 3 := ⟨a.val - 3, by omega⟩
+      let z : Fin 3 := ⟨b.val - 6, by omega⟩
+      have hx : c = triangleX x := Fin.ext rfl
+      have hy : a = triangleY y := by apply Fin.ext; dsimp [triangleY, y]; omega
+      have hz : b = triangleZ z := by apply Fin.ext; dsimp [triangleZ, z]; omega
+      refine ⟨(x,y,z), ?_⟩
+      rw [show [a,b,c] = [a,b] ++ [c] from rfl, wordClass_append_swap]
+      rw [hx,hy,hz]
+      rfl
+    · have ha6' : 6 ≤ a.val := by omega
+      have hb3 : b.val < 3 := by omega
+      have hc3 : 3 ≤ c.val ∧ c.val < 6 := by omega
+      let x : Fin 3 := ⟨b.val, hb3⟩
+      let y : Fin 3 := ⟨c.val - 3, by omega⟩
+      let z : Fin 3 := ⟨a.val - 6, by omega⟩
+      have hx : b = triangleX x := Fin.ext rfl
+      have hy : c = triangleY y := by apply Fin.ext; dsimp [triangleY, y]; omega
+      have hz : a = triangleZ z := by apply Fin.ext; dsimp [triangleZ, z]; omega
+      refine ⟨(x,y,z), ?_⟩
+      rw [show [a,b,c] = [a] ++ [b,c] from rfl, wordClass_append_swap]
+      rw [hx,hy,hz]
+      rfl
+
+theorem triangle_potentialClasses_eq_range :
+    triangle333.potentialClasses = Set.range triangleCubicWordClass := by
+  ext w
+  constructor
+  · rintro ⟨v,p,hp,hl,rfl⟩
+    obtain ⟨a,b,c,hw,hb,hc⟩ := path_length_three_arrows triangle333 p
+      (triangle_cut_one_cycle_is_cubic p hp)
+    rw [hw]
+    obtain ⟨xyz,hxyz⟩ := triangle_composable_triple_normal_form a b c hb hc
+    exact ⟨xyz,hxyz.symm⟩
+  · rintro ⟨xyz,rfl⟩
+    exact triangleCubicWordClass_mem xyz
+
+noncomputable def triangleCubicClassEquiv :
+    Triple333 ≃ triangle333.potentialClasses :=
+  Equiv.ofBijective (fun xyz => ⟨triangleCubicWordClass xyz,
+    triangleCubicWordClass_mem xyz⟩) ⟨by
+      intro a b h
+      exact triangleCubicWordClass_injective (congrArg Subtype.val h), by
+      intro w
+      have hw := w.property
+      have hw' : w.val ∈ Set.range triangleCubicWordClass := by
+        simpa only [triangle_potentialClasses_eq_range] using hw
+      obtain ⟨xyz,hxyz⟩ := hw'
+      exact ⟨xyz, Subtype.ext hxyz⟩⟩
+
+universe u
+variable (k : Type u) [Field k]
+
+noncomputable def triangleCoefficientPotentialEquiv :
+    CubicCoefficients333 k ≃ₗ[k] triangle333.Potential k :=
+  (Finsupp.linearEquivFunOnFinite k k Triple333).symm.trans
+    ((Finsupp.domLCongr triangleCubicClassEquiv).trans
+      (Finsupp.supportedEquivFinsupp
+        (R := k) triangle333.potentialClasses).symm)
+
+noncomputable def triangleTensorPotentialEquiv :
+    CubicTensor333 k ≃ₗ[k] triangle333.Potential k :=
+  (cubicCoordinates333 k).trans (triangleCoefficientPotentialEquiv k)
+
+theorem triangleCoefficientPotentialEquiv_single (xyz : Triple333) (c : k) :
+    (triangleCoefficientPotentialEquiv k (Pi.single xyz c)).val =
+      Finsupp.single (triangleCubicWordClass xyz) c := by
+  classical
+  change ((Finsupp.supportedEquivFinsupp (R := k) triangle333.potentialClasses).symm
+    ((Finsupp.domLCongr triangleCubicClassEquiv)
+      ((Finsupp.linearEquivFunOnFinite k k Triple333).symm
+        (Pi.single xyz c)))).val = _
+  rw [Finsupp.linearEquivFunOnFinite_symm_single, Finsupp.domLCongr_single,
+    Finsupp.supportedEquivFinsupp_symm_single]
+  rfl
+
+theorem triangleCoefficientPotentialEquiv_val (c : CubicCoefficients333 k) :
+    (triangleCoefficientPotentialEquiv k c).val = cyclicTrace (trianglePotential c) := by
+  classical
+  have hc : c = ∑ xyz : Triple333, Pi.single xyz (c xyz) := by
+    ext xyz
+    simp
+  calc
+    (triangleCoefficientPotentialEquiv k c).val =
+        (triangleCoefficientPotentialEquiv k (∑ xyz : Triple333,
+          Pi.single xyz (c xyz))).val :=
+            congrArg (fun x => (triangleCoefficientPotentialEquiv k x).val) hc
+    _ = ∑ xyz : Triple333, Finsupp.single (triangleCubicWordClass xyz) (c xyz) := by
+      simp only [map_sum, Submodule.coe_sum, triangleCoefficientPotentialEquiv_single]
+    _ = cyclicTrace (trianglePotential c) := by
+      simp [trianglePotential, cyclicTrace, Finsupp.linearCombination_single,
+        traceWord, triangleCubicWordClass]
+
+theorem triangleTensorPotentialEquiv_val (w : CubicTensor333 k) :
+    (triangleTensorPotentialEquiv k w).val =
+      cyclicTrace (trianglePotential (cubicCoordinates333 k w)) :=
+  triangleCoefficientPotentialEquiv_val k (cubicCoordinates333 k w)
+
+theorem triangleTensorPotentialEquiv_basis_val (xyz : Triple333) :
+    (triangleTensorPotentialEquiv k (cubicBasis333 k xyz)).val =
+      Finsupp.single (triangleCubicWordClass xyz) 1 := by
+  classical
+  have hc : cubicCoordinates333 k (cubicBasis333 k xyz) = Pi.single xyz 1 := by
+    ext abc
+    simp [cubicCoordinates333, Finsupp.single_apply, Pi.single_apply, eq_comm]
+  change (triangleCoefficientPotentialEquiv k
+    (cubicCoordinates333 k (cubicBasis333 k xyz))).val = _
+  rw [hc]
+  exact triangleCoefficientPotentialEquiv_single k xyz 1
+
+theorem trianglePotential_recovered_from_tensor (φ : triangle333.Potential k) :
+    triangleTensorPotentialEquiv k ((triangleTensorPotentialEquiv k).symm φ) = φ :=
+  (triangleTensorPotentialEquiv k).apply_symm_apply φ
+
+theorem triangleTensor_recovered_from_potential (w : CubicTensor333 k) :
+    (triangleTensorPotentialEquiv k).symm (triangleTensorPotentialEquiv k w) = w :=
+  (triangleTensorPotentialEquiv k).symm_apply_apply w
+
+end ASGinzburg

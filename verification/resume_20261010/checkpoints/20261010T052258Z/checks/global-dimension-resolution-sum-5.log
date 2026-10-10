@@ -1,0 +1,26 @@
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:28:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j
+in the target expression
+  F.map (biproduct.map f) ≫ (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j =
+    (biproduct.lift fun j => F.map (biproduct.π X j)) ≫ biproduct.π (F.obj ∘ X) j ≫ F.map (f j)
+
+case w
+C : Type u
+inst✝⁹ : Category.{v, u} C
+inst✝⁸ : Abelian C
+J : Type
+inst✝⁷ : Fintype J
+D : Type u_1
+inst✝⁶ : Category.{u_2, u_1} D
+inst✝⁵ : Preadditive D
+F : C ⥤ D
+inst✝⁴ : F.Additive
+X Y : J → C
+inst✝³ : HasBiproduct X
+inst✝² : HasBiproduct Y
+inst✝¹ : PreservesBiproduct X F
+inst✝ : PreservesBiproduct Y F
+f : (j : J) → X j ⟶ Y j
+j : J
+⊢ F.map (biproduct.map f) ≫ (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j =
+    (biproduct.lift fun j => F.map (biproduct.π X j)) ≫ biproduct.π (F.obj ∘ X) j ≫ F.map (f j)

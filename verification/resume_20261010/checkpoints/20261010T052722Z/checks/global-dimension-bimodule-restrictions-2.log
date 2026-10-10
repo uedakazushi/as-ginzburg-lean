@@ -1,0 +1,73 @@
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:25:4: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case smul_assoc
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+P : Type w
+inst✝³ : AddCommGroup P
+inst✝² : Module k P
+inst✝¹ : Module (AlgebraEnvelopingRing k R) P
+inst✝ : IsScalarTower k (AlgebraEnvelopingRing k R) P
+this : Module R P := envelopingLeftModule k R P
+c : k
+r : R
+x : P
+⊢ (c • r) • x = c • r • x
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:26:15: error: unexpected token '•'; expected command
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:36:4: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case smul_assoc
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+P : Type w
+inst✝³ : AddCommGroup P
+inst✝² : Module k P
+inst✝¹ : Module (AlgebraEnvelopingRing k R) P
+inst✝ : IsScalarTower k (AlgebraEnvelopingRing k R) P
+this : Module Rᵐᵒᵖ P := envelopingRightModule k R P
+c : k
+r : Rᵐᵒᵖ
+x : P
+⊢ (c • r) • x = c • r • x
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:37:15: error: unexpected token '•'; expected command
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:49:4: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case smul_comm
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+P : Type w
+inst✝³ : AddCommGroup P
+inst✝² : Module k P
+inst✝¹ : Module (AlgebraEnvelopingRing k R) P
+inst✝ : IsScalarTower k (AlgebraEnvelopingRing k R) P
+this✝ : Module R P := envelopingLeftModule k R P
+this : Module Rᵐᵒᵖ P := envelopingRightModule k R P
+a : R
+b : Rᵐᵒᵖ
+x : P
+⊢ a • b • x = b • a • x
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:49:32: error: unexpected token '•'; expected command
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:61:57: error: unexpected identifier; expected '}'
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:61:8: error: Fields missing: `map_smul'`
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:73:43: error: unexpected identifier; expected '}'
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:73:8: error: Fields missing: `map_smul'`
+work/ASGinzburgDraft/AlgebraEnvelopingModuleRestrictions.lean:76:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.envelopingLinearMap_right_smul`:
+  [Module k P]
+  [IsScalarTower k (AlgebraEnvelopingRing k R) P]
+  [Module k P']
+  [IsScalarTower k (AlgebraEnvelopingRing k R) P']
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Module k
+  P] [IsScalarTower k (AlgebraEnvelopingRing k R)
+  P] [Module k P'] [IsScalarTower k (AlgebraEnvelopingRing k R) P'] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

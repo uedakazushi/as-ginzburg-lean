@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousSubspaces.lean:18:2: error: Type mismatch
+  linearDirectSumHomogeneousInclusion_injective k ?m.14 (E.CutEnvelopingDegreeBlock vertex) ?m.32 n
+has type
+  Function.Injective ⇑(linearDirectSumHomogeneousInclusion k ?m.14 (E.CutEnvelopingDegreeBlock vertex) ?m.32 n)
+but is expected to have type
+  Function.Injective ⇑(E.cutEnvelopingDegreeInclusion vertex n)
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousSubspaces.lean:19:40: error: Application type mismatch: The argument
+  E.cutEnvelopingDegreeEquiv vertex
+has type
+  @LinearEquiv k k Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring
+    (RingHom.id k) (RingHom.id k) ⋯ ⋯ (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+    (⨁ (n : ℕ), E.CutEnvelopingDegreeBlock vertex n) TensorProduct.addCommMonoid
+    (instAddCommMonoidDirectSum ℕ fun n => E.CutEnvelopingDegreeBlock vertex n) TensorProduct.instModule
+    DirectSum.instModule
+but is expected to have type
+  @LinearEquiv k k Field.toSemifield.toDivisionSemiring.toSemiring Field.toSemifield.toDivisionSemiring.toSemiring
+    (RingHom.id k) (RingHom.id k) ⋯ ⋯ ?m.14 (⨁ (i : ℕ), E.CutEnvelopingDegreeBlock vertex i)
+    AddCommGroup.toAddCommMonoid (instAddCommMonoidDirectSum ℕ fun i => E.CutEnvelopingDegreeBlock vertex i) ?m.16
+    DirectSum.instModule
+in the application
+  linearDirectSumHomogeneousInclusion_injective k ?m.14 (E.CutEnvelopingDegreeBlock vertex)
+    (E.cutEnvelopingDegreeEquiv vertex)
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousSubspaces.lean:21:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousSubspaces.lean:26:23: error: (kernel) unknown constant 'ASGinzburg.ZAlgebra.PeriodIso.cutEnvelopingHomogeneousSubspaces_isInternal'

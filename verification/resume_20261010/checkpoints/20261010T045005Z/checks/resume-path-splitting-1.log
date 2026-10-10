@@ -1,0 +1,17 @@
+work/ASGinzburgDraft/PathSplitting.lean:13:2: error: Too many variable names provided at alternative `nil`: 1 provided, but 0 expected
+work/ASGinzburgDraft/PathSplitting.lean:41:4: error: Type mismatch
+  Eq.symm (target_of_toList_getLast q a hlast)
+has type
+  j = Q.target a
+but is expected to have type
+  Q.target a = j
+work/ASGinzburgDraft/PathSplitting.lean:50:2: error: Tactic `subst` failed: did not find equation for eliminating 'q'
+
+Q : CutQuiver
+i : Q.Vertex
+p : Q.Path i i
+hp : 0 < ⟨i, p⟩.snd.length
+q : Q.Path i i
+hword : ⟨i, p⟩.snd.toList = ⟨i, q⟩.snd.toList
+hpq : ⟨i, p⟩.snd = ⟨i, q⟩.snd
+⊢ ⟨i, p⟩ = ⟨i, q⟩

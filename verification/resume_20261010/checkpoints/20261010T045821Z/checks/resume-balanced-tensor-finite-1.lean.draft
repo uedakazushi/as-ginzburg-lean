@@ -1,0 +1,47 @@
+import ASGinzburg.BalancedTensorUniversal
+import Mathlib.RingTheory.Finiteness.Basic
+
+/-! The genuine noncommutative balanced tensor is finite over the field
+when its right factor is finitely generated over the ring and its left
+factor is finite over the field. The ring itself need not be finite. -/
+namespace ASGinzburg
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+theorem balancedTensorSpace_finite [Module.Finite Rᵐᵒᵖ M] [Module.Finite k N] :
+    Module.Finite k (BalancedTensorSpace k R M N) := by
+  classical
+  obtain ⟨s, hs⟩ := (Module.Finite.fg_top (R := Rᵐᵒᵖ) (M := M))
+  let U : Submodule k (BalancedTensorSpace k R M N) :=
+    s.sup (fun m => LinearMap.range (balancedTensorBilinear k R M N m))
+  have htmul : ∀ m n, balancedTensorTmul k R M N m n ∈ U := by
+    intro m n
+    have hm : m ∈ Submodule.span Rᵐᵒᵖ (s : Set M) := by rw [hs]; trivial
+    refine Submodule.span_induction
+      (p := fun x _ => ∀ y, balancedTensorTmul k R M N x y ∈ U)
+      ?_ ?_ ?_ ?_ hm n
+    · intro x hx y
+      exact (Finset.le_sup hx) (LinearMap.mem_range_self
+        (balancedTensorBilinear k R M N x) y)
+    · intro y
+      change (balancedTensorBilinear k R M N).flip y 0 ∈ U
+      rw [map_zero]
+      exact U.zero_mem
+    · intro x y hx hy hfx hfy n
+      change ((balancedTensorBilinear k R M N).flip n) (x+y) ∈ U
+      rw [map_add]
+      exact U.add_mem (hfx n) (hfy n)
+    · intro r x hx hfx n
+      change balancedTensorTmul k R M N (MulOpposite.op r.unop • x) n ∈ U
+      rw [balancedTensorTmul_balance]
+      exact hfx (r.unop • n)
+  have hmem : ∀ t : BalancedTensorSpace k R M N, t ∈ U := by
+    intro t
+    exact balancedTensorSpace_induction k R M N (fun a => a ∈ U)
+      U.zero_mem htmul (fun _ _ => U.add_mem) t
+  haveI : Module.Finite k U := by dsimp [U]; infer_instance
+  exact Module.Finite.of_surjective U.subtype (fun t => ⟨⟨t, hmem t⟩, rfl⟩)
+
+end ASGinzburg

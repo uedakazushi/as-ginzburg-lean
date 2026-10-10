@@ -1,0 +1,32 @@
+import ASGinzburg.FiniteProjectiveDuality
+import Mathlib.Algebra.Homology.ShortComplex.ShortExact
+import Mathlib.CategoryTheory.Abelian.Exact
+
+/-! Kernels of epimorphisms between projectives remain projective, and
+any additive functor preserves their genuine split exact kernel sequence.
+These are the actual kernel and the actual morphism, without flatness. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v w z
+variable {C : Type u} [Category.{v} C] [Abelian C]
+variable {D : Type w} [Category.{z} D] [Abelian D]
+variable {P Q : C} (f : P ⟶ Q) [Epi f] [Projective Q]
+
+noncomputable def projectiveEpiKernelSplitting :
+    (ShortComplex.mk (kernel.ι f) f (kernel.condition f)).Splitting :=
+  (show (ShortComplex.mk (kernel.ι f) f (kernel.condition f)).ShortExact from
+    { exact := ShortComplex.exact_kernel f }).splittingOfProjective
+
+noncomputable def projectiveEpiKernelRetract : Retract (kernel f) P where
+  i := kernel.ι f
+  r := (projectiveEpiKernelSplitting f).r
+  retract := (projectiveEpiKernelSplitting f).f_r
+
+theorem projective_kernel_of_projective_epi [Projective P] : Projective (kernel f) :=
+  ASGinzburg.projective_of_retract (projectiveEpiKernelRetract f)
+
+theorem additiveFunctor_map_projective_epi_kernel_shortExact (F : C ⥤ D) [F.Additive] :
+    ((ShortComplex.mk (kernel.ι f) f (kernel.condition f)).map F).ShortExact :=
+  ((projectiveEpiKernelSplitting f).map F).shortExact
+
+end ASGinzburg

@@ -1,0 +1,25 @@
+import ASGinzburg.PeriodCutGradedAlgebra
+import ASGinzburg.AlgebraEnvelopingRegularModule
+
+/-! The native componentwise scalar action of the cut direct-sum algebra
+is compatible with left and right multiplication. These instances also
+provide its genuine enveloping algebra with the ordinary tensor ring
+structure. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+noncomputable instance cutGradedRingSelfScalarTower :
+    IsScalarTower k (E.CutGradedRing vertex) (E.CutGradedRing vertex) :=
+  ⟨fun c a b => Algebra.smul_mul_assoc c a b⟩
+
+noncomputable instance cutGradedRingSelfScalarComm :
+    SMulCommClass k (E.CutGradedRing vertex) (E.CutGradedRing vertex) :=
+  ⟨fun c a b => (Algebra.mul_smul_comm c a b).symm⟩
+
+@[reducible] noncomputable instance (priority := 2000) cutEnvelopingSemiring :
+    Semiring (AlgebraEnvelopingRing k (E.CutGradedRing vertex)) :=
+  (inferInstance : Ring (AlgebraEnvelopingRing k (E.CutGradedRing vertex))).toSemiring
+
+end ASGinzburg.ZAlgebra.PeriodIso

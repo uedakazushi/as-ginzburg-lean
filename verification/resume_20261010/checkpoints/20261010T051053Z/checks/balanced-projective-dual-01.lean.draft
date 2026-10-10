@@ -1,0 +1,95 @@
+import ASGinzburg.BalancedTensorAdjunction
+import ASGinzburg.BalancedTensorSwapNaturality
+import Mathlib.Algebra.Module.Projective
+import Mathlib.LinearAlgebra.Dual.Lemmas
+import Mathlib.Algebra.Category.ModuleCat.EpiMono
+import Mathlib.CategoryTheory.Abelian.Exact
+
+/-! Tensoring with a projective right module preserves injections. The proof
+uses the actual balanced quotient: a functional on the source tensor extends
+by projective lifting along restriction of vector-space duals. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v w z z'
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+variable [IsScalarTower k R N]
+variable (N' : Type z') [AddCommGroup N'] [Module k N'] [Module R N']
+variable [IsScalarTower k R N']
+
+noncomputable def balancedTensorDualCurry
+    (f : BalancedTensorSpace k R M N →ₗ[k] k) :
+    letI := balancedTensorDoubleOppositeModule R N
+    letI := balancedTensorDoubleOppositeIsScalarTower k R N
+    M →ₗ[Rᵐᵒᵖ] BalancedTensorHom k Rᵐᵒᵖ N k := by
+  letI := balancedTensorDoubleOppositeModule R N
+  letI := balancedTensorDoubleOppositeIsScalarTower k R N
+  exact
+    { toFun := fun x => (balancedTensorHomLinearEquiv k Rᵐᵒᵖ N k).symm
+        (f.comp (balancedTensorBilinear k R M N x))
+      map_add' := fun x y => by
+        apply balancedTensorHom_ext k Rᵐᵒᵖ N k
+        intro a
+        change f (balancedTensorBilinear k R M N (x+y) a) =
+          f (balancedTensorBilinear k R M N x a) +
+          f (balancedTensorBilinear k R M N y a)
+        rw [map_add, LinearMap.add_apply, map_add]
+      map_smul' := fun r x => by
+        apply balancedTensorHom_ext k Rᵐᵒᵖ N k
+        intro y
+        change f (balancedTensorTmul k R M N (r • x) y) =
+          f (balancedTensorTmul k R M N x (MulOpposite.unop r • y))
+        simpa only [MulOpposite.op_unop] using congrArg f
+          (balancedTensorTmul_balance k R M N (MulOpposite.unop r) x y) }
+
+theorem balancedTensorDualCurry_apply
+    (f : BalancedTensorSpace k R M N →ₗ[k] k) (x : M) (y : N) :
+    balancedTensorDualCurry k R M N f x y =
+      f (balancedTensorTmul k R M N x y) := rfl
+
+noncomputable def balancedTensorDualRestrict (g : N →ₗ[R] N') :
+    letI := balancedTensorDoubleOppositeModule R N
+    letI := balancedTensorDoubleOppositeIsScalarTower k R N
+    letI := balancedTensorDoubleOppositeModule R N'
+    letI := balancedTensorDoubleOppositeIsScalarTower k R N'
+    BalancedTensorHom k Rᵐᵒᵖ N' k →ₗ[Rᵐᵒᵖ] BalancedTensorHom k Rᵐᵒᵖ N k := by
+  letI := balancedTensorDoubleOppositeModule R N
+  letI := balancedTensorDoubleOppositeIsScalarTower k R N
+  letI := balancedTensorDoubleOppositeModule R N'
+  letI := balancedTensorDoubleOppositeIsScalarTower k R N'
+  exact
+    { toFun := fun f => (balancedTensorHomLinearEquiv k Rᵐᵒᵖ N k).symm
+        ((balancedTensorHomLinearEquiv k Rᵐᵒᵖ N' k f).comp (g.restrictScalars k))
+      map_add' := fun f h => by
+        apply balancedTensorHom_ext k Rᵐᵒᵖ N k
+        intro y
+        rfl
+      map_smul' := fun r f => by
+        apply balancedTensorHom_ext k Rᵐᵒᵖ N k
+        intro y
+        change f (MulOpposite.unop r • g y) = f (g (MulOpposite.unop r • y))
+        rw [g.map_smul] }
+
+theorem balancedTensorDualRestrict_apply (g : N →ₗ[R] N')
+    (f : BalancedTensorHom k Rᵐᵒᵖ N' k) (y : N) :
+    balancedTensorDualRestrict k R N N' g f y = f (g y) := rfl
+
+theorem balancedTensorDualRestrict_surjective (g : N →ₗ[R] N')
+    (hg : Function.Injective g) :
+    Function.Surjective (balancedTensorDualRestrict k R N N' g) := by
+  letI := balancedTensorDoubleOppositeModule R N
+  letI := balancedTensorDoubleOppositeIsScalarTower k R N
+  letI := balancedTensorDoubleOppositeModule R N'
+  letI := balancedTensorDoubleOppositeIsScalarTower k R N'
+  intro f
+  obtain ⟨h, hh⟩ := LinearMap.dualMap_surjective_of_injective
+    (f := g.restrictScalars k) hg (balancedTensorHomLinearEquiv k Rᵐᵒᵖ N k f)
+  refine ⟨(balancedTensorHomLinearEquiv k Rᵐᵒᵖ N' k).symm h, ?_⟩
+  apply balancedTensorHom_ext k Rᵐᵒᵖ N k
+  intro y
+  exact LinearMap.congr_fun hh y
+
+end ASGinzburg

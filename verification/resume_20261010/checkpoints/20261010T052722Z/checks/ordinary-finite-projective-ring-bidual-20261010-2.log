@@ -1,0 +1,45 @@
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:21:26: error: unsolved goals
+case a.h
+R : Type v
+inst✝ : Ring R
+n : ℕ
+i j : Fin n
+⊢ Pi.single i 1 j = MulOpposite.op (Pi.single j 1 i)
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:40:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ordinaryRingDualFiniteFreeEquiv ?R ?n).symm ((Pi.basisFun ?Rᵐᵒᵖ (Fin ?n)) ?i)
+in the target expression
+  (fun h i =>
+        MulOpposite.unop
+          ((have this := h;
+            this)
+            ((ordinaryRingDualFiniteFreeEquiv R n).symm ((Pi.basisFun Rᵐᵒᵖ (Fin n)) i))))
+      ((ordinaryRingBidualEvaluationLinearMap R (ModuleCat.of R (Fin n → R))).toFun x) i =
+    x i
+
+case h
+R : Type v
+inst✝ : Ring R
+n : ℕ
+x : Fin n → R
+i : Fin n
+⊢ (fun h i =>
+        MulOpposite.unop
+          ((have this := h;
+            this)
+            ((ordinaryRingDualFiniteFreeEquiv R n).symm ((Pi.basisFun Rᵐᵒᵖ (Fin n)) i))))
+      ((ordinaryRingBidualEvaluationLinearMap R (ModuleCat.of R (Fin n → R))).toFun x) i =
+    x i
+work/ASGinzburgDraft/OrdinaryFiniteProjectiveRingBidual.lean:56:6: error: Type mismatch
+  MulOpposite.op_unop ?m.234
+has type
+  MulOpposite.op (MulOpposite.unop ?m.234) = ?m.234
+but is expected to have type
+  MulOpposite.op
+      ((LinearMap.proj i) fun j =>
+        MulOpposite.unop
+          ((have this := h;
+            this)
+            ((ordinaryRingDualFiniteFreeEquiv R n).symm ((Pi.basisFun Rᵐᵒᵖ (Fin n)) j)))) =
+    (have this := h;
+      this)
+      (LinearMap.proj i)

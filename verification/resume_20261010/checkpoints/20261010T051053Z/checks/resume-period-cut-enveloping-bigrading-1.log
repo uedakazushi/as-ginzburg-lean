@@ -1,0 +1,61 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:19:9: error: unexpected token ':'; expected ':=', 'where' or '|'
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:19:8: error(lean.unknownIdentifier): Unknown identifier `d`
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:19:6: error: failed to synthesize
+  CategoryTheory.Limits.HasZeroMorphisms (Type ?u.13681)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:41:4: error: Invalid field notation: Function `cutEnvelopingBigradingEquiv` does not have a usable parameter of type `PeriodIso ...` for which to substitute `E`
+
+Note: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:45:9: error: unsolved goals
+case zero
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+i j : ℕ
+⊢ sorry = 0
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:51:18: error: unsolved goals
+case add
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+i j : ℕ
+x y : E.CutGradedBlock vertex (i, j).1 ⊗[k] E.CutGradedBlock vertex (i, j).2
+hx : sorry = (DirectSum.lof k (ℕ × ℕ) (E.CutEnvelopingBlock vertex) (i, j)) x
+hy : sorry = (DirectSum.lof k (ℕ × ℕ) (E.CutEnvelopingBlock vertex) (i, j)) y
+⊢ (DirectSum.lof k (ℕ × ℕ) (E.CutEnvelopingBlock vertex) (i, j)) x =
+    (DirectSum.lof k (ℕ × ℕ) (E.CutEnvelopingBlock vertex) (i, j)) x +
+      (DirectSum.lof k (ℕ × ℕ) (E.CutEnvelopingBlock vertex) (i, j)) y
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:51:45: warning: This simp argument is unused:
+  hy
+
+Hint: Omit it from the simp argument list.
+  simp only [map_add, hx,̵ ̵h̵y̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:63:4: error: failed to synthesize
+  SMulCommClass k (E.CutGradedRing vertex) (E.CutGradedRing vertex)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:63:4: error: failed to synthesize
+  IsScalarTower k (E.CutGradedRing vertex) (E.CutGradedRing vertex)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:63:4: error: failed to synthesize
+  SMulCommClass k (E.CutGradedRing vertex)ᵐᵒᵖ (E.CutGradedRing vertex)ᵐᵒᵖ
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingBigrading.lean:63:4: error: failed to synthesize
+  IsScalarTower k (E.CutGradedRing vertex)ᵐᵒᵖ (E.CutGradedRing vertex)ᵐᵒᵖ
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

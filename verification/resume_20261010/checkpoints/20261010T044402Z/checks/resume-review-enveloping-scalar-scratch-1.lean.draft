@@ -1,0 +1,83 @@
+import work.ASGinzburgDraft.GradedOrdinaryModuleData
+import work.ASGinzburgDraft.PeriodCutEnvelopingZeroInclusionGrading
+import work.ASGinzburgDraft.PeriodCutEnvelopingZeroModuleRestriction
+import work.ASGinzburgDraft.PeriodCutEnvelopingPositiveModuleOperators
+
+/-! Every genuine graded ordinary enveloping module has the actual
+degree-zero invariant action and positive degree-shifting operators. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped ModuleCat.Algebra
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+variable (M : GradedOrdinaryModuleData k
+  (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+  (E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ))))
+attribute [local instance 2000] cutEnvelopingOppositeFactorScalarTower
+  cutEnvelopingOppositeFactorScalarComm cutGradedRingSelfScalarTower cutGradedRingSelfScalarComm
+
+noncomputable def reviewCutEnvelopingGradedModuleFieldModule : Module k M.ringModule :=
+  ModuleCat.moduleOfAlgebraModule M.ringModule
+
+noncomputable def reviewCutEnvelopingGradedModuleFieldSMul : SMul k M.ringModule :=
+  (E.reviewCutEnvelopingGradedModuleFieldModule Q M).toSMul
+
+attribute [local instance 3000] reviewCutEnvelopingGradedModuleFieldModule
+  reviewCutEnvelopingGradedModuleFieldSMul
+
+noncomputable def reviewCutEnvelopingGradedModuleModule :
+    Module (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) M.ringModule :=
+  M.ringModule.isModule
+
+noncomputable def reviewCutEnvelopingGradedModuleSMul :
+    SMul (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) M.ringModule :=
+  (E.reviewCutEnvelopingGradedModuleModule Q M).toSMul
+
+attribute [local instance 3000] reviewCutEnvelopingGradedModuleModule reviewCutEnvelopingGradedModuleSMul
+
+theorem reviewCutEnvelopingGradedModuleScalarTower :
+    IsScalarTower k (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) M.ringModule := by
+  let B := E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))
+  let T := AlgebraEnvelopingRing k B
+  refine { smul_assoc := fun c a x => ?_ }
+  change (c • a) • x = (algebraMap k T c) • (a • x)
+  have h : c • a = algebraMap k T c * a := by
+    induction a using TensorProduct.induction_on with
+    | zero => rw [smul_zero,mul_zero]
+    | tmul r s =>
+      rw [Algebra.TensorProduct.algebraMap_apply, TensorProduct.smul_tmul',
+        Algebra.TensorProduct.tmul_mul_tmul,one_mul]
+      congr 1
+      exact Algebra.smul_def c r
+    | add a b ha hb => rw [smul_add,mul_add,ha,hb]
+  exact (congrArg (fun r => r • x) h).trans (mul_smul _ _ x)
+
+attribute [local instance 3000] reviewCutEnvelopingGradedModuleScalarTower
+attribute [local instance 2000] cutEnvelopingZeroRestrictedModule
+  cutEnvelopingZeroRestrictedSMul
+
+theorem reviewCutEnvelopingGradedModule_zeroAction_preserves
+    (q : ℤ) (a : AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0))
+    (x : M.ringModule) (hx : x ∈ M.grade q) : a • x ∈ M.grade q := by
+  change E.cutEnvelopingZeroInclusion Q a • x ∈ M.grade q
+  simpa only [zero_add] using M.smul_mem 0 q _
+    (E.cutEnvelopingZeroInclusion_mem_integerDegreeZero Q a) x hx
+
+theorem reviewCutEnvelopingGradedModule_positiveAction_raises
+    (t : E.CutEnvelopingPositiveOperator Q) (q : ℤ)
+    (x : M.ringModule) (hx : x ∈ M.grade q) :
+    E.cutEnvelopingPositiveModuleOperator Q M.ringModule t x ∈
+      M.grade (q+(E.cutEnvelopingPositiveOperatorDegree Q t:ℤ)) := by
+  change E.cutEnvelopingPositiveOperatorValue Q t • x ∈ _
+  have ht : E.cutEnvelopingPositiveOperatorValue Q t ∈
+      E.cutEnvelopingIntegerHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ))
+        (E.cutEnvelopingPositiveOperatorDegree Q t:ℤ) := by
+    rw [E.cutEnvelopingIntegerHomogeneousSubspace_natCast]
+    exact E.cutEnvelopingPositiveOperatorValue_mem Q t
+  simpa only [add_comm] using M.smul_mem _ q _ ht x hx
+
+end ASGinzburg.ZAlgebra.PeriodIso

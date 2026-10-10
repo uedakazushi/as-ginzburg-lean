@@ -1,0 +1,60 @@
+import ASGinzburg.StableSubmoduleQuotientOperators
+import ASGinzburg.GradedNilpotentNakayama
+import Mathlib.Algebra.Module.Submodule.RestrictScalars
+
+/-! Actual degree-zero and positive operator actions descend to a stable
+quotient. If that submodule and the actual radical action span generate
+the module, the quotient's actual radical action span is the whole quotient. -/
+namespace ASGinzburg
+universe u v w z
+variable (k : Type u) [Field k] (R₀ : Type v) [Ring R₀] [Algebra k R₀]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R₀ M]
+  [IsScalarTower k R₀ M]
+variable (S : Submodule R₀ M)
+variable {ι : Type z} (f : ι → M →ₗ[k] M)
+variable (hf : ∀ (t : ι) (x : M), x ∈ S → f t x ∈ S)
+
+noncomputable def scalarSubmoduleQuotientOperator (t : ι) :
+    (M ⧸ S) →ₗ[k] (M ⧸ S) :=
+  stableSubmoduleQuotientOperator k M (S.restrictScalars k) (f t) (hf t)
+
+@[simp] theorem scalarSubmoduleQuotientOperator_mkQ (t : ι) (x : M) :
+    scalarSubmoduleQuotientOperator k R₀ M S f hf t (S.mkQ x) = S.mkQ (f t x) := rfl
+
+variable (I₀ : Ideal R₀)
+
+theorem quotient_mkQ_mem_gradedNilpotentActionSpan (x : M)
+    (hx : x ∈ gradedNilpotentActionSpan k R₀ M f I₀) :
+    S.mkQ x ∈ gradedNilpotentActionSpan k R₀ (M ⧸ S)
+      (scalarSubmoduleQuotientOperator k R₀ M S f hf) I₀ := by
+  unfold gradedNilpotentActionSpan at hx ⊢
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    rcases hy with hy | hy
+    · obtain ⟨r,hr,y,rfl⟩ := hy
+      exact Submodule.subset_span (Or.inl ⟨r,hr,S.mkQ y,rfl⟩)
+    · obtain ⟨t,y,rfl⟩ := hy
+      exact Submodule.subset_span (Or.inr ⟨t,S.mkQ y,rfl⟩)
+  | zero => rw [map_zero]; exact Submodule.zero_mem _
+  | add y z hy hz ihy ihz => rw [map_add]; exact Submodule.add_mem _ ihy ihz
+  | smul c y hy ihy =>
+    change (S.mkQ.restrictScalars k) (c • y) ∈ _
+    rw [map_smul]
+    exact Submodule.smul_mem _ c ihy
+
+theorem gradedNilpotentActionSpan_quotient_eq_top
+    (h : S.restrictScalars k ⊔ gradedNilpotentActionSpan k R₀ M f I₀ = ⊤) :
+    gradedNilpotentActionSpan k R₀ (M ⧸ S)
+      (scalarSubmoduleQuotientOperator k R₀ M S f hf) I₀ = ⊤ := by
+  apply Submodule.eq_top_iff'.mpr
+  intro y
+  obtain ⟨x,rfl⟩ := S.mkQ_surjective y
+  have hx : x ∈ S.restrictScalars k ⊔ gradedNilpotentActionSpan k R₀ M f I₀ := by
+    rw [h]
+    exact Submodule.mem_top
+  obtain ⟨a,ha,b,hb,hx⟩ := Submodule.mem_sup.mp hx
+  have ha0 : S.mkQ a=0 := (Submodule.Quotient.mk_eq_zero S).mpr ha
+  rw [← hx,map_add,ha0,zero_add]
+  exact quotient_mkQ_mem_gradedNilpotentActionSpan k R₀ M S f hf I₀ b hb
+
+end ASGinzburg

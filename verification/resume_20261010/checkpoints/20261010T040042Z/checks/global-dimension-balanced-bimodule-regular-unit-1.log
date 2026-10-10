@@ -1,0 +1,63 @@
+work/ASGinzburgDraft/EnvelopingBalancedTensorRegularUnit.lean:36:40: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ⇑eR.toAddEquiv.symm ∘ ⇑eR.toAddEquiv
+in the target expression
+  (balancedTensorMapRight k R M (↑eR.symm ∘ₗ ↑eR)) t = t
+
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+P : ModuleCat (AlgebraEnvelopingRing k R) := regularEnvelopingModuleCat k R
+this✝ : Module R ↑P := envelopingLeftModule k R ↑P
+this : IsScalarTower k R ↑P := envelopingLeftScalarTower k R ↑P
+eR : ↑P ≃ₗ[R] R := { toFun := id, map_add' := ⋯, map_smul' := ⋯, invFun := id, left_inv := ⋯, right_inv := ⋯ }
+t : BalancedTensorSpace k R M ↑P
+⊢ (balancedTensorMapRight k R M (↑eR.symm ∘ₗ ↑eR)) t = t
+work/ASGinzburgDraft/EnvelopingBalancedTensorRegularUnit.lean:41:40: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ⇑eR.toAddEquiv ∘ ⇑eR.toAddEquiv.symm
+in the target expression
+  (balancedTensorMapRight k R M (↑eR ∘ₗ ↑eR.symm)) t = t
+
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+P : ModuleCat (AlgebraEnvelopingRing k R) := regularEnvelopingModuleCat k R
+this✝ : Module R ↑P := envelopingLeftModule k R ↑P
+this : IsScalarTower k R ↑P := envelopingLeftScalarTower k R ↑P
+eR : ↑P ≃ₗ[R] R := { toFun := id, map_add' := ⋯, map_smul' := ⋯, invFun := id, left_inv := ⋯, right_inv := ⋯ }
+t : BalancedTensorSpace k R M R
+⊢ (balancedTensorMapRight k R M (↑eR ∘ₗ ↑eR.symm)) t = t
+work/ASGinzburgDraft/EnvelopingBalancedTensorRegularUnit.lean:52:46: error: unsolved goals
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+x : M
+r : ↑(regularEnvelopingModuleCat k R)
+this✝ : Module R ↑(regularEnvelopingModuleCat k R) := envelopingLeftModule k R ↑(regularEnvelopingModuleCat k R)
+this : IsScalarTower k R ↑(regularEnvelopingModuleCat k R) :=
+  envelopingLeftScalarTower k R ↑(regularEnvelopingModuleCat k R)
+⊢ MulOpposite.op (↑{ toFun := id, map_add' := ⋯, map_smul' := ⋯, invFun := id, left_inv := ⋯, right_inv := ⋯ } r) • x =
+    MulOpposite.op
+        (have this := r;
+        this) •
+      x

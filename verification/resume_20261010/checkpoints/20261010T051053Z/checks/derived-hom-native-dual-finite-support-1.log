@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualFiniteSupport.lean:34:51: error: failed to synthesize
+  (i : R → Prop) → Zero (Subtype i)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/GradedOrdinaryRingDualFiniteSupport.lean:34:82: error: Application type mismatch: The argument
+  hp
+has type
+  ¬Membership.mem.{0, 0} (DFinsupp.support ((DirectSum.decompose G) (f (x i)))) (d i + q)
+but is expected to have type
+  ¬Membership.mem.{v, v} (DFinsupp.support ?m.282) fun x => x ∈ G (d i + q)
+in the application
+  DFinsupp.notMem_support_iff.mp hp

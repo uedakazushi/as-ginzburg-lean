@@ -1,0 +1,63 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:49:6: error: failed to synthesize
+  MulActionSemiHomClass
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0) →ₐ[k] Module.End k (E.CutGradedRing fun i => ↑↑i))
+    ?m.71 ?m.72 ?m.73
+(deterministic) timeout at `typeclass`, maximum number of heartbeats (20000) has been reached
+
+Note: Use `set_option synthInstance.maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:44:61: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+c : k
+a : AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)
+x : E.CutGradedRing fun i => ↑↑i
+⊢ MulActionHomClass
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0) →ₐ[k] Module.End k (E.CutGradedRing fun i => ↑↑i)) k
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i => ↑↑i) 0)) (Module.End k (E.CutGradedRing fun i => ↑↑i))
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:68:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (?r + ?s) • ?x
+in the target expression
+  (a + b) • x ∈ cutIntegerHomogeneousSpace Q E q
+
+case add
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+q : ℤ
+x : E.CutGradedRing fun i => ↑↑i
+hx : x ∈ cutIntegerHomogeneousSpace Q E q
+a b : E.CutGradedBlock (fun i => ↑↑i) 0 ⊗[k] (E.CutGradedBlock (fun i => ↑↑i) 0)ᵐᵒᵖ
+ha : a • x ∈ cutIntegerHomogeneousSpace Q E q
+hb : b • x ∈ cutIntegerHomogeneousSpace Q E q
+⊢ (a + b) • x ∈ cutIntegerHomogeneousSpace Q E q
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:76:5: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:79:29: error: Invalid field `cutEnvelopingRegularIntegerGrade`: The environment does not contain `ASGinzburg.ZAlgebra.PeriodIso.cutEnvelopingRegularIntegerGrade`
+  E
+has type
+  A.PeriodIso ↑Q.vertices
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:82:5: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:85:4: error: Invalid field `cutEnvelopingRegularIntegerGrade`: The environment does not contain `ASGinzburg.ZAlgebra.PeriodIso.cutEnvelopingRegularIntegerGrade`
+  E
+has type
+  A.PeriodIso ↑Q.vertices
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:86:37: error(lean.unknownIdentifier): Unknown identifier `k`
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:86:44: error(lean.unknownIdentifier): Unknown identifier `E.cutIntegerHomogeneousSpace`
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:87:5: error(lean.unknownIdentifier): Unknown identifier `E.cutIntegerHomogeneousSpace_zeroEnveloping_smul`
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:88:7: error(lean.unknownIdentifier): Unknown identifier `E.cutIntegerHomogeneousSpace_negative`

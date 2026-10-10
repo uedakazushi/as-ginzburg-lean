@@ -1,0 +1,27 @@
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:16:21: warning: unused variable `r`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:30:11: error: Type mismatch
+  M.ringDualGrade
+has type
+  ℤ →
+    @Submodule k (↑(ordinaryRingDual R M.ringModule)) Field.toSemifield.toDivisionSemiring.toSemiring
+      LinearMap.addCommMonoid LinearMap.module
+but is expected to have type
+  ℤ →
+    @Submodule k (↑(ordinaryRingDual R M.ringModule)) Field.toSemifield.toDivisionSemiring.toSemiring
+      (ordinaryRingDual R M.ringModule).isAddCommGroup.toAddCommMonoid ModuleCat.Algebra.instModuleCarrier
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:37:14: error: Function expected at
+  M.ringDualData
+but this term has type
+  GradedOrdinaryModuleData k Rᵐᵒᵖ (ordinaryOppositeRingGrade G)
+
+Note: Expected a function because this term is being applied to the argument
+  hG
+work/ASGinzburgDraft/GradedOrdinaryRingDualData.lean:44:5: error: Function expected at
+  N.ringDualData
+but this term has type
+  GradedOrdinaryModuleData k Rᵐᵒᵖ (ordinaryOppositeRingGrade G)
+
+Note: Expected a function because this term is being applied to the argument
+  hG

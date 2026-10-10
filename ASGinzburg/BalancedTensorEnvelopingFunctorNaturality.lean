@@ -1,0 +1,37 @@
+import ASGinzburg.BalancedTensorEnvelopingFunctorComparison
+import ASGinzburg.BalancedTensorEnvelopingScalarNaturality
+
+/-! Naturality of the bundled enveloping balancing isomorphism uses
+genuine right-enveloping-linear tensor maps in both ordinary variables. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {M M' : ModuleCat.{max v w} Rᵐᵒᵖ} {N N' : ModuleCat.{max v z} R}
+
+attribute [local instance] tensorRightEnvelopingModule tensorRightEnvelopingScalarTower
+  regularEnvelopingModule regularEnvelopingScalarTower
+
+theorem balancedTensorEnvelopingModuleIso_naturality (f : M ⟶ M') (g : N ⟶ N') :
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+        (ModuleCat.ofHom (tensorRightEnvelopingMap k R f.hom g.hom)) ≫
+      (balancedTensorEnvelopingModuleIso k R M' N').hom =
+    (balancedTensorEnvelopingModuleIso k R M N).hom ≫
+      ((balancedTensorBifunctor k R).obj M).map g ≫
+        ((balancedTensorBifunctor k R).map f).app N' := by
+  have h :
+      ModuleCat.ofHom (balancedTensorMapLeft k (AlgebraEnvelopingRing k R) R
+        (tensorRightEnvelopingMap k R f.hom g.hom)) ≫
+          (balancedTensorEnvelopingComparisonEquiv k R M' N').toModuleIso.hom =
+      (balancedTensorEnvelopingComparisonEquiv k R M N).toModuleIso.hom ≫
+        ((balancedTensorBifunctor k R).obj M).map g ≫
+          ((balancedTensorBifunctor k R).map f).app N' := by
+    apply ModuleCat.hom_ext
+    exact balancedTensorEnvelopingComparisonMap_naturality k R f.hom g.hom
+  simp only [balancedTensorEnvelopingModuleIso, Iso.trans_hom]
+  rw [← Category.assoc, balancedTensorEnvelopingTensorScalarIso_naturality,
+    Category.assoc, h]
+  simp only [Category.assoc]
+
+end ASGinzburg

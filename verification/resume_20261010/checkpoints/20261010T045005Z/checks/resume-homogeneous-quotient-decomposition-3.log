@@ -1,0 +1,57 @@
+work/ASGinzburgDraft/HomogeneousQuotientDecomposition.lean:35:8: error(lean.unknownIdentifier): Unknown constant `Submodule.Quotient.mk_eq_zero.mpr`
+work/ASGinzburgDraft/HomogeneousQuotientDecomposition.lean:62:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.liftQ ?p ?f ?h ∘ₛₗ Submodule.mkQ ?p
+in the target expression
+  (DirectSum.coeLinearMap B) (L (S.mkQ y)) = S.mkQ y
+
+case h_left_inv.h
+k : Type u
+inst✝⁴ : Field k
+M : Type v
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+ι : Type w
+inst✝¹ : DecidableEq ι
+G : ι → Submodule k M
+inst✝ : DirectSum.Decomposition G
+S : Submodule k M
+hS : ∀ (q : ι), ∀ x ∈ S, ↑(((DirectSum.decompose G) x) q) ∈ S
+B : ι → Submodule k (M ⧸ S) := homogeneousQuotientGrade k M G S
+F : M →ₗ[k] ⨁ (q : ι), ↥(homogeneousQuotientGrade k M G S q) := homogeneousQuotientDecomposeMap k M G S
+L : M ⧸ S →ₗ[k] ⨁ (q : ι), ↥(B q) := S.liftQ F ⋯
+hComm :
+  DirectSum.coeLinearMap B ∘ₗ DirectSum.lmap (homogeneousQuotientComponentMap k M G S) =
+    S.mkQ ∘ₗ DirectSum.coeLinearMap G
+y : M
+⊢ (DirectSum.coeLinearMap B) (L (S.mkQ y)) = S.mkQ y
+work/ASGinzburgDraft/HomogeneousQuotientDecomposition.lean:80:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Submodule.liftQ ?p ?f ?h ∘ₛₗ Submodule.mkQ ?p
+in the target expression
+  L (S.mkQ y) = (DirectSum.of (fun i => ↥(B i)) q) ((homogeneousQuotientComponentMap k M G S q) y')
+
+case h_right_inv.H.h
+k : Type u
+inst✝⁴ : Field k
+M : Type v
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+ι : Type w
+inst✝¹ : DecidableEq ι
+G : ι → Submodule k M
+inst✝ : DirectSum.Decomposition G
+S : Submodule k M
+hS : ∀ (q : ι), ∀ x ∈ S, ↑(((DirectSum.decompose G) x) q) ∈ S
+B : ι → Submodule k (M ⧸ S) := homogeneousQuotientGrade k M G S
+F : M →ₗ[k] ⨁ (q : ι), ↥(homogeneousQuotientGrade k M G S q) := homogeneousQuotientDecomposeMap k M G S
+L : M ⧸ S →ₗ[k] ⨁ (q : ι), ↥(B q) := S.liftQ F ⋯
+hComm :
+  DirectSum.coeLinearMap B ∘ₗ DirectSum.lmap (homogeneousQuotientComponentMap k M G S) =
+    S.mkQ ∘ₗ DirectSum.coeLinearMap G
+q : ι
+x : ↥(B q)
+y : M
+hy : y ∈ ↑(G q)
+hxy : S.mkQ y = ↑x
+y' : ↥(G q) := ⟨y, hy⟩
+hx : (homogeneousQuotientComponentMap k M G S q) y' = x
+⊢ L (S.mkQ y) = (DirectSum.of (fun i => ↥(B i)) q) ((homogeneousQuotientComponentMap k M G S q) y')

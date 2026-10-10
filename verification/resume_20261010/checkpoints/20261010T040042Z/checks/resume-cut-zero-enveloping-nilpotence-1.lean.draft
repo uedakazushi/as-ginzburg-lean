@@ -1,0 +1,32 @@
+import work.ASGinzburgDraft.PeriodCutZeroIdealNilpotence
+import work.ASGinzburgDraft.AlgebraEnvelopingNilpotentKernel
+
+/-! The actual scalar augmentation of the degree-zero unsigned
+enveloping algebra has a two-sided kernel with bound twice the number
+of vertices. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+attribute [local instance] cutZeroSelfScalarTower
+
+noncomputable def cutZeroEnvelopingAugmentationKernel : Ideal
+    (AlgebraEnvelopingRing k (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)) :=
+  algebraEnvelopingMapKernel k (E.cutZeroDiagonalAlgHom Q)
+
+instance cutZeroEnvelopingAugmentationKernelTwoSided :
+    (E.cutZeroEnvelopingAugmentationKernel Q).IsTwoSided := by
+  unfold cutZeroEnvelopingAugmentationKernel
+  infer_instance
+
+theorem cutZeroEnvelopingAugmentationKernel_pow_eq_bot :
+    (E.cutZeroEnvelopingAugmentationKernel Q)^(2*Q.vertices)=⊥ := by
+  exact algebraEnvelopingMapKernel_pow_eq_bot k (E.cutZeroDiagonalAlgHom Q)
+    (E.cutZeroDiagonalAlgHom_surjective Q) Q.vertices
+    (E.cutZeroAugmentationKernel_pow_vertices_eq_bot Q)
+
+theorem cutZeroEnvelopingAugmentationKernel_isNilpotent :
+    IsNilpotent (E.cutZeroEnvelopingAugmentationKernel Q) :=
+  ⟨2*Q.vertices,E.cutZeroEnvelopingAugmentationKernel_pow_eq_bot Q⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

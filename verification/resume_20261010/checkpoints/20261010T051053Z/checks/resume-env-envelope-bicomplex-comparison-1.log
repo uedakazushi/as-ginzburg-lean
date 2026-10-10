@@ -1,0 +1,16 @@
+work/ASGinzburgDraft/BalancedTensorEnvelopingBicomplexComparison.lean:27:4: error: Type mismatch: After simplification, term
+  balancedTensorEnvelopingModuleIso_naturality k R (𝟙 (P.X i₁)) (Q.d i j)
+ has type
+  (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+        (ModuleCat.ofHom
+          (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom (𝟙 (P.X i₁))) (ModuleCat.Hom.hom (Q.d i j)))) ≫
+      (balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X j)).hom =
+    (balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X i)).hom ≫
+      ((balancedTensorBifunctor k R).obj (P.X i₁)).map (Q.d i j) ≫
+        ((balancedTensorBifunctor k R).map (𝟙 (P.X i₁))).app (Q.X j)
+but is expected to have type
+  (balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X i)).hom ≫
+      ((balancedTensorBifunctor k R).obj (P.X i₁)).map (Q.d i j) =
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+        (((tensorRightEnvelopingBicomplex k R P Q).X i₁).d i j) ≫
+      (balancedTensorEnvelopingModuleIso k R (P.X i₁) (Q.X j)).hom
