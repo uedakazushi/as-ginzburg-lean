@@ -1,0 +1,162 @@
+import ASGinzburg.GinzburgGrading
+import ASGinzburg.PathAlgebra
+
+/-! Actual composable paths in the extended Ginzburg quiver, with all
+three gradings. The differential is a separate construction. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+inductive GinzburgPath : Q.Vertex → Q.Vertex → Type
+  | nil (v : Q.Vertex) : GinzburgPath v v
+  | snoc {u v : Q.Vertex} (p : GinzburgPath u v) (a : Q.GinzburgArrow)
+      (h : a.source Q=v) : GinzburgPath u (a.target Q)
+
+namespace GinzburgPath
+variable {Q}
+
+def length {u v : Q.Vertex} : Q.GinzburgPath u v → ℕ
+  | .nil _ => 0
+  | .snoc p _ _ => length p+1
+
+def toList {u v : Q.Vertex} : Q.GinzburgPath u v → List Q.GinzburgArrow
+  | .nil _ => []
+  | .snoc p a _ => toList p++[a]
+
+def cohomologicalDegree {u v : Q.Vertex} : Q.GinzburgPath u v → ℤ
+  | .nil _ => 0
+  | .snoc p a _ => cohomologicalDegree p+a.cohomologicalDegree Q
+
+def cutDegree {u v : Q.Vertex} : Q.GinzburgPath u v → ℤ
+  | .nil _ => 0
+  | .snoc p a _ => cutDegree p+a.cutDegree Q
+
+def winding {u v : Q.Vertex} : Q.GinzburgPath u v → ℤ
+  | .nil _ => 0
+  | .snoc p a _ => winding p+a.winding Q
+
+def comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v) :
+    Q.GinzburgPath v w → Q.GinzburgPath u w
+  | .nil _ => p
+  | .snoc q a h => .snoc (comp p q) a h
+
+@[simp] theorem comp_nil {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    p.comp (.nil v)=p := rfl
+
+@[simp] theorem nil_comp {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    (GinzburgPath.nil u).comp p=p := by
+  induction p with
+  | nil => rfl
+  | snoc p a h ih => simp [comp,ih]
+
+theorem comp_assoc {u v w x : Q.Vertex} (p : Q.GinzburgPath u v)
+    (q : Q.GinzburgPath v w) (r : Q.GinzburgPath w x) :
+    (p.comp q).comp r=p.comp (q.comp r) := by
+  induction r with
+  | nil => rfl
+  | snoc r a h ih => simp [comp,ih]
+
+@[simp] theorem toList_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
+    (q : Q.GinzburgPath v w) : (p.comp q).toList=p.toList++q.toList := by
+  induction q with
+  | nil => simp [comp,toList]
+  | snoc q a h ih => simp [comp,toList,ih,List.append_assoc]
+
+theorem length_toList {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    p.toList.length=p.length := by
+  induction p with
+  | nil => rfl
+  | snoc p a h ih => simp [toList,length,ih]
+
+theorem cohomologicalDegree_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
+    (q : Q.GinzburgPath v w) :
+    (p.comp q).cohomologicalDegree=p.cohomologicalDegree+q.cohomologicalDegree := by
+  induction q with
+  | nil => simp [comp,cohomologicalDegree]
+  | snoc q a h ih => simp [comp,cohomologicalDegree,ih,add_assoc]
+
+theorem cutDegree_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
+    (q : Q.GinzburgPath v w) : (p.comp q).cutDegree=p.cutDegree+q.cutDegree := by
+  induction q with
+  | nil => simp [comp,cutDegree]
+  | snoc q a h ih => simp [comp,cutDegree,ih,add_assoc]
+
+theorem winding_comp {u v w : Q.Vertex} (p : Q.GinzburgPath u v)
+    (q : Q.GinzburgPath v w) : (p.comp q).winding=p.winding+q.winding := by
+  induction q with
+  | nil => simp [comp,winding]
+  | snoc q a h ih => simp [comp,winding,ih,add_assoc]
+
+theorem cohomologicalDegree_nonpos {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    p.cohomologicalDegree ≤ 0 := by
+  induction p with
+  | nil => simp [cohomologicalDegree]
+  | snoc p a h ih =>
+    cases a <;> simp only [cohomologicalDegree,GinzburgArrow.cohomologicalDegree] <;> omega
+
+theorem winding_nonneg {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    0 ≤ p.winding := by
+  induction p with
+  | nil => simp [winding]
+  | snoc p a h ih =>
+    have := a.winding_pos Q
+    simp only [winding]
+    omega
+
+theorem winding_pos_of_length_pos {u v : Q.Vertex} (p : Q.GinzburgPath u v)
+    (hp : 0<p.length) : 0<p.winding := by
+  cases p with
+  | nil => simp [length] at hp
+  | snoc p a h =>
+    have := p.winding_nonneg
+    have := a.winding_pos Q
+    simp only [winding]
+    omega
+
+theorem winding_formula {u v : Q.Vertex} (p : Q.GinzburgPath u v) :
+    p.winding=(v.val:ℤ)-u.val+Q.vertices*p.cutDegree := by
+  induction p with
+  | nil => simp [winding,cutDegree]
+  | snoc p a h ih =>
+    rw [winding,cutDegree,ih,a.winding_formula Q,h]
+    ring
+
+end GinzburgPath
+
+def Path.originalGinzburg : {u v : Q.Vertex} → Q.Path u v → Q.GinzburgPath u v
+  | _,_,.nil v => .nil v
+  | _,_,.snoc p a h => .snoc (originalGinzburg p) (.original a) h
+
+theorem Path.originalGinzburg_cohomologicalDegree {u v : Q.Vertex} (p : Q.Path u v) :
+    (p.originalGinzburg Q).cohomologicalDegree=0 := by
+  induction p with
+  | nil => simp [originalGinzburg,GinzburgPath.cohomologicalDegree]
+  | snoc p a h ih => simp [originalGinzburg,GinzburgPath.cohomologicalDegree,
+      GinzburgArrow.cohomologicalDegree,ih]
+
+theorem GinzburgPath.degreeZero_existsOriginal {u v : Q.Vertex}
+    (p : Q.GinzburgPath u v) (hp : p.cohomologicalDegree=0) :
+    ∃ q : Q.Path u v, q.originalGinzburg Q=p := by
+  revert hp
+  induction p with
+  | nil => intro _; exact ⟨.nil _,by simp [Path.originalGinzburg]⟩
+  | snoc p a h ih =>
+    intro hp
+    have hn := p.cohomologicalDegree_nonpos
+    cases a with
+    | original a =>
+      have hz : p.cohomologicalDegree=0 := by
+        simpa only [GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree,add_zero]
+          using hp
+      obtain ⟨q,rfl⟩ := ih hz
+      change Q.source a = _ at h
+      change ∃ r : Q.Path _ (Q.target a),
+        r.originalGinzburg Q = (q.originalGinzburg Q).snoc (.original a) h
+      exact ⟨Path.snoc q a h,by rfl⟩
+    | dual a =>
+      simp only [GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree] at hp
+      omega
+    | loop v =>
+      simp only [GinzburgPath.cohomologicalDegree,GinzburgArrow.cohomologicalDegree] at hp
+      omega
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,92 @@
+ASGinzburg/ASGeneratorDimensions.lean:21:7: error: Function expected at
+  Submodule.Quotient.subsingleton_iff
+but this term has type
+  Subsingleton (?m.89 ⧸ ?m.93) ↔ ?m.93 = ⊤
+
+Note: Expected a function because this term is being applied to the argument
+  _
+ASGinzburg/ASGeneratorDimensions.lean:19:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/ASGeneratorDimensions.lean:22:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  AddCommMonoid
+    (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸ (A.representableRadical j).component (op { index := i }))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/ASGeneratorDimensions.lean:22:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Module k
+    (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸ (A.representableRadical j).component (op { index := i }))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/ASGeneratorDimensions.lean:22:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Subsingleton
+    (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸ (A.representableRadical j).component (op { index := i }))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/ASGeneratorDimensions.lean:22:44: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+ASGinzburg/ASGeneratorDimensions.lean:17:2: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+j i : ℤ
+hij : i < j
+hp : (A.representableRadical j).component (op { index := i }) = ⊤
+this : Subsingleton
+  (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸ (A.representableRadical j).component (op { index := i })) :=
+  sorry
+⊢ Subsingleton
+    (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸ (A.representableRadical j).component (op { index := i }))
+ASGinzburg/ASGeneratorDimensions.lean:25:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Module.finrank k
+    (↑((A.representable j).obj.obj (op { index := i })) ⧸ (A.representableRadical j).component (op { index := i }))
+in the target expression
+  Module.finrank k
+      (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸
+        (A.representableRadical j).component (op { index := i })) =
+    if i = j then 1 else 0
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+j i : ℤ
+hij : ¬i < j
+hp : (A.representableRadical j).component (op { index := i }) = ⊥
+⊢ Module.finrank k
+      (↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸
+        (A.representableRadical j).component (op { index := i })) =
+    if i = j then 1 else 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (A.representableRadical j).component (op { index := i })
+  has type
+    @Submodule k (↑((A.representable j).obj.obj (op { index := i }))) Field.toSemifield.toSemiring
+      ((A.representable j).obj.obj (op { index := i })).isAddCommGroup.toAddCommMonoid
+      ((A.representable j).obj.obj (op { index := i })).isModule
+  but is expected to have type
+    @Submodule k (↑((A.rightModuleEvaluation i).obj (A.representable j))) Field.toSemifield.toSemiring
+      ((A.rightModuleEvaluation i).obj (A.representable j)).isAddCommGroup.toAddCommMonoid
+      ((A.rightModuleEvaluation i).obj (A.representable j)).isModule
+  in the application
+    ↑((A.rightModuleEvaluation i).obj (A.representable j)) ⧸ (A.representableRadical j).component (op { index := i })
+ASGinzburg/ASGeneratorDimensions.lean:61:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Module.Finite k
+    (A.Hom i (Q.height (Q.incomingSource w a)) ⧸
+      A.positiveActionSpan (A.representable (Q.height (Q.incomingSource w a))) i)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/ASGeneratorDimensions.lean:57:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

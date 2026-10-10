@@ -14,23 +14,23 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 
 noncomputable def leftTotalLinearMap {M N : A.LeftModule} (f : M ⟶ N) :
     A.leftModuleTotalSpace M →ₗ[k] A.leftModuleTotalSpace N :=
-  DFinsupp.mapRange.linearMap (fun i => (f.app (⟨i⟩ : A.Obj)).hom)
+  DFinsupp.mapRange.linearMap (fun i => (f.hom.app (⟨i⟩ : A.Obj)).hom)
 
 noncomputable def rightTotalLinearMap {M N : A.RightModule} (f : M ⟶ N) :
     A.rightModuleTotalSpace M →ₗ[k] A.rightModuleTotalSpace N :=
-  DFinsupp.mapRange.linearMap (fun i => (f.app (op (⟨i⟩ : A.Obj))).hom)
+  DFinsupp.mapRange.linearMap (fun i => (f.hom.app (op (⟨i⟩ : A.Obj))).hom)
 
 @[simp] theorem leftTotalLinearMap_lof {M N : A.LeftModule} (f : M ⟶ N) (i : ℤ)
     (x : (A.leftModuleEvaluation i).obj M) :
     A.leftTotalLinearMap f (DirectSum.lof k ℤ _ i x) =
-      DirectSum.lof k ℤ _ i ((f.app (⟨i⟩ : A.Obj)).hom x) := by
-  exact DFinsupp.mapRange_single (hf := fun i => (f.app (⟨i⟩ : A.Obj)).hom.map_zero)
+      DirectSum.lof k ℤ _ i ((f.hom.app (⟨i⟩ : A.Obj)).hom x) := by
+  exact DFinsupp.mapRange_single (hf := fun i => (f.hom.app (⟨i⟩ : A.Obj)).hom.map_zero)
 
 @[simp] theorem rightTotalLinearMap_lof {M N : A.RightModule} (f : M ⟶ N) (i : ℤ)
     (x : (A.rightModuleEvaluation i).obj M) :
     A.rightTotalLinearMap f (DirectSum.lof k ℤ _ i x) =
-      DirectSum.lof k ℤ _ i ((f.app (op (⟨i⟩ : A.Obj))).hom x) := by
-  exact DFinsupp.mapRange_single (hf := fun i => (f.app (op (⟨i⟩ : A.Obj))).hom.map_zero)
+      DirectSum.lof k ℤ _ i ((f.hom.app (op (⟨i⟩ : A.Obj))).hom x) := by
+  exact DFinsupp.mapRange_single (hf := fun i => (f.hom.app (op (⟨i⟩ : A.Obj))).hom.map_zero)
 
 theorem leftTotalLinearMap_action {M N : A.LeftModule} (f : M ⟶ N) {i j : ℤ}
     (a : A.Hom i j) :
@@ -46,7 +46,7 @@ theorem leftTotalLinearMap_action {M N : A.LeftModule} (f : M ⟶ N) {i j : ℤ}
     rw [A.leftModuleTotalAction_lof, A.leftTotalLinearMap_lof,
       A.leftTotalLinearMap_lof, A.leftModuleTotalAction_lof]
     apply congrArg (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj N) j)
-    exact congrArg (fun h => h.hom x) (f.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a))
+    exact congrArg (fun h => h.hom x) (f.hom.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a))
   · rw [A.leftModuleTotalAction_lof_off M a l hli, map_zero,
       A.leftTotalLinearMap_lof, A.leftModuleTotalAction_lof_off N a l hli]
 
@@ -65,7 +65,7 @@ theorem rightTotalLinearMap_action {M N : A.RightModule} (f : M ⟶ N) {i j : �
       A.rightTotalLinearMap_lof, A.rightModuleTotalAction_lof]
     apply congrArg (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj N) i)
     exact congrArg (fun h => h.hom x)
-      (f.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op)
+      (f.hom.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op)
   · rw [A.rightModuleTotalAction_lof_off M a l hlj, map_zero,
       A.rightTotalLinearMap_lof, A.rightModuleTotalAction_lof_off N a l hlj]
 
@@ -143,8 +143,9 @@ noncomputable def rightTotalModuleMap {M N : A.RightModule} (f : M ⟶ N) :
 
 noncomputable def leftTotalLocallyUnitalFunctor : A.LeftModule ⥤ A.LeftLocallyUnitalModule where
   obj := A.leftTotalLocallyUnitalModule
-  map f := A.leftTotalModuleMap f
+  map f := ObjectProperty.homMk (A.leftTotalModuleMap f)
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -152,6 +153,7 @@ noncomputable def leftTotalLocallyUnitalFunctor : A.LeftModule ⥤ A.LeftLocally
     intro i
     rfl
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -161,8 +163,9 @@ noncomputable def leftTotalLocallyUnitalFunctor : A.LeftModule ⥤ A.LeftLocally
 
 noncomputable def rightTotalLocallyUnitalFunctor : A.RightModule ⥤ A.RightLocallyUnitalModule where
   obj := A.rightTotalLocallyUnitalModule
-  map f := A.rightTotalModuleMap f
+  map f := ObjectProperty.homMk (A.rightTotalModuleMap f)
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -170,6 +173,7 @@ noncomputable def rightTotalLocallyUnitalFunctor : A.RightModule ⥤ A.RightLoca
     intro i
     rfl
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -180,13 +184,14 @@ noncomputable def rightTotalLocallyUnitalFunctor : A.RightModule ⥤ A.RightLoca
 instance leftTotalLocallyUnitalFunctorFaithful : A.leftTotalLocallyUnitalFunctor.Faithful where
   map_injective := by
     intro M N f g h
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     rcases X with ⟨i⟩
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    have he := congrArg (fun t => t.hom (DirectSum.lof k ℤ
+    have he := congrArg (fun t => t.hom.hom (DirectSum.lof k ℤ
       (fun l => (A.leftModuleEvaluation l).obj M) i x)) h
     change A.leftTotalLinearMap f (DirectSum.lof k ℤ _ i x) =
       A.leftTotalLinearMap g (DirectSum.lof k ℤ _ i x) at he
@@ -196,6 +201,7 @@ instance leftTotalLocallyUnitalFunctorFaithful : A.leftTotalLocallyUnitalFunctor
 instance rightTotalLocallyUnitalFunctorFaithful : A.rightTotalLocallyUnitalFunctor.Faithful where
   map_injective := by
     intro M N f g h
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     cases X using Opposite.rec
@@ -204,7 +210,7 @@ instance rightTotalLocallyUnitalFunctorFaithful : A.rightTotalLocallyUnitalFunct
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    have he := congrArg (fun t => t.hom (DirectSum.lof k ℤ
+    have he := congrArg (fun t => t.hom.hom (DirectSum.lof k ℤ
       (fun l => (A.rightModuleEvaluation l).obj M) i x)) h
     change A.rightTotalLinearMap f (DirectSum.lof k ℤ _ i x) =
       A.rightTotalLinearMap g (DirectSum.lof k ℤ _ i x) at he

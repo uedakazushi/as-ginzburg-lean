@@ -16,9 +16,9 @@ noncomputable def ginzburgHomOriginalDualShortComplex (v l : Q.LiftVertex) :
     ShortComplex (ModuleCat k) :=
   ShortComplex.mk
     (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-      (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).app ⟨Q.height l⟩)
+      (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).hom.app ⟨Q.height l⟩)
     (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-      (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨Q.height l⟩)
+      (Q.ginzburgDualOriginalProjectiveMap k φ v)).hom.app ⟨Q.height l⟩)
     (by
       apply ModuleCat.hom_ext
       ext f
@@ -30,9 +30,9 @@ noncomputable def ginzburgHomDualLoopShortComplex (v l : Q.LiftVertex) :
     ShortComplex (ModuleCat k) :=
   ShortComplex.mk
     (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-      (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨Q.height l⟩)
+      (Q.ginzburgDualOriginalProjectiveMap k φ v)).hom.app ⟨Q.height l⟩)
     (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-      (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩)
+      (Q.ginzburgLoopDualProjectiveMap k φ v)).hom.app ⟨Q.height l⟩)
     (by
       apply ModuleCat.hom_ext
       ext f

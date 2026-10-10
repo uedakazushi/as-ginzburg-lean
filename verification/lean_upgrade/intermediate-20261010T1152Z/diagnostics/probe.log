@@ -1,0 +1,8 @@
+@CategoryTheory.ObjectProperty.hom_ext : ∀ {C : Type u_2} [inst : CategoryTheory.Category.{u_1, u_2} C]
+  (P : CategoryTheory.ObjectProperty C) {X Y : P.FullSubcategory} {f g : X ⟶ Y}, f.hom = g.hom → f = g
+@CategoryTheory.ObjectProperty.isoMk : {C : Type u_2} →
+  [inst : CategoryTheory.Category.{u_1, u_2} C] →
+    (P : CategoryTheory.ObjectProperty C) → {X Y : P.FullSubcategory} → (X.obj ≅ Y.obj) → (X ≅ Y)
+@CategoryTheory.ObjectProperty.homMk : {C : Type u_2} →
+  [inst : CategoryTheory.Category.{u_1, u_2} C] →
+    {P : CategoryTheory.ObjectProperty C} → {X Y : P.FullSubcategory} → (X.obj ⟶ Y.obj) → (X ⟶ Y)

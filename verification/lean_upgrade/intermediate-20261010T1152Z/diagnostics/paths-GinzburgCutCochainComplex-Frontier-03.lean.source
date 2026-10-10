@@ -1,0 +1,69 @@
+import ASGinzburg.GinzburgCochainComplex
+import ASGinzburg.GinzburgPathFiniteness
+import Mathlib.FieldTheory.Finiteness
+
+/-! Actual fixed cut degree subcomplexes have finite dimensional terms. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgCutCohomologicalComponent (u v : Q.Vertex) (q c : ℤ) :
+    Submodule k (Q.GinzburgPathComponent k u v) :=
+  Q.ginzburgCohomologicalComponent k u v q ⊓ Q.ginzburgCutComponent k u v c
+
+instance ginzburgCutCohomologicalComponent_finite (u v : Q.Vertex) (q c : ℤ) :
+    Module.Finite k (Q.ginzburgCutCohomologicalComponent k u v q c) := by
+  letI : IsNoetherian k (Q.ginzburgCutComponent k u v c) :=
+    IsNoetherian.iff_fg.mpr (Q.ginzburgCutComponent_finite k u v c)
+  exact Module.Finite.of_injective
+    (Submodule.inclusion (show Q.ginzburgCutCohomologicalComponent k u v q c ≤
+      Q.ginzburgCutComponent k u v c from inf_le_right)) (Submodule.inclusion_injective _)
+
+noncomputable def ginzburgCutGradedDifferential (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
+    Q.ginzburgCutCohomologicalComponent k u v q c →ₗ[k]
+      Q.ginzburgCutCohomologicalComponent k u v (q+1) c :=
+  ((Q.ginzburgDifferential k φ u v).comp
+    (Q.ginzburgCutCohomologicalComponent k u v q c).subtype).codRestrict _
+      (fun f => ⟨Q.ginzburgDifferential_degree k φ q f.property.1,
+        Q.ginzburgDifferential_cut k φ c f.property.2⟩)
+
+@[simp] theorem ginzburgCutGradedDifferential_coe (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ)
+    (f : Q.ginzburgCutCohomologicalComponent k u v q c) :
+    (Q.ginzburgCutGradedDifferential k φ u v q c f).val=Q.ginzburgDifferential k φ u v f.val := rfl
+
+theorem ginzburgCutGradedDifferential_square (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
+    (Q.ginzburgCutGradedDifferential k φ u v (q+1) c).comp
+      (Q.ginzburgCutGradedDifferential k φ u v q c)=0 := by
+  apply LinearMap.ext
+  intro f
+  apply Subtype.ext
+  exact Q.ginzburgDifferential_square k φ f.val
+
+noncomputable def ginzburgCutCochainDifferential (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
+    ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v q c) ⟶
+      ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v (q+1) c) :=
+  ModuleCat.ofHom (Q.ginzburgCutGradedDifferential k φ u v q c)
+
+theorem ginzburgCutCochainDifferential_square (φ : Q.Potential k) (u v : Q.Vertex) (q c : ℤ) :
+    Q.ginzburgCutCochainDifferential k φ u v q c ≫
+      Q.ginzburgCutCochainDifferential k φ u v (q+1) c=0 := by
+  apply ModuleCat.hom_ext
+  exact Q.ginzburgCutGradedDifferential_square k φ u v q c
+
+noncomputable def ginzburgCutCochainComplex (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
+    CochainComplex (ModuleCat.{u} k) ℤ :=
+  CochainComplex.of (fun q => ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v q c))
+    (fun q => Q.ginzburgCutCochainDifferential k φ u v q c)
+    (fun q => Q.ginzburgCutCochainDifferential_square k φ u v q c)
+
+theorem ginzburgCutCochainComplex_d (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
+    (Q.ginzburgCutCochainComplex k φ u v c).d q (q+1)=Q.ginzburgCutCochainDifferential k φ u v q c :=
+  CochainComplex.of_d
+    (fun j => ModuleCat.of k (Q.ginzburgCutCohomologicalComponent k u v j c))
+    (fun j => Q.ginzburgCutCochainDifferential k φ u v j c) q
+
+noncomputable def ginzburgCutHomology (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) : ModuleCat.{u} k :=
+  (Q.ginzburgCutCochainComplex k φ u v c).homology q
+
+end ASGinzburg.CutQuiver

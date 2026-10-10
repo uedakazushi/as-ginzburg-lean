@@ -1,0 +1,85 @@
+import ASGinzburg.GinzburgCutCochainComplex
+import ASGinzburg.GinzburgCutProjections
+import ASGinzburg.GinzburgRegularity
+
+/-! Fixed cut complexes are genuine retracts of the original path complexes,
+so actual regularity implies their negative homology vanishes. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgCutCochainProjectionTerm (u v : Q.Vertex) (q c : ℤ) :
+    Q.ginzburgCohomologicalComponent k u v q →ₗ[k]
+      Q.ginzburgCutCohomologicalComponent k u v q c :=
+  ((Q.ginzburgCutProjection k u v c).comp
+    (Q.ginzburgCohomologicalComponent k u v q).subtype).codRestrict _
+      (fun f => ⟨Q.ginzburgCutProjection_cohomological k c q f.property,
+        Q.ginzburgCutProjection_mem k c f.val⟩)
+
+noncomputable def ginzburgCutCochainInclusion (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgCutCochainComplex k φ u v c ⟶ Q.ginzburgCochainComplex k φ u v :=
+  CochainComplex.ofHom
+    (X := Q.ginzburgCutCochainComplex k φ u v c)
+    (Y := Q.ginzburgCochainComplex k φ u v)
+    (fun q => ModuleCat.ofHom (Submodule.inclusion
+      (show Q.ginzburgCutCohomologicalComponent k u v q c ≤
+        Q.ginzburgCohomologicalComponent k u v q from inf_le_left)))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro f
+      apply Subtype.ext
+      rfl)
+
+noncomputable def ginzburgCutCochainProjection (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgCochainComplex k φ u v ⟶ Q.ginzburgCutCochainComplex k φ u v c :=
+  CochainComplex.ofHom
+    (X := Q.ginzburgCochainComplex k φ u v)
+    (Y := Q.ginzburgCutCochainComplex k φ u v c)
+    (fun q => ModuleCat.ofHom (Q.ginzburgCutCochainProjectionTerm k u v q c))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro f
+      apply Subtype.ext
+      exact Q.ginzburgDifferential_cutProjection k φ c f.val)
+
+theorem ginzburgCutCochainInclusion_projection (φ : Q.Potential k) (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgCutCochainInclusion k φ u v c ≫ Q.ginzburgCutCochainProjection k φ u v c=𝟙 _ := by
+  apply HomologicalComplex.hom_ext
+  intro q
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro f
+  apply Subtype.ext
+  change Q.ginzburgCutProjection k u v c f.val=f.val
+  rw [Q.ginzburgCutProjection_on_cut k c c f.property.2,if_pos rfl]
+
+noncomputable def ginzburgCutHomologyInclusion (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
+    Q.ginzburgCutHomology k φ u v c q ⟶ Q.ginzburgHomology k φ u v q :=
+  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+    (Q.ginzburgCutCochainInclusion k φ u v c)
+
+noncomputable def ginzburgCutHomologyProjection (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
+    Q.ginzburgHomology k φ u v q ⟶ Q.ginzburgCutHomology k φ u v c q :=
+  (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map
+    (Q.ginzburgCutCochainProjection k φ u v c)
+
+theorem ginzburgCutHomologyInclusion_projection (φ : Q.Potential k) (u v : Q.Vertex) (c q : ℤ) :
+    Q.ginzburgCutHomologyInclusion k φ u v c q ≫ Q.ginzburgCutHomologyProjection k φ u v c q=𝟙 _ := by
+  change (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map _ ≫
+    (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q).map _=_
+  rw [←CategoryTheory.Functor.map_comp,Q.ginzburgCutCochainInclusion_projection,
+    CategoryTheory.Functor.map_id]
+  rfl
+
+theorem GinzburgRegular.cutHomology_isZero {φ : Q.Potential k} (h : Q.GinzburgRegular k φ)
+    (u v : Q.Vertex) (c q : ℤ) (hq : q<0) : IsZero (Q.ginzburgCutHomology k φ u v c q) := by
+  letI : IsSplitMono (Q.ginzburgCutHomologyInclusion k φ u v c q) :=
+    IsSplitMono.mk' ⟨Q.ginzburgCutHomologyProjection k φ u v c q,
+      Q.ginzburgCutHomologyInclusion_projection k φ u v c q⟩
+  exact IsZero.of_mono (Q.ginzburgCutHomologyInclusion k φ u v c q)
+    ((Q.ginzburgRegular_iff_components k φ).mp h u v q hq)
+
+end ASGinzburg.CutQuiver

@@ -29,8 +29,7 @@ theorem balancedTensorDoubleOppositeModule_projective [Module.Projective R N] :
     letI := balancedTensorDoubleOppositeModule R N
     Module.Projective Rᵐᵒᵖᵐᵒᵖ N := by
   letI := balancedTensorDoubleOppositeModule R N
-  exact Module.Projective.of_ringEquiv (RingEquiv.opOp R)
-    (balancedTensorDoubleOppositeScalarEquiv R N)
+  exact Module.Projective.of_equiv (balancedTensorDoubleOppositeScalarEquiv R N)
 
 variable [IsScalarTower k R N] [Module.Projective R N]
 

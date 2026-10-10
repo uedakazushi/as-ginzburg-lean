@@ -19,10 +19,7 @@ noncomputable def cornerRecoveredModulePresheafIso
 
 noncomputable def cornerRecoveredModuleIso
     (M : (E.cornerCoverZAlgebra Q).RightModule) :
-    M ≅ (E.cornerGradedRightModule Q M).recoveredRightModule where
-  hom := (E.cornerRecoveredModulePresheafIso Q M).hom
-  inv := (E.cornerRecoveredModulePresheafIso Q M).inv
-  hom_inv_id := (E.cornerRecoveredModulePresheafIso Q M).hom_inv_id
-  inv_hom_id := (E.cornerRecoveredModulePresheafIso Q M).inv_hom_id
+    M ≅ (E.cornerGradedRightModule Q M).recoveredRightModule :=
+  ObjectProperty.isoMk _ (E.cornerRecoveredModulePresheafIso Q M)
 
 end ASGinzburg.ZAlgebra.PeriodIso

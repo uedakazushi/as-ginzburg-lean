@@ -1,0 +1,250 @@
+import ASGinzburg.LeftModuleADual
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+def rightModuleBidualElement (M : A.RightModule) (i : ℤ)
+    (x : (A.rightModuleEvaluation i).obj M) :
+    A.rightModuleADual M ⟶ A.leftRepresentable i :=
+  ObjectProperty.homMk
+    { app Y := ModuleCat.ofHom
+        { toFun g := (g.hom.app (op (⟨i⟩ : A.Obj))).hom x
+          map_add' g h := rfl
+          map_smul' r g := rfl }
+      naturality := by
+        intro Y Z a
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro g
+        rfl }
+
+def rightModuleBidualEvaluation (M : A.RightModule) :
+    M ⟶ A.leftModuleADual (A.rightModuleADual M) :=
+  ObjectProperty.homMk
+    { app X := ModuleCat.ofHom
+        { toFun x := A.rightModuleBidualElement M X.unop.index x
+          map_add' := by
+            intro x y
+            apply ObjectProperty.hom_ext
+            apply NatTrans.ext
+            funext Y
+            apply ModuleCat.hom_ext
+            apply LinearMap.ext
+            intro g
+            exact (g.hom.app X).hom.map_add x y
+          map_smul' := by
+            intro r x
+            apply ObjectProperty.hom_ext
+            apply NatTrans.ext
+            funext Y
+            apply ModuleCat.hom_ext
+            apply LinearMap.ext
+            intro g
+            exact (g.hom.app X).hom.map_smul r x }
+      naturality := by
+        intro X Y a
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro x
+        apply ObjectProperty.hom_ext
+        apply NatTrans.ext
+        funext Z
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro g
+        exact congrArg (fun f => f.hom x) (g.hom.naturality a) }
+
+@[reassoc] theorem rightModuleBidualEvaluation_natural {M N : A.RightModule} (f : M ⟶ N) :
+    f ≫ A.rightModuleBidualEvaluation N =
+      A.rightModuleBidualEvaluation M ≫ A.leftModuleADualMap (A.rightModuleADualMap f) := by
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext Y
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro g
+  rfl
+theorem representableBidualEvaluation_comp_iso (i : ℤ) :
+    A.rightModuleBidualEvaluation (A.representable i) ≫ (A.representableBidualIso i).hom =
+      𝟙 (A.representable i) := by
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  change (((A.representableADualIso i).inv ≫
+    A.rightModuleBidualElement (A.representable i) X.unop.index x).hom.app (⟨i⟩ : A.Obj)).hom (A.id i) = x
+  change (((A.representableADualIso i).inv.hom.app (⟨i⟩ : A.Obj)).hom (A.id i)).hom.app X x = x
+  change (((A.representableHomEquiv i i) (A.id i)).hom.app X).hom x = x
+  change A.comp (A.id i) x = x
+  exact A.comp_id x
+
+noncomputable instance representableBidualEvaluationIsIso (i : ℤ) :
+    IsIso (A.rightModuleBidualEvaluation (A.representable i)) := by
+  have h : A.rightModuleBidualEvaluation (A.representable i) = (A.representableBidualIso i).inv := by
+    apply (cancel_mono (A.representableBidualIso i).hom).mp
+    rw [A.representableBidualEvaluation_comp_iso, Iso.inv_hom_id]
+  rw [h]
+  infer_instance
+
+def leftModuleBidualElement (M : A.LeftModule) (i : ℤ)
+    (x : (A.leftModuleEvaluation i).obj M) :
+    A.leftModuleADual M ⟶ A.representable i :=
+  ObjectProperty.homMk
+    { app Y := ModuleCat.ofHom
+        { toFun g := (g.hom.app (⟨i⟩ : A.Obj)).hom x
+          map_add' g h := rfl
+          map_smul' r g := rfl }
+      naturality := by
+        intro Y Z a
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro g
+        rfl }
+
+def leftModuleBidualEvaluation (M : A.LeftModule) :
+    M ⟶ A.rightModuleADual (A.leftModuleADual M) :=
+  ObjectProperty.homMk
+    { app X := ModuleCat.ofHom
+        { toFun x := A.leftModuleBidualElement M X.index x
+          map_add' := by
+            intro x y
+            apply ObjectProperty.hom_ext
+            apply NatTrans.ext
+            funext Y
+            apply ModuleCat.hom_ext
+            apply LinearMap.ext
+            intro g
+            exact (g.hom.app X).hom.map_add x y
+          map_smul' := by
+            intro r x
+            apply ObjectProperty.hom_ext
+            apply NatTrans.ext
+            funext Y
+            apply ModuleCat.hom_ext
+            apply LinearMap.ext
+            intro g
+            exact (g.hom.app X).hom.map_smul r x }
+      naturality := by
+        intro X Y a
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro x
+        apply ObjectProperty.hom_ext
+        apply NatTrans.ext
+        funext Z
+        apply ModuleCat.hom_ext
+        apply LinearMap.ext
+        intro g
+        exact congrArg (fun f => f.hom x) (g.hom.naturality a) }
+
+@[reassoc] theorem leftModuleBidualEvaluation_natural {M N : A.LeftModule} (f : M ⟶ N) :
+    f ≫ A.leftModuleBidualEvaluation N =
+      A.leftModuleBidualEvaluation M ≫ A.rightModuleADualMap (A.leftModuleADualMap f) := by
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext Y
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro g
+  rfl
+
+theorem leftRepresentableBidualEvaluation_comp_iso (i : ℤ) :
+    A.leftModuleBidualEvaluation (A.leftRepresentable i) ≫ (A.leftRepresentableBidualIso i).hom =
+      𝟙 (A.leftRepresentable i) := by
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext X
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  apply (A.representableHomEquiv i X.index).injective
+  change (A.representableHomEquiv i X.index)
+    ((A.representableHomEquiv i X.index).symm
+      ((A.leftRepresentableADualIso i).inv ≫
+        A.leftModuleBidualElement (A.leftRepresentable i) X.index x)) =
+      (A.representableHomEquiv i X.index) x
+  rw [LinearEquiv.apply_symm_apply]
+  apply ObjectProperty.hom_ext
+  apply NatTrans.ext
+  funext Y
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro a
+  change (((A.leftRepresentableYonedaEquiv i (A.leftRepresentable Y.unop.index)).symm a).hom.app X).hom x =
+    A.comp x a
+  rfl
+
+noncomputable instance leftRepresentableBidualEvaluationIsIso (i : ℤ) :
+    IsIso (A.leftModuleBidualEvaluation (A.leftRepresentable i)) := by
+  have h : A.leftModuleBidualEvaluation (A.leftRepresentable i) = (A.leftRepresentableBidualIso i).inv := by
+    apply (cancel_mono (A.leftRepresentableBidualIso i).hom).mp
+    rw [A.leftRepresentableBidualEvaluation_comp_iso, Iso.inv_hom_id]
+  rw [h]
+  infer_instance
+
+instance rightModuleADualFunctorAdditive : A.rightModuleADualFunctor.Additive where
+  map_add := by
+    intro M N f g
+    apply ObjectProperty.hom_ext
+    apply NatTrans.ext
+    funext X
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    change (f.unop + g.unop) ≫ h = f.unop ≫ h + g.unop ≫ h
+    exact Preadditive.add_comp _ _ _ _ _ _
+
+instance leftModuleADualFunctorAdditive : A.leftModuleADualFunctor.Additive where
+  map_add := by
+    intro M N f g
+    apply ObjectProperty.hom_ext
+    apply NatTrans.ext
+    funext X
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro h
+    change (f.unop + g.unop) ≫ h = f.unop ≫ h + g.unop ≫ h
+    exact Preadditive.add_comp _ _ _ _ _ _
+
+def rightModuleBidualFunctor : A.RightModule ⥤ A.RightModule where
+  obj M := A.leftModuleADual (A.rightModuleADual M)
+  map f := A.leftModuleADualMap (A.rightModuleADualMap f)
+  map_id M := (A.rightModuleADualFunctor.rightOp ⋙ A.leftModuleADualFunctor).map_id M
+  map_comp f g := (A.rightModuleADualFunctor.rightOp ⋙ A.leftModuleADualFunctor).map_comp f g
+
+def leftModuleBidualFunctor : A.LeftModule ⥤ A.LeftModule where
+  obj M := A.rightModuleADual (A.leftModuleADual M)
+  map f := A.rightModuleADualMap (A.leftModuleADualMap f)
+  map_id M := (A.leftModuleADualFunctor.rightOp ⋙ A.rightModuleADualFunctor).map_id M
+  map_comp f g := (A.leftModuleADualFunctor.rightOp ⋙ A.rightModuleADualFunctor).map_comp f g
+
+def rightModuleBidualEvaluationNatTrans : 𝟭 A.RightModule ⟶ A.rightModuleBidualFunctor where
+  app := A.rightModuleBidualEvaluation
+  naturality := by intro M N f; exact A.rightModuleBidualEvaluation_natural f
+
+def leftModuleBidualEvaluationNatTrans : 𝟭 A.LeftModule ⟶ A.leftModuleBidualFunctor where
+  app := A.leftModuleBidualEvaluation
+  naturality := by intro M N f; exact A.leftModuleBidualEvaluation_natural f
+
+instance rightModuleBidualFunctorAdditive : A.rightModuleBidualFunctor.Additive :=
+  inferInstanceAs (A.rightModuleADualFunctor.rightOp ⋙ A.leftModuleADualFunctor).Additive
+
+instance leftModuleBidualFunctorAdditive : A.leftModuleBidualFunctor.Additive :=
+  inferInstanceAs (A.leftModuleADualFunctor.rightOp ⋙ A.rightModuleADualFunctor).Additive
+
+end ASGinzburg.ZAlgebra

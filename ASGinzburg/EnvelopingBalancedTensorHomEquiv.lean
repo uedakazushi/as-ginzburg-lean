@@ -33,15 +33,8 @@ noncomputable def envelopingBalancedTensorCurry :
     map_smul' := fun t p => by
       apply balancedTensorHom_ext k R M X
       intro x
-      refine TensorProduct.induction_on t ?_ ?_ ?_
-      · have h : g ((0 : AlgebraEnvelopingRing k R) • p)=
-            (0 : AlgebraEnvelopingRing k R) • g p := by
-          have hp : (0 : AlgebraEnvelopingRing k R) • p=0 :=
-            (inferInstance : Module (AlgebraEnvelopingRing k R) P).zero_smul p
-          have hg : (0 : AlgebraEnvelopingRing k R) • g p=0 :=
-            (envelopingBalancedTensorHomModule k R M X).zero_smul (g p)
-          exact (congrArg g hp).trans (g.map_zero.trans hg.symm)
-        exact congrArg (fun h : BalancedTensorHom k R M X => h x) h
+      refine TensorProduct.inductionOn (motive := fun t =>
+        g (t • p) x = (t • g p) x) t ?_ ?_
       · intro a b
         change f (balancedTensorTmul k R M P x ((a ⊗ₜ[k] b) • p))=
           ((a ⊗ₜ[k] b) • g p) x
@@ -80,9 +73,9 @@ noncomputable def envelopingBalancedTensorHomRestrictMap :
       have h := g.map_smul ((Algebra.TensorProduct.includeLeft : R →ₐ[k]
         AlgebraEnvelopingRing k R) a) p
       have hx := congrArg (fun f : BalancedTensorHom k R M X => f x) h
-      simpa only [Algebra.TensorProduct.includeLeft_apply,
-        envelopingBalancedTensorHomModule_tmul_apply,one_smul,
-        balancedTensorHom_smul_apply] using hx}
+      change g (a • p) x = ((a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) • g p) x at hx
+      simpa only [envelopingBalancedTensorHomModule_tmul_apply,one_smul,
+        balancedTensorHom_smul_apply,RingHom.id_apply] using hx}
 
 noncomputable def envelopingBalancedTensorUncurry :
     letI := envelopingBalancedTensorRightModule k R M P
@@ -113,8 +106,9 @@ noncomputable def envelopingBalancedTensorUncurry :
         have h := g.map_smul ((Algebra.TensorProduct.includeRight : Rᵐᵒᵖ →ₐ[k]
           AlgebraEnvelopingRing k R) b) p
         have hx := congrArg (fun f : BalancedTensorHom k R M X => f x) h
-        simpa only [Algebra.TensorProduct.includeRight_apply,
-          envelopingBalancedTensorHomModule_tmul_apply,MulOpposite.op_one,one_smul] using hx
+        change g (b • p) x = (((1 : R) ⊗ₜ[k] b) • g p) x at hx
+        simpa only [envelopingBalancedTensorHomModule_tmul_apply,
+          MulOpposite.op_one,one_smul] using hx
       · intro a c ha hc
         simp only [smul_add,map_add,ha,hc]}
 

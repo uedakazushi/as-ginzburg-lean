@@ -1,0 +1,47 @@
+ASGinzburg/HomotopyOpposite.lean:39:4: error: Type mismatch: After simplification, term
+  H
+ has type
+  @Eq (unop (Y.X i) ⟶ unop (X.X i)) (f.f i).unop
+    ((g.f i).unop +
+      ((h.hom (c.symm.next i) i).unop ≫ (X.d i (c.symm.next i)).unop +
+        (Y.d (c.symm.prev i) i).unop ≫ (h.hom i (c.symm.prev i)).unop))
+but is expected to have type
+  @Eq (unop (Y.X i) ⟶ unop (X.X i)) (f.f i).unop
+    ((g.f i).unop +
+      ((h.hom (c.prev i) i).unop ≫ (X.d i (c.prev i)).unop + (Y.d (c.next i) i).unop ≫ (h.hom i (c.next i)).unop))
+ASGinzburg/HomotopyOpposite.lean:85:6: error: Type mismatch: After simplification, term
+  H'
+ has type
+  @Eq
+    ((HomotopyCategory.quotient C c).obj (unop ((opFunctor C c ⋙ opInverse C c).obj (op Y.1.as))) ⟶
+      (HomotopyCategory.quotient C c).obj (unop ((𝟭 (HomologicalComplex C c)ᵒᵖ).obj (op X.1.as))))
+    ((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op Y.1.as)).unop ≫
+      (HomotopyCategory.quotient C c).map ((𝟭 (HomologicalComplex C c)ᵒᵖ).map g.op).unop)
+    ((HomotopyCategory.quotient C c).map ((opFunctor C c ⋙ opInverse C c).map g.op).unop ≫
+      (HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op X.1.as)).unop)
+but is expected to have type
+  @Eq
+    ((HomotopyCategory.quotient C c).obj (unop ((opFunctor C c ⋙ opInverse C c).obj (op (unop Y).as))) ⟶
+      (HomotopyCategory.quotient C c).obj X.1.as)
+    ((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op (unop Y).as)).unop ≫
+      (HomotopyCategory.quotient C c).map g)
+    ((HomotopyCategory.quotient C c).map ((opInverse C c).map ((opFunctor C c).map g.op)).unop ≫
+      (HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op (unop X).as)).unop)
+ASGinzburg/HomotopyOpposite.lean:106:6: error: Type mismatch: After simplification, term
+  H'
+ has type
+  @Eq
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).obj ((opInverse C c ⋙ opFunctor C c).obj X.as) ⟶
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).obj ((𝟭 (HomologicalComplex Cᵒᵖ c.symm)).obj Y.as))
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opInverse C c ⋙ opFunctor C c).map g) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app Y.as))
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app X.as) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map ((𝟭 (HomologicalComplex Cᵒᵖ c.symm)).map g))
+but is expected to have type
+  @Eq
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).obj ((opFunctor C c).obj ((opInverse C c).obj X.as)) ⟶
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).obj ((𝟭 (HomologicalComplex Cᵒᵖ c.symm)).obj Y.as))
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opFunctor C c).map ((opInverse C c).map g)) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app Y.as))
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app X.as) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map g)

@@ -1,0 +1,111 @@
+import ASGinzburg.ASLeftResolution
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+noncomputable def leftResolutionDualComplex : CochainComplex A.RightModule ℕ :=
+  (A.leftModuleADualFunctor.mapHomologicalComplex (ComplexShape.up ℕ)).obj
+    R.leftResolutionComplex.op
+
+noncomputable def reversedRightTerm : ℕ → A.RightModule
+  | 0 => R.complexTerm 3
+  | 1 => R.complexTerm 2
+  | 2 => R.complexTerm 1
+  | 3 => R.complexTerm 0
+  | _+4 => 0
+
+noncomputable def reversedRightDifferential : ∀ n, R.reversedRightTerm n ⟶ R.reversedRightTerm (n+1)
+  | 0 => R.d₃
+  | 1 => R.d₂
+  | 2 => R.d₁
+  | _+3 => 0
+
+theorem reversedRightDifferential_sq (n : ℕ) :
+    R.reversedRightDifferential n ≫ R.reversedRightDifferential (n+1) = 0 := by
+  rcases n with _ | _ | _ | n
+  · exact R.d₃_d₂
+  · exact R.d₂_d₁
+  · exact comp_zero
+  · simp [reversedRightDifferential]
+
+noncomputable def reversedRightComplex : CochainComplex A.RightModule ℕ :=
+  CochainComplex.of R.reversedRightTerm R.reversedRightDifferential R.reversedRightDifferential_sq
+
+noncomputable def leftResolutionBidualTermIso (n : ℕ) :
+    R.leftResolutionDualComplex.X n ≅ R.reversedRightTerm n := by
+  rcases n with _ | _ | _ | _ | n
+  · letI := A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 3)
+    exact (asIso (A.rightModuleBidualEvaluation (R.complexTerm 3))).symm
+  · letI := A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 2)
+    exact (asIso (A.rightModuleBidualEvaluation (R.complexTerm 2))).symm
+  · letI := A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 1)
+    exact (asIso (A.rightModuleBidualEvaluation (R.complexTerm 1))).symm
+  · letI := A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 0)
+    exact (asIso (A.rightModuleBidualEvaluation (R.complexTerm 0))).symm
+  · exact (A.leftModuleADualFunctor.map_isZero (isZero_zero A.LeftModule).op).isoZero
+
+theorem leftResolutionDualComplex_d (n : ℕ) :
+    R.leftResolutionDualComplex.d n (n+1) = A.leftModuleADualMap (R.leftResolutionDifferential n) := by
+  change A.leftModuleADualMap (R.leftResolutionComplex.d (n+1) n) = _
+  rw [show R.leftResolutionComplex.d (n+1) n = R.leftResolutionDifferential n from
+    ChainComplex.of_d R.leftResolutionTerm R.leftResolutionDifferential n]
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def leftResolutionBidualComplexIso :
+    R.leftResolutionDualComplex ≅ R.reversedRightComplex :=
+  HomologicalComplex.Hom.isoOfComponents R.leftResolutionBidualTermIso (by
+    intro i j hij
+    obtain rfl : j = i+1 := hij.symm
+    rw [R.leftResolutionDualComplex_d i]
+    rw [show R.reversedRightComplex.d i (i+1) = R.reversedRightDifferential i from
+      CochainComplex.of_d R.reversedRightTerm R.reversedRightDifferential i]
+    rcases i with _ | _ | _ | i
+    · letI : IsIso (A.rightModuleBidualEvaluation (R.complexTerm 3)) :=
+        A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 3)
+      letI : IsIso (A.rightModuleBidualEvaluation (R.complexTerm 2)) :=
+        A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 2)
+      change inv (A.rightModuleBidualEvaluation (R.complexTerm 3)) ≫ R.d₃ =
+        A.leftModuleADualMap (A.rightModuleADualMap R.d₃) ≫
+          inv (A.rightModuleBidualEvaluation (R.complexTerm 2))
+      have H : R.d₃ ≫ A.rightModuleBidualEvaluation (R.complexTerm 2) =
+          A.rightModuleBidualEvaluation (R.complexTerm 3) ≫
+            A.leftModuleADualMap (A.rightModuleADualMap R.d₃) :=
+        A.rightModuleBidualEvaluation_natural R.d₃
+      rw [IsIso.inv_comp_eq, ← Category.assoc, ← H]
+      simp only [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
+    · letI : IsIso (A.rightModuleBidualEvaluation (R.complexTerm 2)) :=
+        A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 2)
+      letI : IsIso (A.rightModuleBidualEvaluation (R.complexTerm 1)) :=
+        A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 1)
+      change inv (A.rightModuleBidualEvaluation (R.complexTerm 2)) ≫ R.d₂ =
+        A.leftModuleADualMap (A.rightModuleADualMap R.d₂) ≫
+          inv (A.rightModuleBidualEvaluation (R.complexTerm 1))
+      have H : R.d₂ ≫ A.rightModuleBidualEvaluation (R.complexTerm 1) =
+          A.rightModuleBidualEvaluation (R.complexTerm 2) ≫
+            A.leftModuleADualMap (A.rightModuleADualMap R.d₂) :=
+        A.rightModuleBidualEvaluation_natural R.d₂
+      rw [IsIso.inv_comp_eq, ← Category.assoc, ← H]
+      simp only [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
+    · letI : IsIso (A.rightModuleBidualEvaluation (R.complexTerm 1)) :=
+        A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 1)
+      letI : IsIso (A.rightModuleBidualEvaluation (R.complexTerm 0)) :=
+        A.rightFiniteProjectiveProperty_bidual (R.complexTermFiniteProjective 0)
+      change inv (A.rightModuleBidualEvaluation (R.complexTerm 1)) ≫ R.d₁ =
+        A.leftModuleADualMap (A.rightModuleADualMap R.d₁) ≫
+          inv (A.rightModuleBidualEvaluation (R.complexTerm 0))
+      have H : R.d₁ ≫ A.rightModuleBidualEvaluation (R.complexTerm 0) =
+          A.rightModuleBidualEvaluation (R.complexTerm 1) ≫
+            A.leftModuleADualMap (A.rightModuleADualMap R.d₁) :=
+        A.rightModuleBidualEvaluation_natural R.d₁
+      rw [IsIso.inv_comp_eq, ← Category.assoc, ← H]
+      simp only [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
+    · simp [leftResolutionDifferential,reversedRightDifferential,
+        show A.leftModuleADualMap (0 : R.leftResolutionTerm (i+4) ⟶ R.leftResolutionTerm (i+3)) = 0 from
+          A.leftModuleADualFunctor.map_zero _ _])
+end ASGinzburg.ZAlgebra.ASResolution
+

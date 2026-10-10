@@ -1,0 +1,47 @@
+ASGinzburg/OppositeCutQuiver.lean:37:16: error: unsolved goals
+Q : CutQuiver
+v : Q.LiftVertex
+⊢ ((Fin.rev v.1).rev, v.2) = v
+ASGinzburg/OppositeCutQuiver.lean:38:17: error: unsolved goals
+Q : CutQuiver
+v : Q.opposite.LiftVertex
+⊢ ((Fin.rev v.1).rev, v.2) = v
+ASGinzburg/OppositeCutQuiver.lean:37:25: warning: This simp argument is unused:
+  Fin.rev_rev
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositeCutQuiver.lean:38:26: warning: This simp argument is unused:
+  Fin.rev_rev
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositeCutQuiver.lean:54:20: warning: declaration uses `sorry`
+ASGinzburg/OppositeCutQuiver.lean:51:8: warning: declaration uses `sorry`
+ASGinzburg/OppositeCutQuiver.lean:54:44: warning: This simp argument is unused:
+  Equiv.coe_fn_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [height, oppositeLiftVertexEquiv, opposite, Fin.val_rev]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositeCutQuiver.lean:54:69: warning: This simp argument is unused:
+  Fin.val_rev
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [height, oppositeLiftVertexEquiv, Equiv.coe_fn_mk, opposite]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositeCutQuiver.lean:58:2: warning: Unused tactic linter: `rw [hcast]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/OppositeCutQuiver.lean:59:2: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/OppositeCutQuiver.lean:59:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`

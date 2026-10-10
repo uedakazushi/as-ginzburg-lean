@@ -1,0 +1,34 @@
+import ASGinzburg.RightModuleMinimality
+import ASGinzburg.CoproductRadicals
+
+/-! Actual radical containment for the representable radical inclusion
+and for every map from a representable to finite representables at
+strictly higher endpoints. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem representableRadicalInclusion_minimal (i : ℤ) :
+    A.IsMinimalMorphism (A.representableRadical i).inclusion := by
+  intro j x
+  rw [← A.representableRadical_eq_positiveActionSpan i j]
+  exact x.property
+
+theorem representable_to_finiteCoproduct_minimal {I : Type} [Fintype I]
+    (i : ℤ) (j : I → ℤ) (h : ∀ a, i<j a)
+    (f : A.representable i ⟶ ∐ fun a => A.representable (j a)) :
+    A.IsMinimalMorphism f := by
+  classical
+  intro l x
+  by_cases hl : l ≤ i
+  · apply (A.rightFiniteCoproduct_radical_iff (fun a => A.representable (j a)) l _).mpr
+    intro a
+    rw [← A.representableRadical_eq_positiveActionSpan (j a) l]
+    simp [representableRadical,lt_of_le_of_lt hl (h a)]
+    exact Submodule.mem_top
+  · have hx : x=0 := A.positive (u:=l) (v:=i) (lt_of_not_ge hl) x
+    rw [hx,map_zero]
+    exact (A.positiveActionSpan _ l).zero_mem
+
+end ASGinzburg.ZAlgebra

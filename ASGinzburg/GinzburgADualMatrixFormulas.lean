@@ -16,7 +16,7 @@ theorem ginzburgDualOriginalProjectiveMap_adual_matrix
     (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
       (fun a : Q.GinzburgIncomingDegree v.1 (-1) =>
         Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) ((Q.unrolledJacobianZAlgebra k φ).representable l)
-      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨l⟩ f) a=
+      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap (Q.ginzburgDualOriginalProjectiveMap k φ v)).hom.app ⟨l⟩ f) a=
       ∑ b : Q.GinzburgIncomingDegree v.1 0,
         (Q.unrolledJacobianZAlgebra k φ).comp ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
           (fun b : Q.GinzburgIncomingDegree v.1 0 =>
@@ -43,7 +43,7 @@ theorem ginzburgLoopDualProjectiveMap_adual_matrix
     (Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv
       (fun a : Q.GinzburgIncomingDegree v.1 (-2) =>
         Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val)) ((Q.unrolledJacobianZAlgebra k φ).representable l)
-      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨l⟩ f)
+      (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap (Q.ginzburgLoopDualProjectiveMap k φ v)).hom.app ⟨l⟩ f)
       ⟨.loop v.1,rfl,rfl⟩=
       ∑ b : Q.GinzburgIncomingDegree v.1 (-1),
         (Q.unrolledJacobianZAlgebra k φ).comp ((Q.unrolledJacobianZAlgebra k φ).rightRepresentableCoproductHomEquiv

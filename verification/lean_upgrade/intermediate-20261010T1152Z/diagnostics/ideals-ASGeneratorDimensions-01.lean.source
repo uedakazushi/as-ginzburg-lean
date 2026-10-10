@@ -1,0 +1,75 @@
+import ASGinzburg.ASIndecomposables
+import ASGinzburg.CoproductRadicalQuotients
+import Mathlib.LinearAlgebra.Dimension.Constructions
+
+/-! Proposition 1.2: the first minimal AS differential identifies the number
+of minimal algebra generators in each component with incoming arrows. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem representable_top_component_finrank (j i : ℤ) :
+    Module.finrank k ((A.rightModuleEvaluation i).obj (A.representable j) ⧸
+      A.positiveActionSpan (A.representable j) i) = if i = j then 1 else 0 := by
+  rw [← A.representableRadical_eq_positiveActionSpan]
+  by_cases hij : i < j
+  · have hp : (A.representableRadical j).component (op (⟨i⟩ : A.Obj)) = ⊤ := by
+      simp [representableRadical,hij]
+    letI : Subsingleton ((A.rightModuleEvaluation i).obj (A.representable j) ⧸
+        (A.representableRadical j).component (op (⟨i⟩ : A.Obj))) :=
+      (Submodule.Quotient.subsingleton_iff _).mpr (fun x => by rw [hp]; trivial)
+    rw [Module.finrank_zero_of_subsingleton,if_neg (ne_of_lt hij)]
+  · have hp : (A.representableRadical j).component (op (⟨i⟩ : A.Obj)) = ⊥ := by
+      simp [representableRadical,hij]
+    rw [(Submodule.quotEquivOfEqBot _ hp).finrank_eq]
+    change Module.finrank k (A.Hom i j) = if i = j then 1 else 0
+    by_cases heq : i = j
+    · subst i
+      rw [if_pos rfl,← (A.scalarEndEquiv j).finrank_eq]
+      exact Module.finrank_self k
+    · have hji : j < i := by omega
+      letI : Subsingleton (A.Hom i j) := ⟨fun x y => by rw [A.positive hji x,A.positive hji y]⟩
+      rw [if_neg heq]
+      exact Module.finrank_zero_of_subsingleton
+
+namespace ASResolution
+variable {A} {Q : CutQuiver} {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+include R in
+theorem indecomposables_finrank (i : ℤ) (hi : i < Q.height w) :
+    Module.finrank k (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) =
+      Fintype.card {a : Q.incomingArrows w // Q.height (Q.incomingSource w a) = i} := by
+  classical
+  have hdim : Module.finrank k
+      ((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w) ⧸
+        A.positiveActionSpan (A.asResolutionTerm₁ Q w) i) =
+      Module.finrank k (A.Hom i (Q.height w) ⧸ Submodule.span k (A.products i (Q.height w))) :=
+    LinearEquiv.finrank_eq (R.indecomposablesEquiv i hi)
+  rw [← hdim]
+  change Module.finrank k
+    ((A.rightModuleEvaluation i).obj
+      (∐ fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) ⧸
+      A.positiveActionSpan
+        (∐ fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) i) = _
+  rw [(A.rightFiniteCoproductTopEquiv
+    (fun a : Q.incomingArrows w => A.representable (Q.height (Q.incomingSource w a))) i).finrank_eq]
+  letI : ∀ a : Q.incomingArrows w, Module.Finite k
+      ((A.rightModuleEvaluation i).obj (A.representable (Q.height (Q.incomingSource w a))) ⧸
+        A.positiveActionSpan (A.representable (Q.height (Q.incomingSource w a))) i) := fun a => by
+    change Module.Finite k (A.Hom i (Q.height (Q.incomingSource w a)) ⧸ _)
+    infer_instance
+  rw [Module.finrank_pi_fintype]
+  simp only [A.representable_top_component_finrank]
+  simp [eq_comm,Fintype.card_subtype]
+
+end ASResolution
+
+theorem ASRegular.indecomposables_finrank {Q : CutQuiver} (hAS : A.ASRegular Q)
+    (u v : Q.LiftVertex) (huv : Q.height u < Q.height v) :
+    Module.finrank k (A.Hom (Q.height u) (Q.height v) ⧸
+      Submodule.span k (A.products (Q.height u) (Q.height v))) =
+      Fintype.card {a : Q.incomingArrows v // Q.height (Q.incomingSource v a) = Q.height u} :=
+  (hAS.resolution A Q v).indecomposables_finrank (Q.height u) huv
+
+end ASGinzburg.ZAlgebra

@@ -1,0 +1,16 @@
+ASGinzburg/ModuleCokernelHomologyClasses.lean:20:4: error: Type mismatch: After simplification, term
+  h
+ has type
+  @Eq (S.cycles ⟶ S.X₂)
+    ((ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork S hg (ModuleCat.cokernelCocone S.f)
+            (ModuleCat.cokernelIsColimit S.f)).cyclesIso.hom ≫
+      𝟙 S.X₂)
+    S.iCycles
+but is expected to have type
+  @Eq
+    (S.cycles ⟶
+      (ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork S hg (ModuleCat.cokernelCocone S.f)
+          (ModuleCat.cokernelIsColimit S.f)).K)
+    (ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork S hg (ModuleCat.cokernelCocone S.f)
+          (ModuleCat.cokernelIsColimit S.f)).cyclesIso.hom
+    S.iCycles

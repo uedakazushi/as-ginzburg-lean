@@ -1,0 +1,50 @@
+import ASGinzburg.LinearIdealProducts
+import ASGinzburg.UnrolledPathIdeals
+
+/-! Actual minimal relation spaces I/(IJ+JI), using genuine free-path
+ideals and their actual products. The identification with AS syzygy tops
+and cut-indexed bases is a further theorem, not an assumption. -/
+namespace ASGinzburg.ZAlgebra.LinearIdeal
+universe u v
+variable {k : Type u} [Field k] {B : ZAlgebra.{u,v} k}
+
+theorem mul_hom_le_left (I J : B.LinearIdeal) (i j : ℤ) :
+    (I.mul J).hom i j ≤ I.hom i j := by
+  apply Submodule.span_le.mpr
+  rintro _ ⟨l,f,hf,g,hg,rfl⟩
+  exact I.comp_left hf g
+
+theorem mul_hom_le_right (I J : B.LinearIdeal) (i j : ℤ) :
+    (I.mul J).hom i j ≤ J.hom i j := by
+  apply Submodule.span_le.mpr
+  rintro _ ⟨l,f,hf,g,hg,rfl⟩
+  exact J.comp_right hg f
+
+end ASGinzburg.ZAlgebra.LinearIdeal
+
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) {k : Type u} [Field k]
+
+def relationDecomposables (I : (Q.unrolledPathZAlgebra k).LinearIdeal) (i j : ℤ) :
+    Submodule k ((Q.unrolledPathZAlgebra k).Hom i j) :=
+  (I.mul (Q.unrolledArrowIdeal k)).hom i j ⊔
+    ((Q.unrolledArrowIdeal k).mul I).hom i j
+
+theorem relationDecomposables_le (I : (Q.unrolledPathZAlgebra k).LinearIdeal) (i j : ℤ) :
+    Q.relationDecomposables I i j ≤ I.hom i j :=
+  sup_le (I.mul_hom_le_left _ i j) ((Q.unrolledArrowIdeal k).mul_hom_le_right I i j)
+
+abbrev MinimalRelationComponent (I : (Q.unrolledPathZAlgebra k).LinearIdeal) (i j : ℤ) :=
+  I.hom i j ⧸ Submodule.comap (I.hom i j).subtype (Q.relationDecomposables I i j)
+
+instance minimalRelationComponentFinite (I : (Q.unrolledPathZAlgebra k).LinearIdeal) (i j : ℤ) :
+    Module.Finite k (Q.MinimalRelationComponent I i j) := by infer_instance
+
+theorem minimalRelation_mk_eq_zero_iff (I : (Q.unrolledPathZAlgebra k).LinearIdeal)
+    (i j : ℤ) (r : I.hom i j) :
+    (Submodule.Quotient.mk r : Q.MinimalRelationComponent I i j)=0 ↔
+      r.val∈Q.relationDecomposables I i j :=
+  Submodule.Quotient.mk_eq_zero _
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,60 @@
+ASGinzburg/UnrolledErasureIdeals.lean:20:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.unrolledPathEraseLinearMap ?k ?u ?w) (((Q.unrolledPathComp ?k) ?g) ?f)
+in the target expression
+  (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l)) (((Q.unrolledPathComp k) g) f) ∈
+    I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm l).1
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+I : Q.PathLinearIdeal k
+i j l : ℤ
+f : (Q.unrolledPathZAlgebra k).Hom i j
+hf :
+  f ∈
+    Submodule.comap (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j))
+      (I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm j).1)
+g : (Q.unrolledPathZAlgebra k).Hom j l
+⊢ (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l)) (((Q.unrolledPathComp k) g) f) ∈
+    I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm l).1
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    g
+  has type
+    (Q.unrolledPathZAlgebra k).Hom j l
+  but is expected to have type
+    Q.UnrolledPathComponent k (Q.heightEquiv.symm j) (Q.heightEquiv.symm l)
+  in the application
+    (Q.unrolledPathComp k) g
+ASGinzburg/UnrolledErasureIdeals.lean:26:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.unrolledPathEraseLinearMap ?k ?u ?w) (((Q.unrolledPathComp ?k) ?g) ?f)
+in the target expression
+  (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l)) (((Q.unrolledPathComp k) g) f) ∈
+    I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm l).1
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+I : Q.PathLinearIdeal k
+i j l : ℤ
+g : (Q.unrolledPathZAlgebra k).Hom j l
+hg :
+  g ∈
+    Submodule.comap (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm j) (Q.heightEquiv.symm l))
+      (I.hom (Q.heightEquiv.symm j).1 (Q.heightEquiv.symm l).1)
+f : (Q.unrolledPathZAlgebra k).Hom i j
+⊢ (Q.unrolledPathEraseLinearMap k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l)) (((Q.unrolledPathComp k) g) f) ∈
+    I.hom (Q.heightEquiv.symm i).1 (Q.heightEquiv.symm l).1
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    g
+  has type
+    (Q.unrolledPathZAlgebra k).Hom j l
+  but is expected to have type
+    Q.UnrolledPathComponent k (Q.heightEquiv.symm j) (Q.heightEquiv.symm l)
+  in the application
+    (Q.unrolledPathComp k) g

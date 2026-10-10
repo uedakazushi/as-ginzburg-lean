@@ -1,0 +1,41 @@
+ASGinzburg/ASLastArrowKernelCoordinates.lean:25:6: error: Type mismatch: After simplification, term
+  h
+ has type
+  (A.lastArrowToASFirstTerm Q R u w huw) f = 0
+but is expected to have type
+  e.symm ((A.lastArrowPrefixEvaluation Q R u w) ((Q.unrolledLastArrowLinearEquiv k u w huw) f)) = e.symm 0
+ASGinzburg/ASLastArrowKernelCoordinates.lean:32:11: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  e.symm 0 = 0
+
+case mpr
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+R : (w : Q.LiftVertex) → A.ASResolution Q w
+u w : Q.LiftVertex
+huw : u ≠ w
+f : Q.UnrolledPathComponent k u w
+e : ↑((A.rightModuleEvaluation (Q.height u)).obj (∐ fun a => A.representable (Q.height (Q.incomingSource w a)))) ≃ₗ[k]
+  (a : Q.incomingArrows w) →
+    ↑((A.rightModuleEvaluation (Q.height u)).obj (A.representable (Q.height (Q.incomingSource w a)))) :=
+  A.rightFiniteCoproductPiEquiv (fun a => A.representable (Q.height (Q.incomingSource w a))) (Q.height u)
+ha :
+  ∀ (a : Q.incomingArrows w),
+    (A.unrolledPathLinearEvaluation Q R u (Q.incomingSource w a)) ((Q.unrolledLastArrowLinearEquiv k u w huw) f a) = 0
+he : (A.lastArrowPrefixEvaluation Q R u w) ((Q.unrolledLastArrowLinearEquiv k u w huw) f) = 0
+⊢ e.symm 0 = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    0
+  has type
+    (a : Q.incomingArrows w) → A.Hom (Q.height u) (Q.height (Q.incomingSource w a))
+  but is expected to have type
+    (a : Q.incomingArrows w) →
+      ↑((A.rightModuleEvaluation (Q.height u)).obj (A.representable (Q.height (Q.incomingSource w a))))
+  in the application
+    e.symm 0

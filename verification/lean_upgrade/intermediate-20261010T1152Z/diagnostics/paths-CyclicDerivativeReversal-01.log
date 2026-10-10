@@ -1,0 +1,20 @@
+ASGinzburg/CyclicDerivativeReversal.lean:56:15: error: unsolved goals
+case single
+A : Type u
+k : Type v
+inst✝¹ : Field k
+inst✝ : DecidableEq A
+a : A
+c : CyclicWord A
+b : k
+⊢ b • derivativeCyclicWord a (reverseCyclicWord c) =
+    b •
+      derivativeCyclicWord a
+        ({ toFun := reverseCyclicWord, invFun := reverseCyclicWord, left_inv := ⋯, right_inv := ⋯ } c)
+ASGinzburg/CyclicDerivativeReversal.lean:58:30: warning: This simp argument is unused:
+  Equiv.coe_fn_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [cyclicDerivative, reverseCyclicPolynomial, reverseCyclicWordEquiv, derivativeCyclicWord_reverse]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

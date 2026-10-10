@@ -34,19 +34,21 @@ noncomputable def regularEnvelopingOppositeRestrictionEquiv :
   right_inv := MulOpposite.unop_op
   map_add' := MulOpposite.unop_add
   map_smul' t x := by
-    change (regularEnvelopingRepresentation k Rᵐᵒᵖ t x).unop =
-      regularEnvelopingRepresentation k R (algebraEnvelopingOppositeAlgEquiv k R t) x.unop
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        simp only [map_zero, LinearMap.zero_apply, MulOpposite.unop_zero]
+    let y : Rᵐᵒᵖ := x
+    change (regularEnvelopingRepresentation k Rᵐᵒᵖ t y).unop =
+      regularEnvelopingRepresentation k R (algebraEnvelopingOppositeAlgEquiv k R t)
+        y.unop
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
         change (regularEnvelopingRepresentation k Rᵐᵒᵖ
-          (MulOpposite.op a.unop ⊗ₜ[k] MulOpposite.op (MulOpposite.op b.unop.unop)) x).unop =
+          (MulOpposite.op a.unop ⊗ₜ[k] MulOpposite.op (MulOpposite.op b.unop.unop))
+          y).unop =
           regularEnvelopingRepresentation k R (algebraEnvelopingOppositeAlgEquiv k R
-            (MulOpposite.op a.unop ⊗ₜ[k] MulOpposite.op (MulOpposite.op b.unop.unop))) x.unop
+            (MulOpposite.op a.unop ⊗ₜ[k] MulOpposite.op (MulOpposite.op b.unop.unop)))
+              y.unop
         rw [regularEnvelopingRepresentation_tmul, algebraEnvelopingOppositeAlgEquiv_tmul,
           regularEnvelopingRepresentation_tmul]
-        exact (mul_assoc b.unop.unop x.unop a.unop).symm
+        exact (mul_assoc b.unop.unop y.unop a.unop).symm
     | add t s ht hs =>
         simp only [map_add, LinearMap.add_apply, MulOpposite.unop_add, ht, hs]
 

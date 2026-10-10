@@ -1,0 +1,33 @@
+ASGinzburg/ASMinimalGenerators.lean:60:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (A.comp 0) a ∈ Submodule.span k (A.products i (Q.height w))
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+i : ℤ
+f : ↑((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w)) →ₗ[k] A.Hom i (Q.height w) :=
+  ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁)
+x✝ : ↑((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w))
+l : ℤ
+hil : i < l
+x : ↑((A.rightModuleEvaluation l).obj (A.asResolutionTerm₁ Q w))
+a : A.Hom i l
+hl : ¬l < Q.height w
+⊢ (A.comp 0) a ∈ Submodule.span k (A.products i (Q.height w))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    0
+  has type
+    ↑((A.rightModuleEvaluation l).obj (A.representable (Q.height w)))
+  but is expected to have type
+    A.Hom (unop (op { index := l })).index { index := Q.height w }.index
+  in the application
+    A.comp 0

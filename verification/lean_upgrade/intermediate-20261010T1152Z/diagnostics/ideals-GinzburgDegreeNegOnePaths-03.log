@@ -1,0 +1,30 @@
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:26:6: error: Type mismatch
+  congrArg (fun q => q.snoc (GinzburgArrow.original a) h) hr
+has type
+  ((Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath b).comp (Path.originalGinzburg Q r))).snoc
+      (GinzburgArrow.original a) h =
+    p.snoc (GinzburgArrow.original a) h
+but is expected to have type
+  (Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath b).comp (Path.originalGinzburg Q (r.snoc a h))) =
+    p.snoc (GinzburgArrow.original a) h
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:24:17: warning: This simp argument is unused:
+  GinzburgArrow.source
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [GinzburgArrow.target, Path.originalGinzburg, GinzburgPath.comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:25:8: warning: This simp argument is unused:
+  Path.originalGinzburg
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [GinzburgArrow.source, GinzburgArrow.target, GinzburgPath.comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:25:31: warning: This simp argument is unused:
+  GinzburgPath.comp
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [GinzburgArrow.source, GinzburgArrow.target, Path.originalGinzburg]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

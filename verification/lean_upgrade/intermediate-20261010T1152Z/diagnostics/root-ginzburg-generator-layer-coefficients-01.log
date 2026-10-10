@@ -1,0 +1,39 @@
+ASGinzburg/GinzburgGeneratorLayerCoefficients.lean:28:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgGeneratorLayerCoefficients.lean:43:8: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+ASGinzburg/GinzburgGeneratorLayerCoefficients.lean:29:45: warning: This simp argument is unused:
+  LinearEquiv.trans_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerFreeEquiv, LinearEquiv.piCongrRight_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerCoefficients.lean:30:4: warning: This simp argument is unused:
+  LinearEquiv.piCongrRight_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerFreeEquiv, LinearEquiv.trans_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerCoefficients.lean:32:4: warning: This simp argument is unused:
+  LinearEquiv.trans_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgCutComponentBasisEquiv, LinearEquiv.trans_symm, LinearEquiv.ofEq_symm,
+    LinearEquiv.coe_ofEq_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerCoefficients.lean:32:50: warning: This simp argument is unused:
+  LinearEquiv.coe_ofEq_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgCutComponentBasisEquiv, LinearEquiv.trans_symm, LinearEquiv.trans_apply,
+    LinearEquiv.ofEq_symm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

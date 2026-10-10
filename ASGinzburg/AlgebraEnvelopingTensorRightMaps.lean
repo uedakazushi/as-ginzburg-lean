@@ -25,11 +25,9 @@ noncomputable def tensorRightEnvelopingMap (f : M →ₗ[Rᵐᵒᵖ] M') (g : N 
     change TensorProduct.map (f.restrictScalars k) (g.restrictScalars k) (e • x) =
       e • TensorProduct.map (f.restrictScalars k) (g.restrictScalars k) x
     obtain ⟨e, rfl⟩ := MulOpposite.op_surjective e
-    induction e using TensorProduct.induction_on with
-    | zero => simp only [MulOpposite.op_zero, zero_smul, map_zero]
+    induction e using TensorProduct.inductionOn with
     | tmul a b =>
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero]
+        induction x using TensorProduct.inductionOn with
         | tmul m n =>
             change TensorProduct.map (f.restrictScalars k) (g.restrictScalars k)
               (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) • (m ⊗ₜ[k] n)) =

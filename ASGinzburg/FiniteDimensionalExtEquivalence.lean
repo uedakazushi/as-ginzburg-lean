@@ -49,7 +49,8 @@ noncomputable def rightFiniteDimensionalExtBidualNatIso (hAS : A.ASRegular Q) :
       A.leftFiniteDimensionalExtThreeFunctor Q hAS).obj M) (Y := M)
     (A.rightFiniteDimensionalExtBidualIso Q hAS M.obj M.property)) (by
       intro M N f
-      exact A.rightFiniteDimensionalExtBidualIso_natural Q hAS M.obj N.obj M.property N.property f)
+      apply ObjectProperty.hom_ext
+      exact A.rightFiniteDimensionalExtBidualIso_natural Q hAS M.obj N.obj M.property N.property f.hom)
 
 noncomputable def leftFiniteDimensionalExtBidualNatIso (hAS : A.ASRegular Q) :
     (A.leftFiniteDimensionalExtThreeFunctor Q hAS).rightOp ⋙
@@ -59,7 +60,8 @@ noncomputable def leftFiniteDimensionalExtBidualNatIso (hAS : A.ASRegular Q) :
       A.rightFiniteDimensionalExtThreeFunctor Q hAS).obj M) (Y := M)
     (A.leftFiniteDimensionalExtBidualIso Q hAS M.obj M.property)) (by
       intro M N f
-      exact A.leftFiniteDimensionalExtBidualIso_natural Q hAS M.obj N.obj M.property N.property f)
+      apply ObjectProperty.hom_ext
+      exact A.leftFiniteDimensionalExtBidualIso_natural Q hAS M.obj N.obj M.property N.property f.hom)
 
 noncomputable def finiteDimensionalExtThreeEquivalence (hAS : A.ASRegular Q) :
     A.RightFiniteDimensionalᵒᵖ ≌ A.LeftFiniteDimensional :=

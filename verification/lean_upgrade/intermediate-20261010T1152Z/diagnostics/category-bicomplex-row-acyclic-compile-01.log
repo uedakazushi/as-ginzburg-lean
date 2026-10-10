@@ -1,0 +1,54 @@
+ASGinzburg/BicomplexTotalRowAcyclic.lean:35:8: error: Type mismatch: After simplification, term
+  hs (i + 1) j (Decidable.byContradiction fun a => bicomplexTotal_maximal_row_cycle._proof_1_1 i a)
+ has type
+  @Eq (↑((K.X (i + 1)).X j)) ((ConcreteCategory.hom (bicomplexTotalProjection K (i + (j + 1)) (i + 1) j)) x) 0
+but is expected to have type
+  @Eq (↑((K.X (i + 1)).X j)) ((ConcreteCategory.hom (bicomplexTotalProjection K (i + j + 1) (i + 1) j)) x) 0
+ASGinzburg/BicomplexTotalRowAcyclic.lean:44:8: error: Type mismatch: After simplification, term
+  hx
+ has type
+  @Eq (↑((K.total (ComplexShape.down ℕ)).X (i + j)))
+    ((ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (i + (j + 1)) (i + j))) x) 0
+but is expected to have type
+  @Eq (↑((K.total (ComplexShape.down ℕ)).X (i + j)))
+    ((ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (i + j + 1) (i + j))) x) 0
+ASGinzburg/BicomplexTotalRowAcyclic.lean:45:6: error: Type mismatch: After simplification, term
+  (smul_eq_zero_iff_eq ((-1) ^ i)).mp (Eq.symm h)
+ has type
+  @Eq (↑((K.X i).X j))
+    ((ConcreteCategory.hom ((K.X i).d (j + 1) j))
+      ((ConcreteCategory.hom (bicomplexTotalProjection K (i + j + 1) i (j + 1))) x))
+    0
+but is expected to have type
+  @Eq (↑((K.X i).X (j + 1 - 1)))
+    ((ConcreteCategory.hom ((K.X i).d (j + 1) (j + 1 - 1)))
+      ((ConcreteCategory.hom (bicomplexTotalProjection K (i + (j + 1)) i (j + 1))) x))
+    0
+ASGinzburg/BicomplexTotalRowAcyclic.lean:57:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  @Eq (↑((K.X i).X j))
+    ((ConcreteCategory.hom (bicomplexTotalProjection K (n + 1 - 1) i j))
+      ((ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (n + 1) (n + 1 - 1)))
+        ((ConcreteCategory.hom (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) ⋯)) y)))
+    ((-1) ^ i • (ConcreteCategory.hom ((K.X i).d (j + 1) j)) y)
+but is expected to have type
+  @Eq (↑((K.X i).X j))
+    ((ConcreteCategory.hom (bicomplexTotalProjection K n i j))
+      ((ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (n + 1) n))
+        ((ConcreteCategory.hom (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) ⋯)) y)))
+    ((ConcreteCategory.hom ((-1) ^ i • (K.X i).d (j + 1) j)) y)
+ASGinzburg/BicomplexTotalRowAcyclic.lean:70:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  @Eq (↑((K.X a).X b))
+    ((ConcreteCategory.hom (bicomplexTotalProjection K (n + 1 - 1) a b))
+      ((ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (n + 1) (n + 1 - 1)))
+        ((ConcreteCategory.hom (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) ⋯)) y)))
+    0
+but is expected to have type
+  @Eq (↑((K.X a).X b))
+    ((ConcreteCategory.hom (bicomplexTotalProjection K n a b))
+      ((ConcreteCategory.hom ((K.total (ComplexShape.down ℕ)).d (n + 1) n))
+        ((ConcreteCategory.hom (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) ⋯)) y)))
+    0

@@ -38,7 +38,7 @@ noncomputable def leftModuleExtRightZeroIso (M : A.LeftModule) :
         rw [← Abelian.Ext.mk₀_comp_mk₀]
         congr 1
         exact (Abelian.Ext.mk₀_addEquiv₀_apply x).symm)
-  exact ⟨e.hom, e.inv, e.hom_inv_id, e.inv_hom_id⟩
+  exact A.rightModuleProperty.isoMk e
 
 
 end ASGinzburg.ZAlgebra
@@ -51,7 +51,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 noncomputable def leftModuleExtBoundaryRight {S : ShortComplex A.LeftModule}
     (hS : S.ShortExact) (n : ℕ) :
     A.leftModuleExtRight S.X₁ n ⟶ A.leftModuleExtRight S.X₃ (n+1) :=
-  CategoryTheory.Functor.whiskerLeft A.leftRepresentableFunctor (A.leftModuleExtBoundaryNat hS n)
+  ObjectProperty.homMk (CategoryTheory.Functor.whiskerLeft A.leftRepresentableFunctor (A.leftModuleExtBoundaryNat hS n))
 
 noncomputable instance leftModuleExtBoundaryRightEpi {S : ShortComplex A.LeftModule}
     (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : Epi (A.leftModuleExtBoundaryRight hS n) := by
@@ -71,11 +71,12 @@ theorem leftModuleExtDimensionShiftRightIso_hom {S : ShortComplex A.LeftModule}
     (A.leftModuleExtDimensionShiftRightIso hS n).hom = A.leftModuleExtBoundaryRight hS (n+1) := rfl
 noncomputable def leftModuleExtPrecompRight {M N : A.LeftModule} (f : M ⟶ N) (n : ℕ) :
     A.leftModuleExtRight N n ⟶ A.leftModuleExtRight M n :=
-  CategoryTheory.Functor.whiskerLeft A.leftRepresentableFunctor (A.leftModuleExtPrecompNat f n)
+  ObjectProperty.homMk (CategoryTheory.Functor.whiskerLeft A.leftRepresentableFunctor (A.leftModuleExtPrecompNat f n))
 
 theorem leftModuleExtPrecompRight_boundary_zero {S : ShortComplex A.LeftModule}
     (hS : S.ShortExact) (n : ℕ) :
     A.leftModuleExtPrecompRight S.f n ≫ A.leftModuleExtBoundaryRight hS n = 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   exact NatTrans.congr_app (A.leftModuleExtPrecompNat_boundary_zero hS n) (A.leftRepresentable X.unop.index)
@@ -83,6 +84,7 @@ theorem leftModuleExtPrecompRight_boundary_zero {S : ShortComplex A.LeftModule}
 theorem leftModuleADualMap_extRightZeroIso_inv {M N : A.LeftModule} (f : M ⟶ N) :
     A.leftModuleADualMap f ≫ (A.leftModuleExtRightZeroIso M).inv =
       (A.leftModuleExtRightZeroIso N).inv ≫ A.leftModuleExtPrecompRight f 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext

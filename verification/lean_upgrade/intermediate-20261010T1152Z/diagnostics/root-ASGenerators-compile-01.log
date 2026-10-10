@@ -1,0 +1,11 @@
+ASGinzburg/ASGenerators.lean:85:2: error: Type mismatch: After simplification, term
+  Eq.symm (d₁_component_lof R i a x)
+ has type
+  @Eq (↑((A.rightModuleEvaluation i).obj (A.representable (Q.height w)))) ((A.comp (R.incomingElement a)) x)
+    ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁))
+      ((ModuleCat.Hom.hom (R.term₁ComponentIso i).inv)
+        ((DirectSum.lof k (Q.incomingArrows w) (fun i_1 => A.Hom i (Q.height (Q.incomingSource w i_1))) a) x)))
+but is expected to have type
+  @Eq (A.Hom i (Q.height w)) ((A.comp (R.incomingElement a)) x)
+    ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁) ∘ₗ ModuleCat.Hom.hom (R.term₁ComponentIso i).inv)
+      ((DirectSum.lof k (Q.incomingArrows w) (fun i_1 => A.Hom i (Q.height (Q.incomingSource w i_1))) a) x))

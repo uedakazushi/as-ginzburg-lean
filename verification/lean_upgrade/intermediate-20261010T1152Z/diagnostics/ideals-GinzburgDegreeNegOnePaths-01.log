@@ -1,0 +1,17 @@
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:24:6: error: Type mismatch
+  congrArg (fun q => q.snoc (GinzburgArrow.original a) h) hr
+has type
+  ((Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath b).comp (Path.originalGinzburg Q r))).snoc
+      (GinzburgArrow.original a) h =
+    p.snoc (GinzburgArrow.original a) h
+but is expected to have type
+  (Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath b).comp (Path.originalGinzburg Q (r.snoc a h))) =
+    p.snoc (GinzburgArrow.original a) h
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:32:6: error: Type mismatch
+  congrArg (fun q => q.snoc (GinzburgArrow.dual a) rfl) hl
+has type
+  (Path.originalGinzburg Q l).snoc (GinzburgArrow.dual a) ⋯ = p.snoc (GinzburgArrow.dual a) ⋯
+but is expected to have type
+  (Path.originalGinzburg Q l).comp
+      ((Q.dualGinzburgArrowPath a).comp (Path.originalGinzburg Q (Path.nil (Q.source a)))) =
+    p.snoc (GinzburgArrow.dual a) ⋯

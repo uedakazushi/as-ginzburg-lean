@@ -1,0 +1,45 @@
+import ASGinzburg.ModuleCochainHomologyClasses
+import ASGinzburg.ModuleCatCokernelHomologyNaturality
+
+/-! Canonical cycle classes map to their actual cokernel quotient
+classes when the outgoing differential is zero. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable {k : Type u} [Field k]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem moduleCatCokernelHomologyIso_π (S : ShortComplex (ModuleCat.{u} k))
+    (hg : S.g=0) :
+    S.homologyπ ≫ (moduleCatCokernelHomologyIso S hg).hom=
+      S.iCycles ≫ ModuleCat.ofHom (LinearMap.range S.f.hom).mkQ := by
+  let D := ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork S hg
+    (ModuleCat.cokernelCocone S.f) (ModuleCat.cokernelIsColimit S.f)
+  have he : D.cyclesIso.hom=S.iCycles := by
+    have h := D.cyclesIso_hom_comp_i
+    simpa only [D,ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork_i,
+      Category.comp_id] using h
+  change S.homologyπ ≫ D.homologyIso.hom=_
+  rw [D.homologyπ_comp_homologyIso_hom,he]
+  rfl
+
+theorem moduleCochainCokernelHomologyIso_class
+    (K : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ)
+    (hg : (K.sc' (i-1) i (i+1)).g=0) (x : K.X i) (hx : K.d i (i+1) x=0) :
+    ((K.homologyIsoSc' (i-1) i (i+1) (by simp) (by simp)) ≪≫
+      moduleCatCokernelHomologyIso (K.sc' (i-1) i (i+1)) hg).hom
+        (moduleCochainHomologyClass K i x hx)=Submodule.Quotient.mk x := by
+  change (K.homologyπ i ≫ (K.homologyIsoSc' (i-1) i (i+1)
+    (by simp) (by simp)).hom ≫
+    (moduleCatCokernelHomologyIso (K.sc' (i-1) i (i+1)) hg).hom)
+      (K.cyclesMk x (i+1) (by simp) hx)=_
+  rw [K.π_homologyIsoSc'_hom_assoc,moduleCatCokernelHomologyIso_π,
+    ←Category.assoc,K.cyclesIsoSc'_hom_iCycles]
+  change Submodule.Quotient.mk (K.iCycles i (K.cyclesMk x (i+1) (by simp) hx))=_
+  have hi : K.iCycles i (K.cyclesMk x (i+1) (by simp) hx)=x := by
+    change ((forget₂ (ModuleCat k) Ab).map (K.iCycles i))
+      (K.cyclesMk x (i+1) (by simp) hx)=x
+    exact K.i_cyclesMk (i:=i) x (i+1) (by simp) hx
+  rw [hi]
+
+end ASGinzburg

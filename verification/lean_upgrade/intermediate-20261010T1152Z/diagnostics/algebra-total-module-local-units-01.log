@@ -1,0 +1,45 @@
+ASGinzburg/TotalModuleLocalUnits.lean:28:35: warning: `DFinsupp.finset_sum_apply` has been deprecated: Use `DFinsupp.finsetSum_apply` instead
+ASGinzburg/TotalModuleLocalUnits.lean:30:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+ASGinzburg/TotalModuleLocalUnits.lean:35:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+ASGinzburg/TotalModuleLocalUnits.lean:174:41: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (DirectSum.lof k ℤ (fun t => ↑((A.rightModuleEvaluation t).obj M)) i)
+      ((ModuleCat.Hom.hom
+          (M.obj.map
+            (have this := a;
+              this).op))
+        0) =
+    0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i j : ℤ
+a : A.Hom i j
+l : ℤ
+hlj : l ≠ j
+x : ↑((A.rightModuleEvaluation l).obj M)
+⊢ (DirectSum.lof k ℤ (fun t => ↑((A.rightModuleEvaluation t).obj M)) i)
+      ((ModuleCat.Hom.hom
+          (M.obj.map
+            (have this := a;
+              this).op))
+        0) =
+    0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    0
+  has type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.rightModuleEvaluation j).obj M)
+  but is expected to have type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing (M.obj.obj (op { index := j }))
+  in the application
+    (ModuleCat.Hom.hom
+        (M.obj.map
+          (have this := a;
+            this).op))
+      0

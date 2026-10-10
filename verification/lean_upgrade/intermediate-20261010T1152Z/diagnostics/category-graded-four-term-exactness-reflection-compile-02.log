@@ -1,0 +1,138 @@
+ASGinzburg/GradedFourTermExactnessReflection.lean:35:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:42:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:43:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:52:15: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Mono (P₂.kernelInclusion P₃ f₂)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GradedFourTermExactnessReflection.lean:58:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:59:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:61:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  F.map ?f ≫ F.map ?g
+in the target expression
+  F.map g₀ ≫ F.map (P₁.kernelInclusion K₂ g₁) = F.map f₀
+
+k : Type u
+inst✝¹⁰ : Field k
+R : Type v
+inst✝⁹ : Ring R
+inst✝⁸ : Algebra k R
+S : Type w
+inst✝⁷ : Ring S
+A : ℤ → Submodule k R
+b : ℤ
+F : ModuleCat R ⥤ ModuleCat S
+inst✝⁶ : F.Additive
+inst✝⁵ : PreservesFiniteColimits F
+hDetect : ∀ (N : GradedOrdinaryModuleData k R A), N.BoundedBelow b → IsZero (F.obj N.ringModule) → IsZero N.ringModule
+P₀ P₁ P₂ P₃ : GradedOrdinaryModuleData k R A
+hb₀ : P₀.BoundedBelow b
+hb₁ : P₁.BoundedBelow b
+hb₂ : P₂.BoundedBelow b
+hb₃ : P₃.BoundedBelow b
+f₀ : P₀.ringModule ⟶ P₁.ringModule
+f₁ : P₁.ringModule ⟶ P₂.ringModule
+f₂ : P₂.ringModule ⟶ P₃.ringModule
+h₀ : f₀ ≫ f₁ = 0
+h₁ : f₁ ≫ f₂ = 0
+hf₀ : P₀.PreservesGrade P₁ f₀
+hf₁ : P₁.PreservesGrade P₂ f₁
+hf₂ : P₂.PreservesGrade P₃ f₂
+inst✝⁴ : Projective P₁.ringModule
+inst✝³ : Projective P₂.ringModule
+inst✝² : Projective P₃.ringModule
+inst✝¹ : Mono (F.map f₀)
+inst✝ : Epi (F.map f₂)
+hF₀ : ({ X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := P₂.ringModule, f := f₀, g := f₁, zero := h₀ }.map F).Exact
+hF₁ : ({ X₁ := P₁.ringModule, X₂ := P₂.ringModule, X₃ := P₃.ringModule, f := f₁, g := f₂, zero := h₁ }.map F).Exact
+this✝³ : Epi f₂
+hExact₁ : { X₁ := P₁.ringModule, X₂ := P₂.ringModule, X₃ := P₃.ringModule, f := f₁, g := f₂, zero := h₁ }.Exact
+K₂ : GradedOrdinaryModuleData k R A := P₂.kernelData P₃ f₂ hf₂
+g₁ : P₁.ringModule ⟶ K₂.ringModule := P₁.kernelFactor P₂ P₃ f₁ f₂ h₁
+hg₁ : P₁.PreservesGrade K₂ g₁
+this✝² : Epi g₁
+this✝¹ : Projective K₂.ringModule
+h₀g₁ : f₀ ≫ g₁ = 0
+hFg₁ : ({ X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := K₂.ringModule, f := f₀, g := g₁, zero := h₀g₁ }.map F).Exact
+hExact₀g₁ : { X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := K₂.ringModule, f := f₀, g := g₁, zero := h₀g₁ }.Exact
+hExact₀ : { X₁ := P₀.ringModule, X₂ := P₁.ringModule, X₃ := P₂.ringModule, f := f₀, g := f₁, zero := h₀ }.Exact
+K₁ : GradedOrdinaryModuleData k R A := P₁.kernelData K₂ g₁ hg₁
+g₀ : P₀.ringModule ⟶ K₁.ringModule := P₀.kernelFactor P₁ K₂ f₀ g₁ h₀g₁
+hg₀ : P₀.PreservesGrade K₁ g₀
+this✝ : Epi g₀
+this : Projective K₁.ringModule
+⊢ F.map g₀ ≫ F.map (P₁.kernelInclusion K₂ g₁) = F.map f₀
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    P₁.kernelInclusion K₂ g₁
+  has type
+    @Quiver.Hom (ModuleCat R) (ModuleCat.moduleCategory R).toQuiver (P₁.kernelModule K₂ g₁) P₁.ringModule
+  but is expected to have type
+    @Quiver.Hom (ModuleCat R) (ModuleCat.moduleCategory R).toQuiver K₁.ringModule P₁.ringModule
+  in the application
+    F.map (P₁.kernelInclusion K₂ g₁)
+ASGinzburg/GradedFourTermExactnessReflection.lean:62:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:63:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GradedFourTermExactnessReflection.lean:66:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Mono (P₀.kernelFactor P₁ K₂ f₀ g₁ h₀g₁ ≫ P₁.kernelInclusion K₂ g₁)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GradedFourTermExactnessReflection.lean:64:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

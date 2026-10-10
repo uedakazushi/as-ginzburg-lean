@@ -1,0 +1,95 @@
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:9:2: error: Type mismatch
+  stream.putStrLn "after imports"
+has type
+  IO Unit
+but is expected to have type
+  BaseIO PUnit.{1}
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:10:2: error: Type mismatch
+  stream.flush
+has type
+  IO Unit
+but is expected to have type
+  BaseIO ?α
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:22:2: error: Type mismatch
+  stream.putStrLn "before rightResolutionExtTopProjection"
+has type
+  IO Unit
+but is expected to have type
+  BaseIO PUnit.{1}
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:23:2: error: Type mismatch
+  stream.flush
+has type
+  IO Unit
+but is expected to have type
+  BaseIO ?α
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:34:2: error: Type mismatch
+  stream.putStrLn "before rightResolutionExtTopProjectionEpi"
+has type
+  IO Unit
+but is expected to have type
+  BaseIO PUnit.{1}
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:35:2: error: Type mismatch
+  stream.flush
+has type
+  IO Unit
+but is expected to have type
+  BaseIO ?α
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:39:2: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Epi
+    ((A.rightModuleExtLeftZeroIso (P.complex.X 3)).inv ≫
+      A.rightModuleExtBoundaryLeft ⋯ 0 ≫
+        (A.rightModuleExtDimensionShiftLeftIso ⋯ 0).hom ≫ (A.rightModuleExtDimensionShiftLeftIso ⋯ 1).hom)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:43:2: error: Type mismatch
+  stream.putStrLn "before rightResolutionExtTopProjection_dual_d₃"
+has type
+  IO Unit
+but is expected to have type
+  BaseIO PUnit.{1}
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:44:2: error: Type mismatch
+  stream.flush
+has type
+  IO Unit
+but is expected to have type
+  BaseIO ?α
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:51:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  A.rightModuleExtPrecompLeft (P.complex.d 3 2) 0 ≫ A.rightModuleExtBoundaryLeft ⋯ 0 ≫ ?h
+in the target expression
+  (A.rightModuleExtLeftZeroIso (P.complex.X 2)).inv ≫
+      A.rightModuleExtPrecompLeft (P.complex.d 3 2) 0 ≫
+        A.rightModuleExtBoundaryLeft ⋯ 0 ≫
+          (A.rightModuleExtDimensionShiftLeftIso ⋯ 0).hom ≫ (A.rightModuleExtDimensionShiftLeftIso ⋯ 1).hom =
+    0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+X : A.RightModule
+P : ProjectiveResolution X
+h₄ : IsZero (P.complex.X 4)
+⊢ (A.rightModuleExtLeftZeroIso (P.complex.X 2)).inv ≫
+      A.rightModuleExtPrecompLeft (P.complex.d 3 2) 0 ≫
+        A.rightModuleExtBoundaryLeft ⋯ 0 ≫
+          (A.rightModuleExtDimensionShiftLeftIso ⋯ 0).hom ≫ (A.rightModuleExtDimensionShiftLeftIso ⋯ 1).hom =
+    0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    P.π.f 0
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver (P.complex.X 0)
+      (((ChainComplex.single₀ A.RightModule).obj X).X 0)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver (P.complex.X 0) X
+  in the application
+    @kernel A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty)
+      Preadditive.preadditiveHasZeroMorphisms (P.complex.X 0) X (P.π.f 0)
+work/lean-upgrade/TorRightResolutionDualityProgress03.lean:58:2: error: Type mismatch
+  stream.putStrLn "before rightResolutionExtTopProjection_exact"
+has type
+  IO Unit
+but is expected to have type
+  BaseIO PUnit.{1}
+work/lean-upgrade/TorRightResolutionDualityProgress03.lea

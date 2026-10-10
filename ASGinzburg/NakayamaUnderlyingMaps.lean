@@ -19,8 +19,8 @@ noncomputable def rightFiniteDimensionalNakayamaUnderlyingMap (hAS : A.ASRegular
     (f : M ⟶ N) :
     A.rightFiniteDimensionalNakayamaUnderlying Q hAS M hM ⟶
       A.rightFiniteDimensionalNakayamaUnderlying Q hAS N hN :=
-  (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map
-    (show (⟨M,hM⟩ : A.RightFiniteDimensional) ⟶ ⟨N,hN⟩ from f)
+  ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map
+    (show (⟨M,hM⟩ : A.RightFiniteDimensional) ⟶ ⟨N,hN⟩ from ObjectProperty.homMk f)).hom
 
 theorem rightFiniteDimensionalNakayamaUnderlyingMap_comp (hAS : A.ASRegular Q)
     {M N P : A.RightModule} (hM : A.rightFiniteDimensionalProperty M)
@@ -29,8 +29,9 @@ theorem rightFiniteDimensionalNakayamaUnderlyingMap_comp (hAS : A.ASRegular Q)
     A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS hM hP (f ≫ g) =
       A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS hM hN f ≫
         A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS hN hP g := by
-  exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_comp
-    (show (⟨M,hM⟩ : A.RightFiniteDimensional) ⟶ ⟨N,hN⟩ from f)
-    (show (⟨N,hN⟩ : A.RightFiniteDimensional) ⟶ ⟨P,hP⟩ from g)
+  exact congrArg (fun t => t.hom)
+    ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_comp
+      (show (⟨M,hM⟩ : A.RightFiniteDimensional) ⟶ ⟨N,hN⟩ from ObjectProperty.homMk f)
+      (show (⟨N,hN⟩ : A.RightFiniteDimensional) ⟶ ⟨P,hP⟩ from ObjectProperty.homMk g))
 
 end ASGinzburg.ZAlgebra

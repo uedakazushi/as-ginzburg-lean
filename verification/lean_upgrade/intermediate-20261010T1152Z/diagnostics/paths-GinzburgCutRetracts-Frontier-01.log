@@ -1,0 +1,27 @@
+ASGinzburg/GinzburgCutRetracts.lean:22:2: error: Function expected at
+  CochainComplex.ofHom ?m.15 ?m.16
+but this term has type
+  ?m.13 ⟶ ?m.14
+
+Note: Expected a function because this term is being applied to the argument
+  _
+ASGinzburg/GinzburgCutRetracts.lean:35:2: error: Function expected at
+  CochainComplex.ofHom ?m.15 ?m.16
+but this term has type
+  ?m.13 ⟶ ?m.14
+
+Note: Expected a function because this term is being applied to the argument
+  _
+ASGinzburg/GinzburgCutRetracts.lean:52:2: error: 'change' tactic failed, pattern
+  (Q.ginzburgCutProjection k u v c) ↑f = ↑f
+is not definitionally equal to target
+  ↑((ModuleCat.Hom.hom ((Q.ginzburgCutCochainInclusion k φ u v c ≫ Q.ginzburgCutCochainProjection k φ u v c).f q)) f) =
+    ↑((ModuleCat.Hom.hom ((𝟙 (Q.ginzburgCutCochainComplex k φ u v c)).f q)) f)
+ASGinzburg/GinzburgCutRetracts.lean:75:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

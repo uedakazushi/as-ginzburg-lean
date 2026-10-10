@@ -1,0 +1,22 @@
+import ASGinzburg.ProjectiveResolutionHomExactness
+import ASGinzburg.RightModuleExtLeftSequence
+import ASGinzburg.ModuleBidualEvaluation
+import ASGinzburg.FourTermProjectiveResolution
+import ASGinzburg.FiniteProjectiveClosure
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {X : A.RightModule} (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4))
+
+attribute [local irreducible] rightModuleADual leftModuleADual
+
+noncomputable def rightResolutionExtTopProjection :
+    A.rightModuleADual (P.complex.X 3) ⟶ A.rightModuleExtLeft X 3 :=
+  (A.rightModuleExtLeftZeroIso (P.complex.X 3)).inv ≫
+    A.rightModuleExtBoundaryLeft (P.shortExact₂ h₄) 0 ≫
+      (A.rightModuleExtDimensionShiftLeftIso P.shortExact₁ 0).hom ≫
+        (A.rightModuleExtDimensionShiftLeftIso P.shortExact₀ 1).hom
+
+end ASGinzburg.ZAlgebra

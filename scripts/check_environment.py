@@ -3,9 +3,24 @@
 import argparse
 import json
 from pathlib import Path
+import re
 import subprocess
 from audit_sources import ROOT
 from report_verification import TOOLCHAIN, MATHLIB
+
+
+def stable_lean_version(toolchain):
+    match = re.fullmatch(r'leanprover/lean4:v(\d+\.\d+\.\d+)', toolchain)
+    assert match, f'Expected a pinned stable Lean toolchain: {toolchain}'
+    return match[1]
+
+
+def check_executable_version(executable, output, expected):
+    # Lake has its own version; its embedded Lean version must match the toolchain.
+    assert re.match(rf'{re.escape(executable)}\b', output, re.I), \
+        f'Unexpected {executable} executable: {output}'
+    versions = re.findall(r'\bLean\s+(?:\(\s*)?version\s+([^\s,)]+)', output, re.I)
+    assert versions == [expected], f'Unexpected {executable} executable: {output}'
 
 
 def main():
@@ -17,11 +32,12 @@ def main():
     manifest = json.loads((ROOT / 'lake-manifest.json').read_text())
     mathlib = next(p for p in manifest['packages'] if p['name'] == 'mathlib')
     assert mathlib['rev'] == MATHLIB, 'Unexpected mathlib lock'
+    expected_version = stable_lean_version(toolchain)
     wrapper = ['bash', str(ROOT / 'scripts/with_lean.sh')]
     versions = {}
     for exe in ('lean', 'lake'):
         version = subprocess.check_output([*wrapper, exe, '--version'], text=True).strip()
-        assert 'version 4.24.0' in version, f'Unexpected {exe} executable: {version}'
+        check_executable_version(exe, version, expected_version)
         versions[exe] = version
     revisions = {}
     for package in manifest['packages']:

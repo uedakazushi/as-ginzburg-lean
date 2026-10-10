@@ -1,0 +1,16 @@
+ASGinzburg/GinzburgPaths.lean:154:32: error: Tactic `rfl` failed: The left-hand side
+  Path.originalGinzburg Q (q.snoc a h)
+is not definitionally equal to the right-hand side
+  (Path.originalGinzburg Q q).snoc (GinzburgArrow.original a) h
+
+Q : CutQuiver
+u v v✝ : Q.Vertex
+a : Q.Arrow
+q : Q.Path u v✝
+ih :
+  (Path.originalGinzburg Q q).cohomologicalDegree = 0 → ∃ q_1, Path.originalGinzburg Q q_1 = Path.originalGinzburg Q q
+hn : (Path.originalGinzburg Q q).cohomologicalDegree ≤ 0
+hz : (Path.originalGinzburg Q q).cohomologicalDegree = 0
+h : Q.source a = v✝
+hp : ((Path.originalGinzburg Q q).snoc (GinzburgArrow.original a) h).cohomologicalDegree = 0
+⊢ Path.originalGinzburg Q (q.snoc a h) = (Path.originalGinzburg Q q).snoc (GinzburgArrow.original a) h

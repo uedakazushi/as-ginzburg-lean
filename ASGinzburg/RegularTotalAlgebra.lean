@@ -24,7 +24,7 @@ noncomputable def rightRegularTotalAlgebraEquiv :
 
 theorem rightRegularComponentIso_lof_inv (i j : ℤ) (a : A.Hom i j) :
     (A.rightRegularCoproductComponentIso i).inv.hom (DirectSum.lof k ℤ _ j a) =
-      ((Sigma.ι (fun l : ℤ => A.representable l) j).app (op (⟨i⟩ : A.Obj))).hom a := by
+      ((Sigma.ι (fun l : ℤ => A.representable l) j).hom.app (op (⟨i⟩ : A.Obj))).hom a := by
   have h : ModuleCat.ofHom (DirectSum.lof k ℤ (fun l => A.Hom i l) j) ≫
       (A.rightRegularCoproductComponentIso i).inv =
       (A.rightModuleEvaluation i).map (Sigma.ι (fun l : ℤ => A.representable l) j) := by
@@ -37,7 +37,7 @@ theorem rightRegularComponentIso_lof_inv (i j : ℤ) (a : A.Hom i j) :
 
 theorem rightRegularComponentIso_inclusion (i j : ℤ) (a : A.Hom i j) :
     (A.rightRegularCoproductComponentIso i).hom.hom
-      (((Sigma.ι (fun l : ℤ => A.representable l) j).app (op (⟨i⟩ : A.Obj))).hom a) =
+      (((Sigma.ι (fun l : ℤ => A.representable l) j).hom.app (op (⟨i⟩ : A.Obj))).hom a) =
       DirectSum.lof k ℤ _ j a := by
   rw [← A.rightRegularComponentIso_lof_inv i j a]
   exact (A.rightRegularCoproductComponentIso i).toLinearEquiv.apply_symm_apply _
@@ -45,7 +45,7 @@ theorem rightRegularComponentIso_inclusion (i j : ℤ) (a : A.Hom i j) :
 noncomputable def rightRegularMatrixElement {i j : ℤ} (a : A.Hom i j) :
     A.rightModuleTotalSpace A.rightRegularCoproduct :=
   DirectSum.lof k ℤ _ i
-    (((Sigma.ι (fun l : ℤ => A.representable l) j).app (op (⟨i⟩ : A.Obj))).hom a)
+    (((Sigma.ι (fun l : ℤ => A.representable l) j).hom.app (op (⟨i⟩ : A.Obj))).hom a)
 
 theorem rightRegularTotalComponentsEquiv_matrixElement {i j : ℤ} (a : A.Hom i j) :
     A.rightRegularTotalComponentsEquiv (A.rightRegularMatrixElement a) =
@@ -57,12 +57,12 @@ theorem rightRegularTotalComponentsEquiv_matrixElement {i j : ℤ} (a : A.Hom i 
       (fun t x => (A.rightRegularCoproductComponentIso t).toLinearEquiv x)
       (fun t => (A.rightRegularCoproductComponentIso t).toLinearEquiv.map_zero)
       (DFinsupp.single i
-        (((Sigma.ι (fun l : ℤ => A.representable l) j).app (op (⟨i⟩ : A.Obj))).hom a)))) = _
+        (((Sigma.ι (fun l : ℤ => A.representable l) j).hom.app (op (⟨i⟩ : A.Obj))).hom a)))) = _
   erw [DFinsupp.mapRange_single]
   change DFinsupp.domLCongr (R := k) (M := fun p : Σ _ : ℤ, ℤ => A.Hom p.1 p.2) (Equiv.sigmaEquivProd ℤ ℤ)
     (DFinsupp.sigmaUncurry (α := fun _ : ℤ => ℤ) (δ := fun i j : ℤ => A.Hom i j) (DFinsupp.single i
       ((A.rightRegularCoproductComponentIso i).hom.hom
-        (((Sigma.ι (fun l : ℤ => A.representable l) j).app (op (⟨i⟩ : A.Obj))).hom a)))) = _
+        (((Sigma.ι (fun l : ℤ => A.representable l) j).hom.app (op (⟨i⟩ : A.Obj))).hom a)))) = _
   rw [A.rightRegularComponentIso_inclusion]
   erw [DFinsupp.sigmaUncurry_single]
   apply DFinsupp.ext
@@ -89,11 +89,11 @@ theorem rightRegularMatrixElement_action {i j l : ℤ} (a : A.Hom i j) (b : A.Ho
       A.rightRegularMatrixElement (A.comp b a) := by
   change A.rightModuleTotalAction A.rightRegularCoproduct a
     (DirectSum.lof k ℤ _ j
-      (((Sigma.ι (fun t : ℤ => A.representable t) l).app (op (⟨j⟩ : A.Obj))).hom b)) = _
+      (((Sigma.ι (fun t : ℤ => A.representable t) l).hom.app (op (⟨j⟩ : A.Obj))).hom b)) = _
   rw [A.rightModuleTotalAction_lof]
   apply congrArg (DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj A.rightRegularCoproduct) i)
   exact (congrArg (fun f => f.hom b)
-    ((Sigma.ι (fun t : ℤ => A.representable t) l).naturality
+    ((Sigma.ι (fun t : ℤ => A.representable t) l).hom.naturality
       (show op (⟨j⟩ : A.Obj) ⟶ op (⟨i⟩ : A.Obj) from
         (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a).op))).symm
 

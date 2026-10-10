@@ -1,0 +1,25 @@
+ASGinzburg/GinzburgJacobianBoundaries.lean:33:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑((Finsupp.supportedEquivFinsupp ?s).symm (Finsupp.single ?i ?a))
+in the target expression
+  (Q.ginzburgDifferential k φ u v) ↑(e.symm (Finsupp.single p 1)) =
+    (Q.originalGinzburgLinearMap k u v)
+      (((Q.pathComp k) (Finsupp.single r 1)) (((Q.pathComp k) ((Q.pathCyclicDerivative k a) φ)) (Finsupp.single l 1)))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+x : ↥(Q.ginzburgCohomologicalComponent k u v (-1))
+S : Set (Q.GinzburgPath u v) := {p | p.cohomologicalDegree = -1}
+e : ↥(Q.ginzburgCohomologicalComponent k u v (-1)) ≃ₗ[k] ↑S →₀ k := Finsupp.supportedEquivFinsupp S
+p : ↑S
+c : k
+hs : Finsupp.single p c = c • Finsupp.single p 1
+a : Q.Arrow
+l : Q.Path u (Q.target a)
+r : Q.Path (Q.source a) v
+hr : (Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath a).comp (Path.originalGinzburg Q r)) = ↑p
+⊢ (Q.ginzburgDifferential k φ u v) ↑(e.symm (Finsupp.single p 1)) =
+    (Q.originalGinzburgLinearMap k u v)
+      (((Q.pathComp k) (Finsupp.single r 1)) (((Q.pathComp k) ((Q.pathCyclicDerivative k a) φ)) (Finsupp.single l 1)))

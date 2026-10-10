@@ -1,0 +1,34 @@
+ASGinzburg/ASLeftResolution.lean:87:4: error: Type mismatch: After simplification, term
+  he
+ has type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    { X₁ := R.dualComplex.X 1, X₂ := R.dualComplex.X 2, X₃ := R.dualComplex.X 3,
+      f := A.rightModuleADualMap (R.complexDifferential 1), g := A.rightModuleADualMap (R.complexDifferential 2),
+      zero := ⋯ }
+but is expected to have type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    { X₁ := R.leftResolutionComplex.X 2, X₂ := R.leftResolutionComplex.X 1, X₃ := R.leftResolutionComplex.X 0,
+      f := A.rightModuleADualMap R.d₂, g := A.rightModuleADualMap R.d₃, zero := ⋯ }
+ASGinzburg/ASLeftResolution.lean:97:4: error: Type mismatch: After simplification, term
+  he
+ has type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    { X₁ := R.dualComplex.X 0, X₂ := R.dualComplex.X 1, X₃ := R.dualComplex.X 2,
+      f := A.rightModuleADualMap (R.complexDifferential 0), g := A.rightModuleADualMap (R.complexDifferential 1),
+      zero := ⋯ }
+but is expected to have type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    { X₁ := R.leftResolutionComplex.X 3, X₂ := R.leftResolutionComplex.X 2, X₃ := R.leftResolutionComplex.X 1,
+      f := A.rightModuleADualMap R.d₁, g := A.rightModuleADualMap R.d₂, zero := ⋯ }
+ASGinzburg/ASLeftResolution.lean:101:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

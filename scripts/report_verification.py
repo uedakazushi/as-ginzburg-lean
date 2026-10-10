@@ -10,8 +10,8 @@ import re
 from audit_sources import ROOT, inventory, project_sources, require_unique
 
 ALLOWED = {'propext', 'Classical.choice', 'Quot.sound'}
-TOOLCHAIN = 'leanprover/lean4:v4.24.0'
-MATHLIB = 'f897ebcf72cd16f89ab4577d0c826cd14afaafc7'
+TOOLCHAIN = 'leanprover/lean4:v4.34.1'
+MATHLIB = 'd13f23b723b8a846827a245b89c10fc7d3f11612'
 RECORD = re.compile(r"^'(.+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)$", re.M)
 
 

@@ -219,13 +219,13 @@ noncomputable def leftLocallyUnitalCounitIso :
     A.leftLocallyUnitalComponentFunctor ⋙ A.leftTotalLocallyUnitalFunctor ≅
       𝟭 A.LeftLocallyUnitalModule :=
   NatIso.ofComponents (A.leftLocallyUnitalComponentSumIso)
-    (fun f => A.leftUnitizationComponentSumModuleMap_natural f)
+    (fun f => ObjectProperty.hom_ext _ (A.leftUnitizationComponentSumModuleMap_natural f.hom))
 
 noncomputable def rightLocallyUnitalCounitIso :
     A.rightLocallyUnitalComponentFunctor ⋙ A.rightTotalLocallyUnitalFunctor ≅
       𝟭 A.RightLocallyUnitalModule :=
   NatIso.ofComponents (A.rightLocallyUnitalComponentSumIso)
-    (fun f => A.rightUnitizationComponentSumModuleMap_natural f)
+    (fun f => ObjectProperty.hom_ext _ (A.rightUnitizationComponentSumModuleMap_natural f.hom))
 
 noncomputable def leftLocallyUnitalUnitIso :
     𝟭 A.LeftModule ≅ A.leftTotalLocallyUnitalFunctor ⋙ A.leftLocallyUnitalComponentFunctor :=

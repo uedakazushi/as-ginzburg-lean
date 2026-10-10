@@ -27,9 +27,8 @@ theorem regularEnvelopingModule_eq_bimoduleEnvelopingModule :
   intro t x
   letI := bimoduleEnvelopingModule k R R
   change regularEnvelopingRepresentation k R t x = t • x
-  refine TensorProduct.induction_on t ?_ ?_ ?_
-  · change regularEnvelopingRepresentation k R 0 x = TensorProduct.Algebra.moduleAux 0 x
-    simp only [map_zero, LinearMap.zero_apply]
+  refine TensorProduct.inductionOn (motive := fun t =>
+    regularEnvelopingRepresentation k R t x = t • x) t ?_ ?_
   · intro a b
     rw [bimoduleEnvelopingModule_tmul_smul]
     change regularEnvelopingRepresentation k R (a ⊗ₜ[k] MulOpposite.op b.unop) x =
@@ -57,10 +56,8 @@ noncomputable def bimoduleEnvelopingLinearMap (f : M →ₗ[k] N)
       map_add' := map_add f
       map_smul' := fun t x => by
         change f (t • x) = t • f x
-        refine TensorProduct.induction_on t ?_ ?_ ?_
-        · change f (TensorProduct.Algebra.moduleAux 0 x) =
-            TensorProduct.Algebra.moduleAux 0 (f x)
-          simp only [map_zero, LinearMap.zero_apply]
+        refine TensorProduct.inductionOn (motive := fun t => f (t • x) = t • f x)
+          t ?_ ?_
         · intro a b
           change f (a • b • x) = a • b • f x
           rw [hleft, hright]
@@ -84,11 +81,13 @@ theorem bimoduleEnvelopingLinearMap_smul_iff (f : M →ₗ[k] N) :
   · intro h
     constructor
     · intro a x
-      simpa only [TensorProduct.Algebra.smul_def, one_smul] using
-        h (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) x
+      have ht := h (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) x
+      change f (a • (1 : Rᵐᵒᵖ) • x) = a • (1 : Rᵐᵒᵖ) • f x at ht
+      simpa only [one_smul] using ht
     · intro b x
-      simpa only [TensorProduct.Algebra.smul_def, one_smul] using
-        h ((1 : R) ⊗ₜ[k] b) x
+      have ht := h ((1 : R) ⊗ₜ[k] b) x
+      change f ((1 : R) • b • x) = (1 : R) • b • f x at ht
+      simpa only [one_smul] using ht
   · rintro ⟨hleft, hright⟩ t x
     exact (bimoduleEnvelopingLinearMap k R M N f hleft hright).map_smul t x
 

@@ -1,0 +1,87 @@
+ASGinzburg/ASPathRelationKernelNaturality.lean:33:25: error(lean.invalidField): Invalid field `naturality`: The environment does not contain `CategoryTheory.InducedCategory.Hom.naturality`, so it is not possible to project the field `naturality` from an expression
+  kernel.ι (R w).d₁
+of type
+  InducedCategory.Hom (kernel (R w).d₁) (A.asResolutionTerm₁ Q w)
+ASGinzburg/ASPathRelationKernelNaturality.lean:32:32: error(lean.invalidField): Invalid field notation: Type of
+  t
+is not known; cannot resolve field `hom`
+
+Hint: Consider replacing the field projection with a call to one of the following:
+  • `Homotopy.hom`
+  • `HomotopyEquiv.hom`
+  • `legendreSym.hom`
+  • `AddCommGrpCat.Hom.hom`
+  • `AddCommMonCat.Hom.hom`
+  • `AddGrpCat.Hom.hom`
+  • `AddMonCat.Hom.hom`
+  • `Arrow.hom`
+  • `Comma.hom`
+  • `ComposableArrows.hom`
+  • `ConcreteCategory.hom`
+  • `CostructuredArrow.hom`
+  • `Functor.hom`
+  • `Iso.hom`
+  • `Over.hom`
+  • `StructuredArrow.hom`
+  • `Under.hom`
+  • `eqToIso.hom`
+  • `CochainComplex.MappingConeCompHomotopyEquiv.hom`
+  • `CommGrpCat.Hom.hom`
+  • `CommMonCat.Hom.hom`
+  • `CommRingCat.Hom.hom`
+  • `CommSemiRingCat.Hom.hom`
+  • `Function.ExtendByOne.hom`
+  • `Function.ExtendByZero.hom`
+  • `GrpCat.Hom.hom`
+  • `LE.le.hom`
+  • `ModuleCat.Hom.hom`
+  • `MonCat.Hom.hom`
+  • `RingCat.Hom.hom`
+  • `SemiRingCat.Hom.hom`
+  • `SemimoduleCat.Hom.hom`
+  • `TypeCat.Hom.hom`
+  • `LinearSubcategory.hom`
+  • `AddCommGrpCat.Hom.Simps.hom`
+  • `AddCommMonCat.Hom.Simps.hom`
+  • `AddMonCat.Hom.Simps.hom`
+  • `Abelian.Ext.hom`
+  • `InducedCategory.Hom.hom`
+  • `LaxMonoidalFunctor.Hom.hom`
+  • `BiconeMorphism.hom`
+  • `BinaryBiconeMorphism.hom`
+  • `CoconeMorphism.hom`
+  • `ConeMorphism.hom`
+  • `pullbackDiagonalMapIso.hom`
+  • `ProjectiveResolution.Hom.hom`
+  • `ShortComplex.HomotopyEquiv.hom`
+  • `SingleFunctors.Hom.hom`
+  • `CommGrpCat.Hom.Simps.hom`
+  • `CommMonCat.Hom.Simps.hom`
+  • `CommRingCat.Hom.Simps.hom`
+  • `CommSemiRingCat.Hom.Simps.hom`
+  • `GrpCat.Hom.Simps.hom`
+  • `ModuleCat.Hom.Simps.hom`
+  • `MonCat.Hom.Simps.hom`
+  • `RingCat.Hom.Simps.hom`
+  • `SemiRingCat.Hom.Simps.hom`
+  • `SemimoduleCat.Hom.Simps.hom`
+  • `TypeCat.Hom.Simps.hom`
+  • `Functor.Elements.Hom.hom`
+ASGinzburg/ASPathRelationKernelNaturality.lean:28:69: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+R : (w : Q.LiftVertex) → A.ASResolution Q w
+u v w : Q.LiftVertex
+huw : u ≠ w
+hvw : v ≠ w
+f : Q.UnrolledPathComponent k u v
+g : ↥(A.unrolledPathLinearEvaluation Q R v w).ker
+⊢ (A.lastArrowToASFirstTerm Q R u w huw) ↑(A.prependPathRelation Q R f g) =
+    (ConcreteCategory.hom ((A.rightModuleEvaluation (Q.height u)).map (kernel.ι (R w).d₁)))
+      ((ConcreteCategory.hom
+          ((kernel (R w).d₁).obj.map
+            (have this := (A.unrolledPathLinearEvaluation Q R u v) f;
+              this).op))
+        ((A.pathRelationsToCategoricalASFirstKernel Q R v w hvw) g))

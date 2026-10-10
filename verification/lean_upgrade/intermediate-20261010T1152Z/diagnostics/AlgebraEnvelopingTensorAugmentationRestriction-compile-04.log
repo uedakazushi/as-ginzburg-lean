@@ -1,0 +1,56 @@
+ASGinzburg/AlgebraEnvelopingTensorAugmentationRestriction.lean:30:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/AlgebraEnvelopingTensorAugmentationRestriction.lean:32:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/AlgebraEnvelopingTensorAugmentationRestriction.lean:53:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/AlgebraEnvelopingTensorAugmentationRestriction.lean:71:2: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (tensorRightEnvelopingRestrictScalarsIso k R (P.complex.X 0) (Q.complex.X 0)).inv ≫
+      (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).map
+        (ιMapBifunctor P.complex Q.complex (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ) 0 0 0 hij)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      (((moduleTensorBifunctor k).obj ((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj (P.complex.X 0))).obj
+        ((ModuleCat.restrictScalars (algebraMap k R)).obj (Q.complex.X 0)))
+      ((ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).obj
+        ((mapBifunctor P.complex Q.complex (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ)).X 0))
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ((((((moduleTensorBifunctor k).mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj
+                    (((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+                      P.complex)).obj
+                (((ModuleCat.restrictScalars (algebraMap k R)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+                  Q.complex)).X
+            0).X
+        0)
+      ((((ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).mapHomologicalComplex
+                (ComplexShape.down ℕ)).obj
+            (tensorRightEnvelopingTotal k R P.complex Q.complex (ComplexShape.down ℕ))).X
+        0)
+  in the application
+    CategoryStruct.comp
+      ((tensorRightEnvelopingRestrictScalarsIso k R (P.complex.X 0) (Q.complex.X 0)).inv ≫
+        (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).map
+          (ιMapBifunctor P.complex Q.complex (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ) 0 0 0 hij))

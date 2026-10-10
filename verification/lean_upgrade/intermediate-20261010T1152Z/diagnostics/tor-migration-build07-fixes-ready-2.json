@@ -1,0 +1,104 @@
+{
+  "recorded_at_utc": "2026-10-10T10:14:24.005467+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "actual Lean4.34.1 serial no-output direct checks0; full build/audit not claimed",
+  "source_count": 2,
+  "declaration_count": 16,
+  "sources": [
+    {
+      "source": "ASGinzburg/LeftModuleExt.lean",
+      "source_sha256": "7e658ac5f4b4e90164b80716089cfe317e819fc7a52f26134ed9c103596b2b90",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build07-entry-LeftModuleExt.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-left-module-ext-1.json",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 5.138338877000933,
+      "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleProjectiveResolution",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleProjectiveResolution_exactAt_succ",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleHasExt",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentableExtZeroEquiv",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentable_higher_ext_eq_zero",
+          "kind": "theorem"
+        }
+      ],
+      "warning_lines": []
+    },
+    {
+      "source": "ASGinzburg/LeftModuleADual.lean",
+      "source_sha256": "96a556ee4a199eefbe71a1acc1d2d2e7bbc15e9c428bbe34af619ec1114641ad",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build07-entry-LeftModuleADual.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-left-module-adual-1.json",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 11.942720907001785,
+      "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentableFunctor",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentableFunctorAdditive",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentableFunctorLinear",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleCoyonedaLinear",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleADual",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleADual_obj",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleADualMap",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleADualFunctor",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentableADualIso",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.representableBidualIso",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftRepresentableBidualIso",
+          "kind": "def"
+        }
+      ],
+      "warning_lines": []
+    }
+  ],
+  "proof_change_note": "Explicit hasExt_of_enoughProjectives.{v} retains independent u/v. Two A-dual simp proofs are replaced by exact Preadditive.add_comp and Linear.comp_smul, with identical conclusions. All baseline declaration headers and ambient universe/variable commands match after comment masking and whitespace normalization.",
+  "git_diff_check_exit_code": 0,
+  "no_active_compilers": true,
+  "lake_build_executed": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false
+}

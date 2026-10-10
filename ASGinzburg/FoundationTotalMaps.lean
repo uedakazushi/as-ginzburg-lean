@@ -9,18 +9,19 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
 
 def foundationRightTotalLinearMap {M N : A.FoundationRightModule Q} (f : M ⟶ N) :
     A.foundationRightTotalSpace Q M →ₗ[k] A.foundationRightTotalSpace Q N :=
-  LinearMap.pi (fun i => (f.app i).hom.comp (LinearMap.proj i))
+  LinearMap.pi (fun i => (f.hom.app i).hom.comp (LinearMap.proj i))
 
 theorem foundationRightTotalLinearMap_apply {M N : A.FoundationRightModule Q}
     (f : M ⟶ N) (m : A.foundationRightTotalSpace Q M) (i : Q.Vertex) :
-    A.foundationRightTotalLinearMap Q f m i=(f.app i).hom (m i) := rfl
+    A.foundationRightTotalLinearMap Q f m i=(f.hom.app i).hom (m i) := rfl
 
 theorem foundationComponentAction_naturality {M N : A.FoundationRightModule Q}
     (f : M ⟶ N) {i j : Q.Vertex} (a : A.Hom (i.val : ℤ) (j.val : ℤ))
     (x : (A.foundationRightEvaluation Q j).obj M) :
-    (f.app i).hom (A.foundationRightComponentAction Q M a x)=
-      A.foundationRightComponentAction Q N a ((f.app j).hom x) :=
-  congrArg (fun h => h.hom x) (f.naturality (A.foundationActionArrow Q i j a))
+    (f.hom.app i).hom (A.foundationRightComponentAction Q M a x)=
+      A.foundationRightComponentAction Q N a ((f.hom.app j).hom x) :=
+  congrArg (fun h => h.hom x)
+    (f.hom.naturality (InducedCategory.homMk (A.foundationActionArrow Q i j a)))
 
 theorem foundationRightTotalLinearMap_action {M N : A.FoundationRightModule Q}
     (f : M ⟶ N) (a : A.FoundationAlgebra Q) :

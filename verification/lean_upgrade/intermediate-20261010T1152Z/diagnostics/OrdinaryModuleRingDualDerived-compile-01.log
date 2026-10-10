@@ -1,0 +1,42 @@
+ASGinzburg/OrdinaryModuleRingDualDerived.lean:27:2: error: unsolved goals
+case refine_2
+R : Type v
+inst✝ : Ring R
+M : ModuleCat R
+i j : ℕ
+a✝ : (ComplexShape.up ℕ).Rel i j
+⊢ (Nat.casesAuxOn (motive := fun a =>
+          i = a →
+            (((CochainComplex.single₀ (ModuleCat R)ᵒᵖ).obj (op M)).X i ≅
+              (HomologicalComplex.op ((ChainComplex.single₀ (ModuleCat R)).obj M)).X i))
+          i (fun h => ⋯ ▸ Iso.refl (((CochainComplex.single₀ (ModuleCat R)ᵒᵖ).obj (op M)).X 0)) (fun n h => ⋯ ▸ ⋯.iso ⋯)
+          ⋯).hom ≫
+      0 =
+    0
+ASGinzburg/OrdinaryModuleRingDualDerived.lean:29:15: warning: This simp argument is unused:
+  comp_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [HomologicalComplex.single_obj_d, HomologicalComplex.op_d, op_zero, zero_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OrdinaryModuleRingDualDerived.lean:35:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/OrdinaryModuleRingDualDerived.lean:40:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/OrdinaryModuleRingDualDerived.lean:43:10: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  QuasiIso (ordinarySingleZeroOppositeIso R M).hom
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

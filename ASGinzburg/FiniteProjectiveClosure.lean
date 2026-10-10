@@ -38,10 +38,12 @@ theorem leftFiniteProjectiveProperty_coproduct {B : Type*} [Fintype B] (i : B �
 noncomputable instance rightFiniteProjectiveHasZeroObject : HasZeroObject A.RightFiniteProjective := by
   refine ⟨⟨⟨0, A.rightFiniteProjectiveProperty_of_isZero (isZero_zero A.RightModule)⟩,?_⟩⟩
   rw [IsZero.iff_id_eq_zero]
+  apply ObjectProperty.hom_ext
   exact (isZero_zero A.RightModule).eq_of_src _ _
 
 noncomputable instance leftFiniteProjectiveHasZeroObject : HasZeroObject A.LeftFiniteProjective := by
   refine ⟨⟨⟨0, A.leftFiniteProjectiveProperty_of_isZero (isZero_zero A.LeftModule)⟩,?_⟩⟩
   rw [IsZero.iff_id_eq_zero]
+  apply ObjectProperty.hom_ext
   exact (isZero_zero A.LeftModule).eq_of_src _ _
 end ASGinzburg.ZAlgebra

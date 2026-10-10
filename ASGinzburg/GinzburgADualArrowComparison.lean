@@ -15,7 +15,7 @@ theorem ginzburgOriginalRepresentableProjectiveMap_adual_opposite (v l : Q.LiftV
       (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
     Q.ginzburgOriginalADualOppositeComponentEquiv k φ v l
       (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-        (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).app ⟨Q.height l⟩ f)=
+        (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).hom.app ⟨Q.height l⟩ f)=
       ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
         (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).map
         (Q.opposite.ginzburgLoopDualProjectiveMap k (Q.oppositePotentialEquiv k φ)
@@ -39,7 +39,7 @@ theorem ginzburgLoopDualProjectiveMap_adual_opposite (v l : Q.LiftVertex)
       (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
     Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l
       (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-        (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩ f)=
+        (Q.ginzburgLoopDualProjectiveMap k φ v)).hom.app ⟨Q.height l⟩ f)=
       ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
         (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).map
         (Q.opposite.ginzburgOriginalRepresentableProjectiveMap k (Q.oppositePotentialEquiv k φ)

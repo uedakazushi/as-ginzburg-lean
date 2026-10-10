@@ -1,0 +1,32 @@
+ASGinzburg/GinzburgGeneratorDifferentials.lean:44:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (GinzburgPath.transport ?Q ?hu ?hv ?p).cohomologicalDegree
+in the target expression
+  GinzburgPath.transport Q ht ht ((Q.originalGinzburgArrowPath a).comp (Q.dualGinzburgArrowPath a)) ∈
+    {p | p.cohomologicalDegree = -1}
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+ht : Q.source a = v
+⊢ GinzburgPath.transport Q ht ht ((Q.originalGinzburgArrowPath a).comp (Q.dualGinzburgArrowPath a)) ∈
+    {p | p.cohomologicalDegree = -1}
+ASGinzburg/GinzburgGeneratorDifferentials.lean:49:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (GinzburgPath.transport ?Q ?hu ?hv ?p).cohomologicalDegree
+in the target expression
+  GinzburgPath.transport Q hs hs ((Q.dualGinzburgArrowPath a).comp (Q.originalGinzburgArrowPath a)) ∈
+    {p | p.cohomologicalDegree = -1}
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+hs : Q.target a = v
+⊢ GinzburgPath.transport Q hs hs ((Q.dualGinzburgArrowPath a).comp (Q.originalGinzburgArrowPath a)) ∈
+    {p | p.cohomologicalDegree = -1}

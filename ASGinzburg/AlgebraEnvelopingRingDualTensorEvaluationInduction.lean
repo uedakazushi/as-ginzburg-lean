@@ -58,11 +58,9 @@ theorem envelopingTensorEvaluationInductionBilinear_balance (a : R)
   letI := envelopingBalancedTensorHomModule k R M R
   letI := envelopingTensorEvaluationHomScalarTower k R M R
   letI := envelopingTensorEvaluationHomScalarCommute k R M R
-  refine TensorProduct.induction_on t ?_ ?_ ?_
-  · change envelopingTensorEvaluationInductionBilinear k R M
-      ((0 : AlgebraEnvelopingRing k R) * (a ⊗ₜ[k] (1 : Rᵐᵒᵖ))) φ =
-      envelopingTensorEvaluationInductionBilinear k R M 0 (a • φ)
-    rw [zero_mul, map_zero, LinearMap.zero_apply, LinearMap.zero_apply]
+  refine TensorProduct.inductionOn (motive := fun t =>
+    envelopingTensorEvaluationInductionBilinear k R M (MulOpposite.op a • t) φ =
+      envelopingTensorEvaluationInductionBilinear k R M t (a • φ)) t ?_ ?_
   · intro x y
     apply balancedTensorHom_ext k R M R
     intro m
@@ -104,7 +102,6 @@ noncomputable def envelopingTensorEvaluationInduction :
   letI := envelopingBalancedTensorHomModule k R M R
   letI := envelopingTensorEvaluationHomScalarTower k R M R
   letI := envelopingTensorEvaluationHomScalarCommute k R M R
-  rw [envelopingTensorEvaluationInduction, balancedTensorLift_tmul]
   rfl
 
 noncomputable def envelopingTensorEvaluationSecondInsertion :
@@ -123,7 +120,6 @@ noncomputable def envelopingTensorEvaluationFieldTensorSection :
     envelopingTensorEvaluationFieldTensorSection k R M (φ ⊗ₜ[k] y) =
       balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
         ((1 : R) ⊗ₜ[k] MulOpposite.op y) φ := by
-  rw [envelopingTensorEvaluationFieldTensorSection, TensorProduct.lift.tmul]
   rfl
 
 theorem envelopingTensorEvaluationInduction_field_section
@@ -136,18 +132,23 @@ theorem envelopingTensorEvaluationInduction_field_section
   letI := envelopingBalancedTensorHomModule k R M R
   letI := envelopingTensorEvaluationHomScalarTower k R M R
   letI := envelopingTensorEvaluationHomScalarCommute k R M R
-  refine TensorProduct.induction_on z ?_ ?_ ?_
-  · rw [map_zero, map_zero, map_zero]
+  refine TensorProduct.inductionOn (motive := fun z =>
+    envelopingTensorEvaluationInduction k R M
+      (envelopingTensorEvaluationFieldTensorSection k R M z) = dualTensorHom k M R z)
+    z ?_ ?_
   · intro φ y
+    change envelopingTensorEvaluationContraction k R M φ
+      ((1 : R) ⊗ₜ[k] MulOpposite.op y) = dualTensorHom k M R (φ ⊗ₜ[k] y)
     apply balancedTensorHom_ext k R M R
     intro m
-    rw [envelopingTensorEvaluationFieldTensorSection_tmul,
-      envelopingTensorEvaluationInduction_tmul,
-      envelopingTensorEvaluationContraction_tmul]
-    change φ (MulOpposite.op (1 : R) • m) • (MulOpposite.op y).unop = φ m • y
-    rw [MulOpposite.op_one, one_smul, MulOpposite.unop_op]
+    calc
+      _ = φ (MulOpposite.op (1 : R) • m) • (MulOpposite.op y).unop :=
+        envelopingTensorEvaluationContraction_tmul k R M φ 1 (MulOpposite.op y) m
+      _ = φ m • y := by rw [MulOpposite.op_one, one_smul, MulOpposite.unop_op]
+      _ = _ := rfl
   · intro x y hx hy
     rw [map_add, map_add, map_add, hx, hy]
+    rfl
 
 variable [Module.Finite k M]
 
@@ -188,12 +189,12 @@ theorem envelopingTensorEvaluationInductionInverse_induction
       (envelopingTensorEvaluationInduction k R M z) = z) ?_ ?_ ?_ z
   · simp only [map_zero]
   · intro t φ
-    refine TensorProduct.induction_on t ?_ ?_ ?_
-    · change envelopingTensorEvaluationInductionInverse k R M
+    refine TensorProduct.inductionOn (motive := fun t =>
+      envelopingTensorEvaluationInductionInverse k R M
         (envelopingTensorEvaluationInduction k R M
-          ((balancedTensorBilinear k R _ _).flip φ 0)) =
-        (balancedTensorBilinear k R _ _).flip φ 0
-      rw [map_zero, map_zero, map_zero]
+          (balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ)) =
+        balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k) t φ)
+      t ?_ ?_
     · intro a b
       have hc : envelopingTensorEvaluationContraction k R M φ (a ⊗ₜ[k] b) =
           dualTensorHomEquiv k M R ((a • φ) ⊗ₜ[k] b.unop) := by
@@ -206,8 +207,12 @@ theorem envelopingTensorEvaluationInductionInverse_induction
       change envelopingTensorEvaluationFieldTensorSection k R M
         ((dualTensorHomEquiv k M R).symm
           (dualTensorHomEquiv k M R ((a • φ) ⊗ₜ[k] b.unop))) = _
-      rw [LinearEquiv.symm_apply_apply, envelopingTensorEvaluationFieldTensorSection_tmul,
-        MulOpposite.op_unop, ← balancedTensorTmul_balance]
+      rw [LinearEquiv.symm_apply_apply]
+      change balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
+        ((1 : R) ⊗ₜ[k] b) (a • φ) =
+        balancedTensorTmul k R (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M k)
+          (a ⊗ₜ[k] b) φ
+      rw [← balancedTensorTmul_balance]
       congr 1
       change ((1 : R) ⊗ₜ[k] b) * (a ⊗ₜ[k] (1 : Rᵐᵒᵖ)) = a ⊗ₜ[k] b
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]

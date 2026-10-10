@@ -1,0 +1,165 @@
+import ASGinzburg.ProjectiveExtensionCovers
+import ASGinzburg.FiniteProjectiveExtensionClosure
+import ASGinzburg.ProjectiveResolutionSyzygies
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- Concrete finite projective resolutions, expressed recursively through actual
+epimorphisms and kernels. This is a derived property, not an added AS hypothesis. -/
+noncomputable def HasRightFiniteProjectiveResolutionLength (A : ZAlgebra.{u,v} k) : ℕ → A.RightModule → Prop
+  | 0, M => A.rightFiniteProjectiveProperty M
+  | n+1, M => ∃ (P : A.RightModule) (π : P ⟶ M),
+      A.rightFiniteProjectiveProperty P ∧ Epi π ∧
+        HasRightFiniteProjectiveResolutionLength A n (kernel π)
+
+theorem hasRightFiniteProjectiveResolutionLength_of_iso (n : ℕ) {M N : A.RightModule}
+    (e : M ≅ N) (hN : A.HasRightFiniteProjectiveResolutionLength n N) :
+    A.HasRightFiniteProjectiveResolutionLength n M := by
+  induction n generalizing M N with
+  | zero => exact A.rightFiniteProjectiveProperty_of_iso e hN
+  | succ n ih =>
+    obtain ⟨P,π,hP,hπ,htail⟩ := hN
+    letI := hπ
+    refine ⟨P,π ≫ e.inv,hP,inferInstance,?_⟩
+    exact ih (kernelCompMono π e.inv) htail
+
+theorem hasRightFiniteProjectiveResolutionLength_of_isZero (n : ℕ) {M : A.RightModule}
+    (hM : IsZero M) : A.HasRightFiniteProjectiveResolutionLength n M := by
+  induction n generalizing M with
+  | zero => exact A.rightFiniteProjectiveProperty_of_isZero hM
+  | succ n ih =>
+    let π : (0 : A.RightModule) ⟶ M := 0
+    letI : Epi π := epi_of_target_iso_zero π hM.isoZero
+    letI : Mono π := mono_of_source_iso_zero π (isZero_zero A.RightModule).isoZero
+    refine ⟨0,π,A.rightFiniteProjectiveProperty_of_isZero (isZero_zero _),inferInstance,?_⟩
+    exact ih (isZero_kernel_of_mono π)
+
+theorem hasRightFiniteProjectiveResolutionLength_of_fourTermResolution {M : A.RightModule}
+    (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
+    (hP : ∀ n, n < 4 → A.rightFiniteProjectiveProperty (P.complex.X n)) :
+    A.HasRightFiniteProjectiveResolutionLength 3 M := by
+  let q : P.complex.X 3 ⟶ kernel P.secondCover :=
+    kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover
+  letI : Mono (P.complex.d 3 2) := P.mono_d₃_of_isZero_four h₄
+  letI : Mono q := inferInstanceAs (Mono (kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover))
+  letI : Epi q :=
+    (ShortComplex.exact_iff_epi_kernel_lift
+      (ShortComplex.mk _ _ P.d₃_secondCover)).mp P.exact_d₃_secondCover
+  letI : IsIso q := isIso_of_mono_of_epi q
+  have hlast : A.rightFiniteProjectiveProperty (kernel P.secondCover) :=
+    A.rightFiniteProjectiveProperty_of_iso (asIso q).symm (hP 3 (by decide))
+  exact ⟨P.complex.X 0,P.π.f 0,hP 0 (by decide),inferInstance,
+    ⟨P.complex.X 1,P.firstCover,hP 1 (by decide),inferInstance,
+      ⟨P.complex.X 2,P.secondCover,hP 2 (by decide),inferInstance,hlast⟩⟩⟩
+
+theorem hasRightFiniteProjectiveResolutionLength_of_shortExact (n : ℕ)
+    {S : ShortComplex A.RightModule} (hS : S.ShortExact)
+    (h₁ : A.HasRightFiniteProjectiveResolutionLength n S.X₁)
+    (h₃ : A.HasRightFiniteProjectiveResolutionLength n S.X₃) :
+    A.HasRightFiniteProjectiveResolutionLength n S.X₂ := by
+  induction n generalizing S with
+  | zero => exact A.rightFiniteProjectiveProperty_of_shortExact hS h₁ h₃
+  | succ n ih =>
+    obtain ⟨P₁,p₁,hP₁,hp₁,ht₁⟩ := h₁
+    obtain ⟨P₃,p₃,hP₃,hp₃,ht₃⟩ := h₃
+    letI := hp₁
+    letI := hp₃
+    letI : Projective P₃ := A.rightFiniteProjectiveProperty_projective hP₃
+    let K := kernel (ASGinzburg.extensionProjectiveCoverHom hS p₁ p₃)
+    have hK : K.ShortExact := ASGinzburg.extensionProjectiveKernel_shortExact hS p₁ p₃
+    have hK₁ : A.HasRightFiniteProjectiveResolutionLength n K.X₁ :=
+      A.hasRightFiniteProjectiveResolutionLength_of_iso n
+        (ASGinzburg.extensionProjectiveKernelLeftIso hS p₁ p₃) ht₁
+    have hK₃ : A.HasRightFiniteProjectiveResolutionLength n K.X₃ :=
+      A.hasRightFiniteProjectiveResolutionLength_of_iso n
+        (ASGinzburg.extensionProjectiveKernelRightIso hS p₁ p₃) ht₃
+    refine ⟨P₁ ⊞ P₃,ASGinzburg.extensionProjectiveπ hS p₁ p₃,
+      A.rightFiniteProjectiveProperty_biprod hP₁ hP₃,inferInstance,?_⟩
+    exact A.hasRightFiniteProjectiveResolutionLength_of_iso n
+      (ASGinzburg.extensionProjectiveKernelMiddleIso hS p₁ p₃).symm (ih hK hK₁ hK₃)
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+/-- Concrete finite projective resolutions, expressed recursively through actual
+epimorphisms and kernels. This is a derived property, not an added AS hypothesis. -/
+noncomputable def HasLeftFiniteProjectiveResolutionLength (A : ZAlgebra.{u,v} k) : ℕ → A.LeftModule → Prop
+  | 0, M => A.leftFiniteProjectiveProperty M
+  | n+1, M => ∃ (P : A.LeftModule) (π : P ⟶ M),
+      A.leftFiniteProjectiveProperty P ∧ Epi π ∧
+        HasLeftFiniteProjectiveResolutionLength A n (kernel π)
+
+theorem hasLeftFiniteProjectiveResolutionLength_of_iso (n : ℕ) {M N : A.LeftModule}
+    (e : M ≅ N) (hN : A.HasLeftFiniteProjectiveResolutionLength n N) :
+    A.HasLeftFiniteProjectiveResolutionLength n M := by
+  induction n generalizing M N with
+  | zero => exact A.leftFiniteProjectiveProperty_of_iso e hN
+  | succ n ih =>
+    obtain ⟨P,π,hP,hπ,htail⟩ := hN
+    letI := hπ
+    refine ⟨P,π ≫ e.inv,hP,inferInstance,?_⟩
+    exact ih (kernelCompMono π e.inv) htail
+
+theorem hasLeftFiniteProjectiveResolutionLength_of_isZero (n : ℕ) {M : A.LeftModule}
+    (hM : IsZero M) : A.HasLeftFiniteProjectiveResolutionLength n M := by
+  induction n generalizing M with
+  | zero => exact A.leftFiniteProjectiveProperty_of_isZero hM
+  | succ n ih =>
+    let π : (0 : A.LeftModule) ⟶ M := 0
+    letI : Epi π := epi_of_target_iso_zero π hM.isoZero
+    letI : Mono π := mono_of_source_iso_zero π (isZero_zero A.LeftModule).isoZero
+    refine ⟨0,π,A.leftFiniteProjectiveProperty_of_isZero (isZero_zero _),inferInstance,?_⟩
+    exact ih (isZero_kernel_of_mono π)
+
+theorem hasLeftFiniteProjectiveResolutionLength_of_fourTermResolution {M : A.LeftModule}
+    (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
+    (hP : ∀ n, n < 4 → A.leftFiniteProjectiveProperty (P.complex.X n)) :
+    A.HasLeftFiniteProjectiveResolutionLength 3 M := by
+  let q : P.complex.X 3 ⟶ kernel P.secondCover :=
+    kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover
+  letI : Mono (P.complex.d 3 2) := P.mono_d₃_of_isZero_four h₄
+  letI : Mono q := inferInstanceAs (Mono (kernel.lift P.secondCover (P.complex.d 3 2) P.d₃_secondCover))
+  letI : Epi q :=
+    (ShortComplex.exact_iff_epi_kernel_lift
+      (ShortComplex.mk _ _ P.d₃_secondCover)).mp P.exact_d₃_secondCover
+  letI : IsIso q := isIso_of_mono_of_epi q
+  have hlast : A.leftFiniteProjectiveProperty (kernel P.secondCover) :=
+    A.leftFiniteProjectiveProperty_of_iso (asIso q).symm (hP 3 (by decide))
+  exact ⟨P.complex.X 0,P.π.f 0,hP 0 (by decide),inferInstance,
+    ⟨P.complex.X 1,P.firstCover,hP 1 (by decide),inferInstance,
+      ⟨P.complex.X 2,P.secondCover,hP 2 (by decide),inferInstance,hlast⟩⟩⟩
+
+theorem hasLeftFiniteProjectiveResolutionLength_of_shortExact (n : ℕ)
+    {S : ShortComplex A.LeftModule} (hS : S.ShortExact)
+    (h₁ : A.HasLeftFiniteProjectiveResolutionLength n S.X₁)
+    (h₃ : A.HasLeftFiniteProjectiveResolutionLength n S.X₃) :
+    A.HasLeftFiniteProjectiveResolutionLength n S.X₂ := by
+  induction n generalizing S with
+  | zero => exact A.leftFiniteProjectiveProperty_of_shortExact hS h₁ h₃
+  | succ n ih =>
+    obtain ⟨P₁,p₁,hP₁,hp₁,ht₁⟩ := h₁
+    obtain ⟨P₃,p₃,hP₃,hp₃,ht₃⟩ := h₃
+    letI := hp₁
+    letI := hp₃
+    letI : Projective P₃ := A.leftFiniteProjectiveProperty_projective hP₃
+    let K := kernel (ASGinzburg.extensionProjectiveCoverHom hS p₁ p₃)
+    have hK : K.ShortExact := ASGinzburg.extensionProjectiveKernel_shortExact hS p₁ p₃
+    have hK₁ : A.HasLeftFiniteProjectiveResolutionLength n K.X₁ :=
+      A.hasLeftFiniteProjectiveResolutionLength_of_iso n
+        (ASGinzburg.extensionProjectiveKernelLeftIso hS p₁ p₃) ht₁
+    have hK₃ : A.HasLeftFiniteProjectiveResolutionLength n K.X₃ :=
+      A.hasLeftFiniteProjectiveResolutionLength_of_iso n
+        (ASGinzburg.extensionProjectiveKernelRightIso hS p₁ p₃) ht₃
+    refine ⟨P₁ ⊞ P₃,ASGinzburg.extensionProjectiveπ hS p₁ p₃,
+      A.leftFiniteProjectiveProperty_biprod hP₁ hP₃,inferInstance,?_⟩
+    exact A.hasLeftFiniteProjectiveResolutionLength_of_iso n
+      (ASGinzburg.extensionProjectiveKernelMiddleIso hS p₁ p₃).symm (ih hK hK₁ hK₃)
+end ASGinzburg.ZAlgebra

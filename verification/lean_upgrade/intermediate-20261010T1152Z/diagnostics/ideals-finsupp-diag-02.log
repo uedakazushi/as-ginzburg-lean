@@ -1,0 +1,1211 @@
+Finsupp.instAddCommGroup
+Finsupp.module α k
+(Finsupp.supported k k t).addCommGroup
+(Finsupp.supported k k t).module
+Submodule.hasQuotient : HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+work/lean-upgrade/ideals-finsupp-diag.lean:12:0: error: failed to synthesize
+  HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+[Meta.synthInstance] ❌️ HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+  [Meta.synthInstance] ✅️ new goal HasQuotient _tc.1 (Submodule k ↥(Finsupp.supported k k t))
+    [Meta.synthInstance.instances] #[@Submodule.hasQuotient]
+  [Meta.synthInstance.apply] ❌️ apply @Submodule.hasQuotient to HasQuotient ?m.12
+        (Submodule k ↥(Finsupp.supported k k t))
+    [Meta.synthInstance.tryResolve] ❌️ HasQuotient ?m.12
+          (Submodule k ↥(Finsupp.supported k k t)) ≟ HasQuotient ?m.15 (Submodule ?m.14 ?m.15)
+      [Meta.synthInstance] ✅️ Ring k
+        [Meta.synthInstance] ✅️ new goal Ring k
+          [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+        [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring k
+          [Meta.synthInstance.tryResolve] ✅️ Ring k ≟ Ring k
+          [Meta.synthInstance] ✅️ new goal DivisionRing k
+            [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+        [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing k
+          [Meta.synthInstance.tryResolve] ✅️ DivisionRing k ≟ DivisionRing k
+          [Meta.synthInstance] ✅️ new goal Field k
+            [Meta.synthInstance.instances] #[inst✝]
+        [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+          [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+          [Meta.synthInstance.answer] ✅️ Field k
+        [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of DivisionRing k
+          [Meta.synthInstance.resume] size: 1
+          [Meta.synthInstance.answer] ✅️ DivisionRing k
+        [Meta.synthInstance.resume] ✅️ propagating DivisionRing k to subgoal DivisionRing k of Ring k
+          [Meta.synthInstance.resume] size: 2
+          [Meta.synthInstance.answer] ✅️ Ring k
+        [Meta.synthInstance] result inst✝.toDivisionRing.toRing
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] ✅️ new goal AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.instances] #[@AddSubgroupClass.toAddCommGroup, @AddCommGroupWithOne.toAddCommGroup, @NonUnitalNonAssocRing.toAddCommGroup, @Ring.toAddCommGroup, @Submodule.addCommGroup]
+        [Meta.synthInstance.apply] ❌️ apply @Submodule.addCommGroup to AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ❌️ AddCommGroup ↥(Finsupp.supported k k t) ≟ AddCommGroup ↥?m.25
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] ✅️ new goal Ring k
+                [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+              [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring k
+                [Meta.synthInstance.tryResolve] ✅️ Ring k ≟ Ring k
+                [Meta.synthInstance] ✅️ new goal DivisionRing k
+                  [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing k
+                [Meta.synthInstance.tryResolve] ✅️ DivisionRing k ≟ DivisionRing k
+                [Meta.synthInstance] ✅️ new goal Field k
+                  [Meta.synthInstance.instances] #[inst✝]
+              [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+                [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+                [Meta.synthInstance.answer] ✅️ Field k
+              [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of DivisionRing k
+                [Meta.synthInstance.resume] size: 1
+                [Meta.synthInstance.answer] ✅️ DivisionRing k
+              [Meta.synthInstance.resume] ✅️ propagating DivisionRing k to subgoal DivisionRing k of Ring k
+                [Meta.synthInstance.resume] size: 2
+                [Meta.synthInstance.answer] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] ✅️ new goal AddCommGroup (α →₀ k)
+                [Meta.synthInstance.instances] #[@AddCommGroupWithOne.toAddCommGroup, @NonUnitalNonAssocRing.toAddCommGroup, @Ring.toAddCommGroup, @Finsupp.instAddCommGroup]
+              [Meta.synthInstance.apply] ❌️ apply @Finsupp.instAddCommGroup to AddCommGroup (α →₀ k)
+                [Meta.synthInstance.tryResolve] ❌️ AddCommGroup (α →₀ k) ≟ AddCommGroup (?m.27 →₀ ?m.28)
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toAddCommGroup to AddCommGroup (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ AddCommGroup (α →₀ k) ≟ AddCommGroup (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal Ring (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+              [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal DivisionRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ DivisionRing (α →₀ k) ≟ DivisionRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal Field (α →₀ k)
+                  [Meta.synthInstance.instances] #[inst✝]
+              [Meta.synthInstance.apply] ❌️ apply inst✝ to Field (α →₀ k)
+                [Meta.synthInstance.tryResolve] ❌️ Field (α →₀ k) ≟ Field k
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toRing to Ring (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal CommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Field.toCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toCommRing to CommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ CommRing (α →₀ k) ≟ CommRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalNonAssocRing.toAddCommGroup to AddCommGroup (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ AddCommGroup (α →₀ k) ≟ AddCommGroup (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@NonUnitalRing.toNonUnitalNonAssocRing, @NonAssocRing.toNonUnitalNonAssocRing, @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@NonAssocCommRing.toNonUnitalNonAssocCommRing, @NonUnitalCommRing.toNonUnitalNonAssocCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                      (α →₀ k) ≟ NonUnitalNonAssocCommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toNonUnitalCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonUnitalCommRing to NonUnitalCommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalCommRing (α →₀ k) ≟ NonUnitalCommRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                      (α →₀ k) ≟ NonUnitalNonAssocCommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonAssocCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toNonAssocCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonAssocCommRing to NonAssocCommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocCommRing (α →₀ k) ≟ NonAssocCommRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonAssocRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Ring.toNonAssocRing, @NonAssocCommRing.toNonAssocRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonAssocRing to NonAssocRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toNonAssocRing to NonAssocRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Ring.toNonUnitalRing, @NonUnitalCommRing.toNonUnitalRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalRing to NonUnitalRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing (α →₀ k) ≟ NonUnitalRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toNonUnitalRing to NonUnitalRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing (α →₀ k) ≟ NonUnitalRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @AddCommGroupWithOne.toAddCommGroup to AddCommGroup (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ AddCommGroup (α →₀ k) ≟ AddCommGroup (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal AddCommGroupWithOne (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toAddCommGroupWithOne, @NonAssocRing.toAddCommGroupWithOne]
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocRing.toAddCommGroupWithOne to AddCommGroupWithOne (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ AddCommGroupWithOne (α →₀ k) ≟ AddCommGroupWithOne (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toAddCommGroupWithOne to AddCommGroupWithOne (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ AddCommGroupWithOne (α →₀ k) ≟ AddCommGroupWithOne (α →₀ k)
+              [Meta.synthInstance] result <not-available>
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+        [Meta.synthInstance.apply] ✅️ apply @Ring.toAddCommGroup to AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroup
+                ↥(Finsupp.supported k k t) ≟ AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal Ring ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@SubringClass.toRing, @CommRing.toRing, @DivisionRing.toRing]
+        [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ Ring ↥(Finsupp.supported k k t) ≟ Ring ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal DivisionRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+        [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ DivisionRing
+                ↥(Finsupp.supported k k t) ≟ DivisionRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal Field ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[inst✝]
+        [Meta.synthInstance.apply] ❌️ apply inst✝ to Field ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ❌️ Field ↥(Finsupp.supported k k t) ≟ Field k
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toRing to Ring ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ Ring ↥(Finsupp.supported k k t) ≟ Ring ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal CommRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@SubringClass.toCommRing, @Field.toCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @Field.toCommRing to CommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ CommRing ↥(Finsupp.supported k k t) ≟ CommRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @SubringClass.toCommRing to CommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ CommRing ↥(Finsupp.supported k k t) ≟ CommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal CommRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@Field.toCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @Field.toCommRing to CommRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ CommRing (α →₀ k) ≟ CommRing (α →₀ k)
+          [Meta.synthInstance] ✅️ new goal Field (α →₀ k)
+            [Meta.synthInstance.instances] #[inst✝]
+        [Meta.synthInstance.apply] ❌️ apply inst✝ to Field (α →₀ k)
+          [Meta.synthInstance.tryResolve] ❌️ Field (α →₀ k) ≟ Field k
+        [Meta.synthInstance.apply] ✅️ apply @SubringClass.toRing to Ring ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ Ring ↥(Finsupp.supported k k t) ≟ Ring ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal Ring (α →₀ k)
+            [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+        [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+          [Meta.synthInstance] ✅️ new goal DivisionRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+        [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ DivisionRing (α →₀ k) ≟ DivisionRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toRing to Ring (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalNonAssocRing.toAddCommGroup to AddCommGroup
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroup
+                ↥(Finsupp.supported k k t) ≟ AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@NonUnitalSubringClass.toNonUnitalNonAssocRing, @NonUnitalRing.toNonUnitalNonAssocRing, @NonAssocRing.toNonUnitalNonAssocRing, @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocCommRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@NonUnitalSubringClass.toNonUnitalNonAssocCommRing, @NonAssocCommRing.toNonUnitalNonAssocCommRing, @NonUnitalCommRing.toNonUnitalNonAssocCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocCommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalCommRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@NonUnitalSubringClass.toNonUnitalCommRing, @CommRing.toNonUnitalCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonUnitalCommRing to NonUnitalCommRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalCommRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalCommRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalSubringClass.toNonUnitalCommRing to NonUnitalCommRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalCommRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalCommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalCommRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@CommRing.toNonUnitalCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonUnitalCommRing to NonUnitalCommRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalCommRing (α →₀ k) ≟ NonUnitalCommRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocCommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonAssocCommRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@SubringClass.toNonAssocCommRing, @CommRing.toNonAssocCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonAssocCommRing to NonAssocCommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocCommRing
+                ↥(Finsupp.supported k k t) ≟ NonAssocCommRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @SubringClass.toNonAssocCommRing to NonAssocCommRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocCommRing
+                ↥(Finsupp.supported k k t) ≟ NonAssocCommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonAssocCommRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@CommRing.toNonAssocCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonAssocCommRing to NonAssocCommRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocCommRing (α →₀ k) ≟ NonAssocCommRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalSubringClass.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocCommRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocCommRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@NonAssocCommRing.toNonUnitalNonAssocCommRing, @NonUnitalCommRing.toNonUnitalNonAssocCommRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+              (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing (α →₀ k) ≟ NonUnitalNonAssocCommRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+              (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing (α →₀ k) ≟ NonUnitalNonAssocCommRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonAssocRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@SubringClass.toNonAssocRing, @Ring.toNonAssocRing, @NonAssocCommRing.toNonAssocRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonAssocRing to NonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonAssocRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @Ring.toNonAssocRing to NonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonAssocRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @SubringClass.toNonAssocRing to NonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonAssocRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@Ring.toNonAssocRing, @NonAssocCommRing.toNonAssocRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonAssocRing to NonAssocRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @Ring.toNonAssocRing to NonAssocRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalRing ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@NonUnitalSubringClass.toNonUnitalRing, @Ring.toNonUnitalRing, @NonUnitalCommRing.toNonUnitalRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalRing to NonUnitalRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @Ring.toNonUnitalRing to NonUnitalRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalRing ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalSubringClass.toNonUnitalRing to NonUnitalRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@Ring.toNonUnitalRing, @NonUnitalCommRing.toNonUnitalRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalRing to NonUnitalRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing (α →₀ k) ≟ NonUnitalRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @Ring.toNonUnitalRing to NonUnitalRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing (α →₀ k) ≟ NonUnitalRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalSubringClass.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing
+                ↥(Finsupp.supported k k t) ≟ NonUnitalNonAssocRing ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocRing (α →₀ k)
+            [Meta.synthInstance.instances] #[@NonUnitalRing.toNonUnitalNonAssocRing, @NonAssocRing.toNonUnitalNonAssocRing, @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing]
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+              (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @NonUnitalRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+        [Meta.synthInstance.apply] ✅️ apply @AddCommGroupWithOne.toAddCommGroup to AddCommGroup
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroup
+                ↥(Finsupp.supported k k t) ≟ AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal AddCommGroupWithOne ↥(Finsupp.supported k k t)
+            [Meta.synthInstance.instances] #[@CommRing.toAddCommGroupWithOne, @NonAssocRing.toAddCommGroupWithOne]
+        [Meta.synthInstance.apply] ✅️ apply @NonAssocRing.toAddCommGroupWithOne to AddCommGroupWithOne
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroupWithOne
+                ↥(Finsupp.supported k k t) ≟ AddCommGroupWithOne ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @CommRing.toAddCommGroupWithOne to AddCommGroupWithOne
+              ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroupWithOne
+                ↥(Finsupp.supported k k t) ≟ AddCommGroupWithOne ↥(Finsupp.supported k k t)
+        [Meta.synthInstance.apply] ✅️ apply @AddSubgroupClass.toAddCommGroup to AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroup
+                ↥(Finsupp.supported k k t) ≟ AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance] ✅️ new goal AddCommGroup (α →₀ k)
+            [Meta.synthInstance.instances] #[@AddCommGroupWithOne.toAddCommGroup, @NonUnitalNonAssocRing.toAddCommGroup, @Ring.toAddCommGroup, @Finsupp.instAddCommGroup]
+        [Meta.synthInstance.apply] ✅️ apply @Finsupp.instAddCommGroup to AddCommGroup (α →₀ k)
+          [Meta.synthInstance.tryResolve] ✅️ AddCommGroup (α →₀ k) ≟ AddCommGroup (α →₀ k)
+            [Meta.synthInstance] ✅️ AddCommGroup k
+              [Meta.synthInstance] ✅️ new goal AddCommGroup k
+                [Meta.synthInstance.instances] #[@AddCommGroupWithOne.toAddCommGroup, @NonUnitalNonAssocRing.toAddCommGroup, @Ring.toAddCommGroup]
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toAddCommGroup to AddCommGroup k
+                [Meta.synthInstance.tryResolve] ✅️ AddCommGroup k ≟ AddCommGroup k
+                [Meta.synthInstance] ✅️ new goal Ring k
+                  [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+              [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring k
+                [Meta.synthInstance.tryResolve] ✅️ Ring k ≟ Ring k
+                [Meta.synthInstance] ✅️ new goal DivisionRing k
+                  [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing k
+                [Meta.synthInstance.tryResolve] ✅️ DivisionRing k ≟ DivisionRing k
+                [Meta.synthInstance] ✅️ new goal Field k
+                  [Meta.synthInstance.instances] #[inst✝]
+              [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+                [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+                [Meta.synthInstance.answer] ✅️ Field k
+              [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of DivisionRing k
+                [Meta.synthInstance.resume] size: 1
+                [Meta.synthInstance.answer] ✅️ DivisionRing k
+              [Meta.synthInstance.resume] ✅️ propagating DivisionRing k to subgoal DivisionRing k of Ring k
+                [Meta.synthInstance.resume] size: 2
+                [Meta.synthInstance.answer] ✅️ Ring k
+              [Meta.synthInstance.resume] ✅️ propagating Ring k to subgoal Ring k of AddCommGroup k
+                [Meta.synthInstance.resume] size: 3
+                [Meta.synthInstance.answer] ✅️ AddCommGroup k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toAddCommGroup
+          [Meta.synthInstance.answer] ✅️ AddCommGroup (α →₀ k)
+        [Meta.synthInstance.resume] ✅️ propagating AddCommGroup
+              (α →₀ k) to subgoal AddCommGroup (α →₀ k) of AddCommGroup ↥(Finsupp.supported k k t)
+          [Meta.synthInstance.resume] size: 1
+          [Meta.synthInstance] ✅️ new goal AddSubgroupClass (Submodule k (α →₀ k)) (α →₀ k)
+            [Meta.synthInstance.instances] #[NonUnitalSubringClass.addSubgroupClass, SubringClass.addSubgroupClass, @Submodule.addSubgroupClass]
+        [Meta.synthInstance.apply] ❌️ apply @Submodule.addSubgroupClass to AddSubgroupClass (Submodule k (α →₀ k))
+              (α →₀ k)
+          [Meta.synthInstance.tryResolve] ❌️ AddSubgroupClass (Submodule k (α →₀ k))
+                (α →₀ k) ≟ AddSubgroupClass (Submodule ?m.26 ?m.27) ?m.27
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ✅️ Ring k
+              [Meta.synthInstance] result inst✝.toDivisionRing.toRing (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ AddCommGroup (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+        [Meta.synthInstance.apply] ❌️ apply SubringClass.addSubgroupClass to AddSubgroupClass (Submodule k (α →₀ k))
+              (α →₀ k)
+          [Meta.synthInstance.tryResolve] ❌️ AddSubgroupClass (Submodule k (α →₀ k))
+                (α →₀ k) ≟ AddSubgroupClass ?m.26 ?m.27
+            [Meta.synthInstance] ❌️ NonAssocRing (α →₀ k)
+              [Meta.synthInstance] ✅️ new goal NonAssocRing (α →₀ k)
+                [Meta.synthInstance.instances] #[@Ring.toNonAssocRing, @NonAssocCommRing.toNonAssocRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonAssocRing to NonAssocRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonAssocCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toNonAssocCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonAssocCommRing to NonAssocCommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocCommRing (α →₀ k) ≟ NonAssocCommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal CommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Field.toCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toCommRing to CommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ CommRing (α →₀ k) ≟ CommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal Field (α →₀ k)
+                  [Meta.synthInstance.instances] #[inst✝]
+              [Meta.synthInstance.apply] ❌️ apply inst✝ to Field (α →₀ k)
+                [Meta.synthInstance.tryResolve] ❌️ Field (α →₀ k) ≟ Field k
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toNonAssocRing to NonAssocRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal Ring (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+              [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal DivisionRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ DivisionRing (α →₀ k) ≟ DivisionRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toRing to Ring (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+              [Meta.synthInstance] result <not-available>
+            [Meta.synthInstance] ❌️ NonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+        [Meta.synthInstance.apply] ❌️ apply NonUnitalSubringClass.addSubgroupClass to AddSubgroupClass
+              (Submodule k (α →₀ k)) (α →₀ k)
+          [Meta.synthInstance.tryResolve] ❌️ AddSubgroupClass (Submodule k (α →₀ k))
+                (α →₀ k) ≟ AddSubgroupClass ?m.26 ?m.27
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance.instances] #[@NonUnitalRing.toNonUnitalNonAssocRing, @NonAssocRing.toNonUnitalNonAssocRing, @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalNonAssocCommRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalNonAssocCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@NonAssocCommRing.toNonUnitalNonAssocCommRing, @NonUnitalCommRing.toNonUnitalNonAssocCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                      (α →₀ k) ≟ NonUnitalNonAssocCommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toNonUnitalCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonUnitalCommRing to NonUnitalCommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalCommRing (α →₀ k) ≟ NonUnitalCommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal CommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Field.toCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toCommRing to CommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ CommRing (α →₀ k) ≟ CommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal Field (α →₀ k)
+                  [Meta.synthInstance.instances] #[inst✝]
+              [Meta.synthInstance.apply] ❌️ apply inst✝ to Field (α →₀ k)
+                [Meta.synthInstance.tryResolve] ❌️ Field (α →₀ k) ≟ Field k
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonUnitalNonAssocCommRing to NonUnitalNonAssocCommRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocCommRing
+                      (α →₀ k) ≟ NonUnitalNonAssocCommRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonAssocCommRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toNonAssocCommRing]
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toNonAssocCommRing to NonAssocCommRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocCommRing (α →₀ k) ≟ NonAssocCommRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonAssocRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Ring.toNonAssocRing, @NonAssocCommRing.toNonAssocRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonAssocCommRing.toNonAssocRing to NonAssocRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toNonAssocRing to NonAssocRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonAssocRing (α →₀ k) ≟ NonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal Ring (α →₀ k)
+                  [Meta.synthInstance.instances] #[@CommRing.toRing, @DivisionRing.toRing]
+              [Meta.synthInstance.apply] ✅️ apply @DivisionRing.toRing to Ring (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal DivisionRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Field.toDivisionRing]
+              [Meta.synthInstance.apply] ✅️ apply @Field.toDivisionRing to DivisionRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ DivisionRing (α →₀ k) ≟ DivisionRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @CommRing.toRing to Ring (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ Ring (α →₀ k) ≟ Ring (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalRing.toNonUnitalNonAssocRing to NonUnitalNonAssocRing
+                    (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalNonAssocRing (α →₀ k) ≟ NonUnitalNonAssocRing (α →₀ k)
+                [Meta.synthInstance] ✅️ new goal NonUnitalRing (α →₀ k)
+                  [Meta.synthInstance.instances] #[@Ring.toNonUnitalRing, @NonUnitalCommRing.toNonUnitalRing]
+              [Meta.synthInstance.apply] ✅️ apply @NonUnitalCommRing.toNonUnitalRing to NonUnitalRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing (α →₀ k) ≟ NonUnitalRing (α →₀ k)
+              [Meta.synthInstance.apply] ✅️ apply @Ring.toNonUnitalRing to NonUnitalRing (α →₀ k)
+                [Meta.synthInstance.tryResolve] ✅️ NonUnitalRing (α →₀ k) ≟ NonUnitalRing (α →₀ k)
+              [Meta.synthInstance] result <not-available>
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+            [Meta.synthInstance] ❌️ NonUnitalNonAssocRing (α →₀ k)
+              [Meta.synthInstance] result <not-available> (cached)
+        [Meta.synthInstance] result <not-available>
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+      [Meta.synthInstance] ❌️ AddCommGroup ↥(Finsupp.supported k k t)
+        [Meta.synthInstance] result <not-available> (cached)
+  [Meta.synthInstance] result <not-available>
+[Meta.synthInstance] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type (max u v))
+  [Meta.synthInstance] ✅️ new goal CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.10)
+    [Meta.synthInstance.instances] #[@instCoeTOfCoeHTCT, @instCoeTOfCoeDep, @instCoeT]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeT to CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ❌️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+          (Type ?u.10) ≟ CoeT ?m.6 ?m.7 ?m.6
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTOfCoeDep to CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+        (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+          (Type ?u.10) ≟ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.10)
+    [Meta.synthInstance] ✅️ no instances for CoeDep (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.10)
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTOfCoeHTCT to CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+        (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+          (Type ?u.10) ≟ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.10)
+    [Meta.synthInstance] ✅️ new goal CoeHTCT (Submodule k (α →₀ k)) (Type ?u.10)
+      [Meta.synthInstance.instances] #[@instCoeHTCTOfCoeTailOfCoeHTC, @instCoeHTCTOfCoeHTC, @instCoeHTCT]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeHTCT to CoeHTCT (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ❌️ CoeHTCT (Submodule k (α →₀ k)) (Type ?u.10) ≟ CoeHTCT ?m.10 ?m.10
+  [Meta.synthInstance.apply] ✅️ apply @instCoeHTCTOfCoeHTC to CoeHTCT (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeHTCT (Submodule k (α →₀ k))
+          (Type ?u.10) ≟ CoeHTCT (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance] ✅️ new goal CoeHTC (Submodule k (α →₀ k)) (Type ?u.10)
+      [Meta.synthInstance.instances] #[@instCoeHTCOfCoeHeadOfCoeOTC, @instCoeHTCOfCoeOTC, @instCoeHTC]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeHTC to CoeHTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ❌️ CoeHTC (Submodule k (α →₀ k)) (Type ?u.10) ≟ CoeHTC ?m.13 ?m.13
+  [Meta.synthInstance.apply] ✅️ apply @instCoeHTCOfCoeOTC to CoeHTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeHTC (Submodule k (α →₀ k))
+          (Type ?u.10) ≟ CoeHTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance] ✅️ new goal CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+      [Meta.synthInstance.instances] #[@instCoeOTCOfCoeOut, @instCoeOTCOfCoeTC, @instCoeOTC]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeOTC to CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ❌️ CoeOTC (Submodule k (α →₀ k)) (Type ?u.10) ≟ CoeOTC ?m.16 ?m.16
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOTCOfCoeTC to CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeOTC (Submodule k (α →₀ k))
+          (Type ?u.10) ≟ CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance] ✅️ new goal CoeTC (Submodule k (α →₀ k)) (Type ?u.10)
+      [Meta.synthInstance.instances] #[@instCoeTCOfCoe, @instCoeTCOfCoe_1, @instCoeTC]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeTC to CoeTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ❌️ CoeTC (Submodule k (α →₀ k)) (Type ?u.10) ≟ CoeTC ?m.19 ?m.19
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTCOfCoe_1 to CoeTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeTC (Submodule k (α →₀ k))
+          (Type ?u.10) ≟ CoeTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance] ✅️ no instances for Coe (Submodule k (α →₀ k)) (Type ?u.10)
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTCOfCoe to CoeTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeTC (Submodule k (α →₀ k))
+          (Type ?u.10) ≟ CoeTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance] ✅️ new goal Coe _tc.1 (Type ?u.10)
+      [Meta.synthInstance.instances] #[boolToProp]
+  [Meta.synthInstance.apply] ❌️ apply boolToProp to Coe ?m.19 (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ❌️ Coe ?m.19 (Type ?u.10) ≟ Coe Bool Prop
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOTCOfCoeOut to CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.tryResolve] ✅️ CoeOTC (Submodule k (α →₀ k))
+          (Type ?u.10) ≟ CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance] ✅️ new goal CoeOut (Submodule k (α →₀ k)) _tc.1
+      [Meta.synthInstance.instances] #[@instCoeOutOfCoeFun, @instCoeOutOfCoeSort]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOutOfCoeSort to CoeOut (Submodule k (α →₀ k)) ?m.22
+    [Meta.synthInstance.tryResolve] ✅️ CoeOut (Submodule k (α →₀ k)) ?m.22 ≟ CoeOut (Submodule k (α →₀ k)) ?m.22
+    [Meta.synthInstance] ✅️ new goal CoeSort (Submodule k (α →₀ k)) _tc.1
+      [Meta.synthInstance.instances] #[@SetLike.instCoeSortType]
+  [Meta.synthInstance.apply] ✅️ apply @SetLike.instCoeSortType to CoeSort (Submodule k (α →₀ k)) (Type ?u.42)
+    [Meta.synthInstance.tryResolve] ✅️ CoeSort (Submodule k (α →₀ k))
+          (Type ?u.42) ≟ CoeSort (Submodule k (α →₀ k)) (Type ?u.42)
+    [Meta.synthInstance] ✅️ new goal SetLike (Submodule k (α →₀ k)) _tc.1
+      [Meta.synthInstance.instances] #[@Submodule.setLike]
+  [Meta.synthInstance.apply] ✅️ apply @Submodule.setLike to SetLike (Submodule k (α →₀ k)) (α →₀ k)
+    [Meta.synthInstance.tryResolve] ✅️ SetLike (Submodule k (α →₀ k)) (α →₀ k) ≟ SetLike (Submodule k (α →₀ k)) (α →₀ k)
+    [Meta.synthInstance.answer] ✅️ SetLike (Submodule k (α →₀ k)) (α →₀ k)
+  [Meta.synthInstance.resume] ✅️ propagating SetLike (Submodule k (α →₀ k))
+        (α →₀ k) to subgoal SetLike (Submodule k (α →₀ k)) (α →₀ k) of CoeSort (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 1
+    [Meta.synthInstance.answer] ✅️ CoeSort (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeSort (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeSort (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeOut (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 2
+    [Meta.synthInstance.answer] ✅️ CoeOut (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeOut (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeOut (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeOTC (Submodule k (α →₀ k)) (Type ?u.10)
+    [Meta.synthInstance.resume] size: 3
+    [Meta.synthInstance] ✅️ new goal CoeOTC (Type (max u v)) (Type ?u.10)
+      [Meta.synthInstance.instances] #[@instCoeOTCOfCoeOut, @instCoeOTCOfCoeTC, @instCoeOTC]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOTC to CoeOTC (Type (max u v)) (Type (max u v))
+    [Meta.synthInstance.tryResolve] ✅️ CoeOTC (Type (max u v))
+          (Type (max u v)) ≟ CoeOTC (Type (max u v)) (Type (max u v))
+    [Meta.synthInstance.answer] ✅️ CoeOTC (Type (max u v)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeOTC (Type (max u v))
+        (Type
+          (max u
+              v)) to subgoal CoeOTC (Type (max u v)) (Type (max u v)) of CoeOTC (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 4
+    [Meta.synthInstance.answer] ✅️ CoeOTC (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeOTC (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeOTC (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeHTC (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 5
+    [Meta.synthInstance.answer] ✅️ CoeHTC (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeHTC (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeHTC (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeHTCT (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 6
+    [Meta.synthInstance.answer] ✅️ CoeHTCT (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeHTCT (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeHTCT (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type (max u v))
+    [Meta.synthInstance.resume] size: 7
+    [Meta.synthInstance.answer] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type (max u v))
+  [Meta.synthInstance] result instCoeTOfCoeHTCT
+[Meta.synthInstance] ✅️ Semiring k
+  [Meta.synthInstance] ✅️ new goal Semiring k
+    [Meta.synthInstance.instances] #[@DivisionSemiring.toSemiring, @Ring.toSemiring, @CommSemiring.toSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @CommSemiring.toSemiring to Semiring k
+    [Meta.synthInstance.tryResolve] ✅️ Semiring k ≟ Semiring k
+    [Meta.synthInstance] ✅️ new goal CommSemiring k
+      [Meta.synthInstance.instances] #[@CommRing.toCommSemiring, @Semifield.toCommSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @Semifield.toCommSemiring to CommSemiring k
+    [Meta.synthInstance.tryResolve] ✅️ CommSemiring k ≟ CommSemiring k
+    [Meta.synthInstance] ✅️ new goal Semifield k
+      [Meta.synthInstance.instances] #[@Field.toSemifield]
+  [Meta.synthInstance.apply] ✅️ apply @Field.toSemifield to Semifield k
+    [Meta.synthInstance.tryResolve] ✅️ Semifield k ≟ Semifield k
+    [Meta.synthInstance] ✅️ new goal Field k
+      [Meta.synthInstance.instances] #[inst✝]
+  [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+    [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+    [Meta.synthInstance.answer] ✅️ Field k
+  [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of Semifield k
+    [Meta.synthInstance.resume] size: 1
+    [Meta.synthInstance.answer] ✅️ Semifield k
+  [Meta.synthInstance.resume] ✅️ propagating Semifield k to subgoal Semifield k of CommSemiring k
+    [Meta.synthInstance.resume] size: 2
+    [Meta.synthInstance.answer] ✅️ CommSemiring k
+  [Meta.synthInstance.resume] ✅️ propagating CommSemiring k to subgoal CommSemiring k of Semiring k
+    [Meta.synthInstance.resume] size: 3
+    [Meta.synthInstance.answer] ✅️ Semiring k
+  [Meta.synthInstance] result Field.toSemifield.toSemiring
+[Meta.synthInstance] ✅️ AddCommMonoid k
+  [Meta.synthInstance] ✅️ new goal AddCommMonoid k
+    [Meta.synthInstance.instances] #[@AddCancelCommMonoid.toAddCommMonoid, @SubtractionCommMonoid.toAddCommMonoid, @AddCommGroup.toAddCommMonoid, @AddCommMonoidWithOne.toAddCommMonoid, @NonUnitalNonAssocSemiring.toAddCommMonoid, @Semiring.toAddCommMonoid, @LinearOrderedAddCommMonoidWithTop.toAddCommMonoid, @LinearOrderedAddCommGroupWithTop.toAddCommMonoid]
+  [Meta.synthInstance.apply] ✅️ apply @LinearOrderedAddCommGroupWithTop.toAddCommMonoid to AddCommMonoid k
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid k ≟ AddCommMonoid k
+    [Meta.synthInstance] ✅️ no instances for LinearOrderedAddCommGroupWithTop k
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @LinearOrderedAddCommMonoidWithTop.toAddCommMonoid to AddCommMonoid k
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid k ≟ AddCommMonoid k
+    [Meta.synthInstance] ✅️ new goal LinearOrderedAddCommMonoidWithTop k
+      [Meta.synthInstance.instances] #[@LinearOrderedAddCommGroupWithTop.instLinearOrderedAddCommMonoidWithTop]
+  [Meta.synthInstance.apply] ✅️ apply @LinearOrderedAddCommGroupWithTop.instLinearOrderedAddCommMonoidWithTop to LinearOrderedAddCommMonoidWithTop
+        k
+    [Meta.synthInstance.tryResolve] ✅️ LinearOrderedAddCommMonoidWithTop k ≟ LinearOrderedAddCommMonoidWithTop k
+    [Meta.synthInstance] ✅️ no instances for LinearOrderedAddCommGroupWithTop k
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @Semiring.toAddCommMonoid to AddCommMonoid k
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid k ≟ AddCommMonoid k
+    [Meta.synthInstance] ✅️ new goal Semiring k
+      [Meta.synthInstance.instances] #[@DivisionSemiring.toSemiring, @Ring.toSemiring, @CommSemiring.toSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @CommSemiring.toSemiring to Semiring k
+    [Meta.synthInstance.tryResolve] ✅️ Semiring k ≟ Semiring k
+    [Meta.synthInstance] ✅️ new goal CommSemiring k
+      [Meta.synthInstance.instances] #[@CommRing.toCommSemiring, @Semifield.toCommSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @Semifield.toCommSemiring to CommSemiring k
+    [Meta.synthInstance.tryResolve] ✅️ CommSemiring k ≟ CommSemiring k
+    [Meta.synthInstance] ✅️ new goal Semifield k
+      [Meta.synthInstance.instances] #[@Field.toSemifield]
+  [Meta.synthInstance.apply] ✅️ apply @Field.toSemifield to Semifield k
+    [Meta.synthInstance.tryResolve] ✅️ Semifield k ≟ Semifield k
+    [Meta.synthInstance] ✅️ new goal Field k
+      [Meta.synthInstance.instances] #[inst✝]
+  [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+    [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+    [Meta.synthInstance.answer] ✅️ Field k
+  [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of Semifield k
+    [Meta.synthInstance.resume] size: 1
+    [Meta.synthInstance.answer] ✅️ Semifield k
+  [Meta.synthInstance.resume] ✅️ propagating Semifield k to subgoal Semifield k of CommSemiring k
+    [Meta.synthInstance.resume] size: 2
+    [Meta.synthInstance.answer] ✅️ CommSemiring k
+  [Meta.synthInstance.resume] ✅️ propagating CommSemiring k to subgoal CommSemiring k of Semiring k
+    [Meta.synthInstance.resume] size: 3
+    [Meta.synthInstance.answer] ✅️ Semiring k
+  [Meta.synthInstance.resume] ✅️ propagating Semiring k to subgoal Semiring k of AddCommMonoid k
+    [Meta.synthInstance.resume] size: 4
+    [Meta.synthInstance.answer] ✅️ AddCommMonoid k
+  [Meta.synthInstance] result Field.toSemifield.toAddCommMonoid
+[Meta.synthInstance] ✅️ Module k k
+  [Meta.synthInstance] ✅️ new goal Module k k
+    [Meta.synthInstance.instances] #[@Algebra.toModule, @Semiring.toModule]
+  [Meta.synthInstance.apply] ✅️ apply @Semiring.toModule to Module k k
+    [Meta.synthInstance.tryResolve] ✅️ Module k k ≟ Module k k
+    [Meta.synthInstance.answer] ✅️ Module k k
+  [Meta.synthInstance] result Semiring.toModule
+[Meta.synthInstance] ✅️ Semiring k
+  [Meta.synthInstance] result Field.toSemifield.toSemiring (cached)
+[Meta.synthInstance] ✅️ AddCommMonoid ↥(Finsupp.supported k k t)
+  [Meta.synthInstance] ✅️ new goal AddCommMonoid ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.instances] #[@AddCancelCommMonoid.toAddCommMonoid, @SubtractionCommMonoid.toAddCommMonoid, @AddCommGroup.toAddCommMonoid, @AddCommMonoidWithOne.toAddCommMonoid, @NonUnitalNonAssocSemiring.toAddCommMonoid, @Semiring.toAddCommMonoid, @LinearOrderedAddCommMonoidWithTop.toAddCommMonoid, @LinearOrderedAddCommGroupWithTop.toAddCommMonoid, @AddSubmonoidClass.toAddCommMonoid, @Submodule.addCommMonoid]
+  [Meta.synthInstance.apply] ✅️ apply @Submodule.addCommMonoid to AddCommMonoid ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid
+          ↥(Finsupp.supported k k t) ≟ AddCommMonoid ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.answer] ✅️ AddCommMonoid ↥(Finsupp.supported k k t)
+  [Meta.synthInstance] result (Finsupp.supported k k t).addCommMonoid
+[Meta.synthInstance] ✅️ Module k ↥(Finsupp.supported k k t)
+  [Meta.synthInstance] ✅️ new goal Module k ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.instances] #[@SMulMemClass.toModule, @SubmoduleClass.module', @SubmoduleClass.module, @Algebra.toModule, @Submodule.module', @Submodule.module, @Semiring.toModule]
+  [Meta.synthInstance.apply] ❌️ apply @Semiring.toModule to Module k ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.tryResolve] ❌️ Module k ↥(Finsupp.supported k k t) ≟ Module ?m.13 ?m.13
+  [Meta.synthInstance.apply] ✅️ apply @Submodule.module to Module k ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.tryResolve] ✅️ Module k ↥(Finsupp.supported k k t) ≟ Module k ↥(Finsupp.supported k k t)
+    [Meta.synthInstance.answer] ✅️ Module k ↥(Finsupp.supported k k t)
+  [Meta.synthInstance] result (Finsupp.supported k k t).module
+[Meta.synthInstance] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type (max u v))
+  [Meta.synthInstance] ✅️ new goal CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.14)
+    [Meta.synthInstance.instances] #[@instCoeTOfCoeHTCT, @instCoeTOfCoeDep, @instCoeT]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeT to CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ❌️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+          (Type ?u.14) ≟ CoeT ?m.10 ?m.11 ?m.10
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTOfCoeDep to CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+        (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+          (Type ?u.14) ≟ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.14)
+    [Meta.synthInstance] ✅️ no instances for CoeDep (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.14)
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTOfCoeHTCT to CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+        (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t)
+          (Type ?u.14) ≟ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type ?u.14)
+    [Meta.synthInstance] ✅️ new goal CoeHTCT (Submodule k (α →₀ k)) (Type ?u.14)
+      [Meta.synthInstance.instances] #[@instCoeHTCTOfCoeTailOfCoeHTC, @instCoeHTCTOfCoeHTC, @instCoeHTCT]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeHTCT to CoeHTCT (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ❌️ CoeHTCT (Submodule k (α →₀ k)) (Type ?u.14) ≟ CoeHTCT ?m.14 ?m.14
+  [Meta.synthInstance.apply] ✅️ apply @instCoeHTCTOfCoeHTC to CoeHTCT (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeHTCT (Submodule k (α →₀ k))
+          (Type ?u.14) ≟ CoeHTCT (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance] ✅️ new goal CoeHTC (Submodule k (α →₀ k)) (Type ?u.14)
+      [Meta.synthInstance.instances] #[@instCoeHTCOfCoeHeadOfCoeOTC, @instCoeHTCOfCoeOTC, @instCoeHTC]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeHTC to CoeHTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ❌️ CoeHTC (Submodule k (α →₀ k)) (Type ?u.14) ≟ CoeHTC ?m.17 ?m.17
+  [Meta.synthInstance.apply] ✅️ apply @instCoeHTCOfCoeOTC to CoeHTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeHTC (Submodule k (α →₀ k))
+          (Type ?u.14) ≟ CoeHTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance] ✅️ new goal CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+      [Meta.synthInstance.instances] #[@instCoeOTCOfCoeOut, @instCoeOTCOfCoeTC, @instCoeOTC]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeOTC to CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ❌️ CoeOTC (Submodule k (α →₀ k)) (Type ?u.14) ≟ CoeOTC ?m.20 ?m.20
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOTCOfCoeTC to CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeOTC (Submodule k (α →₀ k))
+          (Type ?u.14) ≟ CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance] ✅️ new goal CoeTC (Submodule k (α →₀ k)) (Type ?u.14)
+      [Meta.synthInstance.instances] #[@instCoeTCOfCoe, @instCoeTCOfCoe_1, @instCoeTC]
+  [Meta.synthInstance.apply] ❌️ apply @instCoeTC to CoeTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ❌️ CoeTC (Submodule k (α →₀ k)) (Type ?u.14) ≟ CoeTC ?m.23 ?m.23
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTCOfCoe_1 to CoeTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeTC (Submodule k (α →₀ k))
+          (Type ?u.14) ≟ CoeTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance] ✅️ no instances for Coe (Submodule k (α →₀ k)) (Type ?u.14)
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeTCOfCoe to CoeTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeTC (Submodule k (α →₀ k))
+          (Type ?u.14) ≟ CoeTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance] ✅️ new goal Coe _tc.1 (Type ?u.14)
+      [Meta.synthInstance.instances] #[boolToProp]
+  [Meta.synthInstance.apply] ❌️ apply boolToProp to Coe ?m.23 (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ❌️ Coe ?m.23 (Type ?u.14) ≟ Coe Bool Prop
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOTCOfCoeOut to CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.tryResolve] ✅️ CoeOTC (Submodule k (α →₀ k))
+          (Type ?u.14) ≟ CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance] ✅️ new goal CoeOut (Submodule k (α →₀ k)) _tc.1
+      [Meta.synthInstance.instances] #[@instCoeOutOfCoeFun, @instCoeOutOfCoeSort]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOutOfCoeSort to CoeOut (Submodule k (α →₀ k)) ?m.26
+    [Meta.synthInstance.tryResolve] ✅️ CoeOut (Submodule k (α →₀ k)) ?m.26 ≟ CoeOut (Submodule k (α →₀ k)) ?m.26
+    [Meta.synthInstance] ✅️ new goal CoeSort (Submodule k (α →₀ k)) _tc.1
+      [Meta.synthInstance.instances] #[@SetLike.instCoeSortType]
+  [Meta.synthInstance.apply] ✅️ apply @SetLike.instCoeSortType to CoeSort (Submodule k (α →₀ k)) (Type ?u.47)
+    [Meta.synthInstance.tryResolve] ✅️ CoeSort (Submodule k (α →₀ k))
+          (Type ?u.47) ≟ CoeSort (Submodule k (α →₀ k)) (Type ?u.47)
+    [Meta.synthInstance] ✅️ new goal SetLike (Submodule k (α →₀ k)) _tc.1
+      [Meta.synthInstance.instances] #[@Submodule.setLike]
+  [Meta.synthInstance.apply] ✅️ apply @Submodule.setLike to SetLike (Submodule k (α →₀ k)) (α →₀ k)
+    [Meta.synthInstance.tryResolve] ✅️ SetLike (Submodule k (α →₀ k)) (α →₀ k) ≟ SetLike (Submodule k (α →₀ k)) (α →₀ k)
+    [Meta.synthInstance.answer] ✅️ SetLike (Submodule k (α →₀ k)) (α →₀ k)
+  [Meta.synthInstance.resume] ✅️ propagating SetLike (Submodule k (α →₀ k))
+        (α →₀ k) to subgoal SetLike (Submodule k (α →₀ k)) (α →₀ k) of CoeSort (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 1
+    [Meta.synthInstance.answer] ✅️ CoeSort (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeSort (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeSort (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeOut (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 2
+    [Meta.synthInstance.answer] ✅️ CoeOut (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeOut (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeOut (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeOTC (Submodule k (α →₀ k)) (Type ?u.14)
+    [Meta.synthInstance.resume] size: 3
+    [Meta.synthInstance] ✅️ new goal CoeOTC (Type (max u v)) (Type ?u.14)
+      [Meta.synthInstance.instances] #[@instCoeOTCOfCoeOut, @instCoeOTCOfCoeTC, @instCoeOTC]
+  [Meta.synthInstance.apply] ✅️ apply @instCoeOTC to CoeOTC (Type (max u v)) (Type (max u v))
+    [Meta.synthInstance.tryResolve] ✅️ CoeOTC (Type (max u v))
+          (Type (max u v)) ≟ CoeOTC (Type (max u v)) (Type (max u v))
+    [Meta.synthInstance.answer] ✅️ CoeOTC (Type (max u v)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeOTC (Type (max u v))
+        (Type
+          (max u
+              v)) to subgoal CoeOTC (Type (max u v)) (Type (max u v)) of CoeOTC (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 4
+    [Meta.synthInstance.answer] ✅️ CoeOTC (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeOTC (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeOTC (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeHTC (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 5
+    [Meta.synthInstance.answer] ✅️ CoeHTC (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeHTC (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeHTC (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeHTCT (Submodule k (α →₀ k)) (Type (max u v))
+    [Meta.synthInstance.resume] size: 6
+    [Meta.synthInstance.answer] ✅️ CoeHTCT (Submodule k (α →₀ k)) (Type (max u v))
+  [Meta.synthInstance.resume] ✅️ propagating CoeHTCT (Submodule k (α →₀ k))
+        (Type
+          (max u
+              v)) to subgoal CoeHTCT (Submodule k (α →₀ k))
+        (Type (max u v)) of CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type (max u v))
+    [Meta.synthInstance.resume] size: 7
+    [Meta.synthInstance.answer] ✅️ CoeT (Submodule k (α →₀ k)) (Finsupp.supported k k t) (Type (max u v))
+  [Meta.synthInstance] result instCoeTOfCoeHTCT
+[Meta.synthInstance] ✅️ Semiring k
+  [Meta.synthInstance] ✅️ new goal Semiring k
+    [Meta.synthInstance.instances] #[@DivisionSemiring.toSemiring, @Ring.toSemiring, @CommSemiring.toSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @CommSemiring.toSemiring to Semiring k
+    [Meta.synthInstance.tryResolve] ✅️ Semiring k ≟ Semiring k
+    [Meta.synthInstance] ✅️ new goal CommSemiring k
+      [Meta.synthInstance.instances] #[@CommRing.toCommSemiring, @Semifield.toCommSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @Semifield.toCommSemiring to CommSemiring k
+    [Meta.synthInstance.tryResolve] ✅️ CommSemiring k ≟ CommSemiring k
+    [Meta.synthInstance] ✅️ new goal Semifield k
+      [Meta.synthInstance.instances] #[@Field.toSemifield]
+  [Meta.synthInstance.apply] ✅️ apply @Field.toSemifield to Semifield k
+    [Meta.synthInstance.tryResolve] ✅️ Semifield k ≟ Semifield k
+    [Meta.synthInstance] ✅️ new goal Field k
+      [Meta.synthInstance.instances] #[inst✝]
+  [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+    [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+    [Meta.synthInstance.answer] ✅️ Field k
+  [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of Semifield k
+    [Meta.synthInstance.resume] size: 1
+    [Meta.synthInstance.answer] ✅️ Semifield k
+  [Meta.synthInstance.resume] ✅️ propagating Semifield k to subgoal Semifield k of CommSemiring k
+    [Meta.synthInstance.resume] size: 2
+    [Meta.synthInstance.answer] ✅️ CommSemiring k
+  [Meta.synthInstance.resume] ✅️ propagating CommSemiring k to subgoal CommSemiring k of Semiring k
+    [Meta.synthInstance.resume] size: 3
+    [Meta.synthInstance.answer] ✅️ Semiring k
+  [Meta.synthInstance] result Field.toSemifield.toSemiring
+[Meta.synthInstance] ✅️ AddCommMonoid k
+  [Meta.synthInstance] ✅️ new goal AddCommMonoid k
+    [Meta.synthInstance.instances] #[@AddCancelCommMonoid.toAddCommMonoid, @SubtractionCommMonoid.toAddCommMonoid, @AddCommGroup.toAddCommMonoid, @AddCommMonoidWithOne.toAddCommMonoid, @NonUnitalNonAssocSemiring.toAddCommMonoid, @Semiring.toAddCommMonoid, @LinearOrderedAddCommMonoidWithTop.toAddCommMonoid, @LinearOrderedAddCommGroupWithTop.toAddCommMonoid]
+  [Meta.synthInstance.apply] ✅️ apply @LinearOrderedAddCommGroupWithTop.toAddCommMonoid to AddCommMonoid k
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid k ≟ AddCommMonoid k
+    [Meta.synthInstance] ✅️ no instances for LinearOrderedAddCommGroupWithTop k
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @LinearOrderedAddCommMonoidWithTop.toAddCommMonoid to AddCommMonoid k
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid k ≟ AddCommMonoid k
+    [Meta.synthInstance] ✅️ new goal LinearOrderedAddCommMonoidWithTop k
+      [Meta.synthInstance.instances] #[@LinearOrderedAddCommGroupWithTop.instLinearOrderedAddCommMonoidWithTop]
+  [Meta.synthInstance.apply] ✅️ apply @LinearOrderedAddCommGroupWithTop.instLinearOrderedAddCommMonoidWithTop to LinearOrderedAddCommMonoidWithTop
+        k
+    [Meta.synthInstance.tryResolve] ✅️ LinearOrderedAddCommMonoidWithTop k ≟ LinearOrderedAddCommMonoidWithTop k
+    [Meta.synthInstance] ✅️ no instances for LinearOrderedAddCommGroupWithTop k
+      [Meta.synthInstance.instances] #[]
+  [Meta.synthInstance.apply] ✅️ apply @Semiring.toAddCommMonoid to AddCommMonoid k
+    [Meta.synthInstance.tryResolve] ✅️ AddCommMonoid k ≟ AddCommMonoid k
+    [Meta.synthInstance] ✅️ new goal Semiring k
+      [Meta.synthInstance.instances] #[@DivisionSemiring.toSemiring, @Ring.toSemiring, @CommSemiring.toSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @CommSemiring.toSemiring to Semiring k
+    [Meta.synthInstance.tryResolve] ✅️ Semiring k ≟ Semiring k
+    [Meta.synthInstance] ✅️ new goal CommSemiring k
+      [Meta.synthInstance.instances] #[@CommRing.toCommSemiring, @Semifield.toCommSemiring]
+  [Meta.synthInstance.apply] ✅️ apply @Semifield.toCommSemiring to CommSemiring k
+    [Meta.synthInstance.tryResolve] ✅️ CommSemiring k ≟ CommSemiring k
+    [Meta.synthInstance] ✅️ new goal Semifield k
+      [Meta.synthInstance.instances] #[@Field.toSemifield]
+  [Meta.synthInstance.apply] ✅️ apply @Field.toSemifield to Semifield k
+    [Meta.synthInstance.tryResolve] ✅️ Semifield k ≟ Semifield k
+    [Meta.synthInstance] ✅️ new goal Field k
+      [Meta.synthInstance.instances] #[inst✝]
+  [Meta.synthInstance.apply] ✅️ apply inst✝ to Field k
+    [Meta.synthInstance.tryResolve] ✅️ Field k ≟ Field k
+    [Meta.synthInstance.answer] ✅️ Field k
+  [Meta.synthInstance.resume] ✅️ propagating Field k to subgoal Field k of Semifield k
+    [Meta.synthInstance.resume] size: 1
+    [Meta.synthInstance.answer] ✅️ Semifield k
+  [Meta.synthInstance.resume] ✅️ propagating Semifield k to subgoal Semifield k of CommSemiring k
+    [Meta.synthInstance.resume] size: 2
+    [Meta.synthInstance.answer] ✅️ CommSemiring k
+  [Meta.synthInstance.resume] ✅️ propagating CommSemiring k to subgoal CommSemiring k of Semiring k
+    [Meta.synthInstance.resume] size: 3
+    [Meta.synthInstance.answer] ✅️ Semiring k
+  [Meta.synthInstance.resume] ✅️ propagating Semiring k to subgoal Semiring k of AddCommMonoid k
+    [Meta.synthInstance.resume] size: 4
+    [Meta.synthInstance.answer] ✅️ AddCommMonoid k
+  [Meta.synthInstance] result Field.toSemifield.toAddCommMonoid
+[Meta.synthInstance] ✅️ Module k k
+  [Meta.synthInstance] ✅️ new goal Module k k
+    [Meta.synthInstance.instances] #[@Algebra.toModule, @Semiring.toModule]
+  [Meta.synthInstance.apply] ✅️ apply @Semiring.toModule to Module k k
+    [Meta.synthInstance.tryResolve] ✅️ Module k k ≟ Module k k
+    [Meta.synthInstance.answer] ✅️ Module k k
+  [Meta.synthInstance] result Semiring.toModule
+work/lean-upgrade/ideals-finsupp-diag.lean:13:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

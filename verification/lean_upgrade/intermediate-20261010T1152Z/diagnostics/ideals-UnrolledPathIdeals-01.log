@@ -1,0 +1,24 @@
+ASGinzburg/UnrolledPathIdeals.lean:14:4: error: Type mismatch: After simplification, term
+  unrolledPathComp_mem_filtration Q k hf (mem_unrolledPathFiltration_zero Q k g)
+ has type
+  @Membership.mem (Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l))
+    (Submodule k (Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l))) SetLike.instMembership
+    (Q.unrolledPathFiltration k n (Q.heightEquiv.symm i) (Q.heightEquiv.symm l)) (((Q.unrolledPathComp k) g) f)
+but is expected to have type
+  @Membership.mem ((Q.unrolledPathZAlgebra k).Hom i l) (Submodule k ((Q.unrolledPathZAlgebra k).Hom i l))
+    SetLike.instMembership (Q.unrolledPathFiltration k n (Q.heightEquiv.symm i) (Q.heightEquiv.symm l))
+    (((Q.unrolledPathZAlgebra k).comp g) f)
+ASGinzburg/UnrolledPathIdeals.lean:18:4: error: Type mismatch: After simplification, term
+  unrolledPathComp_mem_filtration Q k (mem_unrolledPathFiltration_zero Q k f) hg
+ has type
+  @Membership.mem (Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l))
+    (Submodule k (Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm l))) SetLike.instMembership
+    (Q.unrolledPathFiltration k n (Q.heightEquiv.symm i) (Q.heightEquiv.symm l)) (((Q.unrolledPathComp k) g) f)
+but is expected to have type
+  @Membership.mem ((Q.unrolledPathZAlgebra k).Hom i l) (Submodule k ((Q.unrolledPathZAlgebra k).Hom i l))
+    SetLike.instMembership (Q.unrolledPathFiltration k n (Q.heightEquiv.symm i) (Q.heightEquiv.symm l))
+    (((Q.unrolledPathZAlgebra k).comp g) f)
+ASGinzburg/UnrolledPathIdeals.lean:45:4: error: failed to synthesize
+  Module k (Q.UnrolledPath (Q.heightEquiv.symm i) (Q.heightEquiv.symm j) →₀ k)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

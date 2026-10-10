@@ -1,0 +1,111 @@
+import ASGinzburg.FiniteHomogeneousComponents
+import ASGinzburg.GradedActionQuotientSpan
+import ASGinzburg.GradedNilpotentNakayamaLinearGrading
+import ASGinzburg.HomogeneousQuotientDecomposition
+import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+import Mathlib.RingTheory.Finiteness.Defs
+
+/-! A finite-dimensional actual radical top forces finite generation of
+an actual bounded-below graded module. Finite homogeneous components of
+lifts of a top basis generate the whole module by graded Nakayama on the
+quotient of their homogeneous core. The full scalar ring need not itself
+carry a grading, and no finite-generation hypothesis on covers is used. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z t
+variable (k : Type u) [Field k]
+variable (R₀ : Type v) [Ring R₀] [Algebra k R₀]
+variable (R : Type z) [Ring R] [Algebra k R] [SMul R₀ R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R₀ M] [Module R M]
+  [IsScalarTower k R₀ M] [IsScalarTower k R M] [IsScalarTower R₀ R M]
+variable (G : ℤ → Submodule k M) [DirectSum.Decomposition G]
+variable (h₀ : ∀ (q : ℤ) (r : R₀) (x : M), x ∈ G q → r • x ∈ G q)
+variable {ι : Type t} (d : ι → ℕ) (a : ι → R) (f : ι → M →ₗ[k] M)
+variable (ha : ∀ (i : ι) (x : M), f i x = a i • x)
+variable (I₀ : Ideal R₀)
+
+include h₀ ha in
+theorem moduleFinite_of_boundedBelow_finite_radical_top
+    [FiniteDimensional k (M ⧸ gradedNilpotentActionSpan k R₀ M f I₀)]
+    (N₀ : ℕ) (hN₀ : I₀^N₀=⊥) (hd : ∀ i : ι, 0 < d i)
+    (hf : ∀ (i : ι) (q : ℤ) (x : M), x ∈ G q → f i x ∈ G (q+(d i:ℤ)))
+    (b : ℤ) (hb : ∀ q : ℤ, q < b → G q=⊥) : Module.Finite R M := by
+  classical
+  let K := gradedNilpotentActionSpan k R₀ M f I₀
+  let B := Module.finBasis k (M ⧸ K)
+  let lift : Fin (Module.finrank k (M ⧸ K)) → M := fun i =>
+    Classical.choose (K.mkQ_surjective (B i))
+  have hLift (i : Fin (Module.finrank k (M ⧸ K))) : K.mkQ (lift i)=B i :=
+    Classical.choose_spec (K.mkQ_surjective (B i))
+  let T := finiteHomogeneousComponents k M G (Module.finrank k (M ⧸ K)) lift
+  let N : Submodule R M := Submodule.span R (T : Set M)
+  let S : Submodule k M := N.restrictScalars k
+  let H := homogeneousCore k M G S
+  have hLiftH (i : Fin (Module.finrank k (M ⧸ K))) : lift i ∈ H :=
+    mem_homogeneousCore_span_finiteHomogeneousComponents k M G
+      (Module.finrank k (M ⧸ K)) lift R i
+  have hH₀ : ∀ (r : R₀) (x : M), x ∈ H → r • x ∈ H := by
+    intro r x hx
+    let L : M →ₗ[k] M := DistribSMul.toLinearMap k M r
+    exact homogeneousCore_map_mem k M G S L 0
+      (fun q y hy => by simpa only [add_zero] using h₀ q r y hy)
+      (fun y hy => N.smul_of_tower_mem r hy) x hx
+  let H₀ : Submodule R₀ M :=
+    { carrier := H
+      zero_mem' := H.zero_mem
+      add_mem' := H.add_mem
+      smul_mem' := hH₀ }
+  have hFH : ∀ (i : ι) (x : M), x ∈ H₀ → f i x ∈ H₀ := by
+    intro i x hx
+    exact homogeneousCore_map_mem k M G S (f i) (d i:ℤ) (hf i)
+      (fun y hy => by rw [ha]; exact N.smul_mem (a i) hy) x hx
+  have hImage : H.map K.mkQ=⊤ := by
+    apply top_unique
+    rw [← B.span_eq]
+    apply Submodule.span_le.mpr
+    rintro x ⟨i,rfl⟩
+    exact ⟨lift i,hLiftH i,hLift i⟩
+  have hHK : H ⊔ K=⊤ := by
+    have h := (Submodule.map_mkQ_eq_top K H).mp hImage
+    simpa only [sup_comm] using h
+  let F := scalarSubmoduleQuotientOperator k R₀ M H₀ f hFH
+  let QG : ℤ → Submodule k (M ⧸ H₀) :=
+    homogeneousQuotientGrade k M G (H₀.restrictScalars k)
+  letI : DirectSum.Decomposition QG :=
+    homogeneousQuotientDecomposition k M G (H₀.restrictScalars k)
+      (fun q x hx => homogeneousCore_component_mem k M G S q x hx)
+  have hQ₀ : ∀ (q : ℤ) (r : R₀) (x : M ⧸ H₀), x ∈ QG q → r • x ∈ QG q := by
+    intro q r x hx
+    obtain ⟨y,hy,rfl⟩ := hx
+    change (H₀.restrictScalars k).mkQ (r • y) ∈
+      (G q).map (H₀.restrictScalars k).mkQ
+    exact ⟨r • y,h₀ q r y hy,rfl⟩
+  have hQF : ∀ (i : ι) (q : ℤ) (x : M ⧸ H₀),
+      x ∈ QG q → F i x ∈ QG (q+(d i:ℤ)) := by
+    intro i q x hx
+    obtain ⟨y,hy,rfl⟩ := hx
+    change (H₀.restrictScalars k).mkQ (f i y) ∈
+      (G (q+(d i:ℤ))).map (H₀.restrictScalars k).mkQ
+    exact ⟨f i y,hf i q y hy,rfl⟩
+  have hQb : ∀ q : ℤ, q < b → QG q=⊥ := by
+    intro q hq
+    change (G q).map (H₀.restrictScalars k).mkQ=⊥
+    rw [hb q hq,Submodule.map_bot]
+  have hQK : gradedNilpotentActionSpan k R₀ (M ⧸ H₀) F I₀=⊤ :=
+    gradedNilpotentActionSpan_quotient_eq_top k R₀ M H₀ f hFH I₀ hHK
+  letI : Subsingleton (M ⧸ H₀) :=
+    gradedModule_subsingleton_of_linear_grading_nilpotent_action_span_top k R₀ (M ⧸ H₀)
+      QG hQ₀ d F I₀ N₀ hN₀ hd hQF b hQb hQK
+  have hH : H=⊤ := by
+    apply Submodule.eq_top_iff'.mpr
+    intro x
+    exact (Submodule.Quotient.mk_eq_zero H₀).mp (Subsingleton.elim _ _)
+  have hN : N=⊤ := by
+    apply top_unique
+    intro x _
+    have hHN : H ≤ S := homogeneousCore_le k M G S
+    rw [hH] at hHN
+    exact hHN (Submodule.mem_top)
+  exact ⟨⟨T,hN⟩⟩
+
+end ASGinzburg

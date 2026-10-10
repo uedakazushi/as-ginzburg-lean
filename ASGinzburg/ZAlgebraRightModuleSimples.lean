@@ -42,12 +42,13 @@ theorem simplePresentationMap_nonzero (i : ℤ) : E.simplePresentationMap i≠0 
 
 theorem simplePresentationMap_radical_zero (i : ℤ) :
     (B.representableRadical i).inclusion ≫ E.simplePresentationMap i=0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  change (E.simplePresentationMap i).app X x.val=0
+  change (E.simplePresentationMap i).hom.app X x.val=0
   by_cases hxi : X.unop.index < i
   · haveI : Subsingleton ((E.rightModuleEquivalence.functor.obj
         (A.simpleRightModule i)).obj.obj X) :=

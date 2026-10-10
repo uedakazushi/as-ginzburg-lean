@@ -1,0 +1,215 @@
+{
+  "recorded_at_utc": "2026-10-10T11:40:04.414467+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "SOURCE ONLY PENDING; no compiler success claimed for these four sources.",
+  "source_count": 4,
+  "declaration_count": 18,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationComponentActions.lean",
+      "source_sha256": "3cdbecdedd27453e8aa332142cf9e821f7e937faed6dee81256f38142570b05a",
+      "task_entry_snapshot": "work/lean-upgrade/tor-foundation-wrapper-entry-FoundationComponentActions.lean.source",
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": true,
+      "baseline_review": "Exact headers and ambient context match baseline.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "check_status": "Not launched: direct imports have not been built under Lean 4.34.1. Source-only migration, pending integration compiler validation.",
+      "actual_exit_code": null,
+      "direct_import_status": [
+        {
+          "import": "ASGinzburg.FoundationRepresentableYoneda",
+          "olean": ".lake/build/lib/lean/ASGinzburg/FoundationRepresentableYoneda.olean",
+          "olean_exists": false
+        }
+      ],
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction",
+          "kind": "def",
+          "full_header": "def foundationRightComponentAction (M : A.FoundationRightModule Q) {i j : Q.Vertex} (f : A.Hom (i.val : \u2124) (j.val : \u2124)) : (A.foundationRightEvaluation Q j).obj M \u2192\u2097[k] (A.foundationRightEvaluation Q i).obj M"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_add",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_add (M : A.FoundationRightModule Q) {i j : Q.Vertex} (f g : A.Hom (i.val : \u2124) (j.val : \u2124)) : A.foundationRightComponentAction Q M (f+g)= A.foundationRightComponentAction Q M f+A.foundationRightComponentAction Q M g"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_smul",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_smul (M : A.FoundationRightModule Q) {i j : Q.Vertex} (c : k) (f : A.Hom (i.val : \u2124) (j.val : \u2124)) : A.foundationRightComponentAction Q M (c \u2022 f)=c \u2022 A.foundationRightComponentAction Q M f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_id",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_id (M : A.FoundationRightModule Q) (i : Q.Vertex) : A.foundationRightComponentAction Q M (A.id (i.val : \u2124))=LinearMap.id"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_comp",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_comp (M : A.FoundationRightModule Q) {i j l : Q.Vertex} (f : A.Hom (i.val : \u2124) (j.val : \u2124)) (g : A.Hom (j.val : \u2124) (l.val : \u2124)) : A.foundationRightComponentAction Q M (A.comp g f)= (A.foundationRightComponentAction Q M f).comp (A.foundationRightComponentAction Q M g)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentRepresentation",
+          "kind": "def",
+          "full_header": "def foundationRightComponentRepresentation (M : A.FoundationRightModule Q) (i j : Q.Vertex) : A.Hom (i.val : \u2124) (j.val : \u2124) \u2192\u2097[k] ((A.foundationRightEvaluation Q j).obj M \u2192\u2097[k] (A.foundationRightEvaluation Q i).obj M)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationTotalMaps.lean",
+      "source_sha256": "1d741cb2b970cb3f77c19c7dd68536cab2650f912f497943c13a7d1e73ae8ac5",
+      "task_entry_snapshot": "work/lean-upgrade/tor-foundation-wrapper-entry-FoundationTotalMaps.lean.source",
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": false,
+      "baseline_review": "Only pre-existing native ObjectProperty Hom wrapper projection f.app -> f.hom.app in two theorem headers; exact baseline match after this sole necessary native projection adaptation. No header edits in this follow-up task.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "check_status": "Not launched: direct imports have not been built under Lean 4.34.1. Source-only migration, pending integration compiler validation.",
+      "actual_exit_code": null,
+      "direct_import_status": [
+        {
+          "import": "ASGinzburg.FoundationTotalActions",
+          "olean": ".lake/build/lib/lean/ASGinzburg/FoundationTotalActions.olean",
+          "olean_exists": false
+        }
+      ],
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap",
+          "kind": "def",
+          "full_header": "def foundationRightTotalLinearMap {M N : A.FoundationRightModule Q} (f : M \u27f6 N) : A.foundationRightTotalSpace Q M \u2192\u2097[k] A.foundationRightTotalSpace Q N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_apply",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_apply {M N : A.FoundationRightModule Q} (f : M \u27f6 N) (m : A.foundationRightTotalSpace Q M) (i : Q.Vertex) : A.foundationRightTotalLinearMap Q f m i=(f.hom.app i).hom (m i)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationComponentAction_naturality",
+          "kind": "theorem",
+          "full_header": "theorem foundationComponentAction_naturality {M N : A.FoundationRightModule Q} (f : M \u27f6 N) {i j : Q.Vertex} (a : A.Hom (i.val : \u2124) (j.val : \u2124)) (x : (A.foundationRightEvaluation Q j).obj M) : (f.hom.app i).hom (A.foundationRightComponentAction Q M a x)= A.foundationRightComponentAction Q N a ((f.hom.app j).hom x)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_action",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_action {M N : A.FoundationRightModule Q} (f : M \u27f6 N) (a : A.FoundationAlgebra Q) : (A.foundationRightTotalLinearMap Q f).comp (A.foundationRightTotalAction Q M a)= (A.foundationRightTotalAction Q N a).comp (A.foundationRightTotalLinearMap Q f)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_id",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_id (M : A.FoundationRightModule Q) : A.foundationRightTotalLinearMap Q (\ud835\udfd9 M)=LinearMap.id"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_comp",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_comp {M N P : A.FoundationRightModule Q} (f : M \u27f6 N) (g : N \u27f6 P) : A.foundationRightTotalLinearMap Q (f \u226b g)= (A.foundationRightTotalLinearMap Q g).comp (A.foundationRightTotalLinearMap Q f)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationRingPresheaves.lean",
+      "source_sha256": "8cddaa349badf8f3862513225c6f779dff764446f34d03a214ed938542c4c8f5",
+      "task_entry_snapshot": "work/lean-upgrade/tor-foundation-wrapper-entry-FoundationRingPresheaves.lean.source",
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": true,
+      "baseline_review": "Exact headers and ambient context match baseline.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "check_status": "Not launched: direct imports have not been built under Lean 4.34.1. Source-only migration, pending integration compiler validation.",
+      "actual_exit_code": null,
+      "direct_import_status": [
+        {
+          "import": "ASGinzburg.FoundationRingComponentSpaces",
+          "olean": ".lake/build/lib/lean/ASGinzburg/FoundationRingComponentSpaces.olean",
+          "olean_exists": false
+        },
+        {
+          "import": "ASGinzburg.FoundationRightRestriction",
+          "olean": ".lake/build/lib/lean/ASGinzburg/FoundationRightRestriction.olean",
+          "olean_exists": true
+        }
+      ],
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentFunctor",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRingRightComponentFunctor (M : ModuleCat.{u} (A.FoundationAlgebra Q)\u1d50\u1d52\u1d56) : A.FoundationRightObj Q \u2964 ModuleCat.{u} k"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentFunctorAdditive",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRingRightComponentFunctorAdditive (M : ModuleCat.{u} (A.FoundationAlgebra Q)\u1d50\u1d52\u1d56) : (A.foundationRingRightComponentFunctor Q M).Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentFunctorLinear",
+          "kind": "instance",
+          "full_header": "noncomputable instance foundationRingRightComponentFunctorLinear (M : ModuleCat.{u} (A.FoundationAlgebra Q)\u1d50\u1d52\u1d56) : (A.foundationRingRightComponentFunctor Q M).Linear k"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRingRightComponentModule",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRingRightComponentModule (M : ModuleCat.{u} (A.FoundationAlgebra Q)\u1d50\u1d52\u1d56) : A.FoundationRightModule Q"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationTotalRecoveryIso.lean",
+      "source_sha256": "e13bc21c31520497fa0147b9ab3dce92faf6c2012b269a4563b6b289ce7edea3",
+      "task_entry_snapshot": "work/lean-upgrade/tor-foundation-wrapper-entry-FoundationTotalRecoveryIso.lean.source",
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": true,
+      "baseline_review": "Exact headers and ambient context match baseline.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "check_status": "Not launched: direct imports have not been built under Lean 4.34.1. Source-only migration, pending integration compiler validation.",
+      "actual_exit_code": null,
+      "direct_import_status": [
+        {
+          "import": "ASGinzburg.FoundationTotalComponentEquiv",
+          "olean": ".lake/build/lib/lean/ASGinzburg/FoundationTotalComponentEquiv.olean",
+          "olean_exists": false
+        },
+        {
+          "import": "ASGinzburg.FoundationRingComponentMaps",
+          "olean": ".lake/build/lib/lean/ASGinzburg/FoundationRingComponentMaps.olean",
+          "olean_exists": false
+        }
+      ],
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalComponentEquiv_action",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalComponentEquiv_action (M : A.FoundationRightModule Q) {i j : Q.Vertex} (a : A.Hom (i.val : \u2124) (j.val : \u2124)) (x : A.foundationRingRightComponentSpace Q (A.foundationRightTotalModule Q M) j) : A.foundationRightTotalComponentEquiv Q M i (A.foundationRingRightComponentMap Q (A.foundationRightTotalModule Q M) a x)= A.foundationRightComponentAction Q M a (A.foundationRightTotalComponentEquiv Q M j x)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalRecoveryIso",
+          "kind": "def",
+          "full_header": "noncomputable def foundationRightTotalRecoveryIso (M : A.FoundationRightModule Q) : A.foundationRingRightComponentModule Q (A.foundationRightTotalModule Q M) \u2245 M"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "change_note": "Only actual induced-category Hom boundaries changed in this task: inline InducedCategory.homMk around the existing ambient foundationActionArrow before functor.map/naturality, native addition/scalar/composition operations on wrapped arrows, and .hom.unop extraction from native FoundationRightObj arrows. foundationActionArrow and all task-entry statements/universes are untouched. The manifest explicitly distinguishes baseline header equality from two previously migrated necessary Hom field projections.",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen_pending_integration": true,
+  "compiler_checks_executed_for_this_group": false,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

@@ -1,0 +1,53 @@
+import ASGinzburg.GinzburgAugmentationHomology
+import ASGinzburg.GinzburgCutRegularity
+
+/-! Genuine Ginzburg regularity forces the actual augmentation ideal
+complex to have no negative homology; no simple resolution is assumed. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgAugmentationCochainInclusion (φ : Q.Potential k)
+    (u v : Q.Vertex) (c : ℤ) :
+    Q.ginzburgAugmentationCochainComplex k φ u v c ⟶ Q.ginzburgCutCochainComplex k φ u v c :=
+  CochainComplex.ofHom
+    (X := Q.ginzburgAugmentationCochainComplex k φ u v c)
+    (Y := Q.ginzburgCutCochainComplex k φ u v c)
+    (fun q => ModuleCat.ofHom (Submodule.inclusion (show Q.ginzburgAugmentationAtDegree k u v q c ≤
+      Q.ginzburgCutCohomologicalComponent k u v q c by
+        rw [Q.ginzburgAugmentationAtDegree_eq_inf]
+        exact inf_le_right)))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro f
+      apply Subtype.ext
+      rfl)
+
+theorem GinzburgRegular.augmentationHomology_succ_isZero {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c q : ℤ) (hq : q+1<0) :
+    IsZero (Q.ginzburgAugmentationHomology k φ u v c (q+1)) := by
+  apply (Q.ginzburgAugmentationHomology_succ_isZero_iff_cycles k φ u v c q).mpr
+  intro f hf
+  have hfc : f.val ∈ Q.ginzburgCutCohomologicalComponent k u v (q+1) c := by
+    have hle : Q.ginzburgAugmentationAtDegree k u v (q+1) c ≤
+        Q.ginzburgCutCohomologicalComponent k u v (q+1) c := by
+      rw [Q.ginzburgAugmentationAtDegree_eq_inf]
+      exact inf_le_right
+    exact hle f.property
+  have hc := (Q.ginzburgCutHomology_succ_isZero_iff_cycles k φ u v c q).mp
+    (h.cutHomology_isZero Q k u v c (q+1) hq)
+  obtain ⟨g,hg⟩ := hc ⟨f.val,hfc⟩ hf
+  have hga : g.val ∈ Q.ginzburgAugmentationAtDegree k u v q c := by
+    rw [Q.ginzburgAugmentationAtDegree_eq_cut_of_neg k u v q c (by omega)]
+    exact g.property
+  exact ⟨⟨g.val,hga⟩,hg⟩
+
+theorem GinzburgRegular.augmentationHomology_isZero {φ : Q.Potential k}
+    (h : Q.GinzburgRegular k φ) (u v : Q.Vertex) (c q : ℤ) (hq : q<0) :
+    IsZero (Q.ginzburgAugmentationHomology k φ u v c q) := by
+  obtain ⟨r,rfl⟩ : ∃ r : ℤ, q=r+1 := ⟨q-1,by omega⟩
+  exact h.augmentationHomology_succ_isZero Q k u v c r hq
+
+end ASGinzburg.CutQuiver

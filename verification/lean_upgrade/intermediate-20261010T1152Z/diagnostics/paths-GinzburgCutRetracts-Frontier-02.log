@@ -1,0 +1,40 @@
+ASGinzburg/GinzburgCutRetracts.lean:33:6: error: Tactic `rfl` failed: The left-hand side
+  ↑((ModuleCat.Hom.hom (ModuleCat.ofHom (Submodule.inclusion ⋯) ≫ (Q.ginzburgCochainComplex k φ u v).d q (q + 1))) f)
+is not definitionally equal to the right-hand side
+  ↑((ModuleCat.Hom.hom ((Q.ginzburgCutCochainComplex k φ u v c).d q (q + 1) ≫ ModuleCat.ofHom (Submodule.inclusion ⋯)))
+      f)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+c q : ℤ
+f : ↑((Q.ginzburgCutCochainComplex k φ u v c).X q)
+⊢ ↑((ModuleCat.Hom.hom (ModuleCat.ofHom (Submodule.inclusion ⋯) ≫ (Q.ginzburgCochainComplex k φ u v).d q (q + 1))) f) =
+    ↑((ModuleCat.Hom.hom
+          ((Q.ginzburgCutCochainComplex k φ u v c).d q (q + 1) ≫ ModuleCat.ofHom (Submodule.inclusion ⋯)))
+        f)
+ASGinzburg/GinzburgCutRetracts.lean:46:6: error: Type mismatch
+  ginzburgDifferential_cutProjection Q k φ c ↑f
+has type
+  (Q.ginzburgDifferential k φ u v) ((Q.ginzburgCutProjection k u v c) ↑f) =
+    (Q.ginzburgCutProjection k u v c) ((Q.ginzburgDifferential k φ u v) ↑f)
+but is expected to have type
+  ↑((ModuleCat.Hom.hom
+          (ModuleCat.ofHom (Q.ginzburgCutCochainProjectionTerm k u v q c) ≫
+            (Q.ginzburgCutCochainComplex k φ u v c).d q (q + 1)))
+        f) =
+    ↑((ModuleCat.Hom.hom
+          ((Q.ginzburgCochainComplex k φ u v).d q (q + 1) ≫
+            ModuleCat.ofHom (Q.ginzburgCutCochainProjectionTerm k u v (q + 1) c)))
+        f)
+ASGinzburg/GinzburgCutRetracts.lean:57:56: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+ASGinzburg/GinzburgCutRetracts.lean:79:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

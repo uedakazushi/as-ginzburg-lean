@@ -1,0 +1,153 @@
+import ASGinzburg.ProjectiveResolutionSyzygies
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v t
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{t} C]
+
+theorem ext_one_eq_zero_of_hom_extension {S : ShortComplex C} (hS : S.ShortExact)
+    [Projective S.X₂] (N : C)
+    (hext : ∀ f : S.X₁ ⟶ N, ∃ g : S.X₂ ⟶ N, S.f ≫ g = f)
+    (e : Abelian.Ext.{t} S.X₃ N 1) : e = 0 := by
+  obtain ⟨x,hx⟩ := Abelian.Ext.contravariant_sequence_exact₃ hS N e
+    (Abelian.Ext.eq_zero_of_projective _) (show 1+0=1 from rfl)
+  obtain ⟨g,hg⟩ := hext (Abelian.Ext.homEquiv₀ x)
+  have hxg : x = (Abelian.Ext.mk₀ S.f).comp (Abelian.Ext.mk₀ g) (by rfl) := by
+    rw [← Abelian.Ext.mk₀_homEquiv₀_apply x, ← hg, Abelian.Ext.mk₀_comp_mk₀]
+  rw [hxg, ← Abelian.Ext.comp_assoc_of_second_deg_zero, hS.extClass_comp,
+    Abelian.Ext.zero_comp] at hx
+  exact hx.symm
+end ASGinzburg
+
+namespace CategoryTheory.ProjectiveResolution
+open CategoryTheory.Limits
+universe u v t
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{t} C]
+  {X : C} (P : ProjectiveResolution X)
+
+theorem ext_zero_eq_zero_of_hom_exact (N : C)
+    (hex : ∀ f : P.complex.X 0 ⟶ N, P.complex.d 1 0 ≫ f = 0 → f = 0)
+    (e : Abelian.Ext.{t} X N 0) : e = 0 := by
+  apply Abelian.Ext.addEquiv₀.injective
+  rw [map_zero]
+  change Abelian.Ext.homEquiv₀ e = 0
+  apply (cancel_epi (show P.complex.X 0 ⟶ X from P.π.f 0)).mp
+  rw [comp_zero]
+  apply hex
+  rw [← Category.assoc, P.complex_d_comp_π_f_zero, zero_comp]
+
+theorem ext_one_eq_zero_of_hom_exact (N : C)
+    (hex : ∀ f : P.complex.X 1 ⟶ N, P.complex.d 2 1 ≫ f = 0 →
+      ∃ g : P.complex.X 0 ⟶ N, P.complex.d 1 0 ≫ g = f)
+    (e : Abelian.Ext.{t} X N 1) : e = 0 := by
+  apply ASGinzburg.ext_one_eq_zero_of_hom_extension P.shortExact₀ N _ e
+  intro f
+  obtain ⟨g,hg⟩ := hex (P.firstCover ≫ f) (by rw [← Category.assoc, P.d₂_firstCover, zero_comp])
+  refine ⟨g,?_⟩
+  apply (cancel_epi P.firstCover).mp
+  rw [← Category.assoc, P.firstCover_ι]
+  exact hg
+
+theorem ext_two_eq_zero_of_hom_exact (N : C)
+    (hex : ∀ f : P.complex.X 2 ⟶ N, P.complex.d 3 2 ≫ f = 0 →
+      ∃ g : P.complex.X 1 ⟶ N, P.complex.d 2 1 ≫ g = f)
+    (e : Abelian.Ext.{t} X N 2) : e = 0 := by
+  have hk : ∀ x : Abelian.Ext.{t} (kernel (P.π.f 0)) N 1, x = 0 := by
+    apply ASGinzburg.ext_one_eq_zero_of_hom_extension P.shortExact₁ N
+    intro f
+    obtain ⟨g,hg⟩ := hex (P.secondCover ≫ f)
+      (by rw [← Category.assoc, P.d₃_secondCover, zero_comp])
+    refine ⟨g,?_⟩
+    apply (cancel_epi P.secondCover).mp
+    rw [← Category.assoc, P.secondCover_ι]
+    exact hg
+  obtain ⟨x,hx⟩ := Abelian.Ext.contravariant_sequence_exact₃ P.shortExact₀ N e
+    (Abelian.Ext.eq_zero_of_projective _) (show 1+1=2 from rfl)
+  rw [hk x, Abelian.Ext.comp_zero] at hx
+  exact hx.symm
+
+theorem ext_ge_four_eq_zero (h₄ : IsZero (P.complex.X 4)) (N : C) (n : ℕ)
+    (e : Abelian.Ext.{t} X N (n+4)) : e = 0 := by
+  obtain ⟨x,hx⟩ := Abelian.Ext.contravariant_sequence_exact₃ P.shortExact₀ N e
+    (Abelian.Ext.eq_zero_of_projective _) (show 1+(n+3)=n+4 by omega)
+  obtain ⟨y,hy⟩ := Abelian.Ext.contravariant_sequence_exact₃ P.shortExact₁ N x
+    (Abelian.Ext.eq_zero_of_projective _) (show 1+(n+2)=n+3 by omega)
+  obtain ⟨z,hz⟩ := Abelian.Ext.contravariant_sequence_exact₃ (P.shortExact₂ h₄) N y
+    (Abelian.Ext.eq_zero_of_projective _) (show 1+(n+1)=n+2 by omega)
+  rw [Abelian.Ext.eq_zero_of_projective z, Abelian.Ext.comp_zero] at hz
+  rw [← hz, Abelian.Ext.comp_zero] at hy
+  rw [← hy, Abelian.Ext.comp_zero] at hx
+  exact hx.symm
+end CategoryTheory.ProjectiveResolution
+
+
+namespace CategoryTheory.ProjectiveResolution
+open CategoryTheory.Limits
+universe u v t
+variable {k : Type t} [Field k] {C : Type u} [Category.{v} C] [Abelian C] [Linear k C]
+  {X : C} (P : ProjectiveResolution X)
+
+noncomputable def homDifferential (N : C) (n : ℕ) :
+    ModuleCat.of k (P.complex.X n ⟶ N) ⟶ ModuleCat.of k (P.complex.X (n+1) ⟶ N) :=
+  ModuleCat.ofHom {
+    toFun := fun f => P.complex.d (n+1) n ≫ f
+    map_add' := by intro f g; simp only [Preadditive.comp_add]
+    map_smul' := by intro r f; simp only [Linear.comp_smul, RingHom.id_apply] }
+
+theorem homDifferential_sq (N : C) (n : ℕ) :
+    P.homDifferential (k := k) N n ≫ P.homDifferential (k := k) N (n+1) = 0 := by
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro f
+  change P.complex.d (n+2) (n+1) ≫ (P.complex.d (n+1) n ≫ f) = 0
+  rw [← Category.assoc, P.complex.d_comp_d, zero_comp]
+
+noncomputable def homComplex (N : C) : CochainComplex (ModuleCat k) ℕ :=
+  CochainComplex.of (fun n => ModuleCat.of k (P.complex.X n ⟶ N))
+    (P.homDifferential (k := k) N) (P.homDifferential_sq (k := k) N)
+
+theorem homComplex_exactAt_succ_iff (N : C) (n : ℕ) :
+    (P.homComplex (k := k) N).ExactAt (n+1) ↔
+      ∀ f : P.complex.X (n+1) ⟶ N, P.complex.d (n+2) (n+1) ≫ f = 0 →
+        ∃ g : P.complex.X n ⟶ N, P.complex.d (n+1) n ≫ g = f := by
+  rw [HomologicalComplex.exactAt_iff' _ n (n+1) (n+2) (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  change (∀ f : P.complex.X (n+1) ⟶ N,
+    ((P.homComplex (k := k) N).d (n+1) (n+2)).hom f = 0 →
+      ∃ g : P.complex.X n ⟶ N, ((P.homComplex (k := k) N).d n (n+1)).hom g = f) ↔ _
+  rw [show (P.homComplex (k := k) N).d (n+1) (n+2) = P.homDifferential (k := k) N (n+1) from
+    CochainComplex.of_d _ _ (n+1)]
+  rw [show (P.homComplex (k := k) N).d n (n+1) = P.homDifferential (k := k) N n from
+    CochainComplex.of_d _ _ n]
+  rfl
+
+theorem homComplex_exactAt_zero_iff (N : C) :
+    (P.homComplex (k := k) N).ExactAt 0 ↔
+      ∀ f : P.complex.X 0 ⟶ N, P.complex.d 1 0 ≫ f = 0 → f = 0 := by
+  rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  constructor
+  · intro H f hf
+    obtain ⟨g,hg⟩ := H f hf
+    have hd : (P.homComplex (k := k) N).d 0 0 = 0 := (P.homComplex (k := k) N).shape 0 0 (by simp)
+    change ((P.homComplex (k := k) N).d 0 0).hom g = f at hg
+    rw [hd] at hg
+    exact hg.symm
+  · intro H f hf
+    refine ⟨0,?_⟩
+    rw [H f hf]
+    exact map_zero _
+
+variable [HasExt.{v} C]
+
+theorem ext_low_eq_zero_of_homComplex_exact (N : C) (n : ℕ) (hn : n < 3)
+    (hex : (P.homComplex (k := k) N).ExactAt n) (e : Abelian.Ext.{v} X N n) : e = 0 := by
+  rcases n with _ | _ | _ | n
+  · exact P.ext_zero_eq_zero_of_hom_exact N ((P.homComplex_exactAt_zero_iff (k := k) N).mp hex) e
+  · exact P.ext_one_eq_zero_of_hom_exact N ((P.homComplex_exactAt_succ_iff (k := k) N 0).mp hex) e
+  · exact P.ext_two_eq_zero_of_hom_exact N ((P.homComplex_exactAt_succ_iff (k := k) N 1).mp hex) e
+  · omega
+end CategoryTheory.ProjectiveResolution
+

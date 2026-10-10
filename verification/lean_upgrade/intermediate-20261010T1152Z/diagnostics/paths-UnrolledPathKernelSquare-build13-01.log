@@ -1,0 +1,23 @@
+ASGinzburg/UnrolledPathKernelSquare.lean:46:4: error: Type mismatch: After simplification, term
+  H
+ has type
+  @LinearIndependent { p // p ∉ S } k
+    (A.Hom (Q.height u) (Q.height v) ⧸ Submodule.span k (A.products (Q.height u) (Q.height v)))
+    ((fun p => Submodule.Quotient.mk (A.unrolledPathEvaluation Q R ↑p)) ∘ fun p => ⟨↑p, ⋯⟩) Field.toSemifield.toSemiring
+    (Submodule.Quotient.addCommMonoid (Submodule.span k (A.products (Q.height u) (Q.height v))))
+    (Submodule.Quotient.module (Submodule.span k (A.products (Q.height u) (Q.height v))))
+but is expected to have type
+  @LinearIndependent (↑{p | 2 ≤ p.length}ᶜ) k
+    (A.Hom (Q.height u) (Q.height v) ⧸ Submodule.span k (A.products (Q.height u) (Q.height v)))
+    (fun (x : ↑{p | 2 ≤ p.length}ᶜ) => Submodule.Quotient.mk (A.unrolledPathEvaluation Q R ↑x))
+    Field.toSemifield.toSemiring
+    (Submodule.Quotient.addCommGroup (Submodule.span k (A.products (Q.height u) (Q.height v)))).toAddCommMonoid
+    (Submodule.Quotient.module (Submodule.span k (A.products (Q.height u) (Q.height v))))
+ASGinzburg/UnrolledPathKernelSquare.lean:80:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

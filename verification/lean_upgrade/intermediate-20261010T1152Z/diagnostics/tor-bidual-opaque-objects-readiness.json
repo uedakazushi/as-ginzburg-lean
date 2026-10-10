@@ -1,0 +1,33 @@
+{
+  "recorded_at_utc": "2026-10-10T10:27:46.561299+00:00",
+  "status": "two actual default-heartbeat Lean4.34.1 ephemeral full-file checks0; public verification not claimed",
+  "checks": [
+    {
+      "record": "work/lean-upgrade/tor-bidual-opaque-objects-1.json",
+      "source": "work/lean-upgrade/TorBidualOpaqueObjectsDiagnostic01.lean",
+      "sha256": "1a35759b098f2ed9117f9eed24de0b99a9863f7dc442be513aea90264107d87e",
+      "elapsed_seconds": 15.77006087799964,
+      "actual_exit_code": 0,
+      "empty_log": true,
+      "heartbeat_override": false
+    },
+    {
+      "record": "work/lean-upgrade/tor-bidual-opaque-objects-original-proof-2.json",
+      "source": "work/lean-upgrade/TorBidualOpaqueObjectsOriginalProof02.lean",
+      "sha256": "ce09d7dccfa27265bbaf82b0c8a1a18d5390b80cdb1dc1eeed0f2a33a660590a",
+      "elapsed_seconds": 15.874980000000505,
+      "actual_exit_code": 0,
+      "empty_log": true,
+      "heartbeat_override": false
+    }
+  ],
+  "recommended_source": "work/lean-upgrade/TorBidualOpaqueObjectsOriginalProof02.lean",
+  "recommended_change": "Keep original naturality proof bodies; wrap only the two NatTrans defs in section/end with attribute [local irreducible] rightModuleADual leftModuleADual. The local reducibility attribute does not change constants or their values.",
+  "evidence_basis": "root diagnostic01 counters identify massive expansion of dual-object full-subcategory Hom/module/group implementations; blocking only those two object definitions avoids that conversion expansion.",
+  "public_source_edited_by_agent": false,
+  "no_active_compilers": true,
+  "lake_build_executed": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false
+}

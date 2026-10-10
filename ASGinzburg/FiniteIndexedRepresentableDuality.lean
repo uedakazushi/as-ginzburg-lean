@@ -36,7 +36,7 @@ theorem rightModuleADualMap_indexed_matrix [DecidableEq J]
     (d : ∐ (fun a => A.representable (i a)) ⟶ ∐ (fun b => A.representable (j b)))
     (f : ∐ (fun b => A.representable (j b)) ⟶ A.representable l) (a : I) :
     A.rightRepresentableCoproductHomEquiv i (A.representable l)
-      ((A.rightModuleADualMap d).app ⟨l⟩ f) a=
+      ((A.rightModuleADualMap d).hom.app ⟨l⟩ f) a=
       ∑ b, A.comp (A.rightRepresentableCoproductHomEquiv j (A.representable l) f b)
         (A.rightFiniteCoproductPiEquiv (fun b => A.representable (j b)) (i a)
           (A.representableYonedaEquiv (i a) (∐ fun b => A.representable (j b))

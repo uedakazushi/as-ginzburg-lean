@@ -1,0 +1,214 @@
+ASGinzburg/RegularCoproductActions.lean:34:54: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j : ℤ
+a : A.Hom i j
+⊢ Sigma.ι (fun l => A.representable l) i ≫
+      A.rightRegularCoproductProjection i ≫ A.representableFunctor.map a ≫ Sigma.ι (fun l => A.representable l) j =
+    A.representableFunctor.map a ≫ Sigma.ι (fun l => A.representable l) j
+ASGinzburg/RegularCoproductActions.lean:42:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Sigma.ι (fun l => representable ?m.33 l) l ≫ rightRegularCoproductProjection ?m.33 i) ≫ ?h
+in the target expression
+  Sigma.ι (fun t => A.representable t) l ≫
+      A.rightRegularCoproductProjection i ≫
+        A.representableFunctor.map
+            (have this := a;
+            this) ≫
+          Sigma.ι (fun l => A.representable l) j =
+    0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j : ℤ
+a : A.Hom i j
+l : ℤ
+hli : l ≠ i
+⊢ Sigma.ι (fun t => A.representable t) l ≫
+      A.rightRegularCoproductProjection i ≫
+        A.representableFunctor.map
+            (have this := a;
+            this) ≫
+          Sigma.ι (fun l => A.representable l) j =
+    0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.representableFunctor.map
+      (have this := a;
+      this)
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representableFunctor.obj { index := i }) (A.representableFunctor.obj { index := j })
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (A.representableFunctor.obj { index := j })
+  in the application
+    CategoryStruct.comp
+      (A.representableFunctor.map
+        (have this := a;
+        this))
+ASGinzburg/RegularCoproductActions.lean:66:48: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j l : ℤ
+a : A.Hom i j
+b : A.Hom j l
+⊢ A.rightRegularCoproductProjection i ≫
+      A.representableFunctor.map a ≫
+        Sigma.ι (fun l => A.representable l) j ≫
+          A.rightRegularCoproductProjection j ≫ A.representableFunctor.map b ≫ Sigma.ι (fun l => A.representable l) l =
+    A.rightRegularCoproductProjection i ≫
+      A.representableFunctor.map a ≫ A.representableFunctor.map b ≫ Sigma.ι (fun l => A.representable l) l
+ASGinzburg/RegularCoproductActions.lean:86:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Sigma.ι (fun l => A.representable l) j ≫ A.rightRegularCoproductProjection p) ≫ ?h
+in the target expression
+  A.rightRegularCoproductProjection i ≫
+      A.representableFunctor.map a ≫
+        Sigma.ι (fun l => A.representable l) j ≫
+          A.rightRegularCoproductProjection p ≫ A.representableFunctor.map b ≫ Sigma.ι (fun l => A.representable l) q =
+    0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j p q : ℤ
+a : A.Hom i j
+b : A.Hom p q
+hjp : j ≠ p
+⊢ A.rightRegularCoproductProjection i ≫
+      A.representableFunctor.map a ≫
+        Sigma.ι (fun l => A.representable l) j ≫
+          A.rightRegularCoproductProjection p ≫ A.representableFunctor.map b ≫ Sigma.ι (fun l => A.representable l) q =
+    0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.representableFunctor.map a
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representableFunctor.obj { index := i }) (A.representableFunctor.obj { index := j })
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (A.representableFunctor.obj { index := j })
+  in the application
+    CategoryStruct.comp (A.representableFunctor.map a)
+ASGinzburg/RegularCoproductActions.lean:141:84: error: unexpected token 'set_option'; expected 'lemma'
+ASGinzburg/RegularCoproductActions.lean:151:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/RegularCoproductActions.lean:160:44: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) ?n).map (Sigma.ι (fun j => A.representable j) ?i) ≫
+      ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv ?n)) ≫
+    ?h
+in the target expression
+  H.map
+        (A.representableFunctor.map
+          (have this := a;
+          this)) ≫
+      ModuleCat.ofHom
+        (DirectSum.lof k ℤ (fun j => Abelian.Ext (A.simpleRightModule (Q.height w)) (A.representable j) n) j) =
+    H.map (Sigma.ι (fun t => A.representable t) i) ≫
+      ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a)
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+n : ℕ
+i j : ℤ
+a : A.Hom i j
+H : A.RightModule ⥤ ModuleCat k := A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n
+this : PreservesColimitsOfShape (Discrete ℤ) (A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n) :=
+  simpleExtPreservesCoproducts R ℤ n
+⊢ H.map
+        (A.representableFunctor.map
+          (have this := a;
+          this)) ≫
+      ModuleCat.ofHom
+        (DirectSum.lof k ℤ (fun j => Abelian.Ext (A.simpleRightModule (Q.height w)) (A.representable j) n) j) =
+    H.map (Sigma.ι (fun t => A.representable t) i) ≫
+      ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.representableFunctor.map
+      (have this := a;
+      this)
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representableFunctor.obj { index := i }) (A.representableFunctor.obj { index := j })
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (A.representableFunctor.obj { index := j })
+  in the application
+    H.map
+      (A.representableFunctor.map
+        (have this := a;
+        this))
+ASGinzburg/RegularCoproductActions.lean:172:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) ?n).map (Sigma.ι (fun j => A.representable j) ?i) ≫
+      ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv ?n)) ≫
+    ?h
+in the target expression
+  0 =
+    H.map (Sigma.ι (fun t => A.representable t) l) ≫
+      ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a)
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+n : ℕ
+i j : ℤ
+a : A.Hom i j
+H : A.RightModule ⥤ ModuleCat k := A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n
+this : PreservesColimitsOfShape (Discrete ℤ) (A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n) :=
+  simpleExtPreservesCoproducts R ℤ n
+l : ℤ
+hl : ¬l = i
+⊢ 0 =
+    H.map (Sigma.ι (fun t => A.representable t) l) ≫
+      ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv n) ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv n)
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      ↧(Abelian.Ext (A.simpleRightModule (Q.height w)) A.rightRegularCoproduct n)
+      ↧(A.leftModuleTotalSpace (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n))
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver (H.obj (∐ fun t => A.representable t))
+      ↧(A.leftModuleTotalSpace (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n))
+  in the application
+    CategoryStruct.comp (ModuleCat.ofHom ↑(R.extRegularCoproductLinearEquiv n))
+ASGinzburg/RegularCoproductActions.lean:198:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

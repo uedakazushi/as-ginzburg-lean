@@ -1,0 +1,101 @@
+{
+  "recorded_at_utc": "2026-10-10T09:58:21.875167+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "actual Lean4.34.1 serial direct checks0; no output olean; full build/audit not claimed",
+  "source_count": 2,
+  "declaration_count": 14,
+  "sources": [
+    {
+      "source": "ASGinzburg/RightModuleExt.lean",
+      "source_sha256": "10fe5cc0aa78dd2e5cd43742bdd4b04d9e807e7cf15d8baec29b5cf56d6ddd2c",
+      "check_record": "work/lean-upgrade/tor-migration-right-module-ext-1.json",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 5.41869670899905,
+      "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleProjectiveResolution",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleProjectiveResolution_exactAt_succ",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHasExt",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.representableExtZeroEquiv",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.representable_higher_ext_eq_zero",
+          "kind": "theorem"
+        }
+      ],
+      "warning_lines": []
+    },
+    {
+      "source": "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean",
+      "source_sha256": "23f99facab73ffec6b0278a6209b230a0b95422f1d69571a8d245e32af4146c0",
+      "check_record": "work/lean-upgrade/tor-migration-balanced-right-tor-3.json",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 9.335583176998625,
+      "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.balancedTensorFlippedBifunctor_obj_additive",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorFlippedBifunctor_additive",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorDoubleResolutionColumnPreservesHomology",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorDoubleResolutionColumnPreservesEpimorphisms",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorDoubleResolutionLeftAugmentation",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorDoubleResolutionLeftAugmentation_quasiIso",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorDoubleResolutionRightHomologyIso",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorDoubleResolutionTorRightIso",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.balancedTensorTorBalanceIso",
+          "kind": "def"
+        }
+      ],
+      "warning_lines": [
+        "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean:32:2: warning: Try this: ",
+        "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean:33:2: warning: Try this: ",
+        "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean:55:2: warning: Try this: ",
+        "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean:58:2: warning: Try this: ",
+        "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean:61:2: warning: Try this: ",
+        "ASGinzburg/BalancedTensorDoubleResolutionRightTor.lean:65:2: warning: Try this: "
+      ]
+    }
+  ],
+  "proof_change_note": "HasExt original universe v now explicitly supplied. Genuine signed total flip and genuine flipped augmentation each derive QuasiIso under original hypotheses; exact quasiIso_comp combines them, without any new premise. Four preexisting and two newly explicit letI style warnings remain.",
+  "git_diff_check_exit_code": 0,
+  "no_active_compilers": true,
+  "lake_build_executed": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false
+}

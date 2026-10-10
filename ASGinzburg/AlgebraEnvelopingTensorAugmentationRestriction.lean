@@ -12,6 +12,7 @@ variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
 variable {M : ModuleCat.{w} Rᵐᵒᵖ} {N : ModuleCat.{z} R}
 variable (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
 
+set_option backward.isDefEq.respectTransparency false in
 theorem tensorRightEnvelopingAugmentation_restrictScalars :
     ((ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).map
         (tensorRightEnvelopingAugmentation k R P Q) ≫

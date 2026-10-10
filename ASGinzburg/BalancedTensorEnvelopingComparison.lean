@@ -42,11 +42,9 @@ theorem balancedTensorEnvelopingPairEvaluation_balance
     (e : AlgebraEnvelopingRing k R) (x : M ⊗[k] N) (r : R) :
     balancedTensorEnvelopingPairEvaluation k R M N r (MulOpposite.op e • x) =
       balancedTensorEnvelopingPairEvaluation k R M N (e • r) x := by
-  induction e using TensorProduct.induction_on with
-  | zero => simp only [MulOpposite.op_zero, zero_smul, map_zero, LinearMap.zero_apply]
+  induction e using TensorProduct.inductionOn with
   | tmul a b =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp only [smul_zero, map_zero]
+      induction x using TensorProduct.inductionOn with
       | tmul m n =>
           change balancedTensorEnvelopingPairEvaluation k R M N r
             (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) • (m ⊗ₜ[k] n)) =
@@ -74,7 +72,6 @@ theorem balancedTensorEnvelopingComparisonMap_tmul (m : M) (n : N) (r : R) :
     balancedTensorEnvelopingComparisonMap k R M N
       (balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) r) =
       balancedTensorTmul k R M N m (r • n) := by
-  rw [balancedTensorEnvelopingComparisonMap, balancedTensorLift_tmul]
   rfl
 
 noncomputable def balancedTensorEnvelopingInsertion :
@@ -103,7 +100,6 @@ noncomputable def balancedTensorEnvelopingComparisonInverse :
 theorem balancedTensorEnvelopingComparisonInverse_tmul (m : M) (n : N) :
     balancedTensorEnvelopingComparisonInverse k R M N (balancedTensorTmul k R M N m n) =
       balancedTensorTmul k (AlgebraEnvelopingRing k R) (M ⊗[k] N) R (m ⊗ₜ[k] n) 1 := by
-  rw [balancedTensorEnvelopingComparisonInverse, balancedTensorLift_tmul]
   rfl
 
 noncomputable def balancedTensorEnvelopingComparisonEquiv :
@@ -119,9 +115,7 @@ noncomputable def balancedTensorEnvelopingComparisonEquiv :
         (balancedTensorEnvelopingComparisonMap k R M N 0) = 0
       rw [map_zero, map_zero]
     · intro x r
-      induction x using TensorProduct.induction_on with
-      | zero =>
-          simp only [balancedTensorTmul, TensorProduct.zero_tmul, map_zero]
+      induction x using TensorProduct.inductionOn with
       | tmul m n =>
           rw [balancedTensorEnvelopingComparisonMap_tmul,
             balancedTensorEnvelopingComparisonInverse_tmul]

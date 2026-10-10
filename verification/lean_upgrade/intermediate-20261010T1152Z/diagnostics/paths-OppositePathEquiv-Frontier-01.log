@@ -1,0 +1,59 @@
+ASGinzburg/OppositePathEquiv.lean:24:8: error: unsolved goals
+case nil
+Q : CutQuiver
+u v : Q.opposite.Vertex
+⊢ [] = []
+ASGinzburg/OppositePathEquiv.lean:25:18: error: unsolved goals
+case snoc
+Q : CutQuiver
+u v v✝ : Q.opposite.Vertex
+p : Q.opposite.Path u v✝
+a : Q.opposite.Arrow
+h : Q.opposite.source a = v✝
+ih : p.unopposite.toList = p.toList.reverse
+⊢ ((transport ⋯ ⋯ ((nil (Q.source a)).snoc a ⋯)).comp p.unopposite).toList = a :: p.toList.reverse
+ASGinzburg/OppositePathEquiv.lean:25:39: warning: This simp argument is unused:
+  toList_comp
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [unopposite, toList, ih]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositePathEquiv.lean:25:60: warning: This simp argument is unused:
+  ih
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [unopposite, toList_comp, toList]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositePathEquiv.lean:31:16: error: unsolved goals
+Q : CutQuiver
+u v : Q.Vertex
+p : Q.Path u v
+⊢ (Path.transport ⋯ ⋯ p.opposite.unopposite).toList = p.toList
+ASGinzburg/OppositePathEquiv.lean:34:17: error: unsolved goals
+Q : CutQuiver
+u v : Q.Vertex
+p : Q.opposite.Path (Fin.rev v) (Fin.rev u)
+⊢ (Path.transport ⋯ ⋯ p.unopposite).toList.reverse = p.toList
+ASGinzburg/OppositePathEquiv.lean:33:10: warning: This simp argument is unused:
+  Path.unopposite_toList
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Path.opposite_toList]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositePathEquiv.lean:33:34: warning: This simp argument is unused:
+  Path.opposite_toList
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Path.unopposite_toList]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositePathEquiv.lean:36:10: warning: This simp argument is unused:
+  Path.unopposite_toList
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Path.opposite_toList]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

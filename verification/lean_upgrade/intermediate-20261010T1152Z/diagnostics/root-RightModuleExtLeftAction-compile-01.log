@@ -1,0 +1,14 @@
+ASGinzburg/RightModuleExtLeftAction.lean:83:8: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.representableFunctor.map f
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representableFunctor.obj X) (A.representableFunctor.obj Y)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable X.index) (A.representableFunctor.obj Y)
+  in the application
+    Abelian.Ext.mk₀ (A.representableFunctor.map f)

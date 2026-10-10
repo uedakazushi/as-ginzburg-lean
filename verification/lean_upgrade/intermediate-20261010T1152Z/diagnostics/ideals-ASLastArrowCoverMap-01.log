@@ -1,0 +1,32 @@
+ASGinzburg/ASLastArrowCoverMap.lean:46:38: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (LinearEquiv.symm ?e) (?e ?b)
+in the target expression
+  (A.rightFiniteCoproductPiEquiv (fun a => A.representable (Q.height (Q.incomingSource w a))) (Q.height u)).symm y = x
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+R : (w : Q.LiftVertex) → A.ASResolution Q w
+u w : Q.LiftVertex
+huw : u ≠ w
+x : ↑((A.rightModuleEvaluation (Q.height u)).obj (A.asResolutionTerm₁ Q w))
+y : (a : Q.incomingArrows w) →
+  ↑((A.rightModuleEvaluation (Q.height u)).obj (A.representable (Q.height (Q.incomingSource w a)))) :=
+  (A.rightFiniteCoproductPiEquiv (fun a => A.representable (Q.height (Q.incomingSource w a))) (Q.height u)) x
+p : (a : Q.incomingArrows w) → Q.UnrolledPathComponent k u (Q.incomingSource w a) := fun a => Classical.choose ⋯
+hp : (A.lastArrowPrefixEvaluation Q R u w) p = y
+⊢ (A.rightFiniteCoproductPiEquiv (fun a => A.representable (Q.height (Q.incomingSource w a))) (Q.height u)).symm y = x
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing
+      ((A.rightModuleEvaluation (Q.height u)).obj (A.asResolutionTerm₁ Q w))
+  but is expected to have type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing
+      ((A.rightModuleEvaluation (Q.height u)).obj (∐ fun a => A.representable (Q.height (Q.incomingSource w a))))
+  in the application
+    (A.rightFiniteCoproductPiEquiv (fun a => A.representable (Q.height (Q.incomingSource w a))) (Q.height u)).symm y = x

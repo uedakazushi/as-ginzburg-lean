@@ -1,0 +1,69 @@
+{
+  "recorded_at_utc": "2026-10-10T11:28:42.957607+00:00",
+  "source": "ASGinzburg/RightResolutionDuality.lean",
+  "source_sha256": "eac3e58c458eafebb41701d94c637c96afd9dd268c6ac4a7ef3b10fb00d56971",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "declarations": [
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionExtTopProjection",
+      "kind": "def",
+      "header": "noncomputable def rightResolutionExtTopProjection : A.rightModuleADual (P.complex.X 3) \u27f6 A.rightModuleExtLeft X 3"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionExtTopProjectionEpi",
+      "kind": "instance",
+      "header": "noncomputable instance rightResolutionExtTopProjectionEpi : Epi (A.rightResolutionExtTopProjection P h\u2084)"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionExtTopProjection_dual_d\u2083",
+      "kind": "theorem",
+      "header": "theorem rightResolutionExtTopProjection_dual_d\u2083 : A.rightModuleADualMap (P.complex.d 3 2) \u226b A.rightResolutionExtTopProjection P h\u2084 = 0"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionExtTopProjection_exact",
+      "kind": "theorem",
+      "header": "theorem rightResolutionExtTopProjection_exact : (ShortComplex.mk (A.rightModuleADualMap (P.complex.d 3 2)) (A.rightResolutionExtTopProjection P h\u2084) (A.rightResolutionExtTopProjection_dual_d\u2083 P h\u2084)).Exact"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionDualComplex",
+      "kind": "def",
+      "header": "noncomputable def rightResolutionDualComplex : CochainComplex A.LeftModule \u2115"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionDualComplexEvaluationIso",
+      "kind": "def",
+      "header": "noncomputable def rightResolutionDualComplexEvaluationIso (i : \u2124) : ((A.leftModuleEvaluation i).mapHomologicalComplex (ComplexShape.up \u2115)).obj (A.rightResolutionDualComplex P) \u2245 P.homComplex (k"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionDualComplex_exactAt_low",
+      "kind": "theorem",
+      "header": "theorem rightResolutionDualComplex_exactAt_low (h\u2084 : IsZero (P.complex.X 4)) (hExt : \u2200 i n, n<3 \u2192 \u2200 e : Abelian.Ext.{v} M (A.representable i) n, e=0) (n : \u2115) (hn : n<3) : (A.rightResolutionDualComplex P).ExactAt n"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionDual_first_mono",
+      "kind": "theorem",
+      "header": "theorem rightResolutionDual_first_mono : Mono (A.rightModuleADualMap (P.complex.d 1 0))"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionDualFourTerm",
+      "kind": "def",
+      "header": "noncomputable def rightResolutionDualFourTerm : ASGinzburg.FourTermProjectiveResolution (A.rightModuleExtLeft M 3)"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionDualFourTerm_finite",
+      "kind": "theorem",
+      "header": "theorem rightResolutionDualFourTerm_finite (n : \u2115) : A.leftFiniteProjectiveProperty ((A.rightResolutionDualFourTerm P h\u2084 hP hExt).term n)"
+    }
+  ],
+  "ambient_universes_variables_include_commands": [
+    "universe u v",
+    "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {X : A.RightModule} (P : ProjectiveResolution X) (h\u2084 : IsZero (P.complex.X 4))",
+    "universe u v",
+    "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M : A.RightModule} (P : ProjectiveResolution M)",
+    "universe u v",
+    "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M : A.RightModule} (P : ProjectiveResolution M) (h\u2084 : IsZero (P.complex.X 4)) (hP : \u2200 n, n<4 \u2192 A.rightFiniteProjectiveProperty (P.complex.X n)) (hExt : \u2200 i n, n<3 \u2192 \u2200 e : Abelian.Ext.{v} M (A.representable i) n, e=0)",
+    "include h\u2084 hExt in"
+  ],
+  "baseline_and_task_entry_names_kinds_headers_ambient_commands_match": true,
+  "status": "Read-only preservation review of successful-work20 exact public source; public compiler4 result pending, no global verification claimed."
+}

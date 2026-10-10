@@ -1,0 +1,61 @@
+ASGinzburg/OppositeCutQuiver.lean:64:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑(Q.vertices - (↑v.1 + 1))
+in the target expression
+  ↑↑({ toFun := fun v => (Fin.rev v.1, -v.2), invFun := fun v => (Fin.rev v.1, -v.2), left_inv := ⋯, right_inv := ⋯ }
+              v).1 +
+      ↑Q.vertices *
+        ({ toFun := fun v => (Fin.rev v.1, -v.2), invFun := fun v => (Fin.rev v.1, -v.2), left_inv := ⋯,
+              right_inv := ⋯ }
+            v).2 =
+    ↑Q.vertices - 1 - (↑↑v.1 + ↑Q.vertices * v.2)
+
+Q : CutQuiver
+v : Q.LiftVertex
+hv : ↑v.1 < Q.vertices
+hcast : ↑(Q.vertices - (↑v.1 + 1)) = ↑Q.vertices - 1 - ↑↑v.1
+⊢ ↑↑({ toFun := fun v => (Fin.rev v.1, -v.2), invFun := fun v => (Fin.rev v.1, -v.2), left_inv := ⋯, right_inv := ⋯ }
+              v).1 +
+      ↑Q.vertices *
+        ({ toFun := fun v => (Fin.rev v.1, -v.2), invFun := fun v => (Fin.rev v.1, -v.2), left_inv := ⋯,
+              right_inv := ⋯ }
+            v).2 =
+    ↑Q.vertices - 1 - (↑↑v.1 + ↑Q.vertices * v.2)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    EquivLike.toFunLike
+  has type
+    FunLike (Q.LiftVertex ≃ Q.opposite.LiftVertex) Q.LiftVertex Q.opposite.LiftVertex
+  but is expected to have type
+    DFunLike
+      (Q.LiftVertex ≃
+        { vertices := Q.vertices, arrows := Q.arrows, at_least_three := ⋯, source := fun a => (Q.target a).rev,
+            target := fun a => (Q.source a).rev, cut := Q.cut, forward := ⋯, backward := ⋯ }.LiftVertex)
+      Q.LiftVertex fun x =>
+      { vertices := Q.vertices, arrows := Q.arrows, at_least_three := ⋯, source := fun a => (Q.target a).rev,
+          target := fun a => (Q.source a).rev, cut := Q.cut, forward := ⋯, backward := ⋯ }.LiftVertex
+  in the application
+    @DFunLike.coe
+      (Q.LiftVertex ≃
+        { vertices := Q.vertices, arrows := Q.arrows, at_least_three := ⋯, source := fun a => (Q.target a).rev,
+            target := fun a => (Q.source a).rev, cut := Q.cut, forward := ⋯, backward := ⋯ }.LiftVertex)
+      Q.LiftVertex
+      (fun x =>
+        { vertices := Q.vertices, arrows := Q.arrows, at_least_three := ⋯, source := fun a => (Q.target a).rev,
+            target := fun a => (Q.source a).rev, cut := Q.cut, forward := ⋯, backward := ⋯ }.LiftVertex)
+      EquivLike.toFunLike
+ASGinzburg/OppositeCutQuiver.lean:60:44: warning: This simp argument is unused:
+  Equiv.coe_fn_mk
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [height, oppositeLiftVertexEquiv, opposite, Fin.val_rev]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositeCutQuiver.lean:60:69: warning: This simp argument is unused:
+  Fin.val_rev
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [height, oppositeLiftVertexEquiv, Equiv.coe_fn_mk, opposite]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

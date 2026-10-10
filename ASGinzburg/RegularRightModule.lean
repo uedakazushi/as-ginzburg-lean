@@ -76,10 +76,10 @@ theorem rightRegularMatrixElement_totalMap {i j p : ℤ} (a : A.Hom i j) (b : A.
       A.rightRegularMatrixElement (A.comp a b) := by
   change A.rightTotalLinearMap (A.rightRegularCoproductAction a)
     (DirectSum.lof k ℤ _ p
-      (((Sigma.ι (fun t : ℤ => A.representable t) i).app (op (⟨p⟩ : A.Obj))).hom b)) = _
+      (((Sigma.ι (fun t : ℤ => A.representable t) i).hom.app (op (⟨p⟩ : A.Obj))).hom b)) = _
   rw [A.rightTotalLinearMap_lof]
   apply congrArg (DirectSum.lof k ℤ (fun t => (A.rightModuleEvaluation t).obj A.rightRegularCoproduct) p)
-  exact congrArg (fun f => (f.app (op (⟨p⟩ : A.Obj))).hom b)
+  exact congrArg (fun f => (f.hom.app (op (⟨p⟩ : A.Obj))).hom b)
     (A.rightRegularCoproduct_inclusion_action a)
 
 theorem rightRegularMatrixElement_totalMap_off {i j p q : ℤ} (a : A.Hom i j)
@@ -87,13 +87,13 @@ theorem rightRegularMatrixElement_totalMap_off {i j p q : ℤ} (a : A.Hom i j)
     A.rightTotalLinearMap (A.rightRegularCoproductAction a) (A.rightRegularMatrixElement b) = 0 := by
   change A.rightTotalLinearMap (A.rightRegularCoproductAction a)
     (DirectSum.lof k ℤ _ p
-      (((Sigma.ι (fun t : ℤ => A.representable t) q).app (op (⟨p⟩ : A.Obj))).hom b)) = _
+      (((Sigma.ι (fun t : ℤ => A.representable t) q).hom.app (op (⟨p⟩ : A.Obj))).hom b)) = _
   rw [A.rightTotalLinearMap_lof]
-  have h := congrArg (fun f => (f.app (op (⟨p⟩ : A.Obj))).hom b)
+  have h := congrArg (fun f => (f.hom.app (op (⟨p⟩ : A.Obj))).hom b)
     (A.rightRegularCoproduct_inclusion_action_off a q hqi)
   change _ = (0 : A.rightModuleTotalSpace A.rightRegularCoproduct)
-  have hz : ((A.rightRegularCoproductAction a).app (op (⟨p⟩ : A.Obj))).hom
-      (((Sigma.ι (fun t : ℤ => A.representable t) q).app (op (⟨p⟩ : A.Obj))).hom b) = 0 := h
+  have hz : ((A.rightRegularCoproductAction a).hom.app (op (⟨p⟩ : A.Obj))).hom
+      (((Sigma.ι (fun t : ℤ => A.representable t) q).hom.app (op (⟨p⟩ : A.Obj))).hom b) = 0 := h
   rw [hz, map_zero]
 
 theorem rightRegularTotalAlgebraEquiv_totalMap {i j : ℤ} (a : A.Hom i j)
@@ -124,7 +124,7 @@ noncomputable def totalAlgebraLeftComponentMap {i j : ℤ} (a : A.Hom i j) :
 
 theorem totalAlgebraLeftComponentMap_apply {i j : ℤ} (a : A.Hom i j)
     (x : A.totalAlgebra) :
-    (A.totalAlgebraLeftComponentMap a).hom x = A.totalAlgebraComponent a * x := by
+    (A.totalAlgebraLeftComponentMap a).hom.hom x = A.totalAlgebraComponent a * x := by
   change A.rightRegularTotalAlgebraEquiv
     (A.rightTotalLinearMap (A.rightRegularCoproductAction a)
       (A.rightRegularTotalAlgebraEquiv.symm x)) = _

@@ -1,0 +1,176 @@
+{
+  "recorded_at_utc": "2026-10-10T11:46:03.874114+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output checks 0. Full Lake build/exhaustive audit/upgrade completion not claimed.",
+  "source_count": 3,
+  "declaration_count": 17,
+  "sources": [
+    {
+      "source": "ASGinzburg/TotalComponentActions.lean",
+      "source_sha256": "138cefd8ae4188ef85fde56fd51ecf58c6273c0d4964faccd8e641ff9b188c72",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build13-entry-TotalComponentActions.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-total-component-actions-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T11:43:20.443983+00:00",
+      "finished_at_utc": "2026-10-10T11:43:25.090510+00:00",
+      "elapsed_seconds": 4.646535945001233,
+      "log": "work/lean-upgrade/tor-migration-total-component-actions-1.log",
+      "log_empty": false,
+      "warning_count": 4,
+      "warning_note": "Existing letI style warnings only; no proof or elaboration errors.",
+      "baseline_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleTotalAction_add",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleTotalAction_add (M : A.LeftModule) {i j : \u2124} (a b : A.Hom i j) : A.leftModuleTotalAction M (a + b) = A.leftModuleTotalAction M a + A.leftModuleTotalAction M b"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleTotalAction_smul",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleTotalAction_smul (M : A.LeftModule) {i j : \u2124} (r : k) (a : A.Hom i j) : A.leftModuleTotalAction M (r \u2022 a) = r \u2022 A.leftModuleTotalAction M a"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleTotalAction_comp",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleTotalAction_comp (M : A.LeftModule) {i j l : \u2124} (a : A.Hom i j) (b : A.Hom j l) : (A.leftModuleTotalAction M b).comp (A.leftModuleTotalAction M a) = A.leftModuleTotalAction M (A.comp b a)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftModuleTotalAction_comp_off",
+          "kind": "theorem",
+          "full_header": "theorem leftModuleTotalAction_comp_off (M : A.LeftModule) {i j p q : \u2124} (a : A.Hom i j) (b : A.Hom p q) (hjp : j \u2260 p) : (A.leftModuleTotalAction M b).comp (A.leftModuleTotalAction M a) = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleTotalAction_add",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleTotalAction_add (M : A.RightModule) {i j : \u2124} (a b : A.Hom i j) : A.rightModuleTotalAction M (a + b) = A.rightModuleTotalAction M a + A.rightModuleTotalAction M b"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleTotalAction_smul",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleTotalAction_smul (M : A.RightModule) {i j : \u2124} (r : k) (a : A.Hom i j) : A.rightModuleTotalAction M (r \u2022 a) = r \u2022 A.rightModuleTotalAction M a"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleTotalAction_comp",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleTotalAction_comp (M : A.RightModule) {i j l : \u2124} (a : A.Hom i j) (b : A.Hom j l) : (A.rightModuleTotalAction M a).comp (A.rightModuleTotalAction M b) = A.rightModuleTotalAction M (A.comp b a)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleTotalAction_comp_off",
+          "kind": "theorem",
+          "full_header": "theorem rightModuleTotalAction_comp_off (M : A.RightModule) {i j p q : \u2124} (a : A.Hom i j) (b : A.Hom p q) (hjp : j \u2260 p) : (A.rightModuleTotalAction M a).comp (A.rightModuleTotalAction M b) = 0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalComponentRepresentation",
+          "kind": "def",
+          "full_header": "noncomputable def leftTotalComponentRepresentation (M : A.LeftModule) (i j : \u2124) : A.Hom i j \u2192\u2097[k] Module.End k (A.leftModuleTotalSpace M)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalComponentRepresentation",
+          "kind": "def",
+          "full_header": "noncomputable def rightTotalComponentRepresentation (M : A.RightModule) (i j : \u2124) : A.Hom i j \u2192\u2097[k] Module.End k (A.rightModuleTotalSpace M)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/ZAlgebraFixedRepresentables.lean",
+      "source_sha256": "69e1d11b617fdc9717acead39326d92630dfd2078d2dd12dbfd0d9ae57b100d9",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build13-entry-ZAlgebraFixedRepresentables.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-zalgebra-fixed-representables-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T11:43:34.489374+00:00",
+      "finished_at_utc": "2026-10-10T11:43:39.218317+00:00",
+      "elapsed_seconds": 4.728951538003457,
+      "log": "work/lean-upgrade/tor-migration-zalgebra-fixed-representables-1.log",
+      "log_empty": true,
+      "warning_count": 0,
+      "warning_note": "Empty log.",
+      "baseline_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.fixedRepresentableIso",
+          "kind": "def",
+          "full_header": "noncomputable def fixedRepresentableIso (i : \u2124) : E.fixedRightModuleFunctor.obj (A.representable i) \u2245 B.representable i"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}",
+        "variable (E : Isomorphism A B)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationComponentActions.lean",
+      "source_sha256": "40fb691d67f981474ef9ea2f04511f5d383ecd7bd181316bbaa28423247f5967",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build13-entry-FoundationComponentActions.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-component-actions-3.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T11:45:17.920537+00:00",
+      "finished_at_utc": "2026-10-10T11:45:22.468321+00:00",
+      "elapsed_seconds": 4.5477928730033454,
+      "log": "work/lean-upgrade/tor-migration-foundation-component-actions-3.log",
+      "log_empty": false,
+      "warning_count": 2,
+      "warning_note": "Existing letI style warnings only; no proof or elaboration errors.",
+      "baseline_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction",
+          "kind": "def",
+          "full_header": "def foundationRightComponentAction (M : A.FoundationRightModule Q) {i j : Q.Vertex} (f : A.Hom (i.val : \u2124) (j.val : \u2124)) : (A.foundationRightEvaluation Q j).obj M \u2192\u2097[k] (A.foundationRightEvaluation Q i).obj M"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_add",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_add (M : A.FoundationRightModule Q) {i j : Q.Vertex} (f g : A.Hom (i.val : \u2124) (j.val : \u2124)) : A.foundationRightComponentAction Q M (f+g)= A.foundationRightComponentAction Q M f+A.foundationRightComponentAction Q M g"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_smul",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_smul (M : A.FoundationRightModule Q) {i j : Q.Vertex} (c : k) (f : A.Hom (i.val : \u2124) (j.val : \u2124)) : A.foundationRightComponentAction Q M (c \u2022 f)=c \u2022 A.foundationRightComponentAction Q M f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_id",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_id (M : A.FoundationRightModule Q) (i : Q.Vertex) : A.foundationRightComponentAction Q M (A.id (i.val : \u2124))=LinearMap.id"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_comp",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_comp (M : A.FoundationRightModule Q) {i j l : Q.Vertex} (f : A.Hom (i.val : \u2124) (j.val : \u2124)) (g : A.Hom (j.val : \u2124) (l.val : \u2124)) : A.foundationRightComponentAction Q M (A.comp g f)= (A.foundationRightComponentAction Q M f).comp (A.foundationRightComponentAction Q M g)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentRepresentation",
+          "kind": "def",
+          "full_header": "def foundationRightComponentRepresentation (M : A.FoundationRightModule Q) (i j : Q.Vertex) : A.Hom (i.val : \u2124) (j.val : \u2124) \u2192\u2097[k] ((A.foundationRightEvaluation Q j).obj M \u2192\u2097[k] (A.foundationRightEvaluation Q i).obj M)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_sources": false,
+  "proof_change_note": "TotalComponentActions uses declaration-scoped backward implicit transparency compatibility on its eight existing proofs, without changing any proof body or canonical action. ZAlgebraFixedRepresentables uses the same scoped compatibility for its unchanged actual representable isomorphism proof. FoundationComponentActions keeps the original ambient foundationActionArrow and wraps it only at native FoundationRightObj functor.map boundaries; addition/scalar/composition act on genuine native wrapped morphisms, with explicit native X/Y endpoints on both addition operands and on scalar multiplication. Every public header and ambient universe/variable/include command matches baseline and task-entry.",
+  "prior_failed_checks_preserved": [
+    "work/lean-upgrade/tor-migration-foundation-component-actions-1.json",
+    "work/lean-upgrade/tor-migration-foundation-component-actions-2.json"
+  ],
+  "supersedes_source_only_status_for": "ASGinzburg/FoundationComponentActions.lean",
+  "prior_source_only_manifest_preserved": "work/lean-upgrade/tor-foundation-wrapper-source-only-pending-1.json",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

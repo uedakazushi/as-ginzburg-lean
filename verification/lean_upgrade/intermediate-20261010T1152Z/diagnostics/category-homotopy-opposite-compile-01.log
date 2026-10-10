@@ -1,0 +1,63 @@
+ASGinzburg/HomotopyOpposite.lean:39:4: error: Type mismatch: After simplification, term
+  H
+ has type
+  @Eq (unop (Y.X i) ⟶ unop (X.X i)) (f.f i).unop
+    ((g.f i).unop +
+      ((h.hom (c.symm.next i) i).unop ≫ (X.d i (c.symm.next i)).unop +
+        (Y.d (c.symm.prev i) i).unop ≫ (h.hom i (c.symm.prev i)).unop))
+but is expected to have type
+  @Eq (unop (Y.X i) ⟶ unop (X.X i)) (f.f i).unop
+    ((g.f i).unop +
+      ((h.hom (c.prev i) i).unop ≫ (X.d i (c.prev i)).unop + (Y.d (c.next i) i).unop ≫ (h.hom i (c.next i)).unop))
+ASGinzburg/HomotopyOpposite.lean:74:6: error: Type mismatch: After simplification, term
+  H'
+ has type
+  @Eq
+    ((HomotopyCategory.quotient C c).obj (unop ((opInverse C c).obj ((opFunctor C c).obj (op Y.1.as)))) ⟶
+      (HomotopyCategory.quotient C c).obj X.1.as)
+    ((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op Y.1.as)).unop ≫
+      (HomotopyCategory.quotient C c).map g)
+    ((HomotopyCategory.quotient C c).map
+      ((opUnitIso C c).hom.app (op X.1.as) ≫ Quiver.Hom.op { f := fun i => (g.f i).op.unop, comm' := ⋯ }).unop)
+but is expected to have type
+  @Eq
+    (unop
+        (((CategoryTheory.Quotient.lift (homotopic C c) (opFunctor C c ⋙ HomotopyCategory.quotient Cᵒᵖ c.symm).rightOp
+                  ⋯).leftOp ⋙
+              CategoryTheory.Quotient.lift (homotopic Cᵒᵖ c.symm) (opInverse C c ⋙ (HomotopyCategory.quotient C c).op)
+                ⋯).obj
+          Y) ⟶
+      unop X)
+    ((𝟭 (HomotopyCategory C c)ᵒᵖ).map ((HomotopyCategory.quotient C c).map g).op ≫
+        ((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op (unop Y).as)).unop).op).unop
+    (((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op (unop X).as)).unop).op ≫
+        ((CategoryTheory.Quotient.lift (homotopic C c) (opFunctor C c ⋙ HomotopyCategory.quotient Cᵒᵖ c.symm).rightOp
+                  ⋯).leftOp ⋙
+              CategoryTheory.Quotient.lift (homotopic Cᵒᵖ c.symm) (opInverse C c ⋙ (HomotopyCategory.quotient C c).op)
+                ⋯).map
+          ((HomotopyCategory.quotient C c).map g).op).unop
+ASGinzburg/HomotopyOpposite.lean:87:6: error: Type mismatch: After simplification, term
+  H'
+ has type
+  @Eq
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).obj ((opFunctor C c).obj ((opInverse C c).obj X.as)) ⟶
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).obj Y.as)
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map
+        ((opFunctor C c).map (Quiver.Hom.op { f := fun i => (g.f i).unop, comm' := ⋯ })) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app Y.as))
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app X.as) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map g)
+but is expected to have type
+  @Eq
+    ((CategoryTheory.Quotient.lift (homotopic Cᵒᵖ c.symm) (opInverse C c ⋙ (HomotopyCategory.quotient C c).op) ⋯ ⋙
+            (CategoryTheory.Quotient.lift (homotopic C c) (opFunctor C c ⋙ HomotopyCategory.quotient Cᵒᵖ c.symm).rightOp
+                ⋯).leftOp).obj
+        X ⟶
+      Y)
+    ((CategoryTheory.Quotient.lift (homotopic Cᵒᵖ c.symm) (opInverse C c ⋙ (HomotopyCategory.quotient C c).op) ⋯ ⋙
+            (CategoryTheory.Quotient.lift (homotopic C c) (opFunctor C c ⋙ HomotopyCategory.quotient Cᵒᵖ c.symm).rightOp
+                ⋯).leftOp).map
+        ((HomotopyCategory.quotient Cᵒᵖ c.symm).map g) ≫
+      (HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app Y.as))
+    ((HomotopyCategory.quotient Cᵒᵖ c.symm).map ((opCounitIso C c).hom.app X.as) ≫
+      (𝟭 (HomotopyCategory Cᵒᵖ c.symm)).map ((HomotopyCategory.quotient Cᵒᵖ c.symm).map g))

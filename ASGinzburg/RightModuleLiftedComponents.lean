@@ -20,7 +20,7 @@ theorem rightModuleHom_ext_lift {M N : A.RightModule} {f g : M ⟶ N}
     rw [← Q.heightEquiv_apply]
     exact Q.heightEquiv.apply_symm_apply _
   have he := h x
-  change f.app (Opposite.op ⟨Q.height x⟩)=g.app (Opposite.op ⟨Q.height x⟩) at he
+  change f.hom.app (Opposite.op ⟨Q.height x⟩)=g.hom.app (Opposite.op ⟨Q.height x⟩) at he
   rw [hx] at he
   exact he
 

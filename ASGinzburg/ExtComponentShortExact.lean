@@ -7,6 +7,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 
 theorem rightModuleExtPrecompLeft_zero {S : ShortComplex A.RightModule} (n : ℕ) :
     A.rightModuleExtPrecompLeft S.g n ≫ A.rightModuleExtPrecompLeft S.f n = 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext
@@ -60,6 +61,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 
 theorem leftModuleExtPrecompRight_zero {S : ShortComplex A.LeftModule} (n : ℕ) :
     A.leftModuleExtPrecompRight S.g n ≫ A.leftModuleExtPrecompRight S.f n = 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext

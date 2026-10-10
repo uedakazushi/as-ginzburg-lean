@@ -43,7 +43,7 @@ theorem ginzburgNativeHom_lift_three_off_diagonal
   rw [show Q.ginzburgLoopDualProjectiveMap k φ v ≫
       (Q.ginzburgDualADualOppositeComponentEquiv k φ v l).symm x=
       (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-        (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩)
+        (Q.ginzburgLoopDualProjectiveMap k φ v)).hom.app ⟨Q.height l⟩)
         ((Q.ginzburgDualADualOppositeComponentEquiv k φ v l).symm x) from rfl,
     Q.ginzburgLoopDualProjectiveMap_adual_opposite,LinearEquiv.apply_symm_apply]
   exact hx

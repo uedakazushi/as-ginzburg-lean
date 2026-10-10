@@ -31,34 +31,17 @@ noncomputable def envelopingBalancedTensorHomMap (f : X →ₗ[Rᵐᵒᵖ] Y) :
     map_smul' := fun t g => by
       apply balancedTensorHom_ext k R M Y
       intro x
-      refine TensorProduct.induction_on t ?_ ?_ ?_
-      · change f (((0 : AlgebraEnvelopingRing k R) • g) x)=
-          ((0 : AlgebraEnvelopingRing k R) • (show BalancedTensorHom k R M Y from
-            fk.comp (balancedTensorHomLinearEquiv k R M X g))) x
-        have hX : (0 : AlgebraEnvelopingRing k R) • g=0 :=
-          (envelopingBalancedTensorHomModule k R M X).zero_smul g
-        have hY : (0 : AlgebraEnvelopingRing k R) •
-            (show BalancedTensorHom k R M Y from fk.comp
-              (balancedTensorHomLinearEquiv k R M X g))=0 :=
-          (envelopingBalancedTensorHomModule k R M Y).zero_smul _
-        have hx := congrArg (fun h : BalancedTensorHom k R M X => h x) hX
-        have hy := congrArg (fun h : BalancedTensorHom k R M Y => h x) hY
-        exact (congrArg f hx).trans (f.map_zero.trans hy.symm)
+      let h : BalancedTensorHom k R M Y :=
+        fk.comp (balancedTensorHomLinearEquiv k R M X g)
+      refine TensorProduct.inductionOn (motive := fun t =>
+        f ((t • g) x) = (t • h) x) t ?_ ?_
       · intro a b
         change f (((a ⊗ₜ[k] b) • g) x)=
-          ((a ⊗ₜ[k] b) • (show BalancedTensorHom k R M Y from
-            fk.comp (balancedTensorHomLinearEquiv k R M X g))) x
+          ((a ⊗ₜ[k] b) • h) x
         rw [envelopingBalancedTensorHomModule_tmul_apply,
           envelopingBalancedTensorHomModule_tmul_apply]
         exact f.map_smul b (g (MulOpposite.op a • x))
       · intro a b ha hb
-        change f ((a • g) x)=(a • (show BalancedTensorHom k R M Y from
-          fk.comp (balancedTensorHomLinearEquiv k R M X g))) x at ha
-        change f ((b • g) x)=(b • (show BalancedTensorHom k R M Y from
-          fk.comp (balancedTensorHomLinearEquiv k R M X g))) x at hb
-        change f (((a+b) • g) x)=
-          ((a+b) • (show BalancedTensorHom k R M Y from
-            fk.comp (balancedTensorHomLinearEquiv k R M X g))) x
         simp only [add_smul,balancedTensorHom_add_apply,f.map_add,ha,hb]}
 
 theorem envelopingBalancedTensorHomMap_apply (f : X →ₗ[Rᵐᵒᵖ] Y)

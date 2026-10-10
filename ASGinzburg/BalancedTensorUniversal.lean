@@ -14,7 +14,8 @@ theorem balancedTensorSpace_induction (p : BalancedTensorSpace k R M N → Prop)
     (hadd : ∀ a b,p a → p b → p (a+b)) (z : BalancedTensorSpace k R M N) : p z := by
   refine Submodule.Quotient.induction_on _ z ?_
   intro t
-  refine TensorProduct.induction_on t ?_ ?_ ?_
+  refine TensorProduct.induction_on (motive := fun t => p (Submodule.Quotient.mk t))
+    t ?_ ?_ ?_
   · exact hzero
   · exact htmul
   · intro a b ha hb

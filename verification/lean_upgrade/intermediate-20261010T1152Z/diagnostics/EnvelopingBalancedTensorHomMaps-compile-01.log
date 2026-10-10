@@ -1,0 +1,62 @@
+ASGinzburg/EnvelopingBalancedTensorHomMaps.lean:44:6: error: unsolved goals
+case refine_2
+k : Type u
+inst✝¹⁴ : Field k
+R : Type v
+inst✝¹³ : Ring R
+inst✝¹² : Algebra k R
+M : Type w
+inst✝¹¹ : AddCommGroup M
+inst✝¹⁰ : Module k M
+inst✝⁹ : Module Rᵐᵒᵖ M
+inst✝⁸ : IsScalarTower k Rᵐᵒᵖ M
+X : Type z
+inst✝⁷ : AddCommGroup X
+inst✝⁶ : Module k X
+inst✝⁵ : Module Rᵐᵒᵖ X
+inst✝⁴ : IsScalarTower k Rᵐᵒᵖ X
+Y : Type z'
+inst✝³ : AddCommGroup Y
+inst✝² : Module k Y
+inst✝¹ : Module Rᵐᵒᵖ Y
+inst✝ : IsScalarTower k Rᵐᵒᵖ Y
+f : X →ₗ[Rᵐᵒᵖ] Y
+this✝ : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) := envelopingBalancedTensorHomModule k R M X
+this : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M Y) := envelopingBalancedTensorHomModule k R M Y
+fk : X →ₗ[k] Y := ↑k f
+t : AlgebraEnvelopingRing k R
+g : BalancedTensorHom k R M X
+x : M
+a b : R ⊗[k] Rᵐᵒᵖ
+ha :
+  f
+      ((fun x =>
+          (have this := a • g;
+            this)
+            x)
+        x) =
+    (fun x =>
+        (have this :=
+            a •
+              have this := fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g;
+              this;
+          this)
+          x)
+      x
+hb :
+  f
+      ((fun x =>
+          (have this := b • g;
+            this)
+            x)
+        x) =
+    (fun x =>
+        (have this :=
+            b •
+              have this := fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g;
+              this;
+          this)
+          x)
+      x
+⊢ (a • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g) x + (b • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g) x =
+    ((a + b) • fk ∘ₗ (balancedTensorHomLinearEquiv k R M X) g) x

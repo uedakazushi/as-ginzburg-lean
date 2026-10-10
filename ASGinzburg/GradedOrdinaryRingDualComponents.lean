@@ -53,9 +53,10 @@ theorem ringDualComponentLinear_map_smul
       have h := homogeneousLinearMap_shifted_component k R R G G
         (LinearMap.mulLeft k (r : R)) p
         (fun t y hy => by
-          simpa only [add_comm] using hG p t r r.property y hy)
+          simpa only [LinearMap.mulLeft_apply, add_comm] using hG p t r r.property y hy)
         (s + q) (f x)
-      simpa only [LinearMap.mulLeft_apply, add_assoc, add_comm, add_left_comm] using h.symm
+      simpa only [LinearMap.mulLeft_apply, smul_eq_mul, add_assoc, add_comm, add_left_comm]
+        using h.symm
     | add x y hx hy => rw [smul_add, map_add, map_add, mul_add, hx, hy]
   | add r s hr hs => rw [add_smul, map_add, add_mul, hr, hs]
 

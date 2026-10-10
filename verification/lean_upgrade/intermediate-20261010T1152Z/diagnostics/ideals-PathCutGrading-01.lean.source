@@ -1,0 +1,77 @@
+import ASGinzburg.GinzburgCutProjections
+import ASGinzburg.GinzburgPathFiniteness
+
+/-! The original path cut grading agrees with the actual degree zero
+Ginzburg grading, including its concrete homogeneous projections. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+universe u
+variable (k : Type u) [Field k]
+
+def pathCutComponent (u v : Q.Vertex) (c : ℤ) : Submodule k (Q.PathComponent k u v) :=
+  Finsupp.supported k k {p | (p.cutDegree:ℤ)=c}
+
+noncomputable def pathCutProjection (u v : Q.Vertex) (c : ℤ) :
+    Q.PathComponent k u v →ₗ[k] Q.PathComponent k u v :=
+  Finsupp.linearCombination k (fun p => if (p.cutDegree:ℤ)=c then Finsupp.single p 1 else 0)
+
+@[simp] theorem pathCutProjection_single {u v : Q.Vertex} (c : ℤ) (p : Q.Path u v) (a : k) :
+    Q.pathCutProjection k u v c (Finsupp.single p a)=
+      if (p.cutDegree:ℤ)=c then Finsupp.single p a else 0 := by
+  classical
+  by_cases h : (p.cutDegree:ℤ)=c <;> simp [pathCutProjection,h]
+
+theorem originalGinzburgLinearMap_cutProjection {u v : Q.Vertex} (c : ℤ)
+    (f : Q.PathComponent k u v) :
+    Q.originalGinzburgLinearMap k u v (Q.pathCutProjection k u v c f)=
+      Q.ginzburgCutProjection k u v c (Q.originalGinzburgLinearMap k u v f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simp [map_add,hf,hg]
+  | single p a =>
+    rw [pathCutProjection_single,originalGinzburgLinearMap_single,
+      ginzburgCutProjection_single,p.originalGinzburg_cutDegree Q]
+    split_ifs <;> simp
+
+theorem pathCutProjection_mem {u v : Q.Vertex} (c : ℤ) (f : Q.PathComponent k u v) :
+    Q.pathCutProjection k u v c f ∈ Q.pathCutComponent k u v c := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg => simpa only [map_add] using Submodule.add_mem _ hf hg
+  | single p a =>
+    rw [pathCutProjection_single]
+    split_ifs with hp
+    · exact Finsupp.single_mem_supported _ _ hp
+    · exact Submodule.zero_mem _
+
+theorem originalGinzburgLinearMap_cut_iff {u v : Q.Vertex} (c : ℤ)
+    (f : Q.PathComponent k u v) :
+    Q.originalGinzburgLinearMap k u v f ∈ Q.ginzburgCutComponent k u v c ↔
+      f ∈ Q.pathCutComponent k u v c := by
+  constructor
+  · intro hf
+    have heq : Q.pathCutProjection k u v c f=f := by
+      apply Q.originalGinzburgLinearMap_injective k u v
+      rw [Q.originalGinzburgLinearMap_cutProjection,
+        Q.ginzburgCutProjection_on_cut k c c hf,if_pos rfl]
+    rw [←heq]
+    exact Q.pathCutProjection_mem k c f
+  · exact Q.originalGinzburgLinearMap_cut k
+
+instance pathCutComponent_finite (u v : Q.Vertex) (c : ℤ) :
+    Module.Finite k (Q.pathCutComponent k u v c) := by
+  letI : Module.Finite k (Q.ginzburgCutComponent k u v c) :=
+    Q.ginzburgCutComponent_finite k u v c
+  let f : Q.pathCutComponent k u v c →ₗ[k] Q.ginzburgCutComponent k u v c :=
+    ((Q.originalGinzburgLinearMap k u v).comp (Q.pathCutComponent k u v c).subtype).codRestrict
+      _ (fun x => Q.originalGinzburgLinearMap_cut k x.property)
+  apply Module.Finite.of_injective f
+  intro x y h
+  apply Subtype.ext
+  apply Q.originalGinzburgLinearMap_injective k u v
+  exact congrArg (fun x : Q.ginzburgCutComponent k u v c => x.val) h
+
+end ASGinzburg.CutQuiver

@@ -31,6 +31,6 @@ noncomputable def foundationRightTotalRecoveryIso (M : A.FoundationRightModule Q
       apply ModuleCat.hom_ext
       apply LinearMap.ext
       intro x
-      exact A.foundationRightTotalComponentEquiv_action Q M a.unop x))
+      exact A.foundationRightTotalComponentEquiv_action Q M a.hom.unop x))
 
 end ASGinzburg.ZAlgebra

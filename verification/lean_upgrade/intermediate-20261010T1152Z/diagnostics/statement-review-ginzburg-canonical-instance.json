@@ -1,0 +1,78 @@
+{
+  "reviewed_at_utc": "2026-10-10T11:16:19.004431+00:00",
+  "review_mode": "independent_read_only_focused_semantic_review_no_compiler_or_build",
+  "final_verification_freeze": false,
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "source_path": "ASGinzburg/GinzburgRegularity.lean",
+  "source_sha256": "238e2750b244a192ef94f2c8cc075a96e4828cdd4b2ea402c8e11fba60f23549",
+  "baseline_source_sha256": "ee519c19325133ff044615da242fd3d1177dafd92b87259498bec4206221ffa2",
+  "named_declarations_and_kinds_preserved": true,
+  "named_declaration_count": 7,
+  "named_declarations_and_kinds": {
+    "ASGinzburg.CutQuiver.ginzburgTotalCochainComplex": "def",
+    "ASGinzburg.CutQuiver.ginzburgTotalCochainComplexTermIso": "def",
+    "ASGinzburg.CutQuiver.ginzburgTotalHomology": "def",
+    "ASGinzburg.CutQuiver.ginzburgTotalHomologyComponentIso": "def",
+    "ASGinzburg.CutQuiver.ginzburgTotalHomology_isZero_iff": "theorem",
+    "ASGinzburg.CutQuiver.GinzburgRegular": "def",
+    "ASGinzburg.CutQuiver.ginzburgRegular_iff_components": "theorem"
+  },
+  "universe_variables_includes_omits_before": [
+    "universe u",
+    "variable (Q : CutQuiver) (k : Type u) [Field k]"
+  ],
+  "universe_variables_includes_omits_after": [
+    "universe u",
+    "variable (Q : CutQuiver) (k : Type u) [Field k]"
+  ],
+  "all_source_changes_are_one_canonical_instance_header_normalization": true,
+  "all_declaration_bodies_unchanged": true,
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "new_or_narrowed_universe_parameters_found": [],
+  "new_declarations_found": [],
+  "changed_headers": [
+    {
+      "name": "ASGinzburg.CutQuiver.ginzburgTotalCochainComplexTermIso",
+      "kind": "def",
+      "before": "noncomputable def ginzburgTotalCochainComplexTermIso (φ : Q.Potential k) (q : ℤ) : (Q.ginzburgTotalCochainComplex k φ).X q ≅ ModuleCat.of k (⨁ uv : Q.Vertex×Q.Vertex, Q.ginzburgCohomologicalComponent k uv.1 uv.2 q)",
+      "after": "noncomputable def ginzburgTotalCochainComplexTermIso (φ : Q.Potential k) (q : ℤ) : (Q.ginzburgTotalCochainComplex k φ).X q ≅ @ModuleCat.of k _ (⨁ uv : Q.Vertex×Q.Vertex, Q.ginzburgCohomologicalComponent k uv.1 uv.2 q) (DFinsupp.addCommGroup (β := fun uv : Q.Vertex×Q.Vertex => Q.ginzburgCohomologicalComponent k uv.1 uv.2 q)) _",
+      "classification": "same_modulecat_object_explicit_canonical_dfinsupp_add_comm_group"
+    }
+  ],
+  "approved_as_potential_53rd_migration_header": true,
+  "mathematical_equivalence": {
+    "original_and_current_carrier": "The identical direct sum over Q.Vertex x Q.Vertex of Q.ginzburgCohomologicalComponent k uv.1 uv.2 q; all endpoint indices and cohomological degree q are retained.",
+    "additive_group": "DirectSum is an implicit_reducible definition of DFinsupp. Its canonical AddCommGroup instance is inferInstanceAs AddCommGroup of that same DFinsupp; DFinsupp.addCommGroup is constructed from pointwise zero, add, neg, sub, nsmul and zsmul. The explicit beta is precisely the original direct-sum component family.",
+    "scalar_module": "DirectSum SMul and Module delegate to the same DFinsupp scalar/module instances. The final ModuleCat.of Module argument remains inferred from the original Field k and component modules; no scalar action is changed.",
+    "ModuleCat_object": "ModuleCat.of packages exactly the carrier, AddCommGroup and Module structures. The explicit @ merely supplies the canonical additive group and existing inferred Ring/Module arguments; the original ModuleCat.{u} k universe and family are retained.",
+    "isomorphism": "The original PreservesCoproduct.iso followed by ModuleCat.coprodIsoDirectSum body is byte-for-byte unchanged. It still identifies term q of the same coproduct cochain complex with its canonical direct sum.",
+    "regularity": "All homology objects, component isomorphism, negative-homology vanishing definition and regularity equivalence statements/bodies are unchanged."
+  },
+  "actual_mathlib_source_references": {
+    "ModuleCat.of": ".lake/packages/mathlib/Mathlib/Algebra/Category/ModuleCat/Basic.lean:76",
+    "DirectSum_definition": ".lake/packages/mathlib/Mathlib/Algebra/DirectSum/Basic.lean:38",
+    "DirectSum_additive_group": ".lake/packages/mathlib/Mathlib/Algebra/DirectSum/Basic.lean:87",
+    "DFinsupp.addCommGroup": ".lake/packages/mathlib/Mathlib/Data/DFinsupp/Defs.lean:274",
+    "DirectSum_module": ".lake/packages/mathlib/Mathlib/Algebra/DirectSum/Module.lean:42",
+    "ModuleCat.coprodIsoDirectSum": ".lake/packages/mathlib/Mathlib/Algebra/Category/ModuleCat/Products.lean:99"
+  },
+  "review_tool_support": "The work-only independent_semantic_review.py now narrowly recognizes this exact carrier/beta group normalization as same_modulecat_object_explicit_canonical_dfinsupp_add_comm_group. It does not require the previous 52 count to remain fixed and does not change the public audit parser.",
+  "supplemental_RightResolutionDuality": {
+    "source_sha256": "6127d793439cb0b4722a4b5762d76682b26ca1edec30d529231f5528afdc9f28",
+    "comparison_snapshot": "work/lean-upgrade/statement-review-wave11-source-start.json",
+    "universe_and_ambient_context_preserved": true,
+    "named_declarations_and_headers_preserved": true,
+    "semantic_findings": [
+      "First namespace local irreducibility and scoped transparency options preserve the original Ext top projection formula and epi/composition-zero/exactness assertions. dsimp only exposes that same formula without unfolding the dual objects.",
+      "The new local hpi equation is rfl for the original projection, with original Ext connecting map T.g and original dimension-shift isomorphism e.hom. Its commutative square follows by cancellation e.hom followed by e.inv; the original ShortComplex iso components and Ext exactness theorem are retained.",
+      "Second namespace dual-complex evaluation iso uses the original Hom term family fun j => ModuleCat.of k (P.complex.X j to A.representable i), original homDifferential and index n for the same n to n+1 cochain differential. Its pointwise identity iso and rfl final proof remain unchanged."
+    ],
+    "compile_status": "Pending parent global checks; static advisory does not certify compilation."
+  },
+  "concrete_semantic_concerns": [],
+  "limitations": [
+    "Focused static review does not certify compilation or axiom-audit success.",
+    "This is a provisional single-file snapshot with a supplemental RightResolutionDuality observation; final manifest waits for explicit global-zero source freeze."
+  ]
+}

@@ -1,0 +1,53 @@
+ASGinzburg/FoundationRepresentableYoneda.lean:24:26: error: Type mismatch
+  InducedCategory.homMk (A.foundationActionArrow Q Y i f) + InducedCategory.homMk (A.foundationActionArrow Q Y i g)
+has type
+  { index := ↑↑i } ⟶ { index := ↑↑Y }
+but is expected to have type
+  i ⟶ ?m.99
+ASGinzburg/FoundationRepresentableYoneda.lean:30:26: error: Type mismatch
+  r • InducedCategory.homMk (A.foundationActionArrow Q Y i f)
+has type
+  { index := ↑↑i } ⟶ { index := ↑↑Y }
+but is expected to have type
+  i ⟶ ?m.137
+ASGinzburg/FoundationRepresentableYoneda.lean:39:73: error: Type mismatch
+  rfl
+has type
+  ?m.290 = ?m.290
+but is expected to have type
+  InducedCategory.homMk (A.foundationActionArrow Q Z i ((A.comp g) f.hom.unop)) =
+    InducedCategory.homMk (A.foundationActionArrow Q Y i g) ≫ ?m.287
+ASGinzburg/FoundationRepresentableYoneda.lean:60:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (A.comp (A.id ?m.271)) ?f
+in the target expression
+  (ConcreteCategory.hom (f.hom.app Y)) ((A.comp (A.id ↑↑i)) g) =
+    (ConcreteCategory.hom (M.obj.map (InducedCategory.homMk (A.foundationActionArrow Q Y i g))))
+      ((ConcreteCategory.hom (f.hom.app i)) (A.id ↑↑i))
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+i : Q.Vertex
+M : A.FoundationRightModule Q
+f : A.foundationRepresentable Q i ⟶ M
+Y : A.FoundationRightObj Q
+g : ↑((A.foundationRepresentable Q i).obj.obj Y)
+h :
+  (ConcreteCategory.hom (f.hom.app Y)) ((A.comp (A.id ↑↑i)) g) =
+    (ConcreteCategory.hom (M.obj.map (InducedCategory.homMk (A.foundationActionArrow Q Y i g))))
+      ((ConcreteCategory.hom (f.hom.app i)) (A.id ↑↑i))
+⊢ (ConcreteCategory.hom (M.obj.map (InducedCategory.homMk (A.foundationActionArrow Q Y i g))))
+      ((ConcreteCategory.hom (f.hom.app i)) (A.id ↑↑i)) =
+    (ConcreteCategory.hom (f.hom.app Y)) g
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    g
+  has type
+    ↑((A.foundationRepresentable Q i).obj.obj Y)
+  but is expected to have type
+    A.Hom (unop ((A.foundationRightInclusion Q).obj Y)).index ↑↑i
+  in the application
+    (A.comp (A.id ↑↑i)) g

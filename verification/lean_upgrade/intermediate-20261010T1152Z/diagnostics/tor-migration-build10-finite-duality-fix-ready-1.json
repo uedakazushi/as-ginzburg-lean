@@ -1,0 +1,110 @@
+{
+  "recorded_at_utc": "2026-10-10T10:41:06.808724+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "actual default-heartbeat Lean4.34.1 serial no-output direct check0; full build/audit not claimed",
+  "source_count": 1,
+  "declaration_count": 20,
+  "source": "ASGinzburg/FiniteProjectiveDuality.lean",
+  "source_sha256": "44ff80bcf15cd4630d0628e207851a14d1dad616e389476f440753ff4a8b628e",
+  "task_entry_snapshot": "work/lean-upgrade/tor-build10-entry-FiniteProjectiveDuality.lean.source",
+  "check_record": "work/lean-upgrade/tor-migration-finite-projective-duality-1.json",
+  "actual_exit_code": 0,
+  "elapsed_seconds": 34.34840309699939,
+  "heartbeat_override": false,
+  "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+  "task_entry_entire_source_preserved_except_split_import_and_local_attribute_section": true,
+  "declarations": [
+    {
+      "name": "ASGinzburg.projective_of_retract",
+      "kind": "theorem"
+    },
+    {
+      "name": "ASGinzburg.coproduct_projective",
+      "kind": "theorem"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteSumADualIso",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteSumADualIso",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_dual",
+      "kind": "theorem"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_dual",
+      "kind": "theorem"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.RightFiniteProjective",
+      "kind": "abbrev"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.LeftFiniteProjective",
+      "kind": "abbrev"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveProperty_projective",
+      "kind": "theorem"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteProjectiveProperty_projective",
+      "kind": "theorem"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveProjective",
+      "kind": "instance"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteProjectiveProjective",
+      "kind": "instance"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveADualFunctor",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteProjectiveADualFunctor",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveADualFunctorAdditive",
+      "kind": "instance"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteProjectiveADualFunctorAdditive",
+      "kind": "instance"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveBidualIso",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.leftFiniteProjectiveBidualIso",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightFiniteProjectiveBidualUnit",
+      "kind": "def"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.finiteProjectiveADualEquivalence",
+      "kind": "def"
+    }
+  ],
+  "warning_lines": [
+    "ASGinzburg/FiniteProjectiveDuality.lean:20:15: warning: `CategoryTheory.Limits.Sigma.\u03b9_desc_assoc` has been deprecated: Use `CategoryTheory.Limits.Sigma.\u03b9_comp_desc_assoc` instead",
+    "ASGinzburg/FiniteProjectiveDuality.lean:73:2: warning: Try this: ",
+    "ASGinzburg/FiniteProjectiveDuality.lean:79:2: warning: Try this: "
+  ],
+  "proof_change_note": "Add split mathlib Shapes.Opposites.Products import providing the same opCoproductIsoProduct declaration. Wrap only two existing bidual NatIso definitions in section/end with local irreducible rightModuleADual/leftModuleADual attribute, avoiding nested object implementation expansion. All other task-entry text exact, including proof bodies/definitions. Baseline declaration headers and ambient universe/variable commands match; three pre-existing warnings remain.",
+  "git_diff_check_exit_code": 0,
+  "no_active_compilers": true,
+  "lake_build_executed": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false
+}

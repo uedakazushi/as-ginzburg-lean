@@ -1,5 +1,11 @@
 # AS–Ginzburg Lean: 継続作業の規約
 
+2026-10-10の最新ユーザー指示：最新安定版 Lean 4.34.1 へ移行し、検証済み差分をmainへ直接pushする。
+今回の作業ではGitHub Actionsを使わず、全体ビルドと全宣言公理監査を作業環境で実行する。
+追加指示：途中段階でも要所でコミットし、mainへ直接通常pushする。
+中間保存では、成功した個別検査、未検査の修正、残るコンパイルエラーを明記し、
+全体検証未完了の保存点を検証済みと扱わない。コミットには`[skip ci]`を付ける。
+
 2026-10-09のユーザー指示：GitHub Actionsの予算節約のため、GitHubでのビルドは最小限にする。
 通常の検証済みmain保存コミットには`[skip ci]`を付ける。Leanビルド・全宣言公理監査・検証証拠保存は作業環境で継続する。
 GitHub Actionsの再実行・新規実行は通常の保存では開始しない。
@@ -14,12 +20,15 @@ GitHub Actionsの再実行・新規実行は通常の保存では開始しない
 
 ## 固定環境と検証
 
-- Lean: `leanprover/lean4:v4.24.0`。
-- mathlib: `f897ebcf72cd16f89ab4577d0c826cd14afaafc7`。
+- Lean: `leanprover/lean4:v4.34.1`。
+- mathlib: `d13f23b723b8a846827a245b89c10fc7d3f11612`。
 - `lake-manifest.json`の全依存コミットを保つ。通常の再現に`lake update`を使わない。
+- 2026-10-10のユーザー指示によるLean 4.34.1移行では、対応するmathlibと依存lockを更新する。
+  旧環境の実行記録と生成物は保存し、新環境で再ビルド・再監査する。旧成功記録を新環境の成功判定に使わない。
 - Python 3、Git、bash、elanまたは固定Leanの配布物を使う。
 - 初回は`bash scripts/check.sh --prepare-cache`。依存キャッシュがあれば`bash scripts/check.sh`。
-- 固定LeanがPATH外なら`AS_GINZBURG_LEAN_ROOT=/path/to/lean-4.24.0-linux bash scripts/check.sh --prepare-cache`。
+  キャッシュを取得できない環境では、同じ固定依存をソースからビルドし、`--prepare-cache`なしで検証する。
+- 固定LeanがPATH外なら`AS_GINZBURG_LEAN_ROOT=/path/to/lean-4.34.1-linux bash scripts/check.sh --prepare-cache`。
 - スクリプトは`bash`からも実行でき、`check.sh`と`with_lean.sh`の実行権限をGitに記録する。
 - 回帰テストだけなら`python3 -m unittest discover -s tests -v`。
 - 毎回新しい`verification/runs/<run-id>/`を作り、実行環境、宣言一覧、`lake build`、

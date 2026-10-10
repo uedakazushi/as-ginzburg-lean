@@ -21,6 +21,7 @@ noncomputable instance foundationRightTotalFunctorFaithful :
     (A.foundationRightTotalFunctor Q).Faithful where
   map_injective := by
     intro M N f g h
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext i
     apply ModuleCat.hom_ext

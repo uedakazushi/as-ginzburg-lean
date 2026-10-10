@@ -1,0 +1,12 @@
+ASGinzburg/HomotopyDegreeReverse.lean:19:4: error: 'change' tactic failed, pattern
+  f.f (-i) = X.d (-i) (-(i - 1)) ≫ h.hom (-(i - 1)) (-i) + h.hom (-i) (-(i + 1)) ≫ Y.d (-(i + 1)) (-i) + g.f (-i)
+is not definitionally equal to target
+  ((reverseCochainFunctor C).map f).f i =
+    (((dNext i) fun i j => h.hom (-i) (-j)) + (prevD i) fun i j => h.hom (-i) (-j)) +
+      ((reverseCochainFunctor C).map g).f i
+ASGinzburg/HomotopyDegreeReverse.lean:36:4: error: 'change' tactic failed, pattern
+  f.f (-i) = X.d (-i) (-(i + 1)) ≫ h.hom (-(i + 1)) (-i) + h.hom (-i) (-(i - 1)) ≫ Y.d (-(i - 1)) (-i) + g.f (-i)
+is not definitionally equal to target
+  ((reverseChainFunctor C).map f).f i =
+    (((dNext i) fun i j => h.hom (-i) (-j)) + (prevD i) fun i j => h.hom (-i) (-j)) +
+      ((reverseChainFunctor C).map g).f i

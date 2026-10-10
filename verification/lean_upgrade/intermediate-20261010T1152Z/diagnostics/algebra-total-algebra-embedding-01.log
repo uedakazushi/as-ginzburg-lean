@@ -1,0 +1,166 @@
+ASGinzburg/TotalAlgebraEmbedding.lean:41:30: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ≫ (?g + ?g')
+in the target expression
+  Sigma.ι (fun l => A.representable l) i ≫
+      (f ≫ A.rightRegularCoproductProjection j + g ≫ A.rightRegularCoproductProjection j) =
+    Sigma.ι (fun l => A.representable l) i ≫ f ≫ A.rightRegularCoproductProjection j +
+      Sigma.ι (fun l => A.representable l) i ≫ g ≫ A.rightRegularCoproductProjection j
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j : ℤ
+f g : End A.rightRegularCoproduct
+⊢ Sigma.ι (fun l => A.representable l) i ≫
+      (f ≫ A.rightRegularCoproductProjection j + g ≫ A.rightRegularCoproductProjection j) =
+    Sigma.ι (fun l => A.representable l) i ≫ f ≫ A.rightRegularCoproductProjection j +
+      Sigma.ι (fun l => A.representable l) i ≫ g ≫ A.rightRegularCoproductProjection j
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Sigma.ι (fun l => A.representable l) i
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (∐ fun l => A.representable l)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) A.rightRegularCoproduct
+  in the application
+    CategoryStruct.comp (Sigma.ι (fun l => A.representable l) i)
+ASGinzburg/TotalAlgebraEmbedding.lean:44:26: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ≫ (?r • ?g)
+in the target expression
+  Sigma.ι (fun l => A.representable l) i ≫ (r • f ≫ A.rightRegularCoproductProjection j) =
+    (RingHom.id k) r • Sigma.ι (fun l => A.representable l) i ≫ f ≫ A.rightRegularCoproductProjection j
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j : ℤ
+r : k
+f : End A.rightRegularCoproduct
+⊢ Sigma.ι (fun l => A.representable l) i ≫ (r • f ≫ A.rightRegularCoproductProjection j) =
+    (RingHom.id k) r • Sigma.ι (fun l => A.representable l) i ≫ f ≫ A.rightRegularCoproductProjection j
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Sigma.ι (fun l => A.representable l) i
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (∐ fun l => A.representable l)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) A.rightRegularCoproduct
+  in the application
+    CategoryStruct.comp (Sigma.ι (fun l => A.representable l) i)
+ASGinzburg/TotalAlgebraEmbedding.lean:51:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Sigma.ι (fun l => A.representable l) ?m.54 ≫ A.rightRegularCoproductAction ?a ≫ ?h
+in the target expression
+  Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j =
+    A.representableFunctor.map
+      (have this := a;
+      this)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j : ℤ
+a : A.Hom i j
+⊢ Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j =
+    A.representableFunctor.map
+      (have this := a;
+      this)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Sigma.ι (fun l => A.representable l) i
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (∐ fun l => A.representable l)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) A.rightRegularCoproduct
+  in the application
+    CategoryStruct.comp (Sigma.ι (fun l => A.representable l) i)
+ASGinzburg/TotalAlgebraEmbedding.lean:60:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Sigma.ι (fun t => A.representable t) i ≫ A.rightRegularCoproductAction a ≫ ?h
+in the target expression
+  Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j = 0
+
+case inl
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j p q : ℤ
+a : A.Hom p q
+hpi : p ≠ i
+⊢ Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Sigma.ι (fun l => A.representable l) i
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (∐ fun l => A.representable l)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) A.rightRegularCoproduct
+  in the application
+    CategoryStruct.comp (Sigma.ι (fun l => A.representable l) i)
+ASGinzburg/TotalAlgebraEmbedding.lean:64:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Sigma.ι (fun l => A.representable l) ?m.98 ≫ A.rightRegularCoproductAction ?a ≫ ?h
+in the target expression
+  Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j = 0
+
+case pos
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j q : ℤ
+hqj : q ≠ j
+a : A.Hom i q
+⊢ Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Sigma.ι (fun l => A.representable l) i
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (∐ fun l => A.representable l)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) A.rightRegularCoproduct
+  in the application
+    CategoryStruct.comp (Sigma.ι (fun l => A.representable l) i)
+ASGinzburg/TotalAlgebraEmbedding.lean:67:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Sigma.ι (fun t => A.representable t) i ≫ A.rightRegularCoproductAction a ≫ ?h
+in the target expression
+  Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j = 0
+
+case neg
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+i j p q : ℤ
+a : A.Hom p q
+hqj : q ≠ j
+hpi : ¬p = i
+⊢ Sigma.ι (fun l => A.representable l) i ≫ A.rightRegularCoproductAction a ≫ A.rightRegularCoproductProjection j = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Sigma.ι (fun l => A.representable l) i
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) (∐ fun l => A.representable l)
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.representable i) A.rightRegularCoproduct
+  in the application
+    CategoryStruct.comp (Sigma.ι (fun l => A.representable l) i)

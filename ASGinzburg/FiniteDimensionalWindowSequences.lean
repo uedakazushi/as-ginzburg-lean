@@ -24,9 +24,11 @@ noncomputable def rightFiniteDimensionalShortComplex (S : ShortComplex A.RightMo
   X₁ := ⟨S.X₁,h₁⟩
   X₂ := ⟨S.X₂,h₂⟩
   X₃ := ⟨S.X₃,h₃⟩
-  f := S.f
-  g := S.g
-  zero := S.zero
+  f := ObjectProperty.homMk S.f
+  g := ObjectProperty.homMk S.g
+  zero := by
+    apply ObjectProperty.hom_ext
+    exact S.zero
 
 theorem rightFiniteDimensionalShortComplex_shortExact {S : ShortComplex A.RightModule}
     (hS : S.ShortExact)

@@ -1,0 +1,32 @@
+ASGinzburg/OppositeGinzburgPathAlgebra.lean:11:80: error: unsolved goals
+Q : CutQuiver
+u v : Q.Vertex
+p : Q.Path u v
+⊢ (List.map (fun x => GinzburgArrow.original x) p.toList).reverse = (originalGinzburg Q.opposite p.opposite).toList
+ASGinzburg/OppositeGinzburgPathAlgebra.lean:13:63: warning: This simp argument is unused:
+  opposite_toList
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [GinzburgPath.opposite_toList, originalGinzburg_toList, List.map_reverse, List.map_map,
+    Function.comp_def, GinzburgArrow.opposite]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/OppositeGinzburgPathAlgebra.lean:42:17: error: unsolved goals
+case single.single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v w : Q.Vertex
+q : Q.GinzburgPath v w
+b : k
+p : Q.GinzburgPath u v
+a : k
+⊢ Finsupp.single (q.opposite.comp p.opposite) (b * a) =
+    ((Q.opposite.ginzburgPathComp k) (Finsupp.single p.opposite a)) (Finsupp.single q.opposite b)
+ASGinzburg/OppositeGinzburgPathAlgebra.lean:42:54: warning: This simp argument is unused:
+  mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [GinzburgPath.opposite_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

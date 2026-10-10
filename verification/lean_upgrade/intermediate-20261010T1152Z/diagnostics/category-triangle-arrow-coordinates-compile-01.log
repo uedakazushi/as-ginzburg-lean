@@ -1,0 +1,34 @@
+ASGinzburg/TriangleArrowCoordinates.lean:75:2: error: Type mismatch: After simplification, term
+  triangleEdgePath_toList 0 i
+ has type
+  (triangleEdgePath 0 i).toList = [⟨3 * ↑0 + ↑i, ⋯⟩]
+but is expected to have type
+  (triangleEdgePath 0 i).toList = [⟨↑i, ⋯⟩]
+ASGinzburg/TriangleArrowCoordinates.lean:79:2: error: Type mismatch: After simplification, term
+  triangleEdgePath_toList 1 i
+ has type
+  @Eq (List triangle333.Arrow) (triangleEdgePath 1 i).toList [⟨3 * ↑1 + ↑i, ⋯⟩]
+but is expected to have type
+  @Eq (List triangle333.Arrow) (triangleEdgePath 1 i).toList [⟨3 + ↑i, ⋯⟩]
+ASGinzburg/TriangleArrowCoordinates.lean:83:2: error: Type mismatch: After simplification, term
+  triangleEdgePath_toList 2 i
+ has type
+  @Eq (List triangle333.Arrow) (triangleEdgePath 2 i).toList [⟨3 * ↑2 + ↑i, ⋯⟩]
+but is expected to have type
+  @Eq (List triangle333.Arrow) (triangleEdgePath 2 i).toList [⟨6 + ↑i, ⋯⟩]
+ASGinzburg/TriangleArrowCoordinates.lean:101:2: error: Type mismatch
+  Finsupp.supportedEquivFinsupp_symm_single ?m.23 ?m.24 ?m.25
+has type
+  ↑((Finsupp.supportedEquivFinsupp ?m.23).symm (Finsupp.single ?m.24 ?m.25)) = Finsupp.single ↑?m.24 ?m.25
+but is expected to have type
+  ↑(((Finsupp.domLCongr (triangleEdgePathIndexEquiv s)).trans
+          (Finsupp.supportedEquivFinsupp fun p => p.length = 1).symm)
+        (Finsupp.single i a)) =
+    Finsupp.single (triangleEdgePath s i) a
+ASGinzburg/TriangleArrowCoordinates.lean:100:48: warning: This simp argument is unused:
+  Finsupp.domLCongr_single
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [triangleEdgeArrowEquiv, LinearEquiv.trans_apply, Finsupp.linearEquivFunOnFinite_symm_single]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

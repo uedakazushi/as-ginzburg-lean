@@ -26,6 +26,7 @@ noncomputable instance foundationRingRightComponentRecoveryAdditive :
     (A.foundationRingRightComponentRecovery Q).Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext i
     apply ModuleCat.hom_ext
@@ -37,6 +38,7 @@ noncomputable instance foundationRingRightComponentRecoveryLinear :
     (A.foundationRingRightComponentRecovery Q).Linear k where
   map_smul := by
     intro M N f c
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext i
     apply ModuleCat.hom_ext

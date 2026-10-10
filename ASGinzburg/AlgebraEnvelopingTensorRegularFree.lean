@@ -31,11 +31,9 @@ noncomputable def tensorRightEnvelopingRegularEquiv :
     change tensorRightEnvelopingRegularLinearEquiv k R (e • x) =
       e * tensorRightEnvelopingRegularLinearEquiv k R x
     obtain ⟨e, rfl⟩ := MulOpposite.op_surjective e
-    induction e using TensorProduct.induction_on with
-    | zero => simp only [MulOpposite.op_zero, zero_smul, map_zero, zero_mul]
+    induction e using TensorProduct.inductionOn with
     | tmul a b =>
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero, mul_zero]
+        induction x using TensorProduct.inductionOn with
         | tmul m n =>
             change tensorRightEnvelopingRegularLinearEquiv k R
               (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) • (m ⊗ₜ[k] n)) =

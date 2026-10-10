@@ -91,8 +91,10 @@ noncomputable def envelopingBalancedTensorRegularRightEquiv :
         rw [envelopingBalancedTensorRegularFieldEquiv_tmul,envelopingBalancedTensorRegularFieldEquiv_tmul]
         have hr : (show R from b • r)=(show R from r)*b.unop := by
           letI := regularEnvelopingModule k R
-          change ((1 : R) ⊗ₜ[k] b) • (show R from r)=(show R from r)*b.unop
-          simpa only [one_mul] using regularEnvelopingModule_tmul_smul k R 1 b.unop (show R from r)
+          let y : R := r
+          change ((1 : R) ⊗ₜ[k] b) • y = y * b.unop
+          simpa only [MulOpposite.op_unop, one_mul] using
+            regularEnvelopingModule_tmul_smul k R 1 b.unop y
         rw [hr,MulOpposite.op_mul,mul_smul,MulOpposite.op_unop]
       · intro a c ha hc
         simp only [smul_add,map_add,ha,hc]}

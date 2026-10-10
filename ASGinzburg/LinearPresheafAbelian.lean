@@ -25,8 +25,12 @@ abbrev LinearPresheaf := (linearPresheafProperty k C).FullSubcategory
 /-- Any pointwise limit of linear right modules is again additive and linear. -/
 theorem linearPresheafProperty_closedUnderLimits
     (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
-    ClosedUnderLimitsOfShape J (linearPresheafProperty k C) := by
-  intro F c hc hF
+    (linearPresheafProperty k C).IsClosedUnderLimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let c := p.toLimitPresentation.cone
+  have hc : IsLimit c := p.isLimit
+  have hF := p.prop_diag_obj
   constructor
   · constructor
     intro X Y f g
@@ -50,8 +54,12 @@ theorem linearPresheafProperty_closedUnderLimits
 /-- Any pointwise colimit of linear right modules is again additive and linear. -/
 theorem linearPresheafProperty_closedUnderColimits
     (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
-    ClosedUnderColimitsOfShape J (linearPresheafProperty k C) := by
-  intro F c hc hF
+    (linearPresheafProperty k C).IsClosedUnderColimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let c := p.toColimitPresentation.cocone
+  have hc : IsColimit c := p.isColimit
+  have hF := p.prop_diag_obj
   constructor
   · constructor
     intro X Y f g
@@ -78,25 +86,33 @@ theorem linearPresheafProperty_closedUnderColimits
 noncomputable instance linearPresheafHasLimitsOfShape
     (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
     HasLimitsOfShape J (LinearPresheaf k C) :=
-  hasLimitsOfShape_of_closedUnderLimits (linearPresheafProperty_closedUnderLimits k C J)
+  by
+    letI := linearPresheafProperty_closedUnderLimits k C J
+    exact hasLimitsOfShape_of_closedUnderLimits J (linearPresheafProperty k C)
 
 /-- Colimits are inherited without leaving the category of linear right modules. -/
 noncomputable instance linearPresheafHasColimitsOfShape
     (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
     HasColimitsOfShape J (LinearPresheaf k C) :=
-  hasColimitsOfShape_of_closedUnderColimits (linearPresheafProperty_closedUnderColimits k C J)
+  by
+    letI := linearPresheafProperty_closedUnderColimits k C J
+    exact hasColimitsOfShape_of_closedUnderColimits J (linearPresheafProperty k C)
 
 /-- The full-subcategory inclusion creates limits in the ambient presheaf category. -/
 noncomputable instance linearPresheafInclusionCreatesLimitsOfShape
     (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
     CreatesLimitsOfShape J (linearPresheafProperty k C).ι :=
-  createsLimitsOfShapeFullSubcategoryInclusion (linearPresheafProperty_closedUnderLimits k C J)
+  by
+    letI := linearPresheafProperty_closedUnderLimits k C J
+    exact createsLimitsOfShapeFullSubcategoryInclusion J (linearPresheafProperty k C)
 
 /-- The full-subcategory inclusion creates colimits in the ambient presheaf category. -/
 noncomputable instance linearPresheafInclusionCreatesColimitsOfShape
     (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
     CreatesColimitsOfShape J (linearPresheafProperty k C).ι :=
-  createsColimitsOfShapeFullSubcategoryInclusion (linearPresheafProperty_closedUnderColimits k C J)
+  by
+    letI := linearPresheafProperty_closedUnderColimits k C J
+    exact createsColimitsOfShapeFullSubcategoryInclusion J (linearPresheafProperty k C)
 
 /-- In particular, right modules have the finite products needed for the Abelian criterion. -/
 noncomputable instance linearPresheafHasFiniteProducts : HasFiniteProducts (LinearPresheaf k C) where

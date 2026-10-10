@@ -1,0 +1,55 @@
+import ASGinzburg.FoundationRepresentableYoneda
+
+/-! The existing foundation linear presheaves have the original
+contravariant A.Hom component actions, linearly and compositionally. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+
+def foundationRightComponentAction (M : A.FoundationRightModule Q)
+    {i j : Q.Vertex} (f : A.Hom (i.val : ℤ) (j.val : ℤ)) :
+    (A.foundationRightEvaluation Q j).obj M →ₗ[k]
+      (A.foundationRightEvaluation Q i).obj M :=
+  (M.obj.map (InducedCategory.homMk (A.foundationActionArrow Q i j f))).hom
+
+theorem foundationRightComponentAction_add (M : A.FoundationRightModule Q)
+    {i j : Q.Vertex} (f g : A.Hom (i.val : ℤ) (j.val : ℤ)) :
+    A.foundationRightComponentAction Q M (f+g)=
+      A.foundationRightComponentAction Q M f+A.foundationRightComponentAction Q M g := by
+  letI := M.property.1
+  change (M.obj.map (InducedCategory.homMk (A.foundationActionArrow Q i j f)+
+    InducedCategory.homMk (A.foundationActionArrow Q i j g))).hom=_
+  rw [Functor.map_add,ModuleCat.hom_add]
+  rfl
+
+theorem foundationRightComponentAction_smul (M : A.FoundationRightModule Q)
+    {i j : Q.Vertex} (c : k) (f : A.Hom (i.val : ℤ) (j.val : ℤ)) :
+    A.foundationRightComponentAction Q M (c • f)=c • A.foundationRightComponentAction Q M f := by
+  letI := M.property.2
+  change (M.obj.map (c • InducedCategory.homMk (A.foundationActionArrow Q i j f))).hom=_
+  rw [Functor.map_smul,ModuleCat.hom_smul]
+  rfl
+
+theorem foundationRightComponentAction_id (M : A.FoundationRightModule Q) (i : Q.Vertex) :
+    A.foundationRightComponentAction Q M (A.id (i.val : ℤ))=LinearMap.id := by
+  exact congrArg (fun t => t.hom) (M.obj.map_id (i : A.FoundationRightObj Q))
+
+theorem foundationRightComponentAction_comp (M : A.FoundationRightModule Q)
+    {i j l : Q.Vertex} (f : A.Hom (i.val : ℤ) (j.val : ℤ))
+    (g : A.Hom (j.val : ℤ) (l.val : ℤ)) :
+    A.foundationRightComponentAction Q M (A.comp g f)=
+      (A.foundationRightComponentAction Q M f).comp (A.foundationRightComponentAction Q M g) := by
+  change (M.obj.map (InducedCategory.homMk (A.foundationActionArrow Q j l g) ≫
+    InducedCategory.homMk (A.foundationActionArrow Q i j f))).hom=_
+  rw [M.obj.map_comp]
+  rfl
+
+def foundationRightComponentRepresentation (M : A.FoundationRightModule Q) (i j : Q.Vertex) :
+    A.Hom (i.val : ℤ) (j.val : ℤ) →ₗ[k]
+      ((A.foundationRightEvaluation Q j).obj M →ₗ[k] (A.foundationRightEvaluation Q i).obj M) where
+  toFun := A.foundationRightComponentAction Q M
+  map_add' := A.foundationRightComponentAction_add Q M
+  map_smul' := A.foundationRightComponentAction_smul Q M
+
+end ASGinzburg.ZAlgebra

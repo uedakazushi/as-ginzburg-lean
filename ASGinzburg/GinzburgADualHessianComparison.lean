@@ -14,7 +14,7 @@ theorem ginzburgDualOriginalProjectiveMap_adual_opposite (v l : Q.LiftVertex)
       (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
     Q.ginzburgDualADualOppositeComponentEquiv k φ v l
       (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-        (Q.ginzburgDualOriginalProjectiveMap k φ v)).app ⟨Q.height l⟩ f)=
+        (Q.ginzburgDualOriginalProjectiveMap k φ v)).hom.app ⟨Q.height l⟩ f)=
       ((Q.opposite.unrolledJacobianZAlgebra k (Q.oppositePotentialEquiv k φ)).rightModuleEvaluation
         (Q.opposite.height (Q.oppositeLiftVertexEquiv l))).map
         (Q.opposite.ginzburgDualOriginalProjectiveMap k (Q.oppositePotentialEquiv k φ)

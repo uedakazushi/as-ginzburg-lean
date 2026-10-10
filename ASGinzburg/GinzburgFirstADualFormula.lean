@@ -17,7 +17,7 @@ theorem ginzburgOriginalRepresentableProjectiveMap_adual_matrix
         Q.height (Q.ginzburgPrefixGeneratorEndpoint v a.val))
       ((Q.unrolledJacobianZAlgebra k φ).representable l)
       (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-        (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).app ⟨l⟩ f) a=
+        (Q.ginzburgOriginalRepresentableProjectiveMap k φ v)).hom.app ⟨l⟩ f) a=
       (Q.unrolledJacobianZAlgebra k φ).comp
         ((Q.unrolledJacobianZAlgebra k φ).representableYonedaEquiv (Q.height v)
           ((Q.unrolledJacobianZAlgebra k φ).representable l) f)

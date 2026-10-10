@@ -24,15 +24,9 @@ noncomputable def tensorRightEnvelopingFinsuppDistribution :
     change finsuppTensorFinsupp k k R R I J (e • x) =
       e • finsuppTensorFinsupp k k R R I J x
     obtain ⟨e, rfl⟩ := MulOpposite.op_surjective e
-    induction e using TensorProduct.induction_on with
-    | zero =>
-        simp only [MulOpposite.op_zero, zero_smul, map_zero]
-        apply Finsupp.ext
-        intro p
-        simp only [Finsupp.zero_apply, Finsupp.smul_apply, zero_smul]
+    induction e using TensorProduct.inductionOn with
     | tmul a b =>
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero]
+        induction x using TensorProduct.inductionOn with
         | tmul f g =>
             change finsuppTensorFinsupp k k R R I J
               (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) • (f ⊗ₜ[k] g)) =

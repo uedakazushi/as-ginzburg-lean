@@ -1,0 +1,208 @@
+import ASGinzburg.TotalModuleSpaces
+
+/-! Actual matrix actions on the right regular coproduct, and their comparison on Ext. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+noncomputable def rightRegularCoproductProjection (i : ℤ) :
+    A.rightRegularCoproduct ⟶ A.representable i :=
+  Sigma.desc (fun j : ℤ => if h : j = i then eqToHom (congrArg A.representable h) else 0)
+
+@[reassoc (attr := simp)] theorem rightRegularCoproduct_inclusion_projection (i : ℤ) :
+    Sigma.ι (fun j : ℤ => A.representable j) i ≫ A.rightRegularCoproductProjection i = 𝟙 _ := by
+  simp [rightRegularCoproductProjection]
+
+@[reassoc] theorem rightRegularCoproduct_inclusion_projection_off (i j : ℤ) (hji : j ≠ i) :
+    Sigma.ι (fun l : ℤ => A.representable l) j ≫ A.rightRegularCoproductProjection i = 0 := by
+  simp [rightRegularCoproductProjection, hji]
+
+/-- a in e_j A e_i acts by actual left multiplication on the regular right module. -/
+noncomputable def rightRegularCoproductAction {i j : ℤ} (a : A.Hom i j) :
+    A.rightRegularCoproduct ⟶ A.rightRegularCoproduct :=
+  A.rightRegularCoproductProjection i ≫
+    A.representableFunctor.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a) ≫
+      Sigma.ι (fun l : ℤ => A.representable l) j
+
+set_option backward.isDefEq.respectTransparency false in
+@[reassoc (attr := simp)] theorem rightRegularCoproduct_inclusion_action {i j : ℤ}
+    (a : A.Hom i j) :
+    Sigma.ι (fun l : ℤ => A.representable l) i ≫ A.rightRegularCoproductAction a =
+      A.representableFunctor.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a) ≫
+        Sigma.ι (fun l : ℤ => A.representable l) j := by
+  simp [rightRegularCoproductAction]
+
+set_option backward.isDefEq.respectTransparency false in
+@[reassoc] theorem rightRegularCoproduct_inclusion_action_off {i j : ℤ}
+    (a : A.Hom i j) (l : ℤ) (hli : l ≠ i) :
+    Sigma.ι (fun t : ℤ => A.representable t) l ≫ A.rightRegularCoproductAction a = 0 := by
+  rw [rightRegularCoproductAction,
+    rightRegularCoproduct_inclusion_projection_off_assoc _ _ _ hli, zero_comp]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightRegularCoproductAction_add {i j : ℤ} (a b : A.Hom i j) :
+    A.rightRegularCoproductAction (a + b) =
+      A.rightRegularCoproductAction a + A.rightRegularCoproductAction b := by
+  have hm := A.representableFunctor.map_add
+    (f := (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a))
+    (g := (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from b))
+  dsimp [rightRegularCoproductAction]
+  rw [hm, Preadditive.add_comp, Preadditive.comp_add]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightRegularCoproductAction_smul {i j : ℤ} (a : A.Hom i j) (r : k) :
+    A.rightRegularCoproductAction (r • a) = r • A.rightRegularCoproductAction a := by
+  have hm := A.representableFunctor.map_smul r (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)
+  dsimp [rightRegularCoproductAction]
+  rw [hm, Linear.smul_comp, Linear.comp_smul]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightRegularCoproductAction_comp {i j l : ℤ} (a : A.Hom i j) (b : A.Hom j l) :
+    A.rightRegularCoproductAction a ≫ A.rightRegularCoproductAction b =
+      A.rightRegularCoproductAction
+        ((show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a) ≫
+          (show (⟨j⟩ : A.Obj) ⟶ ⟨l⟩ from b)) := by
+  simp [rightRegularCoproductAction, Category.assoc, Functor.map_comp]
+
+/-- Each local unit acts as the corresponding coproduct component projector. -/
+theorem rightRegularCoproductAction_id (i : ℤ) :
+    A.rightRegularCoproductAction (A.id i) =
+      A.rightRegularCoproductProjection i ≫ Sigma.ι (fun l : ℤ => A.representable l) i := by
+  change A.rightRegularCoproductProjection i ≫
+    A.representableFunctor.map (𝟙 (⟨i⟩ : A.Obj)) ≫
+      Sigma.ι (fun l : ℤ => A.representable l) i = _
+  rw [CategoryTheory.Functor.map_id]
+  change A.rightRegularCoproductProjection i ≫ 𝟙 (A.representable i) ≫
+    Sigma.ι (fun l : ℤ => A.representable l) i = _
+  simp
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightRegularCoproductAction_comp_off {i j p q : ℤ}
+    (a : A.Hom i j) (b : A.Hom p q) (hjp : j ≠ p) :
+    A.rightRegularCoproductAction a ≫ A.rightRegularCoproductAction b = 0 := by
+  simp only [rightRegularCoproductAction, Category.assoc]
+  rw [A.rightRegularCoproduct_inclusion_projection_off_assoc p j hjp]
+  simp
+
+/-- The concrete component action on a finite-support total space. -/
+noncomputable def leftModuleTotalAction (M : A.LeftModule) {i j : ℤ} (a : A.Hom i j) :
+    A.leftModuleTotalSpace M →ₗ[k] A.leftModuleTotalSpace M :=
+  (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) j).comp
+    (((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)).hom).comp
+      (DirectSum.component k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i))
+
+@[simp] theorem leftModuleTotalAction_lof (M : A.LeftModule) {i j : ℤ} (a : A.Hom i j)
+    (x : (A.leftModuleEvaluation i).obj M) :
+    A.leftModuleTotalAction M a
+        (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i x) =
+      DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) j
+        ((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)).hom x) := by
+  change DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) j
+    ((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)).hom
+      ((DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i x) i)) = _
+  rw [DirectSum.lof_apply]
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem leftModuleTotalAction_lof_off (M : A.LeftModule) {i j : ℤ} (a : A.Hom i j)
+    (l : ℤ) (hli : l ≠ i) (x : (A.leftModuleEvaluation l).obj M) :
+    A.leftModuleTotalAction M a
+      (DirectSum.lof k ℤ (fun t => (A.leftModuleEvaluation t).obj M) l x) = 0 := by
+  change DirectSum.lof k ℤ (fun t => (A.leftModuleEvaluation t).obj M) j
+    ((M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a)).hom
+      ((DFinsupp.single l x : A.leftModuleTotalSpace M) i)) = 0
+  rw [DFinsupp.single_eq_of_ne hli.symm, map_zero, map_zero]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftModuleTotalAction_zero_of_map_zero (M : A.LeftModule) {i j : ℤ} (a : A.Hom i j)
+    (ha : M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from a) = 0) :
+    A.leftModuleTotalAction M a = 0 := by
+  dsimp [leftModuleTotalAction]
+  rw [ha]
+  simp
+
+namespace ASResolution
+variable {A} {Q : CutQuiver} {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+@[reassoc] theorem extRegularCoproductEquiv_inclusion (n : ℕ) (i : ℤ) :
+    (A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n).map
+        (Sigma.ι (fun j : ℤ => A.representable j) i) ≫
+          ModuleCat.ofHom (R.extRegularCoproductLinearEquiv n).toLinearMap =
+      ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => Abelian.Ext.{v}
+        (A.simpleRightModule (Q.height w)) (A.representable j) n) i) := by
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  exact R.simpleExtDirectSumLinearEquiv_postcomp_inclusion n
+    (fun j : ℤ => A.representable j) i x
+
+/-- The direct-sum Ext comparison intertwines actual postcomposition with every algebra
+component's left action. No required Ext isomorphism is supplied as a hypothesis. -/
+set_option backward.isDefEq.respectTransparency false in
+@[reassoc] theorem extRegularCoproductEquiv_action (n : ℕ) {i j : ℤ} (a : A.Hom i j) :
+    (A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n).map
+        (A.rightRegularCoproductAction a) ≫
+          ModuleCat.ofHom (R.extRegularCoproductLinearEquiv n).toLinearMap =
+      ModuleCat.ofHom (R.extRegularCoproductLinearEquiv n).toLinearMap ≫
+        ModuleCat.ofHom (A.leftModuleTotalAction
+          (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a) := by
+  let H := A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) n
+  letI := R.simpleExtPreservesCoproducts ℤ n
+  apply (isColimitOfHasCoproductOfPreservesColimit H (fun l : ℤ => A.representable l)).hom_ext
+  rintro ⟨l⟩
+  change H.map (Sigma.ι (fun t : ℤ => A.representable t) l) ≫ H.map _ ≫ _ =
+    H.map (Sigma.ι (fun t : ℤ => A.representable t) l) ≫ _ ≫ _
+  rw [← H.map_comp_assoc]
+  by_cases hl : l = i
+  · subst l
+    rw [A.rightRegularCoproduct_inclusion_action, H.map_comp, Category.assoc,
+      R.extRegularCoproductEquiv_inclusion, R.extRegularCoproductEquiv_inclusion_assoc]
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_apply]
+    change _ = A.leftModuleTotalAction
+      (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a
+      (DirectSum.lof k ℤ (fun t => (A.leftModuleEvaluation t).obj
+        (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)) i x)
+    rw [A.leftModuleTotalAction_lof]
+    rfl
+  · rw [A.rightRegularCoproduct_inclusion_action_off a l hl, H.map_zero, zero_comp,
+      R.extRegularCoproductEquiv_inclusion_assoc]
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_apply,
+      ModuleCat.hom_zero, LinearMap.zero_apply]
+    change _ = A.leftModuleTotalAction
+      (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a
+      (DirectSum.lof k ℤ (fun t => (A.leftModuleEvaluation t).obj
+        (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n)) l x)
+    rw [A.leftModuleTotalAction_lof_off
+      (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) n) a l hl x]
+
+end ASResolution
+
+set_option backward.isDefEq.respectTransparency false in
+theorem ASRegular.extRegularCoproductThree_positive_action_zero {Q : CutQuiver}
+    (h : A.ASRegular Q) (w : Q.LiftVertex) {i j : ℤ} (hij : i < j) (a : A.Hom i j) :
+    (A.rightModuleExtCovariant (A.simpleRightModule (Q.height w)) 3).map
+      (A.rightRegularCoproductAction a) = 0 := by
+  let R := h.resolution A Q w
+  let e := R.extRegularCoproductLinearEquiv 3
+  have hz : A.leftModuleTotalAction
+      (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3) a = 0 :=
+    A.leftModuleTotalAction_zero_of_map_zero _ a
+      (h.extLeftThree_positive_action_zero A Q w hij a)
+  letI : Mono (ModuleCat.ofHom e.toLinearMap) :=
+    (ModuleCat.mono_iff_injective _).mpr e.injective
+  apply (cancel_mono (ModuleCat.ofHom e.toLinearMap)).mp
+  rw [R.extRegularCoproductEquiv_action, hz]
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, ModuleCat.hom_zero,
+    LinearMap.comp_apply, LinearMap.zero_apply, map_zero]
+
+end ASGinzburg.ZAlgebra

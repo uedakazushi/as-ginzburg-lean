@@ -16,17 +16,18 @@ variable (R : Type v) [Ring R]
 noncomputable def ordinarySingleZeroOppositeIso (M : ModuleCat.{v} R) :
     (CochainComplex.single₀ (ModuleCat.{v} R)ᵒᵖ).obj (op M) ≅
       ((ChainComplex.single₀ (ModuleCat.{v} R)).obj M).op := by
-  apply HomologicalComplex.Hom.isoOfComponents
-    (fun n => ?_) (fun i j _ => by
-      simp only [HomologicalComplex.single_obj_d, HomologicalComplex.op_d,
-        op_zero, comp_zero, zero_comp])
-  cases n with
-  | zero => exact Iso.refl _
-  | succ n =>
-      exact (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℕ) 0
-        (op M) (n + 1) (by simp)).iso
-        (HomologicalComplex.isZero_single_obj_X (ComplexShape.down ℕ) 0
-          M (n + 1) (by simp)).op
+  refine HomologicalComplex.Hom.isoOfComponents (fun n => ?_) ?_
+  · cases n with
+    | zero => exact Iso.refl _
+    | succ n =>
+        exact (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℕ) 0
+          (op M) (n + 1) (by simp)).iso
+          (HomologicalComplex.isZero_single_obj_X (ComplexShape.down ℕ) 0
+            M (n + 1) (by simp)).op
+  · intro i j _
+    simp only [HomologicalComplex.single_obj_d, HomologicalComplex.op_d,
+      op_zero, zero_comp]
+    exact comp_zero
 
 noncomputable def ordinaryProjectiveResolutionOpposite {M : ModuleCat.{v} R}
     (P : ProjectiveResolution M) : InjectiveResolution (op M) where
@@ -36,7 +37,15 @@ noncomputable def ordinaryProjectiveResolutionOpposite {M : ModuleCat.{v} R}
     exact inferInstanceAs (Injective (op (P.complex.X n)))
   ι := (ordinarySingleZeroOppositeIso R M).hom ≫
     (HomologicalComplex.opFunctor (ModuleCat.{v} R) (ComplexShape.down ℕ)).map P.π.op
-  quasiIso := by infer_instance
+  quasiIso := by
+    haveI : IsIso (ordinarySingleZeroOppositeIso R M).hom :=
+      (ordinarySingleZeroOppositeIso R M).isIso_hom
+    have hsingle : QuasiIso (ordinarySingleZeroOppositeIso R M).hom :=
+      quasiIso_of_isIso _
+    have hop : QuasiIso
+        ((HomologicalComplex.opFunctor (ModuleCat.{v} R) (ComplexShape.down ℕ)).map P.π.op) :=
+      (HomologicalComplex.quasiIso_opFunctor_map_iff P.π).2 P.quasiIso
+    exact quasiIso_comp _ _ (hφ := hsingle) (hφ' := hop)
 
 noncomputable def ordinaryRingDualExtFunctor (n : ℕ) :
     (ModuleCat.{v} R)ᵒᵖ ⥤ ModuleCat.{v} Rᵐᵒᵖ :=

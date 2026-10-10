@@ -41,11 +41,9 @@ theorem tensorLeftIdeal_mul_le (I J : Ideal R) :
   obtain ⟨x, rfl⟩ := hx'
   obtain ⟨y, rfl⟩ := hy'
   clear hx hy
-  induction x with
-  | zero => simp only [map_zero,zero_mul]; exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
-    induction y with
-    | zero => simp only [map_zero,mul_zero]; exact Submodule.zero_mem _
+    induction y using TensorProduct.inductionOn with
     | tmul c d =>
       simp only [LinearMap.rTensor_tmul,Submodule.coe_subtype,
         Algebra.TensorProduct.tmul_mul_tmul]
@@ -74,11 +72,9 @@ theorem tensorRightIdeal_mul_le (I J : Ideal S) :
   obtain ⟨x, rfl⟩ := hx'
   obtain ⟨y, rfl⟩ := hy'
   clear hx hy
-  induction x with
-  | zero => simp only [map_zero,zero_mul]; exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
-    induction y with
-    | zero => simp only [map_zero,mul_zero]; exact Submodule.zero_mem _
+    induction y using TensorProduct.inductionOn with
     | tmul c d =>
       simp only [LinearMap.lTensor_tmul,Submodule.coe_subtype,
         Algebra.TensorProduct.tmul_mul_tmul]

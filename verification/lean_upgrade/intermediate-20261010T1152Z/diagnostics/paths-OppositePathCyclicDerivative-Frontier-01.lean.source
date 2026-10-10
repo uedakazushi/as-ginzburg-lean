@@ -1,0 +1,36 @@
+import ASGinzburg.OppositePathAlgebra
+import ASGinzburg.OppositePotential
+import ASGinzburg.CyclicDerivativeReversal
+import ASGinzburg.PathCyclicDerivatives
+
+/-! Actual path-valued cyclic derivatives, not just word polynomials,
+identify the defining Jacobian relations under reversal. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem oppositePathComponentEquiv_wordMap (u v : Q.Vertex)
+    (f : Q.PathComponent k u v) :
+    Q.opposite.pathWordMap k v.rev u.rev (Q.oppositePathComponentEquiv k u v f) =
+      reverseWordPolynomial (Q.pathWordMap k u v f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g ihf ihg => simp [map_add, ihf, ihg]
+  | single p a =>
+    simp [pathWordMap, Finsupp.mapDomain_single, Path.opposite_toList]
+
+theorem oppositePathComponentEquiv_cyclicDerivative (a : Q.Arrow) (φ : Q.Potential k) :
+    Q.oppositePathComponentEquiv k (Q.target a) (Q.source a)
+        (Q.pathCyclicDerivative k a φ) =
+      Q.opposite.pathCyclicDerivative k a (Q.oppositePotentialEquiv k φ) := by
+  apply Q.opposite.pathWordMap_injective k (Q.source a).rev (Q.target a).rev
+  rw [Q.oppositePathComponentEquiv_wordMap, Q.pathWordMap_pathCyclicDerivative]
+  change reverseWordPolynomial (cyclicDerivative a φ.val) =
+    Q.opposite.pathWordMap k (Q.opposite.target a) (Q.opposite.source a)
+      (Q.opposite.pathCyclicDerivative k a (Q.oppositePotentialEquiv k φ))
+  rw [Q.opposite.pathWordMap_pathCyclicDerivative, cyclicDerivative_reverse,
+    oppositePotentialEquiv_val]
+  rfl
+
+end ASGinzburg.CutQuiver

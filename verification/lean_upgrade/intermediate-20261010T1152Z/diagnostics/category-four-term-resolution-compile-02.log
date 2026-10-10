@@ -1,0 +1,100 @@
+ASGinzburg/FourTermProjectiveResolution.lean:15:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:16:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:17:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:81:4: error: Type mismatch: After simplification, term
+  R.exact₁
+ has type
+  { X₁ := R.P₂, X₂ := R.P₁, X₃ := R.P₀, f := R.d₂, g := R.d₁, zero := ⋯ }.Exact
+but is expected to have type
+  { X₁ := R.P₂, X₂ := R.P₁, X₃ := R.P₀, f := ChainComplex.of.d R.term R.differential 2 1,
+      g := ChainComplex.of.d R.term R.differential 1 0, zero := ⋯ }.Exact
+ASGinzburg/FourTermProjectiveResolution.lean:83:4: error: Type mismatch: After simplification, term
+  R.exact₂
+ has type
+  { X₁ := R.P₃, X₂ := R.P₂, X₃ := R.P₁, f := R.d₃, g := R.d₂, zero := ⋯ }.Exact
+but is expected to have type
+  { X₁ := R.P₃, X₂ := R.P₂, X₃ := R.P₁, f := ChainComplex.of.d R.term R.differential 3 2,
+      g := ChainComplex.of.d R.term R.differential 2 1, zero := ⋯ }.Exact
+ASGinzburg/FourTermProjectiveResolution.lean:84:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:88:6: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Mono R.d₃
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/FourTermProjectiveResolution.lean:103:6: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:109:10: error: Type mismatch
+  Eq.symm (ChainComplex.of_d R.term R.differential 0)
+has type
+  R.differential 0 = ChainComplex.of.d R.term R.differential (0 + 1) 0
+but is expected to have type
+  R.d₁ = R.complex.d 1 0 ≫ 𝟙 R.P₀
+ASGinzburg/FourTermProjectiveResolution.lean:110:9: error: unsolved goals
+C : Type u
+inst✝¹ : Category.{v, u} C
+inst✝ : Abelian C
+M : C
+R : FourTermProjectiveResolution M
+this : Epi R.π := R.epi_π
+⊢ R.π = ((R.complex.toSingle₀Equiv M).symm ⟨R.π, ⋯⟩).f 0 ≫ 𝟙 M
+ASGinzburg/FourTermProjectiveResolution.lean:108:21: warning: This simp argument is unused:
+  Iso.refl_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.id_comp, Category.comp_id]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/FourTermProjectiveResolution.lean:108:51: warning: This simp argument is unused:
+  Category.comp_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Iso.refl_hom, Category.id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/FourTermProjectiveResolution.lean:112:38: warning: This simp argument is unused:
+  Category.comp_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.id_comp, augmentation, ChainComplex.toSingle₀Equiv_symm_apply_f_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/FourTermProjectiveResolution.lean:113:12: warning: This simp argument is unused:
+  ChainComplex.toSingle₀Equiv_symm_apply_f_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.id_comp, Category.comp_id, augmentation]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

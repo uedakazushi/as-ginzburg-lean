@@ -1,0 +1,15 @@
+# Genuine original-AS enveloping derived dual concentration
+
+All mathematical changes are new work/ASGinzburgDraft sources. Public files, dependencies, documentation, and push remain root-owned. No sorry/admit/custom axiom is used; strict audits allow only propext, Classical.choice, Quot.sound.
+
+The exact current individual-check and strict-audit evidence for 27 modules/70 declarations is recorded in derived-hom-actual-enveloping-ext-concentration-ready-27.json. Individual success means exit zero, an empty diagnostic log, and current source SHA; strict success means current source SHA, unique complete declaration coverage, and allowed axioms only. Additional true ULift-homology and reduced-complex comparisons are individually checked/audited separately; a combined selection audit is in progress.
+
+Original ASRegular alone now gives the actual Ae opposite ring-dual ExtObject zero for every n != 3. The proof uses the actual native finite-projective ring-Hom complex, its genuine internal grading and boundedness, the actual semisimple tensor evaluation comparison, genuine ordinary simple/semisimple regular Ext vanishing, a constructed native homogeneous projective top cover, and the verified tensor-Nakayama four-term detector. No desired vanishing or cover criterion was added to ASRegular.
+
+The actual Z-indexed perfect ring-Hom complex has a canonical augmentation quasi-isomorphism and an actual DerivedCategory isomorphism to single(actual Ae ExtObject 3, degree 3). Its degree-three object is perfect. The actual degree-three Ext object, restricted along includeLeft.op to the native right cut-ring module category, is projective. The actual top cokernel and its homology are connected by categorical isomorphisms.
+
+Ordinary native vertex-simple Ext-three into the right regular cut ring is field-linearly isomorphic to k, via the genuine whole dual quotient, its unique internal degree -1 quotient, the native shifted graded Hom quotient, and actual original-AS graded Ext. Actual semisimple right Ext-three is field-linearly isomorphic to the vertex field product and has finrank Q.vertices. Its coordinate formula uses the actual simple injections. These field comparisons do not yet claim module-action compatibility.
+
+The actual semisimple tensor reduction of restricted Ae Ext-three is already isomorphic to top homology of the actual reduced dual complex. The canonical ULift of that reduced complex is isomorphic to the true ordinary right field-Hom complex of a genuine balanced-tensor projective resolution. The next active obligation is its actual top Hom/Ext comparison, followed by right scalar/idempotent-action compatibility and finite generation of the top module from genuine finite semisimple reduction.
+
+The top Ae Ext object has NOT been proved an invertible bimodule, and twisted Calabi-Yau has NOT been completed. Arbitrary original-AS potential recovery and the full source Theorem 3.2/Corollary 5.2 remain unproved. No promotion, commit, or push was made by this subagent.

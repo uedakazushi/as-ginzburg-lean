@@ -1,0 +1,28 @@
+ASGinzburg/ProjectiveResolutionHomComplex.lean:36:9: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Epi
+    (have this := P.π.f 0;
+    this)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/ProjectiveResolutionHomComplex.lean:37:6: error: No goals to be solved
+ASGinzburg/ProjectiveResolutionHomComplex.lean:121:4: error: Type mismatch
+  CochainComplex.of_d ?m.266 ?m.267 (n + 1)
+has type
+  CochainComplex.of.d ?m.266 ?m.267 (n + 1) (n + 1 + 1) = ?m.267 (n + 1)
+but is expected to have type
+  (P.homComplex N).d (n + 1) (n + 2) = P.homDifferential N (n + 1)
+ASGinzburg/ProjectiveResolutionHomComplex.lean:114:64: error: unsolved goals
+k : Type t
+inst✝³ : Field k
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+inst✝ : Linear k C
+X : C
+P : ProjectiveResolution X
+N : C
+n : ℕ
+⊢ (∀ (f : P.complex.X (n + 1) ⟶ N),
+      (ModuleCat.Hom.hom ((P.homComplex N).d (n + 1) (n + 2))) f = 0 →
+        ∃ g, (ModuleCat.Hom.hom ((P.homComplex N).d n (n + 1))) g = f) ↔
+    ∀ (f : P.complex.X (n + 1) ⟶ N), P.complex.d (n + 2) (n + 1) ≫ f = 0 → ∃ g, P.complex.d (n + 1) n ≫ g = f

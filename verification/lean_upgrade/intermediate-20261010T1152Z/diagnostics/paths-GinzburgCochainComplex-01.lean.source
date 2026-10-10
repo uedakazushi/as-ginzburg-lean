@@ -1,0 +1,54 @@
+import ASGinzburg.GinzburgSquareZero
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
+
+/-! Actual integer-indexed cochain complexes and mathlib homology of
+the composable Ginzburg path spaces. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgGradedDifferential (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) :
+    Q.ginzburgCohomologicalComponent k u v q →ₗ[k]
+      Q.ginzburgCohomologicalComponent k u v (q+1) :=
+  ((Q.ginzburgDifferential k φ u v).comp
+    (Q.ginzburgCohomologicalComponent k u v q).subtype).codRestrict _
+      (fun f => Q.ginzburgDifferential_degree k φ q f.property)
+
+@[simp] theorem ginzburgGradedDifferential_coe (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ)
+    (f : Q.ginzburgCohomologicalComponent k u v q) :
+    (Q.ginzburgGradedDifferential k φ u v q f).val=Q.ginzburgDifferential k φ u v f.val := rfl
+
+theorem ginzburgGradedDifferential_square (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) :
+    (Q.ginzburgGradedDifferential k φ u v (q+1)).comp
+      (Q.ginzburgGradedDifferential k φ u v q)=0 := by
+  apply LinearMap.ext
+  intro f
+  apply Subtype.ext
+  exact Q.ginzburgDifferential_square k φ f.val
+
+noncomputable def ginzburgCochainDifferential (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) :
+    ModuleCat.of k (Q.ginzburgCohomologicalComponent k u v q) ⟶
+      ModuleCat.of k (Q.ginzburgCohomologicalComponent k u v (q+1)) :=
+  ModuleCat.ofHom (Q.ginzburgGradedDifferential k φ u v q)
+
+theorem ginzburgCochainDifferential_square (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) :
+    Q.ginzburgCochainDifferential k φ u v q ≫
+      Q.ginzburgCochainDifferential k φ u v (q+1)=0 := by
+  apply ModuleCat.hom_ext
+  exact Q.ginzburgGradedDifferential_square k φ u v q
+
+noncomputable def ginzburgCochainComplex (φ : Q.Potential k) (u v : Q.Vertex) :
+    CochainComplex (ModuleCat.{u} k) ℤ :=
+  CochainComplex.of (fun q => ModuleCat.of k (Q.ginzburgCohomologicalComponent k u v q))
+    (Q.ginzburgCochainDifferential k φ u v) (Q.ginzburgCochainDifferential_square k φ u v)
+
+theorem ginzburgCochainComplex_d (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) :
+    (Q.ginzburgCochainComplex k φ u v).d q (q+1)=Q.ginzburgCochainDifferential k φ u v q :=
+  CochainComplex.of_d _ _ q
+
+noncomputable def ginzburgHomology (φ : Q.Potential k) (u v : Q.Vertex) (q : ℤ) : ModuleCat.{u} k :=
+  (Q.ginzburgCochainComplex k φ u v).homology q
+
+end ASGinzburg.CutQuiver

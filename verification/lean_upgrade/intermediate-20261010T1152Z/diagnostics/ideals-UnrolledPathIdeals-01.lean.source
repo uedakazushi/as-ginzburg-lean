@@ -1,0 +1,48 @@
+import ASGinzburg.UnrolledPathFiltration
+import ASGinzburg.LinearIdealProducts
+
+/-! The arrow ideal and its genuine ideal square in the unrolled path algebra. -/
+namespace ASGinzburg.CutQuiver
+open ZAlgebra ZAlgebra.LinearIdeal
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def unrolledPathIdeal (n : ℕ) : (Q.unrolledPathZAlgebra k).LinearIdeal where
+  hom i j := Q.unrolledPathFiltration k n (Q.heightEquiv.symm i) (Q.heightEquiv.symm j)
+  comp_left := by
+    intro i j l f hf g
+    simpa only [Nat.add_zero] using Q.unrolledPathComp_mem_filtration k hf
+      (Q.mem_unrolledPathFiltration_zero k g)
+  comp_right := by
+    intro i j l g hg f
+    simpa only [Nat.zero_add] using Q.unrolledPathComp_mem_filtration k
+      (Q.mem_unrolledPathFiltration_zero k f) hg
+
+noncomputable abbrev unrolledArrowIdeal := Q.unrolledPathIdeal k 1
+
+theorem unrolledPathIdeal_mul_le (m n : ℕ) (i j : ℤ) :
+    ((Q.unrolledPathIdeal k m).mul (Q.unrolledPathIdeal k n)).hom i j ≤
+      (Q.unrolledPathIdeal k (m+n)).hom i j := by
+  apply Submodule.span_le.mpr
+  rintro x ⟨l,f,hf,g,hg,rfl⟩
+  exact Q.unrolledPathComp_mem_filtration k hf hg
+
+theorem unrolledArrowIdeal_square (i j : ℤ) :
+    ((Q.unrolledArrowIdeal k).mul (Q.unrolledArrowIdeal k)).hom i j =
+      (Q.unrolledPathIdeal k 2).hom i j := by
+  apply le_antisymm
+  · exact Q.unrolledPathIdeal_mul_le k 1 1 i j
+  · change Finsupp.supported k k _ ≤ _
+    rw [Finsupp.supported_eq_span_single]
+    apply Submodule.span_le.mpr
+    rintro x ⟨p,hp,rfl⟩
+    obtain ⟨s,f,hf,g,hg,hcomp⟩ := Q.unrolledPath_long_factor k p hp
+    generalize hll : Q.heightEquiv s = l
+    have hl : Q.heightEquiv.symm l=s := by
+      rw [←hll]
+      exact Q.heightEquiv.symm_apply_apply s
+    subst s
+    apply Submodule.subset_span
+    exact ⟨l,f,hf,g,hg,hcomp⟩
+
+end ASGinzburg.CutQuiver

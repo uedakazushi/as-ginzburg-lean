@@ -33,6 +33,7 @@ noncomputable def rightFiniteWindowNakayamaUnitIso (hAS : A.ASRegular Q) (l r : 
       A.rightFiniteWindowNakayamaInverseFunctor Q hAS l r).obj M)
     ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).unitIso.app M.obj)) (by
       intro M N f
+      apply ObjectProperty.hom_ext
       exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).unitIso.hom.naturality
         ((A.rightFiniteWindowProperty l r).ι.map f))
 
@@ -44,6 +45,7 @@ noncomputable def rightFiniteWindowNakayamaCounitIso (hAS : A.ASRegular Q) (l r 
       A.rightFiniteWindowNakayamaFunctor Q hAS l r).obj M) (Y := M)
     ((A.rightFiniteDimensionalNakayamaEquivalence Q hAS).counitIso.app M.obj)) (by
       intro M N f
+      apply ObjectProperty.hom_ext
       exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).counitIso.hom.naturality
         ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.map f))
 
@@ -57,12 +59,14 @@ instance rightFiniteWindowNakayamaFunctorAdditive (hAS : A.ASRegular Q) (l r : �
     (A.rightFiniteWindowNakayamaFunctor Q hAS l r).Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_add
       (f := (A.rightFiniteWindowProperty l r).ι.map f) (g := (A.rightFiniteWindowProperty l r).ι.map g)
 instance rightFiniteWindowNakayamaFunctorLinear (hAS : A.ASRegular Q) (l r : ℤ) :
     (A.rightFiniteWindowNakayamaFunctor Q hAS l r).Linear k where
   map_smul := by
     intro M N f t
+    apply ObjectProperty.hom_ext
     exact (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).functor.map_smul t
       ((A.rightFiniteWindowProperty l r).ι.map f)
 

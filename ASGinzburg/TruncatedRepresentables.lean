@@ -82,6 +82,7 @@ theorem rightTruncatedRepresentable_finite (l i : ℤ) :
 theorem rightRepresentableLowerTail_comp_eq_zero (l i : ℤ) (M : A.RightModule)
     (hLow : ∀ j, j<l → IsZero ((A.rightModuleEvaluation j).obj M))
     (f : A.representable i ⟶ M) : (A.rightRepresentableLowerTail l i).inclusion ≫ f = 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   by_cases hx : X.unop.index < l
@@ -90,7 +91,7 @@ theorem rightRepresentableLowerTail_comp_eq_zero (l i : ℤ) (M : A.RightModule)
     apply LinearMap.ext
     intro x
     have hx0 : x.val=0 := by simpa [rightRepresentableLowerTail,hx] using x.property
-    change (f.app X).hom x.val = 0
+    change (f.hom.app X).hom x.val = 0
     rw [hx0,map_zero]
 
 noncomputable def rightTruncatedRepresentableDesc (l i : ℤ) (M : A.RightModule)

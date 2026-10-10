@@ -1,0 +1,13 @@
+import Mathlib.LinearAlgebra.Finsupp.Supported
+import Mathlib.LinearAlgebra.Isomorphisms
+import Mathlib.LinearAlgebra.Quotient.Basic
+universe u v
+variable (k : Type u) [Field k] (α : Type v) (s t : Set α)
+#synth AddCommGroup (α →₀ k)
+#synth Module k (α →₀ k)
+#synth AddCommGroup (Finsupp.supported k k t)
+#synth Module k (Finsupp.supported k k t)
+#check Submodule.hasQuotient (R := k) (M := Finsupp.supported k k t)
+set_option trace.Meta.synthInstance true in
+#synth HasQuotient (Finsupp.supported k k t) (Submodule k (Finsupp.supported k k t))
+#check (Finsupp.supported k k t ⧸ (Finsupp.supported k k s).comap (Finsupp.supported k k t).subtype)

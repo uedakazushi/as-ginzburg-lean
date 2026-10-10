@@ -27,7 +27,6 @@ noncomputable def balancedTensorLeftUnitEquiv : BalancedTensorSpace k R R N ≃�
     · change balancedTensorLeftUnitInverse k R N (balancedTensorLeftUnitMap k R N 0)=0
       rw [map_zero,map_zero]
     · intro r y
-      rw [balancedTensorLeftUnitMap,balancedTensorLift_tmul]
       change balancedTensorTmul k R R N 1 (r • y)=balancedTensorTmul k R R N r y
       have h := balancedTensorTmul_balance k R R N r 1 y
       change balancedTensorTmul k R R N (1*r) y=balancedTensorTmul k R R N 1 (r • y) at h
@@ -35,8 +34,7 @@ noncomputable def balancedTensorLeftUnitEquiv : BalancedTensorSpace k R R N ≃�
     · intro a b ha hb
       rw [map_add,map_add,ha,hb]
   right_inv y := by
-    change balancedTensorLeftUnitMap k R N (balancedTensorTmul k R R N 1 y)=y
-    rw [balancedTensorLeftUnitMap,balancedTensorLift_tmul]
+    change (1 : R) • y = y
     exact one_smul R y
   map_add' := map_add (balancedTensorLeftUnitMap k R N)
   map_smul' := map_smul (balancedTensorLeftUnitMap k R N)

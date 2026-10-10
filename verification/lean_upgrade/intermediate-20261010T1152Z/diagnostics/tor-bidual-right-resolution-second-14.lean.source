@@ -1,0 +1,40 @@
+import ASGinzburg.ProjectiveResolutionHomExactness
+import ASGinzburg.RightModuleExtLeftSequence
+import ASGinzburg.ModuleBidualEvaluation
+import ASGinzburg.FourTermProjectiveResolution
+import ASGinzburg.FiniteProjectiveClosure
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {M : A.RightModule} (P : ProjectiveResolution M)
+
+noncomputable def rightResolutionDualComplex : CochainComplex A.LeftModule ℕ :=
+  (A.rightModuleADualFunctor.mapHomologicalComplex (ComplexShape.up ℕ)).obj P.complex.op
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def rightResolutionDualComplexEvaluationIso (i : ℤ) :
+    ((A.leftModuleEvaluation i).mapHomologicalComplex (ComplexShape.up ℕ)).obj
+      (A.rightResolutionDualComplex P) ≅ P.homComplex (k := k) (A.representable i) :=
+  HomologicalComplex.Hom.isoOfComponents (fun _ => Iso.refl _) (by
+    intro n m hnm
+    obtain rfl : m = n+1 := hnm.symm
+    simp only [Iso.refl_hom,Category.id_comp,Category.comp_id]
+    rw [show (P.homComplex (k := k) (A.representable i)).d n (n+1) =
+      P.homDifferential (k := k) (A.representable i) n from CochainComplex.of_d
+        (fun j => ModuleCat.of k (P.complex.X j ⟶ A.representable i))
+        (P.homDifferential (k := k) (A.representable i)) n]
+    rfl)
+
+theorem rightResolutionDualComplex_exactAt_low (h₄ : IsZero (P.complex.X 4))
+    (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+    (n : ℕ) (hn : n<3) : (A.rightResolutionDualComplex P).ExactAt n := by
+  rw [HomologicalComplex.exactAt_iff]
+  apply (A.leftModule_exact_iff _).mpr
+  intro i
+  have he := P.homComplex_exactAt_low_of_ext_zero (k := k) h₄ (A.representable i) (hExt i) n hn
+  exact (ShortComplex.exact_iff_of_iso
+    ((HomologicalComplex.shortComplexFunctor _ _ n).mapIso
+      (A.rightResolutionDualComplexEvaluationIso P i))).mpr he
+end ASGinzburg.ZAlgebra

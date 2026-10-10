@@ -1,0 +1,132 @@
+ASGinzburg/FourTermProjectiveResolution.lean:15:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:16:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:17:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:81:49: error: Type mismatch
+  ChainComplex.of_d ?m.133 ?m.134 1
+has type
+  ChainComplex.of.d ?m.133 ?m.134 (1 + 1) 1 = ?m.134 1
+but is expected to have type
+  R.complex.d 2 1 = R.d₂
+ASGinzburg/FourTermProjectiveResolution.lean:82:39: error: Type mismatch
+  ChainComplex.of_d ?m.133 ?m.134 0
+has type
+  ChainComplex.of.d ?m.133 ?m.134 (0 + 1) 0 = ?m.134 0
+but is expected to have type
+  R.complex.d 1 0 = R.d₁
+ASGinzburg/FourTermProjectiveResolution.lean:81:4: error: Type mismatch: After simplification, term
+  R.exact₁
+ has type
+  { X₁ := R.P₂, X₂ := R.P₁, X₃ := R.P₀, f := R.d₂, g := R.d₁, zero := ⋯ }.Exact
+but is expected to have type
+  { X₁ := R.complex.X 2, X₂ := R.complex.X 1, X₃ := R.complex.X 0, f := R.complex.d 2 1, g := R.complex.d 1 0,
+      zero := ⋯ }.Exact
+ASGinzburg/FourTermProjectiveResolution.lean:84:49: error: Type mismatch
+  ChainComplex.of_d ?m.179 ?m.180 2
+has type
+  ChainComplex.of.d ?m.179 ?m.180 (2 + 1) 2 = ?m.180 2
+but is expected to have type
+  R.complex.d 3 2 = R.d₃
+ASGinzburg/FourTermProjectiveResolution.lean:85:39: error: Type mismatch
+  ChainComplex.of_d ?m.179 ?m.180 1
+has type
+  ChainComplex.of.d ?m.179 ?m.180 (1 + 1) 1 = ?m.180 1
+but is expected to have type
+  R.complex.d 2 1 = R.d₂
+ASGinzburg/FourTermProjectiveResolution.lean:84:4: error: Type mismatch: After simplification, term
+  R.exact₂
+ has type
+  { X₁ := R.P₃, X₂ := R.P₂, X₃ := R.P₁, f := R.d₃, g := R.d₂, zero := ⋯ }.Exact
+but is expected to have type
+  { X₁ := R.complex.X 3, X₂ := R.complex.X 2, X₃ := R.complex.X 1, f := R.complex.d 3 2, g := R.complex.d 2 1,
+      zero := ⋯ }.Exact
+ASGinzburg/FourTermProjectiveResolution.lean:86:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:89:43: error: Type mismatch
+  ChainComplex.of_d ?m.222 ?m.223 2
+has type
+  ChainComplex.of.d ?m.222 ?m.223 (2 + 1) 2 = ?m.223 2
+but is expected to have type
+  R.complex.d 3 2 = R.d₃
+ASGinzburg/FourTermProjectiveResolution.lean:99:41: error: Type mismatch
+  ChainComplex.of_d ?m.60 ?m.61 0
+has type
+  ChainComplex.of.d ?m.60 ?m.61 (0 + 1) 0 = ?m.61 0
+but is expected to have type
+  R.complex.d 1 0 = R.d₁
+ASGinzburg/FourTermProjectiveResolution.lean:98:47: error: unsolved goals
+C : Type u
+inst✝¹ : Category.{v, u} C
+inst✝ : Abelian C
+M : C
+R : FourTermProjectiveResolution M
+⊢ R.complex.d 1 0 ≫ R.π = 0
+ASGinzburg/FourTermProjectiveResolution.lean:105:6: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:110:10: error: Type mismatch
+  Eq.symm (ChainComplex.of_d R.term R.differential 0)
+has type
+  R.differential 0 = ChainComplex.of.d R.term R.differential (0 + 1) 0
+but is expected to have type
+  𝟙 ((HomologicalComplex.shortComplexFunctor' C (ComplexShape.down ℕ) 1 0 0).obj R.complex).X₁ ≫ R.d₁ =
+    ((HomologicalComplex.shortComplexFunctor' C (ComplexShape.down ℕ) 1 0 0).obj R.complex).f ≫
+      𝟙 ((HomologicalComplex.shortComplexFunctor' C (ComplexShape.down ℕ) 1 0 0).obj R.complex).X₂
+ASGinzburg/FourTermProjectiveResolution.lean:111:9: error: unsolved goals
+C : Type u
+inst✝¹ : Category.{v, u} C
+inst✝ : Abelian C
+M : C
+R : FourTermProjectiveResolution M
+this : Epi R.π := R.epi_π
+⊢ 𝟙 ((HomologicalComplex.shortComplexFunctor' C (ComplexShape.down ℕ) 1 0 0).obj R.complex).X₂ ≫ R.π =
+    ((R.complex.toSingle₀Equiv M).symm ⟨R.π, ⋯⟩).f 0 ≫
+      𝟙
+        ((HomologicalComplex.shortComplexFunctor' C (ComplexShape.down ℕ) 1 0 0).obj
+            ((ChainComplex.single₀ C).obj M)).X₂
+ASGinzburg/FourTermProjectiveResolution.lean:111:18: warning: declaration uses `sorry`
+ASGinzburg/FourTermProjectiveResolution.lean:109:34: warning: This simp argument is unused:
+  Category.id_comp
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Iso.refl_hom, Category.comp_id]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/FourTermProjectiveResolution.lean:109:51: warning: This simp argument is unused:
+  Category.comp_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Iso.refl_hom, Category.id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,19 @@
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:25:6: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    h
+  has type
+    @Eq Q.Vertex (GinzburgArrow.source Q (GinzburgArrow.original a)) v✝
+  but is expected to have type
+    @Eq (Fin Q.vertices) (Q.source a) v✝
+  in the application
+    r.snoc a h
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:20:17: warning: This simp argument is unused:
+  GinzburgArrow.source
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [GinzburgArrow.target] at *
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

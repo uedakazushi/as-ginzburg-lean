@@ -31,8 +31,7 @@ noncomputable def envelopingOppositeLeftRegularEquiv :
     map_add' := e.map_add
     map_smul' := ?_ }
   intro r x
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [smul_zero,map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
       change e (r • (a ⊗ₜ[k] b)) =
         MulOpposite.op ((a.unop ⊗ₜ[k] b) * (r.unop ⊗ₜ[k] (1 : Rᵐᵒᵖ)))

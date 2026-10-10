@@ -1,0 +1,42 @@
+import ASGinzburg.FoundationBlockIdeals
+import ASGinzburg.FiniteComponentDecomposition
+
+/-! Membership of a genuine component embedding in a restricted
+foundation ideal is exactly membership of its original component. -/
+namespace ASGinzburg.ZAlgebra
+universe u
+variable {k : Type u} [Field k] {B : ZAlgebra.{u,u} k}
+  (I : B.LinearIdeal) (Q : CutQuiver)
+
+theorem LinearIdeal.foundationIdeal_component_mem_iff (i j : Q.Vertex)
+    (f : B.Hom (i.val : ℤ) (j.val : ℤ)) :
+    (B.foundationComponents Q).totalComponent i j f ∈ I.foundationIdeal Q ↔
+      f ∈ I.hom (i.val : ℤ) (j.val : ℤ) := by
+  classical
+  constructor
+  · intro h
+    have hx := h i j
+    exact (congrArg (fun x : B.Hom (i.val : ℤ) (j.val : ℤ) =>
+      x ∈ I.hom (i.val : ℤ) (j.val : ℤ))
+      ((B.foundationComponents Q).totalComponent_apply_same i j f)).mp hx
+  · intro h p q
+    by_cases hp : p=i
+    · subst p
+      by_cases hq : q=j
+      · subst q
+        exact (congrArg (fun x : B.Hom (i.val : ℤ) (j.val : ℤ) =>
+          x ∈ I.hom (i.val : ℤ) (j.val : ℤ))
+          ((B.foundationComponents Q).totalComponent_apply_same i j f)).mpr h
+      · change ((B.foundationComponents Q).totalComponent i j f) i q ∈ I.hom (i.val : ℤ) (q.val : ℤ)
+        have hzero : (B.foundationComponents Q).totalComponent i j f i q =
+            (0 : (B.foundationComponents Q).Hom i q) := by
+          dsimp only [LinearComponentAlgebra.totalComponent]
+          rw [Pi.single_eq_same]
+          exact Pi.single_eq_of_ne hq f
+        exact (congrArg (fun x : B.Hom (i.val : ℤ) (q.val : ℤ) =>
+          x ∈ I.hom (i.val : ℤ) (q.val : ℤ)) hzero).mpr
+            (I.hom (i.val : ℤ) (q.val : ℤ)).zero_mem
+    · rw [(B.foundationComponents Q).totalComponent_apply_source_ne i j p q f hp]
+      exact (I.hom (p.val : ℤ) (q.val : ℤ)).zero_mem
+
+end ASGinzburg.ZAlgebra

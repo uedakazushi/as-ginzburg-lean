@@ -8,17 +8,25 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 
 def rightFiniteDimensionalVectorDualFunctor : A.RightFiniteDimensionalᵒᵖ ⥤ A.LeftFiniteDimensional where
   obj M := ⟨A.rightModuleVectorDual M.unop.obj,A.rightModuleVectorDual_finite M.unop.property⟩
-  map f := A.rightModuleVectorDualMap f.unop
-  map_id M := A.rightModuleVectorDualFunctor.map_id (op M.unop.obj)
-  map_comp f g := A.rightModuleVectorDualFunctor.map_comp
-    (A.rightFiniteDimensionalProperty.ι.map f.unop).op (A.rightFiniteDimensionalProperty.ι.map g.unop).op
+  map f := ObjectProperty.homMk (A.rightModuleVectorDualMap f.unop.hom)
+  map_id M := by
+    apply ObjectProperty.hom_ext
+    exact A.rightModuleVectorDualFunctor.map_id (op M.unop.obj)
+  map_comp f g := by
+    apply ObjectProperty.hom_ext
+    exact A.rightModuleVectorDualFunctor.map_comp
+      (A.rightFiniteDimensionalProperty.ι.map f.unop).op (A.rightFiniteDimensionalProperty.ι.map g.unop).op
 
 def leftFiniteDimensionalVectorDualFunctor : A.LeftFiniteDimensionalᵒᵖ ⥤ A.RightFiniteDimensional where
   obj M := ⟨A.leftModuleVectorDual M.unop.obj,A.leftModuleVectorDual_finite M.unop.property⟩
-  map f := A.leftModuleVectorDualMap f.unop
-  map_id M := A.leftModuleVectorDualFunctor.map_id (op M.unop.obj)
-  map_comp f g := A.leftModuleVectorDualFunctor.map_comp
-    (A.leftFiniteDimensionalProperty.ι.map f.unop).op (A.leftFiniteDimensionalProperty.ι.map g.unop).op
+  map f := ObjectProperty.homMk (A.leftModuleVectorDualMap f.unop.hom)
+  map_id M := by
+    apply ObjectProperty.hom_ext
+    exact A.leftModuleVectorDualFunctor.map_id (op M.unop.obj)
+  map_comp f g := by
+    apply ObjectProperty.hom_ext
+    exact A.leftModuleVectorDualFunctor.map_comp
+      (A.leftFiniteDimensionalProperty.ι.map f.unop).op (A.leftFiniteDimensionalProperty.ι.map g.unop).op
 
 noncomputable def rightFiniteDimensionalVectorBidualNatIso :
     A.rightFiniteDimensionalVectorDualFunctor.rightOp ⋙ A.leftFiniteDimensionalVectorDualFunctor ≅
@@ -31,11 +39,12 @@ noncomputable def rightFiniteDimensionalVectorBidualNatIso :
       intro M N f
       letI := A.rightModuleVectorBidualEvaluation_isIso M.property
       letI := A.rightModuleVectorBidualEvaluation_isIso N.property
-      change A.leftModuleVectorDualMap (A.rightModuleVectorDualMap f) ≫
+      apply ObjectProperty.hom_ext
+      change A.leftModuleVectorDualMap (A.rightModuleVectorDualMap f.hom) ≫
           inv (A.rightModuleVectorBidualEvaluation N.obj) =
-        inv (A.rightModuleVectorBidualEvaluation M.obj) ≫ f
+        inv (A.rightModuleVectorBidualEvaluation M.obj) ≫ f.hom
       rw [IsIso.comp_inv_eq,Category.assoc,IsIso.eq_inv_comp]
-      exact (A.rightModuleVectorBidualEvaluation_natural f).symm)
+      exact (A.rightModuleVectorBidualEvaluation_natural f.hom).symm)
 
 noncomputable def leftFiniteDimensionalVectorBidualNatIso :
     A.leftFiniteDimensionalVectorDualFunctor.rightOp ⋙ A.rightFiniteDimensionalVectorDualFunctor ≅
@@ -48,11 +57,12 @@ noncomputable def leftFiniteDimensionalVectorBidualNatIso :
       intro M N f
       letI := A.leftModuleVectorBidualEvaluation_isIso M.property
       letI := A.leftModuleVectorBidualEvaluation_isIso N.property
-      change A.rightModuleVectorDualMap (A.leftModuleVectorDualMap f) ≫
+      apply ObjectProperty.hom_ext
+      change A.rightModuleVectorDualMap (A.leftModuleVectorDualMap f.hom) ≫
           inv (A.leftModuleVectorBidualEvaluation N.obj) =
-        inv (A.leftModuleVectorBidualEvaluation M.obj) ≫ f
+        inv (A.leftModuleVectorBidualEvaluation M.obj) ≫ f.hom
       rw [IsIso.comp_inv_eq,Category.assoc,IsIso.eq_inv_comp]
-      exact (A.leftModuleVectorBidualEvaluation_natural f).symm)
+      exact (A.leftModuleVectorBidualEvaluation_natural f.hom).symm)
 
 noncomputable def finiteDimensionalVectorDualEquivalence : A.RightFiniteDimensionalᵒᵖ ≌ A.LeftFiniteDimensional :=
   CategoryTheory.Equivalence.mk A.rightFiniteDimensionalVectorDualFunctor A.leftFiniteDimensionalVectorDualFunctor.rightOp
@@ -63,11 +73,13 @@ instance rightFiniteDimensionalVectorDualFunctorAdditive : A.rightFiniteDimensio
     intro M N f g
     let fb : op M.unop.obj ⟶ op N.unop.obj := (A.rightFiniteDimensionalProperty.ι.map f.unop).op
     let gb : op M.unop.obj ⟶ op N.unop.obj := (A.rightFiniteDimensionalProperty.ι.map g.unop).op
+    apply ObjectProperty.hom_ext
     exact A.rightModuleVectorDualFunctor.map_add (f := fb) (g := gb)
 instance rightFiniteDimensionalVectorDualFunctorLinear : A.rightFiniteDimensionalVectorDualFunctor.Linear k where
   map_smul := by
     intro M N f r
     let fb : op M.unop.obj ⟶ op N.unop.obj := (A.rightFiniteDimensionalProperty.ι.map f.unop).op
+    apply ObjectProperty.hom_ext
     exact A.rightModuleVectorDualFunctor.map_smul r fb
 
 instance leftFiniteDimensionalVectorDualFunctorAdditive : A.leftFiniteDimensionalVectorDualFunctor.Additive where
@@ -75,11 +87,13 @@ instance leftFiniteDimensionalVectorDualFunctorAdditive : A.leftFiniteDimensiona
     intro M N f g
     let fb : op M.unop.obj ⟶ op N.unop.obj := (A.leftFiniteDimensionalProperty.ι.map f.unop).op
     let gb : op M.unop.obj ⟶ op N.unop.obj := (A.leftFiniteDimensionalProperty.ι.map g.unop).op
+    apply ObjectProperty.hom_ext
     exact A.leftModuleVectorDualFunctor.map_add (f := fb) (g := gb)
 instance leftFiniteDimensionalVectorDualFunctorLinear : A.leftFiniteDimensionalVectorDualFunctor.Linear k where
   map_smul := by
     intro M N f r
     let fb : op M.unop.obj ⟶ op N.unop.obj := (A.leftFiniteDimensionalProperty.ι.map f.unop).op
+    apply ObjectProperty.hom_ext
     exact A.leftModuleVectorDualFunctor.map_smul r fb
 
 noncomputable def leftFiniteDimensionalVectorDualEquivalence : A.LeftFiniteDimensionalᵒᵖ ≌ A.RightFiniteDimensional :=

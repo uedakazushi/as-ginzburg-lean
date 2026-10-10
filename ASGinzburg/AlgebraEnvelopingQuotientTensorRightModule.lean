@@ -77,23 +77,21 @@ noncomputable def quotientTensorRightEnvelopingEquiv :
   right_inv := (quotientTensorRightCanonicalFieldEquiv k R J).right_inv
   map_add' x y := (quotientTensorRightCanonicalFieldEquiv k R J).map_add x y
   map_smul' e x := by
-    have hz : quotientTensorRightCanonicalFieldEquiv k R J
-        (0 : QuotientTensorRightSpace k R J) = 0 :=
-      (quotientTensorRightCanonicalFieldEquiv k R J).toLinearMap.map_zero
+    letI : Module (AlgebraEnvelopingRing k R)ᵐᵒᵖ (QuotientTensorRightSpace k R J) :=
+      (quotientTensorRightSourceObject k R J).isModule
+    let y : QuotientTensorRightSpace k R J := x
     have hadd (x y : QuotientTensorRightSpace k R J) :
         quotientTensorRightCanonicalFieldEquiv k R J (x + y) =
           quotientTensorRightCanonicalFieldEquiv k R J x +
             quotientTensorRightCanonicalFieldEquiv k R J y :=
       (quotientTensorRightCanonicalFieldEquiv k R J).map_add x y
-    change quotientTensorRightCanonicalFieldEquiv k R J (e • x) =
+    change quotientTensorRightCanonicalFieldEquiv k R J (e • y) =
       (algebraEnvelopingQuotientAugmentation k R J).op e *
-        quotientTensorRightCanonicalFieldEquiv k R J x
+        quotientTensorRightCanonicalFieldEquiv k R J y
     obtain ⟨e, rfl⟩ := MulOpposite.op_surjective e
-    induction e using TensorProduct.induction_on with
-    | zero => simp only [MulOpposite.op_zero, zero_smul, hz, map_zero, zero_mul]
+    induction e using TensorProduct.inductionOn with
     | tmul a b =>
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, hz, mul_zero]
+        induction y using TensorProduct.inductionOn with
         | tmul s t =>
             change quotientTensorRightCanonicalFieldEquiv k R J
                 (quotientTensorRightTmul k R J (MulOpposite.op a • s) (b.unop • t)) =

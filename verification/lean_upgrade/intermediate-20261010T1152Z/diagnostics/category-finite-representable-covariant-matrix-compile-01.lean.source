@@ -1,0 +1,48 @@
+import ASGinzburg.FiniteRepresentableDualMatrix
+import ASGinzburg.FiniteCoproductComponentNaturality
+
+/-! Actual evaluation of finite representable coproduct morphisms is
+matrix multiplication, with genuine Yoneda entries and algebra composition. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+variable {I J : Type} [Fintype I] [Fintype J] [DecidableEq I] [DecidableEq J]
+
+omit [Fintype I] [DecidableEq I] in
+theorem representableCoproductMorphism_coordinates (j l : ℤ) (t : J → ℤ)
+    (f : A.representable j ⟶ ∐ (fun b => A.representable (t b)))
+    (x : A.Hom l j) (b : J) :
+    A.rightFiniteCoproductPiEquiv (fun b => A.representable (t b)) l
+      (f.hom.app (op ⟨l⟩) x) b=
+      A.comp (A.rightFiniteCoproductPiEquiv (fun b => A.representable (t b)) j
+        (A.representableYonedaEquiv j (∐ fun b => A.representable (t b)) f) b) x := by
+  have h := A.representableYonedaEquiv_symm_app j (∐ fun b => A.representable (t b))
+    (A.representableYonedaEquiv j (∐ fun b => A.representable (t b)) f) (op ⟨l⟩) x
+  simp only [LinearEquiv.symm_apply_apply] at h
+  rw [h]
+  exact A.rightFiniteCoproductPiEquiv_action _ l j x _ b
+
+theorem rightRepresentableCoproductMorphism_coordinates (i : I → ℤ) (j : J → ℤ)
+    (l : ℤ) (d : ∐ (fun a => A.representable (i a)) ⟶ ∐ (fun b => A.representable (j b)))
+    (x : (A.rightModuleEvaluation l).obj (∐ fun a => A.representable (i a))) (b : J) :
+    A.rightFiniteCoproductPiEquiv (fun b => A.representable (j b)) l
+      (d.hom.app (op ⟨l⟩) x) b=
+      ∑ a, A.comp
+        (A.rightFiniteCoproductPiEquiv (fun b => A.representable (j b)) (i a)
+          (A.representableYonedaEquiv (i a) (∐ fun b => A.representable (j b))
+            (Sigma.ι (fun a => A.representable (i a)) a ≫ d)) b)
+        (A.rightFiniteCoproductPiEquiv (fun a => A.representable (i a)) l x a) := by
+  rw [A.rightFiniteCoproductMorphism_apply]
+  refine (congrFun (map_sum
+    (A.rightFiniteCoproductPiEquiv (fun b => A.representable (j b)) l)
+    (fun a => ((A.rightModuleEvaluation l).map
+      (Sigma.ι (fun a => A.representable (i a)) a ≫ d)).hom
+        (A.rightFiniteCoproductPiEquiv (fun a => A.representable (i a)) l x a))
+    Finset.univ) b).trans ?_
+  simp only [Finset.sum_apply]
+  apply Finset.sum_congr rfl
+  intro a _
+  exact A.representableCoproductMorphism_coordinates _ _ _ _ _ b
+
+end ASGinzburg.ZAlgebra

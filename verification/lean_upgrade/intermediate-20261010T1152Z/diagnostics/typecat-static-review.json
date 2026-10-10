@@ -1,0 +1,140 @@
+{
+  "reviewed_at_utc": "2026-10-10T08:48:46.809646+00:00",
+  "mode": "bounded_read_only_static_scan_no_compiler_or_build_invocation",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "scope_public_source_files": 1373,
+  "funext_site_count": 272,
+  "funext_sites_near_maps_or_naturality_count": 58,
+  "typecat_related_source_sites": [
+    {
+      "file": "ASGinzburg/AlgebraEnvelopingTensorResolution.lean",
+      "line": 21,
+      "source": "letI : IsIso ((CategoryTheory.forget (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).map f) := by"
+    },
+    {
+      "file": "ASGinzburg/AlgebraEnvelopingTensorResolution.lean",
+      "line": 22,
+      "source": "change IsIso ((CategoryTheory.forget (ModuleCat k)).map (G.map f))"
+    },
+    {
+      "file": "ASGinzburg/AlgebraEnvelopingTensorResolution.lean",
+      "line": 24,
+      "source": "exact isIso_of_reflects_iso f (CategoryTheory.forget (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ))"
+    },
+    {
+      "file": "ASGinzburg/GinzburgCutCochainClasses.lean",
+      "line": 43,
+      "source": "change ((forget₂ (ModuleCat k) Ab).map (K.iCycles 0))"
+    },
+    {
+      "file": "ASGinzburg/GinzburgPrefixHomologyClasses.lean",
+      "line": 43,
+      "source": "change ((forget₂ (ModuleCat k) Ab).map (K.iCycles r)) (K.cyclesMk f (r+1) (by simp) hf)=f"
+    },
+    {
+      "file": "ASGinzburg/HomologicalColimitClosure.lean",
+      "line": 93,
+      "source": "(forget₂ (ModuleCat.{v} k) AddCommGrpCat.{v})"
+    },
+    {
+      "file": "ASGinzburg/ModuleCatRestrictionHomology.lean",
+      "line": 23,
+      "source": "have : IsIso ((forget (ModuleCat.{z} S)).map g) := by"
+    },
+    {
+      "file": "ASGinzburg/ModuleCatRestrictionHomology.lean",
+      "line": 24,
+      "source": "change IsIso ((forget (ModuleCat.{z} R)).map"
+    },
+    {
+      "file": "ASGinzburg/ModuleCatRestrictionHomology.lean",
+      "line": 27,
+      "source": "exact isIso_of_reflects_iso g (forget (ModuleCat.{z} S))"
+    },
+    {
+      "file": "ASGinzburg/ModuleCochainHomologyClasses.lean",
+      "line": 42,
+      "source": "change ((forget₂ (ModuleCat k) Ab).map (K.iCycles i))"
+    },
+    {
+      "file": "ASGinzburg/ModuleCokernelHomologyClasses.lean",
+      "line": 39,
+      "source": "change ((forget₂ (ModuleCat k) Ab).map (K.iCycles i))"
+    },
+    {
+      "file": "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean",
+      "line": 16,
+      "source": "ordinaryRingDualFunctor R ⋙ forget (ModuleCat.{v} Rᵐᵒᵖ) ≅"
+    },
+    {
+      "file": "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean",
+      "line": 17,
+      "source": "yoneda.obj (ModuleCat.of R R) :="
+    },
+    {
+      "file": "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean",
+      "line": 24,
+      "source": "ordinaryRingDual R P.unop ≃ (P.unop ⟶ ModuleCat.of R R)).toIso)"
+    },
+    {
+      "file": "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean",
+      "line": 29,
+      "source": "(ordinaryRingDualFunctor R ⋙ forget (ModuleCat.{v} Rᵐᵒᵖ)) :="
+    },
+    {
+      "file": "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean",
+      "line": 32,
+      "source": "(ordinaryRingDualFunctor R) (forget (ModuleCat.{v} Rᵐᵒᵖ))"
+    }
+  ],
+  "relevant_module_sha256": {
+    "ASGinzburg/AlgebraEnvelopingTensorResolution.lean": "39514cd6cabc91d2ed15e860f45151fe1fd6c00fd23a7672a911291222202552",
+    "ASGinzburg/GinzburgCutCochainClasses.lean": "d36cd52c307ec60ba7493857e0e1e4ecf19e06ab00ac6f2fe0f430c599a1e69c",
+    "ASGinzburg/GinzburgPrefixHomologyClasses.lean": "468bb19ecf8d55c112c1aa9f524cfbf8f2e03194c6a6cc2dbef4c78b3df9f8e2",
+    "ASGinzburg/HomologicalColimitClosure.lean": "9a93e3188d87c2cb53d25d921724d615e5cc672e740961cf43f73a564bdf21d0",
+    "ASGinzburg/ModuleCatRestrictionHomology.lean": "231ea49318ab5f21837d78af12d86d30bd5304eea400745931a63e0c135e5ebb",
+    "ASGinzburg/ModuleCochainHomologyClasses.lean": "ebf6b93618b030cade02e1971f291cdc4a1cf3fd837e071d17aa680f2a7a35b0",
+    "ASGinzburg/ModuleCokernelHomologyClasses.lean": "b2b294623b6a8a555d8c9a59e0c8d1687649df37b64a772489821691c7ad7019",
+    "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean": "6e7883ce264b580e54534554892c43b709068da4b039e576603bdff805b1ba95"
+  },
+  "actual_mathlib_typecat_source": {
+    "file": ".lake/packages/mathlib/Mathlib/CategoryTheory/Types/Basic.lean",
+    "sha256": "99972ff9a151cf7c9b59d5ef8f18f4ed4704b39c357f82c26d26c0d0916f5727",
+    "observed_api": "TypeCat.Hom wraps TypeCat.Fun; TypeCat.ofHom promotes raw functions; TypeCat.Hom has extensionality."
+  },
+  "high_confidence_remaining_findings": [],
+  "reviewed_safe_cases": [
+    {
+      "file": "ASGinzburg/OrdinaryModuleRingDualLeftExact.lean",
+      "declaration": "ordinaryRingDualForgetYonedaIso",
+      "reason": "Only public set-valued natural-isomorphism construction found. Equiv.toIso supplies bundled TypeCat arrows, and the known TypeCat naturality proof uses ext g; rfl rather than applying funext to a bundled morphism."
+    },
+    {
+      "file": "ASGinzburg/ModuleCatRestrictionHomology.lean",
+      "declaration": "moduleCatRestrictionReflectsIsomorphisms",
+      "reason": "Uses forget.map and change IsIso to reflect isomorphisms. It constructs no raw TypeCat arrow or function-equality proof."
+    },
+    {
+      "file": "ASGinzburg/AlgebraEnvelopingTensorResolution.lean",
+      "declaration": "tensorRightEnvelopingAugmentation_quasiIso",
+      "reason": "Underlying forget-map comparison of isomorphisms has no raw TypeCat arrow construction or funext goal."
+    },
+    {
+      "files": [
+        "ASGinzburg/GinzburgCutCochainClasses.lean",
+        "ASGinzburg/GinzburgPrefixHomologyClasses.lean",
+        "ASGinzburg/ModuleCochainHomologyClasses.lean",
+        "ASGinzburg/ModuleCokernelHomologyClasses.lean",
+        "ASGinzburg/HomologicalColimitClosure.lean"
+      ],
+      "reason": "forget₂ targets additive-group categories, not Type; applied bundled morphisms are existing maps, not raw TypeCat constructions."
+    },
+    {
+      "reason": "The 58 funext sites near maps/naturality operate after NatTrans.ext or HomologicalComplex.Hom.ext, or on coordinate Pi/functions after linear-map extensionality. Bifunctor codomains are ModuleCat; none is an equality of TypeCat.Hom."
+    }
+  ],
+  "limitations": [
+    "Read-only bounded review cannot certify elaboration or compilation. The full Lean 4.34.1 build and axiom audit remain authoritative.",
+    "No mathematical assumptions, conclusions, or public source files were edited."
+  ]
+}

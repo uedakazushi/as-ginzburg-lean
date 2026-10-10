@@ -33,8 +33,14 @@ theorem rightModuleWindow_of_shortExact {S : ShortComplex A.RightModule}
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 theorem rightFiniteWindowProperty_closedUnderLimits (l r : ℤ) (J : Type)
-    [SmallCategory J] [FinCategory J] : ClosedUnderLimitsOfShape J (A.rightFiniteWindowProperty l r) := by
-  intro F c hc hF i hi
+    [SmallCategory J] [FinCategory J] : (A.rightFiniteWindowProperty l r).IsClosedUnderLimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let F := p.diag
+  let c := p.toLimitPresentation.cone
+  have hc : IsLimit c := p.isLimit
+  have hF := p.prop_diag_obj
+  intro i hi
   let E := A.rightFiniteDimensionalProperty.ι ⋙ A.rightModuleEvaluation i
   haveI : PreservesLimit F E := by dsimp [E]; infer_instance
   have hD : IsZero (F ⋙ E) := by
@@ -46,8 +52,14 @@ theorem rightFiniteWindowProperty_closedUnderLimits (l r : ℤ) (J : Type)
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 theorem rightFiniteWindowProperty_closedUnderColimits (l r : ℤ) (J : Type)
-    [SmallCategory J] [FinCategory J] : ClosedUnderColimitsOfShape J (A.rightFiniteWindowProperty l r) := by
-  intro F c hc hF i hi
+    [SmallCategory J] [FinCategory J] : (A.rightFiniteWindowProperty l r).IsClosedUnderColimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let F := p.diag
+  let c := p.toColimitPresentation.cocone
+  have hc : IsColimit c := p.isColimit
+  have hF := p.prop_diag_obj
+  intro i hi
   let E := A.rightFiniteDimensionalProperty.ι ⋙ A.rightModuleEvaluation i
   haveI : PreservesColimit F E := by dsimp [E]; infer_instance
   have hD : IsZero (F ⋙ E) := by
@@ -59,16 +71,24 @@ theorem rightFiniteWindowProperty_closedUnderColimits (l r : ℤ) (J : Type)
 
 noncomputable instance rightFiniteWindowHasLimitsOfShape (l r : ℤ) (J : Type)
     [SmallCategory J] [FinCategory J] : HasLimitsOfShape J (A.RightFiniteWindow l r) :=
-  hasLimitsOfShape_of_closedUnderLimits (A.rightFiniteWindowProperty_closedUnderLimits l r J)
+  by
+    letI := A.rightFiniteWindowProperty_closedUnderLimits l r J
+    exact hasLimitsOfShape_of_closedUnderLimits J (A.rightFiniteWindowProperty l r)
 noncomputable instance rightFiniteWindowHasColimitsOfShape (l r : ℤ) (J : Type)
     [SmallCategory J] [FinCategory J] : HasColimitsOfShape J (A.RightFiniteWindow l r) :=
-  hasColimitsOfShape_of_closedUnderColimits (A.rightFiniteWindowProperty_closedUnderColimits l r J)
+  by
+    letI := A.rightFiniteWindowProperty_closedUnderColimits l r J
+    exact hasColimitsOfShape_of_closedUnderColimits J (A.rightFiniteWindowProperty l r)
 noncomputable instance rightFiniteWindowInclusionCreatesLimitsOfShape (l r : ℤ) (J : Type)
     [SmallCategory J] [FinCategory J] : CreatesLimitsOfShape J (A.rightFiniteWindowProperty l r).ι :=
-  createsLimitsOfShapeFullSubcategoryInclusion (A.rightFiniteWindowProperty_closedUnderLimits l r J)
+  by
+    letI := A.rightFiniteWindowProperty_closedUnderLimits l r J
+    exact createsLimitsOfShapeFullSubcategoryInclusion J (A.rightFiniteWindowProperty l r)
 noncomputable instance rightFiniteWindowInclusionCreatesColimitsOfShape (l r : ℤ) (J : Type)
     [SmallCategory J] [FinCategory J] : CreatesColimitsOfShape J (A.rightFiniteWindowProperty l r).ι :=
-  createsColimitsOfShapeFullSubcategoryInclusion (A.rightFiniteWindowProperty_closedUnderColimits l r J)
+  by
+    letI := A.rightFiniteWindowProperty_closedUnderColimits l r J
+    exact createsColimitsOfShapeFullSubcategoryInclusion J (A.rightFiniteWindowProperty l r)
 noncomputable instance rightFiniteWindowHasFiniteProducts (l r : ℤ) : HasFiniteProducts (A.RightFiniteWindow l r) where
   out _ := inferInstance
 

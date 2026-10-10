@@ -1,0 +1,92 @@
+ASGinzburg/ScalarQuotientVertexDecomposition.lean:65:4: error: Tactic `apply` failed: could not unify the conclusion of `@MulOpposite.unop_injective`
+  MulOpposite.unop ?a₁ = MulOpposite.unop ?a₂ → ?a₁ = ?a₂
+with the goal
+  ∀ (y : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ),
+    (fun i => (e i).symm (E (MulOpposite.unop (s + y)) i)) =
+      (fun i => (e i).symm (E (MulOpposite.unop s) i)) + fun i => (e i).symm (E (MulOpposite.unop y) i)
+
+Note: The full type of `@MulOpposite.unop_injective` is
+  ∀ {α : Type ?u.116}, Function.Injective MulOpposite.unop
+
+case refine_1
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+E : (R ⧸ RingHom.ker f.toRingHom) ≃ₐ[k] I → k := Ideal.quotientKerAlgEquivOfSurjective hf
+s : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ
+⊢ ∀ (y : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ),
+    (fun i => (e i).symm (E (MulOpposite.unop (s + y)) i)) =
+      (fun i => (e i).symm (E (MulOpposite.unop s) i)) + fun i => (e i).symm (E (MulOpposite.unop y) i)
+ASGinzburg/ScalarQuotientVertexDecomposition.lean:69:4: error: Tactic `apply` failed: could not unify the conclusion of `@funext`
+  (∀ (x : ?α), ?f x = ?g x) → ?f = ?g
+with the goal
+  ∀ (x_1 : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ),
+    (fun i => (e i).symm (E (MulOpposite.unop (x • x_1)) i)) =
+      (RingHom.id Rᵐᵒᵖ) x • fun i => (e i).symm (E (MulOpposite.unop x_1) i)
+
+Note: The full type of `@funext` is
+  ∀ {α : Sort ?u.118} {β : α → Sort ?u.117} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g
+
+case refine_2
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+E : (R ⧸ RingHom.ker f.toRingHom) ≃ₐ[k] I → k := Ideal.quotientKerAlgEquivOfSurjective hf
+x : Rᵐᵒᵖ
+⊢ ∀ (x_1 : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ),
+    (fun i => (e i).symm (E (MulOpposite.unop (x • x_1)) i)) =
+      (RingHom.id Rᵐᵒᵖ) x • fun i => (e i).symm (E (MulOpposite.unop x_1) i)
+ASGinzburg/ScalarQuotientVertexDecomposition.lean:72:12: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case refine_3
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+E : (R ⧸ RingHom.ker f.toRingHom) ≃ₐ[k] I → k := Ideal.quotientKerAlgEquivOfSurjective hf
+s : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ
+⊢ (fun x => MulOpposite.op (E.symm fun i => (e i) (x i))) ((fun s i => (e i).symm (E (MulOpposite.unop s) i)) s) = s
+ASGinzburg/ScalarQuotientVertexDecomposition.lean:77:12: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case refine_4
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+E : (R ⧸ RingHom.ker f.toRingHom) ≃ₐ[k] I → k := Ideal.quotientKerAlgEquivOfSurjective hf
+r : (i : I) → ↑(V i)
+⊢ (fun s i => (e i).symm (E (MulOpposite.unop s) i)) ((fun x => MulOpposite.op (E.symm fun i => (e i) (x i))) r) = r

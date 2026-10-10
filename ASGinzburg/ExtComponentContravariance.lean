@@ -39,12 +39,14 @@ noncomputable def rightModuleExtLeftFunctor (n : ℕ) : A.RightModuleᵒᵖ ⥤ 
   obj M := A.rightModuleExtLeft M.unop n
   map f := A.rightModuleExtPrecompLeft f.unop n
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
     ext e
     exact e.mk₀_id_comp
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -58,6 +60,7 @@ noncomputable def rightModuleExtLeftFunctor (n : ℕ) : A.RightModuleᵒᵖ ⥤ 
 instance rightModuleExtLeftFunctorAdditive (n : ℕ) : (A.rightModuleExtLeftFunctor n).Additive where
   map_add := by
     intro X Y f g
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext Z
     apply ModuleCat.hom_ext
@@ -70,6 +73,7 @@ instance rightModuleExtLeftFunctorAdditive (n : ℕ) : (A.rightModuleExtLeftFunc
 instance rightModuleExtLeftFunctorLinear (n : ℕ) : (A.rightModuleExtLeftFunctor n).Linear k where
   map_smul := by
     intro X Y f r
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext Z
     apply ModuleCat.hom_ext
@@ -89,12 +93,14 @@ noncomputable def leftModuleExtRightFunctor (n : ℕ) : A.LeftModuleᵒᵖ ⥤ A
   obj M := A.leftModuleExtRight M.unop n
   map f := A.leftModuleExtPrecompRight f.unop n
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
     ext e
     exact e.mk₀_id_comp
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -108,6 +114,7 @@ noncomputable def leftModuleExtRightFunctor (n : ℕ) : A.LeftModuleᵒᵖ ⥤ A
 instance leftModuleExtRightFunctorAdditive (n : ℕ) : (A.leftModuleExtRightFunctor n).Additive where
   map_add := by
     intro X Y f g
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext Z
     apply ModuleCat.hom_ext
@@ -120,6 +127,7 @@ instance leftModuleExtRightFunctorAdditive (n : ℕ) : (A.leftModuleExtRightFunc
 instance leftModuleExtRightFunctorLinear (n : ℕ) : (A.leftModuleExtRightFunctor n).Linear k where
   map_smul := by
     intro X Y f r
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext Z
     apply ModuleCat.hom_ext

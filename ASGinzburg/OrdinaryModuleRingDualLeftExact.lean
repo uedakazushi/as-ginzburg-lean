@@ -22,7 +22,7 @@ noncomputable def ordinaryRingDualForgetYonedaIso :
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl } :
         ordinaryRingDual R P.unop ≃ (P.unop ⟶ ModuleCat.of R R)).toIso)
-    (fun f => by funext g; rfl)
+    (fun f => by ext g; rfl)
 
 instance ordinaryRingDualFunctor_preservesLimits : PreservesLimits (ordinaryRingDualFunctor R) := by
   letI : PreservesLimits

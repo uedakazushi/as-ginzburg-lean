@@ -18,6 +18,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 theorem leftModule_isZero_of_components (M : A.LeftModule)
     (h : ∀ i : ℤ, IsZero ((A.leftModuleEvaluation i).obj M)) : IsZero M := by
   rw [IsZero.iff_id_eq_zero]
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   exact (h X.index).eq_of_src _ _
@@ -48,7 +49,7 @@ noncomputable def leftModuleIsoOfSingleSupport (M N : A.LeftModule) (i : ℤ)
         simp only [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id]
       · exact (hN l hl).eq_of_tgt _ _
     · exact (hM j hj).eq_of_src _ _)
-  exact ⟨en.hom,en.inv,en.hom_inv_id,en.inv_hom_id⟩
+  exact ObjectProperty.isoMk _ en
 
 variable (Q : CutQuiver)
 

@@ -1,0 +1,12 @@
+ASGinzburg/ASGenerators.lean:84:2: error: 'change' tactic failed, pattern
+  (A.comp (R.incomingElement a)) x =
+    (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁))
+      ((ModuleCat.Hom.hom (R.term₁ComponentIso i).inv)
+        ((DirectSum.lof k (Q.incomingArrows w) (fun i_1 => A.Hom i (Q.height (Q.incomingSource w i_1))) a) x))
+is not definitionally equal to target
+  (R.incomingMultiplication i ∘ₗ
+        DirectSum.lof k (Q.incomingArrows w) (fun i_1 => A.Hom i (Q.height (Q.incomingSource w i_1))) a)
+      x =
+    ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁) ∘ₗ ModuleCat.Hom.hom (R.term₁ComponentIso i).inv) ∘ₗ
+        DirectSum.lof k (Q.incomingArrows w) (fun i_1 => A.Hom i (Q.height (Q.incomingSource w i_1))) a)
+      x

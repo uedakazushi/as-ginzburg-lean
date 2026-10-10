@@ -14,13 +14,13 @@ noncomputable def foundationRingRightComponentFunctor
     (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
     A.FoundationRightObj Q ⥤ ModuleCat.{u} k where
   obj i := ModuleCat.of k (A.foundationRingRightComponentSpace Q M i)
-  map a := ModuleCat.ofHom (A.foundationRingRightComponentMap Q M a.unop)
+  map a := ModuleCat.ofHom (A.foundationRingRightComponentMap Q M a.hom.unop)
   map_id i := by
     apply ModuleCat.hom_ext
     exact A.foundationRingRightComponentMap_id Q M i
   map_comp a b := by
     apply ModuleCat.hom_ext
-    exact (A.foundationRingRightComponentMap_comp Q M b.unop a.unop).symm
+    exact (A.foundationRingRightComponentMap_comp Q M b.hom.unop a.hom.unop).symm
 
 noncomputable instance foundationRingRightComponentFunctorAdditive
     (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
@@ -28,7 +28,7 @@ noncomputable instance foundationRingRightComponentFunctorAdditive
   map_add := by
     intro i j a b
     apply ModuleCat.hom_ext
-    exact (A.foundationRingRightRangeActionLinear Q M j i).map_add a.unop b.unop
+    exact (A.foundationRingRightRangeActionLinear Q M j i).map_add a.hom.unop b.hom.unop
 
 noncomputable instance foundationRingRightComponentFunctorLinear
     (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) :
@@ -36,7 +36,7 @@ noncomputable instance foundationRingRightComponentFunctorLinear
   map_smul := by
     intro i j a c
     apply ModuleCat.hom_ext
-    exact (A.foundationRingRightRangeActionLinear Q M j i).map_smul c a.unop
+    exact (A.foundationRingRightRangeActionLinear Q M j i).map_smul c a.hom.unop
 
 noncomputable def foundationRingRightComponentModule
     (M : ModuleCat.{u} (A.FoundationAlgebra Q)ᵐᵒᵖ) : A.FoundationRightModule Q :=

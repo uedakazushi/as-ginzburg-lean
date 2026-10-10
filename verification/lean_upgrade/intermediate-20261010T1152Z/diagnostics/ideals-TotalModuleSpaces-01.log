@@ -1,0 +1,208 @@
+ASGinzburg/TotalModuleSpaces.lean:19:6: error: Type mismatch: After simplification, term
+  HasColimit.ι_isoOfNatIso_hom Discrete.natIsoFunctor i
+ has type
+  @Eq (G.obj i ⟶ colimit (Discrete.functor (G.obj ∘ Discrete.mk)))
+    (colimit.ι G i ≫ (HasColimit.isoOfNatIso Discrete.natIsoFunctor).hom)
+    (colimit.ι (Discrete.functor (G.obj ∘ Discrete.mk)) i)
+but is expected to have type
+  @Eq (G.obj i ⟶ colimit (Discrete.functor (G.obj ∘ Discrete.mk)))
+    (colimit.ι G i ≫ (HasColimit.isoOfNatIso Discrete.natIsoFunctor).hom)
+    (colimit.ι (Discrete.functor fun j => G.obj { as := j }) i)
+ASGinzburg/TotalModuleSpaces.lean:22:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:23:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:9:0: warning: Definition `ASGinzburg.discreteColimitFaithful` of class type is semireducible. Most type class instances should be instance-reducible, so consider marking this
+definition with `@[instance_reducible]`. If it is intentionally semireducible, this warning can be disabled with `set_option warn.classDefReducibility false`.
+ASGinzburg/TotalModuleSpaces.lean:68:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:73:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:79:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:85:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:92:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:100:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:150:58: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.LeftModule
+i : ℤ
+⊢ colimit.ι (A.leftModuleComponents.obj M) { as := i } ≫
+      (HasColimit.isoOfNatIso (NatIso.ofComponents (fun x => Iso.refl ((A.leftModuleComponents.obj M).obj x)) ⋯) ≪≫
+          ModuleCat.coprodIsoDirectSum fun i => (A.leftModuleEvaluation i).obj M).hom =
+    ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => ↑((A.leftModuleEvaluation j).obj M)) i)
+ASGinzburg/TotalModuleSpaces.lean:151:43: warning: This simp argument is unused:
+  Iso.trans_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc, Discrete.natIso,
+    NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:151:58: warning: This simp argument is unused:
+  Category.assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Iso.trans_hom, HasColimit.ι_isoOfNatIso_hom_assoc, Discrete.natIso,
+    NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:152:4: warning: This simp argument is unused:
+  HasColimit.ι_isoOfNatIso_hom_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, Discrete.natIso,
+    NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:153:4: warning: This simp argument is unused:
+  NatIso.ofComponents_hom_app
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:153:33: warning: This simp argument is unused:
+  Iso.refl_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, NatIso.ofComponents_hom_app, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:153:47: warning: This simp argument is unused:
+  Category.id_comp
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, NatIso.ofComponents_hom_app, Iso.refl_hom, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:154:4: warning: This simp argument is unused:
+  ModuleCat.ι_coprodIsoDirectSum_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [leftModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:160:59: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+⊢ colimit.ι (A.rightModuleComponents.obj M) { as := i } ≫
+      (HasColimit.isoOfNatIso (NatIso.ofComponents (fun x => Iso.refl ((A.rightModuleComponents.obj M).obj x)) ⋯) ≪≫
+          ModuleCat.coprodIsoDirectSum fun i => (A.rightModuleEvaluation i).obj M).hom =
+    ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => ↑((A.rightModuleEvaluation j).obj M)) i)
+ASGinzburg/TotalModuleSpaces.lean:161:44: warning: This simp argument is unused:
+  Iso.trans_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc, Discrete.natIso,
+    NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:161:59: warning: This simp argument is unused:
+  Category.assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Iso.trans_hom, HasColimit.ι_isoOfNatIso_hom_assoc, Discrete.natIso,
+    NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:162:4: warning: This simp argument is unused:
+  HasColimit.ι_isoOfNatIso_hom_assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, Discrete.natIso,
+    NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:163:4: warning: This simp argument is unused:
+  NatIso.ofComponents_hom_app
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, Iso.refl_hom, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:163:33: warning: This simp argument is unused:
+  Iso.refl_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, NatIso.ofComponents_hom_app, Category.id_comp, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:163:47: warning: This simp argument is unused:
+  Category.id_comp
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, NatIso.ofComponents_hom_app, Iso.refl_hom, ModuleCat.ι_coprodIsoDirectSum_hom]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/TotalModuleSpaces.lean:164:4: warning: This simp argument is unused:
+  ModuleCat.ι_coprodIsoDirectSum_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [rightModuleTotalFunctorObjIso, Iso.trans_hom, Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
+    Discrete.natIso, NatIso.ofComponents_hom_app, Iso.refl_hom, Category.id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

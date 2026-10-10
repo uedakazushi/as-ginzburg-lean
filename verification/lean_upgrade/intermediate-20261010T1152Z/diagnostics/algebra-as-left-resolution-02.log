@@ -1,0 +1,69 @@
+ASGinzburg/ASLeftResolution.lean:84:8: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a =>
+    { X₁ := R.dualComplex.X 1, X₂ := R.dualComplex.X 2, X₃ := R.dualComplex.X 3, f := _a, g := R.dualComplex.d 2 3,
+        zero := ⋯ }.Exact
+Error: Application type mismatch: The argument
+  HomologicalComplex.d_comp_d R.dualComplex 1 2 3
+has type
+  R.dualComplex.d 1 2 ≫ R.dualComplex.d 2 3 = 0
+but is expected to have type
+  autoParam (_a ≫ R.dualComplex.d 2 3 = 0) ShortComplex.zero._autoParam
+in the application
+  { X₁ := R.dualComplex.X 1, X₂ := R.dualComplex.X 2, X₃ := R.dualComplex.X 3, f := _a, g := R.dualComplex.d 2 3,
+    zero := ⋯ }
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+case zero
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+h : A.ASRegular Q
+he :
+  { X₁ := R.dualComplex.X 1, X₂ := R.dualComplex.X 2, X₃ := R.dualComplex.X 3, f := R.dualComplex.d 1 2,
+      g := R.dualComplex.d 2 3, zero := ⋯ }.Exact
+⊢ (HomologicalComplex.sc' R.leftResolutionComplex (0 + 2) (0 + 1) 0).Exact
+ASGinzburg/ASLeftResolution.lean:94:8: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a =>
+    { X₁ := R.dualComplex.X 0, X₂ := R.dualComplex.X 1, X₃ := R.dualComplex.X 2, f := _a, g := R.dualComplex.d 1 2,
+        zero := ⋯ }.Exact
+Error: Application type mismatch: The argument
+  HomologicalComplex.d_comp_d R.dualComplex 0 1 2
+has type
+  R.dualComplex.d 0 1 ≫ R.dualComplex.d 1 2 = 0
+but is expected to have type
+  autoParam (_a ≫ R.dualComplex.d 1 2 = 0) ShortComplex.zero._autoParam
+in the application
+  { X₁ := R.dualComplex.X 0, X₂ := R.dualComplex.X 1, X₃ := R.dualComplex.X 2, f := _a, g := R.dualComplex.d 1 2,
+    zero := ⋯ }
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+case succ.zero
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+h : A.ASRegular Q
+he :
+  { X₁ := R.dualComplex.X 0, X₂ := R.dualComplex.X 1, X₃ := R.dualComplex.X 2, f := R.dualComplex.d 0 1,
+      g := R.dualComplex.d 1 2, zero := ⋯ }.Exact
+⊢ (HomologicalComplex.sc' R.leftResolutionComplex (0 + 1 + 2) (0 + 1 + 1) (0 + 1)).Exact
+ASGinzburg/ASLeftResolution.lean:101:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/ASLeftResolution.lean:160:6: error: `dsimp` made no progress

@@ -21,13 +21,13 @@ theorem positiveActionSpan_map_of_epi {M N : A.RightModule} (f : M ⟶ N) [Epi f
     refine ⟨M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op y,
       Submodule.subset_span ⟨l,hil,y,a,rfl⟩,?_⟩
     have h := congrArg (fun t => t.hom y)
-      (f.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op)
-    change f.app (op ⟨i⟩)
+      (f.hom.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op)
+    change f.hom.app (op ⟨i⟩)
       (M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op y)=_
-    change f.app (op ⟨i⟩)
+    change f.hom.app (op ⟨i⟩)
       (M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op y)=
-        N.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op (f.app (op ⟨l⟩) y) at h
-    change f.app (op ⟨l⟩) y=z at hy
+        N.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨l⟩ from a).op (f.hom.app (op ⟨l⟩) y) at h
+    change f.hom.app (op ⟨l⟩) y=z at hy
     rw [hy] at h
     exact h
 

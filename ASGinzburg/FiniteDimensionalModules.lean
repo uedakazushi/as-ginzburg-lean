@@ -269,6 +269,7 @@ theorem rightModuleExtLeft_isZero_of_isZero {M : A.RightModule} (hM : IsZero M) 
 theorem leftModuleExtRight_isZero_of_isZero {M : A.LeftModule} (hM : IsZero M) (n : ℕ) :
     IsZero (A.leftModuleExtRight M n) := by
   rw [IsZero.iff_id_eq_zero]
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext

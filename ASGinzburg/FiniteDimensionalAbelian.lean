@@ -44,8 +44,13 @@ theorem rightFiniteDimensional_coproduct {I : Type} [Finite I] (M : I → A.Righ
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 theorem rightFiniteDimensionalProperty_closedUnderFiniteLimits
     (J : Type) [SmallCategory J] [Finite J] :
-    ClosedUnderLimitsOfShape J A.rightFiniteDimensionalProperty := by
-  intro F c hc hF
+    A.rightFiniteDimensionalProperty.IsClosedUnderLimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let F := p.diag
+  let c := p.toLimitPresentation.cone
+  have hc : IsLimit c := p.isLimit
+  have hF := p.prop_diag_obj
   letI := ASGinzburg.limitConeProductMono c hc
   exact A.rightFiniteDimensional_of_mono (Pi.lift (fun j => c.π.app j))
     (A.rightFiniteDimensional_product (fun j => F.obj j) hF)
@@ -53,8 +58,13 @@ theorem rightFiniteDimensionalProperty_closedUnderFiniteLimits
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 theorem rightFiniteDimensionalProperty_closedUnderFiniteColimits
     (J : Type) [SmallCategory J] [Finite J] :
-    ClosedUnderColimitsOfShape J A.rightFiniteDimensionalProperty := by
-  intro F c hc hF
+    A.rightFiniteDimensionalProperty.IsClosedUnderColimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let F := p.diag
+  let c := p.toColimitPresentation.cocone
+  have hc : IsColimit c := p.isColimit
+  have hF := p.prop_diag_obj
   letI := ASGinzburg.colimitCoconeCoproductEpi c hc
   exact A.rightFiniteDimensional_of_epi (Sigma.desc (fun j => c.ι.app j))
     (A.rightFiniteDimensional_coproduct (fun j => F.obj j) hF)
@@ -62,24 +72,32 @@ theorem rightFiniteDimensionalProperty_closedUnderFiniteColimits
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance rightFiniteDimensionalHasLimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] : HasLimitsOfShape J A.RightFiniteDimensional :=
-  hasLimitsOfShape_of_closedUnderLimits (A.rightFiniteDimensionalProperty_closedUnderFiniteLimits J)
+  by
+    letI := A.rightFiniteDimensionalProperty_closedUnderFiniteLimits J
+    exact hasLimitsOfShape_of_closedUnderLimits J A.rightFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance rightFiniteDimensionalHasColimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] : HasColimitsOfShape J A.RightFiniteDimensional :=
-  hasColimitsOfShape_of_closedUnderColimits (A.rightFiniteDimensionalProperty_closedUnderFiniteColimits J)
+  by
+    letI := A.rightFiniteDimensionalProperty_closedUnderFiniteColimits J
+    exact hasColimitsOfShape_of_closedUnderColimits J A.rightFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance rightFiniteDimensionalInclusionCreatesLimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] :
     CreatesLimitsOfShape J A.rightFiniteDimensionalProperty.ι :=
-  createsLimitsOfShapeFullSubcategoryInclusion (A.rightFiniteDimensionalProperty_closedUnderFiniteLimits J)
+  by
+    letI := A.rightFiniteDimensionalProperty_closedUnderFiniteLimits J
+    exact createsLimitsOfShapeFullSubcategoryInclusion J A.rightFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance rightFiniteDimensionalInclusionCreatesColimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] :
     CreatesColimitsOfShape J A.rightFiniteDimensionalProperty.ι :=
-  createsColimitsOfShapeFullSubcategoryInclusion (A.rightFiniteDimensionalProperty_closedUnderFiniteColimits J)
+  by
+    letI := A.rightFiniteDimensionalProperty_closedUnderFiniteColimits J
+    exact createsColimitsOfShapeFullSubcategoryInclusion J A.rightFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance rightFiniteDimensionalHasFiniteProducts : HasFiniteProducts A.RightFiniteDimensional where
@@ -146,8 +164,13 @@ theorem leftFiniteDimensional_coproduct {I : Type} [Finite I] (M : I → A.LeftM
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 theorem leftFiniteDimensionalProperty_closedUnderFiniteLimits
     (J : Type) [SmallCategory J] [Finite J] :
-    ClosedUnderLimitsOfShape J A.leftFiniteDimensionalProperty := by
-  intro F c hc hF
+    A.leftFiniteDimensionalProperty.IsClosedUnderLimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let F := p.diag
+  let c := p.toLimitPresentation.cone
+  have hc : IsLimit c := p.isLimit
+  have hF := p.prop_diag_obj
   letI := ASGinzburg.limitConeProductMono c hc
   exact A.leftFiniteDimensional_of_mono (Pi.lift (fun j => c.π.app j))
     (A.leftFiniteDimensional_product (fun j => F.obj j) hF)
@@ -155,8 +178,13 @@ theorem leftFiniteDimensionalProperty_closedUnderFiniteLimits
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 theorem leftFiniteDimensionalProperty_closedUnderFiniteColimits
     (J : Type) [SmallCategory J] [Finite J] :
-    ClosedUnderColimitsOfShape J A.leftFiniteDimensionalProperty := by
-  intro F c hc hF
+    A.leftFiniteDimensionalProperty.IsClosedUnderColimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let F := p.diag
+  let c := p.toColimitPresentation.cocone
+  have hc : IsColimit c := p.isColimit
+  have hF := p.prop_diag_obj
   letI := ASGinzburg.colimitCoconeCoproductEpi c hc
   exact A.leftFiniteDimensional_of_epi (Sigma.desc (fun j => c.ι.app j))
     (A.leftFiniteDimensional_coproduct (fun j => F.obj j) hF)
@@ -164,24 +192,32 @@ theorem leftFiniteDimensionalProperty_closedUnderFiniteColimits
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance leftFiniteDimensionalHasLimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] : HasLimitsOfShape J A.LeftFiniteDimensional :=
-  hasLimitsOfShape_of_closedUnderLimits (A.leftFiniteDimensionalProperty_closedUnderFiniteLimits J)
+  by
+    letI := A.leftFiniteDimensionalProperty_closedUnderFiniteLimits J
+    exact hasLimitsOfShape_of_closedUnderLimits J A.leftFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance leftFiniteDimensionalHasColimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] : HasColimitsOfShape J A.LeftFiniteDimensional :=
-  hasColimitsOfShape_of_closedUnderColimits (A.leftFiniteDimensionalProperty_closedUnderFiniteColimits J)
+  by
+    letI := A.leftFiniteDimensionalProperty_closedUnderFiniteColimits J
+    exact hasColimitsOfShape_of_closedUnderColimits J A.leftFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance leftFiniteDimensionalInclusionCreatesLimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] :
     CreatesLimitsOfShape J A.leftFiniteDimensionalProperty.ι :=
-  createsLimitsOfShapeFullSubcategoryInclusion (A.leftFiniteDimensionalProperty_closedUnderFiniteLimits J)
+  by
+    letI := A.leftFiniteDimensionalProperty_closedUnderFiniteLimits J
+    exact createsLimitsOfShapeFullSubcategoryInclusion J A.leftFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance leftFiniteDimensionalInclusionCreatesColimitsOfShape
     (J : Type) [SmallCategory J] [Finite J] :
     CreatesColimitsOfShape J A.leftFiniteDimensionalProperty.ι :=
-  createsColimitsOfShapeFullSubcategoryInclusion (A.leftFiniteDimensionalProperty_closedUnderFiniteColimits J)
+  by
+    letI := A.leftFiniteDimensionalProperty_closedUnderFiniteColimits J
+    exact createsColimitsOfShapeFullSubcategoryInclusion J A.leftFiniteDimensionalProperty
 
 attribute [-instance] ModuleCat.instHasLimitsOfSize in
 noncomputable instance leftFiniteDimensionalHasFiniteProducts : HasFiniteProducts A.LeftFiniteDimensional where

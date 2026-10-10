@@ -11,12 +11,13 @@ variable (hoff : ∀ j : ℤ, j≠i → IsZero ((A.rightModuleEvaluation j).obj 
 
 include hoff in
 theorem vertexPresentation_radical_zero : (A.representableRadical i).inclusion ≫ β=0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  change β.app X x.val=0
+  change β.hom.app X x.val=0
   by_cases hxi : X.unop.index < i
   · haveI : Subsingleton (S.obj.obj X) :=
       ModuleCat.isZero_iff_subsingleton.mp (hoff X.unop.index (ne_of_lt hxi))

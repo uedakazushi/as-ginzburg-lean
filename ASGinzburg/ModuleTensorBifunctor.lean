@@ -1,5 +1,5 @@
 import Mathlib.Algebra.Category.ModuleCat.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.LinearAlgebra.TensorProduct.Map
 import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
 
 /-! The ordinary tensor bifunctor with independently sized module

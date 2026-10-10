@@ -1,0 +1,89 @@
+import ASGinzburg.ASLeftBidualComplex
+import ASGinzburg.ProjectiveResolutionHomComplex
+import ASGinzburg.LeftModuleExt
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+
+theorem reversedRightComplex_exactAt_low (n : ℕ) (hn : n < 3) :
+    R.reversedRightComplex.ExactAt n := by
+  rcases n with _ | _ | _ | n
+  · rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp)]
+    apply (ShortComplex.exact_iff_mono _ (R.reversedRightComplex.shape 0 0 (by simp))).mpr
+    change Mono (R.reversedRightComplex.d 0 1)
+    rw [show R.reversedRightComplex.d 0 1 = R.d₃ from CochainComplex.of_d _ _ 0]
+    exact R.mono_d₃
+  · rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp)]
+    simpa [reversedRightComplex,reversedRightTerm,reversedRightDifferential,
+      HomologicalComplex.sc',complexTerm] using R.exact₂
+  · rw [HomologicalComplex.exactAt_iff' _ 1 2 3 (by simp) (by simp)]
+    simpa [reversedRightComplex,reversedRightTerm,reversedRightDifferential,
+      HomologicalComplex.sc',complexTerm] using R.exact₁
+  · omega
+
+theorem leftResolutionDualComplex_exactAt_low (n : ℕ) (hn : n < 3) :
+    R.leftResolutionDualComplex.ExactAt n := by
+  rw [HomologicalComplex.exactAt_iff]
+  exact (ShortComplex.exact_iff_of_iso
+    ((HomologicalComplex.shortComplexFunctor _ _ n).mapIso R.leftResolutionBidualComplexIso)).mpr
+      (R.reversedRightComplex_exactAt_low n hn)
+
+noncomputable def leftResolutionDualComplexEvaluationIso (h : A.ASRegular Q) (i : ℤ) :
+    ((A.rightModuleEvaluation i).mapHomologicalComplex (ComplexShape.up ℕ)).obj
+      R.leftResolutionDualComplex ≅ (R.toLeftProjectiveResolution h).homComplex
+        (k := k) (A.leftRepresentable i) :=
+  HomologicalComplex.Hom.isoOfComponents (fun _ => Iso.refl _) (by
+    intro n m hnm
+    obtain rfl : m = n+1 := hnm.symm
+    simp only [Iso.refl_hom,Category.id_comp,Category.comp_id]
+    rw [show ((R.toLeftProjectiveResolution h).homComplex (k := k) (A.leftRepresentable i)).d n (n+1) =
+      (R.toLeftProjectiveResolution h).homDifferential (k := k) (A.leftRepresentable i) n from
+        CochainComplex.of_d _ _ n]
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro f
+    rfl)
+end ASGinzburg.ZAlgebra.ASResolution
+
+
+namespace ASGinzburg.ZAlgebra.ASResolution
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver}
+  {w : Q.LiftVertex} (R : A.ASResolution Q w)
+include R
+
+theorem leftResolutionHomComplex_exactAt_low (h : A.ASRegular Q) (i : ℤ)
+    (n : ℕ) (hn : n < 3) :
+    ((R.toLeftProjectiveResolution h).homComplex (k := k) (A.leftRepresentable i)).ExactAt n := by
+  rw [HomologicalComplex.exactAt_iff]
+  apply (ShortComplex.exact_iff_of_iso
+    ((HomologicalComplex.shortComplexFunctor _ _ n).mapIso
+      (R.leftResolutionDualComplexEvaluationIso h i))).mp
+  exact (R.leftResolutionDualComplex_exactAt_low n hn).map (A.rightModuleEvaluation i)
+
+theorem leftExt_low_eq_zero (h : A.ASRegular Q) (i : ℤ) (n : ℕ) (hn : n < 3)
+    (e : Abelian.Ext.{v} (A.simpleLeftModule (Q.height (Q.tau.symm w)))
+      (A.leftRepresentable i) n) : e = 0 := by
+  exact (R.toLeftProjectiveResolution h).ext_low_eq_zero_of_homComplex_exact (k := k)
+    (A.leftRepresentable i) n hn (R.leftResolutionHomComplex_exactAt_low h i n hn) e
+
+theorem leftExt_ge_four_eq_zero (h : A.ASRegular Q) (N : A.LeftModule) (n : ℕ)
+    (e : Abelian.Ext.{v} (A.simpleLeftModule (Q.height (Q.tau.symm w))) N (n+4)) : e = 0 := by
+  exact (R.toLeftProjectiveResolution h).ext_ge_four_eq_zero
+    (R.leftResolutionComplex_isZero_ge_four 0) N n e
+
+theorem leftExt_other_eq_zero (h : A.ASRegular Q) (i : ℤ) (n : ℕ) (hn : n ≠ 3)
+    (e : Abelian.Ext.{v} (A.simpleLeftModule (Q.height (Q.tau.symm w)))
+      (A.leftRepresentable i) n) : e = 0 := by
+  by_cases hlt : n < 3
+  · exact R.leftExt_low_eq_zero h i n hlt e
+  · obtain ⟨m,hm⟩ := Nat.exists_eq_add_of_le (show 4 ≤ n by omega)
+    rw [Nat.add_comm 4 m] at hm
+    subst n
+    exact R.leftExt_ge_four_eq_zero h _ m e
+end ASGinzburg.ZAlgebra.ASResolution
+

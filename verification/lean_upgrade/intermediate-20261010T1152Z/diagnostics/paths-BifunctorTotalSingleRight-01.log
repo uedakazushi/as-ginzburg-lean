@@ -1,0 +1,25 @@
+ASGinzburg/BifunctorTotalSingleRight.lean:37:2: warning: `CategoryTheory.Limits.mkCofanColimit` has been deprecated: Use `CategoryTheory.Limits.Cofan.IsColimit.mk` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.mkCofanColimit` to `Cofan.IsColimit.mk x`).
+ASGinzburg/BifunctorTotalSingleRight.lean:114:91: error: unsolved goals
+C₁ : Type u₁
+C₂ : Type u₂
+D : Type u₃
+inst✝⁸ : Category.{v₁, u₁} C₁
+inst✝⁷ : Category.{v₂, u₂} C₂
+inst✝⁶ : Category.{v₃, u₃} D
+inst✝⁵ : Preadditive C₁
+inst✝⁴ : Preadditive C₂
+inst✝³ : Preadditive D
+inst✝² : HasZeroObject C₂
+F : C₁ ⥤ C₂ ⥤ D
+inst✝¹ : F.Additive
+inst✝ : ∀ (X : C₁), (F.obj X).Additive
+K : ChainComplex C₁ ℕ
+N : C₂
+L : ChainComplex C₁ ℕ
+f : K ⟶ L
+n : ℕ
+⊢ (F.map (f.f n)).app N ≫ ιMapBifunctor L ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯ =
+    (F.map (f.f n)).app N ≫
+      𝟙 ((F.obj (L.X n)).obj N) ≫ ιMapBifunctor L ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯

@@ -31,20 +31,22 @@ theorem isMinimalMorphism_iff_range_le {M N : A.RightModule} (f : M ⟶ N) :
 /-- A minimal morphism factors through the actual target radical with its right action. -/
 def minimalMorphismLift {M N : A.RightModule} (f : M ⟶ N) (hf : A.IsMinimalMorphism f) :
     M ⟶ (A.rightModuleRadical N).object where
-  app X := ModuleCat.ofHom {
-    toFun x := ⟨f.app X x, hf X.unop.index x⟩
-    map_add' x y := Subtype.ext (map_add (f.app X).hom x y)
-    map_smul' r x := Subtype.ext (map_smul (f.app X).hom r x) }
-  naturality := by
-    intro X Y a
-    apply ModuleCat.hom_ext
-    ext x
-    apply Subtype.ext
-    exact congrArg (fun g => g x) (f.naturality a)
+  hom := {
+    app X := ModuleCat.ofHom {
+      toFun x := ⟨f.hom.app X x, hf X.unop.index x⟩
+      map_add' x y := Subtype.ext (map_add (f.hom.app X).hom x y)
+      map_smul' r x := Subtype.ext (map_smul (f.hom.app X).hom r x) }
+    naturality := by
+      intro X Y a
+      apply ModuleCat.hom_ext
+      ext x
+      apply Subtype.ext
+      exact congrArg (fun g => g x) (f.hom.naturality a) }
 
 @[simp] theorem minimalMorphismLift_inclusion {M N : A.RightModule} (f : M ⟶ N)
     (hf : A.IsMinimalMorphism f) :
     A.minimalMorphismLift f hf ≫ (A.rightModuleRadical N).inclusion = f := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   rfl
@@ -54,7 +56,7 @@ theorem isMinimalMorphism_of_factor {M N : A.RightModule} (f : M ⟶ N)
     (h : g ≫ (A.rightModuleRadical N).inclusion = f) : A.IsMinimalMorphism f := by
   intro i x
   rw [← h]
-  exact (g.app (op ⟨i⟩) x).property
+  exact (g.hom.app (op ⟨i⟩) x).property
 
 theorem isMinimalMorphism_iff_factors {M N : A.RightModule} (f : M ⟶ N) :
     A.IsMinimalMorphism f ↔ ∃ g : M ⟶ (A.rightModuleRadical N).object,

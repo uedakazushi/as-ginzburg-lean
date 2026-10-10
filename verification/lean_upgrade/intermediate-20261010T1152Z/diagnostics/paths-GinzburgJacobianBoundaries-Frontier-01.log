@@ -1,0 +1,53 @@
+ASGinzburg/GinzburgJacobianBoundaries.lean:19:11: error: unsolved goals
+case zero
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+x : ↥(Q.ginzburgCohomologicalComponent k u v (-1))
+S : Set (Q.GinzburgPath u v) := {p | p.cohomologicalDegree = -1}
+e : ↥(Finsupp.supported k k S) ≃ₗ[k] ↑S →₀ k := Finsupp.supportedEquivFinsupp S
+⊢ (Q.ginzburgBoundaryLift k φ u v) 0 ∈ (Q.pathJacobianIdeal k φ).hom u v
+ASGinzburg/GinzburgJacobianBoundaries.lean:20:23: error: Type mismatch: After simplification, term
+  Submodule.add_mem ((Q.pathJacobianIdeal k φ).hom u v) hf hg
+ has type
+  (Q.ginzburgBoundaryLift k φ u v) (e.symm f) + (Q.ginzburgBoundaryLift k φ u v) (e.symm g) ∈
+    (Q.pathJacobianIdeal k φ).hom u v
+but is expected to have type
+  (Q.ginzburgBoundaryLift k φ u v) (e.symm f + e.symm g) ∈ (Q.pathJacobianIdeal k φ).hom u v
+ASGinzburg/GinzburgJacobianBoundaries.lean:23:22: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f (?c • ?x)
+in the target expression
+  (Q.ginzburgBoundaryLift k φ u v) (c • e.symm (Finsupp.single p 1)) ∈ (Q.pathJacobianIdeal k φ).hom u v
+
+case single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+x : ↥(Q.ginzburgCohomologicalComponent k u v (-1))
+S : Set (Q.GinzburgPath u v) := {p | p.cohomologicalDegree = -1}
+e : ↥(Finsupp.supported k k S) ≃ₗ[k] ↑S →₀ k := Finsupp.supportedEquivFinsupp S
+p : ↑S
+c : k
+hs : Finsupp.single p c = c • Finsupp.single p 1
+⊢ (Q.ginzburgBoundaryLift k φ u v) (c • e.symm (Finsupp.single p 1)) ∈ (Q.pathJacobianIdeal k φ).hom u v
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    c • e.symm (Finsupp.single p 1)
+  has type
+    ↥(Finsupp.supported k k S)
+  but is expected to have type
+    ↥(Q.ginzburgCohomologicalComponent k u v (-1))
+  in the application
+    (Q.ginzburgBoundaryLift k φ u v) (c • e.symm (Finsupp.single p 1))
+ASGinzburg/GinzburgJacobianBoundaries.lean:39:2: error: Type mismatch: After simplification, term
+  hall (e x)
+ has type
+  (Q.ginzburgBoundaryLift k φ u v) (e.symm (e x)) ∈ (Q.pathJacobianIdeal k φ).hom u v
+but is expected to have type
+  (Q.ginzburgBoundaryLift k φ u v) x ∈ (Q.pathJacobianIdeal k φ).hom u v

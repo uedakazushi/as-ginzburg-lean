@@ -1,0 +1,74 @@
+ASGinzburg/BifunctorTotalSingleLeft.lean:35:2: warning: `CategoryTheory.Limits.mkCofanColimit` has been deprecated: Use `CategoryTheory.Limits.Cofan.IsColimit.mk` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.mkCofanColimit` to `Cofan.IsColimit.mk x`).
+ASGinzburg/BifunctorTotalSingleLeft.lean:44:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  eqToHom ?p
+in the target expression
+  eqToHom ⋯ ≫ s.inj ⟨(0, n), ⋯⟩ = s.inj ⟨(0, n), h⟩
+
+case pos
+C₁ : Type u_1
+C₂ : Type u_2
+D : Type u_3
+inst✝⁸ : Category.{?u.6, u_1} C₁
+inst✝⁷ : Category.{?u.9, u_2} C₂
+inst✝⁶ : Category.{?u.12, u_3} D
+inst✝⁵ : Preadditive C₁
+inst✝⁴ : Preadditive C₂
+inst✝³ : Preadditive D
+inst✝² : HasZeroObject C₁
+F : C₁ ⥤ C₂ ⥤ D
+inst✝¹ : F.Additive
+inst✝ : ∀ (X : C₁), (F.obj X).Additive
+M : C₁
+K : ChainComplex C₂ ℕ
+n : ℕ
+s :
+  Cofan
+    ((mapBifunctorSingleLeftBicomplex F M K).toGradedObject.mapObjFun
+      ((ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n)
+h : (0, n) ∈ (ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ) ⁻¹' {n}
+⊢ eqToHom ⋯ ≫ s.inj ⟨(0, n), ⋯⟩ = s.inj ⟨(0, n), h⟩
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    s
+  has type
+    Cofan
+      ((mapBifunctorSingleLeftBicomplex F M K).toGradedObject.mapObjFun
+        ((ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n)
+  but is expected to have type
+    Cocone
+      (Discrete.functor
+        ((((GradedObject.mapBifunctor F ℕ ℕ).obj ((ChainComplex.single₀ C₁).obj M).X).obj K.X).mapObjFun
+          ((ComplexShape.down ℕ).π (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n))
+  in the application
+    s.pt
+ASGinzburg/BifunctorTotalSingleLeft.lean:51:6: error: Type mismatch: After simplification, term
+  h
+ has type
+  eqToHom ⋯ ≫ m = s.inj ⟨(0, n), ⋯⟩
+but is expected to have type
+  m = s.inj ⟨(0, n), ⋯⟩
+ASGinzburg/BifunctorTotalSingleLeft.lean:72:2: error: unsolved goals
+case pos
+C₁ : Type u_1
+C₂ : Type u_2
+D : Type u_3
+inst✝⁸ : Category.{u_6, u_1} C₁
+inst✝⁷ : Category.{u_5, u_2} C₂
+inst✝⁶ : Category.{u_4, u_3} D
+inst✝⁵ : Preadditive C₁
+inst✝⁴ : Preadditive C₂
+inst✝³ : Preadditive D
+inst✝² : HasZeroObject C₁
+F : C₁ ⥤ C₂ ⥤ D
+inst✝¹ : F.Additive
+inst✝ : ∀ (X : C₁), (F.obj X).Additive
+M : C₁
+K : ChainComplex C₂ ℕ
+i j : ℕ
+hij : (ComplexShape.down ℕ).Rel i j
+⊢ 1 • (F.obj M).map (K.d i j) ≫ ιMapBifunctor ((ChainComplex.single₀ C₁).obj M) K F (ComplexShape.down ℕ) 0 j j ⋯ =
+    (F.obj M).map (K.d i j) ≫ ιMapBifunctor ((ChainComplex.single₀ C₁).obj M) K F (ComplexShape.down ℕ) 0 j j ⋯

@@ -1,4 +1,4 @@
-import Mathlib.RingTheory.TensorProduct.Basic
+import Mathlib.RingTheory.TensorProduct.Maps
 import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.Algebra.Category.ModuleCat.Basic
 
@@ -45,7 +45,7 @@ noncomputable def regularEnvelopingRepresentation : AlgebraEnvelopingRing k R �
 
 theorem regularEnvelopingRepresentation_tmul (a b x : R) :
     regularEnvelopingRepresentation k R (a ⊗ₜ[k] MulOpposite.op b) x=a*x*b := by
-  rw [regularEnvelopingRepresentation,Algebra.TensorProduct.lift_tmul]
+  change a * (x * b) = a * x * b
   exact (mul_assoc a x b).symm
 
 noncomputable def regularEnvelopingModule : Module (AlgebraEnvelopingRing k R) R :=

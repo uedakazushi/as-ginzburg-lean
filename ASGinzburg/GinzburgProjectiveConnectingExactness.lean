@@ -66,10 +66,10 @@ theorem ginzburgLoopDualProjectiveMap_comp (φ : Q.Potential k) (v : Q.LiftVerte
     exact Q.heightEquiv.apply_symm_apply _
   have he := Q.ginzburgLoopDualProjectiveComponent_comp k φ x v
   rw [← ginzburgLoopDualProjectiveMap_component,← ginzburgDualOriginalProjectiveMap_component] at he
-  change (Q.ginzburgLoopDualProjectiveMap k φ v).app X ≫
-    (Q.ginzburgDualOriginalProjectiveMap k φ v).app X = 0
-  change (Q.ginzburgLoopDualProjectiveMap k φ v).app (Opposite.op ⟨Q.height x⟩) ≫
-    (Q.ginzburgDualOriginalProjectiveMap k φ v).app (Opposite.op ⟨Q.height x⟩) = 0 at he
+  change (Q.ginzburgLoopDualProjectiveMap k φ v).hom.app X ≫
+    (Q.ginzburgDualOriginalProjectiveMap k φ v).hom.app X = 0
+  change (Q.ginzburgLoopDualProjectiveMap k φ v).hom.app (Opposite.op ⟨Q.height x⟩) ≫
+    (Q.ginzburgDualOriginalProjectiveMap k φ v).hom.app (Opposite.op ⟨Q.height x⟩) = 0 at he
   rw [hx] at he
   exact he
 

@@ -44,6 +44,7 @@ theorem representableToElement_identity (i : ℤ) :
 theorem representableToElement_composition (i j m : ℤ) (f : A.Hom i j) (g : A.Hom j m) :
     A.representableToElement i (A.representable m) (A.comp g f) =
       A.representableToElement i (A.representable j) f ≫ A.representableToElement j (A.representable m) g := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext

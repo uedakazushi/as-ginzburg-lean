@@ -1,0 +1,14 @@
+ASGinzburg/PeriodInverse.lean:62:17: error: Type mismatch: After simplification, term
+  inverseComponent_id E i
+ has type
+  @Eq (A.Hom (i - p) (i - p)) ((E.inverseComponent i i) (A.id i)) (A.id (i - p))
+but is expected to have type
+  @Eq (A.Hom (i + -p) (i + -p)) ((⋯.mpr (⋯.mpr (E.inverseComponent i i))) (A.id i)) (A.id (i + -p))
+ASGinzburg/PeriodInverse.lean:63:21: error: Type mismatch: After simplification, term
+  inverseComponent_comp E f g
+ has type
+  @Eq (A.Hom (u✝ - p) (w✝ - p)) ((E.inverseComponent u✝ w✝) ((A.comp g) f))
+    ((A.comp ((E.inverseComponent v✝ w✝) g)) ((E.inverseComponent u✝ v✝) f))
+but is expected to have type
+  @Eq (A.Hom (u✝ + -p) (w✝ + -p)) ((⋯.mpr (⋯.mpr (E.inverseComponent u✝ w✝))) ((A.comp g) f))
+    ((A.comp ((⋯.mpr (⋯.mpr (E.inverseComponent v✝ w✝))) g)) ((⋯.mpr (⋯.mpr (E.inverseComponent u✝ v✝))) f))

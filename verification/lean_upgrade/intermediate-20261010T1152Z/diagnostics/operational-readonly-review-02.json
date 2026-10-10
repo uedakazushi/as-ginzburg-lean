@@ -1,0 +1,41 @@
+{
+  "reviewed_at_utc": "2026-10-10T09:34:48.264611+00:00",
+  "mode": "read-only static review; no compiler, build, network, Actions, finalizer validation or completion execution",
+  "snapshot_sha256": {
+    "scripts/check_environment.py": "1b71abca016126939b70cc9c0e5f35bf8eba9fb0121d9f6215db48986dacc991",
+    "scripts/report_verification.py": "da520c6fe240bd5de62437f095b79ed87814ad484127d9c1f83489f977a9af94",
+    "scripts/run_verification.py": "1c20f0ed593b8b313a4684b980a9fb53262183bb8b8b3f22cb62084c313f545f",
+    "scripts/run_axiom_audit.py": "9f60d4f6bfbb1e11b900beab6cc614d50d0f4d9a3e4cfa5b4a514a8569bf95d7",
+    "scripts/check.sh": "e4780a05cbf6bdad674124ee1bda073b23c3f2473ba55605645c0fbce4370241",
+    "scripts/with_lean.sh": "4f4a2c3e2af4fcec4816b648f53aabbda58c28a9128df3471e593ec438f7d656",
+    "tests/test_environment.py": "4044c95bc33f4474c5fefcd8fc7d948b38ed903ad83368f5b83f25e47771a03c",
+    "tests/test_audit.py": "220af3f417e1005958b9a8e1d0d7bd759b676a592869ce4c3c93b02a746effed",
+    "tests/test_axiom_shards.py": "245e9edb1ec9ede10efbd005e8fc3196b5a81a5b9644eb9bf5a0a4c26d8f68dc",
+    ".github/workflows/lean.yml": "9af1296b365bce60d54d0681d0e7ea990459c651b0743af4c74b3295f6571745",
+    "README.md": "4732af7ec76aee46eb4fcdf398e818cb069f3118367312114d60c2227172018d",
+    "HANDOFF.md": "5e51dc3658e5d75b76dbce21c957b1c50613f4e48c7263abe8f74888193b4f2c",
+    "AGENTS.md": "a41844ac30c09100d900646eb1b3ad775b6e0b1fd9ad75f3e11715e846413771",
+    "work/lean-upgrade/finalize-upgrade.py": "c182e4ff69caa1e6ee5fc76d64bc331b951bd0aee635ffa6dd7c7752a5f10601"
+  },
+  "environment_version_result": "Exact stable4.34.1 and mathlib d13f23b723b8a846827a245b89c10fc7d3f11612 align across scripts/config/current reproduction examples; current case-insensitive embedded Lean matcher accepts recorded Lake5 and rejects4.34.10/prerelease/custom/old versions through existing tests.",
+  "pipeline_finalizer_result": "No format mismatch or false-failure condition found against actual run_verification/run_axiom_audit output shape: absolute command paths, six-stage ordering plus optional cache, ended_at_utc/monotonic timings, post-report result fields, generated6909 inventory and exact source hashes, shard command/source/record/log concatenation and declared coverage. Diagnostic build-01.json truthfully records exit1 and is archived as intermediate evidence, never mistaken for successful full pipeline.",
+  "issues": [
+    {
+      "file": "HANDOFF.md",
+      "line": 256,
+      "text": "初回は--prepare-cacheを追加。固定環境でpush/pull_requestごとに新規検査とartifact保存。lake updateは不要。",
+      "issue": "Active reproduction sentence says push/pull_request trigger automatic verification, while current workflow is workflow_dispatch-only and user forbids Actions.",
+      "owner": "root",
+      "recommended_change": "Describe local fresh verification and keep Actions unused; workflow itself needs no change."
+    }
+  ],
+  "limitations": [
+    "Full success path of finalizer remains unexecuted until a genuinely fresh successful six-stage6909 audit exists; this review is not a Lean verification certificate.",
+    "Finalizer must run after compiler/build and metadata writers stop; previously tracked protected history must remain equal to baseline88ac except selected new run.",
+    "In-progress headers correctly withhold new-Lean full success. Old4.24 references explicitly identified as historical are intentional and remain untouched."
+  ],
+  "changed_public_sources": false,
+  "changed_operational_scripts": false,
+  "finalizer_executed": false,
+  "actions_executed": false
+}

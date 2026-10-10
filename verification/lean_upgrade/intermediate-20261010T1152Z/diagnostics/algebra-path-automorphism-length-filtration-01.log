@@ -1,0 +1,19 @@
+ASGinzburg/PathAutomorphismLengthFiltration.lean:57:2: error: Type mismatch: After simplification, term
+  congrFun (congrFun h i) l
+ has type
+  @Eq ((Q.pathComponentAlgebra k).Hom i l)
+    (E ((Q.pathComponentAlgebra k).totalComponent i l (((Q.pathComponentAlgebra k).comp g) f)) i l)
+    (((Q.pathComponentAlgebra k).comp (E ((Q.pathComponentAlgebra k).totalComponent j l g) j l))
+      (E ((Q.pathComponentAlgebra k).totalComponent i j f) i j))
+but is expected to have type
+  @Eq ((Q.pathComponentAlgebra k).Hom i l)
+    (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i l) (((Q.pathComp k) g) f))
+    (((Q.pathComp k) (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE j l) g))
+      (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j) f))
+ASGinzburg/PathAutomorphismLengthFiltration.lean:131:2: error: Type mismatch: After simplification, term
+  congrFun (congrFun h i) j
+ has type
+  @Eq ((Q.pathComponentAlgebra k).Hom i j) (E ((Q.pathComponentAlgebra k).totalComponent i j (x i j)) i j) (E x i j)
+but is expected to have type
+  @Eq ((Q.pathComponentAlgebra k).Hom i j)
+    (((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j) (x i j)) (E x i j)

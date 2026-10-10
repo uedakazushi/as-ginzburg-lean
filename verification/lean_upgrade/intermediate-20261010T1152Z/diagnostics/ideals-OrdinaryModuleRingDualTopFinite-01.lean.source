@@ -1,0 +1,41 @@
+import ASGinzburg.OrdinaryModuleRingDualDerived
+import ASGinzburg.OrdinaryModuleRingDualFinite
+
+/-! The genuine degree-three ring-dual cohomology of a four-term
+projective resolution is finitely generated. The zero next term makes
+all top cochains cycles, so no Noetherian hypothesis is needed. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits Opposite
+universe v
+variable (R : Type v) [Ring R]
+
+theorem ordinaryRingDualExt_three_finite_of_resolution {M : ModuleCat.{v} R}
+    (P : ProjectiveResolution M) [Module.Finite R (P.complex.X 3)]
+    (h₄ : IsZero (P.complex.X 4)) :
+    Module.Finite Rᵐᵒᵖ ((ordinaryRingDualExtFunctor R 3).obj (op M)) := by
+  let K := ((ordinaryRingDualFunctor R).mapHomologicalComplex (ComplexShape.up ℕ)).obj
+    P.complex.op
+  let S := K.sc 3
+  letI := P.projective 3
+  letI : Module.Finite Rᵐᵒᵖ (K.X 3) :=
+    ordinaryRingDualHom_finite R (P.complex.X 3)
+  have hK₄ : IsZero (K.X 4) := (ordinaryRingDualFunctor R).map_isZero h₄.op
+  have hS₃ : IsZero S.X₃ := by
+    change IsZero (K.X 4)
+    exact hK₄
+  have hg : S.g = 0 := hS₃.eq_of_tgt _ _
+  letI : Module.Finite Rᵐᵒᵖ S.X₂ := by
+    change Module.Finite Rᵐᵒᵖ (K.X 3)
+    infer_instance
+  letI : IsIso S.iCycles := S.isIso_iCycles hg
+  letI : Module.Finite Rᵐᵒᵖ S.cycles :=
+    Module.Finite.equiv (asIso S.iCycles).symm.toLinearEquiv
+  letI : Module.Finite Rᵐᵒᵖ S.homology :=
+    Module.Finite.of_surjective S.homologyπ.hom
+      ((ModuleCat.epi_iff_surjective S.homologyπ).mp inferInstance)
+  letI : Module.Finite Rᵐᵒᵖ (K.homology 3) := by
+    change Module.Finite Rᵐᵒᵖ S.homology
+    infer_instance
+  exact Module.Finite.equiv (ordinaryRingDualResolutionHomologyIso R P 3).symm.toLinearEquiv
+
+end ASGinzburg

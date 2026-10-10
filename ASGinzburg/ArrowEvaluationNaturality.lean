@@ -41,6 +41,7 @@ theorem arrowPathPresentation_natural (G : B.IncomingElementFamily Q)
     (i j : ℤ) (f : (Q.unrolledPathZAlgebra k).Hom i j) :
     F.map i j ((B.arrowPathPresentation Q G).map i j f)=
       (A.arrowPathPresentation Q (F.mapIncomingFamily Q G)).map i j f := by
+  change Q.UnrolledPathComponent k (Q.heightEquiv.symm i) (Q.heightEquiv.symm j) at f
   change F.map i j (B.homTransport _ _ i j _ _
     (B.arrowPathLinearEvaluation Q G _ _ f))=A.homTransport _ _ i j _ _
       (A.arrowPathLinearEvaluation Q (F.mapIncomingFamily Q G) _ _ f)

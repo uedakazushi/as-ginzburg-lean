@@ -12,7 +12,11 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
 theorem rightFiniteDimensional_isZero_iff (M : A.RightFiniteDimensional) :
     IsZero M ↔ IsZero M.obj := by
   rw [IsZero.iff_id_eq_zero,IsZero.iff_id_eq_zero]
-  rfl
+  constructor
+  · intro h
+    exact congrArg (fun f : M ⟶ M => f.hom) h
+  · intro h
+    exact ObjectProperty.hom_ext _ h
 
 instance rightFiniteDimensionalNakayamaInverseAdditive (hAS : A.ASRegular Q) :
     (A.rightFiniteDimensionalNakayamaEquivalence Q hAS).inverse.Additive := by

@@ -1,0 +1,26 @@
+ASGinzburg/GinzburgCutHomologyZero.lean:49:8: error: Type mismatch: After simplification, term
+  Eq.symm (ginzburgCutCochainComplex_d Q k φ u v c (-1))
+ has type
+  @Eq ((Q.ginzburgCutCochainComplex k φ u v c).X (-1) ⟶ (Q.ginzburgCutCochainComplex k φ u v c).X (-1 + 1))
+    (Q.ginzburgCutCochainDifferential k φ u v (-1) c) ((Q.ginzburgCutCochainComplex k φ u v c).d (-1) (-1 + 1))
+but is expected to have type
+  @Eq
+    ((HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).X₁ ⟶
+      (Q.ginzburgCutZeroShortComplex k φ u v c).X₂)
+    (𝟙 (HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).X₁ ≫
+      (Q.ginzburgCutZeroShortComplex k φ u v c).f)
+    ((HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).f ≫
+      𝟙 (HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).X₂)
+ASGinzburg/GinzburgCutHomologyZero.lean:51:8: error: Type mismatch: After simplification, term
+  Eq.symm (ginzburgCutCochainComplex_d Q k φ u v c 0)
+ has type
+  @Eq ((Q.ginzburgCutCochainComplex k φ u v c).X 0 ⟶ (Q.ginzburgCutCochainComplex k φ u v c).X (0 + 1))
+    (Q.ginzburgCutCochainDifferential k φ u v 0 c) ((Q.ginzburgCutCochainComplex k φ u v c).d 0 (0 + 1))
+but is expected to have type
+  @Eq
+    ((HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).X₂ ⟶
+      (Q.ginzburgCutZeroShortComplex k φ u v c).X₃)
+    (𝟙 (HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).X₂ ≫
+      (Q.ginzburgCutZeroShortComplex k φ u v c).g)
+    ((HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).g ≫
+      𝟙 (HomologicalComplex.sc' (Q.ginzburgCutCochainComplex k φ u v c) (-1) 0 1).X₃)

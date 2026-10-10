@@ -1,0 +1,98 @@
+import Mathlib.Algebra.Homology.Opposite
+import Mathlib.Algebra.Homology.HomotopyCategory
+namespace ASGinzburg
+open CategoryTheory HomologicalComplex Opposite
+universe u v
+variable {C : Type u} [Category.{v} C] [Preadditive C]
+  {I : Type*} {c : ComplexShape I} {X Y : HomologicalComplex C c}
+
+def homotopy_op {f g : X ⟶ Y} (h : Homotopy f g) :
+    Homotopy ((HomologicalComplex.opFunctor C c).map f.op)
+      ((HomologicalComplex.opFunctor C c).map g.op) where
+  hom i j := (h.hom j i).op
+  zero i j hij := by
+    change (h.hom j i).op = 0
+    rw [h.zero j i hij]
+    rfl
+  comm i := by
+    change (f.f i).op =
+      (Y.d (c.prev i) i).op ≫ (h.hom i (c.prev i)).op +
+        (h.hom (c.next i) i).op ≫ (X.d i (c.next i)).op + (g.f i).op
+    have H := congrArg Quiver.Hom.op (h.comm i)
+    simp only [dNext, prevD, AddMonoidHom.mk'_apply] at H
+    simpa only [op_add, op_comp, add_comm, add_left_comm, add_assoc] using H
+def homotopy_unop_symm {X Y : HomologicalComplex Cᵒᵖ c.symm}
+    {f g : X ⟶ Y} (h : Homotopy f g) :
+    Homotopy ((HomologicalComplex.opInverse C c).map f).unop
+      ((HomologicalComplex.opInverse C c).map g).unop where
+  hom i j := (h.hom j i).unop
+  zero i j hij := by
+    change (h.hom j i).unop = 0
+    rw [h.zero j i hij]
+    rfl
+  comm i := by
+    change (f.f i).unop =
+      (Y.d (c.next i) i).unop ≫ (h.hom i (c.next i)).unop +
+        (h.hom (c.prev i) i).unop ≫ (X.d i (c.prev i)).unop + (g.f i).unop
+    have H := congrArg Quiver.Hom.unop (h.comm i)
+    simp only [dNext, prevD, AddMonoidHom.mk'_apply] at H
+    simpa only [ComplexShape.symm_next, ComplexShape.symm_prev,
+      unop_add, unop_comp, add_comm, add_left_comm, add_assoc] using H
+
+def homotopyOpFunctor (C : Type u) [Category.{v} C] [Preadditive C]
+    (c : ComplexShape I) : (HomotopyCategory C c)ᵒᵖ ⥤ HomotopyCategory Cᵒᵖ c.symm :=
+  (CategoryTheory.Quotient.lift (homotopic C c)
+    ((HomologicalComplex.opFunctor C c ⋙ HomotopyCategory.quotient Cᵒᵖ c.symm).rightOp)
+    (by
+      intro X Y f g h
+      obtain ⟨h⟩ := h
+      exact congrArg Quiver.Hom.op (HomotopyCategory.eq_of_homotopy _ _ (homotopy_op h)))).leftOp
+
+def homotopyOpInverse (C : Type u) [Category.{v} C] [Preadditive C]
+    (c : ComplexShape I) : HomotopyCategory Cᵒᵖ c.symm ⥤ (HomotopyCategory C c)ᵒᵖ :=
+  CategoryTheory.Quotient.lift (homotopic Cᵒᵖ c.symm)
+    (HomologicalComplex.opInverse C c ⋙ (HomotopyCategory.quotient C c).op)
+    (by
+      intro X Y f g h
+      obtain ⟨h⟩ := h
+      exact congrArg Quiver.Hom.op (HomotopyCategory.eq_of_homotopy _ _ (homotopy_unop_symm h)))
+def homotopyOpUnitIso (C : Type u) [Category.{v} C] [Preadditive C]
+    (c : ComplexShape I) :
+    𝟭 (HomotopyCategory C c)ᵒᵖ ≅ homotopyOpFunctor C c ⋙ homotopyOpInverse C c :=
+  NatIso.ofComponents (fun X => by
+    let e := ((HomologicalComplex.opUnitIso C c).app (op X.unop.as)).unop
+    exact ((HomotopyCategory.quotient C c).mapIso e).op)
+    (by
+      intro X Y f
+      dsimp only [HomotopyCategory] at X Y f ⊢
+      apply Quiver.Hom.unop_inj
+      change _ = _
+      obtain ⟨g, hg⟩ := (HomotopyCategory.quotient C c).map_surjective f.unop
+      have H := (HomologicalComplex.opUnitIso C c).hom.naturality g.op
+      have H' := congrArg (fun t => (HomotopyCategory.quotient C c).map t.unop) H
+      have hf : f = ((HomotopyCategory.quotient C c).map g).op :=
+        Quiver.Hom.unop_inj hg.symm
+      rw [hf]
+      simpa [homotopyOpFunctor, homotopyOpInverse, HomotopyCategory.quotient,
+        CategoryTheory.Quotient.lift_map_functor_map] using H')
+
+def homotopyOpCounitIso (C : Type u) [Category.{v} C] [Preadditive C]
+    (c : ComplexShape I) :
+    homotopyOpInverse C c ⋙ homotopyOpFunctor C c ≅ 𝟭 (HomotopyCategory Cᵒᵖ c.symm) :=
+  NatIso.ofComponents (fun X =>
+    (HomotopyCategory.quotient Cᵒᵖ c.symm).mapIso ((HomologicalComplex.opCounitIso C c).app X.as))
+    (by
+      intro X Y f
+      dsimp only [HomotopyCategory] at X Y f ⊢
+      obtain ⟨g, hg⟩ := (HomotopyCategory.quotient Cᵒᵖ c.symm).map_surjective f
+      have H := (HomologicalComplex.opCounitIso C c).hom.naturality g
+      have H' := congrArg (fun t => (HomotopyCategory.quotient Cᵒᵖ c.symm).map t) H
+      rw [← hg]
+      simpa [homotopyOpFunctor, homotopyOpInverse, HomotopyCategory.quotient,
+        CategoryTheory.Quotient.lift_map_functor_map] using H')
+
+def homotopyOpEquivalence (C : Type u) [Category.{v} C] [Preadditive C]
+    (c : ComplexShape I) : (HomotopyCategory C c)ᵒᵖ ≌ HomotopyCategory Cᵒᵖ c.symm :=
+  CategoryTheory.Equivalence.mk (homotopyOpFunctor C c) (homotopyOpInverse C c)
+    (homotopyOpUnitIso C c) (homotopyOpCounitIso C c)
+end ASGinzburg

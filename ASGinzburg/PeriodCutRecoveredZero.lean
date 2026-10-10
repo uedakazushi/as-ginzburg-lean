@@ -23,6 +23,7 @@ theorem recoveredRightModule_isZero_iff_subsingleton_space
   · intro hM
     letI := hM
     apply (IsZero.iff_id_eq_zero M.recoveredRightModule).mpr
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext

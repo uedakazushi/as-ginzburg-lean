@@ -1,0 +1,54 @@
+import ASGinzburg.FoundationTotalActions
+
+/-! Existing foundation natural transformations act componentwise on
+the finite total space and commute with the genuine convolution action. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory
+universe u
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)
+
+def foundationRightTotalLinearMap {M N : A.FoundationRightModule Q} (f : M ⟶ N) :
+    A.foundationRightTotalSpace Q M →ₗ[k] A.foundationRightTotalSpace Q N :=
+  LinearMap.pi (fun i => (f.hom.app i).hom.comp (LinearMap.proj i))
+
+theorem foundationRightTotalLinearMap_apply {M N : A.FoundationRightModule Q}
+    (f : M ⟶ N) (m : A.foundationRightTotalSpace Q M) (i : Q.Vertex) :
+    A.foundationRightTotalLinearMap Q f m i=(f.hom.app i).hom (m i) := rfl
+
+theorem foundationComponentAction_naturality {M N : A.FoundationRightModule Q}
+    (f : M ⟶ N) {i j : Q.Vertex} (a : A.Hom (i.val : ℤ) (j.val : ℤ))
+    (x : (A.foundationRightEvaluation Q j).obj M) :
+    (f.hom.app i).hom (A.foundationRightComponentAction Q M a x)=
+      A.foundationRightComponentAction Q N a ((f.hom.app j).hom x) :=
+  congrArg (fun h => h.hom x) (f.hom.naturality (A.foundationActionArrow Q i j a))
+
+theorem foundationRightTotalLinearMap_action {M N : A.FoundationRightModule Q}
+    (f : M ⟶ N) (a : A.FoundationAlgebra Q) :
+    (A.foundationRightTotalLinearMap Q f).comp (A.foundationRightTotalAction Q M a)=
+      (A.foundationRightTotalAction Q N a).comp (A.foundationRightTotalLinearMap Q f) := by
+  apply LinearMap.ext
+  intro m
+  funext i
+  simp only [LinearMap.comp_apply,foundationRightTotalLinearMap_apply,
+    foundationRightTotalAction_apply,map_sum]
+  apply Finset.sum_congr rfl
+  intro j _
+  exact A.foundationComponentAction_naturality Q f (a i j) (m j)
+
+theorem foundationRightTotalLinearMap_id (M : A.FoundationRightModule Q) :
+    A.foundationRightTotalLinearMap Q (𝟙 M)=LinearMap.id := by
+  apply LinearMap.ext
+  intro m
+  funext i
+  rfl
+
+theorem foundationRightTotalLinearMap_comp {M N P : A.FoundationRightModule Q}
+    (f : M ⟶ N) (g : N ⟶ P) :
+    A.foundationRightTotalLinearMap Q (f ≫ g)=
+      (A.foundationRightTotalLinearMap Q g).comp (A.foundationRightTotalLinearMap Q f) := by
+  apply LinearMap.ext
+  intro m
+  funext i
+  rfl
+
+end ASGinzburg.ZAlgebra

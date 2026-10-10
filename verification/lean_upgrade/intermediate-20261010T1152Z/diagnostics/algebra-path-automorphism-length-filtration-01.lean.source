@@ -1,0 +1,144 @@
+import ASGinzburg.PathLengthFiltration
+import ASGinzburg.PathJacobianRing
+import ASGinzburg.FiniteComponentAutomorphismCorners
+
+/-! Vertex-fixed automorphisms of the actual path algebra preserve the
+path-length filtration, including nonlinear substitutions of arrows. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem pathAutomorphism_arrow_source_ne_target (a : Q.Arrow) :
+    Q.source a ≠ Q.target a := by
+  intro h
+  cases hc : Q.cut a
+  · have hf := Q.forward a hc
+    rw [h] at hf
+    exact (lt_irrefl _) hf
+  · have hb := Q.backward a hc
+    rw [h] at hb
+    exact (lt_irrefl _) hb
+
+theorem pathLengthFiltration_one_mem_of_ne {i j : Q.Vertex} (h : i ≠ j)
+    (f : Q.PathComponent k i j) : f ∈ Q.pathLengthFiltration k 1 i j := by
+  apply (Finsupp.mem_supported k f).mpr
+  intro p _
+  cases p with
+  | nil => exact (h rfl).elim
+  | snoc p a ha => simp [Path.length]
+
+theorem pathLengthFiltration_le_of_le {m n : ℕ} (h : m ≤ n) (i j : Q.Vertex) :
+    Q.pathLengthFiltration k n i j ≤ Q.pathLengthFiltration k m i j := by
+  intro f hf
+  apply (Finsupp.mem_supported k f).mpr
+  intro p hp
+  exact h.trans ((Finsupp.mem_supported k f).mp hf hp)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem pathAlgEquivComponent_pathComp (E : Q.PathRing k ≃ₐ[k] Q.PathRing k)
+    (hE : ∀ i, E ((Q.pathComponentAlgebra k).totalIdempotent i) =
+      (Q.pathComponentAlgebra k).totalIdempotent i)
+    {i j l : Q.Vertex} (f : Q.PathComponent k i j) (g : Q.PathComponent k j l) :
+    (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i l
+        (Q.pathComp k g f) =
+      Q.pathComp k
+        ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE j l g)
+        ((Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j f) := by
+  have h := E.map_mul ((Q.pathComponentAlgebra k).totalComponent j l g)
+    ((Q.pathComponentAlgebra k).totalComponent i j f)
+  change E ((Q.pathComponentAlgebra k).totalComponent j l g *
+    (Q.pathComponentAlgebra k).totalComponent i j f) =
+    E ((Q.pathComponentAlgebra k).totalComponent j l g) *
+    E ((Q.pathComponentAlgebra k).totalComponent i j f) at h
+  rw [LinearComponentAlgebra.totalComponent_mul_same,
+    LinearComponentAlgebra.totalAlgEquiv_component _ E hE j l g,
+    LinearComponentAlgebra.totalAlgEquiv_component _ E hE i j f,
+    LinearComponentAlgebra.totalComponent_mul_same] at h
+  simpa only [LinearComponentAlgebra.totalComponent_apply_same] using
+    congrFun (congrFun h i) l
+
+theorem pathAlgEquivComponent_single_mem_length (E : Q.PathRing k ≃ₐ[k] Q.PathRing k)
+    (hE : ∀ i, E ((Q.pathComponentAlgebra k).totalIdempotent i) =
+      (Q.pathComponentAlgebra k).totalIdempotent i)
+    {i j : Q.Vertex} (p : Q.Path i j) (c : k) :
+    (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j
+      (Finsupp.single p c) ∈ Q.pathLengthFiltration k p.length i j := by
+  induction p with
+  | nil => exact Q.mem_pathLengthFiltration_zero k _
+  | @snoc j p a ha ih =>
+    subst j
+    have hprod : Q.pathComp k
+        (Finsupp.single (Path.snoc (.nil (Q.source a)) a rfl) 1)
+        (Finsupp.single p c) = Finsupp.single (Path.snoc p a rfl) c := by
+      simp [Path.comp]
+    rw [← hprod, Q.pathAlgEquivComponent_pathComp k E hE]
+    exact Q.pathComp_mem_lengthFiltration k ih
+      (Q.pathLengthFiltration_one_mem_of_ne k
+        (Q.pathAutomorphism_arrow_source_ne_target a) _)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem pathAlgEquivComponent_mem_lengthFiltration
+    (E : Q.PathRing k ≃ₐ[k] Q.PathRing k)
+    (hE : ∀ i, E ((Q.pathComponentAlgebra k).totalIdempotent i) =
+      (Q.pathComponentAlgebra k).totalIdempotent i)
+    (n : ℕ) {i j : Q.Vertex} {f : Q.PathComponent k i j}
+    (hf : f ∈ Q.pathLengthFiltration k n i j) :
+    (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j f ∈
+      Q.pathLengthFiltration k n i j := by
+  change f ∈ Finsupp.supported k k _ at hf
+  rw [Finsupp.supported_eq_span_single] at hf
+  induction hf using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨p, hp, rfl⟩ := hx
+    exact Q.pathLengthFiltration_le_of_le k hp i j
+      (Q.pathAlgEquivComponent_single_mem_length k E hE p 1)
+  | zero =>
+    rw [map_zero]
+    exact Submodule.zero_mem _
+  | add x y hx hy ihx ihy =>
+    simpa only [map_add] using Submodule.add_mem _ ihx ihy
+  | smul c x hx ih =>
+    simpa only [map_smul] using Submodule.smul_mem _ c ih
+
+set_option backward.isDefEq.respectTransparency false in
+theorem pathAlgEquivComponent_mem_lengthFiltration_iff
+    (E : Q.PathRing k ≃ₐ[k] Q.PathRing k)
+    (hE : ∀ i, E ((Q.pathComponentAlgebra k).totalIdempotent i) =
+      (Q.pathComponentAlgebra k).totalIdempotent i)
+    (n : ℕ) {i j : Q.Vertex} (f : Q.PathComponent k i j) :
+    (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j f ∈
+      Q.pathLengthFiltration k n i j ↔ f ∈ Q.pathLengthFiltration k n i j := by
+  constructor
+  · intro hf
+    have h := Q.pathAlgEquivComponent_mem_lengthFiltration k E.symm
+      ((Q.pathComponentAlgebra k).totalAlgEquiv_symm_idempotent E hE) n hf
+    change E.symm ((Q.pathComponentAlgebra k).totalComponent i j
+      (E ((Q.pathComponentAlgebra k).totalComponent i j f) i j)) i j ∈
+      Q.pathLengthFiltration k n i j at h
+    rw [← LinearComponentAlgebra.totalAlgEquiv_component _ E hE,
+      E.symm_apply_apply, LinearComponentAlgebra.totalComponent_apply_same] at h
+    exact h
+  · exact Q.pathAlgEquivComponent_mem_lengthFiltration k E hE n
+
+set_option backward.isDefEq.respectTransparency false in
+theorem pathAlgEquiv_component_apply (E : Q.PathRing k ≃ₐ[k] Q.PathRing k)
+    (hE : ∀ i, E ((Q.pathComponentAlgebra k).totalIdempotent i) =
+      (Q.pathComponentAlgebra k).totalIdempotent i)
+    (i j : Q.Vertex) (x : Q.PathRing k) :
+    (Q.pathComponentAlgebra k).totalAlgEquivComponentLinearEquiv E hE i j (x i j) =
+      E x i j := by
+  have h := (Q.pathComponentAlgebra k).totalAlgEquiv_component_projection E hE i j x
+  simpa only [LinearComponentAlgebra.totalComponent_apply_same] using
+    congrFun (congrFun h i) j
+
+theorem pathAlgEquiv_mem_lengthFiltration_iff
+    (E : Q.PathRing k ≃ₐ[k] Q.PathRing k)
+    (hE : ∀ i, E ((Q.pathComponentAlgebra k).totalIdempotent i) =
+      (Q.pathComponentAlgebra k).totalIdempotent i)
+    (n : ℕ) (i j : Q.Vertex) (x : Q.PathRing k) :
+    E x i j ∈ Q.pathLengthFiltration k n i j ↔
+      x i j ∈ Q.pathLengthFiltration k n i j := by
+  rw [← Q.pathAlgEquiv_component_apply k E hE i j x]
+  exact Q.pathAlgEquivComponent_mem_lengthFiltration_iff k E hE n (x i j)
+
+end ASGinzburg.CutQuiver

@@ -13,6 +13,7 @@ noncomputable def cornerRecoveredUnitNaturalIso :
       E.cornerGradedModuleFunctor Q ⋙ CutGradedRightModule.recoveredModuleFunctor (E:=E) :=
   NatIso.ofComponents (E.cornerRecoveredModuleIso Q) (by
     intro M N f
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     cases X using Opposite.rec
@@ -23,7 +24,7 @@ noncomputable def cornerRecoveredUnitNaturalIso :
     intro v
     apply Subtype.ext
     change (E.cornerAtObjectEquiv Q N (E.cornerCoordinateObject Q x)
-      ((f.app (op (E.cornerCoordinateObject Q x))).hom v)).val=
+      ((f.hom.app (op (E.cornerCoordinateObject Q x))).hom v)).val=
       E.cornerTotalModuleLinearMap Q f
         (E.cornerAtObjectEquiv Q M (E.cornerCoordinateObject Q x) v).val
     rw [E.cornerAtObjectEquiv_coordinate_val,E.cornerAtObjectEquiv_coordinate_val,

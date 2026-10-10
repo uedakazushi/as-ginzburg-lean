@@ -16,6 +16,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 instance leftTotalLocallyUnitalFunctorAdditive : A.leftTotalLocallyUnitalFunctor.Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -26,6 +27,7 @@ instance leftTotalLocallyUnitalFunctorAdditive : A.leftTotalLocallyUnitalFunctor
 instance rightTotalLocallyUnitalFunctorAdditive : A.rightTotalLocallyUnitalFunctor.Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -36,6 +38,7 @@ instance rightTotalLocallyUnitalFunctorAdditive : A.rightTotalLocallyUnitalFunct
 instance leftLocallyUnitalComponentFunctorAdditive : A.leftLocallyUnitalComponentFunctor.Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -47,6 +50,7 @@ instance leftLocallyUnitalComponentFunctorAdditive : A.leftLocallyUnitalComponen
 instance rightLocallyUnitalComponentFunctorAdditive : A.rightLocallyUnitalComponentFunctor.Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -59,6 +63,7 @@ instance leftTotalLocallyUnitalFunctorLinear : A.leftTotalLocallyUnitalFunctor.L
   map_smul := by
     intro M N f r
     letI := A.leftTotalUnitizationModule N
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -73,6 +78,7 @@ instance rightTotalLocallyUnitalFunctorLinear : A.rightTotalLocallyUnitalFunctor
   map_smul := by
     intro M N f r
     letI := A.rightTotalUnitizationModule N
+    apply ObjectProperty.hom_ext
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
@@ -86,6 +92,7 @@ instance rightTotalLocallyUnitalFunctorLinear : A.rightTotalLocallyUnitalFunctor
 instance leftLocallyUnitalComponentFunctorLinear : A.leftLocallyUnitalComponentFunctor.Linear k where
   map_smul := by
     intro M N f r
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -97,6 +104,7 @@ instance leftLocallyUnitalComponentFunctorLinear : A.leftLocallyUnitalComponentF
 instance rightLocallyUnitalComponentFunctorLinear : A.rightLocallyUnitalComponentFunctor.Linear k where
   map_smul := by
     intro M N f r
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext

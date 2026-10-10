@@ -1,0 +1,18 @@
+ASGinzburg/HomotopyOpposite.lean:83:6: error: Type mismatch: After simplification, term
+  H'
+ has type
+  @Eq
+    ((HomotopyCategory.quotient C c).obj (unop ((opFunctor C c ⋙ opInverse C c).obj (op Y.1.as))) ⟶
+      (HomotopyCategory.quotient C c).obj (unop ((𝟭 (HomologicalComplex C c)ᵒᵖ).obj (op X.1.as))))
+    ((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op Y.1.as)).unop ≫
+      (HomotopyCategory.quotient C c).map g.op.unop)
+    ((HomotopyCategory.quotient C c).map ((opInverse C c).map ((opFunctor C c).map g.op)).unop ≫
+      (HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op X.1.as)).unop)
+but is expected to have type
+  @Eq
+    ((HomotopyCategory.quotient C c).obj (unop ((opFunctor C c ⋙ opInverse C c).obj (op (unop Y).as))) ⟶
+      (HomotopyCategory.quotient C c).obj X.1.as)
+    ((HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op (unop Y).as)).unop ≫
+      (HomotopyCategory.quotient C c).map g)
+    ((HomotopyCategory.quotient C c).map ((opInverse C c).map ((opFunctor C c).map g.op)).unop ≫
+      (HomotopyCategory.quotient C c).map ((opUnitIso C c).hom.app (op (unop X).as)).unop)

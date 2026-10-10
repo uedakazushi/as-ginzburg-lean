@@ -1,0 +1,44 @@
+ASGinzburg/PathAutomorphismLengthFiltration.lean:57:2: error: Type mismatch: After simplification, term
+  congrFun (congrFun h i) l
+ has type
+  @Eq (Q.PathComponent k i l)
+    (E
+      ({ Hom := Q.PathComponent k, homAdd := fun i j => Finsupp.instAddCommGroup,
+            homModule := fun i j => Finsupp.module (Q.Path i j) k, id := Q.pathId k,
+            comp := fun {i j l} => Q.pathComp k, comp_id := ⋯, id_comp := ⋯, comp_assoc := ⋯ }.totalComponent
+        i l (((Q.pathComp k) g) f))
+      i l)
+    (((Q.pathComp k)
+        (E
+          ({ Hom := Q.PathComponent k, homAdd := fun i j => Finsupp.instAddCommGroup,
+                homModule := fun i j => Finsupp.module (Q.Path i j) k, id := Q.pathId k,
+                comp := fun {i j l} => Q.pathComp k, comp_id := ⋯, id_comp := ⋯, comp_assoc := ⋯ }.totalComponent
+            j l g)
+          j l))
+      (E
+        ({ Hom := Q.PathComponent k, homAdd := fun i j => Finsupp.instAddCommGroup,
+              homModule := fun i j => Finsupp.module (Q.Path i j) k, id := Q.pathId k,
+              comp := fun {i j l} => Q.pathComp k, comp_id := ⋯, id_comp := ⋯, comp_assoc := ⋯ }.totalComponent
+          i j f)
+        i j))
+but is expected to have type
+  @Eq (Q.PathComponent k i l)
+    (({ Hom := Q.PathComponent k, homAdd := fun i j => Finsupp.instAddCommGroup,
+            homModule := fun i j => Finsupp.module (Q.Path i j) k, id := Q.pathId k,
+            comp := fun {i j l} => Q.pathComp k, comp_id := ⋯, id_comp := ⋯,
+            comp_assoc := ⋯ }.totalAlgEquivComponentLinearEquiv
+        E hE i l)
+      (((Q.pathComp k) g) f))
+    (((Q.pathComp k)
+        (({ Hom := Q.PathComponent k, homAdd := fun i j => Finsupp.instAddCommGroup,
+                homModule := fun i j => Finsupp.module (Q.Path i j) k, id := Q.pathId k,
+                comp := fun {i j l} => Q.pathComp k, comp_id := ⋯, id_comp := ⋯,
+                comp_assoc := ⋯ }.totalAlgEquivComponentLinearEquiv
+            E hE j l)
+          g))
+      (({ Hom := Q.PathComponent k, homAdd := fun i j => Finsupp.instAddCommGroup,
+              homModule := fun i j => Finsupp.module (Q.Path i j) k, id := Q.pathId k,
+              comp := fun {i j l} => Q.pathComp k, comp_id := ⋯, id_comp := ⋯,
+              comp_assoc := ⋯ }.totalAlgEquivComponentLinearEquiv
+          E hE i j)
+        f))

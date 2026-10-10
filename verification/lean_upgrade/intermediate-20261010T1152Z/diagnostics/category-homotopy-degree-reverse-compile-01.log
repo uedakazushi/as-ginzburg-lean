@@ -1,0 +1,54 @@
+ASGinzburg/HomotopyDegreeReverse.lean:20:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (dNext i) ?m.199
+in the target expression
+  f.f (-i) = (((dNext i) fun i j => h.hom (-i) (-j)) + (prevD i) fun i j => h.hom (-i) (-j)) + g.f (-i)
+
+C : Type u
+inst✝¹ : Category.{v, u} C
+inst✝ : Preadditive C
+X Y : CochainComplex C ℤ
+f g : X ⟶ Y
+h : Homotopy f g
+i : ℤ
+H : f.f (-i) = X.d (-i) (-i + 1) ≫ h.hom (-i + 1) (-i) + h.hom (-i) (-i - 1) ≫ Y.d (-i - 1) (-i) + g.f (-i)
+⊢ f.f (-i) = (((dNext i) fun i j => h.hom (-i) (-j)) + (prevD i) fun i j => h.hom (-i) (-j)) + g.f (-i)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    instHAdd
+  has type
+    HAdd (((reverseCochainFunctor C).obj X).X i ⟶ ((reverseCochainFunctor C).obj Y).X i)
+      (((reverseCochainFunctor C).obj X).X i ⟶ ((reverseCochainFunctor C).obj Y).X i)
+      (((reverseCochainFunctor C).obj X).X i ⟶ ((reverseCochainFunctor C).obj Y).X i)
+  but is expected to have type
+    HAdd (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i))
+  in the application
+    @HAdd.hAdd (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i)) instHAdd
+ASGinzburg/HomotopyDegreeReverse.lean:38:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (dNext i) ?m.199
+in the target expression
+  f.f (-i) = (((dNext i) fun i j => h.hom (-i) (-j)) + (prevD i) fun i j => h.hom (-i) (-j)) + g.f (-i)
+
+C : Type u
+inst✝¹ : Category.{v, u} C
+inst✝ : Preadditive C
+X Y : ChainComplex C ℤ
+f g : X ⟶ Y
+h : Homotopy f g
+i : ℤ
+H : f.f (-i) = X.d (-i) (-i - 1) ≫ h.hom (-i - 1) (-i) + h.hom (-i) (-i + 1) ≫ Y.d (-i + 1) (-i) + g.f (-i)
+⊢ f.f (-i) = (((dNext i) fun i j => h.hom (-i) (-j)) + (prevD i) fun i j => h.hom (-i) (-j)) + g.f (-i)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    instHAdd
+  has type
+    HAdd (((reverseChainFunctor C).obj X).X i ⟶ ((reverseChainFunctor C).obj Y).X i)
+      (((reverseChainFunctor C).obj X).X i ⟶ ((reverseChainFunctor C).obj Y).X i)
+      (((reverseChainFunctor C).obj X).X i ⟶ ((reverseChainFunctor C).obj Y).X i)
+  but is expected to have type
+    HAdd (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i))
+  in the application
+    @HAdd.hAdd (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i)) (X.X (-i) ⟶ Y.X (-i)) instHAdd

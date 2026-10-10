@@ -1,0 +1,123 @@
+ASGinzburg/TotalModuleSpaces.lean:22:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:23:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:9:0: warning: Definition `ASGinzburg.discreteColimitFaithful` of class type is semireducible. Most type class instances should be instance-reducible, so consider marking this
+definition with `@[instance_reducible]`. If it is intentionally semireducible, this warning can be disabled with `set_option warn.classDefReducibility false`.
+ASGinzburg/TotalModuleSpaces.lean:9:0: warning: Definition `discreteColimitFaithful` is a proposition; use `theorem` instead of `def`
+
+Note: This linter can be disabled with `set_option linter.defProp false`
+ASGinzburg/TotalModuleSpaces.lean:68:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:73:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:79:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:85:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:92:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:100:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:157:4: error: Type mismatch: After simplification, term
+  HasColimit.ι_isoOfNatIso_hom e { as := i }
+ has type
+  @Eq
+    ((A.leftModuleComponents.obj M).obj { as := i } ⟶
+      colimit (Discrete.functor fun j => (A.leftModuleEvaluation j).obj M))
+    (colimit.ι (A.leftModuleComponents.obj M) { as := i } ≫
+      (HasColimit.isoOfNatIso (NatIso.ofComponents (fun x => Iso.refl ((A.leftModuleComponents.obj M).obj x)) ⋯)).hom)
+    ((NatIso.ofComponents (fun x => Iso.refl ((A.leftModuleComponents.obj M).obj x)) ⋯).hom.app { as := i } ≫
+      colimit.ι (Discrete.functor fun j => (A.leftModuleEvaluation j).obj M) { as := i })
+but is expected to have type
+  @Eq
+    ((A.leftModuleComponents.obj M).obj { as := i } ⟶
+      colimit (Discrete.functor fun j => (A.leftModuleEvaluation j).obj M))
+    (colimit.ι (A.leftModuleComponents.obj M) { as := i } ≫
+      (HasColimit.isoOfNatIso (NatIso.ofComponents (fun x => Iso.refl ((A.leftModuleComponents.obj M).obj x)) ⋯)).hom)
+    (colimit.ι (Discrete.functor fun j => (A.leftModuleEvaluation j).obj M) { as := i })
+ASGinzburg/TotalModuleSpaces.lean:164:2: error: Type mismatch
+  ModuleCat.ι_coprodIsoDirectSum_hom ?m.202 i
+has type
+  Eq.{1} (Sigma.ι ?m.202 i ≫ (ModuleCat.coprodIsoDirectSum ?m.202).hom)
+    (ModuleCat.ofHom (DirectSum.lof ?m.199 ℤ (fun i => ↑(?m.202 i)) i))
+but is expected to have type
+  Eq.{v + 1}
+    (Sigma.ι (fun j => (A.leftModuleEvaluation j).obj M) i ≫
+      (ModuleCat.coprodIsoDirectSum fun j => (A.leftModuleEvaluation j).obj M).hom)
+    (ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => ↑((A.leftModuleEvaluation j).obj M)) i))
+ASGinzburg/TotalModuleSpaces.lean:177:4: error: Type mismatch: After simplification, term
+  HasColimit.ι_isoOfNatIso_hom e { as := i }
+ has type
+  @Eq
+    ((A.rightModuleComponents.obj M).obj { as := i } ⟶
+      colimit (Discrete.functor fun j => (A.rightModuleEvaluation j).obj M))
+    (colimit.ι (A.rightModuleComponents.obj M) { as := i } ≫
+      (HasColimit.isoOfNatIso (NatIso.ofComponents (fun x => Iso.refl ((A.rightModuleComponents.obj M).obj x)) ⋯)).hom)
+    ((NatIso.ofComponents (fun x => Iso.refl ((A.rightModuleComponents.obj M).obj x)) ⋯).hom.app { as := i } ≫
+      colimit.ι (Discrete.functor fun j => (A.rightModuleEvaluation j).obj M) { as := i })
+but is expected to have type
+  @Eq
+    ((A.rightModuleComponents.obj M).obj { as := i } ⟶
+      colimit (Discrete.functor fun j => (A.rightModuleEvaluation j).obj M))
+    (colimit.ι (A.rightModuleComponents.obj M) { as := i } ≫
+      (HasColimit.isoOfNatIso (NatIso.ofComponents (fun x => Iso.refl ((A.rightModuleComponents.obj M).obj x)) ⋯)).hom)
+    (colimit.ι (Discrete.functor fun j => (A.rightModuleEvaluation j).obj M) { as := i })
+ASGinzburg/TotalModuleSpaces.lean:184:2: error: Type mismatch
+  ModuleCat.ι_coprodIsoDirectSum_hom ?m.202 i
+has type
+  Eq.{1} (Sigma.ι ?m.202 i ≫ (ModuleCat.coprodIsoDirectSum ?m.202).hom)
+    (ModuleCat.ofHom (DirectSum.lof ?m.199 ℤ (fun i => ↑(?m.202 i)) i))
+but is expected to have type
+  Eq.{v + 1}
+    (Sigma.ι (fun j => (A.rightModuleEvaluation j).obj M) i ≫
+      (ModuleCat.coprodIsoDirectSum fun j => (A.rightModuleEvaluation j).obj M).hom)
+    (ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => ↑((A.rightModuleEvaluation j).obj M)) i))

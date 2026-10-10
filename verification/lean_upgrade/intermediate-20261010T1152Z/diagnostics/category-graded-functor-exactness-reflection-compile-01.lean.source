@@ -1,0 +1,36 @@
+import ASGinzburg.GradedOrdinaryKernelFactor
+import ASGinzburg.ProjectiveEpiExactnessFunctor
+import ASGinzburg.GradedCokernelFunctorEpiReflection
+
+/-! A genuine bounded graded zero detector reflects exactness at the
+middle of a complex whose last map is a projective epimorphism. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v w z
+variable {k : Type u} [Field k] {R : Type v} [Ring R] [Algebra k R]
+variable {S : Type w} [Ring S] {A : ℤ → Submodule k R} {b : ℤ}
+variable (F : ModuleCat.{v} R ⥤ ModuleCat.{z} S) [F.Additive] [PreservesFiniteColimits F]
+
+theorem gradedMap_exact_of_functor_exact
+    (hDetect : ∀ N : GradedOrdinaryModuleData k R A, N.BoundedBelow b →
+      IsZero (F.obj N.ringModule) → IsZero N.ringModule)
+    (P M N : GradedOrdinaryModuleData k R A) (hb : M.BoundedBelow b)
+    (f : P.ringModule ⟶ M.ringModule) (g : M.ringModule ⟶ N.ringModule)
+    (hfg : f ≫ g = 0) (hf : P.PreservesGrade M f) (hg : M.PreservesGrade N g)
+    [Epi g] [Projective N.ringModule]
+    (hExact : ((ShortComplex.mk f g hfg).map F).Exact) :
+    (ShortComplex.mk f g hfg).Exact := by
+  haveI : Epi (F.map (kernel.lift g f hfg)) :=
+    additiveFunctor_epi_kernel_lift_of_projective_epi F f g hfg hExact
+  haveI : Epi (F.map (show P.ringModule ⟶ (M.kernelData N g hg).ringModule from
+      P.kernelFactor M N f g hfg)) := by
+    rw [P.kernelFactor_eq_kernel_lift M N f g hfg,F.map_comp]
+    infer_instance
+  haveI : Epi (P.kernelFactor M N f g hfg) :=
+    gradedMap_epi_of_functor_epi F hDetect P (M.kernelData N g hg)
+      (M.kernelData_boundedBelow N g hg b hb) (P.kernelFactor M N f g hfg)
+      (P.kernelFactor_preservesGrade M N f g hfg hf hg)
+  exact (P.kernelFactor_epi_iff_exact M N f g hfg).mp inferInstance
+
+end ASGinzburg

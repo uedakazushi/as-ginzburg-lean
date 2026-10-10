@@ -1,0 +1,125 @@
+{
+  "recorded_at_utc": "2026-10-10T10:17:29.414515+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "actual Lean4.34.1 serial no-output direct checks0; full build/audit not claimed",
+  "source_count": 2,
+  "declaration_count": 17,
+  "sources": [
+    {
+      "source": "ASGinzburg/ASResolutionComponentEuler.lean",
+      "source_sha256": "82fba11c26ccdd30b8a6a821c570915df7c56f41cd67324f5a8545d36226dc7a",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build08-entry-ASResolutionComponentEuler.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-as-resolution-component-euler-1.json",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 8.390639773999283,
+      "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_entire_source_preserved_except_targeted_options": true,
+      "added_targeted_elaboration_options": 2,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.rightFiniteCoproductComponentFinite",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightFiniteCoproductComponent_finrank",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.asResolutionTerm\u2081ComponentFinite",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.asResolutionTerm\u2082ComponentFinite",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.asResolutionTerm\u2081Component_finrank",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.asResolutionTerm\u2082Component_finrank",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.component_euler",
+          "kind": "theorem"
+        }
+      ],
+      "warning_lines": [
+        "ASGinzburg/ASResolutionComponentEuler.lean:32:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:41:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:53:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:66:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:84:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:85:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:86:2: warning: Try this: ",
+        "ASGinzburg/ASResolutionComponentEuler.lean:87:2: warning: Try this: "
+      ]
+    },
+    {
+      "source": "ASGinzburg/RightModuleHomKernel.lean",
+      "source_sha256": "073248950f29170a066be459401a0682a62034debe32782570a9d3b9b142f4dc",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build08-entry-RightModuleHomKernel.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-right-module-hom-kernel-1.json",
+      "actual_exit_code": 0,
+      "elapsed_seconds": 5.550875046999863,
+      "baseline_names_kinds_headers_universes_hypotheses_conclusions_preserved": true,
+      "task_entry_entire_source_preserved_except_targeted_options": true,
+      "added_targeted_elaboration_options": 1,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomPrecompNat",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomPrecompNat_comp_zero",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomShortComplex",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomShortComplex_exact_component",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomPrecompNatAppMono",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomPrecompNatMono",
+          "kind": "instance"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomKernelForkIsLimit",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomKernelNatIso",
+          "kind": "def"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomKernelNatIso_hom_\u03b9",
+          "kind": "theorem"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightModuleHomPreservesExactColimits",
+          "kind": "def"
+        }
+      ],
+      "warning_lines": [
+        "ASGinzburg/RightModuleHomKernel.lean:85:2: warning: Try this: ",
+        "ASGinzburg/RightModuleHomKernel.lean:77:0: warning: Definition `ASGinzburg.ZAlgebra.rightModuleHomPreservesExactColimits` of class type is semireducible. Most type class instances should be instance-reducible, so consider marking this",
+        "ASGinzburg/RightModuleHomKernel.lean:77:0: warning: Definition `rightModuleHomPreservesExactColimits` is a proposition; use `theorem` instead of `def`"
+      ]
+    }
+  ],
+  "proof_change_note": "Only three locally scoped backward.isDefEq.respectTransparency false options added. Entire task-entry source text otherwise exact. All baseline declaration headers and ambient universe/variable commands match after comment masking and whitespace normalization. Eleven pre-existing style warnings remain, no errors.",
+  "git_diff_check_exit_code": 0,
+  "no_active_compilers": true,
+  "lake_build_executed": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false
+}

@@ -1,0 +1,169 @@
+import ASGinzburg.ProjectiveResolutionSyzygies
+
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
+universe u v
+variable {C : Type u} [Category.{v} C] [Abelian C]
+
+theorem exact_epi_comp_iff {W X Y Z : C}
+    (e : W ⟶ X) (f : X ⟶ Y) (g : Y ⟶ Z) [Epi e] (h : f ≫ g = 0) :
+    (ShortComplex.mk (e ≫ f) g (by rw [Category.assoc, h, comp_zero])).Exact ↔
+      (ShortComplex.mk f g h).Exact := by
+  let φ : ShortComplex.mk (e ≫ f) g (by rw [Category.assoc, h, comp_zero]) ⟶
+      ShortComplex.mk f g h := { τ₁ := e, τ₂ := 𝟙 Y, τ₃ := 𝟙 Z }
+  haveI : Epi φ.τ₁ := by dsimp [φ]; infer_instance
+  haveI : IsIso φ.τ₂ := by dsimp [φ]; infer_instance
+  haveI : Mono φ.τ₃ := by dsimp [φ]; infer_instance
+  exact ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ
+
+/-- Four actual projective objects and maps, with all resolution obligations. -/
+structure FourTermProjectiveResolution (M : C) where
+  P₀ : C
+  P₁ : C
+  P₂ : C
+  P₃ : C
+  projective₀ : Projective P₀
+  projective₁ : Projective P₁
+  projective₂ : Projective P₂
+  projective₃ : Projective P₃
+  π : P₀ ⟶ M
+  d₁ : P₁ ⟶ P₀
+  d₂ : P₂ ⟶ P₁
+  d₃ : P₃ ⟶ P₂
+  epi_π : Epi π
+  mono_d₃ : Mono d₃
+  d₁_π : d₁ ≫ π = 0
+  d₂_d₁ : d₂ ≫ d₁ = 0
+  d₃_d₂ : d₃ ≫ d₂ = 0
+  exact₀ : (ShortComplex.mk d₁ π d₁_π).Exact
+  exact₁ : (ShortComplex.mk d₂ d₁ d₂_d₁).Exact
+  exact₂ : (ShortComplex.mk d₃ d₂ d₃_d₂).Exact
+
+namespace FourTermProjectiveResolution
+variable {M : C} (R : FourTermProjectiveResolution M)
+
+noncomputable def term : ℕ → C
+  | 0 => R.P₀
+  | 1 => R.P₁
+  | 2 => R.P₂
+  | 3 => R.P₃
+  | _+4 => 0
+
+noncomputable def differential : ∀ n : ℕ, R.term (n+1) ⟶ R.term n
+  | 0 => R.d₁
+  | 1 => R.d₂
+  | 2 => R.d₃
+  | _+3 => 0
+
+theorem differential_sq (n : ℕ) : R.differential (n+1) ≫ R.differential n = 0 := by
+  rcases n with _ | _ | _ | n
+  · exact R.d₂_d₁
+  · exact R.d₃_d₂
+  · exact zero_comp
+  · simp [differential]
+
+noncomputable def complex : ChainComplex C ℕ :=
+  ChainComplex.of R.term R.differential R.differential_sq
+
+noncomputable instance termProjective (n : ℕ) : Projective (R.term n) := by
+  rcases n with _ | _ | _ | _ | n
+  · exact R.projective₀
+  · exact R.projective₁
+  · exact R.projective₂
+  · exact R.projective₃
+  · change Projective (0 : C); infer_instance
+
+set_option backward.isDefEq.respectTransparency false in
+theorem complex_exactAt_succ (n : ℕ) : R.complex.ExactAt (n+1) := by
+  rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp)]
+  rcases n with _ | _ | _ | n
+  · change (ShortComplex.mk (R.complex.d 2 1) (R.complex.d 1 0) _).Exact
+    simpa only [show R.complex.d 2 1 = R.d₂ from ChainComplex.of_d R.term R.differential 1,
+      show R.complex.d 1 0 = R.d₁ from ChainComplex.of_d R.term R.differential 0] using R.exact₁
+  · change (ShortComplex.mk (R.complex.d 3 2) (R.complex.d 2 1) _).Exact
+    simpa only [show R.complex.d 3 2 = R.d₃ from ChainComplex.of_d R.term R.differential 2,
+      show R.complex.d 2 1 = R.d₂ from ChainComplex.of_d R.term R.differential 1] using R.exact₂
+  · letI : Mono R.d₃ := R.mono_d₃
+    apply (ShortComplex.exact_iff_mono _ ?_).mpr
+    · change Mono (R.complex.d 3 2)
+      rw [show R.complex.d 3 2 = R.d₃ from ChainComplex.of_d R.term R.differential 2]
+      infer_instance
+    · change R.complex.d 4 3 = 0
+      exact ChainComplex.of_d R.term R.differential 3
+  · apply ShortComplex.exact_of_isZero_X₂
+    change IsZero (R.term (n+4))
+    exact isZero_zero C
+
+noncomputable def augmentation : R.complex ⟶ (ChainComplex.single₀ C).obj M :=
+  (ChainComplex.toSingle₀Equiv _ _).symm ⟨R.π, by
+    rw [show R.complex.d 1 0 = R.d₁ from ChainComplex.of_d R.term R.differential 0]
+    exact R.d₁_π⟩
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable instance augmentationQuasiIso : QuasiIso R.augmentation := ⟨fun n => by
+  cases n
+  · rw [ChainComplex.quasiIsoAt₀_iff,ShortComplex.quasiIso_iff_of_zeros']
+    · letI := R.epi_π
+      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2 ⟨R.exact₀,inferInstance⟩
+      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
+        (by
+          change (𝟙 R.P₁) ≫ R.d₁ = R.complex.d 1 0 ≫ (𝟙 R.P₀)
+          calc
+            (𝟙 R.P₁) ≫ R.d₁ = R.d₁ := Category.id_comp _
+            _ = R.complex.d 1 0 := (ChainComplex.of_d R.term R.differential 0).symm
+            _ = R.complex.d 1 0 ≫ (𝟙 R.P₀) := (Category.comp_id _).symm)
+        (by
+          change (𝟙 R.P₀) ≫ R.π = R.augmentation.f 0 ≫ (𝟙 M)
+          calc
+            (𝟙 R.P₀) ≫ R.π = R.π := Category.id_comp _
+            _ = R.augmentation.f 0 := ChainComplex.toSingle₀Equiv_symm_apply_f_zero.symm
+            _ = R.augmentation.f 0 ≫ (𝟙 M) := (Category.comp_id _).symm)
+    all_goals rfl
+  · rw [quasiIsoAt_iff_exactAt']
+    · exact R.complex_exactAt_succ _
+    · exact ChainComplex.exactAt_succ_single_obj _ _⟩
+
+noncomputable def toProjectiveResolution : ProjectiveResolution M where
+  complex := R.complex
+  projective n := by change Projective (R.term n); infer_instance
+  π := R.augmentation
+  quasiIso := R.augmentationQuasiIso
+
+theorem complex_isZero_ge_four (n : ℕ) : IsZero (R.complex.X (n+4)) := by
+  change IsZero (R.term (n+4))
+  exact isZero_zero C
+
+/-- Assemble three actual epimorphisms onto successive kernels. -/
+noncomputable def ofKernelCovers {P₀ P₁ P₂ : C}
+    [Projective P₀] [Projective P₁] [Projective P₂]
+    (p₀ : P₀ ⟶ M) [Epi p₀] (p₁ : P₁ ⟶ kernel p₀) [Epi p₁]
+    (p₂ : P₂ ⟶ kernel p₁) [Epi p₂] [Projective (kernel p₂)] :
+    FourTermProjectiveResolution M where
+  P₀ := P₀
+  P₁ := P₁
+  P₂ := P₂
+  P₃ := kernel p₂
+  projective₀ := inferInstance
+  projective₁ := inferInstance
+  projective₂ := inferInstance
+  projective₃ := inferInstance
+  π := p₀
+  d₁ := p₁ ≫ kernel.ι p₀
+  d₂ := p₂ ≫ kernel.ι p₁
+  d₃ := kernel.ι p₂
+  epi_π := inferInstance
+  mono_d₃ := inferInstance
+  d₁_π := by simp
+  d₂_d₁ := by simp [Category.assoc]
+  d₃_d₂ := by simp [← Category.assoc]
+  exact₀ := (exact_epi_comp_iff p₁ (kernel.ι p₀) p₀ (kernel.condition p₀)).mpr
+    (ShortComplex.exact_kernel p₀)
+  exact₁ := by
+    apply (exact_comp_mono_iff (p₂ ≫ kernel.ι p₁) p₁ (kernel.ι p₀) (by simp)).mp
+    exact (exact_epi_comp_iff p₂ (kernel.ι p₁) p₁ (kernel.condition p₁)).mpr
+      (ShortComplex.exact_kernel p₁)
+  exact₂ := (exact_comp_mono_iff (kernel.ι p₂) p₂ (kernel.ι p₁) (kernel.condition p₂)).mp
+    (ShortComplex.exact_kernel p₂)
+end FourTermProjectiveResolution
+end ASGinzburg

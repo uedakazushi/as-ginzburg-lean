@@ -12,6 +12,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 theorem rightModule_isZero_of_components (M : A.RightModule)
     (h : ∀ i : ℤ, IsZero ((A.rightModuleEvaluation i).obj M)) : IsZero M := by
   rw [IsZero.iff_id_eq_zero]
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   exact (h X.unop.index).eq_of_src _ _
@@ -47,6 +48,7 @@ theorem simpleRightModule_hom_of_low_support {M : A.RightModule} (i : ℤ)
       A.simpleRightModuleπ i ≫ f = A.representableToElement i M x := by
   let g := A.representableToElement i M x
   have hg : (A.representableRadical i).inclusion ≫ g = 0 := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext Y
     by_cases hy : Y.unop.index < i
@@ -54,7 +56,7 @@ theorem simpleRightModule_hom_of_low_support {M : A.RightModule} (i : ℤ)
     · apply ModuleCat.hom_ext
       apply LinearMap.ext
       intro y
-      change g.app Y y.val = 0
+      change g.hom.app Y y.val = 0
       have hy0 : y.val = 0 := by simpa [representableRadical,hy] using y.property
       rw [hy0]
       exact map_zero _
@@ -120,6 +122,7 @@ theorem simpleLeftModule_hom_of_high_support {M : A.LeftModule} (i : ℤ)
       A.simpleLeftModuleπ i ≫ f = A.leftRepresentableToElement i M x := by
   let g := A.leftRepresentableToElement i M x
   have hg : (A.leftRepresentableRadical i).inclusion ≫ g = 0 := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext Y
     by_cases hy : i < Y.index
@@ -127,7 +130,7 @@ theorem simpleLeftModule_hom_of_high_support {M : A.LeftModule} (i : ℤ)
     · apply ModuleCat.hom_ext
       apply LinearMap.ext
       intro y
-      change g.app Y y.val = 0
+      change g.hom.app Y y.val = 0
       have hy0 : y.val = 0 := by simpa [leftRepresentableRadical,hy] using y.property
       rw [hy0]
       exact map_zero _

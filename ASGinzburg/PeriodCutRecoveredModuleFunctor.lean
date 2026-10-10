@@ -11,19 +11,21 @@ variable {Q : CutQuiver} {E : A.PeriodIso (Q.vertices:ℤ)}
 
 noncomputable def recoveredModuleMap {M N : E.CutGradedRightModule Q} (f : M⟶N) :
     M.recoveredRightModule⟶N.recoveredRightModule where
-  app X := ModuleCat.ofHom (recoveredComponentLinearMap f (Q.heightEquiv.symm X.unop.index))
-  naturality {X Y} a := by
-    apply ModuleCat.hom_ext
-    apply LinearMap.ext
-    intro v
-    apply Subtype.ext
-    exact f.property.1 a.unop.val v.val
+  hom := {
+    app X := ModuleCat.ofHom (recoveredComponentLinearMap f (Q.heightEquiv.symm X.unop.index))
+    naturality {X Y} a := by
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro v
+      apply Subtype.ext
+      exact f.property.1 a.unop.val v.val }
 
 noncomputable def recoveredModuleFunctor :
     E.CutGradedRightModule Q ⥤ (E.cornerCoverZAlgebra Q).RightModule where
   obj M := M.recoveredRightModule
   map f := recoveredModuleMap f
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -32,6 +34,7 @@ noncomputable def recoveredModuleFunctor :
     apply Subtype.ext
     rfl
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -43,6 +46,7 @@ noncomputable def recoveredModuleFunctor :
 instance recoveredModuleFunctorAdditive : (recoveredModuleFunctor (E:=E)).Additive where
   map_add := by
     intro M N f g
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -54,6 +58,7 @@ instance recoveredModuleFunctorAdditive : (recoveredModuleFunctor (E:=E)).Additi
 instance recoveredModuleFunctorLinear : (recoveredModuleFunctor (E:=E)).Linear k where
   map_smul := by
     intro M N f c
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext

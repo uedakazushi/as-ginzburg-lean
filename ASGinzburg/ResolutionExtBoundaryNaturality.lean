@@ -12,6 +12,7 @@ theorem rightModuleExtBoundaryLeft_natural {S T : ShortComplex A.RightModule}
     (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T) (n : ℕ) :
     A.rightModuleExtPrecompLeft φ.τ₁ n ≫ A.rightModuleExtBoundaryLeft hS n =
       A.rightModuleExtBoundaryLeft hT n ≫ A.rightModuleExtPrecompLeft φ.τ₃ (n+1) := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext
@@ -62,6 +63,7 @@ theorem leftModuleExtBoundaryRight_natural {S T : ShortComplex A.LeftModule}
     (hS : S.ShortExact) (hT : T.ShortExact) (φ : S ⟶ T) (n : ℕ) :
     A.leftModuleExtPrecompRight φ.τ₁ n ≫ A.leftModuleExtBoundaryRight hS n =
       A.leftModuleExtBoundaryRight hT n ≫ A.leftModuleExtPrecompRight φ.τ₃ (n+1) := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext

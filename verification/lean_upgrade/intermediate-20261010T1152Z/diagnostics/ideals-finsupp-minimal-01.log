@@ -1,0 +1,17 @@
+work/lean-upgrade/ideals-finsupp-minimal.lean:6:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+↥(Finsupp.supported k k t) ⧸
+  Submodule.comap (Finsupp.supported k k t).subtype (Finsupp.supported k k s) : Type (max u v)
+@Finsupp.instAddCommGroup.{u_1,
+    u_2} : {ι : Type u_1} →
+  {G : Type u_2} →
+    [inst : AddCommGroup.{u_2} G] →
+      AddCommGroup.{max u_2 u_1}
+        (@Finsupp.{u_1, u_2} ι G
+          (@NegZeroClass.toZero.{u_2} G
+            (@SubNegZeroMonoid.toNegZeroClass.{u_2} G
+              (@SubtractionMonoid.toSubNegZeroMonoid.{u_2} G
+                (@SubtractionCommMonoid.toSubtractionMonoid.{u_2} G
+                  (@AddCommGroup.toDivisionAddCommMonoid.{u_2} G inst))))))

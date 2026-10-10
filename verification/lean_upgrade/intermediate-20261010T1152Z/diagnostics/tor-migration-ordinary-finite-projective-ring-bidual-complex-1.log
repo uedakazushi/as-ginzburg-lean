@@ -1,0 +1,10 @@
+ASGinzburg/OrdinaryFiniteProjectiveRingBidualComplex.lean:37:6: error: Type mismatch: After simplification, term
+  Eq.symm ((ordinaryRingBidualEvaluationNatTrans R).naturality (K.d i j))
+ has type
+  @Eq ((𝟭 (ModuleCat R)).obj (K.X i) ⟶ (ordinaryRingBidualFunctor R).obj (K.X j))
+    ((ordinaryRingBidualEvaluationNatTrans R).app (K.X i) ≫ (ordinaryRingBidualFunctor R).map (K.d i j))
+    ((𝟭 (ModuleCat R)).map (K.d i j) ≫ (ordinaryRingBidualEvaluationNatTrans R).app (K.X j))
+but is expected to have type
+  @Eq (K.X i ⟶ (((ordinaryRingBidualFunctor R).mapHomologicalComplex c).obj K).X j)
+    (ordinaryRingBidualEvaluation R (K.X i) ≫ (((ordinaryRingBidualFunctor R).mapHomologicalComplex c).obj K).d i j)
+    (K.d i j ≫ ordinaryRingBidualEvaluation R (K.X j))

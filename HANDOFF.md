@@ -1,3 +1,7 @@
+2026-10-10 の最新ユーザー指示により、Lean の最新安定版 `leanprover/lean4:v4.34.1` と対応する mathlib v4.34.1（`d13f23b723b8a846827a245b89c10fc7d3f11612`）へ移行中。中間保存1の公開ソースを UTC `2026-10-10T11:51:14.750758+00:00` に固定した。回帰テスト24件とソース監査は実終了0、公開1372数学モジュール / 6909宣言を保持。旧検証記録と入力PDFの68,757保護ファイルもraw Git blob・実行権限・index・working treeの無変更を確認した。全体診断ビルド `build-13` は89.203720748秒・実終了1で、19失敗ファイル中15ファイルは現行ソースの個別Lean検査0、残る4ファイルの修正・検査を継続する。新環境での全体成功・全公理監査は未確認。最新の追加指示に従い、途中段階でも状況と証拠を記録して `[skip ci]` コミットを main へ直接通常pushする。GitHub Actions は使わない。
+
+更新前の1372モジュール / 6909宣言の全体成功は Lean 4.24.0 の歴史的証拠として保持する。保存コミットは `88ac9e307b51043e5378c3eaebbbf927a6f6cf21`。未公開草稿のソースと旧環境の検査記録も保存済みで、新環境で検証したとは扱わない。以下の過去時点の記述・旧版成功記録は現在の移行環境の成功を示さない。
+
 検証済み公開保存点（UTC 2026-10-10T07:47:25.651597+00:00、数学的作業は継続中）：121モジュール / 689宣言を追加した1372数学モジュール / 6909宣言 / 3877 theoremの新規全体run `20261010T053852Z-1116dc15` は全6段階実終了0・success。UTC `2026-10-10T05:38:52.408740+00:00` → `2026-10-10T06:33:53.611986+00:00`、実測3301.203271182秒。wrapper実終了0・実測3301.325671627秒。全6909異なる宣言の厳密公理照合と現行公開SHA一致、許容公理 `propext` / `Classical.choice` / `Quot.sound` のみ。固定依存・初期14 / 開始時60+577保護記録 / 入力PDFの無変更照合も0。
 
 公開追加：実際のポテンシャルのHH0巡回商への単射、道代数自己同型の作用と軌道、任意の非線形置換に対する巡回微分連鎖律、真のJacobianイデアルの移送とunrolled Jacobian同型への下降を証明した。正則ポテンシャルの自己同型軌道から頂点固定AS代数同型類への写像は下降済み。三角quiverの実際の自己同型群≃GL(3)³とテンソル軌道の一致、定理3.2・系5.2の元仮定を保つ対応命題、系5.2の三角場合への還元、実際の二次AS分解/成分次元条件から周期3とHilbert値、一般quiverのEuler式による成分次元一意性を追加した。有限射影環双対・bidual・derived Extの有限cochain模型、Ae双対各項の実際の内部次数と下界/微分次数保存、右Aeから右Rへの射影性保存、実際の次数付き四項複体の半単純テンソル完全性検出も公開した。定理3.2・系5.2の証明、対応の単射性と全AS代数回復、twisted CYの集中と可逆性、Reyes–Rogalski / Hanihara / Kellerの核は未完成。以後の三角基底比較・三角軌道回復・普通Ext集中・次数付き被覆の草稿は1372全体検査の対象外として保存する。GitHub Actionsを使わず検証済み差分を直接mainへ通常pushし、その後も必要な証明義務へ継続する。
@@ -211,7 +215,7 @@ main0076791のGitHub CI run37911359000は開始済み、最後の取得時点で
 - リポジトリ：https://github.com/uedakazushi/as-ginzburg-lean 。作業場所：`/workspace/as-ginzburg-lean`。
 - mainへ直接保存。最新ユーザー指示は自律的な継続・検証済み単位の直接push。新規PRなし、force pushなし。
 - 今回の開始main：e2aa1fe65b295ec74457c3c4d09015c9d1aff473。各単位の保存SHAはRECENT_RUN.md参照。
-- Lean：leanprover/lean4:v4.24.0。mathlib：f897ebcf72cd16f89ab4577d0c826cd14afaafc7。manifest全依存固定。
+- 現行環境：Lean leanprover/lean4:v4.34.1、mathlib d13f23b723b8a846827a245b89c10fc7d3f11612。manifest全依存固定。
 - 既存の加法的・k線形反変presheafのRightModule定義を保持。
 - ASRegularは原論文の有限最小分解の存在(i)と実際の総Ext rank条件(ii)。周期性・WindowSystem・必要なExt同型を追加しない。
 - 基盤補題が一般の体で成立しても、主定理の代数閉・標数0の仮定を弱めたとは扱わない。
@@ -246,10 +250,10 @@ GitHub APIでローカルtree SHAとexpected_shaを照合し、force=falseで直
 
 
 ```bash
-AS_GINZBURG_LEAN_ROOT=/workspace/.cloud-setup/lean-4.24.0-linux bash scripts/check.sh
+AS_GINZBURG_LEAN_ROOT=/path/to/lean-4.34.1-linux bash scripts/check.sh
 ```
 
-初回は--prepare-cacheを追加。固定環境でpush/pull_requestごとに新規検査とartifact保存。lake updateは不要。
+依存キャッシュを取得できる環境では初回に `--prepare-cache` を追加する。取得できない場合は同じ固定依存をソースからビルドする。検証は作業環境で実行し、GitHub Actions は手動実行のみ。今回の作業では GitHub Actions を使わない。`lake update` は通常の再現には不要。
 
 ## 次に必要な証明義務
 

@@ -37,7 +37,7 @@ theorem ginzburgLoopDualProjectiveMap_adual_opposite_coordinates (v l : Q.LiftVe
       (Q.unrolledJacobianZAlgebra k φ).representable (Q.height l)) :
     Q.ginzburgLoopADualOppositeRepresentableComponentEquiv k φ v l
       (((Q.unrolledJacobianZAlgebra k φ).rightModuleADualMap
-        (Q.ginzburgLoopDualProjectiveMap k φ v)).app ⟨Q.height l⟩ f)=
+        (Q.ginzburgLoopDualProjectiveMap k φ v)).hom.app ⟨Q.height l⟩ f)=
       ∑ b : Q.GinzburgIncomingDegree v.1 (-1),
         Q.oppositeUnrolledJacobianHomEquiv k φ (Q.tau.symm v) l
           ((Q.unrolledJacobianZAlgebra k φ).comp

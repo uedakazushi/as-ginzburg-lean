@@ -1,0 +1,37 @@
+import ASGinzburg.GinzburgLoopSquare
+
+/-! An actual degree minus one path has one reverse arrow, with ordinary
+paths on both sides. This computes the degree zero boundaries. -/
+namespace ASGinzburg.CutQuiver
+variable (Q : CutQuiver)
+
+theorem GinzburgPath.degreeNegOne_decomposition {u v : Q.Vertex}
+    (p : Q.GinzburgPath u v) (hp : p.cohomologicalDegree=-1) :
+    ∃ a : Q.Arrow, ∃ l : Q.Path u (Q.target a), ∃ r : Q.Path (Q.source a) v,
+      (l.originalGinzburg Q).comp ((Q.dualGinzburgArrowPath a).comp (r.originalGinzburg Q))=p := by
+  revert hp
+  induction p with
+  | nil => simp [cohomologicalDegree]
+  | snoc p a h ih =>
+    intro hp
+    have hn := p.cohomologicalDegree_nonpos
+    cases a with
+    | original a =>
+      have hz : p.cohomologicalDegree=-1 := by
+        simpa only [cohomologicalDegree,GinzburgArrow.cohomologicalDegree,add_zero] using hp
+      obtain ⟨b,l,r,hr⟩ := ih hz
+      refine ⟨b,l,Path.snoc r a h,?_⟩
+      exact congrArg (fun q => GinzburgPath.snoc q (.original a) h) hr
+    | dual a =>
+      subst h
+      have hz : p.cohomologicalDegree=0 := by
+        simp only [cohomologicalDegree,GinzburgArrow.cohomologicalDegree] at hp
+        omega
+      obtain ⟨l,hl⟩ := p.degreeZero_existsOriginal Q hz
+      refine ⟨a,l,Path.nil (Q.source a),?_⟩
+      exact congrArg (fun q => GinzburgPath.snoc q (.dual a) rfl) hl
+    | loop v =>
+      simp only [cohomologicalDegree,GinzburgArrow.cohomologicalDegree] at hp
+      omega
+
+end ASGinzburg.CutQuiver

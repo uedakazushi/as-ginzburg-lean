@@ -24,8 +24,12 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 /-- Any pointwise limit of linear right modules is again additive and linear. -/
 theorem rightModuleProperty_closedUnderLimits
     (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
-    ClosedUnderLimitsOfShape J A.rightModuleProperty := by
-  intro F c hc hF
+    A.rightModuleProperty.IsClosedUnderLimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let c := p.toLimitPresentation.cone
+  have hc : IsLimit c := p.isLimit
+  have hF := p.prop_diag_obj
   constructor
   · constructor
     intro X Y f g
@@ -49,8 +53,12 @@ theorem rightModuleProperty_closedUnderLimits
 /-- Any pointwise colimit of linear right modules is again additive and linear. -/
 theorem rightModuleProperty_closedUnderColimits
     (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
-    ClosedUnderColimitsOfShape J A.rightModuleProperty := by
-  intro F c hc hF
+    A.rightModuleProperty.IsClosedUnderColimitsOfShape J := by
+  constructor
+  rintro X ⟨p⟩
+  let c := p.toColimitPresentation.cocone
+  have hc : IsColimit c := p.isColimit
+  have hF := p.prop_diag_obj
   constructor
   · constructor
     intro X Y f g
@@ -77,25 +85,33 @@ theorem rightModuleProperty_closedUnderColimits
 noncomputable instance rightModuleHasLimitsOfShape
     (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
     HasLimitsOfShape J A.RightModule :=
-  hasLimitsOfShape_of_closedUnderLimits (A.rightModuleProperty_closedUnderLimits J)
+  by
+    letI := A.rightModuleProperty_closedUnderLimits J
+    exact hasLimitsOfShape_of_closedUnderLimits J A.rightModuleProperty
 
 /-- Colimits are inherited without leaving the category of linear right modules. -/
 noncomputable instance rightModuleHasColimitsOfShape
     (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
     HasColimitsOfShape J A.RightModule :=
-  hasColimitsOfShape_of_closedUnderColimits (A.rightModuleProperty_closedUnderColimits J)
+  by
+    letI := A.rightModuleProperty_closedUnderColimits J
+    exact hasColimitsOfShape_of_closedUnderColimits J A.rightModuleProperty
 
 /-- The full-subcategory inclusion creates limits in the ambient presheaf category. -/
 noncomputable instance rightModuleInclusionCreatesLimitsOfShape
     (J : Type w) [Category.{w'} J] [HasLimitsOfShape J (ModuleCat.{v} k)] :
     CreatesLimitsOfShape J A.rightModuleProperty.ι :=
-  createsLimitsOfShapeFullSubcategoryInclusion (A.rightModuleProperty_closedUnderLimits J)
+  by
+    letI := A.rightModuleProperty_closedUnderLimits J
+    exact createsLimitsOfShapeFullSubcategoryInclusion J A.rightModuleProperty
 
 /-- The full-subcategory inclusion creates colimits in the ambient presheaf category. -/
 noncomputable instance rightModuleInclusionCreatesColimitsOfShape
     (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
     CreatesColimitsOfShape J A.rightModuleProperty.ι :=
-  createsColimitsOfShapeFullSubcategoryInclusion (A.rightModuleProperty_closedUnderColimits J)
+  by
+    letI := A.rightModuleProperty_closedUnderColimits J
+    exact createsColimitsOfShapeFullSubcategoryInclusion J A.rightModuleProperty
 
 /-- In particular, right modules have the finite products needed for the Abelian criterion. -/
 noncomputable instance rightModuleHasFiniteProducts : HasFiniteProducts A.RightModule where

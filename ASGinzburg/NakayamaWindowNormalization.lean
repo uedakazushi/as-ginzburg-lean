@@ -26,7 +26,7 @@ noncomputable def rightFiniteWindowNakayamaChosenSimpleIso (hAS : A.ASRegular Q)
 
 theorem rightFiniteWindowNakayamaChosenSimpleIso_hom_eq (hAS : A.ASRegular Q)
     (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
-    (A.rightFiniteWindowNakayamaChosenSimpleIso Q hAS l r i hli hir).hom =
+    (A.rightFiniteWindowNakayamaChosenSimpleIso Q hAS l r i hli hir).hom.hom =
       (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i).hom := rfl
 
 noncomputable def rightFiniteWindowNakayamaChosenRepresentableCover (hAS : A.ASRegular Q)
@@ -93,10 +93,9 @@ noncomputable def rightFiniteWindowNakayamaChosenRepresentableModuleIso (hAS : A
     A.rightFiniteDimensionalNakayamaUnderlying Q hAS (A.rightTruncatedRepresentable l i)
         (A.rightTruncatedRepresentable_finite l i) ≅
       A.rightTruncatedRepresentable (l-Q.vertices) (i-Q.vertices) :=
-  { hom := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).hom
-    inv := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).inv
-    hom_inv_id := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).hom_inv_id
-    inv_hom_id := (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir).inv_hom_id }
+  A.rightFiniteDimensionalProperty.ι.mapIso
+    ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.mapIso
+      (A.rightFiniteWindowNakayamaChosenRepresentableIso Q hAS l r i hli hir))
 
 theorem rightFiniteWindowNakayamaChosenRepresentableModuleIso_hom_cover (hAS : A.ASRegular Q)
     (l r i : ℤ) (hli : l ≤ i) (hir : i ≤ r) :
@@ -105,7 +104,8 @@ theorem rightFiniteWindowNakayamaChosenRepresentableModuleIso_hom_cover (hAS : A
       A.rightFiniteDimensionalNakayamaUnderlyingMap Q hAS
         (A.rightTruncatedRepresentable_finite l i) (A.rightFiniteDimensional_simple i)
         (A.rightTruncatedRepresentableSimpleCover l i hli) ≫
-          (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i).hom :=
-  A.rightFiniteWindowNakayamaChosenRepresentableIso_hom_cover Q hAS l r i hli hir
+          (A.rightFiniteDimensionalNakayamaSimpleChosenIso Q hAS i).hom.hom :=
+  congrArg (fun t => t.hom.hom)
+    (A.rightFiniteWindowNakayamaChosenRepresentableIso_hom_cover Q hAS l r i hli hir)
 
 end ASGinzburg.ZAlgebra

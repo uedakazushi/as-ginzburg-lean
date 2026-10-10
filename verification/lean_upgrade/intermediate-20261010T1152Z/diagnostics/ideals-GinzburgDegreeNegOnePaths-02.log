@@ -1,0 +1,13 @@
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:24:6: error: 'change' tactic failed, pattern
+  ((Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath b).comp (Path.originalGinzburg Q r))).snoc
+      (GinzburgArrow.original a) h =
+    ?m.146
+is not definitionally equal to target
+  (Path.originalGinzburg Q l).comp ((Q.dualGinzburgArrowPath b).comp (Path.originalGinzburg Q (r.snoc a h))) =
+    p.snoc (GinzburgArrow.original a) h
+ASGinzburg/GinzburgDegreeNegOnePaths.lean:35:6: error: 'change' tactic failed, pattern
+  (Path.originalGinzburg Q l).snoc (GinzburgArrow.dual a) ⋯ = ?m.213
+is not definitionally equal to target
+  (Path.originalGinzburg Q l).comp
+      ((Q.dualGinzburgArrowPath a).comp (Path.originalGinzburg Q (Path.nil (Q.source a)))) =
+    p.snoc (GinzburgArrow.dual a) ⋯

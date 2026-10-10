@@ -42,11 +42,11 @@ theorem rightModule_surjective_of_boundedAbove_range_add_radical
           obtain ⟨j, hij, a, r, rfl⟩ := hw
           obtain ⟨a', ha'⟩ := ih j (by omega) a
           refine ⟨M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op a', ?_⟩
-          change f.app (op ⟨j⟩) a' = a at ha'
+          change f.hom.app (op ⟨j⟩) a' = a at ha'
           have hn := congrArg (fun g => g a')
-            (f.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op)
-          change f.app (op ⟨i⟩) (M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op a') =
-            N.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op (f.app (op ⟨j⟩) a') at hn
+            (f.hom.naturality (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op)
+          change f.hom.app (op ⟨i⟩) (M.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op a') =
+            N.obj.map (show (⟨i⟩ : A.Obj) ⟶ ⟨j⟩ from r).op (f.hom.app (op ⟨j⟩) a') at hn
           rw [ha'] at hn
           exact hn
         | zero => exact Submodule.zero_mem _

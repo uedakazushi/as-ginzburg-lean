@@ -21,7 +21,7 @@ noncomputable def linearRepresentationPrecomposition :
     letI : M.obj.Additive := M.property.1
     letI : M.obj.Linear k := M.property.2
     exact ⟨E.inverse ⋙ M.obj, ⟨inferInstance, inferInstance⟩⟩
-  map f := whiskerLeft E.inverse f
+  map f := ObjectProperty.homMk (whiskerLeft E.inverse f.hom)
   map_id _ := rfl
   map_comp _ _ := rfl
 
@@ -37,13 +37,15 @@ instance linearRepresentationPrecompositionFaithful :
     (linearRepresentationPrecomposition (k := k) E).Faithful where
   map_injective := by
     intro M N f g h
-    exact (Equivalence.congrLeft E).functor.map_injective h
+    apply ObjectProperty.hom_ext
+    exact (Equivalence.congrLeft E).functor.map_injective (congrArg (fun t => t.hom) h)
 
 instance linearRepresentationPrecompositionFull :
     (linearRepresentationPrecomposition (k := k) E).Full where
   map_surjective := by
     intro M N f
-    exact (Equivalence.congrLeft E).functor.map_surjective f
+    obtain ⟨g, hg⟩ := (Equivalence.congrLeft E).functor.map_surjective f.hom
+    exact ⟨ObjectProperty.homMk g, ObjectProperty.hom_ext _ hg⟩
 
 instance linearRepresentationPrecompositionEssSurj :
     (linearRepresentationPrecomposition (k := k) E).EssSurj where

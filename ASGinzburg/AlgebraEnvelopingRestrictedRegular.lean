@@ -25,7 +25,7 @@ theorem regularEnvelopingRightModule_eq :
   apply Module.ext'
   intro b x
   change ((1 : R) ⊗ₜ[k] b) • x=x*b.unop
-  simpa only [one_mul] using
+  simpa only [MulOpposite.op_unop, one_mul] using
     regularEnvelopingModule_tmul_smul k R 1 b.unop x
 
 noncomputable def regularEnvelopingLeftRestrictionIso :

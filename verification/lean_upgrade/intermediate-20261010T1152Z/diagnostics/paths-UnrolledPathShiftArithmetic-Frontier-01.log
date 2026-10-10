@@ -1,0 +1,20 @@
+ASGinzburg/UnrolledPathShiftArithmetic.lean:28:50: error: unsolved goals
+Q : CutQuiver
+r s : ℤ
+u v : Q.LiftVertex
+p : Q.UnrolledPath u v
+⊢ p.erase.toList = (transport ⋯ ⋯ (shift (r + s) p)).erase.toList
+ASGinzburg/UnrolledPathShiftArithmetic.lean:30:46: warning: This simp argument is unused:
+  UnrolledPath.erase_transport
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [UnrolledPath.shift_erase_toList, Path.toList_transport]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/UnrolledPathShiftArithmetic.lean:31:4: warning: This simp argument is unused:
+  Path.toList_transport
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [UnrolledPath.shift_erase_toList, UnrolledPath.erase_transport]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

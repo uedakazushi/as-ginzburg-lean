@@ -1,0 +1,56 @@
+import ASGinzburg.OppositeGinzburgPathEquiv
+import ASGinzburg.OppositePathCyclicDerivative
+
+/-! Anti-multiplicative reversal of the genuine extended linear paths,
+including compatibility with the original-path inclusion. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable {Q : CutQuiver}
+
+theorem Path.opposite_originalGinzburg {u v : Q.Vertex} (p : Q.Path u v) :
+    (p.originalGinzburg Q).opposite = p.opposite.originalGinzburg Q.opposite := by
+  apply GinzburgPath.toList_injective (Q := Q.opposite) v.rev u.rev
+  simp [GinzburgPath.opposite_toList, originalGinzburg_toList, opposite_toList,
+    List.map_reverse, List.map_map, Function.comp_def, GinzburgArrow.opposite]
+
+variable (Q) (k : Type u) [Field k]
+
+noncomputable def oppositeGinzburgPathComponentEquiv (u v : Q.Vertex) :
+    Q.GinzburgPathComponent k u v ≃ₗ[k] Q.opposite.GinzburgPathComponent k v.rev u.rev :=
+  Finsupp.domLCongr (oppositeGinzburgPathEquiv u v)
+
+@[simp] theorem oppositeGinzburgPathComponentEquiv_single {u v : Q.Vertex}
+    (p : Q.GinzburgPath u v) (a : k) :
+    Q.oppositeGinzburgPathComponentEquiv k u v (Finsupp.single p a) =
+      Finsupp.single p.opposite a := by
+  simp only [oppositeGinzburgPathComponentEquiv, Finsupp.domLCongr_single]
+  rfl
+
+theorem oppositeGinzburgPathComponentEquiv_comp {u v w : Q.Vertex}
+    (f : Q.GinzburgPathComponent k u v) (g : Q.GinzburgPathComponent k v w) :
+    Q.oppositeGinzburgPathComponentEquiv k u w (Q.ginzburgPathComp k g f) =
+      Q.opposite.ginzburgPathComp k (Q.oppositeGinzburgPathComponentEquiv k u v f)
+        (Q.oppositeGinzburgPathComponentEquiv k v w g) := by
+  classical
+  induction g using Finsupp.induction_linear with
+  | zero => simp
+  | add g h ihg ihh => simp [map_add, ihg, ihh]
+  | single q b =>
+    induction f using Finsupp.induction_linear with
+    | zero => simp
+    | add f h ihf ihh => simp [map_add, LinearMap.add_apply, ihf, ihh]
+    | single p a => simp [GinzburgPath.opposite_comp, mul_comm]
+
+theorem oppositeGinzburgPathComponentEquiv_original {u v : Q.Vertex}
+    (f : Q.PathComponent k u v) :
+    Q.oppositeGinzburgPathComponentEquiv k u v (Q.originalGinzburgLinearMap k u v f) =
+      Q.opposite.originalGinzburgLinearMap k v.rev u.rev
+        (Q.oppositePathComponentEquiv k u v f) := by
+  classical
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f g ihf ihg => simp [map_add, ihf, ihg]
+  | single p a =>
+    simp [originalGinzburgLinearMap, Finsupp.mapDomain_single, Path.opposite_originalGinzburg]
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,87 @@
+import ASGinzburg.RightModuleExtNaturalSequence
+import ASGinzburg.RightModuleHomFinite
+import ASGinzburg.HomologicalColimitClosure
+
+/-! Hom of a cokernel is a kernel, naturally in the second argument. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v w w'
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+def rightModuleHomPrecompNat {M N : A.RightModule} (f : M ⟶ N) :
+    (linearCoyoneda k A.RightModule).obj (op N) ⟶
+      (linearCoyoneda k A.RightModule).obj (op M) :=
+  (linearCoyoneda k A.RightModule).map f.op
+
+theorem rightModuleHomPrecompNat_comp_zero {S : ShortComplex A.RightModule} :
+    A.rightModuleHomPrecompNat S.g ≫ A.rightModuleHomPrecompNat S.f = 0 := by
+  apply NatTrans.ext
+  funext N
+  apply ModuleCat.hom_ext
+  ext x
+  change S.f ≫ (S.g ≫ x) = 0
+  rw [← Category.assoc, S.zero, zero_comp]
+
+def rightModuleHomShortComplex (S : ShortComplex A.RightModule) :
+    ShortComplex (A.RightModule ⥤ ModuleCat.{v} k) :=
+  ShortComplex.mk (A.rightModuleHomPrecompNat S.g) (A.rightModuleHomPrecompNat S.f)
+    (A.rightModuleHomPrecompNat_comp_zero (S := S))
+
+theorem rightModuleHomShortComplex_exact_component {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) (N : A.RightModule) :
+    ((A.rightModuleHomShortComplex S).map
+      ((evaluation A.RightModule (ModuleCat.{v} k)).obj N)).Exact := by
+  rw [ShortComplex.moduleCat_exact_iff]
+  intro x hx
+  change S.f ≫ x = 0 at hx
+  obtain ⟨y, hy⟩ := CokernelCofork.IsColimit.desc' hS.gIsCokernel x hx
+  exact ⟨y, hy⟩
+
+instance rightModuleHomPrecompNatAppMono {M N : A.RightModule} (f : M ⟶ N) [Epi f]
+    (P : A.RightModule) : Mono ((A.rightModuleHomPrecompNat f).app P) :=
+  (ModuleCat.mono_iff_injective _).mpr (A.rightModuleHomPrecomp_injective f P)
+
+instance rightModuleHomPrecompNatMono {M N : A.RightModule} (f : M ⟶ N) [Epi f] :
+    Mono (A.rightModuleHomPrecompNat f) := NatTrans.mono_of_mono_app _
+
+noncomputable def rightModuleHomKernelForkIsLimit {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) :
+    IsLimit (KernelFork.ofι (A.rightModuleHomPrecompNat S.g)
+      (A.rightModuleHomPrecompNat_comp_zero (S := S))) := by
+  apply evaluationJointlyReflectsLimits
+  intro N
+  refine (isLimitMapConeForkEquiv'
+    ((evaluation A.RightModule (ModuleCat.{v} k)).obj N)
+    (A.rightModuleHomPrecompNat_comp_zero (S := S))).symm ?_
+  letI : Epi S.g := hS.epi_g
+  letI : Mono ((A.rightModuleHomShortComplex S).map
+      ((evaluation A.RightModule (ModuleCat.{v} k)).obj N)).f := by
+    change Mono ((A.rightModuleHomPrecompNat S.g).app N)
+    infer_instance
+  exact (A.rightModuleHomShortComplex_exact_component hS N).fIsKernel
+
+noncomputable def rightModuleHomKernelNatIso {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) :
+    (linearCoyoneda k A.RightModule).obj (op S.X₃) ≅
+      kernel (A.rightModuleHomPrecompNat S.f) :=
+  IsLimit.conePointUniqueUpToIso (A.rightModuleHomKernelForkIsLimit hS) (limit.isLimit _)
+
+@[reassoc] theorem rightModuleHomKernelNatIso_hom_ι {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) :
+    (A.rightModuleHomKernelNatIso hS).hom ≫ kernel.ι (A.rightModuleHomPrecompNat S.f) =
+      A.rightModuleHomPrecompNat S.g :=
+  IsLimit.conePointUniqueUpToIso_hom_comp (A.rightModuleHomKernelForkIsLimit hS)
+    (limit.isLimit _) .zero
+
+/-- Left exactness and exact colimits transfer exchange from the two middle Hom functors. -/
+noncomputable def rightModuleHomPreservesExactColimits {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) (J : Type w) [Category.{w'} J]
+    [HasColimitsOfShape J (ModuleCat.{v} k)]
+    [HasExactColimitsOfShape J (ModuleCat.{v} k)]
+    [PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op S.X₁))]
+    [PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op S.X₂))] :
+    PreservesColimitsOfShape J ((linearCoyoneda k A.RightModule).obj (op S.X₃)) := by
+  letI := kernelFunctorPreservesExactColimits (J := J) (A.rightModuleHomPrecompNat S.f)
+  exact preservesColimitsOfShape_of_natIso (A.rightModuleHomKernelNatIso hS).symm
+
+end ASGinzburg.ZAlgebra

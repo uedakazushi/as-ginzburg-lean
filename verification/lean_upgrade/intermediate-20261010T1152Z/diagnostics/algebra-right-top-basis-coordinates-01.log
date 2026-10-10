@@ -1,0 +1,38 @@
+ASGinzburg/RightTopBasisCoordinates.lean:43:4: error: Type mismatch: After simplification, term
+  congrArg₂ (fun x1 x2 => x1 + x2) hx hy
+ has type
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+          ((A.positiveActionSpan M i).mkQ
+            ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+              (e.toLinearEquiv.symm x))))
+        j +
+      ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+          ((A.positiveActionSpan M i).mkQ
+            ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+              (e.toLinearEquiv.symm y))))
+        j =
+    (A.scalarEndEquiv i).symm
+        (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm x))
+          ⟨i, j⟩) +
+      (A.scalarEndEquiv i).symm
+        (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm y))
+          ⟨i, j⟩)
+but is expected to have type
+  ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+          ((A.positiveActionSpan M i).mkQ
+            ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+              (e.toLinearEquiv.symm x))))
+        j +
+      ((Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+          ((A.positiveActionSpan M i).mkQ
+            ((ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)))
+              (e.toLinearEquiv.symm y))))
+        j =
+    (A.scalarEndEquiv i).symm
+      (((ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm x) +
+          (ModuleCat.Hom.hom (A.rightSmallCoproductComponentIso (fun g => A.representable g.fst) i).hom)
+            (e.toLinearEquiv.symm y))
+        ⟨i, j⟩)

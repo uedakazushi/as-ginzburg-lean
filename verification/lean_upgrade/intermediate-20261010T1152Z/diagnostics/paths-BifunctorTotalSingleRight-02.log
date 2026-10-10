@@ -1,0 +1,35 @@
+ASGinzburg/BifunctorTotalSingleRight.lean:37:2: warning: `CategoryTheory.Limits.mkCofanColimit` has been deprecated: Use `CategoryTheory.Limits.Cofan.IsColimit.mk` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.mkCofanColimit` to `Cofan.IsColimit.mk x`).
+ASGinzburg/BifunctorTotalSingleRight.lean:124:31: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  fun x => _root_.id <$> x
+in the target expression
+  (F.map (f.f n)).app (((ChainComplex.single₀ C₂).obj N).X 0) ≫
+      ιMapBifunctor L ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯ =
+    (F.map (f.f n)).app (((ChainComplex.single₀ C₂).obj N).X 0) ≫
+      (F.obj (L.X n)).map (𝟙 (((ChainComplex.single₀ C₂).obj N).X 0)) ≫
+        ιMapBifunctor L ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯
+
+C₁ : Type u₁
+C₂ : Type u₂
+D : Type u₃
+inst✝⁸ : Category.{v₁, u₁} C₁
+inst✝⁷ : Category.{v₂, u₂} C₂
+inst✝⁶ : Category.{v₃, u₃} D
+inst✝⁵ : Preadditive C₁
+inst✝⁴ : Preadditive C₂
+inst✝³ : Preadditive D
+inst✝² : HasZeroObject C₂
+F : C₁ ⥤ C₂ ⥤ D
+inst✝¹ : F.Additive
+inst✝ : ∀ (X : C₁), (F.obj X).Additive
+K : ChainComplex C₁ ℕ
+N : C₂
+L : ChainComplex C₁ ℕ
+f : K ⟶ L
+n : ℕ
+⊢ (F.map (f.f n)).app (((ChainComplex.single₀ C₂).obj N).X 0) ≫
+      ιMapBifunctor L ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯ =
+    (F.map (f.f n)).app (((ChainComplex.single₀ C₂).obj N).X 0) ≫
+      (F.obj (L.X n)).map (𝟙 (((ChainComplex.single₀ C₂).obj N).X 0)) ≫
+        ιMapBifunctor L ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) n 0 n ⋯

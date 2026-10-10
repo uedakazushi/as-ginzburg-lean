@@ -100,26 +100,32 @@ noncomputable def rightFiniteDimensionalExtThreeFunctor (hAS : A.ASRegular Q) :
     A.RightFiniteDimensionalᵒᵖ ⥤ A.LeftFiniteDimensional where
   obj M := ⟨A.rightModuleExtLeft M.unop.obj 3,
     A.rightFiniteDimensional_ext_three_finite Q hAS M.unop.obj M.unop.property⟩
-  map f := A.rightModuleExtPrecompLeft f.unop 3
-  map_id M := (A.rightModuleExtLeftFunctor 3).map_id (op M.unop.obj)
+  map f := ObjectProperty.homMk (A.rightModuleExtPrecompLeft f.unop.hom 3)
+  map_id M := by
+    apply ObjectProperty.hom_ext
+    exact (A.rightModuleExtLeftFunctor 3).map_id (op M.unop.obj)
   map_comp {M N P} f g := by
     let fb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from f.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from f.unop.hom).op
     let gb : op N.unop.obj ⟶ op P.unop.obj :=
-      (show P.unop.obj ⟶ N.unop.obj from g.unop).op
+      (show P.unop.obj ⟶ N.unop.obj from g.unop.hom).op
+    apply ObjectProperty.hom_ext
     exact (A.rightModuleExtLeftFunctor 3).map_comp fb gb
 
 noncomputable def leftFiniteDimensionalExtThreeFunctor (hAS : A.ASRegular Q) :
     A.LeftFiniteDimensionalᵒᵖ ⥤ A.RightFiniteDimensional where
   obj M := ⟨A.leftModuleExtRight M.unop.obj 3,
     A.leftFiniteDimensional_ext_three_finite Q hAS M.unop.obj M.unop.property⟩
-  map f := A.leftModuleExtPrecompRight f.unop 3
-  map_id M := (A.leftModuleExtRightFunctor 3).map_id (op M.unop.obj)
+  map f := ObjectProperty.homMk (A.leftModuleExtPrecompRight f.unop.hom 3)
+  map_id M := by
+    apply ObjectProperty.hom_ext
+    exact (A.leftModuleExtRightFunctor 3).map_id (op M.unop.obj)
   map_comp {M N P} f g := by
     let fb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from f.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from f.unop.hom).op
     let gb : op N.unop.obj ⟶ op P.unop.obj :=
-      (show P.unop.obj ⟶ N.unop.obj from g.unop).op
+      (show P.unop.obj ⟶ N.unop.obj from g.unop.hom).op
+    apply ObjectProperty.hom_ext
     exact (A.leftModuleExtRightFunctor 3).map_comp fb gb
 
 instance rightFiniteDimensionalExtThreeFunctorAdditive (hAS : A.ASRegular Q) :
@@ -127,9 +133,10 @@ instance rightFiniteDimensionalExtThreeFunctorAdditive (hAS : A.ASRegular Q) :
   map_add := by
     intro M N f g
     let fb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from f.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from f.unop.hom).op
     let gb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from g.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from g.unop.hom).op
+    apply ObjectProperty.hom_ext
     exact (A.rightModuleExtLeftFunctor 3).map_add (f := fb) (g := gb)
 
 instance leftFiniteDimensionalExtThreeFunctorAdditive (hAS : A.ASRegular Q) :
@@ -137,9 +144,10 @@ instance leftFiniteDimensionalExtThreeFunctorAdditive (hAS : A.ASRegular Q) :
   map_add := by
     intro M N f g
     let fb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from f.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from f.unop.hom).op
     let gb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from g.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from g.unop.hom).op
+    apply ObjectProperty.hom_ext
     exact (A.leftModuleExtRightFunctor 3).map_add (f := fb) (g := gb)
 
 instance rightFiniteDimensionalExtThreeFunctorLinear (hAS : A.ASRegular Q) :
@@ -147,7 +155,8 @@ instance rightFiniteDimensionalExtThreeFunctorLinear (hAS : A.ASRegular Q) :
   map_smul := by
     intro M N f r
     let fb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from f.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from f.unop.hom).op
+    apply ObjectProperty.hom_ext
     exact (A.rightModuleExtLeftFunctor 3).map_smul (f := fb) r
 
 instance leftFiniteDimensionalExtThreeFunctorLinear (hAS : A.ASRegular Q) :
@@ -155,6 +164,7 @@ instance leftFiniteDimensionalExtThreeFunctorLinear (hAS : A.ASRegular Q) :
   map_smul := by
     intro M N f r
     let fb : op M.unop.obj ⟶ op N.unop.obj :=
-      (show N.unop.obj ⟶ M.unop.obj from f.unop).op
+      (show N.unop.obj ⟶ M.unop.obj from f.unop.hom).op
+    apply ObjectProperty.hom_ext
     exact (A.leftModuleExtRightFunctor 3).map_smul (f := fb) r
 end ASGinzburg.ZAlgebra

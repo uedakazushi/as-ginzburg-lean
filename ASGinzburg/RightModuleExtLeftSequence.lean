@@ -9,7 +9,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 noncomputable def rightModuleExtBoundaryLeft {S : ShortComplex A.RightModule}
     (hS : S.ShortExact) (n : ℕ) :
     A.rightModuleExtLeft S.X₁ n ⟶ A.rightModuleExtLeft S.X₃ (n+1) :=
-  CategoryTheory.Functor.whiskerLeft A.representableFunctor (A.rightModuleExtBoundaryNat hS n)
+  ObjectProperty.homMk (CategoryTheory.Functor.whiskerLeft A.representableFunctor (A.rightModuleExtBoundaryNat hS n))
 
 noncomputable instance rightModuleExtBoundaryLeftEpi {S : ShortComplex A.RightModule}
     (hS : S.ShortExact) [Projective S.X₂] (n : ℕ) : Epi (A.rightModuleExtBoundaryLeft hS n) := by
@@ -29,11 +29,12 @@ theorem rightModuleExtDimensionShiftLeftIso_hom {S : ShortComplex A.RightModule}
     (A.rightModuleExtDimensionShiftLeftIso hS n).hom = A.rightModuleExtBoundaryLeft hS (n+1) := rfl
 noncomputable def rightModuleExtPrecompLeft {M N : A.RightModule} (f : M ⟶ N) (n : ℕ) :
     A.rightModuleExtLeft N n ⟶ A.rightModuleExtLeft M n :=
-  CategoryTheory.Functor.whiskerLeft A.representableFunctor (A.rightModuleExtPrecompNat f n)
+  ObjectProperty.homMk (CategoryTheory.Functor.whiskerLeft A.representableFunctor (A.rightModuleExtPrecompNat f n))
 
 theorem rightModuleExtPrecompLeft_boundary_zero {S : ShortComplex A.RightModule}
     (hS : S.ShortExact) (n : ℕ) :
     A.rightModuleExtPrecompLeft S.f n ≫ A.rightModuleExtBoundaryLeft hS n = 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   exact NatTrans.congr_app (A.rightModuleExtPrecompNat_boundary_zero hS n) (A.representable X.index)
@@ -41,6 +42,7 @@ theorem rightModuleExtPrecompLeft_boundary_zero {S : ShortComplex A.RightModule}
 theorem rightModuleADualMap_extLeftZeroIso_inv {M N : A.RightModule} (f : M ⟶ N) :
     A.rightModuleADualMap f ≫ (A.rightModuleExtLeftZeroIso M).inv =
       (A.rightModuleExtLeftZeroIso N).inv ≫ A.rightModuleExtPrecompLeft f 0 := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext X
   apply ModuleCat.hom_ext

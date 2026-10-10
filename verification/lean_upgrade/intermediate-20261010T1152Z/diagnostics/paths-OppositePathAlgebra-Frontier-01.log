@@ -1,0 +1,25 @@
+ASGinzburg/OppositePathAlgebra.lean:9:56: error: unsolved goals
+Q : CutQuiver
+u v w : Q.Vertex
+p : Q.Path u v
+q : Q.Path v w
+⊢ q.toList.reverse ++ p.toList.reverse = (q.opposite.comp p.opposite).toList
+ASGinzburg/OppositePathAlgebra.lean:39:17: error: unsolved goals
+case single.single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v w : Q.Vertex
+q : Q.Path v w
+b : k
+p : Q.Path u v
+a : k
+⊢ Finsupp.single (q.opposite.comp p.opposite) (b * a) =
+    ((Q.opposite.pathComp k) (Finsupp.single p.opposite a)) (Finsupp.single q.opposite b)
+ASGinzburg/OppositePathAlgebra.lean:39:46: warning: This simp argument is unused:
+  mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Path.opposite_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

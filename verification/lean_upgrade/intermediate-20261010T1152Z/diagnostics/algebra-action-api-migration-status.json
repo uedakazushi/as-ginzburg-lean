@@ -1,0 +1,39 @@
+{
+  "change": "DistribMulAction.toLinearMap -> DistribSMul.toLinearMap only; same explicit arguments and smul implementation",
+  "old_api": "work/lean-upgrade/lake-4.24.0/packages/mathlib/Mathlib/Algebra/Module/LinearMap/End.lean:233",
+  "new_api": ".lake/packages/mathlib/Mathlib/Algebra/Module/LinearMap/End.lean:241",
+  "checks": [
+    {
+      "source": "ASGinzburg/PeriodCutEnvelopingPositiveModuleOperators.lean",
+      "source_sha256": "bb2fda4c4d30601a54259320e44f90947a84f37eb6e6b0003dd8a4d532c038a6",
+      "status": "renamed_unverified_import_blocked",
+      "missing_import": "ASGinzburg.PeriodCutEnvelopingAugmentationKernelSpan",
+      "actual_check": "work/lean-upgrade/algebra-period-cut-positive-module-operators-02.json",
+      "actual_log": "work/lean-upgrade/algebra-period-cut-positive-module-operators-02.log",
+      "exit_code": 1,
+      "elapsed_seconds": 1.0728200540033868
+    },
+    {
+      "source": "ASGinzburg/FoundationRingComponentActions.lean",
+      "source_sha256": "d2b990515f2da036fa1a31f217b24335057e09e7aef521cd0a99b66d2039b988",
+      "status": "renamed_unverified_import_blocked",
+      "missing_import": "ASGinzburg.FoundationAlgebra",
+      "actual_check": "work/lean-upgrade/algebra-foundation-ring-component-actions-01.json",
+      "actual_log": "work/lean-upgrade/algebra-foundation-ring-component-actions-01.log",
+      "exit_code": 1,
+      "elapsed_seconds": 2.449863080997602
+    },
+    {
+      "source": "ASGinzburg/UnitizationComponentActions.lean",
+      "source_sha256": "5e4a20dc10461efb5891b1e58f8206d77301fb503c280416778c094890361004",
+      "status": "renamed_unverified_import_blocked",
+      "missing_import": "ASGinzburg.TotalModuleFullness",
+      "actual_check": "work/lean-upgrade/algebra-unitization-component-actions-01.json",
+      "actual_log": "work/lean-upgrade/algebra-unitization-component-actions-01.log",
+      "exit_code": 1,
+      "elapsed_seconds": 0.8427910319951479
+    }
+  ],
+  "public_headers_changed": false,
+  "wrote_olean": false
+}

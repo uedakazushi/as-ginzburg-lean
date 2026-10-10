@@ -10,9 +10,8 @@ noncomputable def rightFiniteWindowNakayamaRepresentableModuleIso (hAS : A.ASReg
     A.rightFiniteDimensionalNakayamaUnderlying Q hAS (A.rightTruncatedRepresentable l i)
         (A.rightTruncatedRepresentable_finite l i) ≅
       A.rightTruncatedRepresentable (l-Q.vertices) (i-Q.vertices) :=
-  { hom := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).hom
-    inv := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).inv
-    hom_inv_id := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).hom_inv_id
-    inv_hom_id := (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir).inv_hom_id }
+  A.rightFiniteDimensionalProperty.ι.mapIso
+    ((A.rightFiniteWindowProperty (l-Q.vertices) (r-Q.vertices)).ι.mapIso
+      (A.rightFiniteWindowNakayamaRepresentableIso Q hAS l r i hli hir))
 
 end ASGinzburg.ZAlgebra

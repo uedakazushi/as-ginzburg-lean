@@ -1,0 +1,49 @@
+ASGinzburg/AlgebraEnvelopingOppositeRegularComparison.lean:51:20: error: unsolved goals
+case add
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+x : ↑(regularEnvelopingModuleCat k Rᵐᵒᵖ)
+t s : Rᵐᵒᵖ ⊗[k] Rᵐᵒᵖᵐᵒᵖ
+ht :
+  MulOpposite.unop
+      (((regularEnvelopingRepresentation k Rᵐᵒᵖ) t)
+        (have this := x;
+        this)) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) t))
+      (have this := MulOpposite.unop x;
+      this)
+hs :
+  MulOpposite.unop
+      (((regularEnvelopingRepresentation k Rᵐᵒᵖ) s)
+        (have this := x;
+        this)) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) s))
+      (have this := MulOpposite.unop x;
+      this)
+⊢ MulOpposite.unop (((regularEnvelopingRepresentation k Rᵐᵒᵖ) t + (regularEnvelopingRepresentation k Rᵐᵒᵖ) s) x) =
+    ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) t)) (MulOpposite.unop x) +
+      ((regularEnvelopingRepresentation k R) ((algebraEnvelopingOppositeAlgEquiv k R) s)) (MulOpposite.unop x)
+ASGinzburg/AlgebraEnvelopingOppositeRegularComparison.lean:52:49: warning: This simp argument is unused:
+  MulOpposite.unop_add
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [map_add, LinearMap.add_apply, ht, hs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/AlgebraEnvelopingOppositeRegularComparison.lean:52:71: warning: This simp argument is unused:
+  ht
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [map_add, LinearMap.add_apply, MulOpposite.unop_add, hs]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/AlgebraEnvelopingOppositeRegularComparison.lean:52:75: warning: This simp argument is unused:
+  hs
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [map_add, LinearMap.add_apply, MulOpposite.unop_add, ht]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

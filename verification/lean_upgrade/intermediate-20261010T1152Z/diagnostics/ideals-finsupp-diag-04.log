@@ -1,0 +1,13 @@
+Finsupp.instAddCommGroup
+Finsupp.module α k
+(Finsupp.supported k k t).addCommGroup
+(Finsupp.supported k k t).module
+Submodule.hasQuotient : HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+work/lean-upgrade/ideals-finsupp-diag.lean:12:0: error: failed to synthesize
+  HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/lean-upgrade/ideals-finsupp-diag.lean:13:8: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  HasQuotient (↥(Finsupp.supported k k t)) (Submodule k ↥(Finsupp.supported k k t))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

@@ -1,0 +1,142 @@
+ASGinzburg/ASLeftResolution.lean:15:81: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+n : ℕ
+⊢ A.rightModuleADualMap (R.complexDifferential n) = A.rightModuleADualMap (R.complexDifferential n)
+ASGinzburg/ASLeftResolution.lean:41:2: error: unsolved goals
+case succ.succ.zero
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+⊢ 0 ≫ A.rightModuleADualMap R.d₁ = 0
+ASGinzburg/ASLeftResolution.lean:81:4: error: Type mismatch: After simplification, term
+  he
+ has type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    ((HomologicalComplex.shortComplexFunctor' A.LeftModule (ComplexShape.up ℕ) 1 2 3).obj R.dualComplex)
+but is expected to have type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    ((HomologicalComplex.shortComplexFunctor' A.LeftModule (ComplexShape.down ℕ) 2 1 0).obj
+      (ChainComplex.of R.leftResolutionTerm R.leftResolutionDifferential ⋯))
+ASGinzburg/ASLeftResolution.lean:86:4: error: Type mismatch: After simplification, term
+  he
+ has type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    ((HomologicalComplex.shortComplexFunctor' A.LeftModule (ComplexShape.up ℕ) 0 1 2).obj R.dualComplex)
+but is expected to have type
+  @ShortComplex.Exact A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty)
+    A.leftModuleProperty.instHasZeroMorphismsFullSubcategory
+    ((HomologicalComplex.shortComplexFunctor' A.LeftModule (ComplexShape.down ℕ) 3 2 1).obj
+      (ChainComplex.of R.leftResolutionTerm R.leftResolutionDifferential ⋯))
+ASGinzburg/ASLeftResolution.lean:88:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/ASLeftResolution.lean:92:8: error: Type mismatch
+  ChainComplex.of_d ?m.212 ?m.213 2
+has type
+  ChainComplex.of.d ?m.212 ?m.213 (2 + 1) 2 = ?m.213 2
+but is expected to have type
+  R.leftResolutionComplex.d 3 2 = A.rightModuleADualMap R.d₁
+ASGinzburg/ASLeftResolution.lean:113:2: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Epi (R.dualTopProjection ≫ (ASRegular.extLeftThreeIsoSimple A Q h w).hom)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/ASLeftResolution.lean:118:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f ≫ ?g ≫ ?h
+in the target expression
+  A.rightModuleADualMap R.d₃ ≫ R.dualTopProjection ≫ (ASRegular.extLeftThreeIsoSimple A Q h w).hom = 0
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+h : A.ASRegular Q
+⊢ A.rightModuleADualMap R.d₃ ≫ R.dualTopProjection ≫ (ASRegular.extLeftThreeIsoSimple A Q h w).hom = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    R.dualTopProjection
+  has type
+    @Quiver.Hom A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty).toQuiver
+      (A.rightModuleADual (R.complexTerm 3)) (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3)
+  but is expected to have type
+    @Quiver.Hom A.LeftModule (ObjectProperty.FullSubcategory.category A.leftModuleProperty).toQuiver
+      (A.rightModuleADual (A.representable (Q.height (Q.tau.symm w))))
+      (A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3)
+  in the application
+    CategoryStruct.comp R.dualTopProjection
+ASGinzburg/ASLeftResolution.lean:128:7: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+h : A.ASRegular Q
+e : A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3 ≅ A.simpleLeftModule (Q.height (Q.tau.symm w)) :=
+  ASRegular.extLeftThreeIsoSimple A Q h w
+T : ShortComplex A.LeftModule :=
+  { X₁ := A.rightModuleADual (A.asResolutionTerm₂ Q w),
+    X₂ := A.rightModuleADual (A.representable (Q.height (Q.tau.symm w))),
+    X₃ := A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3, f := A.rightModuleADualMap R.d₃,
+    g := R.dualTopProjection, zero := ⋯ }
+⊢ 𝟙 (R.leftResolutionTerm 1) ≫ A.rightModuleADualMap R.d₃ = A.rightModuleADualMap R.d₃ ≫ 𝟙 (R.leftResolutionTerm 0)
+ASGinzburg/ASLeftResolution.lean:129:7: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+h : A.ASRegular Q
+e : A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3 ≅ A.simpleLeftModule (Q.height (Q.tau.symm w)) :=
+  ASRegular.extLeftThreeIsoSimple A Q h w
+T : ShortComplex A.LeftModule :=
+  { X₁ := A.rightModuleADual (A.asResolutionTerm₂ Q w),
+    X₂ := A.rightModuleADual (A.representable (Q.height (Q.tau.symm w))),
+    X₃ := A.rightModuleExtLeft (A.simpleRightModule (Q.height w)) 3, f := A.rightModuleADualMap R.d₃,
+    g := R.dualTopProjection, zero := ⋯ }
+⊢ 𝟙 (R.leftResolutionTerm 0) ≫ R.dualTopProjection =
+    (R.dualTopProjection ≫ (ASRegular.extLeftThreeIsoSimple A Q h w).hom) ≫
+      (ASRegular.extLeftThreeIsoSimple A Q h w).inv
+ASGinzburg/ASLeftResolution.lean:129:45: warning: This simp argument is unused:
+  Category.assoc
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [T, leftResolutionProjection, e]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/ASLeftResolution.lean:136:6: error: Type mismatch
+  ChainComplex.of_d ?m.74 ?m.75 0
+has type
+  ChainComplex.of.d ?m.74 ?m.75 (0 + 1) 0 = ?m.75 0
+but is expected to have type
+  R.leftResolutionComplex.d 1 0 = R.leftResolutionDifferential 0
+ASGinzburg/ASLeftResolution.lean:134:72: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+h : A.ASRegular Q
+⊢ R.leftResolutionComplex.d 1 0 ≫ R.leftResolutionProjection h = 0
+ASGinzburg/ASLeftResolution.lean:142:6: error: `dsimp` made no progress

@@ -1,0 +1,166 @@
+import ASGinzburg.ProjectiveResolutionHomExactness
+import ASGinzburg.RightModuleExtLeftSequence
+import ASGinzburg.ModuleBidualEvaluation
+import ASGinzburg.FourTermProjectiveResolution
+import ASGinzburg.FiniteProjectiveClosure
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {X : A.RightModule} (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4))
+
+attribute [local irreducible] rightModuleADual leftModuleADual
+
+noncomputable def rightResolutionExtTopProjection :
+    A.rightModuleADual (P.complex.X 3) ⟶ A.rightModuleExtLeft X 3 :=
+  (A.rightModuleExtLeftZeroIso (P.complex.X 3)).inv ≫
+    A.rightModuleExtBoundaryLeft (P.shortExact₂ h₄) 0 ≫
+      (A.rightModuleExtDimensionShiftLeftIso P.shortExact₁ 0).hom ≫
+        (A.rightModuleExtDimensionShiftLeftIso P.shortExact₀ 1).hom
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable instance rightResolutionExtTopProjectionEpi : Epi (A.rightResolutionExtTopProjection P h₄) := by
+  dsimp only [rightResolutionExtTopProjection]
+  infer_instance
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightResolutionExtTopProjection_dual_d₃ :
+    A.rightModuleADualMap (P.complex.d 3 2) ≫ A.rightResolutionExtTopProjection P h₄ = 0 := by
+  dsimp only [rightResolutionExtTopProjection]
+  rw [← Category.assoc, A.rightModuleADualMap_extLeftZeroIso_inv]
+  simp only [Category.assoc]
+  rw [← Category.assoc (A.rightModuleExtPrecompLeft (P.complex.d 3 2) 0)
+    (A.rightModuleExtBoundaryLeft (P.shortExact₂ h₄) 0)]
+  rw [A.rightModuleExtPrecompLeft_boundary_zero (P.shortExact₂ h₄) 0,
+    zero_comp, comp_zero]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightResolutionExtTopProjection_exact :
+    (ShortComplex.mk (A.rightModuleADualMap (P.complex.d 3 2))
+      (A.rightResolutionExtTopProjection P h₄) (A.rightResolutionExtTopProjection_dual_d₃ P h₄)).Exact := by
+  let e : A.rightModuleExtLeft (kernel P.firstCover) 1 ≅ A.rightModuleExtLeft X 3 :=
+    A.rightModuleExtDimensionShiftLeftIso P.shortExact₁ 0 ≪≫
+      A.rightModuleExtDimensionShiftLeftIso P.shortExact₀ 1
+  let T := ShortComplex.mk (A.rightModuleExtPrecompLeft (P.complex.d 3 2) 0)
+    (A.rightModuleExtBoundaryLeft (P.shortExact₂ h₄) 0)
+    (A.rightModuleExtPrecompLeft_boundary_zero (P.shortExact₂ h₄) 0)
+  let eS : ShortComplex.mk (A.rightModuleADualMap (P.complex.d 3 2))
+      (A.rightResolutionExtTopProjection P h₄) (A.rightResolutionExtTopProjection_dual_d₃ P h₄) ≅ T :=
+    ShortComplex.isoMk (A.rightModuleExtLeftZeroIso (P.complex.X 2)).symm
+      (A.rightModuleExtLeftZeroIso (P.complex.X 3)).symm e.symm
+      (by exact (A.rightModuleADualMap_extLeftZeroIso_inv (P.complex.d 3 2)).symm)
+      (by
+        have hπ : A.rightResolutionExtTopProjection P h₄ =
+            (A.rightModuleExtLeftZeroIso (P.complex.X 3)).inv ≫ T.g ≫ e.hom := rfl
+        change (A.rightModuleExtLeftZeroIso (P.complex.X 3)).inv ≫ T.g =
+          A.rightResolutionExtTopProjection P h₄ ≫ e.inv
+        rw [hπ]
+        simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id])
+  exact (ShortComplex.exact_iff_of_iso eS).mpr
+    (A.rightModuleExtBoundaryLeft_exact (P.shortExact₂ h₄) 0)
+end ASGinzburg.ZAlgebra
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {M : A.RightModule} (P : ProjectiveResolution M)
+
+noncomputable def rightResolutionDualComplex : CochainComplex A.LeftModule ℕ :=
+  (A.rightModuleADualFunctor.mapHomologicalComplex (ComplexShape.up ℕ)).obj P.complex.op
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def rightResolutionDualComplexEvaluationIso (i : ℤ) :
+    ((A.leftModuleEvaluation i).mapHomologicalComplex (ComplexShape.up ℕ)).obj
+      (A.rightResolutionDualComplex P) ≅ P.homComplex (k := k) (A.representable i) :=
+  HomologicalComplex.Hom.isoOfComponents (fun _ => Iso.refl _) (by
+    intro n m hnm
+    obtain rfl : m = n+1 := hnm.symm
+    simp only [Iso.refl_hom,Category.id_comp,Category.comp_id]
+    rw [show (P.homComplex (k := k) (A.representable i)).d n (n+1) =
+      P.homDifferential (k := k) (A.representable i) n from CochainComplex.of_d
+        (fun j => ModuleCat.of k (P.complex.X j ⟶ A.representable i))
+        (P.homDifferential (k := k) (A.representable i)) n]
+    rfl)
+
+theorem rightResolutionDualComplex_exactAt_low (h₄ : IsZero (P.complex.X 4))
+    (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+    (n : ℕ) (hn : n<3) : (A.rightResolutionDualComplex P).ExactAt n := by
+  rw [HomologicalComplex.exactAt_iff]
+  apply (A.leftModule_exact_iff _).mpr
+  intro i
+  have he := P.homComplex_exactAt_low_of_ext_zero (k := k) h₄ (A.representable i) (hExt i) n hn
+  exact (ShortComplex.exact_iff_of_iso
+    ((HomologicalComplex.shortComplexFunctor _ _ n).mapIso
+      (A.rightResolutionDualComplexEvaluationIso P i))).mpr he
+end ASGinzburg.ZAlgebra
+
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+  {M : A.RightModule} (P : ProjectiveResolution M) (h₄ : IsZero (P.complex.X 4))
+  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
+  (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+
+attribute [local irreducible] rightModuleADual leftModuleADual
+
+include h₄ hExt in
+theorem rightResolutionDual_first_mono : Mono (A.rightModuleADualMap (P.complex.d 1 0)) := by
+  have he := A.rightResolutionDualComplex_exactAt_low P h₄ hExt 0 (by decide)
+  rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp)] at he
+  exact (ShortComplex.exact_iff_mono _
+    ((A.rightResolutionDualComplex P).shape 0 0 (by simp))).mp he
+
+noncomputable def rightResolutionDualFourTerm :
+    ASGinzburg.FourTermProjectiveResolution (A.rightModuleExtLeft M 3) where
+  P₀ := A.rightModuleADual (P.complex.X 3)
+  P₁ := A.rightModuleADual (P.complex.X 2)
+  P₂ := A.rightModuleADual (P.complex.X 1)
+  P₃ := A.rightModuleADual (P.complex.X 0)
+  projective₀ := A.leftFiniteProjectiveProperty_projective
+    (A.rightFiniteProjectiveProperty_dual (hP 3 (by decide)))
+  projective₁ := A.leftFiniteProjectiveProperty_projective
+    (A.rightFiniteProjectiveProperty_dual (hP 2 (by decide)))
+  projective₂ := A.leftFiniteProjectiveProperty_projective
+    (A.rightFiniteProjectiveProperty_dual (hP 1 (by decide)))
+  projective₃ := A.leftFiniteProjectiveProperty_projective
+    (A.rightFiniteProjectiveProperty_dual (hP 0 (by decide)))
+  π := A.rightResolutionExtTopProjection P h₄
+  d₁ := A.rightModuleADualMap (P.complex.d 3 2)
+  d₂ := A.rightModuleADualMap (P.complex.d 2 1)
+  d₃ := A.rightModuleADualMap (P.complex.d 1 0)
+  epi_π := inferInstance
+  mono_d₃ := A.rightResolutionDual_first_mono P h₄ hExt
+  d₁_π := A.rightResolutionExtTopProjection_dual_d₃ P h₄
+  d₂_d₁ := by
+    change A.rightModuleADualFunctor.map (P.complex.d 2 1).op ≫
+      A.rightModuleADualFunctor.map (P.complex.d 3 2).op = 0
+    rw [← A.rightModuleADualFunctor.map_comp,← op_comp,P.complex.d_comp_d]
+    exact A.rightModuleADualFunctor.map_zero _ _
+  d₃_d₂ := by
+    change A.rightModuleADualFunctor.map (P.complex.d 1 0).op ≫
+      A.rightModuleADualFunctor.map (P.complex.d 2 1).op = 0
+    rw [← A.rightModuleADualFunctor.map_comp,← op_comp,P.complex.d_comp_d]
+    exact A.rightModuleADualFunctor.map_zero _ _
+  exact₀ := A.rightResolutionExtTopProjection_exact P h₄
+  exact₁ := by
+    have he := A.rightResolutionDualComplex_exactAt_low P h₄ hExt 2 (by decide)
+    rw [HomologicalComplex.exactAt_iff' _ 1 2 3 (by simp) (by simp)] at he
+    exact he
+  exact₂ := by
+    have he := A.rightResolutionDualComplex_exactAt_low P h₄ hExt 1 (by decide)
+    rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp)] at he
+    exact he
+
+theorem rightResolutionDualFourTerm_finite (n : ℕ) :
+    A.leftFiniteProjectiveProperty ((A.rightResolutionDualFourTerm P h₄ hP hExt).term n) := by
+  rcases n with _ | _ | _ | _ | n
+  · exact A.rightFiniteProjectiveProperty_dual (hP 3 (by decide))
+  · exact A.rightFiniteProjectiveProperty_dual (hP 2 (by decide))
+  · exact A.rightFiniteProjectiveProperty_dual (hP 1 (by decide))
+  · exact A.rightFiniteProjectiveProperty_dual (hP 0 (by decide))
+  · exact A.leftFiniteProjectiveProperty_of_isZero (isZero_zero _)
+end ASGinzburg.ZAlgebra

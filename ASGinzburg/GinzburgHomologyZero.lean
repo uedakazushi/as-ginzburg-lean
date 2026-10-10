@@ -19,9 +19,19 @@ noncomputable def ginzburgNegativeOneDifferential (φ : Q.Potential k) (u v : Q.
   Q.ginzburgGradedDifferential k φ u v (-1)
 
 noncomputable def ginzburgZeroShortComplex (φ : Q.Potential k) (u v : Q.Vertex) :
-    ShortComplex (ModuleCat.{u} k) :=
-  ShortComplex.moduleCatMk (Q.ginzburgNegativeOneDifferential k φ u v)
-    (Q.ginzburgGradedDifferential k φ u v 0) (Q.ginzburgGradedDifferential_square k φ u v (-1))
+    ShortComplex (ModuleCat.{u} k) := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  exact ShortComplex.moduleCatMk
+    (X₁ := Q.ginzburgCohomologicalComponent k u v (-1))
+    (X₂ := Q.ginzburgCohomologicalComponent k u v 0)
+    (X₃ := Q.ginzburgCohomologicalComponent k u v 1)
+    (Q.ginzburgNegativeOneDifferential k φ u v)
+    (Q.ginzburgGradedDifferential k φ u v 0)
+    (by
+      apply LinearMap.ext
+      intro f
+      apply Subtype.ext
+      exact Q.ginzburgDifferential_square k φ f.val)
 
 theorem ginzburgZeroShortComplex_g (φ : Q.Potential k) (u v : Q.Vertex) :
     (Q.ginzburgZeroShortComplex k φ u v).g=0 := by
@@ -32,15 +42,17 @@ noncomputable def ginzburgZeroShortComplexIso (φ : Q.Potential k) (u v : Q.Vert
     (Q.ginzburgCochainComplex k φ u v).sc' (-1) 0 1 ≅ Q.ginzburgZeroShortComplex k φ u v :=
   ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
     (by
-      simpa only [Category.id_comp,Category.comp_id] using (Q.ginzburgCochainComplex_d k φ u v (-1)).symm)
+      simpa only [Iso.refl_hom,Category.id_comp,Category.comp_id] using (Q.ginzburgCochainComplex_d k φ u v (-1)).symm)
     (by
-      simpa only [Category.id_comp,Category.comp_id] using (Q.ginzburgCochainComplex_d k φ u v 0).symm)
+      simpa only [Iso.refl_hom,Category.id_comp,Category.comp_id] using (Q.ginzburgCochainComplex_d k φ u v 0).symm)
 
-noncomputable def ginzburgHomologyZeroQuotientIso (φ : Q.Potential k) (u v : Q.Vertex) :
-    Q.ginzburgHomology k φ u v 0 ≅
+noncomputable def ginzburgHomologyZeroQuotientIso (φ : Q.Potential k) (u v : Q.Vertex) : by
+    letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+    exact Q.ginzburgHomology k φ u v 0 ≅
       ModuleCat.of k (Q.ginzburgCohomologicalComponent k u v 0 ⧸
-        LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)) :=
-  ShortComplex.homologyMapIso ((Q.ginzburgCochainComplex k φ u v).isoSc'
+        LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)) := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  exact ShortComplex.homologyMapIso ((Q.ginzburgCochainComplex k φ u v).isoSc'
     (i:=(-1)) (j:=0) (k:=1) (by simp) (by simp)) ≪≫
   ShortComplex.homologyMapIso (Q.ginzburgZeroShortComplexIso k φ u v) ≪≫
   (ShortComplex.LeftHomologyData.ofIsColimitCokernelCofork
@@ -55,11 +67,13 @@ theorem ginzburgGradedBoundary_map (φ : Q.Potential k) (u v : Q.Vertex) :
   rw [←LinearMap.range_comp]
   exact Q.ginzburgBoundarySpace_eq_pathJacobianIdeal k φ u v
 
-noncomputable def ginzburgZeroQuotientJacobianEquiv (φ : Q.Potential k) (u v : Q.Vertex) :
-    (Q.ginzburgCohomologicalComponent k u v 0 ⧸
+noncomputable def ginzburgZeroQuotientJacobianEquiv (φ : Q.Potential k) (u v : Q.Vertex) : by
+    letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+    exact (Q.ginzburgCohomologicalComponent k u v 0 ⧸
       LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)) ≃ₗ[k]
-        (Q.PathComponent k u v ⧸ (Q.pathJacobianIdeal k φ).hom u v) :=
-  Submodule.Quotient.equiv _ _ (Q.originalGinzburgDegreeZeroEquiv k u v).symm
+        (Q.PathComponent k u v ⧸ (Q.pathJacobianIdeal k φ).hom u v) := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  exact Submodule.Quotient.equiv _ _ (Q.originalGinzburgDegreeZeroEquiv k u v).symm
     (Q.ginzburgGradedBoundary_map k φ u v)
 
 noncomputable def ginzburgHomologyZeroJacobianIso (φ : Q.Potential k) (u v : Q.Vertex) :

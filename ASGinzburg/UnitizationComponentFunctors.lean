@@ -38,34 +38,37 @@ noncomputable def rightUnitizationComponentHom
 noncomputable def unitizationLeftComponentModuleMap
     {M N : ModuleCat.{v} A.totalUnitization} (f : M ⟶ N) :
     A.unitizationLeftComponentModule M ⟶ A.unitizationLeftComponentModule N where
-  app X := ModuleCat.ofHom (A.leftUnitizationComponentHom f X.index)
-  naturality := by
-    intro X Y a
-    apply ModuleCat.hom_ext
-    apply LinearMap.ext
-    intro x
-    apply Subtype.ext
-    change A.leftUnitizationComponentSpace M X.index at x
-    exact f.hom.map_smul (A.totalAlgebraComponent a : A.totalUnitization) x.val
+  hom := {
+    app X := ModuleCat.ofHom (A.leftUnitizationComponentHom f X.index)
+    naturality := by
+      intro X Y a
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro x
+      apply Subtype.ext
+      change A.leftUnitizationComponentSpace M X.index at x
+      exact f.hom.map_smul (A.totalAlgebraComponent a : A.totalUnitization) x.val }
 
 noncomputable def unitizationRightComponentModuleMap
     {M N : ModuleCat.{v} A.totalUnitizationᵐᵒᵖ} (f : M ⟶ N) :
     A.unitizationRightComponentModule M ⟶ A.unitizationRightComponentModule N where
-  app X := ModuleCat.ofHom (A.rightUnitizationComponentHom f X.unop.index)
-  naturality := by
-    intro X Y a
-    apply ModuleCat.hom_ext
-    apply LinearMap.ext
-    intro x
-    apply Subtype.ext
-    change A.rightUnitizationComponentSpace M X.unop.index at x
-    exact f.hom.map_smul (MulOpposite.op (A.totalAlgebraComponent a.unop : A.totalUnitization)) x.val
+  hom := {
+    app X := ModuleCat.ofHom (A.rightUnitizationComponentHom f X.unop.index)
+    naturality := by
+      intro X Y a
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro x
+      apply Subtype.ext
+      change A.rightUnitizationComponentSpace M X.unop.index at x
+      exact f.hom.map_smul (MulOpposite.op (A.totalAlgebraComponent a.unop : A.totalUnitization)) x.val }
 
 noncomputable def unitizationLeftComponentModuleFunctor :
     ModuleCat.{v} A.totalUnitization ⥤ A.LeftModule where
   obj := A.unitizationLeftComponentModule
   map := A.unitizationLeftComponentModuleMap
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -74,6 +77,7 @@ noncomputable def unitizationLeftComponentModuleFunctor :
     apply Subtype.ext
     rfl
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -87,6 +91,7 @@ noncomputable def unitizationRightComponentModuleFunctor :
   obj := A.unitizationRightComponentModule
   map := A.unitizationRightComponentModuleMap
   map_id M := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -95,6 +100,7 @@ noncomputable def unitizationRightComponentModuleFunctor :
     apply Subtype.ext
     rfl
   map_comp f g := by
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     apply ModuleCat.hom_ext
@@ -105,14 +111,14 @@ noncomputable def unitizationRightComponentModuleFunctor :
 
 noncomputable def leftLocallyUnitalComponentFunctor : A.LeftLocallyUnitalModule ⥤ A.LeftModule where
   obj M := A.unitizationLeftComponentModule M.obj
-  map f := A.unitizationLeftComponentModuleMap f
+  map f := A.unitizationLeftComponentModuleMap f.hom
   map_id M := (A.unitizationLeftComponentModuleFunctor).map_id M.obj
-  map_comp f g := (A.unitizationLeftComponentModuleFunctor).map_comp f g
+  map_comp f g := (A.unitizationLeftComponentModuleFunctor).map_comp f.hom g.hom
 
 noncomputable def rightLocallyUnitalComponentFunctor : A.RightLocallyUnitalModule ⥤ A.RightModule where
   obj M := A.unitizationRightComponentModule M.obj
-  map f := A.unitizationRightComponentModuleMap f
+  map f := A.unitizationRightComponentModuleMap f.hom
   map_id M := (A.unitizationRightComponentModuleFunctor).map_id M.obj
-  map_comp f g := (A.unitizationRightComponentModuleFunctor).map_comp f g
+  map_comp f g := (A.unitizationRightComponentModuleFunctor).map_comp f.hom g.hom
 
 end ASGinzburg.ZAlgebra

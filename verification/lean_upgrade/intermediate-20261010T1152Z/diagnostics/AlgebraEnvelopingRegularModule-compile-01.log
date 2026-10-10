@@ -1,0 +1,41 @@
+ASGinzburg/AlgebraEnvelopingRegularModule.lean:48:38: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Algebra.TensorProduct.lift ?f ?g ?hfg) (?a ⊗ₜ[?m.32] ?b)
+in the target expression
+  ((Algebra.TensorProduct.lift (Algebra.lsmul k k R) (regularRightAlgebraRepresentation k R) ⋯)
+        (a ⊗ₜ[k] MulOpposite.op b))
+      x =
+    a * x * b
+
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+a b x : R
+⊢ ((Algebra.TensorProduct.lift (Algebra.lsmul k k R) (regularRightAlgebraRepresentation k R) ⋯)
+        (a ⊗ₜ[k] MulOpposite.op b))
+      x =
+    a * x * b
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    regularEnvelopingRepresentation._proof_3 k R
+  has type
+    ∀ (a : R) (b : Rᵐᵒᵖ),
+      (Algebra.lsmul k k R) a * (regularRightAlgebraRepresentation k R) b =
+        (regularRightAlgebraRepresentation k R) b * (Algebra.lsmul k k R) a
+  but is expected to have type
+    ∀ (x : R) (y : Rᵐᵒᵖ), Commute ((Algebra.lsmul k k R) x) ((regularRightAlgebraRepresentation k R) y)
+  in the application
+    Algebra.TensorProduct.lift (Algebra.lsmul k k R) (regularRightAlgebraRepresentation k R) ⋯
+ASGinzburg/AlgebraEnvelopingRegularModule.lean:51:0: warning: Definition `ASGinzburg.regularEnvelopingModule` of class type is semireducible. Most type class instances should be instance-reducible, so consider marking this
+definition with `@[instance_reducible]`. If it is intentionally semireducible, this warning can be disabled with `set_option warn.classDefReducibility false`.
+ASGinzburg/AlgebraEnvelopingRegularModule.lean:61:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

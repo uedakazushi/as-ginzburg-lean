@@ -1,0 +1,32 @@
+{
+  "reviewed_at_utc": "2026-10-10T10:22:35.064054+00:00",
+  "review_mode": "independent_read_only_focused_advisory_no_compiler_or_build",
+  "final_verification_freeze": false,
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "source_path": "ASGinzburg/ModuleBidualEvaluation.lean",
+  "source_sha256": "8a087c84aa3906d7ea377d6eb6f77c7c841e15ed33e2f403870d349e7d046d4e",
+  "baseline_source_sha256": "5ce9c61fd8e76305548603e91f5b7c89385a14c614963f98be99e3547ff1dcea",
+  "concrete_semantic_concerns": [],
+  "functor_eta_expansion": {
+    "right_original": "A.rightModuleADualFunctor.rightOp ⋙ A.leftModuleADualFunctor",
+    "right_expanded_obj": "A.leftModuleADual (A.rightModuleADual M)",
+    "right_expanded_map": "A.leftModuleADualMap (A.rightModuleADualMap f)",
+    "left_original": "A.leftModuleADualFunctor.rightOp ⋙ A.rightModuleADualFunctor",
+    "left_expanded_obj": "A.rightModuleADual (A.leftModuleADual M)",
+    "left_expanded_map": "A.rightModuleADualMap (A.leftModuleADualMap f)",
+    "object_and_map_order_preserved": true,
+    "map_id_and_map_comp": "Explicit law fields are supplied by the exact original composite functor map_id/map_comp, not altered mathematical laws.",
+    "definitional_reduction": "Functor.comp.obj/map and Functor.rightOp.obj/map reduce through op/unop cancellation and the original ADualFunctor definitions to precisely the explicit dual-dual object/map expressions. Functor proof fields are propositions, so record eta/proof irrelevance supports equality of the resulting records.",
+    "universes_and_assumptions": "The original universe u v declaration, k:Type u Field k, A:ZAlgebra.{u,v} k, and both functor result types A.RightModule/LeftModule to themselves are unchanged. rightOp and comp reuse their argument categories and have no universe-lifting operation. No new universe variable, typeclass assumption, or binder is introduced."
+  },
+  "evaluation_natural_transformations": "Original app expressions and naturality proofs are retained. The explicit functor map is exactly the original dual-dual map appearing in right/leftModuleBidualEvaluation_natural; only necessary underlying Hom wrappers/projections/extensionality were added elsewhere in the baseline diff.",
+  "actual_mathlib_source_references": {
+    "Functor.comp": ".lake/packages/mathlib/Mathlib/CategoryTheory/Functor/Basic.lean:119",
+    "Functor.rightOp": ".lake/packages/mathlib/Mathlib/CategoryTheory/Opposites.lean:291",
+    "rightOp_map_unop": ".lake/packages/mathlib/Mathlib/CategoryTheory/Opposites.lean:295"
+  },
+  "limitations": [
+    "Advisory static review does not certify compilation or the planned ephemeral rfl equality checks.",
+    "This single-file SHA snapshot is provisional; no final semantic manifest has been created."
+  ]
+}

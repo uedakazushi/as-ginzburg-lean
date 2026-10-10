@@ -12,6 +12,7 @@ theorem foundationRightTotalRecoveryIso_natural
     (A.foundationRingRightComponentRecovery Q).map ((A.foundationRightTotalFunctor Q).map f) ≫
       (A.foundationRightTotalRecoveryIso Q N).hom=
       (A.foundationRightTotalRecoveryIso Q M).hom ≫ f := by
+  apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext i
   apply ModuleCat.hom_ext

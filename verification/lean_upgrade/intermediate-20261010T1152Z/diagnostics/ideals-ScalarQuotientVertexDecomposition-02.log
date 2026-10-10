@@ -1,0 +1,49 @@
+ASGinzburg/ScalarQuotientVertexDecomposition.lean:68:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  E.toAddEquiv (?x + ?y)
+in the target expression
+  (e i).symm (E (MulOpposite.unop s + MulOpposite.unop t) i) =
+    (e i).symm (E (MulOpposite.unop s) i) + (e i).symm (E (MulOpposite.unop t) i)
+
+case refine_1
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+E : (R ⧸ RingHom.ker f.toRingHom) ≃ₐ[k] I → k := Ideal.quotientKerAlgEquivOfSurjective hf
+s t : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ
+i : I
+⊢ (e i).symm (E (MulOpposite.unop s + MulOpposite.unop t) i) =
+    (e i).symm (E (MulOpposite.unop s) i) + (e i).symm (E (MulOpposite.unop t) i)
+ASGinzburg/ScalarQuotientVertexDecomposition.lean:77:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  E.toMulEquiv (?x * ?y)
+in the target expression
+  E (MulOpposite.unop s * (Ideal.Quotient.mk (RingHom.ker f.toRingHom)) (MulOpposite.unop r)) i =
+    f (MulOpposite.unop r) i * E (MulOpposite.unop s) i
+
+case refine_2
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+E : (R ⧸ RingHom.ker f.toRingHom) ≃ₐ[k] I → k := Ideal.quotientKerAlgEquivOfSurjective hf
+r : Rᵐᵒᵖ
+s : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ
+i : I
+⊢ E (MulOpposite.unop s * (Ideal.Quotient.mk (RingHom.ker f.toRingHom)) (MulOpposite.unop r)) i =
+    f (MulOpposite.unop r) i * E (MulOpposite.unop s) i

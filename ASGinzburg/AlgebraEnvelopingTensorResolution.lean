@@ -40,7 +40,12 @@ theorem tensorRightEnvelopingAugmentation_quasiIso :
       (ChainComplex.single₀ (ModuleCat.{max w z} k)).map
         (tensorRightEnvelopingRestrictScalarsIso k R M N).hom)
     rw [tensorRightEnvelopingAugmentation_restrictScalars]
-    infer_instance
+    have hcomparison : QuasiIso
+        (tensorRightEnvelopingTotalRestrictScalarsIso k R P.complex Q.complex).hom := by
+      letI := (tensorRightEnvelopingTotalRestrictScalarsIso k R P.complex Q.complex).isIso_hom
+      exact quasiIso_of_isIso _
+    exact quasiIso_comp _ _ (hφ := hcomparison)
+      (hφ' := moduleFieldTensorResolutionHomotopyEquiv_quasiIso k R P Q)
   exact quasiIso_of_comp_right a b
 
 variable [Small.{w} Rᵐᵒᵖ] [Small.{z} R]

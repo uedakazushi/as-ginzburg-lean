@@ -11,7 +11,7 @@ variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
 noncomputable def cornerTotalModuleLinearMap
     {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N) :
     E.CornerModuleTotalSpace Q M →ₗ[k] E.CornerModuleTotalSpace Q N :=
-  DFinsupp.mapRange.linearMap (fun x => (f.app (op (E.cornerCoordinateObject Q x))).hom)
+  DFinsupp.mapRange.linearMap (fun x => (f.hom.app (op (E.cornerCoordinateObject Q x))).hom)
 
 theorem cornerTotalModuleLinearMap_lof
     {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)
@@ -19,15 +19,15 @@ theorem cornerTotalModuleLinearMap_lof
     E.cornerTotalModuleLinearMap Q f
       (DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q M) x v)=
         DirectSum.lof k Q.LiftVertex (E.CornerModuleSpace Q N) x
-          ((f.app (op (E.cornerCoordinateObject Q x))).hom v) :=
-  DFinsupp.mapRange_single (hf:=fun x => (f.app (op (E.cornerCoordinateObject Q x))).hom.map_zero)
+          ((f.hom.app (op (E.cornerCoordinateObject Q x))).hom v) :=
+  DFinsupp.mapRange_single (hf:=fun x => (f.hom.app (op (E.cornerCoordinateObject Q x))).hom.map_zero)
 
 theorem cornerModuleMap_naturality
     {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)
     {x y : Q.LiftVertex} (a : E.CornerCoverHom Q x y) :
-    (f.app (op (E.cornerCoordinateObject Q x))).hom.comp (E.cornerModuleMap Q M x y a)=
-      (E.cornerModuleMap Q N x y a).comp (f.app (op (E.cornerCoordinateObject Q y))).hom := by
-  exact congrArg (fun t => t.hom) (f.naturality (E.cornerCoordinateHomEquiv Q x y a).op)
+    (f.hom.app (op (E.cornerCoordinateObject Q x))).hom.comp (E.cornerModuleMap Q M x y a)=
+      (E.cornerModuleMap Q N x y a).comp (f.hom.app (op (E.cornerCoordinateObject Q y))).hom := by
+  exact congrArg (fun t => t.hom) (f.hom.naturality (E.cornerCoordinateHomEquiv Q x y a).op)
 
 theorem cornerTotalModuleLinearMap_degreeInsertion
     {M N : (E.cornerCoverZAlgebra Q).RightModule} (f : M⟶N)

@@ -40,6 +40,6 @@ noncomputable def foundationRightTotalFunctor :
 
 theorem foundationRightTotalFunctor_map_apply {M N : A.FoundationRightModule Q}
     (f : M ⟶ N) (m : A.foundationRightTotalModule Q M) (i : Q.Vertex) :
-    (A.foundationRightTotalFunctor Q).map f m i=(f.app i).hom (m i) := rfl
+    (A.foundationRightTotalFunctor Q).map f m i=(f.hom.app i).hom (m i) := rfl
 
 end ASGinzburg.ZAlgebra

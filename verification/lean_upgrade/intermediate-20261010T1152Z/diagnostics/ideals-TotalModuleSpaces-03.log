@@ -1,0 +1,89 @@
+ASGinzburg/TotalModuleSpaces.lean:22:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:23:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:9:0: warning: Definition `ASGinzburg.discreteColimitFaithful` of class type is semireducible. Most type class instances should be instance-reducible, so consider marking this
+definition with `@[instance_reducible]`. If it is intentionally semireducible, this warning can be disabled with `set_option warn.classDefReducibility false`.
+ASGinzburg/TotalModuleSpaces.lean:9:0: warning: Definition `discreteColimitFaithful` is a proposition; use `theorem` instead of `def`
+
+Note: This linter can be disabled with `set_option linter.defProp false`
+ASGinzburg/TotalModuleSpaces.lean:68:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:73:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:79:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:85:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:92:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:100:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/TotalModuleSpaces.lean:150:58: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.LeftModule
+i : ℤ
+⊢ colimit.ι ((Discrete.functor fun i => { index := i }) ⋙ M.obj) { as := i } ≫
+      (HasColimit.isoOfNatIso (Discrete.natIso fun x => Iso.refl (M.obj.obj { index := x.as }))).hom ≫
+        (ModuleCat.coprodIsoDirectSum fun i => M.obj.obj { index := i }).hom =
+    ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => ↑(M.obj.obj { index := j })) i)
+ASGinzburg/TotalModuleSpaces.lean:159:59: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+i : ℤ
+⊢ colimit.ι ((Discrete.functor fun i => op { index := i }) ⋙ M.obj) { as := i } ≫
+      (HasColimit.isoOfNatIso (Discrete.natIso fun x => Iso.refl (M.obj.obj (op { index := x.as })))).hom ≫
+        (ModuleCat.coprodIsoDirectSum fun i => M.obj.obj (op { index := i })).hom =
+    ModuleCat.ofHom (DirectSum.lof k ℤ (fun j => ↑(M.obj.obj (op { index := j }))) i)

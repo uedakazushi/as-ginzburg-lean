@@ -1,0 +1,62 @@
+ASGinzburg/PathJacobianRing.lean:51:98: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (I.hom i j).mkQ 0 = 0
+
+case neg
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+I : Q.PathLinearIdeal k
+i j : Q.Vertex
+h : ¬i = j
+⊢ (I.hom i j).mkQ 0 = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    0
+  has type
+    (Q.pathComponentAlgebra k).Hom i j
+  but is expected to have type
+    Q.PathComponent k i j
+  in the application
+    (I.hom i j).mkQ 0
+ASGinzburg/PathJacobianRing.lean:38:15: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+I : Q.PathLinearIdeal k
+i j : Q.Vertex
+⊢ (I.hom i j).mkQ 0 = 0
+ASGinzburg/PathJacobianRing.lean:39:14: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+I : Q.PathLinearIdeal k
+x y : Q.PathRing k
+i j : Q.Vertex
+⊢ (I.hom i j).mkQ (x i j + y i j) = ((fun i j => (I.hom i j).mkQ (x i j)) + fun i j => (I.hom i j).mkQ (y i j)) i j
+ASGinzburg/PathJacobianRing.lean:68:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f (?c • ?x)
+in the target expression
+  (I.hom i j).mkQ (a • 1 i j) = a • 1 i j
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+I : Q.PathLinearIdeal k
+a : k
+i j : Q.Vertex
+⊢ (I.hom i j).mkQ (a • 1 i j) = a • 1 i j
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    a • 1 i j
+  has type
+    (Q.pathComponentAlgebra k).Hom i j
+  but is expected to have type
+    Q.PathComponent k i j
+  in the application
+    (I.hom i j).mkQ (a • 1 i j)

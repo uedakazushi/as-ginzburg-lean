@@ -19,6 +19,7 @@ noncomputable def fixedRightModuleUnitIso :
       rw [LinearEquiv.symm_apply_apply]
       simp))) (by
     intro M N f
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     rfl)

@@ -1,0 +1,108 @@
+ASGinzburg/ASMinimalGenerators.lean:53:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ModuleCat.Hom.hom ((A.rightModuleEvaluation ?i).map R.d₁))
+    ((ConcreteCategory.hom
+        ((A.asResolutionTerm₁ Q w).obj.map
+          (have this := ?a;
+            this).op))
+      ?x)
+in the target expression
+  f
+      ((ConcreteCategory.hom
+          ((A.asResolutionTerm₁ Q w).obj.map
+            (have this := a;
+              this).op))
+        x) ∈
+    Submodule.span k (A.products i (Q.height w))
+
+case a.mem
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+i : ℤ
+f : ↑((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w)) →ₗ[k] A.Hom i (Q.height w) :=
+  ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁)
+x✝ : ↑((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w))
+l : ℤ
+hil : i < l
+x : ↑((A.rightModuleEvaluation l).obj (A.asResolutionTerm₁ Q w))
+a : A.Hom i l
+⊢ f
+      ((ConcreteCategory.hom
+          ((A.asResolutionTerm₁ Q w).obj.map
+            (have this := a;
+              this).op))
+        x) ∈
+    Submodule.span k (A.products i (Q.height w))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.rightModuleEvaluation l).obj (A.asResolutionTerm₁ Q w))
+  but is expected to have type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.asResolutionTerm₁ Q w).obj.obj (op { index := l }))
+  in the application
+    (ConcreteCategory.hom
+        ((A.asResolutionTerm₁ Q w).obj.map
+          (have this := a;
+            this).op))
+      x
+ASGinzburg/ASMinimalGenerators.lean:76:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ModuleCat.Hom.hom ((A.rightModuleEvaluation ?i).map R.d₁))
+    ((ConcreteCategory.hom
+        ((A.asResolutionTerm₁ Q w).obj.map
+          (have this := ?a;
+            this).op))
+      ?x)
+in the target expression
+  f
+      ((ConcreteCategory.hom
+          ((A.asResolutionTerm₁ Q w).obj.map
+            (have this := a;
+              this).op))
+        x) =
+    (A.comp b) a
+
+case a.refine_2
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+w : Q.LiftVertex
+R : A.ASResolution Q w
+i : ℤ
+f : ↑((A.rightModuleEvaluation i).obj (A.asResolutionTerm₁ Q w)) →ₗ[k] A.Hom i (Q.height w) :=
+  ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map R.d₁)
+l : ℤ
+hil : i < l
+hlj : l < Q.height w
+a : A.Hom i l
+b : A.Hom l (Q.height w)
+x : ↑((A.rightModuleEvaluation l).obj (A.asResolutionTerm₁ Q w))
+hx : (ModuleCat.Hom.hom ((A.rightModuleEvaluation l).map R.d₁)) x = b
+⊢ f
+      ((ConcreteCategory.hom
+          ((A.asResolutionTerm₁ Q w).obj.map
+            (have this := a;
+              this).op))
+        x) =
+    (A.comp b) a
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.rightModuleEvaluation l).obj (A.asResolutionTerm₁ Q w))
+  but is expected to have type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.asResolutionTerm₁ Q w).obj.obj (op { index := l }))
+  in the application
+    (ConcreteCategory.hom
+        ((A.asResolutionTerm₁ Q w).obj.map
+          (have this := a;
+            this).op))
+      x

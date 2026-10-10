@@ -1,0 +1,136 @@
+{
+  "recorded_at_utc": "2026-10-10T11:37:25.844983+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output public checks 0; full Lake build, exhaustive axioms audit and upgrade completion not claimed.",
+  "source_count": 3,
+  "declaration_count": 11,
+  "sources": [
+    {
+      "source": "ASGinzburg/ASFirstKernelRelations.lean",
+      "source_sha256": "3b0657ea36da7262238663955b6af00eea97dc40994c3423f7ff8339a42b68b7",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build12-entry-ASFirstKernelRelations.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-as-first-kernel-relations-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T11:33:19.680041+00:00",
+      "finished_at_utc": "2026-10-10T11:33:26.571373+00:00",
+      "elapsed_seconds": 6.891356896994694,
+      "log": "work/lean-upgrade/tor-migration-as-first-kernel-relations-1.log",
+      "log_empty": true,
+      "baseline_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.firstCoverKernelD\u2081Iso",
+          "kind": "def",
+          "header": "noncomputable def firstCoverKernelD\u2081Iso : kernel R.firstCover \u2245 kernel R.d\u2081"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.firstCoverKernelTopEquiv",
+          "kind": "def",
+          "header": "noncomputable def firstCoverKernelTopEquiv (i : \u2124) : ((A.rightModuleEvaluation i).obj (kernel R.firstCover) \u29f8 A.positiveActionSpan (kernel R.firstCover) i) \u2243\u2097[k] ((A.rightModuleEvaluation i).obj (kernel R.d\u2081) \u29f8 A.positiveActionSpan (kernel R.d\u2081) i)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.ASResolution.foundationFirstKernelRelationBasis",
+          "kind": "def",
+          "header": "noncomputable def foundationFirstKernelRelationBasis {j : Q.Vertex} (R : A.ASResolution Q (j,0)) (i : Q.Vertex) : Module.Basis (Q.FoundationRelationArrow i j) k ((A.rightModuleEvaluation (i.val : \u2124)).obj (kernel R.d\u2081) \u29f8 A.positiveActionSpan (kernel R.d\u2081) (i.val : \u2124))"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {Q : CutQuiver} {w : Q.LiftVertex} (R : A.ASResolution Q w)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/ZAlgebraFixedRightModuleFunctor.lean",
+      "source_sha256": "c02cda5bb2ba1da22f33abf636f574c700abc503573bd24b2f0d4280b3cbb2fa",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build12-entry-ZAlgebraFixedRightModuleFunctor.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-zalgebra-fixed-right-module-functor-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T11:34:35.148239+00:00",
+      "finished_at_utc": "2026-10-10T11:34:41.921988+00:00",
+      "elapsed_seconds": 6.7738377999994555,
+      "log": "work/lean-upgrade/tor-migration-zalgebra-fixed-right-module-functor-2.log",
+      "log_empty": true,
+      "baseline_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.fixedRightModuleFunctor",
+          "kind": "def",
+          "header": "noncomputable def fixedRightModuleFunctor : A.RightModule \u2964 B.RightModule"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.fixedRightModuleFunctorAdditive",
+          "kind": "instance",
+          "header": "instance fixedRightModuleFunctorAdditive : E.fixedRightModuleFunctor.Additive"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.fixedRightModuleFunctorLinear",
+          "kind": "instance",
+          "header": "instance fixedRightModuleFunctorLinear : E.fixedRightModuleFunctor.Linear k"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.fixedRightModuleFunctor_positiveActionSpan",
+          "kind": "theorem",
+          "header": "theorem fixedRightModuleFunctor_positiveActionSpan (M : A.RightModule) (i : \u2124) : B.positiveActionSpan (E.fixedRightModuleFunctor.obj M) i=A.positiveActionSpan M i"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.fixedRightModuleFunctor_minimal",
+          "kind": "theorem",
+          "header": "theorem fixedRightModuleFunctor_minimal {M N : A.RightModule} (f : M\u27f6N) (hf : A.IsMinimalMorphism f) : B.IsMinimalMorphism (E.fixedRightModuleFunctor.map f)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}",
+        "variable (E : Isomorphism A B)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/ZAlgebraRightModuleRepresentables.lean",
+      "source_sha256": "e8818a202ca68798d3c0d09b00292dee2d1a390038f4b14a89b2c89a0d6395f5",
+      "task_entry_snapshot": "work/lean-upgrade/tor-build12-entry-ZAlgebraRightModuleRepresentables.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-zalgebra-right-module-representables-1.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T11:36:31.611074+00:00",
+      "finished_at_utc": "2026-10-10T11:36:35.614436+00:00",
+      "elapsed_seconds": 4.00337112199486,
+      "log": "work/lean-upgrade/tor-migration-zalgebra-right-module-representables-1.log",
+      "log_empty": true,
+      "baseline_and_entry_names_kinds_full_headers_universes_hypotheses_conclusions_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.representableComponentEquiv",
+          "kind": "def",
+          "header": "noncomputable def representableComponentEquiv (X : B.Obj) (i : \u2124) : (E.linearEquivalence.inverse.obj X \u27f6 (\u27e8i\u27e9:A.Obj)) \u2243\u2097[k] (X \u27f6 (\u27e8i\u27e9:B.Obj))"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.representableComponentEquiv_apply",
+          "kind": "theorem",
+          "header": "theorem representableComponentEquiv_apply (X : B.Obj) (i : \u2124) (f : E.linearEquivalence.inverse.obj X \u27f6 (\u27e8i\u27e9:A.Obj)) : E.representableComponentEquiv X i f= E.linearEquivalence.counitIso.inv.app X \u226b E.linearFunctor.map f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.Isomorphism.rightModuleRepresentableIso",
+          "kind": "def",
+          "header": "noncomputable def rightModuleRepresentableIso (i : \u2124) : E.rightModuleEquivalence.functor.obj (A.representable i) \u2245 B.representable i"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] {A B : ZAlgebra.{u,v} k}",
+        "variable (E : Isomorphism A B)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_sources": false,
+  "proof_change_note": "ASFirstKernelRelations uses the new kernelIsoOfEq API with its sole equality argument, preserving the canonical kernel isomorphism. FixedRightModuleFunctor wraps the genuine original whiskerLeft natural transformation using ObjectProperty.homMk and f.hom. Its positiveActionSpan theorem and the two representable isomorphism definitions use declaration-scoped backward implicit transparency compatibility; all their original proof/data bodies are unchanged. Existing declarations and every full header/ambient universe/variable/include command match baseline and task-entry.",
+  "prior_failed_check_preserved": "work/lean-upgrade/tor-migration-zalgebra-fixed-right-module-functor-1.json",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}

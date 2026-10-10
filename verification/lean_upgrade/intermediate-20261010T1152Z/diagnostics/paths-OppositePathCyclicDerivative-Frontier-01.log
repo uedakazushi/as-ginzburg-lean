@@ -1,0 +1,57 @@
+ASGinzburg/OppositePathCyclicDerivative.lean:18:9: error: unsolved goals
+case zero
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v : Q.Vertex
+⊢ 0 = 0
+ASGinzburg/OppositePathCyclicDerivative.lean:19:20: error: unsolved goals
+case add
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v : Q.Vertex
+f g : Q.Path u v →₀ k
+ihf :
+  (Q.opposite.pathWordMap k (Fin.rev v) (Fin.rev u)) ((Q.oppositePathComponentEquiv k u v) f) =
+    reverseWordPolynomial ((Q.pathWordMap k u v) f)
+ihg :
+  (Q.opposite.pathWordMap k (Fin.rev v) (Fin.rev u)) ((Q.oppositePathComponentEquiv k u v) g) =
+    reverseWordPolynomial ((Q.pathWordMap k u v) g)
+⊢ reverseWordPolynomial ((Q.pathWordMap k u v) f) + reverseWordPolynomial ((Q.pathWordMap k u v) g) =
+    reverseWordPolynomial ((Q.pathWordMap k u v) f) + reverseWordPolynomial ((Q.pathWordMap k u v) g)
+ASGinzburg/OppositePathCyclicDerivative.lean:20:15: error: unsolved goals
+case single
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v : Q.Vertex
+p : Q.Path u v
+a : k
+⊢ Finsupp.single p.toList.reverse a = Finsupp.single p.toList.reverse a
+ASGinzburg/OppositePathCyclicDerivative.lean:32:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.opposite.pathWordMap ?k (Q.opposite.target ?a) (Q.opposite.source ?a)) ((Q.opposite.pathCyclicDerivative ?k ?a) ?φ)
+in the target expression
+  reverseWordPolynomial ((cyclicDerivative a) ↑φ) =
+    (Q.opposite.pathWordMap k (Q.opposite.target a) (Q.opposite.source a))
+      ((Q.opposite.pathCyclicDerivative k a) ((Q.oppositePotentialEquiv k) φ))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+a : Q.Arrow
+φ : ↥(Q.Potential k)
+⊢ reverseWordPolynomial ((cyclicDerivative a) ↑φ) =
+    (Q.opposite.pathWordMap k (Q.opposite.target a) (Q.opposite.source a))
+      ((Q.opposite.pathCyclicDerivative k a) ((Q.oppositePotentialEquiv k) φ))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    a
+  has type
+    Q.Arrow
+  but is expected to have type
+    Fin Q.opposite.arrows
+  in the application
+    Q.opposite.target a

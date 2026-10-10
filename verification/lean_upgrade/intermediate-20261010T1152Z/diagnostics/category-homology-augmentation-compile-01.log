@@ -1,0 +1,35 @@
+ASGinzburg/HomologyAugmentation.lean:23:22: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (K.toCycles i j ≫ ?g) ≫ ?h
+in the target expression
+  ((K.toCycles i j ≫ (K.sc j).iCycles) ≫ ((K.sc j).cyclesIsoX₂ hg).inv) ≫ (K.sc j).homologyπ = 0
+
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+ι : Type w
+c : ComplexShape ι
+K : HomologicalComplex C c
+inst✝ : ∀ (i : ι), K.HasHomology i
+j : ι
+hg : (K.sc j).g = 0
+i : ι
+⊢ ((K.toCycles i j ≫ (K.sc j).iCycles) ≫ ((K.sc j).cyclesIsoX₂ hg).inv) ≫ (K.sc j).homologyπ = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    K.toCycles i j
+  has type
+    @Quiver.Hom C inst✝².toQuiver (K.X i) (K.cycles j)
+  but is expected to have type
+    @Quiver.Hom C inst✝².toQuiver (K.X i) (K.sc j).cycles
+  in the application
+    CategoryStruct.comp (K.toCycles i j)
+ASGinzburg/HomologyAugmentation.lean:65:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

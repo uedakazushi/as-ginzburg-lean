@@ -1,0 +1,75 @@
+ASGinzburg/FourTermProjectiveResolution.lean:15:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:16:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:17:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:87:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:107:6: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/FourTermProjectiveResolution.lean:113:10: error: Type mismatch
+  Eq.symm (ChainComplex.of_d R.term R.differential 0)
+has type
+  R.differential 0 = ChainComplex.of.d R.term R.differential (0 + 1) 0
+but is expected to have type
+  R.d₁ = R.complex.d 1 0 ≫ 𝟙 R.P₀
+ASGinzburg/FourTermProjectiveResolution.lean:114:9: error: unsolved goals
+C : Type u
+inst✝¹ : Category.{v, u} C
+inst✝ : Abelian C
+M : C
+R : FourTermProjectiveResolution M
+this : Epi R.π := R.epi_π
+⊢ R.π = R.π ≫ 𝟙 M
+ASGinzburg/FourTermProjectiveResolution.lean:112:21: warning: This simp argument is unused:
+  Iso.refl_hom
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.id_comp, Category.comp_id]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/FourTermProjectiveResolution.lean:112:51: warning: This simp argument is unused:
+  Category.comp_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Iso.refl_hom, Category.id_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/FourTermProjectiveResolution.lean:116:38: warning: This simp argument is unused:
+  Category.comp_id
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Category.id_comp, augmentation, ChainComplex.toSingle₀Equiv_symm_apply_f_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

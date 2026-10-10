@@ -1,0 +1,69 @@
+import ASGinzburg.GinzburgCochainComplex
+import Mathlib.Algebra.Homology.HomologicalComplexLimits
+import Mathlib.Algebra.Category.ModuleCat.Products
+import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
+
+/-! The full complex is the actual finite direct sum of all source-target
+path components. Regularity uses its actual negative mathlib homology. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory CategoryTheory.Limits
+open scoped DirectSum
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+noncomputable def ginzburgTotalCochainComplex (φ : Q.Potential k) :
+    CochainComplex (ModuleCat.{u} k) ℤ :=
+  ∐ (fun uv : Q.Vertex×Q.Vertex => Q.ginzburgCochainComplex k φ uv.1 uv.2)
+
+section
+private noncomputable local instance (q : ℤ) :
+    AddCommGroup (⨁ uv : Q.Vertex×Q.Vertex, Q.ginzburgCohomologicalComponent k uv.1 uv.2 q) :=
+  DFinsupp.addCommGroup
+
+noncomputable def ginzburgTotalCochainComplexTermIso (φ : Q.Potential k) (q : ℤ) :
+    (Q.ginzburgTotalCochainComplex k φ).X q ≅
+      ModuleCat.of k (⨁ uv : Q.Vertex×Q.Vertex, Q.ginzburgCohomologicalComponent k uv.1 uv.2 q) :=
+  PreservesCoproduct.iso (HomologicalComplex.eval (ModuleCat k) (ComplexShape.up ℤ) q)
+    (fun uv : Q.Vertex×Q.Vertex => Q.ginzburgCochainComplex k φ uv.1 uv.2) ≪≫
+      ModuleCat.coprodIsoDirectSum _
+
+end
+
+noncomputable def ginzburgTotalHomology (φ : Q.Potential k) (q : ℤ) : ModuleCat.{u} k :=
+  (Q.ginzburgTotalCochainComplex k φ).homology q
+
+noncomputable def ginzburgTotalHomologyComponentIso (φ : Q.Potential k) (q : ℤ) :
+    Q.ginzburgTotalHomology k φ q ≅
+      ∐ (fun uv : Q.Vertex×Q.Vertex => Q.ginzburgHomology k φ uv.1 uv.2 q) :=
+  PreservesCoproduct.iso (HomologicalComplex.homologyFunctor (ModuleCat k) (ComplexShape.up ℤ) q)
+    (fun uv : Q.Vertex×Q.Vertex => Q.ginzburgCochainComplex k φ uv.1 uv.2)
+
+theorem ginzburgTotalHomology_isZero_iff (φ : Q.Potential k) (q : ℤ) :
+    IsZero (Q.ginzburgTotalHomology k φ q) ↔
+      ∀ u v : Q.Vertex, IsZero (Q.ginzburgHomology k φ u v q) := by
+  let F := fun uv : Q.Vertex×Q.Vertex => Q.ginzburgHomology k φ uv.1 uv.2 q
+  constructor
+  · intro h u v
+    have hz : IsZero (∐ F) := h.of_iso (Q.ginzburgTotalHomologyComponentIso k φ q).symm
+    exact IsZero.of_mono (Sigma.ι F (u,v)) hz
+  · intro h
+    have hz : IsZero (∐ F) := by
+      apply (IsZero.iff_id_eq_zero _).mpr
+      apply Sigma.hom_ext
+      intro uv
+      exact (h uv.1 uv.2).eq_of_src _ _
+    exact hz.of_iso (Q.ginzburgTotalHomologyComponentIso k φ q)
+
+def GinzburgRegular (φ : Q.Potential k) : Prop :=
+  ∀ q : ℤ, q<0 → IsZero (Q.ginzburgTotalHomology k φ q)
+
+theorem ginzburgRegular_iff_components (φ : Q.Potential k) :
+    Q.GinzburgRegular k φ ↔
+      ∀ u v : Q.Vertex, ∀ q : ℤ, q<0 → IsZero (Q.ginzburgHomology k φ u v q) := by
+  constructor
+  · intro h u v q hq
+    exact (Q.ginzburgTotalHomology_isZero_iff k φ q).mp (h q hq) u v
+  · intro h q hq
+    exact (Q.ginzburgTotalHomology_isZero_iff k φ q).mpr (fun u v => h u v q hq)
+
+end ASGinzburg.CutQuiver

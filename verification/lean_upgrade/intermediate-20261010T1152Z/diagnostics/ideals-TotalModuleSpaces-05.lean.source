@@ -1,0 +1,187 @@
+import ASGinzburg.ASDualityRegularCoproduct
+
+/-! Exact faithful finite-support total-space functors; the algebra action and Gr(A) equivalence remain. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits CategoryTheory.Functor Opposite
+open scoped DirectSum
+universe u v w w'
+
+noncomputable def discreteColimitFaithful {D : Type*} [Category D] [HasZeroMorphisms D]
+    (I : Type) [HasColimitsOfShape (Discrete I) D] :
+    (colim : (Discrete I ⥤ D) ⥤ D).Faithful where
+  map_injective := by
+    intro F G f g h
+    apply NatTrans.ext
+    funext i
+    have hi : colimit.ι G i ≫ (HasColimit.isoOfNatIso
+        (Discrete.natIsoFunctor (F := G))).hom =
+        Sigma.ι (fun j : I => G.obj (Discrete.mk j)) i.as := by
+      simpa only [Discrete.natIsoFunctor_hom_app, Category.id_comp,
+        Sigma.ι, Discrete.mk_as, Function.comp_def] using
+        HasColimit.ι_isoOfNatIso_hom (Discrete.natIsoFunctor (F := G)) i
+    letI : Mono (Sigma.ι (fun j : I => G.obj (Discrete.mk j)) i.as) := inferInstance
+    letI : Mono (colimit.ι G i) := mono_of_mono_fac hi
+    apply (cancel_mono (colimit.ι G i)).mp
+    change colimMap f = colimMap g at h
+    rw [← ι_colimMap, ← ι_colimMap, h]
+
+namespace ZAlgebra
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+def rightModuleComponents : A.RightModule ⥤ (Discrete ℤ ⥤ ModuleCat.{v} k) :=
+  A.rightModuleProperty.ι ⋙ (whiskeringLeft (Discrete ℤ) A.Objᵒᵖ (ModuleCat.{v} k)).obj
+    (Discrete.functor (fun i : ℤ => op (⟨i⟩ : A.Obj)))
+
+def leftModuleComponents : A.LeftModule ⥤ (Discrete ℤ ⥤ ModuleCat.{v} k) :=
+  A.leftModuleProperty.ι ⋙ (whiskeringLeft (Discrete ℤ) A.Obj (ModuleCat.{v} k)).obj
+    (Discrete.functor (fun i : ℤ => (⟨i⟩ : A.Obj)))
+
+instance rightModuleComponentsFaithful : A.rightModuleComponents.Faithful where
+  map_injective := by
+    intro M N f g h
+    apply ObjectProperty.hom_ext
+    apply NatTrans.ext
+    funext X
+    cases X using Opposite.rec
+    rename_i X
+    cases X
+    rename_i i
+    exact congrArg (fun t => t.app (Discrete.mk i)) h
+
+instance leftModuleComponentsFaithful : A.leftModuleComponents.Faithful where
+  map_injective := by
+    intro M N f g h
+    apply ObjectProperty.hom_ext
+    apply NatTrans.ext
+    funext X
+    cases X
+    rename_i i
+    exact congrArg (fun t => t.app (Discrete.mk i)) h
+
+noncomputable def rightModuleTotalFunctor : A.RightModule ⥤ ModuleCat.{v} k :=
+  A.rightModuleComponents ⋙ colim
+
+noncomputable def leftModuleTotalFunctor : A.LeftModule ⥤ ModuleCat.{v} k :=
+  A.leftModuleComponents ⋙ colim
+
+noncomputable instance rightModuleTotalFunctorFaithful : A.rightModuleTotalFunctor.Faithful := by
+  letI := discreteColimitFaithful (D := ModuleCat.{v} k) ℤ
+  dsimp [rightModuleTotalFunctor]
+  infer_instance
+
+noncomputable instance leftModuleTotalFunctorFaithful : A.leftModuleTotalFunctor.Faithful := by
+  letI := discreteColimitFaithful (D := ModuleCat.{v} k) ℤ
+  dsimp [leftModuleTotalFunctor]
+  infer_instance
+
+noncomputable instance rightModuleTotalFunctorPreservesFiniteLimits :
+    PreservesFiniteLimits A.rightModuleTotalFunctor := by
+  letI : HasExactColimitsOfShape (Discrete ℤ) (ModuleCat.{v} k) := moduleCatExactCoproducts ℤ
+  dsimp [rightModuleTotalFunctor, rightModuleComponents]
+  infer_instance
+
+noncomputable instance leftModuleTotalFunctorPreservesFiniteLimits :
+    PreservesFiniteLimits A.leftModuleTotalFunctor := by
+  letI : HasExactColimitsOfShape (Discrete ℤ) (ModuleCat.{v} k) := moduleCatExactCoproducts ℤ
+  dsimp [leftModuleTotalFunctor, leftModuleComponents]
+  infer_instance
+
+noncomputable instance rightModuleTotalFunctorPreservesColimitsOfShape
+    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
+    PreservesColimitsOfShape J A.rightModuleTotalFunctor := by
+  letI : PreservesColimitsOfSize.{w',w} (colim : (Discrete ℤ ⥤ ModuleCat.{v} k) ⥤ _) :=
+    colimConstAdj.leftAdjoint_preservesColimits
+  dsimp [rightModuleTotalFunctor, rightModuleComponents]
+  infer_instance
+
+noncomputable instance leftModuleTotalFunctorPreservesColimitsOfShape
+    (J : Type w) [Category.{w'} J] [HasColimitsOfShape J (ModuleCat.{v} k)] :
+    PreservesColimitsOfShape J A.leftModuleTotalFunctor := by
+  letI : PreservesColimitsOfSize.{w',w} (colim : (Discrete ℤ ⥤ ModuleCat.{v} k) ⥤ _) :=
+    colimConstAdj.leftAdjoint_preservesColimits
+  dsimp [leftModuleTotalFunctor, leftModuleComponents]
+  infer_instance
+
+noncomputable def leftModuleTotalFunctorObjIso (M : A.LeftModule) :
+    A.leftModuleTotalFunctor.obj M ≅ ModuleCat.of k (A.leftModuleTotalSpace M) := by
+  let e : A.leftModuleComponents.obj M ≅
+      Discrete.functor (fun i : ℤ => (A.leftModuleEvaluation i).obj M) :=
+    Discrete.natIso (fun _ => Iso.refl _)
+  exact HasColimit.isoOfNatIso e ≪≫ ModuleCat.coprodIsoDirectSum _
+
+abbrev rightModuleTotalSpace (M : A.RightModule) : Type v :=
+  ⨁ i : ℤ, (A.rightModuleEvaluation i).obj M
+
+noncomputable def rightModuleTotalFunctorObjIso (M : A.RightModule) :
+    A.rightModuleTotalFunctor.obj M ≅ ModuleCat.of k (A.rightModuleTotalSpace M) := by
+  let e : A.rightModuleComponents.obj M ≅
+      Discrete.functor (fun i : ℤ => (A.rightModuleEvaluation i).obj M) :=
+    Discrete.natIso (fun _ => Iso.refl _)
+  exact HasColimit.isoOfNatIso e ≪≫ ModuleCat.coprodIsoDirectSum _
+
+noncomputable instance rightModuleTotalFunctorPreservesFiniteColimits :
+    PreservesFiniteColimits A.rightModuleTotalFunctor where
+  preservesFiniteColimits _ := inferInstance
+
+noncomputable instance leftModuleTotalFunctorPreservesFiniteColimits :
+    PreservesFiniteColimits A.leftModuleTotalFunctor where
+  preservesFiniteColimits _ := inferInstance
+
+theorem rightModuleTotalFunctor_shortExact {S : ShortComplex A.RightModule}
+    (hS : S.ShortExact) : (S.map A.rightModuleTotalFunctor).ShortExact :=
+  hS.map_of_exact _
+
+theorem leftModuleTotalFunctor_shortExact {S : ShortComplex A.LeftModule}
+    (hS : S.ShortExact) : (S.map A.leftModuleTotalFunctor).ShortExact :=
+  hS.map_of_exact _
+
+theorem rightModuleTotalFunctor_exact_iff (S : ShortComplex A.RightModule) :
+    (S.map A.rightModuleTotalFunctor).Exact ↔ S.Exact :=
+  ShortComplex.exact_map_iff_of_faithful _ _
+
+theorem leftModuleTotalFunctor_exact_iff (S : ShortComplex A.LeftModule) :
+    (S.map A.leftModuleTotalFunctor).Exact ↔ S.Exact :=
+  ShortComplex.exact_map_iff_of_faithful _ _
+
+@[reassoc] theorem leftModuleTotalFunctor_ι_objIso_hom (M : A.LeftModule) (i : ℤ) :
+    colimit.ι (A.leftModuleComponents.obj M) (Discrete.mk i) ≫
+        (A.leftModuleTotalFunctorObjIso M).hom =
+      ModuleCat.ofHom (DirectSum.lof k ℤ
+        (fun j => (A.leftModuleEvaluation j).obj M) i) := by
+  let e : A.leftModuleComponents.obj M ≅
+      Discrete.functor (fun j : ℤ => (A.leftModuleEvaluation j).obj M) :=
+    Discrete.natIso (fun _ => Iso.refl _)
+  have he : e.hom.app (Discrete.mk i) = 𝟙 ((A.leftModuleEvaluation i).obj M) := rfl
+  have hi : colimit.ι (A.leftModuleComponents.obj M) (Discrete.mk i) ≫
+      (HasColimit.isoOfNatIso e).hom =
+      Sigma.ι (fun j : ℤ => (A.leftModuleEvaluation j).obj M) i := by
+    simpa only [he, Category.id_comp, Sigma.ι] using
+      HasColimit.ι_isoOfNatIso_hom e (Discrete.mk i)
+  change colimit.ι (A.leftModuleComponents.obj M) (Discrete.mk i) ≫
+    ((HasColimit.isoOfNatIso e).hom ≫
+      (ModuleCat.coprodIsoDirectSum (fun j : ℤ => (A.leftModuleEvaluation j).obj M)).hom) = _
+  rw [← Category.assoc, hi]
+  exact ModuleCat.ι_coprodIsoDirectSum_hom (fun j : ℤ => (A.leftModuleEvaluation j).obj M) i
+
+@[reassoc] theorem rightModuleTotalFunctor_ι_objIso_hom (M : A.RightModule) (i : ℤ) :
+    colimit.ι (A.rightModuleComponents.obj M) (Discrete.mk i) ≫
+        (A.rightModuleTotalFunctorObjIso M).hom =
+      ModuleCat.ofHom (DirectSum.lof k ℤ
+        (fun j => (A.rightModuleEvaluation j).obj M) i) := by
+  let e : A.rightModuleComponents.obj M ≅
+      Discrete.functor (fun j : ℤ => (A.rightModuleEvaluation j).obj M) :=
+    Discrete.natIso (fun _ => Iso.refl _)
+  have he : e.hom.app (Discrete.mk i) = 𝟙 ((A.rightModuleEvaluation i).obj M) := rfl
+  have hi : colimit.ι (A.rightModuleComponents.obj M) (Discrete.mk i) ≫
+      (HasColimit.isoOfNatIso e).hom =
+      Sigma.ι (fun j : ℤ => (A.rightModuleEvaluation j).obj M) i := by
+    simpa only [he, Category.id_comp, Sigma.ι] using
+      HasColimit.ι_isoOfNatIso_hom e (Discrete.mk i)
+  change colimit.ι (A.rightModuleComponents.obj M) (Discrete.mk i) ≫
+    ((HasColimit.isoOfNatIso e).hom ≫
+      (ModuleCat.coprodIsoDirectSum (fun j : ℤ => (A.rightModuleEvaluation j).obj M)).hom) = _
+  rw [← Category.assoc, hi]
+  exact ModuleCat.ι_coprodIsoDirectSum_hom (fun j : ℤ => (A.rightModuleEvaluation j).obj M) i
+
+end ZAlgebra
+end ASGinzburg

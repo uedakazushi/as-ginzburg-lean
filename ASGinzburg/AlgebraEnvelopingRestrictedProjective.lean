@@ -17,8 +17,8 @@ theorem envelopingLeftModule_regular_eq :
   apply Module.ext'
   intro r t
   change (r ⊗ₜ[k] (1 : Rᵐᵒᵖ))*t=r • t
-  refine TensorProduct.induction_on t ?_ ?_ ?_
-  · simp only [mul_zero,smul_zero]
+  refine TensorProduct.inductionOn (motive := fun t =>
+    (r ⊗ₜ[k] (1 : Rᵐᵒᵖ)) * t = r • t) t ?_ ?_
   · intro a b
     change (r ⊗ₜ[k] (1 : Rᵐᵒᵖ))*(a ⊗ₜ[k] b)=(r*a) ⊗ₜ[k] b
     rw [Algebra.TensorProduct.tmul_mul_tmul,one_mul]

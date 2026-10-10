@@ -1,0 +1,60 @@
+import ASGinzburg.CyclicWordReversal
+
+/-! Genuine cyclic derivatives commute with reversal. This identity will
+identify the relations and differentials of the reflected opposite quiver. -/
+namespace ASGinzburg
+universe u v
+variable {A : Type u} {k : Type v} [Field k]
+
+noncomputable def reverseWordPolynomial : WordPolynomial k A ≃ₗ[k] WordPolynomial k A :=
+  Finsupp.domLCongr
+    { toFun := List.reverse
+      invFun := List.reverse
+      left_inv := List.reverse_reverse
+      right_inv := List.reverse_reverse }
+
+@[simp] theorem reverseWordPolynomial_single (w : List A) (c : k) :
+    reverseWordPolynomial (Finsupp.single w c) = Finsupp.single w.reverse c := by
+  simp only [reverseWordPolynomial, Finsupp.domLCongr_single]
+  rfl
+
+variable [DecidableEq A]
+
+theorem derivativeAux_reverse (a : A) (pre suffix : List A) :
+    reverseWordPolynomial (derivativeAux (k := k) a pre suffix) =
+      derivativeAux a pre.reverse suffix.reverse := by
+  induction suffix generalizing pre with
+  | nil => simp [derivativeAux]
+  | cons b suffix ih =>
+    by_cases hab : a = b
+    · subst b
+      simp [derivativeAux, derivativeAux_append, List.reverse_cons,
+        List.reverse_append, ih, add_comm]
+    · simp [derivativeAux, derivativeAux_append, List.reverse_cons,
+        List.reverse_append, ih, hab]
+
+theorem derivativeWord_reverse (a : A) (w : List A) :
+    reverseWordPolynomial (derivativeWord (k := k) a w) =
+      derivativeWord a w.reverse := by
+  simpa only [derivativeWord, List.reverse_nil] using derivativeAux_reverse a [] w
+
+theorem derivativeCyclicWord_reverse (a : A) (c : CyclicWord A) :
+    reverseWordPolynomial (derivativeCyclicWord (k := k) a c) =
+      derivativeCyclicWord a (reverseCyclicWord c) := by
+  induction c using Quotient.inductionOn with
+  | h w =>
+    change reverseWordPolynomial (derivativeWord a w) = derivativeWord a w.reverse
+    exact derivativeWord_reverse a w
+
+theorem cyclicDerivative_reverse (a : A) (φ : CyclicPolynomial k A) :
+    reverseWordPolynomial (cyclicDerivative a φ) =
+      cyclicDerivative a (reverseCyclicPolynomial φ) := by
+  classical
+  induction φ using Finsupp.induction_linear with
+  | zero => simp
+  | add φ ψ ihφ ihψ => simp [map_add, ihφ, ihψ]
+  | single c b =>
+    simp [cyclicDerivative, reverseCyclicPolynomial,
+      reverseCyclicWordEquiv, Equiv.coe_fn_mk, derivativeCyclicWord_reverse]
+
+end ASGinzburg

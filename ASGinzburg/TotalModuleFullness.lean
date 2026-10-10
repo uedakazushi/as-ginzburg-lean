@@ -109,7 +109,7 @@ theorem rightTotalHomToLinear_lof {M N : A.RightModule}
 
 
 noncomputable def leftTotalHomNatTrans {M N : A.LeftModule}
-    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) : M ⟶ N where
+    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) : M ⟶ N := ObjectProperty.homMk {
   app X := ModuleCat.ofHom (A.leftTotalHomComponent f X.index)
   naturality := by
     intro X Y a
@@ -126,10 +126,10 @@ noncomputable def leftTotalHomNatTrans {M N : A.LeftModule}
       A.leftModuleTotalAction N a (A.leftTotalHomToLinear f (DirectSum.lof k ℤ _ i x)) at h
     rw [A.leftModuleTotalAction_lof, A.leftTotalHomToLinear_lof,
       A.leftTotalHomToLinear_lof, A.leftModuleTotalAction_lof] at h
-    simpa only [DirectSum.lof_apply] using congrArg (fun z => z j) h
+    simpa only [DirectSum.lof_apply] using congrArg (fun z => z j) h }
 
 noncomputable def rightTotalHomNatTrans {M N : A.RightModule}
-    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) : M ⟶ N where
+    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) : M ⟶ N := ObjectProperty.homMk {
   app X := ModuleCat.ofHom (A.rightTotalHomComponent f X.unop.index)
   naturality := by
     intro X Y a
@@ -149,7 +149,7 @@ noncomputable def rightTotalHomNatTrans {M N : A.RightModule}
       A.rightModuleTotalAction N a.unop (A.rightTotalHomToLinear f (DirectSum.lof k ℤ _ j x)) at h
     rw [A.rightModuleTotalAction_lof, A.rightTotalHomToLinear_lof,
       A.rightTotalHomToLinear_lof, A.rightModuleTotalAction_lof] at h
-    simpa only [DirectSum.lof_apply] using congrArg (fun z => z i) h
+    simpa only [DirectSum.lof_apply] using congrArg (fun z => z i) h }
 
 theorem leftTotalHomNatTrans_recover {M N : A.LeftModule}
     (f : A.leftTotalModule M ⟶ A.leftTotalModule N) :
@@ -182,9 +182,11 @@ theorem rightTotalHomNatTrans_recover {M N : A.RightModule}
   exact LinearMap.congr_fun h x
 
 instance leftTotalLocallyUnitalFunctorFull : A.leftTotalLocallyUnitalFunctor.Full where
-  map_surjective f := ⟨A.leftTotalHomNatTrans f, A.leftTotalHomNatTrans_recover f⟩
+  map_surjective f := ⟨A.leftTotalHomNatTrans f.hom,
+    ObjectProperty.hom_ext _ (A.leftTotalHomNatTrans_recover f.hom)⟩
 
 instance rightTotalLocallyUnitalFunctorFull : A.rightTotalLocallyUnitalFunctor.Full where
-  map_surjective f := ⟨A.rightTotalHomNatTrans f, A.rightTotalHomNatTrans_recover f⟩
+  map_surjective f := ⟨A.rightTotalHomNatTrans f.hom,
+    ObjectProperty.hom_ext _ (A.rightTotalHomNatTrans_recover f.hom)⟩
 
 end ASGinzburg.ZAlgebra

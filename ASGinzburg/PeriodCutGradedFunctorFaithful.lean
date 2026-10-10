@@ -17,6 +17,7 @@ theorem cornerCoordinateObject_surjective : Function.Surjective (E.cornerCoordin
 instance cornerGradedModuleFunctorFaithful : (E.cornerGradedModuleFunctor Q).Faithful where
   map_injective := by
     intro M N f g h
+    apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
     cases X using Opposite.rec
