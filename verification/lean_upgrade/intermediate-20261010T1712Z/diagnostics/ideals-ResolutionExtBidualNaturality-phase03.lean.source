@@ -1,0 +1,100 @@
+import ASGinzburg.DualResolutionComparisonMaps
+import ASGinzburg.RightResolutionExtBidual
+import ASGinzburg.LeftResolutionExtBidual
+
+-- Work-only first-projection phase diagnostic; public source remains unchanged.
+-- Frozen public SHA256: cf2b78c08f555570e326421e73061cd89b9de073345b79a810c2f9c1b1c91751
+set_option Elab.async false
+set_option profiler true
+set_option profiler.threshold 50
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.RightModule}
+  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
+  (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
+  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
+  (hQ : ∀ n, n<4 → A.rightFiniteProjectiveProperty (Q.complex.X n))
+  (hM : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+  (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.representable i) n, e=0)
+  (F : P.complex ⟶ Q.complex)
+
+attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
+
+#eval IO.println "PHASE BEFORE rightResolutionExtBidualIso_projection"
+
+set_option maxHeartbeats 20000 in
+set_option backward.isDefEq.respectTransparency false in
+attribute [-instance] leftResolutionExtTopProjectionEpi rightResolutionBidualTopProjectionEpi in
+@[reassoc] theorem rightResolutionExtBidualIso_projection :
+    A.leftResolutionExtTopProjection (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
+        ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
+      (A.rightResolutionExtBidualIso P hP₄ hP hM).hom =
+    A.rightResolutionBidualTopProjection P hP₄ hP hM := by
+  let canonical (D : ProjectiveResolution (A.rightModuleExtLeft M 3))
+      (hD : D = (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution) :
+      A.leftModuleExtRight (A.rightModuleExtLeft M 3) 3 ≅ M := by
+    have hD₄ : IsZero (D.complex.X 4) := by
+      cases hD
+      exact (A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0
+    let f : A.leftModuleADual (D.complex.X 2) ⟶ A.leftModuleADual (D.complex.X 3) :=
+      A.leftModuleADualMap (D.complex.d 3 2)
+    let π₂ : A.leftModuleADual (D.complex.X 3) ⟶ M :=
+      hD.symm ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM
+    have hπ₂ : f ≫ π₂ = 0 := by
+      cases hD
+      exact A.rightResolutionBidualTopProjection_differential P hP₄ hP hM
+    haveI : Epi π₂ := by
+      cases hD
+      exact A.rightResolutionBidualTopProjectionEpi P hP₄ hP hM
+    have h₂ : IsColimit (CokernelCofork.ofπ (f := f) π₂ hπ₂) := by
+      cases hD
+      exact (A.rightResolutionBidualTopProjection_exact P hP₄ hP hM).gIsCokernel
+    haveI : Epi (A.leftResolutionExtTopProjection D hD₄) :=
+      A.leftResolutionExtTopProjectionEpi D hD₄
+    have h₁ : IsColimit (CokernelCofork.ofπ (f := f)
+        (A.leftResolutionExtTopProjection D hD₄)
+        (A.leftResolutionExtTopProjection_dual_d₃ D hD₄)) :=
+      (A.leftResolutionExtTopProjection_exact D hD₄).gIsCokernel
+    exact IsColimit.coconePointUniqueUpToIso (F := parallelPair f 0) h₁ h₂
+  run_tac Lean.logInfo "PHASE AFTER verbatim canonical lambda"
+  let project (D : ProjectiveResolution (A.rightModuleExtLeft M 3))
+      (hD : D = (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution) :
+      A.leftResolutionExtTopProjection D (by
+        cases hD
+        exact (A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
+          (canonical D hD).hom =
+        hD.symm ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM := by
+    have hD₄ : IsZero (D.complex.X 4) := by
+      cases hD
+      exact (A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0
+    let f : A.leftModuleADual (D.complex.X 2) ⟶ A.leftModuleADual (D.complex.X 3) :=
+      A.leftModuleADualMap (D.complex.d 3 2)
+    let π₂ : A.leftModuleADual (D.complex.X 3) ⟶ M :=
+      hD.symm ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM
+    have hπ₂ : f ≫ π₂ = 0 := by
+      cases hD
+      exact A.rightResolutionBidualTopProjection_differential P hP₄ hP hM
+    haveI : Epi π₂ := by
+      cases hD
+      exact A.rightResolutionBidualTopProjectionEpi P hP₄ hP hM
+    have h₂ : IsColimit (CokernelCofork.ofπ (f := f) π₂ hπ₂) := by
+      cases hD
+      exact (A.rightResolutionBidualTopProjection_exact P hP₄ hP hM).gIsCokernel
+    haveI : Epi (A.leftResolutionExtTopProjection D hD₄) :=
+      A.leftResolutionExtTopProjectionEpi D hD₄
+    have h₁ : IsColimit (CokernelCofork.ofπ (f := f)
+        (A.leftResolutionExtTopProjection D hD₄)
+        (A.leftResolutionExtTopProjection_dual_d₃ D hD₄)) :=
+      (A.leftResolutionExtTopProjection_exact D hD₄).gIsCokernel
+    run_tac Lean.logInfo "PHASE BEFORE abstract projection exact"
+    exact IsColimit.comp_coconePointUniqueUpToIso_hom (F := parallelPair f 0) h₁ h₂ .one
+    run_tac Lean.logInfo "PHASE AFTER abstract projection exact"
+  run_tac Lean.logInfo "PHASE BEFORE concrete project application"
+  exact project (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution rfl
+  run_tac Lean.logInfo "PHASE AFTER concrete project application"
+
+#eval IO.println "PHASE AFTER rightResolutionExtBidualIso_projection"
+
+end ASGinzburg.ZAlgebra

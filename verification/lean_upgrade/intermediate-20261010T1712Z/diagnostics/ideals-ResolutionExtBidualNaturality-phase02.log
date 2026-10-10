@@ -1,0 +1,56 @@
+PHASE BEFORE rightResolutionExtBidualIso_projection
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase02.lean:45:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase02.lean:46:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+PHASE BEFORE typed comp_coconePointUniqueUpToIso_hom
+PHASE AFTER typed comp_coconePointUniqueUpToIso_hom
+PHASE BEFORE selective iso simplification
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase02.lean:59:2: error: Type mismatch: After simplification, term
+  h
+ has type
+  π₁ ≫ (h₁.coconePointUniqueUpToIso h₂).hom = π₂
+but is expected to have type
+  A.leftResolutionExtTopProjection (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution ⋯ ≫
+      (⋯.gIsCokernel.coconePointUniqueUpToIso ⋯.gIsCokernel).hom =
+    A.rightResolutionBidualTopProjection P hP₄ hP hM
+tactic execution of Lean.Parser.Tactic.simpa took 571ms
+type checking took 25.4s
+attribute application took 138ms
+PHASE AFTER rightResolutionExtBidualIso_projection
+cumulative profiling times:
+	attribute application 139ms
+	compilation (IR) 0.49ms
+	compilation (LCNF base) 17.3ms
+	compilation (LCNF impure) 2.6ms
+	compilation (LCNF mono) 4.86ms
+	congr simp thm 16.8ms
+	do element elaborator 2.12ms
+	elaboration 97.1ms
+	fix level params 0.77ms
+	instantiate metavars 0.0404ms
+	interpretation 0.869ms
+	let-to-have transformation 0.0408ms
+	linting 36.5ms
+	module linting 0.00123ms
+	overlappingInstancesLinter 7.62ms
+	parsing 4.56ms
+	process pre-definitions 8.05ms
+	share common exprs 1.13ms
+	simp 35.2ms
+	tactic execution 745ms
+	tacticAnalysis 6.95ms
+	type checking 25.4s
+	typeclass inference 285ms

@@ -1,0 +1,88 @@
+PHASE BEFORE rightResolutionExtBidualIso_projection
+PHASE BEFORE original hom constructor reduction
+PHASE BEFORE specialized cofork projection exact
+PHASE AFTER specialized cofork projection exact
+[diag] Diagnostics
+  [reduction] unfolded declarations (max: 69, num: 12):
+    [reduction] Quiver.Hom ↦ 69
+    [reduction] OfNat.ofNat ↦ 66
+    [reduction] Zero.zero ↦ 64
+    [reduction] CategoryStruct.comp ↦ 59
+    [reduction] Cofork.π ↦ 46
+    [reduction] FourTermProjectiveResolution.complex ↦ 40
+    [reduction] Eq.rec ↦ 39
+    [reduction] FourTermProjectiveResolution.toProjectiveResolution ↦ 38
+    [reduction] LT.lt ↦ 32
+    [reduction] leftModuleExtRight ↦ 32
+    [reduction] Classical.indefiniteDescription ↦ 30
+    [reduction] leftModuleExtCovariant ↦ 30
+  [reduction] unfolded reducible declarations (max: 468, num: 31):
+    [reduction] ObjectProperty.FullSubcategory.obj ↦ 468
+    [reduction] Functor.obj ↦ 426
+    [reduction] RightModule ↦ 374
+    [reduction] Lean.Elab.TermElabM ↦ 273
+    [reduction] Lean.Elab.Tactic.TacticM ↦ 252
+    [reduction] Cocone.pt ↦ 227
+    [reduction] Lean.MetaM ↦ 213
+    [reduction] Cofork ↦ 211
+    [reduction] LeftModule ↦ 199
+    [reduction] ModuleCat.isAddCommGroup ↦ 168
+    [reduction] Cocone.ι ↦ 116
+    [reduction] Lean.CoreM ↦ 108
+    [reduction] ProjectiveResolution.complex ↦ 106
+    [reduction] HomologicalComplex.X ↦ 93
+    [reduction] CokernelCofork.ofπ ↦ 90
+    [reduction] semiOutParam ↦ 74
+    [reduction] ObjectProperty ↦ 69
+    [reduction] NatTrans.app ↦ 62
+    [reduction] ShortComplex.X₂ ↦ 62
+    [reduction] IO ↦ 60
+    [reduction] ChainComplex ↦ 58
+    [reduction] Lean.ImportM ↦ 57
+    [reduction] CochainComplex.singleFunctor ↦ 54
+    [reduction] CochainComplex.singleFunctors ↦ 54
+    [reduction] SingleFunctors.functor ↦ 54
+    [reduction] ShortComplex.X₁ ↦ 52
+    [reduction] Nat.casesOn ↦ 44
+    [reduction] ChainComplex.of ↦ 40
+    [reduction] ModuleCat.carrier ↦ 38
+    [reduction] InducedCategory.Hom.hom ↦ 32
+    [reduction] inferInstance ↦ 28
+  [type_class] used instances (max: 42, num: 6):
+    [type_class] instMonadStateOfOfMonadLift ↦ 42
+    [type_class] ReaderT.instMonadLift ↦ 39
+    [type_class] StateRefT'.instMonadLift ↦ 39
+    [type_class] Aesop.instMonadStatsOfMonadOptionsOfMonadStateOfStats ↦ 33
+    [type_class] Lean.instMonadOptionsOfMonadLift ↦ 30
+    [type_class] Aesop.MonadStats.toMonadOptions ↦ 30
+  [def_eq] heuristic for solving `f a =?= f b` (max: 69, num: 1):
+    [def_eq] StateRefT' ↦ 69
+  [reduction] Axioms (possibly imported non-exposed defs) that were tried to be unfolded (max: 30, num: 1):
+    [reduction] Classical.choice ↦ 30
+  use `set_option diagnostics.threshold <num>` to control threshold for reporting counters
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase10.lean:32:19: error: (kernel) deterministic timeout
+type checking took 15s
+PHASE AFTER rightResolutionExtBidualIso_projection
+cumulative profiling times:
+	attribute application 0.274ms
+	compilation (IR) 0.546ms
+	compilation (LCNF base) 19.6ms
+	compilation (LCNF impure) 2.74ms
+	compilation (LCNF mono) 5.35ms
+	do element elaborator 2.61ms
+	dsimp 26.6ms
+	elaboration 92.4ms
+	fix level params 0.528ms
+	instantiate metavars 0.0351ms
+	interpretation 2.07ms
+	let-to-have transformation 0.516ms
+	linting 35ms
+	module linting 0.00145ms
+	overlappingInstancesLinter 6.91ms
+	parsing 2.61ms
+	process pre-definitions 7.21ms
+	share common exprs 0.712ms
+	tactic execution 55.9ms
+	tacticAnalysis 6.61ms
+	type checking 15s
+	typeclass inference 182ms

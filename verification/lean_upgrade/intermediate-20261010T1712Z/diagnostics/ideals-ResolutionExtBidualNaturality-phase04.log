@@ -1,0 +1,76 @@
+PHASE BEFORE rightResolutionExtBidualIso_projection
+PHASE AFTER verbatim canonical lambda
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase04.lean:79:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase04.lean:85:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+PHASE BEFORE abstract projection exact
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase04.lean:93:4: error: Type mismatch
+  IsColimit.comp_coconePointUniqueUpToIso_hom h₁ h₂ WalkingParallelPair.one
+has type
+  (CokernelCofork.ofπ (A.leftResolutionExtTopProjection D hD₄) ⋯).ι.app WalkingParallelPair.one ≫
+      (h₁.coconePointUniqueUpToIso h₂).hom =
+    (CokernelCofork.ofπ π₂ hπ₂).ι.app WalkingParallelPair.one
+but is expected to have type
+  A.leftResolutionExtTopProjection D ⋯ ≫
+      (⋯.gIsCokernel.coconePointUniqueUpToIso
+          (Eq.rec (motive := fun a t =>
+            (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution = a →
+              hD ≍ t → IsColimit (CokernelCofork.ofπ (⋯ ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM) ⋯))
+            (fun h =>
+              Eq.rec (motive := fun x x_1 =>
+                (hD : x = (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution) →
+                  IsZero (x.complex.X 4) →
+                    (hπ₂ :
+                        A.leftModuleADualMap (x.complex.d 3 2) ≫
+                            (⋯ ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM) =
+                          0) →
+                      Epi (⋯ ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM) →
+                        hD ≍ ⋯ →
+                          IsColimit (CokernelCofork.ofπ (⋯ ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM) hπ₂))
+                (fun hD hD₄ hπ₂ this h => ⋯.gIsCokernel) h hD ⋯ ⋯ ⋯)
+            hD ⋯ ⋯)).hom =
+    ⋯ ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM
+PHASE BEFORE concrete project application
+PHASE AFTER concrete project application
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase04.lean:30:19: error: (kernel) deterministic timeout
+dsimp took 183ms
+tactic execution of Lean.Parser.Tactic.exact took 246ms
+type checking took 18.9s
+elaboration took 53.9ms
+PHASE AFTER rightResolutionExtBidualIso_projection
+cumulative profiling times:
+	attribute application 0.0827ms
+	compilation (IR) 1.03ms
+	compilation (LCNF base) 25.1ms
+	compilation (LCNF impure) 6.22ms
+	compilation (LCNF mono) 6.84ms
+	do element elaborator 4.11ms
+	dsimp 183ms
+	elaboration 106ms
+	fix level params 1.7ms
+	instantiate metavars 0.38ms
+	interpretation 2.76ms
+	let-to-have transformation 0.0382ms
+	linting 60.1ms
+	module linting 0.0016ms
+	overlappingInstancesLinter 11.8ms
+	parsing 5.07ms
+	process pre-definitions 9.4ms
+	share common exprs 3.56ms
+	tactic execution 614ms
+	tacticAnalysis 6.26ms
+	type checking 18.9s
+	typeclass inference 349ms

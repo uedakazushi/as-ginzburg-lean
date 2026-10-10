@@ -1,0 +1,47 @@
+PHASE BEFORE rightResolutionExtBidualIso_projection
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase01.lean:35:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase01.lean:41:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+PHASE BEFORE exact comp_coconePointUniqueUpToIso_hom
+PHASE AFTER exact comp_coconePointUniqueUpToIso_hom
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase01.lean:30:19: error: (kernel) deterministic timeout
+tactic execution of Lean.Parser.Tactic.exact took 59.1ms
+type checking took 54.4s
+typeclass inference of CategoryTheory.Category took 54.4ms
+PHASE AFTER rightResolutionExtBidualIso_projection
+elaboration took 98.9ms
+cumulative profiling times:
+	attribute application 0.244ms
+	compilation (IR) 1.55ms
+	compilation (LCNF base) 22ms
+	compilation (LCNF impure) 5.03ms
+	compilation (LCNF mono) 6.23ms
+	do element elaborator 2.08ms
+	elaboration 172ms
+	fix level params 0.315ms
+	instantiate metavars 0.272ms
+	interpretation 1.3ms
+	let-to-have transformation 0.101ms
+	linting 37.9ms
+	module linting 0.0151ms
+	overlappingInstancesLinter 9.44ms
+	parsing 2.62ms
+	process pre-definitions 13.7ms
+	share common exprs 0.655ms
+	tactic execution 91ms
+	tacticAnalysis 5.55ms
+	type checking 54.4s
+	typeclass inference 308ms

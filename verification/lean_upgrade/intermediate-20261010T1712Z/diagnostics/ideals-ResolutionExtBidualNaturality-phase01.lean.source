@@ -1,0 +1,53 @@
+import ASGinzburg.DualResolutionComparisonMaps
+import ASGinzburg.RightResolutionExtBidual
+import ASGinzburg.LeftResolutionExtBidual
+
+-- Work-only first-projection phase diagnostic; public source remains unchanged.
+-- Frozen public SHA256: cf2b78c08f555570e326421e73061cd89b9de073345b79a810c2f9c1b1c91751
+set_option Elab.async false
+set_option profiler true
+set_option profiler.threshold 50
+
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.RightModule}
+  (P : ProjectiveResolution M) (Q : ProjectiveResolution N)
+  (hP₄ : IsZero (P.complex.X 4)) (hQ₄ : IsZero (Q.complex.X 4))
+  (hP : ∀ n, n<4 → A.rightFiniteProjectiveProperty (P.complex.X n))
+  (hQ : ∀ n, n<4 → A.rightFiniteProjectiveProperty (Q.complex.X n))
+  (hM : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.representable i) n, e=0)
+  (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.representable i) n, e=0)
+  (F : P.complex ⟶ Q.complex)
+
+attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
+
+#eval IO.println "PHASE BEFORE rightResolutionExtBidualIso_projection"
+
+set_option maxHeartbeats 20000 in
+set_option backward.isDefEq.respectTransparency false in
+attribute [-instance] leftResolutionExtTopProjectionEpi rightResolutionBidualTopProjectionEpi in
+@[reassoc] theorem rightResolutionExtBidualIso_projection :
+    A.leftResolutionExtTopProjection (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
+        ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
+      (A.rightResolutionExtBidualIso P hP₄ hP hM).hom =
+    A.rightResolutionBidualTopProjection P hP₄ hP hM := by
+  letI : Epi (A.leftResolutionExtTopProjection
+      (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0)) :=
+    A.leftResolutionExtTopProjectionEpi
+      (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0)
+  letI : Epi (A.rightResolutionBidualTopProjection P hP₄ hP hM) :=
+    A.rightResolutionBidualTopProjectionEpi P hP₄ hP hM
+  run_tac Lean.logInfo "PHASE BEFORE exact comp_coconePointUniqueUpToIso_hom"
+  exact IsColimit.comp_coconePointUniqueUpToIso_hom
+    (A.leftResolutionExtTopProjection_exact
+      (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
+      ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0)).gIsCokernel
+    (A.rightResolutionBidualTopProjection_exact P hP₄ hP hM).gIsCokernel .one
+  run_tac Lean.logInfo "PHASE AFTER exact comp_coconePointUniqueUpToIso_hom"
+
+#eval IO.println "PHASE AFTER rightResolutionExtBidualIso_projection"
+
+end ASGinzburg.ZAlgebra

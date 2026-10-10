@@ -1,0 +1,58 @@
+PHASE BEFORE rightResolutionExtBidualIso_projection
+PHASE AFTER verbatim canonical lambda
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase03.lean:79:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase03.lean:85:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+PHASE BEFORE abstract projection exact
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase03.lean:92:4: error: Type mismatch
+  IsColimit.comp_coconePointUniqueUpToIso_hom h₁ h₂ WalkingParallelPair.one
+has type
+  (CokernelCofork.ofπ (A.leftResolutionExtTopProjection D hD₄) ⋯).ι.app WalkingParallelPair.one ≫
+      (h₁.coconePointUniqueUpToIso h₂).hom =
+    (CokernelCofork.ofπ π₂ hπ₂).ι.app WalkingParallelPair.one
+but is expected to have type
+  A.leftResolutionExtTopProjection D ⋯ ≫ (canonical D hD).hom = ⋯ ▸ A.rightResolutionBidualTopProjection P hP₄ hP hM
+PHASE BEFORE concrete project application
+PHASE AFTER concrete project application
+work/lean-upgrade/ideals-ResolutionExtBidualNaturality-phase03.lean:30:19: error: (kernel) deterministic timeout
+tactic execution of Lean.Parser.Tactic.refine took 50.5ms
+tactic execution of Lean.Parser.Tactic.refine took 136ms
+tactic execution of Lean.Parser.Tactic.exact took 266ms
+type checking took 18.7s
+elaboration took 53.4ms
+PHASE AFTER rightResolutionExtBidualIso_projection
+cumulative profiling times:
+	attribute application 0.0822ms
+	compilation (IR) 1.4ms
+	compilation (LCNF base) 33ms
+	compilation (LCNF impure) 4.71ms
+	compilation (LCNF mono) 11.4ms
+	do element elaborator 9.29ms
+	elaboration 118ms
+	fix level params 1.76ms
+	instantiate metavars 0.617ms
+	interpretation 2.53ms
+	let-to-have transformation 0.0818ms
+	linting 43.8ms
+	module linting 0.00219ms
+	overlappingInstancesLinter 7.22ms
+	parsing 8.07ms
+	process pre-definitions 14.7ms
+	share common exprs 7.72ms
+	tactic execution 921ms
+	tacticAnalysis 7.87ms
+	type checking 18.7s
+	typeclass inference 447ms
