@@ -1,0 +1,36 @@
+work/ASGinzburgDraft/BifunctorTotalResolution.lean:41:2: error: Tactic `rfl` failed: The left-hand side
+  ((mapBifunctorMap P.π (𝟙 Q.complex) F (ComplexShape.down ℕ) ≫ (mapBifunctorSingleLeftIso F M Q.complex).hom) ≫
+      ((F.obj M).mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π) ≫
+    (HomotopyEquiv.ofIso ((singleMapHomologicalComplex (F.obj M) (ComplexShape.down ℕ) 0).app N)).hom
+is not definitionally equal to the right-hand side
+  (mapBifunctorMap P.π (𝟙 Q.complex) F (ComplexShape.down ℕ) ≫ (mapBifunctorSingleLeftIso F M Q.complex).hom) ≫
+    ((F.obj M).mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π ≫
+      (singleMapHomologicalComplex (F.obj M) (ComplexShape.down ℕ) 0).hom.app N
+
+C₁ : Type u_1
+C₂ : Type u_2
+D : Type u_3
+inst✝¹¹ : Category.{u_5, u_1} C₁
+inst✝¹⁰ : Category.{u_6, u_2} C₂
+inst✝⁹ : Category.{u_4, u_3} D
+inst✝⁸ : Abelian C₁
+inst✝⁷ : Abelian C₂
+inst✝⁶ : Preadditive D
+inst✝⁵ : Limits.HasZeroObject D
+F : C₁ ⥤ C₂ ⥤ D
+inst✝⁴ : F.Additive
+inst✝³ : ∀ (X : C₁), (F.obj X).Additive
+M : C₁
+N : C₂
+inst✝² : Projective M
+inst✝¹ : Projective N
+P : ProjectiveResolution M
+Q : ProjectiveResolution N
+inst✝ : HasMapBifunctor P.complex Q.complex F (ComplexShape.down ℕ)
+hh : (Q.homotopyEquiv (ProjectiveResolution.self N)).hom = Q.π
+⊢ ((mapBifunctorMap P.π (𝟙 Q.complex) F (ComplexShape.down ℕ) ≫ (mapBifunctorSingleLeftIso F M Q.complex).hom) ≫
+        ((F.obj M).mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π) ≫
+      (HomotopyEquiv.ofIso ((singleMapHomologicalComplex (F.obj M) (ComplexShape.down ℕ) 0).app N)).hom =
+    (mapBifunctorMap P.π (𝟙 Q.complex) F (ComplexShape.down ℕ) ≫ (mapBifunctorSingleLeftIso F M Q.complex).hom) ≫
+      ((F.obj M).mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π ≫
+        (singleMapHomologicalComplex (F.obj M) (ComplexShape.down ℕ) 0).hom.app N

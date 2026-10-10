@@ -1,0 +1,77 @@
+import ASGinzburg.RightTopBasisBoundedness
+import ASGinzburg.RightTopBasisKernelMinimality
+import ASGinzburg.FourTermProjectiveResolution
+
+/-! Iterated actual top-basis covers and kernels stay within a fixed
+height bound. Their genuine differentials are exact and radical minimal. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+
+abbrev HeightBoundedRightModule (A : ZAlgebra.{u,v} k) (b : ℤ) :=
+  {M : A.RightModule // ∀ i : ℤ, b < i → IsZero ((A.rightModuleEvaluation i).obj M)}
+
+namespace HeightBoundedRightModule
+variable {b : ℤ}
+
+noncomputable def kernelTopBasis (M : A.HeightBoundedRightModule b) :
+    A.HeightBoundedRightModule b :=
+  ⟨kernel (A.rightTopBasisFreeModuleπ M.val),
+    A.rightTopBasisFreeModuleπ_kernel_isZero_above_of_height_bound M.val b M.property⟩
+
+noncomputable def syzygy (M : A.HeightBoundedRightModule b) :
+    ℕ → A.HeightBoundedRightModule b
+  | 0 => M
+  | n + 1 => (syzygy M n).kernelTopBasis
+
+variable (M : A.HeightBoundedRightModule b)
+
+noncomputable def term (n : ℕ) : A.RightModule :=
+  A.rightTopBasisFreeModule (M.syzygy n).val
+
+noncomputable def cover (n : ℕ) : M.term n ⟶ (M.syzygy n).val :=
+  A.rightTopBasisFreeModuleπ (M.syzygy n).val
+
+instance term_projective (n : ℕ) : Projective (M.term n) :=
+  A.rightTopBasisFreeModule_projective (M.syzygy n).val
+
+instance cover_epi (n : ℕ) : Epi (M.cover n) :=
+  A.rightTopBasisFreeModuleπ_epi (M.syzygy n).val b (M.syzygy n).property
+
+theorem term_isZero_above (n : ℕ) (i : ℤ) (hi : b < i) :
+    IsZero ((A.rightModuleEvaluation i).obj (M.term n)) :=
+  A.rightTopBasisFreeModule_isZero_above_of_height_bound
+    (M.syzygy n).val b (M.syzygy n).property i hi
+
+noncomputable def differential (n : ℕ) : M.term (n + 1) ⟶ M.term n :=
+  M.cover (n + 1) ≫ kernel.ι (M.cover n)
+
+theorem differential_cover (n : ℕ) : M.differential n ≫ M.cover n = 0 := by
+  dsimp only [differential]
+  rw [Category.assoc, kernel.condition, comp_zero]
+
+theorem differential_sq (n : ℕ) :
+    M.differential (n + 1) ≫ M.differential n = 0 := by
+  change M.differential (n + 1) ≫ (M.cover (n + 1) ≫ kernel.ι (M.cover n)) = 0
+  rw [← Category.assoc, M.differential_cover (n + 1), zero_comp]
+
+theorem differential_minimal (n : ℕ) : A.IsMinimalMorphism (M.differential n) :=
+  A.isMinimalMorphism_comp_left (M.cover (n + 1)) (kernel.ι (M.cover n))
+    (A.rightTopBasisFreeModuleπ_kernel_inclusion_minimal (M.syzygy n).val)
+
+theorem differential_cover_exact (n : ℕ) :
+    (ShortComplex.mk (M.differential n) (M.cover n) (M.differential_cover n)).Exact := by
+  apply (ASGinzburg.exact_epi_comp_iff (M.cover (n + 1))
+    (kernel.ι (M.cover n)) (M.cover n) (kernel.condition _)).mpr
+  exact ShortComplex.exact_kernel _
+
+theorem differential_exact (n : ℕ) :
+    (ShortComplex.mk (M.differential (n + 1)) (M.differential n)
+      (M.differential_sq n)).Exact :=
+  (ASGinzburg.exact_comp_mono_iff (M.differential (n + 1)) (M.cover (n + 1))
+    (kernel.ι (M.cover n)) (M.differential_cover (n + 1))).mp
+      (M.differential_cover_exact (n + 1))
+
+end HeightBoundedRightModule
+end ASGinzburg.ZAlgebra

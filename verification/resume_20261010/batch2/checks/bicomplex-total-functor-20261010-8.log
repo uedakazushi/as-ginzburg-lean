@@ -1,0 +1,36 @@
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:172:2: error: Tactic `rfl` failed: The left-hand side
+  ((((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ).f i₁).f i₂ ≫ G.map (L.ιTotal c i₁ i₂ j h)
+is not definitionally equal to the right-hand side
+  G.map ((φ.f i₁).f i₂ ≫ L.ιTotal c i₁ i₂ j h)
+
+case f.h.h
+C : Type u_1
+D : Type u_2
+I₁ : Type u_3
+I₂ : Type u_4
+J : Type u_5
+inst✝¹⁰ : Category.{u_7, u_1} C
+inst✝⁹ : Category.{u_6, u_2} D
+inst✝⁸ : Preadditive C
+inst✝⁷ : Preadditive D
+c₁ : ComplexShape I₁
+c₂ : ComplexShape I₂
+G : C ⥤ D
+inst✝⁶ : G.Additive
+K : HomologicalComplex₂ C c₁ c₂
+c : ComplexShape J
+inst✝⁵ : DecidableEq J
+inst✝⁴ : TotalComplexShape c₁ c₂ c
+inst✝³ : K.HasTotal c
+inst✝² : ∀ (j : J), PreservesColimit (Discrete.functor (K.toGradedObject.mapObjFun (c₁.π c₂ c) j)) G
+L : HomologicalComplex₂ C c₁ c₂
+inst✝¹ : L.HasTotal c
+inst✝ : ∀ (j : J), PreservesColimit (Discrete.functor (L.toGradedObject.mapObjFun (c₁.π c₂ c) j)) G
+φ : K ⟶ L
+j : J
+i₁ : I₁
+i₂ : I₂
+h : c₁.π c₂ c (i₁, i₂) = j
+⊢ ((((G.mapHomologicalComplex c₂).mapHomologicalComplex c₁).map φ).f i₁).f i₂ ≫ G.map (L.ιTotal c i₁ i₂ j h) =
+    G.map ((φ.f i₁).f i₂ ≫ L.ιTotal c i₁ i₂ j h)
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:151:2: warning: declaration uses 'sorry'

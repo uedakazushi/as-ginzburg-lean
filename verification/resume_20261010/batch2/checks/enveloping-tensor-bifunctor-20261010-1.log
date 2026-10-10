@@ -1,0 +1,53 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorBifunctor.lean:27:38: error: Invalid argument name `z` for function `tensorRightEnvelopingFunctor`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `k`: z̵k̲
+  • `R`: z̵R̲
+  • `M`: z̵M̲
+work/ASGinzburgDraft/AlgebraEnvelopingTensorBifunctor.lean:54:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case app
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+M : ModuleCat Rᵐᵒᵖ
+⊢ { app := fun N => ModuleCat.ofHom (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom (𝟙 M)) LinearMap.id),
+        naturality := ⋯ }.app =
+    (𝟙 (tensorRightEnvelopingFunctor k R M)).app
+work/ASGinzburgDraft/AlgebraEnvelopingTensorBifunctor.lean:59:10: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce
+
+case app
+k : Type u
+inst✝² : Field k
+R : Type v
+inst✝¹ : Ring R
+inst✝ : Algebra k R
+X✝ Y✝ Z✝ : ModuleCat Rᵐᵒᵖ
+f : X✝ ⟶ Y✝
+g : Y✝ ⟶ Z✝
+⊢ { app := fun N => ModuleCat.ofHom (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom (f ≫ g)) LinearMap.id),
+        naturality := ⋯ }.app =
+    ({ app := fun N => ModuleCat.ofHom (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom f) LinearMap.id),
+          naturality := ⋯ } ≫
+        { app := fun N => ModuleCat.ofHom (tensorRightEnvelopingMap k R (ModuleCat.Hom.hom g) LinearMap.id),
+          naturality := ⋯ }).app
+work/ASGinzburgDraft/AlgebraEnvelopingTensorBifunctor.lean:64:41: error: Invalid argument name `z` for function `tensorRightEnvelopingBifunctor`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `k`: z̵k̲
+  • `R`: z̵R̲
+work/ASGinzburgDraft/AlgebraEnvelopingTensorBifunctor.lean:65:42: error: Application type mismatch: The argument
+  R
+has type
+  Type v
+but is expected to have type
+  ModuleCat kᵐᵒᵖ
+in the application
+  tensorRightEnvelopingFunctor_additive k R
+work/ASGinzburgDraft/AlgebraEnvelopingTensorBifunctor.lean:68:40: error: Invalid argument name `w` for function `tensorRightEnvelopingBifunctor`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `k`: w̵k̲
+  • `R`: w̵R̲

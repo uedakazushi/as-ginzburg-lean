@@ -1,0 +1,119 @@
+import Mathlib.Algebra.Homology.Bifunctor
+import Mathlib.Algebra.Homology.Additive
+import Mathlib.Algebra.Homology.Single
+
+/-! A genuine first-quadrant bifunctor total with its second factor
+concentrated in degree zero is the mapped first complex. -/
+namespace ASGinzburg
+open CategoryTheory Category Limits HomologicalComplex
+universe u₁ u₂ u₃ v₁ v₂ v₃
+variable {C₁ : Type u₁} {C₂ : Type u₂} {D : Type u₃}
+  [Category.{v₁} C₁] [Category.{v₂} C₂] [Category.{v₃} D]
+  [Preadditive C₁] [Preadditive C₂] [Preadditive D] [HasZeroObject C₂]
+  (F : C₁ ⥤ C₂ ⥤ D) [F.Additive] [∀ X, (F.obj X).Additive]
+  (K : ChainComplex C₁ ℕ) (N : C₂)
+
+noncomputable abbrev mapBifunctorSingleRightBicomplex :=
+  ((F.mapBifunctorHomologicalComplex (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj
+    K).obj ((ChainComplex.single₀ C₂).obj N)
+
+noncomputable def mapBifunctorSingleRightCofan (n : ℕ) :
+    (mapBifunctorSingleRightBicomplex F K N).toGradedObject.CofanMapObjFun
+      (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n :=
+  GradedObject.CofanMapObjFun.mk _ _ n ((F.obj (K.X n)).obj N) (fun a ha =>
+    if h : a.2 = 0 then
+      eqToHom (by
+        rcases a with ⟨i, j⟩
+        dsimp at h
+        subst j
+        have hi : i = n := by simpa using ha
+        subst i
+        rfl)
+    else 0)
+
+noncomputable def mapBifunctorSingleRightCofanIsColimit (n : ℕ) :
+    IsColimit (mapBifunctorSingleRightCofan F K N n) :=
+  mkCofanColimit _
+    (fun s => s.inj ⟨⟨n, 0⟩, by simp⟩)
+    (fun s => by
+      rintro ⟨⟨i, j⟩, h⟩
+      by_cases hj : j = 0
+      · subst j
+        have hi : i = n := by simpa using h
+        subst i
+        simp [mapBifunctorSingleRightCofan, GradedObject.CofanMapObjFun.mk]
+      · apply IsZero.eq_of_src
+        exact (F.obj (K.X i)).map_isZero
+          (isZero_single_obj_X (ComplexShape.down ℕ) 0 N j hj))
+    (fun s m hm => by
+      simpa [mapBifunctorSingleRightCofan, GradedObject.CofanMapObjFun.mk] using
+        hm ⟨⟨n, 0⟩, by simp⟩)
+
+instance mapBifunctorSingleRight_hasTotal :
+    HasMapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) :=
+  GradedObject.CofanMapObjFun.hasMap _ _ _ (mapBifunctorSingleRightCofanIsColimit F K N)
+
+noncomputable def mapBifunctorSingleRightXIso (n : ℕ) :
+    (mapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ)).X n ≅
+      (F.obj (K.X n)).obj N :=
+  (GradedObject.CofanMapObjFun.iso (mapBifunctorSingleRightCofanIsColimit F K N n)).symm
+
+theorem mapBifunctorSingleRightXIso_inv (n : ℕ) :
+    (mapBifunctorSingleRightXIso F K N n).inv =
+      ιMapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ)
+        n 0 n (by simp) := rfl
+
+theorem mapBifunctorSingleRightXIso_inv_comm (i j : ℕ) :
+    (mapBifunctorSingleRightXIso F K N i).inv ≫
+        (mapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ)).d i j =
+      (F.map (K.d i j)).app N ≫ (mapBifunctorSingleRightXIso F K N j).inv := by
+  by_cases hij : (ComplexShape.down ℕ).Rel i j
+  · rw [mapBifunctorSingleRightXIso_inv, mapBifunctorSingleRightXIso_inv,
+      mapBifunctor.d_eq, Preadditive.comp_add, mapBifunctor.ι_D₁, mapBifunctor.ι_D₂,
+      mapBifunctor.d₂_eq_zero _ _ _ _ _ _ _ (by simp), add_zero,
+      mapBifunctor.d₁_eq _ _ _ _ hij _ _ (by simp)]
+    simp
+  · rw [HomologicalComplex.shape _ _ _ hij, K.shape _ _ hij,
+      Functor.map_zero, zero_app, comp_zero, zero_comp]
+
+noncomputable def mapBifunctorSingleRightIso :
+    mapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ) ≅
+      ((F.flip.obj N).mapHomologicalComplex (ComplexShape.down ℕ)).obj K :=
+  (HomologicalComplex.Hom.isoOfComponents
+    (fun n => (mapBifunctorSingleRightXIso F K N n).symm)
+    (fun i j _ => mapBifunctorSingleRightXIso_inv_comm F K N i j)).symm
+
+theorem mapBifunctorSingleRightIso_inv_f (n : ℕ) :
+    (mapBifunctorSingleRightIso F K N).inv.f n =
+      ιMapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ)
+        n 0 n (by simp) := rfl
+
+@[reassoc (attr := simp)]
+theorem ι_mapBifunctorSingleRightIso_hom_f (n : ℕ) :
+    ιMapBifunctor K ((ChainComplex.single₀ C₂).obj N) F (ComplexShape.down ℕ)
+        n 0 n (by simp) ≫ (mapBifunctorSingleRightIso F K N).hom.f n = 𝟙 _ :=
+  (mapBifunctorSingleRightXIso F K N n).inv_hom_id
+
+theorem mapBifunctorSingleRightIso_inv_naturality {L : ChainComplex C₁ ℕ}
+    (f : K ⟶ L) :
+    ((F.flip.obj N).mapHomologicalComplex (ComplexShape.down ℕ)).map f ≫
+        (mapBifunctorSingleRightIso F L N).inv =
+      (mapBifunctorSingleRightIso F K N).inv ≫
+        mapBifunctorMap f (𝟙 ((ChainComplex.single₀ C₂).obj N)) F (ComplexShape.down ℕ) := by
+  apply HomologicalComplex.Hom.ext
+  funext n
+  rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f,
+    mapBifunctorSingleRightIso_inv_f, mapBifunctorSingleRightIso_inv_f, ι_mapBifunctorMap]
+  simp
+
+theorem mapBifunctorSingleRightIso_naturality {L : ChainComplex C₁ ℕ} (f : K ⟶ L) :
+    mapBifunctorMap f (𝟙 ((ChainComplex.single₀ C₂).obj N)) F (ComplexShape.down ℕ) ≫
+        (mapBifunctorSingleRightIso F L N).hom =
+      (mapBifunctorSingleRightIso F K N).hom ≫
+        ((F.flip.obj N).mapHomologicalComplex (ComplexShape.down ℕ)).map f := by
+  apply (cancel_mono (mapBifunctorSingleRightIso F L N).inv).mp
+  rw [assoc, Iso.hom_inv_id, comp_id, assoc,
+    mapBifunctorSingleRightIso_inv_naturality]
+  simp
+
+end ASGinzburg

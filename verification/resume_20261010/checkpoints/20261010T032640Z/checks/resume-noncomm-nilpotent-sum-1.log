@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/NoncommNilpotentIdealSum.lean:26:33: error: Application type mismatch: The argument
+  ihn ?m.196
+has type
+  ?m.189 ∈ I ^ n ⊔ J ^ (m + 1)
+but is expected to have type
+  (I ⊔ J) ^ (n + (m + 1)) ≤ I ^ n ⊔ J ^ (m + 1)
+in the application
+  Ideal.mul_mono_right (ihn ?m.196)
+work/ASGinzburgDraft/NoncommNilpotentIdealSum.lean:34:33: error: Application type mismatch: The argument
+  ihm
+has type
+  (I ⊔ J) ^ (n + m) ≤ I ^ n ⊔ J ^ m → (I ⊔ J) ^ (n + 1 + m) ≤ I ^ (n + 1) ⊔ J ^ m
+but is expected to have type
+  (I ⊔ J) ^ (n + 1 + m) ≤ I ^ (n + 1) ⊔ J ^ m
+in the application
+  Ideal.mul_mono_right ihm
+work/ASGinzburgDraft/NoncommNilpotentIdealSum.lean:40:18: error: failed to synthesize
+  (I ⊔ J).IsTwoSided
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/NoncommNilpotentIdealSum.lean:22:17: error: unsolved goals
+R : Type u
+inst✝² : Semiring R
+I J : Ideal R
+inst✝¹ : I.IsTwoSided
+inst✝ : J.IsTwoSided
+n m : ℕ
+ihm : (I ⊔ J) ^ (n + m) ≤ I ^ n ⊔ J ^ m → (I ⊔ J) ^ (n + 1 + m) ≤ I ^ (n + 1) ⊔ J ^ m
+ihn : (I ⊔ J) ^ (n + (m + 1)) ≤ I ^ n ⊔ J ^ (m + 1)
+hleft : I * (I ⊔ J) ^ (n + (m + 1)) ≤ I ^ (n + 1) ⊔ J ^ (m + 1)
+hright : J * (I ⊔ J) ^ (n + 1 + m) ≤ I ^ (n + 1) ⊔ J ^ (m + 1)
+hindex : n + 1 + (m + 1) = n + (m + 1) + 1
+⊢ (I ⊔ J).IsTwoSided

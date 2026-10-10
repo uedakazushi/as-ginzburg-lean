@@ -1,0 +1,40 @@
+import Mathlib.Algebra.Module.LinearMap.Defs
+import Mathlib.Algebra.Algebra.Basic
+import Mathlib.LinearAlgebra.Quotient.Basic
+
+/-! A homogeneous target vector fixed by an idempotent has an actual
+homogeneous idempotent-fixed lift whenever it belongs to the image of the
+source component. Applying the idempotent to a homogeneous preimage
+provides the lift used in projective top-basis covers. -/
+namespace ASGinzburg
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module R M] [IsScalarTower k R M]
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N] [IsScalarTower k R N]
+variable (G : ℤ → Submodule k M) (f : M →ₗ[R] N)
+
+theorem exists_homogeneous_idempotent_fixed_lift
+    (e : R) (he : e*e=e)
+    (heG : ∀ q : ℤ, ∀ m : M, m ∈ G q → e • m ∈ G q)
+    (q : ℤ) (x : N) (hx : x ∈ (G q).map (f.restrictScalars k)) (hxe : e • x = x) :
+    ∃ y : M, y ∈ G q ∧ e • y = y ∧ f y = x := by
+  obtain ⟨y, hy, hxy⟩ := hx
+  refine ⟨e • y, heG q y hy, ?_, ?_⟩
+  · rw [← mul_smul, he]
+  · rw [map_smul, show f y = x from hxy, hxe]
+
+noncomputable def homogeneousIdempotentFixedLift
+    (e : R) (he : e*e=e)
+    (heG : ∀ q : ℤ, ∀ m : M, m ∈ G q → e • m ∈ G q)
+    (q : ℤ) (x : N) (hx : x ∈ (G q).map (f.restrictScalars k)) (hxe : e • x = x) : M :=
+  Classical.choose (exists_homogeneous_idempotent_fixed_lift k R M N G f e he heG q x hx hxe)
+
+theorem homogeneousIdempotentFixedLift_properties
+    (e : R) (he : e*e=e)
+    (heG : ∀ q : ℤ, ∀ m : M, m ∈ G q → e • m ∈ G q)
+    (q : ℤ) (x : N) (hx : x ∈ (G q).map (f.restrictScalars k)) (hxe : e • x = x) :
+    let y := homogeneousIdempotentFixedLift k R M N G f e he heG q x hx hxe
+    y ∈ G q ∧ e • y = y ∧ f y = x :=
+  Classical.choose_spec (exists_homogeneous_idempotent_fixed_lift k R M N G f e he heG q x hx hxe)
+
+end ASGinzburg

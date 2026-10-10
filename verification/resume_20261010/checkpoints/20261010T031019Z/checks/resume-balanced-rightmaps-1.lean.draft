@@ -1,0 +1,29 @@
+import work.ASGinzburgDraft.BalancedTensorUniversal
+import Mathlib.LinearAlgebra.BilinearMap
+
+/-! Actual R-linear maps in the left factor induce genuine k-linear
+maps on the concrete balanced tensor quotient, preserving pure tensors. -/
+namespace ASGinzburg
+universe u v w z z'
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable {N : Type z} [AddCommGroup N] [Module k N] [Module R N] [IsScalarTower k R N]
+variable {N' : Type z'} [AddCommGroup N'] [Module k N'] [Module R N'] [IsScalarTower k R N']
+
+noncomputable def balancedTensorMapRight (g : N →ₗ[R] N') :
+    BalancedTensorSpace k R M N →ₗ[k] BalancedTensorSpace k R M N' :=
+  balancedTensorLift k R M N
+    ((balancedTensorBilinear k R M N').compl₂ (g.restrictScalars k)) (by
+      intro r x y
+      change balancedTensorTmul k R M N' (MulOpposite.op r • x) (g y)=
+        balancedTensorTmul k R M N' x (g (r • y))
+      rw [g.map_smul]
+      exact balancedTensorTmul_balance k R M N' r x (g y))
+
+theorem balancedTensorMapRight_tmul (g : N →ₗ[R] N') (x : M) (y : N) :
+    balancedTensorMapRight k R M g (balancedTensorTmul k R M N x y)=
+      balancedTensorTmul k R M N' x (g y) := by
+  rw [balancedTensorMapRight,balancedTensorLift_tmul]
+  rfl
+
+end ASGinzburg

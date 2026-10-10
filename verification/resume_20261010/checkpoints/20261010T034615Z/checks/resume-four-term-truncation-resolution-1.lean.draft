@@ -1,0 +1,40 @@
+import ASGinzburg.FourTermProjectiveResolution
+import ASGinzburg.FourTermProjectiveDimension
+
+/-! A genuine projective resolution with zero fourth term supplies four
+actual projective objects and all the finite resolution obligations. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+universe u v
+variable {C : Type u} [Category.{v} C] [Abelian C] {X : C}
+
+noncomputable def fourTermTruncationOfResolution
+    (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4)) :
+    FourTermProjectiveResolution X where
+  P₀ := P.complex.X 0
+  P₁ := P.complex.X 1
+  P₂ := P.complex.X 2
+  P₃ := P.complex.X 3
+  projective₀ := inferInstance
+  projective₁ := inferInstance
+  projective₂ := inferInstance
+  projective₃ := inferInstance
+  π := P.π.f 0
+  d₁ := P.complex.d 1 0
+  d₂ := P.complex.d 2 1
+  d₃ := P.complex.d 3 2
+  epi_π := inferInstance
+  mono_d₃ := P.mono_d₃_of_isZero_four h₄
+  d₁_π := P.complex_d_comp_π_f_zero
+  d₂_d₁ := P.complex.d_comp_d _ _ _
+  d₃_d₂ := P.complex.d_comp_d _ _ _
+  exact₀ := P.exact₀
+  exact₁ := P.exact_succ 0
+  exact₂ := P.exact_succ 1
+
+@[simp] theorem fourTermTruncationOfResolution_term_zero
+    (P : ProjectiveResolution X) (h₄ : IsZero (P.complex.X 4)) (n : ℕ) :
+    IsZero ((fourTermTruncationOfResolution P h₄).toProjectiveResolution.complex.X (n+4)) :=
+  (fourTermTruncationOfResolution P h₄).complex_isZero_ge_four n
+
+end ASGinzburg

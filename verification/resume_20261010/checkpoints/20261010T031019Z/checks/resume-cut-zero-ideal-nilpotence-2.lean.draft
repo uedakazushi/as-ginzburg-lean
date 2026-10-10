@@ -1,0 +1,54 @@
+import ASGinzburg.PeriodCutZeroNilpotence
+import Mathlib.RingTheory.Ideal.Operations
+
+/-! The actual degree-zero augmentation kernel is nilpotent as a whole
+ideal. A product of n possibly different kernel elements increases the
+vertex distance by n, and this remains true under the ideal-product sums. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+local instance : Semiring (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0) :=
+  (DirectSum.GradeZero.ring (A:=E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)))).toSemiring
+
+noncomputable def cutZeroAugmentationKernel :
+    Ideal (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0) :=
+  RingHom.ker (E.cutZeroDiagonalAlgHom Q).toRingHom
+
+theorem cutZeroAugmentationKernel_pow_matrixVanishing (n : ℕ) :
+    ∀ x : E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0,
+      x ∈ (E.cutZeroAugmentationKernel Q ^ n : Ideal
+        (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0)) →
+      E.CutZeroMatrixVanishing Q n x := by
+  induction n with
+  | zero =>
+    intro x _
+    exact E.cutZeroMatrixVanishing_zero Q x
+  | succ n ih =>
+    intro x hx
+    rw [Submodule.pow_succ] at hx
+    refine Submodule.mul_induction_on hx ?_ ?_
+    · intro r hr s hs
+      change E.cutZeroDiagonalAlgHom Q s=0 at hs
+      exact E.cutZeroMatrixVanishing_mul Q r s (ih r hr)
+        (E.cutZeroMatrixVanishing_one Q s hs)
+    · intro r s hr hs i j hij
+      change r i j+s i j=0
+      rw [hr i j hij,hs i j hij,zero_add]
+
+theorem cutZeroAugmentationKernel_pow_vertices_eq_bot :
+    (E.cutZeroAugmentationKernel Q ^ Q.vertices : Ideal
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val:ℤ)) 0))=⊥ := by
+  apply le_antisymm _ bot_le
+  intro x hx
+  change x=0
+  funext i j
+  exact E.cutZeroAugmentationKernel_pow_matrixVanishing Q Q.vertices x hx i j
+    (by have hj := j.isLt; omega)
+
+theorem cutZeroAugmentationKernel_isNilpotent :
+    IsNilpotent (E.cutZeroAugmentationKernel Q) :=
+  ⟨Q.vertices,E.cutZeroAugmentationKernel_pow_vertices_eq_bot Q⟩
+
+end ASGinzburg.ZAlgebra.PeriodIso

@@ -1,0 +1,14 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeDecomposition.lean:22:5: error: typeclass instance problem is stuck, it is often due to metavariables
+  RingHomCompTriple ?m.104 (RingHom.id k) (RingHom.id k)
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeDecomposition.lean:25:0: error: Not a definitional equality: the left-hand side
+  (DFunLike.coe.{(max v w) + 1, 1, (max v w) + 1} ((E.cutEnvelopingDegreeEquiv vertex) x) n) d
+is not definitionally equal to the right-hand side
+  (DFunLike.coe.{max (v + 1) (w + 1), max (v + 1) (w + 1), max (v + 1) (w + 1)} (E.cutEnvelopingBigradingEquiv vertex)
+      x)
+    ↑d
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeDecomposition.lean:28:94: error: Type mismatch
+  rfl
+has type
+  ?m.33 = ?m.33
+but is expected to have type
+  (((E.cutEnvelopingDegreeEquiv vertex) x) n) d = ((E.cutEnvelopingBigradingEquiv vertex) x) ↑d

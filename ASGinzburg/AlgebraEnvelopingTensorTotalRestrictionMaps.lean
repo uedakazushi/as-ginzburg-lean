@@ -1,0 +1,39 @@
+import ASGinzburg.AlgebraEnvelopingTensorTotalRestriction
+
+/-! The scalar-restriction total comparison preserves the canonical
+inclusions of its actual diagonal tensor summands. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits HomologicalComplex
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (P : ChainComplex (ModuleCat.{w} Rᵐᵒᵖ) ℕ)
+variable (Q : ChainComplex (ModuleCat.{z} R) ℕ)
+
+theorem ι_tensorRightEnvelopingTotalRestrictScalarsIso_inv_f
+    (i j n : ℕ)
+    (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (i, j) = n) :
+    ιMapBifunctor
+        (((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).mapHomologicalComplex
+          (ComplexShape.down ℕ)).obj P)
+        (((ModuleCat.restrictScalars (algebraMap k R)).mapHomologicalComplex
+          (ComplexShape.down ℕ)).obj Q) (moduleTensorBifunctor k) (ComplexShape.down ℕ) i j n h ≫
+      (tensorRightEnvelopingTotalRestrictScalarsIso k R P Q).inv.f n =
+    (tensorRightEnvelopingRestrictScalarsIso k R (P.X i) (Q.X j)).inv ≫
+      (ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)).map
+        (ιMapBifunctor P Q (tensorRightEnvelopingBifunctor k R) (ComplexShape.down ℕ) i j n h) := by
+  let G := ModuleCat.restrictScalars (algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ)
+  let K := tensorRightEnvelopingBicomplex k R P Q
+  letI : ∀ n, PreservesColimit
+      (Discrete.functor (K.toGradedObject.mapObjFun
+        (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n)) G :=
+    fun _ => inferInstance
+  change _ ≫ ((HomologicalComplex₂.total.map
+      (tensorRightEnvelopingBicomplexRestrictScalarsIso k R P Q).inv
+        (ComplexShape.down ℕ)).f n ≫
+      (bicomplexTotalFunctorIso G K (ComplexShape.down ℕ)).inv.f n) = _
+  rw [← Category.assoc, HomologicalComplex₂.ιTotal_map, Category.assoc,
+    ι_bicomplexTotalFunctorIso_inv_f]
+  rfl
+
+end ASGinzburg

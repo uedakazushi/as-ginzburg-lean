@@ -1,0 +1,174 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:24:71: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  0 * ?a
+in the target expression
+  0 * (E.cutEnvelopingHomogeneousInclusion vertex (m, n)) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+
+case zero
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+i j m n : ℕ
+y : E.CutEnvelopingBlock vertex (m, n)
+⊢ 0 * (E.cutEnvelopingHomogeneousInclusion vertex (m, n)) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:29:75: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * 0
+in the target expression
+  (E.cutEnvelopingHomogeneousInclusion vertex (i, j)) (a ⊗ₜ[k] b) * 0 ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+
+case tmul.zero
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+i j m n : ℕ
+a : E.CutGradedBlock vertex (i, j).1
+b : E.CutGradedBlock vertex (i, j).2
+⊢ (E.cutEnvelopingHomogeneousInclusion vertex (i, j)) (a ⊗ₜ[k] b) * 0 ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:36:74: error: failed to synthesize
+  LeftDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:35:22: error: unsolved goals
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+i j m n : ℕ
+a : E.CutGradedBlock vertex (i, j).1
+b : E.CutGradedBlock vertex (i, j).2
+y z : E.CutGradedBlock vertex (m, n).1 ⊗[k] E.CutGradedBlock vertex (m, n).2
+hy :
+  (E.cutEnvelopingHomogeneousInclusion vertex (i, j)) (a ⊗ₜ[k] b) *
+      (E.cutEnvelopingHomogeneousInclusion vertex (m, n)) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+hz :
+  (E.cutEnvelopingHomogeneousInclusion vertex (i, j)) (a ⊗ₜ[k] b) *
+      (E.cutEnvelopingHomogeneousInclusion vertex (m, n)) z ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+⊢ LeftDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:39:70: error: failed to synthesize
+  RightDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:38:18: error: unsolved goals
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+i j m n : ℕ
+y : E.CutEnvelopingBlock vertex (m, n)
+x z : E.CutGradedBlock vertex (i, j).1 ⊗[k] E.CutGradedBlock vertex (i, j).2
+hx :
+  (E.cutEnvelopingHomogeneousInclusion vertex (i, j)) x * (E.cutEnvelopingHomogeneousInclusion vertex (m, n)) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+hz :
+  (E.cutEnvelopingHomogeneousInclusion vertex (i, j)) z * (E.cutEnvelopingHomogeneousInclusion vertex (m, n)) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex ((i, j).1 + (i, j).2 + ((m, n).1 + (m, n).2))
+⊢ RightDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:52:62: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  0 * ?a
+in the target expression
+  0 * (E.cutEnvelopingDegreeInclusion vertex m) y ∈ E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+
+case zero
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+n m : ℕ
+y : E.CutEnvelopingDegreeBlock vertex m
+⊢ 0 * (E.cutEnvelopingDegreeInclusion vertex m) y ∈ E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:57:66: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?a * 0
+in the target expression
+  (E.cutEnvelopingDegreeInclusion vertex n) ((DirectSum.of (fun d => E.CutEnvelopingBlock vertex ↑d) d) b) * 0 ∈
+    E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+
+case of.zero
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+n m : ℕ
+d : CutEnvelopingDegreePairs n
+b : E.CutEnvelopingBlock vertex ↑d
+⊢ (E.cutEnvelopingDegreeInclusion vertex n) ((DirectSum.of (fun d => E.CutEnvelopingBlock vertex ↑d) d) b) * 0 ∈
+    E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:70:65: error: failed to synthesize
+  LeftDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:69:22: error: unsolved goals
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+n m : ℕ
+d : CutEnvelopingDegreePairs n
+b : E.CutEnvelopingBlock vertex ↑d
+y z : ⨁ (i : CutEnvelopingDegreePairs m), E.CutEnvelopingBlock vertex ↑i
+hy :
+  (E.cutEnvelopingDegreeInclusion vertex n) ((DirectSum.of (fun d => E.CutEnvelopingBlock vertex ↑d) d) b) *
+      (E.cutEnvelopingDegreeInclusion vertex m) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+hz :
+  (E.cutEnvelopingDegreeInclusion vertex n) ((DirectSum.of (fun d => E.CutEnvelopingBlock vertex ↑d) d) b) *
+      (E.cutEnvelopingDegreeInclusion vertex m) z ∈
+    E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+⊢ LeftDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:73:61: error: failed to synthesize
+  RightDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/PeriodCutEnvelopingHomogeneousMultiplication.lean:72:18: error: unsolved goals
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+n m : ℕ
+y : E.CutEnvelopingDegreeBlock vertex m
+x z : ⨁ (i : CutEnvelopingDegreePairs n), E.CutEnvelopingBlock vertex ↑i
+hx :
+  (E.cutEnvelopingDegreeInclusion vertex n) x * (E.cutEnvelopingDegreeInclusion vertex m) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+hz :
+  (E.cutEnvelopingDegreeInclusion vertex n) z * (E.cutEnvelopingDegreeInclusion vertex m) y ∈
+    E.cutEnvelopingHomogeneousSubspace vertex (n + m)
+⊢ RightDistribClass (AlgebraEnvelopingRing k (E.CutGradedRing vertex))

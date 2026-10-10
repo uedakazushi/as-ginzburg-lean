@@ -1,0 +1,117 @@
+import Mathlib.Algebra.Algebra.Opposite
+import Mathlib.Algebra.Module.LinearMap.Basic
+
+/-! The Hom module adjoint to the noncommutative balanced tensor quotient.
+The right action on the source gives a left action on its k-linear Hom space. -/
+namespace ASGinzburg
+universe u v w z
+
+def BalancedTensorHom (k : Type u) [Field k] (R : Type v)
+    (M : Type w) [AddCommGroup M] [Module k M]
+    (P : Type z) [AddCommGroup P] [Module k P] := M →ₗ[k] P
+
+variable (k : Type u) [Field k] (R : Type v)
+variable (M : Type w) [AddCommGroup M] [Module k M]
+variable (P : Type z) [AddCommGroup P] [Module k P]
+
+instance balancedTensorHomAddCommGroup : AddCommGroup (BalancedTensorHom k R M P) :=
+  inferInstanceAs (AddCommGroup (M →ₗ[k] P))
+
+instance balancedTensorHomModuleK : Module k (BalancedTensorHom k R M P) :=
+  inferInstanceAs (Module k (M →ₗ[k] P))
+
+instance balancedTensorHomCoeFun : CoeFun (BalancedTensorHom k R M P) (fun _ => M → P) :=
+  ⟨fun f x => (show M →ₗ[k] P from f) x⟩
+
+noncomputable def balancedTensorHomLinearEquiv :
+    BalancedTensorHom k R M P ≃ₗ[k] (M →ₗ[k] P) where
+  toFun f := f
+  invFun f := f
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+@[simp] theorem balancedTensorHomLinearEquiv_apply
+    (f : BalancedTensorHom k R M P) (x : M) :
+    balancedTensorHomLinearEquiv k R M P f x = f x := rfl
+
+@[simp] theorem balancedTensorHomLinearEquiv_symm_apply (f : M →ₗ[k] P) (x : M) :
+    ((balancedTensorHomLinearEquiv k R M P).symm f) x = f x := rfl
+
+@[ext] theorem balancedTensorHom_ext {f g : BalancedTensorHom k R M P}
+    (h : ∀ x, f x = g x) : f = g :=
+  LinearMap.ext h
+
+@[simp] theorem balancedTensorHom_zero_apply (x : M) :
+    (0 : BalancedTensorHom k R M P) x = 0 := rfl
+
+@[simp] theorem balancedTensorHom_add_apply (f g : BalancedTensorHom k R M P) (x : M) :
+    (f + g) x = f x + g x := rfl
+
+@[simp] theorem balancedTensorHom_smul_k_apply (c : k)
+    (f : BalancedTensorHom k R M P) (x : M) : (c • f) x = c • f x := rfl
+
+variable [Ring R] [Algebra k R] [Module Rᵐᵒᵖ M] [IsScalarTower k Rᵐᵒᵖ M]
+
+instance balancedTensorHomModule : Module R (BalancedTensorHom k R M P) where
+  smul r f :=
+    { toFun x := f (MulOpposite.op r • x)
+      map_add' x y := by
+        rw [smul_add]
+        exact (show M →ₗ[k] P from f).map_add _ _
+      map_smul' c x := by
+        rw [smul_comm]
+        exact (show M →ₗ[k] P from f).map_smul c _ }
+  one_smul f := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    change f (MulOpposite.op (1 : R) • x) = f x
+    rw [MulOpposite.op_one, one_smul]
+  mul_smul r s f := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    change f (MulOpposite.op (r * s) • x) =
+      f (MulOpposite.op s • MulOpposite.op r • x)
+    rw [MulOpposite.op_mul, mul_smul]
+  smul_zero _ := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    rfl
+  smul_add _ _ _ := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    rfl
+  add_smul r s f := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    change f (MulOpposite.op (r + s) • x) =
+      f (MulOpposite.op r • x) + f (MulOpposite.op s • x)
+    rw [MulOpposite.op_add, add_smul]
+    exact (show M →ₗ[k] P from f).map_add _ _
+  zero_smul f := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    change f (MulOpposite.op (0 : R) • x) = 0
+    rw [MulOpposite.op_zero, zero_smul]
+    exact (show M →ₗ[k] P from f).map_zero
+
+@[simp] theorem balancedTensorHom_smul_apply (r : R)
+    (f : BalancedTensorHom k R M P) (x : M) :
+    (r • f) x = f (MulOpposite.op r • x) := rfl
+
+instance balancedTensorHomIsScalarTower : IsScalarTower k R (BalancedTensorHom k R M P) where
+  smul_assoc c r f := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    change f (MulOpposite.op (c • r) • x) = c • f (MulOpposite.op r • x)
+    rw [MulOpposite.op_smul, smul_assoc]
+    exact (show M →ₗ[k] P from f).map_smul c _
+
+instance balancedTensorHomSMulCommClass : SMulCommClass R k (BalancedTensorHom k R M P) where
+  smul_comm r c f := by
+    apply balancedTensorHom_ext k R M P
+    intro x
+    rfl
+
+end ASGinzburg

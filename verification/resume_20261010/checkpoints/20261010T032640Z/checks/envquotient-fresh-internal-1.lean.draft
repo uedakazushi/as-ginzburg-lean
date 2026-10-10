@@ -1,0 +1,59 @@
+import Mathlib.Algebra.DirectSum.Decomposition
+import Mathlib.Algebra.Module.Submodule.Equiv
+
+/-! An actual linear direct-sum equivalence supplies actual homogeneous
+subspaces and an internal decomposition of its source. -/
+namespace ASGinzburg
+open scoped DirectSum
+universe u v w z
+variable (k : Type u) [Field k] (M : Type v) [AddCommGroup M] [Module k M]
+variable {ι : Type w} [DecidableEq ι]
+variable (B : ι → Type z) [∀ i, AddCommGroup (B i)] [∀ i, Module k (B i)]
+variable (e : M ≃ₗ[k] ⨁ i, B i)
+
+noncomputable def linearDirectSumHomogeneousInclusion (i : ι) : B i →ₗ[k] M :=
+  e.symm.toLinearMap.comp (DirectSum.lof k ι B i)
+
+theorem linearDirectSumHomogeneousInclusion_injective (i : ι) :
+    Function.Injective (linearDirectSumHomogeneousInclusion k M B e i) :=
+  e.symm.injective.comp (DirectSum.of_injective B i)
+
+noncomputable def linearDirectSumHomogeneousSubspace (i : ι) : Submodule k M :=
+  LinearMap.range (linearDirectSumHomogeneousInclusion k M B e i)
+
+noncomputable def linearDirectSumHomogeneousRangeEquiv (i : ι) :
+    B i ≃ₗ[k] linearDirectSumHomogeneousSubspace k M B e i :=
+  LinearEquiv.ofInjective (linearDirectSumHomogeneousInclusion k M B e i)
+    (linearDirectSumHomogeneousInclusion_injective k M B e i)
+
+theorem linearDirectSumHomogeneousSubspaces_isInternal :
+    DirectSum.IsInternal (linearDirectSumHomogeneousSubspace k M B e) := by
+  classical
+  let G := linearDirectSumHomogeneousSubspace k M B e
+  let L := DirectSum.lmap
+    (fun i => (linearDirectSumHomogeneousRangeEquiv k M B e i).symm.toLinearMap)
+  have hL : Function.Bijective L :=
+    ⟨(DirectSum.lmap_injective _).mpr
+      (fun i => (linearDirectSumHomogeneousRangeEquiv k M B e i).symm.injective),
+     (DirectSum.lmap_surjective _).mpr
+      (fun i => (linearDirectSumHomogeneousRangeEquiv k M B e i).symm.surjective)⟩
+  have hComm : DirectSum.coeLinearMap G = e.symm.toLinearMap.comp L := by
+    apply DirectSum.linearMap_ext
+    intro i
+    apply LinearMap.ext
+    intro x
+    change DirectSum.coeLinearMap G (DirectSum.of G i x) =
+      e.symm (L (DirectSum.of G i x))
+    rw [DirectSum.coeLinearMap_of, DirectSum.lmap_of]
+    change (x : M) = linearDirectSumHomogeneousInclusion k M B e i
+      ((linearDirectSumHomogeneousRangeEquiv k M B e i).symm x)
+    exact (LinearEquiv.ofInjective_symm_apply x).symm
+  change Function.Bijective (DirectSum.coeLinearMap G)
+  rw [hComm]
+  exact e.symm.bijective.comp hL
+
+noncomputable def linearDirectSumHomogeneousDecomposition :
+    DirectSum.Decomposition (linearDirectSumHomogeneousSubspace k M B e) :=
+  (linearDirectSumHomogeneousSubspaces_isInternal k M B e).chooseDecomposition
+
+end ASGinzburg

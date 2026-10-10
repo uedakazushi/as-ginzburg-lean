@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:63:4: error: Type mismatch
+  ιTotalOrZero_eq K (ComplexShape.down ℕ) a b n h
+has type
+  K.ιTotalOrZero (ComplexShape.down ℕ) a b n = K.ιTotal (ComplexShape.down ℕ) a b n h
+but is expected to have type
+  K.ιTotal (ComplexShape.down ℕ) a b n h ≫
+      bicomplexTotalProjection K n a b ≫ K.ιTotalOrZero (ComplexShape.down ℕ) a b n =
+    K.ιTotal (ComplexShape.down ℕ) a b n h ≫ 𝟙 ((K.total (ComplexShape.down ℕ)).X n)
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:65:49: error(lean.unknownIdentifier): Unknown identifier `zero_comp`
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:62:15: warning: This simp argument is unused:
+  bicomplexTotal_ι_projection_same K n a b h
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵o̵n̵l̵y̵ ̵[̵b̵i̵c̵o̵m̵p̵l̵e̵x̵T̵o̵t̵a̵l̵_̵ι̵_̵p̵r̵o̵j̵e̵c̵t̵i̵o̵n̵_̵s̵a̵m̵e̵ ̵K̵ ̵n̵ ̵a̵ ̵b̵ ̵h̵,̵ ̵i̵d̵_̵c̵o̵m̵p̵]̵s̲i̲m̲p̲ ̲o̲n̲l̲y̲ ̲[̲i̲d̲_̲c̲o̲m̲p̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/BicomplexTotalCoordinates.lean:62:59: warning: This simp argument is unused:
+  id_comp
+
+Hint: Omit it from the simp argument list.
+  simp only [bicomplexTotal_ι_projection_same K n a b h,̵ ̵i̵d̵_̵c̵o̵m̵p̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

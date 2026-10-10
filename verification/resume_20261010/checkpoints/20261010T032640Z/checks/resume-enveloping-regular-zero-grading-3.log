@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingRegularZeroGrading.lean:71:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((cutEnvelopingZeroRegularRepresentation Q E).toLinearMap (a + b)) x
+in the target expression
+  ((cutEnvelopingZeroRegularRepresentation Q E) (a + b)) x ∈ cutIntegerHomogeneousSpace Q E q
+
+case add
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+q : ℤ
+x : E.CutGradedRing fun i => ↑↑i
+hx : x ∈ cutIntegerHomogeneousSpace Q E q
+a b : E.CutGradedBlock (fun i => ↑↑i) 0 ⊗[k] (E.CutGradedBlock (fun i => ↑↑i) 0)ᵐᵒᵖ
+ha : a • x ∈ cutIntegerHomogeneousSpace Q E q
+hb : b • x ∈ cutIntegerHomogeneousSpace Q E q
+h :
+  ((cutEnvelopingZeroRegularRepresentation Q E).toLinearMap (a + b)) x =
+    ((cutEnvelopingZeroRegularRepresentation Q E).toLinearMap a +
+        (cutEnvelopingZeroRegularRepresentation Q E).toLinearMap b)
+      x
+⊢ ((cutEnvelopingZeroRegularRepresentation Q E) (a + b)) x ∈ cutIntegerHomogeneousSpace Q E q

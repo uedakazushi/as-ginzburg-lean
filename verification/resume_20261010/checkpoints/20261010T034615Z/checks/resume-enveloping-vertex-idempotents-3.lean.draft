@@ -1,0 +1,44 @@
+import work.ASGinzburgDraft.TensorProductOrthogonalIdempotents
+import work.ASGinzburgDraft.PeriodCutEnvelopingScalars
+import ASGinzburg.PeriodCutAugmentationKernel
+
+/-! The unsigned enveloping algebra has the actual finite complete
+orthogonal family indexed by ordered pairs of cut vertices. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+
+noncomputable def cutEnvelopingVertexIdempotent (a : Q.Vertex × Q.Vertex) :
+    AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))) :=
+  tensorProductIdempotentFamily k _ _
+    (E.cutVertexIdempotent (fun i : Q.Vertex => (i.val : ℤ)))
+    (fun i => MulOpposite.op (E.cutVertexIdempotent (fun i : Q.Vertex => (i.val : ℤ)) i)) a
+
+theorem cutEnvelopingVertexIdempotent_mul_self (a : Q.Vertex × Q.Vertex) :
+    Mul.mul (E.cutEnvelopingVertexIdempotent Q a) (E.cutEnvelopingVertexIdempotent Q a) =
+      E.cutEnvelopingVertexIdempotent Q a := by
+  apply tensorProductIdempotentFamily_idempotent
+  · exact E.cutVertexIdempotent_mul_self (fun i : Q.Vertex => (i.val : ℤ))
+  · intro i
+    rw [← MulOpposite.op_mul, E.cutVertexIdempotent_mul_self]
+
+theorem cutEnvelopingVertexIdempotent_mul_ne
+    (a b : Q.Vertex × Q.Vertex) (hab : a ≠ b) :
+    Mul.mul (E.cutEnvelopingVertexIdempotent Q a) (E.cutEnvelopingVertexIdempotent Q b) = 0 := by
+  apply tensorProductIdempotentFamily_orthogonal _ _ _ _ _ _ _ a b hab
+  · exact E.cutVertexIdempotent_mul_ne (fun i : Q.Vertex => (i.val : ℤ))
+  · intro i j hij
+    rw [← MulOpposite.op_mul,
+      E.cutVertexIdempotent_mul_ne (fun i : Q.Vertex => (i.val : ℤ)) j i hij.symm]
+    rfl
+
+theorem sum_cutEnvelopingVertexIdempotent :
+    (∑ a : Q.Vertex × Q.Vertex, E.cutEnvelopingVertexIdempotent Q a) = 1 := by
+  apply tensorProductIdempotentFamily_sum_one
+  · exact E.sum_cutVertexIdempotent (fun i : Q.Vertex => (i.val : ℤ))
+  · rw [← Finset.op_sum, E.sum_cutVertexIdempotent]
+    rfl
+
+end ASGinzburg.ZAlgebra.PeriodIso

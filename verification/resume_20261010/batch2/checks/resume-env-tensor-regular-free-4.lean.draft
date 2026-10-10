@@ -1,0 +1,69 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorRightModule
+import Mathlib.Algebra.Module.Projective
+
+/-! The tensor of the two regular modules is genuinely rank-one free
+over the right enveloping ring, with its actual two-factor action. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+attribute [local instance] tensorRightEnvelopingModule
+attribute [local instance 2000] Semiring.toModule
+
+noncomputable def tensorRightEnvelopingRegularLinearEquiv :
+    (R ⊗[k] R) ≃ₗ[k] (AlgebraEnvelopingRing k R)ᵐᵒᵖ :=
+  (TensorProduct.congr (LinearEquiv.refl k R) (MulOpposite.opLinearEquiv k)).trans
+    (MulOpposite.opLinearEquiv k)
+
+theorem tensorRightEnvelopingRegularLinearEquiv_tmul (a b : R) :
+    tensorRightEnvelopingRegularLinearEquiv k R (a ⊗ₜ[k] b) =
+      MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b) := rfl
+
+noncomputable def tensorRightEnvelopingRegularEquiv :
+    (R ⊗[k] R) ≃ₗ[(AlgebraEnvelopingRing k R)ᵐᵒᵖ] (AlgebraEnvelopingRing k R)ᵐᵒᵖ where
+  toFun := tensorRightEnvelopingRegularLinearEquiv k R
+  invFun := (tensorRightEnvelopingRegularLinearEquiv k R).symm
+  left_inv := (tensorRightEnvelopingRegularLinearEquiv k R).left_inv
+  right_inv := (tensorRightEnvelopingRegularLinearEquiv k R).right_inv
+  map_add' := map_add (tensorRightEnvelopingRegularLinearEquiv k R)
+  map_smul' e x := by
+    change tensorRightEnvelopingRegularLinearEquiv k R (e • x) =
+      e * tensorRightEnvelopingRegularLinearEquiv k R x
+    obtain ⟨e, rfl⟩ := MulOpposite.op_surjective e
+    induction e using TensorProduct.induction_on with
+    | zero => simp only [MulOpposite.op_zero, zero_smul, map_zero, zero_mul]
+    | tmul a b =>
+        induction x using TensorProduct.induction_on with
+        | zero => simp only [smul_zero, map_zero, mul_zero]
+        | tmul m n =>
+            change tensorRightEnvelopingRegularLinearEquiv k R
+              (MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) • (m ⊗ₜ[k] n)) =
+                MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) *
+                  tensorRightEnvelopingRegularLinearEquiv k R (m ⊗ₜ[k] n)
+            rw [tensorRightEnvelopingModule_tmul_smul,
+              tensorRightEnvelopingRegularLinearEquiv_tmul,
+              tensorRightEnvelopingRegularLinearEquiv_tmul]
+            simp only [op_smul_eq_mul, smul_eq_mul]
+            change MulOpposite.op ((m*a) ⊗ₜ[k] MulOpposite.op (b.unop*n)) =
+              MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b.unop) *
+                MulOpposite.op (m ⊗ₜ[k] MulOpposite.op n)
+            rw [← MulOpposite.op_mul, Algebra.TensorProduct.tmul_mul_tmul]
+            rfl
+        | add x y hx hy => simp only [smul_add, map_add, hx, hy, mul_add]
+    | add e f he hf => simp only [MulOpposite.op_add, add_smul, map_add, he, hf, add_mul]
+
+theorem tensorRightEnvelopingRegularEquiv_tmul (a b : R) :
+    tensorRightEnvelopingRegularEquiv k R (a ⊗ₜ[k] b) =
+      MulOpposite.op (a ⊗ₜ[k] MulOpposite.op b) := rfl
+
+theorem tensorRightEnvelopingRegular_free :
+    Module.Free (AlgebraEnvelopingRing k R)ᵐᵒᵖ (R ⊗[k] R) :=
+  Module.Free.of_equiv (tensorRightEnvelopingRegularEquiv k R).symm
+
+theorem tensorRightEnvelopingRegular_projective :
+    Module.Projective (AlgebraEnvelopingRing k R)ᵐᵒᵖ (R ⊗[k] R) := by
+  letI := tensorRightEnvelopingRegular_free k R
+  exact Module.Projective.of_free
+
+end ASGinzburg

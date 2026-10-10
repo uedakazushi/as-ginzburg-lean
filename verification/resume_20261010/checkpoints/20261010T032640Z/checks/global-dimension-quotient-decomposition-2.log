@@ -1,0 +1,28 @@
+work/ASGinzburgDraft/ScalarQuotientVertexDecomposition.lean:42:37: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (e ?i) (?r • ?x)
+in the target expression
+  (Ideal.quotientKerAlgEquivOfSurjective hf) (MulOpposite.unop (r • s)) i =
+    (e i)
+      (((RingHom.id Rᵐᵒᵖ) r • fun i => (e i).symm ((Ideal.quotientKerAlgEquivOfSurjective hf) (MulOpposite.unop s) i))
+        i)
+
+case h.a
+k : Type u
+inst✝³ : Field k
+R : Type w
+inst✝² : Ring R
+inst✝¹ : Algebra k R
+I : Type z
+f : R →ₐ[k] I → k
+hf : Function.Surjective ⇑f
+V : I → ModuleCat Rᵐᵒᵖ
+inst✝ : (i : I) → Module k ↑(V i)
+e : (i : I) → ↑(V i) ≃ₗ[k] k
+hscalar : ∀ (i : I) (r : Rᵐᵒᵖ) (x : ↑(V i)), (e i) (r • x) = f (MulOpposite.unop r) i * (e i) x
+r : Rᵐᵒᵖ
+s : (R ⧸ RingHom.ker f.toRingHom)ᵐᵒᵖ
+i : I
+⊢ (Ideal.quotientKerAlgEquivOfSurjective hf) (MulOpposite.unop (r • s)) i =
+    (e i)
+      (((RingHom.id Rᵐᵒᵖ) r • fun i => (e i).symm ((Ideal.quotientKerAlgEquivOfSurjective hf) (MulOpposite.unop s) i))
+        i)

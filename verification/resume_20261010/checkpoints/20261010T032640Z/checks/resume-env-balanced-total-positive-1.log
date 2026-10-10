@@ -1,0 +1,10 @@
+work/ASGinzburgDraft/BalancedTensorTotalPositiveExactness.lean:32:4: error: Application type mismatch: The argument
+  P.complex
+has type
+  ChainComplex.{max v w, max (v + 1) (w + 1), 0} (ModuleCat Rᵐᵒᵖ) ℕ
+of sort
+  Type (max (max (v + 1) (w + 1)) v w)
+but is expected to have type
+  ChainComplex.{0, max v 1, 0} (ModuleCat Rᵐᵒᵖ) ℕ
+of sort `Type (max v 1)` in the application
+  bifunctorTotal_exactAt_of_bounded_left (balancedTensorBifunctor k R) P.complex

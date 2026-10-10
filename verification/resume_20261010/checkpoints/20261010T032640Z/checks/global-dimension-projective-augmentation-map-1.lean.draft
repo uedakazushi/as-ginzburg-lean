@@ -1,0 +1,23 @@
+import Mathlib.CategoryTheory.Abelian.Projective.Resolution
+
+/-! Any additive functor maps the actual augmentation of a projective
+resolution of a projective object to a quasi-isomorphism. -/
+namespace ASGinzburg
+open CategoryTheory
+universe u v u' v'
+variable {C : Type u} [Category.{v} C] [Abelian C]
+variable {D : Type u'} [Category.{v'} D] [Abelian D]
+
+theorem projectiveResolution_map_augmentation_quasiIso
+    (F : C ⥤ D) [F.Additive] {X : C} [Projective X] (Q : ProjectiveResolution X) :
+    QuasiIso ((F.mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π) := by
+  let h := ProjectiveResolution.homotopyEquiv Q (ProjectiveResolution.self X)
+  have hh : h.hom=Q.π := by
+    simpa only [ProjectiveResolution.self_π,Category.comp_id] using
+      ProjectiveResolution.homotopyEquiv_hom_π Q (ProjectiveResolution.self X)
+  have hF : QuasiIso (F.mapHomotopyEquiv h).hom := inferInstance
+  change QuasiIso ((F.mapHomologicalComplex (ComplexShape.down ℕ)).map h.hom) at hF
+  rw [hh] at hF
+  exact hF
+
+end ASGinzburg

@@ -1,0 +1,31 @@
+work/ASGinzburgDraft/BalancedTensorTor.lean:24:57: error: stuck at solving universe constraint
+  max (max (v+1) (w+1)) (z+1) =?= max (max v (w+1)) (?u.3949+1)
+while trying to unify
+  (balancedTensorRightFunctor k R M).IsLeftAdjoint : Prop
+with
+  Functor.IsLeftAdjoint.{max w ?u.3949, max w ?u.3949, max (max v (w + 1)) (?u.3949 + 1),
+      max (max u (w + 1)) (?u.3949 + 1)}
+    (balancedTensorRightFunctor.{u, v, w, max w ?u.3949} k R M) : Prop
+work/ASGinzburgDraft/BalancedTensorTor.lean:24:57: error: stuck at solving universe constraint
+  max (max (max u (v+1)) (w+1)) (z+1) =?= max (max u (w+1)) (?u.3949+1)
+while trying to unify
+  (balancedTensorRightFunctor k R M).IsLeftAdjoint : Prop
+with
+  Functor.IsLeftAdjoint.{max w ?u.3949, max w ?u.3949, max (max v (w + 1)) (?u.3949 + 1),
+      max (max u (w + 1)) (?u.3949 + 1)}
+    (balancedTensorRightFunctor.{u, v, w, max w ?u.3949} k R M) : Prop
+work/ASGinzburgDraft/BalancedTensorTor.lean:24:57: error: stuck at solving universe constraint
+  max (max v w) z =?= max w ?u.3949
+while trying to unify
+  (balancedTensorRightFunctor k R M).IsLeftAdjoint : Prop
+with
+  Functor.IsLeftAdjoint.{max w ?u.3949, max w ?u.3949, max (max v (w + 1)) (?u.3949 + 1),
+      max (max u (w + 1)) (?u.3949 + 1)}
+    (balancedTensorRightFunctor.{u, v, w, max w ?u.3949} k R M) : Prop
+work/ASGinzburgDraft/BalancedTensorTor.lean:32:62: error: Invalid field notation: Identifier or numeral expected
+work/ASGinzburgDraft/BalancedTensorTor.lean:36:0: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorTor_projective_succ`:
+  [IsScalarTower k Rᵐᵒᵖ M]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsScalarTower k Rᵐᵒᵖ M] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`

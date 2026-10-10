@@ -1,0 +1,27 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingDegreeInclusion.lean:24:29: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((DirectSum.of ?m.120 ?i) ?x) ?i
+in the target expression
+  ((DirectSum.of (E.CutEnvelopingBlock vertex) ↑d) x) ↑c =
+    (((DirectSum.lof k ℕ (E.CutEnvelopingDegreeBlock vertex) n)
+          ((DirectSum.lof k (CutEnvelopingDegreePairs n) (fun d => E.CutEnvelopingBlock vertex ↑d) d) x))
+        n)
+      c
+
+case pos
+k : Type u
+inst✝¹ : Field k
+A : ZAlgebra k
+p : ℤ
+E : A.PeriodIso p
+ι : Type w
+inst✝ : Fintype ι
+vertex : ι → ℤ
+n : ℕ
+d : CutEnvelopingDegreePairs n
+x : E.CutEnvelopingBlock vertex ↑d
+c : CutEnvelopingDegreePairs n
+⊢ ((DirectSum.of (E.CutEnvelopingBlock vertex) ↑d) x) ↑c =
+    (((DirectSum.lof k ℕ (E.CutEnvelopingDegreeBlock vertex) n)
+          ((DirectSum.lof k (CutEnvelopingDegreePairs n) (fun d => E.CutEnvelopingBlock vertex ↑d) d) x))
+        n)
+      c

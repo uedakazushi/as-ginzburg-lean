@@ -1,0 +1,45 @@
+import ASGinzburg.BicomplexTotalShortExact
+import ASGinzburg.BicomplexTotalRowAcyclic
+import ASGinzburg.ChainComplexQuasiIsoOfAcyclicKernel
+import Mathlib.CategoryTheory.Abelian.Exact
+
+/-! A degreewise surjective row quasi-isomorphism of first-quadrant
+bicomplexes induces a quasi-isomorphism of their genuine totals. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Limits
+open HomologicalComplex HomologicalComplex₂
+universe u v
+variable {k : Type u} [Ring k]
+
+theorem bicomplexTotal_quasiIso_g_of_shortExact_rows
+    (S : ShortComplex (HomologicalComplex₂ (ModuleCat.{v} k) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ))) (hS : S.ShortExact)
+    (hg : ∀ i, QuasiIso (S.g.f i)) :
+    QuasiIso (HomologicalComplex₂.total.map S.g (ComplexShape.down ℕ)) := by
+  haveI := hS.mono_f
+  haveI := hS.epi_g
+  have hrows : ∀ i, (S.X₁.X i).Acyclic := by
+    intro i
+    exact complexShortExact_acyclic_kernel_of_quasiIso_g
+      (S.map (HomologicalComplex.eval (ChainComplex (ModuleCat.{v} k) ℕ)
+        (ComplexShape.down ℕ) i))
+      (hS.map (HomologicalComplex.eval (ChainComplex (ModuleCat.{v} k) ℕ)
+        (ComplexShape.down ℕ) i)) (hg i)
+  exact complexShortExact_quasiIso_g_of_acyclic_kernel
+    (S.map (HomologicalComplex₂.totalFunctor (ModuleCat.{v} k) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (ComplexShape.down ℕ)))
+    (bicomplexTotal_shortExact S hS) (bicomplexTotal_acyclic_of_rows_acyclic S.X₁ hrows)
+
+theorem bicomplexTotal_quasiIso_of_row_quasiIso
+    {K L : HomologicalComplex₂ (ModuleCat.{v} k) (ComplexShape.down ℕ) (ComplexShape.down ℕ)}
+    (φ : K ⟶ L) (hφ : ∀ i j, Epi ((φ.f i).f j))
+    (hq : ∀ i, QuasiIso (φ.f i)) :
+    QuasiIso (HomologicalComplex₂.total.map φ (ComplexShape.down ℕ)) := by
+  haveI : Epi φ := HomologicalComplex.epi_of_epi_f φ (fun i =>
+    HomologicalComplex.epi_of_epi_f (φ.f i) (hφ i))
+  let S := ShortComplex.mk (kernel.ι φ) φ (kernel.condition φ)
+  have hS : S.ShortExact :=
+    ShortComplex.ShortExact.mk' (ShortComplex.exact_kernel φ) inferInstance inferInstance
+  exact bicomplexTotal_quasiIso_g_of_shortExact_rows S hS hq
+
+end ASGinzburg

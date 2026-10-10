@@ -1,0 +1,89 @@
+import work.ASGinzburgDraft.PeriodCutEnvelopingAugmentationTotalDegree
+import work.ASGinzburgDraft.PeriodCutEnvelopingDegreeZeroBridge
+import work.ASGinzburgDraft.LinearDirectSumAugmentationKernel
+
+/-! The full genuine enveloping augmentation kernel is the sum of its
+actual degree-zero kernel image and all positive total-degree components. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct DirectSum
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices : ℤ))
+
+noncomputable def cutEnvelopingAugmentationKernelSubspace :
+    Submodule k (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) :=
+  LinearMap.ker (E.cutEnvelopingAugmentation Q).toLinearMap
+
+theorem mem_cutEnvelopingAugmentationKernelSubspace
+    (x : AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) :
+    x ∈ E.cutEnvelopingAugmentationKernelSubspace Q ↔
+      x ∈ E.cutEnvelopingAugmentationKernel Q := Iff.rfl
+
+noncomputable def cutEnvelopingAugmentationZeroKernelImage :
+    Submodule k (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) :=
+  (LinearMap.ker (algebraEnvelopingMap k (E.cutZeroDiagonalAlgHom Q)).toLinearMap).map
+    (E.cutEnvelopingZeroInclusion Q).toLinearMap
+
+noncomputable def cutEnvelopingPositiveHomogeneousSubspace :
+    Submodule k (AlgebraEnvelopingRing k
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ)))) :=
+  ⨆ n : {n : ℕ // 0 < n},
+    E.cutEnvelopingHomogeneousSubspace (fun i : Q.Vertex => (i.val : ℤ)) n.val
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem cutEnvelopingDegreeZeroKernelImage_eq :
+    (LinearMap.ker ((E.cutEnvelopingAugmentation Q).toLinearMap.comp
+      (E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0))).map
+        (E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0) =
+      E.cutEnvelopingAugmentationZeroKernelImage Q := by
+  have hkernel (a : AlgebraEnvelopingRing k
+      (E.CutGradedBlock (fun i : Q.Vertex => (i.val : ℤ)) 0)) :
+      E.cutEnvelopingAugmentation Q (E.cutEnvelopingZeroInclusion Q a) = 0 ↔
+        algebraEnvelopingMap k (E.cutZeroDiagonalAlgHom Q) a = 0 := by
+    change E.cutEnvelopingZeroInclusion Q a ∈ E.cutEnvelopingAugmentationKernel Q ↔
+      a ∈ algebraEnvelopingMapKernel k (E.cutZeroDiagonalAlgHom Q)
+    rw [← E.cutEnvelopingAugmentationKernel_comap_zeroInclusion Q]
+    rfl
+  ext x
+  change (∃ b, E.cutEnvelopingAugmentation Q
+      (E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0 b) = 0 ∧
+      E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0 b = x) ↔
+    ∃ a, algebraEnvelopingMap k (E.cutZeroDiagonalAlgHom Q) a = 0 ∧
+      E.cutEnvelopingZeroInclusion Q a = x
+  constructor
+  · rintro ⟨b,hb,hx⟩
+    let a := (E.cutEnvelopingDegreeZeroEquiv Q).symm b
+    have heq : E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0 b =
+        E.cutEnvelopingZeroInclusion Q a := by
+      simpa only [a, LinearEquiv.apply_symm_apply] using
+        E.cutEnvelopingDegreeInclusion_degreeZeroEquiv Q a
+    exact ⟨a,(hkernel a).mp (heq ▸ hb),heq.symm.trans hx⟩
+  · rintro ⟨a,ha,hx⟩
+    refine ⟨E.cutEnvelopingDegreeZeroEquiv Q a,?_,?_⟩
+    · rw [E.cutEnvelopingDegreeInclusion_degreeZeroEquiv Q]
+      exact (hkernel a).mpr ha
+    · exact (E.cutEnvelopingDegreeInclusion_degreeZeroEquiv Q a).trans hx
+
+set_option synthInstance.maxHeartbeats 200000 in
+theorem cutEnvelopingAugmentationKernelSubspace_eq_zero_sup_positive :
+    E.cutEnvelopingAugmentationKernelSubspace Q =
+      E.cutEnvelopingAugmentationZeroKernelImage Q ⊔
+        E.cutEnvelopingPositiveHomogeneousSubspace Q := by
+  have h := linearDirectSumAugmentationKernel_eq_zero_sup_positive k
+    (AlgebraEnvelopingRing k (E.CutGradedRing (fun i : Q.Vertex => (i.val : ℤ))))
+    (E.CutEnvelopingDegreeBlock (fun i : Q.Vertex => (i.val : ℤ)))
+    (E.cutEnvelopingDegreeEquiv (fun i : Q.Vertex => (i.val : ℤ)))
+    (E.cutEnvelopingAugmentation Q).toLinearMap
+    (fun n hn b => E.cutEnvelopingAugmentation_degreeInclusion_pos Q n hn b)
+  change E.cutEnvelopingAugmentationKernelSubspace Q =
+    (LinearMap.ker ((E.cutEnvelopingAugmentation Q).toLinearMap.comp
+      (E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0))).map
+        (E.cutEnvelopingDegreeInclusion (fun i : Q.Vertex => (i.val : ℤ)) 0) ⊔
+      E.cutEnvelopingPositiveHomogeneousSubspace Q at h
+  rw [E.cutEnvelopingDegreeZeroKernelImage_eq Q] at h
+  exact h
+
+end ASGinzburg.ZAlgebra.PeriodIso

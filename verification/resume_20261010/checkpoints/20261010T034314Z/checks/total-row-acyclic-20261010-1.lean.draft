@@ -1,0 +1,21 @@
+import work.ASGinzburgDraft.BicomplexTotalCoordinates
+import work.ASGinzburgDraft.ChainComplexModuleExactness
+
+/-! Exact vertical rows imply exactness of the genuine first-quadrant total.
+The proof removes successive maximal horizontal coordinates of a cycle. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Preadditive
+open HomologicalComplex HomologicalComplex₂
+
+variable {k : Type*} [Ring k]
+variable (K : HomologicalComplex₂ (ModuleCat k) (ComplexShape.down ℕ) (ComplexShape.down ℕ))
+
+theorem bicomplexTotal_eq_zero_of_projections (n : ℕ)
+    (x : (K.total (ComplexShape.down ℕ)).X n)
+    (hx : ∀ i j, bicomplexTotalProjection K n i j x = 0) : x = 0 := by
+  rw [← bicomplexTotal_decomposition_apply K n x]
+  apply Finset.sum_eq_zero
+  intro p hp
+  rw [hx p.1 p.2, map_zero]
+
+end ASGinzburg

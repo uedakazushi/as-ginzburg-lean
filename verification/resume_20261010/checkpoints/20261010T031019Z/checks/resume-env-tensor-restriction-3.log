@@ -1,0 +1,45 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorRestriction.lean:31:2: error: 'change' tactic failed, pattern
+  ((tensorRightEnvelopingRepresentation k R ↑M ↑N) ((algebraMap k (AlgebraEnvelopingRing k R)ᵐᵒᵖ) c)) x =
+    @HSMul.hSMul k (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+      (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+      (@instHSMul k (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+        (@SMulZeroClass.toSMul k (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+          (((tensorRightEnvelopingBifunctor k R).obj M).obj N).isAddCommGroup.toAddZeroClass.toZero
+          (@DistribSMul.toSMulZeroClass k (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+            (((tensorRightEnvelopingBifunctor k R).obj M).obj N).isAddCommGroup.toAddZeroClass
+            (@DistribMulAction.toDistribSMul k (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+              Field.toSemifield.toDivisionSemiring.toMonoidWithZero.toMonoid
+              (((tensorRightEnvelopingBifunctor k R).obj M).obj N).isAddCommGroup.toAddMonoid
+              (@Module.toDistribMulAction k (↑(((tensorRightEnvelopingBifunctor k R).obj M).obj N))
+                Field.toSemifield.toDivisionSemiring.toSemiring
+                (((tensorRightEnvelopingBifunctor k R).obj M).obj N).isAddCommGroup.toAddCommMonoid
+                ModuleCat.Algebra.instModuleCarrier)))))
+      c x
+is not definitionally equal to target
+  id (c • x) =
+    @HSMul.hSMul k
+      (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+        ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+      (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+        ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+      (@instHSMul k
+        (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+          ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+        (@SMulZeroClass.toSMul k
+          (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+            ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+          TensorProduct.addCommGroup.toAddCommMonoid.toAddZeroClass.toZero
+          (@DistribSMul.toSMulZeroClass k
+            (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+              ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+            TensorProduct.addCommGroup.toAddCommMonoid.toAddZeroClass
+            (@DistribMulAction.toDistribSMul k
+              (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+                ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+              inst✝².toDivisionRing.toMonoidWithZero.toMonoid TensorProduct.addCommGroup.toAddCommMonoid.toAddMonoid
+              (@Module.toDistribMulAction k
+                (↑((ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).obj M) ⊗[k]
+                  ↑((ModuleCat.restrictScalars (algebraMap k R)).obj N))
+                inst✝².toDivisionRing.toSemiring TensorProduct.addCommGroup.toAddCommMonoid
+                TensorProduct.instModule)))))
+      ((RingHom.id k) c) (id x)

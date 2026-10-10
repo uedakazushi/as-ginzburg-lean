@@ -1,0 +1,51 @@
+import ASGinzburg.PeriodCutRegularBiproduct
+import ASGinzburg.PeriodCutForgetGrading
+import Mathlib.Algebra.Category.ModuleCat.Projective
+
+/-! Actual cut vertex representables remain projective as ordinary
+right R modules: each splits off the genuine regular module. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open CategoryTheory
+universe u v
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k}
+variable (Q : CutQuiver) (E : A.PeriodIso (Q.vertices:ℤ))
+
+noncomputable def cutRegularRightFreeEquiv (t : ℤ) :
+    (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ ≃ₗ[
+      (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ]
+        ((E.cutRegularGradedRightModule Q).shifted t).space where
+  toFun r := r.unop
+  invFun r := MulOpposite.op r
+  left_inv := MulOpposite.op_unop
+  right_inv := MulOpposite.unop_op
+  map_add' := MulOpposite.unop_add
+  map_smul' _ _ := rfl
+
+theorem cutRegularRight_ring_projective (t : ℤ) :
+    Module.Projective (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ
+      ((E.cutRegularGradedRightModule Q).shifted t).space :=
+  Module.Projective.of_equiv (E.cutRegularRightFreeEquiv Q t)
+
+theorem cornerGradedRepresentable_ring_projective (z : Q.LiftVertex) :
+    Module.Projective (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ
+      (E.cornerGradedRepresentable Q z).space := by
+  let F := E.cutGradedForgetFunctor Q
+  letI : Module.Projective (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ
+      (F.obj ((E.cutRegularGradedRightModule Q).shifted z.2)) :=
+    E.cutRegularRight_ring_projective Q z.2
+  apply Module.Projective.of_split
+    (F.map (E.cutRegularRepresentableInclusion Q z.2 z.1)).hom
+    (F.map (E.cutRegularRepresentableProjection Q z.2 z.1)).hom
+  apply LinearMap.ext
+  intro x
+  exact LinearMap.congr_fun (E.cornerRepresentableActionMap_valueMap Q z) x
+
+theorem cornerRepresentable_ring_projective (i : ℤ) :
+    Projective ((E.cornerModuleRingFunctor Q).obj ((E.cornerCoverZAlgebra Q).representable i)) := by
+  obtain ⟨z,rfl⟩ := Q.heightEquiv.surjective i
+  letI : Module.Projective (E.CutGradedRing (fun i : Q.Vertex => (i.val:ℤ)))ᵐᵒᵖ
+      ((E.cornerModuleRingFunctor Q).obj ((E.cornerCoverZAlgebra Q).representable (Q.heightEquiv z))) :=
+    E.cornerGradedRepresentable_ring_projective Q z
+  exact ModuleCat.projective_of_categoryTheory_projective _
+
+end ASGinzburg.ZAlgebra.PeriodIso

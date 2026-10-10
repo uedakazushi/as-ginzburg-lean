@@ -1,0 +1,32 @@
+import ASGinzburg.BalancedTensorLeftMaps
+import work.ASGinzburgDraft.BalancedTensorFieldModuleChange
+
+/-! Equality transport of the field-module structure commutes with actual
+balanced tensor maps in the right-module factor. -/
+namespace ASGinzburg
+open CategoryTheory
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module Rᵐᵒᵖ M]
+variable (M' : Type w) [AddCommGroup M'] [Module Rᵐᵒᵖ M']
+variable (N : Type z) [AddCommGroup N] [Module k N] [Module R N]
+
+theorem balancedTensorFieldModuleChangeIso_naturality
+    (P Q : Module k M) (h : P = Q)
+    (P' Q' : Module k M') (h' : P' = Q')
+    (tP : letI := P; IsScalarTower k Rᵐᵒᵖ M)
+    (tQ : letI := Q; IsScalarTower k Rᵐᵒᵖ M)
+    (tP' : letI := P'; IsScalarTower k Rᵐᵒᵖ M')
+    (tQ' : letI := Q'; IsScalarTower k Rᵐᵒᵖ M')
+    (f : M →ₗ[Rᵐᵒᵖ] M') :
+    (ModuleCat.ofHom (letI := P; letI := P'; letI := tP; letI := tP';
+      balancedTensorMapLeft k R N f)) ≫
+        (balancedTensorFieldModuleChangeIso k R M' N P' Q' h').hom =
+      (balancedTensorFieldModuleChangeIso k R M N P Q h).hom ≫
+        (ModuleCat.ofHom (letI := Q; letI := Q'; letI := tQ; letI := tQ';
+          balancedTensorMapLeft k R N f)) := by
+  cases h
+  cases h'
+  simp [balancedTensorFieldModuleChangeIso]
+
+end ASGinzburg

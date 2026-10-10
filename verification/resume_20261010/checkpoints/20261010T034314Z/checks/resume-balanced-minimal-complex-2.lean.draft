@@ -1,0 +1,39 @@
+import work.ASGinzburgDraft.BalancedTensorLeftFunctor
+import work.ASGinzburgDraft.BalancedTensorMinimalMaps
+import Mathlib.Algebra.Homology.Additive
+import Mathlib.Algebra.Homology.HomologicalComplexAbelian
+
+/-! A genuine complex whose differentials have image in an action span
+has zero tensor differentials against a module annihilated by that span.
+Its actual mathlib homology is consequently the tensor of each term. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (N : Type w) [AddCommGroup N] [Module k N] [Module R N]
+
+theorem balancedTensorLeftFunctor_map_eq_zero_of_action_span
+    {M M' : ModuleCat.{z} Rᵐᵒᵖ} (I : Set R) (hN : ∀ r ∈ I, ∀ y : N, r • y = 0)
+    (f : M ⟶ M') (hf : ∀ x : M, f x ∈ Submodule.span k
+      {a : M' | ∃ r ∈ I, ∃ m : M', MulOpposite.op r • m = a}) :
+    (balancedTensorLeftFunctor k R N).map f = 0 := by
+  apply ModuleCat.hom_ext
+  exact balancedTensorMapLeft_eq_zero_of_action_span k R N I hN f.hom hf
+
+noncomputable def balancedTensorMinimalComplexHomologyIso
+    (C : ChainComplex (ModuleCat.{z} Rᵐᵒᵖ) ℕ)
+    (I : Set R) (hN : ∀ r ∈ I, ∀ y : N, r • y = 0)
+    (hC : ∀ i j, ∀ x : C.X i, C.d i j x ∈ Submodule.span k
+      {a : C.X j | ∃ r ∈ I, ∃ m : C.X j, MulOpposite.op r • m = a}) (n : ℕ) :
+    (((balancedTensorLeftFunctor k R N).mapHomologicalComplex
+      (ComplexShape.down ℕ)).obj C).homology n ≅
+        (balancedTensorLeftFunctor k R N).obj (C.X n) := by
+  let F := balancedTensorLeftFunctor k R N
+  let K := (F.mapHomologicalComplex (ComplexShape.down ℕ)).obj C
+  have hzero : ∀ i j, F.map (C.d i j) = 0 :=
+    fun i j => balancedTensorLeftFunctor_map_eq_zero_of_action_span k R N I hN _ (hC i j)
+  exact (ShortComplex.HomologyData.ofZeros (K.sc n)
+    (hzero _ _) (hzero _ _)).left.homologyIso
+
+end ASGinzburg

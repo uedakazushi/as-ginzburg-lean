@@ -1,0 +1,23 @@
+work/ASGinzburgDraft/PeriodCutEnvelopingAugmentationBigrading.lean:51:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (cutEnvelopingAugmentation Q E).toRingHom (?a + ?b)
+in the target expression
+  (cutEnvelopingAugmentation Q E)
+      ((E.cutEnvelopingHomogeneousInclusion (fun i => ↑↑i) (i, j)) x +
+        (E.cutEnvelopingHomogeneousInclusion (fun i => ↑↑i) (i, j)) y) =
+    0
+
+case add
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+i j : ℕ
+hd : (i, j).1 + (i, j).2 ≠ 0
+x y : E.CutGradedBlock (fun i => ↑↑i) (i, j).1 ⊗[k] E.CutGradedBlock (fun i => ↑↑i) (i, j).2
+hx : (cutEnvelopingAugmentation Q E) ((E.cutEnvelopingHomogeneousInclusion (fun i => ↑↑i) (i, j)) x) = 0
+hy : (cutEnvelopingAugmentation Q E) ((E.cutEnvelopingHomogeneousInclusion (fun i => ↑↑i) (i, j)) y) = 0
+⊢ (cutEnvelopingAugmentation Q E)
+      ((E.cutEnvelopingHomogeneousInclusion (fun i => ↑↑i) (i, j)) x +
+        (E.cutEnvelopingHomogeneousInclusion (fun i => ↑↑i) (i, j)) y) =
+    0

@@ -1,0 +1,112 @@
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:25:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  biproduct.map ?p ≫ biproduct.π ?m.151 ?j
+in the target expression
+  F.map (biproduct.map f) ≫ (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j =
+    (biproduct.lift fun j => F.map (biproduct.π X j)) ≫
+      (biproduct.map fun j => F.map (f j)) ≫
+        (F.mapBiproduct Y).inv ≫ (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j
+
+case w
+C : Type u
+inst✝⁹ : Category.{v, u} C
+inst✝⁸ : Abelian C
+J : Type
+inst✝⁷ : Fintype J
+D : Type u_1
+inst✝⁶ : Category.{u_2, u_1} D
+inst✝⁵ : Preadditive D
+F : C ⥤ D
+inst✝⁴ : F.Additive
+X Y : J → C
+inst✝³ : HasBiproduct X
+inst✝² : HasBiproduct Y
+inst✝¹ : PreservesBiproduct X F
+inst✝ : PreservesBiproduct Y F
+f : (j : J) → X j ⟶ Y j
+j : J
+⊢ F.map (biproduct.map f) ≫ (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j =
+    (biproduct.lift fun j => F.map (biproduct.π X j)) ≫
+      (biproduct.map fun j => F.map (f j)) ≫
+        (F.mapBiproduct Y).inv ≫ (biproduct.lift fun j => F.map (biproduct.π Y j)) ≫ biproduct.π (F.obj ∘ Y) j
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:23:28: warning: This simp argument is unused:
+  Iso.inv_hom_id_assoc
+
+Hint: Omit it from the simp argument list.
+  simp only [̵C̵a̵t̵e̵g̵o̵r̵y̵.̵a̵s̵s̵o̵c̵,̵I̵s̵o̵.̵i̵n̵v̵_̵h̵o̵m̵_̵i̵d̵_̵a̵s̵s̵o̵c̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵π̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵u̵n̵c̵t̵o̵r̵.̵m̵a̵p̵B̵i̵p̵r̵o̵d̵u̵c̵t̵_̵h̵o̵m̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵l̵i̵f̵t̵_̵π̵,̵←̵[̲C̲a̲t̲e̲g̲o̲r̲y̲.̲a̲s̲s̲o̲c̲,̲ ̲b̲i̲p̲r̲o̲d̲u̲c̲t̲.̲m̲a̲p̲_̲π̲,̲ ̲F̲u̲n̲c̲t̲o̲r̲.̲m̲a̲p̲B̲i̲p̲r̲o̲d̲u̲c̲t̲_̲h̲o̲m̲,̲ ̲b̲i̲p̲r̲o̲d̲u̲c̲t̲.̲l̲i̲f̲t̲_̲π̲,̲
+  ̲ ̲ ̲ ̲ ̲←̲ F.map_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:23:49: warning: This simp argument is unused:
+  biproduct.map_π
+
+Hint: Omit it from the simp argument list.
+  simp only [̵C̵a̵t̵e̵g̵o̵r̵y̵.̵a̵s̵s̵o̵c̵,̵I̵s̵o̵.̵i̵n̵v̵_̵h̵o̵m̵_̵i̵d̵_̵a̵s̵s̵o̵c̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵π̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵u̵n̵c̵t̵o̵r̵.̵m̵a̵p̵B̵i̵p̵r̵o̵d̵u̵c̵t̵_̵h̵o̵m̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵l̵i̵f̵t̵_̵π̵,̵←̵[̲C̲a̲t̲e̲g̲o̲r̲y̲.̲a̲s̲s̲o̲c̲,̲ ̲I̲s̲o̲.̲i̲n̲v̲_̲h̲o̲m̲_̲i̲d̲_̲a̲s̲s̲o̲c̲,̲ ̲F̲u̲n̲c̲t̲o̲r̲.̲m̲a̲p̲B̲i̲p̲r̲o̲d̲u̲c̲t̲_̲h̲o̲m̲,̲ ̲b̲i̲p̲r̲o̲d̲u̲c̲t̲.̲l̲i̲f̲t̲_̲π̲,̲
+  ̲ ̲ ̲ ̲ ̲←̲ F.map_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:24:29: warning: This simp argument is unused:
+  biproduct.lift_π
+
+Hint: Omit it from the simp argument list.
+  simp only [̵C̵a̵t̵e̵g̵o̵r̵y̵.̵a̵s̵s̵o̵c̵,̵I̵s̵o̵.̵i̵n̵v̵_̵h̵o̵m̵_̵i̵d̵_̵a̵s̵s̵o̵c̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵π̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵u̵n̵c̵t̵o̵r̵.̵m̵a̵p̵B̵i̵p̵r̵o̵d̵u̵c̵t̵_̵h̵o̵m̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵l̵i̵f̵t̵_̵π̵,̵←̵[̲C̲a̲t̲e̲g̲o̲r̲y̲.̲a̲s̲s̲o̲c̲,̲ ̲I̲s̲o̲.̲i̲n̲v̲_̲h̲o̲m̲_̲i̲d̲_̲a̲s̲s̲o̲c̲,̲ ̲b̲i̲p̲r̲o̲d̲u̲c̲t̲.̲m̲a̲p̲_̲π̲,̲ ̲F̲u̲n̲c̲t̲o̲r̲.̲m̲a̲p̲B̲i̲p̲r̲o̲d̲u̲c̲t̲_̲h̲o̲m̲,̲
+  ̲ ̲ ̲ ̲ ̲←̲ F.map_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:24:46: warning: This simp argument is unused:
+  ← F.map_comp
+
+Hint: Omit it from the simp argument list.
+  simp only [̵C̵a̵t̵e̵g̵o̵r̵y̵.̵a̵s̵s̵o̵c̵,̵I̵s̵o̵.̵i̵n̵v̵_̵h̵o̵m̵_̵i̵d̵_̵a̵s̵s̵o̵c̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵m̵a̵p̵_̵π̵,̵
+  ̵ ̵ ̵ ̵ ̵F̵u̵n̵c̵t̵o̵r̵.̵m̵a̵p̵B̵i̵p̵r̵o̵d̵u̵c̵t̵_̵h̵o̵m̵,̵b̵i̵p̵r̵o̵d̵u̵c̵t̵.̵l̵i̵f̵t̵_̵π̵,̵←̵ ̵F̵.̵m̵a̵p̵_̵c̵o̵m̵p̵]̵[̲C̲a̲t̲e̲g̲o̲r̲y̲.̲a̲s̲s̲o̲c̲,̲ ̲I̲s̲o̲.̲i̲n̲v̲_̲h̲o̲m̲_̲i̲d̲_̲a̲s̲s̲o̲c̲,̲ ̲b̲i̲p̲r̲o̲d̲u̲c̲t̲.̲m̲a̲p̲_̲π̲,̲ ̲F̲u̲n̲c̲t̲o̲r̲.̲m̲a̲p̲B̲i̲p̲r̲o̲d̲u̲c̲t̲_̲h̲o̲m̲,̲
+  ̲ ̲ ̲ ̲ ̲b̲i̲p̲r̲o̲d̲u̲c̲t̲.̲l̲i̲f̲t̲_̲π̲]̲
+
+Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:28:31: error(lean.unknownIdentifier): Unknown constant `HomologicalComplex.QuasiIso`
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:44:66: error: failed to synthesize
+  HasBiproduct X
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:45:13: error: failed to synthesize
+  HasBiproduct fun j => (P j).complex
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:50:7: error: failed to synthesize
+  HasBiproduct fun j => (P j).complex
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:50:43: error: failed to synthesize
+  HasBiproduct X
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:47:13: error: failed to synthesize
+  HasBiproduct fun j => (P j).complex
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:49:36: error: unsolved goals
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+J : Type
+inst✝ : Fintype J
+X : J → C
+P : (j : J) → ProjectiveResolution (X j)
+n : ℕ
+e : (HomologicalComplex.eval C (ComplexShape.down ℕ) n).obj (⨁ fun j => (P j).complex) ≅
+  ⨁ (HomologicalComplex.eval C (ComplexShape.down ℕ) n).obj ∘ fun j => (P j).complex :=
+  sorry
+⊢ Projective ?m.98
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:52:12: error(lean.unknownIdentifier): Unknown identifier `finiteBiproduct_quasiIso`
+work/ASGinzburgDraft/FiniteBiproductProjectiveResolution.lean:51:14: error: unsolved goals
+C : Type u
+inst✝² : Category.{v, u} C
+inst✝¹ : Abelian C
+J : Type
+inst✝ : Fintype J
+X : J → C
+P : (j : J) → ProjectiveResolution (X j)
+⊢ QuasiIso (sorry ≫ sorry)

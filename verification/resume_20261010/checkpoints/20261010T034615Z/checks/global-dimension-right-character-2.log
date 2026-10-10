@@ -1,0 +1,19 @@
+work/ASGinzburgDraft/OneDimensionalRightRepresentationCharacter.lean:40:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?e ((MulOpposite.unop (?ρ ?r)) ?x)
+in the target expression
+  e ((MulOpposite.unop (ρ s) * MulOpposite.unop (ρ r)) (e.symm 1)) =
+    oneDimensionalRightRepresentationValue ρ e r * oneDimensionalRightRepresentationValue ρ e s
+
+k : Type u
+inst✝⁴ : Field k
+R : Type w
+inst✝³ : Ring R
+inst✝² : Algebra k R
+V : Type v
+inst✝¹ : AddCommGroup V
+inst✝ : Module k V
+ρ : R →ₐ[k] (Module.End k V)ᵐᵒᵖ
+e : V ≃ₗ[k] k
+r s : R
+⊢ e ((MulOpposite.unop (ρ s) * MulOpposite.unop (ρ r)) (e.symm 1)) =
+    oneDimensionalRightRepresentationValue ρ e r * oneDimensionalRightRepresentationValue ρ e s

@@ -1,0 +1,57 @@
+import work.ASGinzburgDraft.BalancedTensorEnvelopingFunctorComparison
+import work.ASGinzburgDraft.AlgebraEnvelopingTensorRestriction
+
+/-! Naturality of the bundled enveloping balancing isomorphism uses
+genuine right-enveloping-linear tensor maps in both ordinary variables. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable {M M' : ModuleCat.{max v w} Rᵐᵒᵖ} {N N' : ModuleCat.{max v z} R}
+
+attribute [local instance] tensorRightEnvelopingModule tensorRightEnvelopingScalarTower
+  regularEnvelopingModule regularEnvelopingScalarTower
+
+theorem balancedTensorEnvelopingModuleIso_naturality (f : M ⟶ M') (g : N ⟶ N') :
+    (balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+        (ModuleCat.ofHom (tensorRightEnvelopingMap k R f.hom g.hom)) ≫
+      (balancedTensorEnvelopingModuleIso k R M' N').hom =
+    (balancedTensorEnvelopingModuleIso k R M N).hom ≫
+      ((balancedTensorBifunctor k R).obj M).map g ≫
+        ((balancedTensorBifunctor k R).map f).app N' := by
+  apply ModuleCat.hom_ext
+  apply balancedTensorSpace_linearMap_ext k (AlgebraEnvelopingRing k R)
+    (((tensorRightEnvelopingBifunctor k R).obj M).obj N) R
+  intro x r
+  let e := tensorRightEnvelopingRestrictScalarsIso k R M N
+  let t : (M ⊗[k] N) →ₗ[k]
+      (((tensorRightEnvelopingBifunctor k R).obj M).obj N) := e.inv.hom
+  have h :
+      (ModuleCat.Hom.hom
+        ((balancedTensorLeftFunctor k (AlgebraEnvelopingRing k R) R).map
+          (ModuleCat.ofHom (tensorRightEnvelopingMap k R f.hom g.hom)) ≫
+            (balancedTensorEnvelopingModuleIso k R M' N').hom)).comp
+          (((balancedTensorBilinear k (AlgebraEnvelopingRing k R)
+            (((tensorRightEnvelopingBifunctor k R).obj M).obj N) R).flip r).comp t) =
+      (ModuleCat.Hom.hom
+        ((balancedTensorEnvelopingModuleIso k R M N).hom ≫
+          ((balancedTensorBifunctor k R).obj M).map g ≫
+            ((balancedTensorBifunctor k R).map f).app N')).comp
+          (((balancedTensorBilinear k (AlgebraEnvelopingRing k R)
+            (((tensorRightEnvelopingBifunctor k R).obj M).obj N) R).flip r).comp t) := by
+    apply TensorProduct.ext' (R := k)
+    intro m n
+    have ht : t (m ⊗ₜ[k] n) = m ⊗ₜ[k] n := rfl
+    simp only [LinearMap.comp_apply, ModuleCat.hom_comp]
+    dsimp only [balancedTensorLeftFunctor, balancedTensorRightFunctor,
+      balancedTensorBifunctor, ModuleCat.ofHom]
+    simp only [ModuleCat.hom_ofHom, LinearMap.comp_apply, LinearMap.flip_apply, ht]
+    rw [balancedTensorMapLeft_tmul,
+      tensorRightEnvelopingMap_tmul k R f.hom g.hom m n,
+      balancedTensorEnvelopingModuleIso_hom_tmul,
+      balancedTensorEnvelopingModuleIso_hom_tmul,
+      balancedTensorMapRight_tmul, balancedTensorMapLeft_tmul, g.hom.map_smul]
+  exact DFunLike.congr_fun h x
+
+end ASGinzburg

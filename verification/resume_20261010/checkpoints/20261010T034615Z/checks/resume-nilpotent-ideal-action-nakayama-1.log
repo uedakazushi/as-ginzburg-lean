@@ -1,0 +1,21 @@
+work/ASGinzburgDraft/NilpotentIdealActionNakayama.lean:18:2: error: Unnecessary `generalizing` argument: Variable `hn` is generalized automatically
+work/ASGinzburgDraft/NilpotentIdealActionNakayama.lean:46:70: error: No goals to be solved
+work/ASGinzburgDraft/NilpotentIdealActionNakayama.lean:46:19: error: unsolved goals
+k : Type u
+inst✝⁵ : Field k
+R : Type v
+inst✝⁴ : Ring R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module R M
+inst✝ : SMulCommClass k R M
+I : Ideal R
+n : ℕ
+hn : I ^ n = ⊥
+hI : Submodule.span k {y | ∃ r ∈ I, ∃ x, r • x = y} = ⊤
+r : R
+hr : r ∈ I ^ n
+x : M
+hr0 : r = 0
+⊢ r • x = 0

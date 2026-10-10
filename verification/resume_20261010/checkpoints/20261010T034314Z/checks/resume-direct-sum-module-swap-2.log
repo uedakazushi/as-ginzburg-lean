@@ -1,0 +1,41 @@
+work/ASGinzburgDraft/DirectSumModuleSwap.lean:25:2: error: Tactic `rfl` failed: The left-hand side
+  DFunLike.coe.{max (max (v + 1) (w + 1)) (z + 1), max (max (v + 1) (w + 1)) (z + 1), max (max (v + 1) (w + 1)) (z + 1)}
+    (DirectSum.toModule k ι (⨁ (q : κ) (i : ι), M i q) fun i =>
+      DirectSum.toModule k κ (⨁ (q : κ) (i : ι), M i q) fun q =>
+        DirectSum.lof k κ (fun q => ⨁ (i : ι), M i q) q ∘ₗ DirectSum.lof k ι (fun i => M i q) i)
+    ((DirectSum.of (fun i => ⨁ (q : κ), M i q) i) ((DirectSum.of (M i) q) x))
+is not definitionally equal to the right-hand side
+  DFunLike.coe.{max (w + 1) ((max v z) + 1), (max v z) + 1, max (w + 1) ((max v z) + 1)}
+    (DirectSum.of (fun i => ⨁ (i_1 : ι), M i_1 i) q) ((DirectSum.of (fun i => M i q) i) x)
+
+k : Type u
+inst✝⁴ : Field k
+ι : Type v
+κ : Type w
+inst✝³ : DecidableEq ι
+inst✝² : DecidableEq κ
+M : ι → κ → Type z
+inst✝¹ : (i : ι) → (q : κ) → AddCommGroup (M i q)
+inst✝ : (i : ι) → (q : κ) → Module k (M i q)
+i : ι
+q : κ
+x : M i q
+⊢ (DirectSum.toModule k ι (⨁ (q : κ) (i : ι), M i q) fun i =>
+        DirectSum.toModule k κ (⨁ (q : κ) (i : ι), M i q) fun q =>
+          DirectSum.lof k κ (fun q => ⨁ (i : ι), M i q) q ∘ₗ DirectSum.lof k ι (fun i => M i q) i)
+      ((DirectSum.of (fun i => ⨁ (q : κ), M i q) i) ((DirectSum.of (M i) q) x)) =
+    (DirectSum.of (fun i => ⨁ (i_1 : ι), M i_1 i) q) ((DirectSum.of (fun i => M i q) i) x)
+work/ASGinzburgDraft/DirectSumModuleSwap.lean:24:37: warning: This simp argument is unused:
+  DirectSum.toModule_lof
+
+Hint: Omit it from the simp argument list.
+  simp only [directSumModuleSwapMap, D̵i̵r̵e̵c̵t̵S̵u̵m̵.̵t̵o̵M̵o̵d̵u̵l̵e̵_̵l̵o̵f̵,̵ ̵LinearMap.comp_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/DirectSumModuleSwap.lean:24:61: warning: This simp argument is unused:
+  LinearMap.comp_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [directSumModuleSwapMap, DirectSum.toModule_lof,̵ ̵L̵i̵n̵e̵a̵r̵M̵a̵p̵.̵c̵o̵m̵p̵_̵a̵p̵p̵l̵y̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

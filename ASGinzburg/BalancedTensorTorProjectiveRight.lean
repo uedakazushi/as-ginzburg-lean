@@ -1,0 +1,31 @@
+import ASGinzburg.BalancedTensorProjectiveExactness
+import ASGinzburg.BalancedTensorTor
+
+/-! The genuine left-derived balanced tensor functors vanish in positive
+degrees when their right module is projective. This follows by applying the
+proven exact tensor functor to an actual projective resolution of the left module. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Limits
+open scoped ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M] [Module.Projective Rᵐᵒᵖ M]
+
+theorem balancedTensorRight_projective_resolution_exactAt
+    (N : ModuleCat.{max v w z} R) (Q : ProjectiveResolution N) (n : ℕ) :
+    (((balancedTensorRightFunctor.{u,v,w,max v w z} k R M).mapHomologicalComplex
+      (ComplexShape.down ℕ)).obj Q.complex).ExactAt (n+1) := by
+  letI := balancedTensorRightFunctorPreservesHomology.{u,v,w,max v z} k R M
+  exact (Q.complex_exactAt_succ n).map
+    (balancedTensorRightFunctor.{u,v,w,max v w z} k R M)
+
+theorem balancedTensorTor_projective_right_succ (n : ℕ)
+    (N : ModuleCat.{max v w z} R) :
+    IsZero ((balancedTensorTorFunctor.{u,v,w,z} k R M (n+1)).obj N) := by
+  let Q := projectiveResolution N
+  exact IsZero.of_iso
+    ((balancedTensorRight_projective_resolution_exactAt k R M N Q n).isZero_homology)
+    (balancedTensorTorResolutionIso k R M N Q (n+1))
+
+end ASGinzburg

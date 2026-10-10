@@ -1,0 +1,56 @@
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomEquiv.lean:37:6: error: unsolved goals
+case refine_1
+k : Type u
+inst✝¹⁴ : Field k
+R : Type v
+inst✝¹³ : Ring R
+inst✝¹² : Algebra k R
+M : Type w
+inst✝¹¹ : AddCommGroup M
+inst✝¹⁰ : Module k M
+inst✝⁹ : Module Rᵐᵒᵖ M
+inst✝⁸ : IsScalarTower k Rᵐᵒᵖ M
+P : Type z
+inst✝⁷ : AddCommGroup P
+inst✝⁶ : Module k P
+inst✝⁵ : Module (AlgebraEnvelopingRing k R) P
+inst✝⁴ : IsScalarTower k (AlgebraEnvelopingRing k R) P
+X : Type z'
+inst✝³ : AddCommGroup X
+inst✝² : Module k X
+inst✝¹ : Module Rᵐᵒᵖ X
+inst✝ : IsScalarTower k Rᵐᵒᵖ X
+this✝⁴ : Module R P := envelopingLeftModule k R P
+this✝³ : IsScalarTower k R P := envelopingLeftScalarTower k R P
+this✝² : Module Rᵐᵒᵖ P := envelopingRightModule k R P
+this✝¹ : Module Rᵐᵒᵖ (EnvelopingBalancedTensorSpace k R M P) := envelopingBalancedTensorRightModule k R M P
+this✝ : IsScalarTower k Rᵐᵒᵖ (EnvelopingBalancedTensorSpace k R M P) := envelopingBalancedTensorRightScalarTower k R M P
+this : Module (AlgebraEnvelopingRing k R) (BalancedTensorHom k R M X) := envelopingBalancedTensorHomModule k R M X
+f : EnvelopingBalancedTensorSpace k R M P →ₗ[Rᵐᵒᵖ] X
+g : P →ₗ[R] BalancedTensorHom k R M X := balancedTensorCurry k R M P X (↑k f)
+t : AlgebraEnvelopingRing k R
+p : P
+x : M
+⊢ (g (0 • p)) x = (0 • g p) x
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomEquiv.lean:37:19: warning: This simp argument is unused:
+  zero_smul
+
+Hint: Omit it from the simp argument list.
+  simp only [̵z̵e̵r̵o̵_̵s̵m̵u̵l̵,̵m̵a̵p̵_̵z̵e̵r̵o̵,̵b̵a̵l̵a̵n̵c̵e̵d̵T̵e̵n̵s̵o̵r̵H̵o̵m̵_̵z̵e̵r̵o̵_̵a̵p̵p̵l̵y̵]̵[̲m̲a̲p̲_̲z̲e̲r̲o̲,̲ ̲b̲a̲l̲a̲n̲c̲e̲d̲T̲e̲n̲s̲o̲r̲H̲o̲m̲_̲z̲e̲r̲o̲_̲a̲p̲p̲l̲y̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomEquiv.lean:37:38: warning: This simp argument is unused:
+  balancedTensorHom_zero_apply
+
+Hint: Omit it from the simp argument list.
+  simp only [̵z̵e̵r̵o̵_̵s̵m̵u̵l̵,̵m̵a̵p̵_̵z̵e̵r̵o̵,̵b̵a̵l̵a̵n̵c̵e̵d̵T̵e̵n̵s̵o̵r̵H̵o̵m̵_̵z̵e̵r̵o̵_̵a̵p̵p̵l̵y̵]̵[̲z̲e̲r̲o̲_̲s̲m̲u̲l̲,̲ ̲m̲a̲p̲_̲z̲e̲r̲o̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomEquiv.lean:54:11: error: failed to synthesize
+  Module R P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+work/ASGinzburgDraft/EnvelopingBalancedTensorHomEquiv.lean:117:51: error: failed to synthesize
+  Module R P
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

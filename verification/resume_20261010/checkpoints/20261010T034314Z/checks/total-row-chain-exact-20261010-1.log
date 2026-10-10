@@ -1,0 +1,12 @@
+work/ASGinzburgDraft/ChainComplexModuleExactness.lean:13:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ExactAt K ?m.70
+in the target expression
+  ExactAt K n ↔
+    ∀ (x : ↑(K.X n)), (ConcreteCategory.hom (K.d n (n - 1))) x = 0 → ∃ y, (ConcreteCategory.hom (K.d (n + 1) n)) y = x
+
+k : Type u
+inst✝ : Ring k
+K : ChainComplex (ModuleCat k) ℕ
+n : ℕ
+⊢ ExactAt K n ↔
+    ∀ (x : ↑(K.X n)), (ConcreteCategory.hom (K.d n (n - 1))) x = 0 → ∃ y, (ConcreteCategory.hom (K.d (n + 1) n)) y = x

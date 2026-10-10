@@ -1,0 +1,35 @@
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:120:19: error: Type mismatch
+  bicomplexTotalFunctorXIso_inv_comm G K c j j'
+has type
+  ((bicomplexMapFunctor G K).total c).d j j' ≫ (bicomplexTotalFunctorXIso G K c j').inv =
+    (bicomplexTotalFunctorXIso G K c j).inv ≫ G.map ((K.total c).d j j')
+but is expected to have type
+  ((fun j => (bicomplexTotalFunctorXIso G K c j).symm) j).hom ≫ ((G.mapHomologicalComplex c).obj (K.total c)).d j j' =
+    ((bicomplexMapFunctor G K).total c).d j j' ≫ ((fun j => (bicomplexTotalFunctorXIso G K c j).symm) j').hom
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:122:0: error: Not a definitional equality: the left-hand side
+  (bicomplexTotalFunctorIso G K c).inv.f j
+is not definitionally equal to the right-hand side
+  (bicomplexTotalFunctorXIso G K c j).inv
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:124:49: error: Type mismatch
+  rfl
+has type
+  ?m.100 = ?m.100
+but is expected to have type
+  (bicomplexTotalFunctorIso G K c).inv.f j = (bicomplexTotalFunctorXIso G K c j).inv
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:126:0: error: Not a definitional equality: the left-hand side
+  (bicomplexTotalFunctorIso G K c).hom.f j
+is not definitionally equal to the right-hand side
+  (bicomplexTotalFunctorXIso G K c j).hom
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:128:49: error: Type mismatch
+  rfl
+has type
+  ?m.100 = ?m.100
+but is expected to have type
+  (bicomplexTotalFunctorIso G K c).hom.f j = (bicomplexTotalFunctorXIso G K c j).hom
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:136:2: error: Type mismatch
+  ι_bicomplexTotalFunctorXIso_inv G K c i₁ i₂ j h
+has type
+  (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫ (bicomplexTotalFunctorXIso G K c j).inv = G.map (K.ιTotal c i₁ i₂ j h)
+but is expected to have type
+  (bicomplexMapFunctor G K).ιTotal c i₁ i₂ j h ≫ (bicomplexTotalFunctorIso G K c).inv.f j = G.map (K.ιTotal c i₁ i₂ j h)
+work/ASGinzburgDraft/BicomplexTotalFunctor.lean:130:2: warning: declaration uses 'sorry'

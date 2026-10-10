@@ -1,0 +1,79 @@
+import work.ASGinzburgDraft.EnvelopingBalancedTensorHom
+import Mathlib.Algebra.Module.Projective
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+
+/-! Right-module surjections remain surjective under the actual
+enveloping-valued Hom functor, using the vector-space basis of M. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v w z z'
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+variable (M : Type w) [AddCommGroup M] [Module k M] [Module Rᵐᵒᵖ M]
+variable [IsScalarTower k Rᵐᵒᵖ M]
+variable {X : Type z} [AddCommGroup X] [Module k X] [Module Rᵐᵒᵖ X]
+variable [IsScalarTower k Rᵐᵒᵖ X]
+variable {Y : Type z'} [AddCommGroup Y] [Module k Y] [Module Rᵐᵒᵖ Y]
+variable [IsScalarTower k Rᵐᵒᵖ Y]
+
+noncomputable def envelopingBalancedTensorHomMap (f : X →ₗ[Rᵐᵒᵖ] Y) :
+    letI := envelopingBalancedTensorHomModule k R M X
+    letI := envelopingBalancedTensorHomModule k R M Y
+    BalancedTensorHom k R M X →ₗ[AlgebraEnvelopingRing k R] BalancedTensorHom k R M Y := by
+  letI := envelopingBalancedTensorHomModule k R M X
+  letI := envelopingBalancedTensorHomModule k R M Y
+  let fk := f.restrictScalars k
+  exact {
+    toFun := fun g => fk.comp (balancedTensorHomLinearEquiv k R M X g)
+    map_add' := fun g h => by
+      apply balancedTensorHom_ext k R M Y
+      intro x
+      exact f.map_add (g x) (h x)
+    map_smul' := fun t g => by
+      apply balancedTensorHom_ext k R M Y
+      intro x
+      refine TensorProduct.induction_on t ?_ ?_ ?_
+      · change f (((0 : AlgebraEnvelopingRing k R) • g) x)=
+          ((0 : AlgebraEnvelopingRing k R) • (show BalancedTensorHom k R M Y from
+            fk.comp (balancedTensorHomLinearEquiv k R M X g))) x
+        have hX : (0 : AlgebraEnvelopingRing k R) • g=0 :=
+          (envelopingBalancedTensorHomModule k R M X).zero_smul g
+        have hY : (0 : AlgebraEnvelopingRing k R) •
+            (show BalancedTensorHom k R M Y from fk.comp
+              (balancedTensorHomLinearEquiv k R M X g))=0 :=
+          (envelopingBalancedTensorHomModule k R M Y).zero_smul _
+        have hx := congrArg (fun h : BalancedTensorHom k R M X => h x) hX
+        have hy := congrArg (fun h : BalancedTensorHom k R M Y => h x) hY
+        exact (congrArg f hx).trans (f.map_zero.trans hy.symm)
+      · intro a b
+        change f (((a ⊗ₜ[k] b) • g) x)=
+          ((a ⊗ₜ[k] b) • (show BalancedTensorHom k R M Y from
+            fk.comp (balancedTensorHomLinearEquiv k R M X g))) x
+        rw [envelopingBalancedTensorHomModule_tmul_apply,
+          envelopingBalancedTensorHomModule_tmul_apply]
+        exact f.map_smul b (g (MulOpposite.op a • x))
+      · intro a b ha hb
+        change f ((a • g) x)=(a • (show BalancedTensorHom k R M Y from
+          fk.comp (balancedTensorHomLinearEquiv k R M X g))) x at ha
+        change f ((b • g) x)=(b • (show BalancedTensorHom k R M Y from
+          fk.comp (balancedTensorHomLinearEquiv k R M X g))) x at hb
+        change f (((a+b) • g) x)=
+          ((a+b) • (show BalancedTensorHom k R M Y from
+            fk.comp (balancedTensorHomLinearEquiv k R M X g))) x
+        simp only [add_smul,balancedTensorHom_add_apply,f.map_add,ha,hb]}
+
+theorem envelopingBalancedTensorHomMap_apply (f : X →ₗ[Rᵐᵒᵖ] Y)
+    (g : BalancedTensorHom k R M X) (x : M) :
+    envelopingBalancedTensorHomMap k R M f g x=f (g x) := rfl
+
+theorem envelopingBalancedTensorHomMap_surjective (f : X →ₗ[Rᵐᵒᵖ] Y)
+    (hf : Function.Surjective f) :
+    Function.Surjective (envelopingBalancedTensorHomMap k R M f) := by
+  intro g
+  obtain ⟨h,hh⟩ := Module.projective_lifting_property (f.restrictScalars k)
+    (balancedTensorHomLinearEquiv k R M Y g) hf
+  refine ⟨(balancedTensorHomLinearEquiv k R M X).symm h,?_⟩
+  apply balancedTensorHom_ext k R M Y
+  intro x
+  exact congrArg (fun e : M →ₗ[k] Y => e x) hh
+
+end ASGinzburg

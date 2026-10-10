@@ -1,0 +1,14 @@
+work/ASGinzburgDraft/PeriodCutRadicalProjection.lean:14:81: error: unsolved goals
+case a
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+E : A.PeriodIso ↑Q.vertices
+x : Q.LiftVertex
+a : ↥(CornerCoverHom Q E x x)
+ha : ↑a ∈ cutGradedJacobson Q E
+f : E.CutGradedHom 0 ↑↑x.1 ↑↑x.1
+hf : (E.cutHomogeneousComponentLinear (fun t => ↑↑t) 0 x.1 x.1) f = ↑a
+hd : f = 0
+⊢ 0 = ↑0

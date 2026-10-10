@@ -1,0 +1,42 @@
+import work.ASGinzburgDraft.PeriodCutEnvelopingBigrading
+import Mathlib.Logic.Equiv.Sum
+
+/-! Regroup the genuine ordinary enveloping bigrading by total degree.
+This is an actual direct-sum decomposition, with finitely many degree
+pairs in every fixed total degree. -/
+namespace ASGinzburg.ZAlgebra.PeriodIso
+open scoped TensorProduct DirectSum
+universe u v w
+variable {k : Type u} [Field k] {A : ZAlgebra.{u,v} k} {p : ℤ}
+variable (E : A.PeriodIso p) {ι : Type w} [Fintype ι] (vertex : ι → ℤ)
+
+abbrev CutEnvelopingDegreePairs (n : ℕ) := {d : ℕ × ℕ // d.1 + d.2 = n}
+
+abbrev CutEnvelopingDegreeBlock (n : ℕ) :=
+  ⨁ d : CutEnvelopingDegreePairs n, E.CutEnvelopingBlock vertex d.val
+
+noncomputable def cutEnvelopingDegreeEquiv :
+    AlgebraEnvelopingRing k (E.CutGradedRing vertex) ≃ₗ[k]
+      ⨁ n : ℕ, E.CutEnvelopingDegreeBlock vertex n :=
+  (E.cutEnvelopingBigradingEquiv vertex).trans
+    ((DirectSum.lequivCongrLeft k (Equiv.sigmaFiberEquiv (fun d : ℕ × ℕ => d.1+d.2)).symm).trans
+      (DirectSum.sigmaLcurryEquiv k))
+
+theorem cutEnvelopingDegreeEquiv_apply
+    (x : AlgebraEnvelopingRing k (E.CutGradedRing vertex)) (n : ℕ)
+    (d : CutEnvelopingDegreePairs n) :
+    E.cutEnvelopingDegreeEquiv vertex x n d = E.cutEnvelopingBigradingEquiv vertex x d.val := rfl
+
+noncomputable def cutEnvelopingDegreeInclusion (n : ℕ) :
+    E.CutEnvelopingDegreeBlock vertex n →ₗ[k]
+      AlgebraEnvelopingRing k (E.CutGradedRing vertex) :=
+  (E.cutEnvelopingDegreeEquiv vertex).symm.toLinearMap.comp
+    (DirectSum.lof k ℕ (E.CutEnvelopingDegreeBlock vertex) n)
+
+theorem cutEnvelopingDegreeEquiv_inclusion (n : ℕ)
+    (x : E.CutEnvelopingDegreeBlock vertex n) :
+    E.cutEnvelopingDegreeEquiv vertex (E.cutEnvelopingDegreeInclusion vertex n x) =
+      DirectSum.lof k ℕ (E.CutEnvelopingDegreeBlock vertex) n x :=
+  (E.cutEnvelopingDegreeEquiv vertex).apply_symm_apply _
+
+end ASGinzburg.ZAlgebra.PeriodIso

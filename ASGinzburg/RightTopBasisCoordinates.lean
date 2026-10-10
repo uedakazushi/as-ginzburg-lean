@@ -1,0 +1,99 @@
+import ASGinzburg.RightTopBasisPresentation
+import ASGinzburg.RightSmallCoproductRadicals
+
+/-! Coordinates in a chosen basis of the actual top recover exactly
+the diagonal summand coefficients in the basis-of-top presentation. -/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem representable_component_mem_radical_of_ne (i l : ℤ) (h : l ≠ i)
+    (p : (A.rightModuleEvaluation i).obj (A.representable l)) :
+    p ∈ A.positiveActionSpan (A.representable l) i := by
+  rcases lt_or_gt_of_ne h with hl | hl
+  · have hp : p = 0 := A.positive hl p
+    rw [hp]
+    exact Submodule.zero_mem _
+  · rw [← A.representableRadical_eq_positiveActionSpan l i]
+    simp [representableRadical, hl]
+
+theorem rightTopBasisFreeModuleπ_coordinate (M : A.RightModule) (i : ℤ)
+    (j : Module.Free.ChooseBasisIndex k (A.RightModuleTopSpace M i))
+    (x : (A.rightModuleEvaluation i).obj (A.rightTopBasisFreeModule M)) :
+    (Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+      ((A.positiveActionSpan M i).mkQ
+        ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M) x)) j =
+      (A.scalarEndEquiv i).symm
+        ((A.rightSmallCoproductComponentIso
+          (fun g : A.rightTopBasisIndex M => A.representable g.1) i).hom.hom x ⟨i,j⟩) := by
+  classical
+  let g := fun g : A.rightTopBasisIndex M => A.representable g.1
+  let e := A.rightSmallCoproductComponentIso g i
+  obtain ⟨z,rfl⟩ := e.toLinearEquiv.symm.surjective x
+  induction z using DirectSum.induction_on with
+  | zero => simp
+  | add x y hx hy =>
+    simp only [map_add, Finsupp.add_apply, hx, hy]
+    change _ = (A.scalarEndEquiv i).symm
+      (((A.rightSmallCoproductComponentIso g i).hom.hom (e.toLinearEquiv.symm x)) ⟨i,j⟩ +
+        ((A.rightSmallCoproductComponentIso g i).hom.hom (e.toLinearEquiv.symm y)) ⟨i,j⟩)
+    rw [map_add]
+  | of a p =>
+    change (Module.Free.chooseBasis k (A.RightModuleTopSpace M i)).repr
+      ((A.positiveActionSpan M i).mkQ
+        ((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)
+          (e.inv.hom (DirectSum.lof k _ _ a p)))) j =
+      (A.scalarEndEquiv i).symm
+        ((e.hom.hom (e.inv.hom (DirectSum.lof k _ _ a p))) ⟨i,j⟩)
+    have hei : e.hom.hom (e.inv.hom (DirectSum.lof k _ _ a p)) =
+        DirectSum.lof k _ _ a p := e.toLinearEquiv.apply_symm_apply _
+    rw [hei]
+    rw [A.rightSmallCoproductComponentIso_lof_inv]
+    rcases a with ⟨l,j'⟩
+    by_cases hl : l=i
+    · subst l
+      let c := (A.scalarEndEquiv i).symm p
+      have hp : p = c • A.id i := (A.scalarEndEquiv i).apply_symm_apply p |>.symm
+      rw [hp, map_smul, map_smul, A.rightTopBasisFreeModuleπ_generator M ⟨i,j'⟩]
+      rw [map_smul, A.rightTopBasisLift_mkQ M ⟨i,j'⟩, map_smul]
+      rw [Module.Basis.repr_self]
+      change (c • Finsupp.single j' (1:k)) j = (A.scalarEndEquiv i).symm
+        (DFinsupp.single (β := fun a => (A.rightModuleEvaluation i).obj (g a))
+          ⟨i,j'⟩ (c • A.id i) ⟨i,j⟩)
+      by_cases h : j'=j
+      · subst j'
+        rw [Finsupp.smul_apply, Finsupp.single_eq_same, DFinsupp.single_eq_same,
+          smul_eq_mul, mul_one]
+        exact ((A.scalarEndEquiv i).symm_apply_apply c).symm
+      · have h' : (⟨i,j'⟩ : A.rightTopBasisIndex M) ≠ ⟨i,j⟩ := by
+          intro he
+          cases he
+          exact h rfl
+        change c • (Finsupp.single j' (1:k)) j = (A.scalarEndEquiv i).symm
+          (DFinsupp.single (β := fun a => (A.rightModuleEvaluation i).obj (g a))
+            ⟨i,j'⟩ (c • A.id i) ⟨i,j⟩)
+        simp only [Finsupp.single_eq_of_ne (Ne.symm h),
+          DFinsupp.single_eq_of_ne (Ne.symm h'), smul_zero, map_zero]
+    · have hpr : p ∈ A.positiveActionSpan (A.representable l) i :=
+        A.representable_component_mem_radical_of_ne i l hl p
+      have hpi := A.positiveActionSpan_map_mem
+        (Sigma.ι g ⟨l,j'⟩ ≫ A.rightTopBasisFreeModuleπ M) i hpr
+      change (A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)
+        ((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l,j'⟩) p) ∈
+          A.positiveActionSpan M i at hpi
+      have hzero : (A.positiveActionSpan M i).mkQ
+          (((A.rightModuleEvaluation i).map (A.rightTopBasisFreeModuleπ M)).hom
+            (((A.rightModuleEvaluation i).map (Sigma.ι g ⟨l,j'⟩)).hom p)) = 0 :=
+        (Submodule.Quotient.mk_eq_zero _).mpr hpi
+      have h' : (⟨l,j'⟩ : A.rightTopBasisIndex M) ≠ ⟨i,j⟩ := by
+        intro he
+        exact hl (congrArg Sigma.fst he)
+      rw [hzero, map_zero]
+      change 0 = (A.scalarEndEquiv i).symm
+        (DFinsupp.single (β := fun a => (A.rightModuleEvaluation i).obj (g a))
+          ⟨l,j'⟩ p ⟨i,j⟩)
+      simp only [DFinsupp.single_eq_of_ne (Ne.symm h'), map_zero]
+
+end ASGinzburg.ZAlgebra

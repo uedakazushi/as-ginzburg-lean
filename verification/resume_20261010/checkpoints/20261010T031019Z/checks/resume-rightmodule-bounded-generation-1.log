@@ -1,0 +1,91 @@
+work/ASGinzburgDraft/RightModuleBoundedGeneration.lean:48:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (ModuleCat.Hom.hom ((A.rightModuleEvaluation j).map f)) a'
+in the target expression
+  (ConcreteCategory.hom (f.app (op { index := i })))
+      ((ConcreteCategory.hom
+          (M.obj.map
+            (have this := r;
+              this).op))
+        a') =
+    (ConcreteCategory.hom
+        (N.obj.map
+          (have this := r;
+            this).op))
+      ((ConcreteCategory.hom (f.app (op { index := j }))) a')
+
+case neg.mem
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.RightModule
+f : M ⟶ N
+b : ℤ
+hb : ∀ (i : ℤ), b < i → IsZero ((A.rightModuleEvaluation i).obj N)
+hf : ∀ (i : ℤ), LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f)) ⊔ A.positiveActionSpan N i = ⊤
+n : ℕ
+ih :
+  ∀ (i : ℤ),
+    b + 1 - ↑n ≤ i →
+      ∀ (x : ↑((A.rightModuleEvaluation i).obj N)),
+        x ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+i : ℤ
+hi : b + 1 - ↑(n + 1) ≤ i
+hit : ¬b + 1 - ↑n ≤ i
+y : ↑((A.rightModuleEvaluation i).obj N)
+hy : y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+z : ↑((A.rightModuleEvaluation i).obj N)
+j : ℤ
+hij : i < j
+a : ↑((A.rightModuleEvaluation j).obj N)
+r : A.Hom i j
+hx :
+  y +
+      (ConcreteCategory.hom
+          (N.obj.map
+            (have this := r;
+              this).op))
+        a ∈
+    LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f)) ⊔ A.positiveActionSpan N i
+a' : ↑((A.rightModuleEvaluation j).obj M)
+ha' : (ModuleCat.Hom.hom ((A.rightModuleEvaluation j).map f)) a' = a
+hn :
+  (ConcreteCategory.hom (f.app (op { index := i })))
+      ((ConcreteCategory.hom
+          (M.obj.map
+            (have this := r;
+              this).op))
+        a') =
+    (ConcreteCategory.hom
+        (N.obj.map
+          (have this := r;
+            this).op))
+      ((ConcreteCategory.hom (f.app (op { index := j }))) a')
+⊢ (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+      ((ConcreteCategory.hom
+          (M.obj.map
+            (have this := r;
+              this).op))
+        a') =
+    (ConcreteCategory.hom
+        (N.obj.map
+          (have this := r;
+            this).op))
+      a
+work/ASGinzburgDraft/RightModuleBoundedGeneration.lean:51:61: error: Application type mismatch: The argument
+  ihy
+has type
+  y✝ + y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f)) ⊔ A.positiveActionSpan N i →
+    y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+but is expected to have type
+  y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+in the application
+  Submodule.add_mem (LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))) ihy
+work/ASGinzburgDraft/RightModuleBoundedGeneration.lean:52:58: error: Application type mismatch: The argument
+  ihy
+has type
+  y✝ + y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f)) ⊔ A.positiveActionSpan N i →
+    y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+but is expected to have type
+  y ∈ LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))
+in the application
+  Submodule.smul_mem (LinearMap.range (ModuleCat.Hom.hom ((A.rightModuleEvaluation i).map f))) c ihy

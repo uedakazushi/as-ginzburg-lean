@@ -1,0 +1,95 @@
+import ASGinzburg.AlgebraEnvelopingTensorRightMaps
+import Mathlib.Algebra.Category.ModuleCat.Basic
+import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
+
+/-! The tensor of an ordinary right module and an ordinary left module,
+with its actual right enveloping action, as an additive bifunctor. -/
+namespace ASGinzburg
+open CategoryTheory
+open scoped TensorProduct ModuleCat.Algebra
+universe u v w z
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+attribute [local instance] tensorRightEnvelopingModule
+
+noncomputable def tensorRightEnvelopingFunctor (M : ModuleCat.{w} Rᵐᵒᵖ) :
+    ModuleCat.{z} R ⥤ ModuleCat.{max w z} (AlgebraEnvelopingRing k R)ᵐᵒᵖ where
+  obj N := ModuleCat.of _ (M ⊗[k] N)
+  map f := ModuleCat.ofHom (tensorRightEnvelopingMap k R LinearMap.id f.hom)
+  map_id N := by
+    apply ModuleCat.hom_ext
+    exact tensorRightEnvelopingMap_id k R
+  map_comp f g := by
+    apply ModuleCat.hom_ext
+    exact tensorRightEnvelopingMap_comp k R LinearMap.id LinearMap.id f.hom g.hom
+
+instance tensorRightEnvelopingFunctor_additive (M : ModuleCat.{w} Rᵐᵒᵖ) :
+    (tensorRightEnvelopingFunctor k R (z := z) M).Additive where
+  map_add {X Y f g} := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change TensorProduct.map LinearMap.id ((f.hom + g.hom).restrictScalars k) x =
+      TensorProduct.map LinearMap.id (f.hom.restrictScalars k) x +
+        TensorProduct.map LinearMap.id (g.hom.restrictScalars k) x
+    rw [LinearMap.restrictScalars_add, TensorProduct.map_add_right]
+    rfl
+
+noncomputable def tensorRightEnvelopingBifunctor :
+    ModuleCat.{w} Rᵐᵒᵖ ⥤ ModuleCat.{z} R ⥤
+      ModuleCat.{max w z} (AlgebraEnvelopingRing k R)ᵐᵒᵖ where
+  obj := tensorRightEnvelopingFunctor k R
+  map f :=
+    { app N := ModuleCat.ofHom (tensorRightEnvelopingMap k R f.hom LinearMap.id)
+      naturality {N N'} g := by
+        apply ModuleCat.hom_ext
+        change (tensorRightEnvelopingMap k R f.hom LinearMap.id).comp
+            (tensorRightEnvelopingMap k R LinearMap.id g.hom) =
+          (tensorRightEnvelopingMap k R LinearMap.id g.hom).comp
+            (tensorRightEnvelopingMap k R f.hom LinearMap.id)
+        rw [← tensorRightEnvelopingMap_comp, ← tensorRightEnvelopingMap_comp]
+        rfl }
+  map_id M := by
+    apply NatTrans.ext
+    intro N
+    apply ModuleCat.hom_ext
+    exact tensorRightEnvelopingMap_id k R
+  map_comp f g := by
+    apply NatTrans.ext
+    intro N
+    apply ModuleCat.hom_ext
+    exact tensorRightEnvelopingMap_comp k R f.hom g.hom LinearMap.id LinearMap.id
+
+instance tensorRightEnvelopingBifunctor_obj_additive (M : ModuleCat.{w} Rᵐᵒᵖ) :
+    ((tensorRightEnvelopingBifunctor k R (z := z)).obj M).Additive :=
+  tensorRightEnvelopingFunctor_additive k R M
+
+instance tensorRightEnvelopingBifunctor_additive :
+    (tensorRightEnvelopingBifunctor k R (w := w) (z := z)).Additive where
+  map_add {X Y f g} := by
+    apply NatTrans.ext
+    intro N
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    change TensorProduct.map ((f.hom + g.hom).restrictScalars k) LinearMap.id x =
+      TensorProduct.map (f.hom.restrictScalars k) LinearMap.id x +
+        TensorProduct.map (g.hom.restrictScalars k) LinearMap.id x
+    rw [LinearMap.restrictScalars_add, TensorProduct.map_add_left]
+    rfl
+
+theorem tensorRightEnvelopingBifunctor_map_app_tmul
+    {M M' : ModuleCat.{w} Rᵐᵒᵖ} (f : M ⟶ M') (N : ModuleCat.{z} R)
+    (m : M) (n : N) :
+    ((tensorRightEnvelopingBifunctor k R).map f).app N (m ⊗ₜ[k] n) =
+      f m ⊗ₜ[k] n :=
+  tensorRightEnvelopingMap_tmul k R f.hom LinearMap.id m n
+
+theorem tensorRightEnvelopingBifunctor_obj_map_tmul
+    (M : ModuleCat.{w} Rᵐᵒᵖ) {N N' : ModuleCat.{z} R} (g : N ⟶ N')
+    (m : M) (n : N) :
+    ((tensorRightEnvelopingBifunctor k R).obj M).map g (m ⊗ₜ[k] n) =
+      m ⊗ₜ[k] g n :=
+  tensorRightEnvelopingMap_tmul k R LinearMap.id g.hom m n
+
+end ASGinzburg

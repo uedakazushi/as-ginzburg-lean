@@ -1,0 +1,33 @@
+work/ASGinzburgDraft/EnvelopingBalancedTensorResolution.lean:32:11: error: Invalid field `mapHomologicalComplex`: The environment does not contain `CategoryTheory.Iso.mapHomologicalComplex`
+  envelopingBalancedTensorForgetIso k R M
+has type
+  envelopingBalancedTensorRightFunctor k R M ⋙ ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ) ≅
+    envelopingLeftRestrictionFunctor k R ⋙ balancedTensorRightFunctor k R M
+work/ASGinzburgDraft/EnvelopingBalancedTensorResolution.lean:22:41: error: unsolved goals
+k : Type u
+inst✝⁶ : Field k
+R : Type v
+inst✝⁵ : Ring R
+inst✝⁴ : Algebra k R
+M : Type w
+inst✝³ : AddCommGroup M
+inst✝² : Module k M
+inst✝¹ : Module Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+Q : ProjectiveResolution (regularEnvelopingModuleCat k R)
+F : ModuleCat (AlgebraEnvelopingRing k R) ⥤ ModuleCat Rᵐᵒᵖ := envelopingBalancedTensorRightFunctor k R M
+H : ModuleCat Rᵐᵒᵖ ⥤ ModuleCat k := ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)
+L : ModuleCat (AlgebraEnvelopingRing k R) ⥤ ModuleCat R := envelopingLeftRestrictionFunctor k R
+G : ModuleCat R ⥤ ModuleCat k := balancedTensorRightFunctor k R M
+this✝ : (ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).PreservesHomology :=
+  moduleCatRestrictionPreservesHomology (algebraMap k Rᵐᵒᵖ)
+this : (ModuleCat.restrictScalars (algebraMap k Rᵐᵒᵖ)).ReflectsIsomorphisms :=
+  moduleCatRestrictionReflectsIsomorphisms (algebraMap k Rᵐᵒᵖ)
+⊢ QuasiIso (((F ⋙ H).mapHomologicalComplex (ComplexShape.down ℕ)).map Q.π)
+work/ASGinzburgDraft/EnvelopingBalancedTensorResolution.lean:50:18: error: Type mismatch
+  Functor.projective_obj_of_projective ?m.70 (Q.projective n)
+has type
+  Projective (Functor.obj ?m.70 (Q.complex.X n))
+but is expected to have type
+  Projective
+    ((((envelopingBalancedTensorRightFunctor k R M).mapHomologicalComplex (ComplexShape.down ℕ)).obj Q.complex).X n)

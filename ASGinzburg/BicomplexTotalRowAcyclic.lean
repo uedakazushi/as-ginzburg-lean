@@ -1,0 +1,147 @@
+import ASGinzburg.BicomplexTotalCoordinates
+import ASGinzburg.ChainComplexModuleExactness
+
+/-! Exact vertical rows imply exactness of the genuine first-quadrant total.
+The proof removes successive maximal horizontal coordinates of a cycle. -/
+namespace ASGinzburg
+open CategoryTheory CategoryTheory.Category CategoryTheory.Preadditive
+open HomologicalComplex HomologicalComplex₂
+
+universe u v
+variable {k : Type u} [Ring k]
+variable (K : HomologicalComplex₂ (ModuleCat.{v} k) (ComplexShape.down ℕ) (ComplexShape.down ℕ))
+
+theorem bicomplexTotal_eq_zero_of_projections (n : ℕ)
+    (x : (K.total (ComplexShape.down ℕ)).X n)
+    (hx : ∀ i j, bicomplexTotalProjection K n i j x = 0) : x = 0 := by
+  rw [← bicomplexTotal_decomposition_apply K n x]
+  apply Finset.sum_eq_zero
+  intro p hp
+  rw [hx p.1 p.2, map_zero]
+
+theorem bicomplexTotal_maximal_row_cycle (n i j : ℕ) (hij : i + j = n)
+    (x : (K.total (ComplexShape.down ℕ)).X n)
+    (hx : (K.total (ComplexShape.down ℕ)).d n (n - 1) x = 0)
+    (hs : ∀ a b, i < a → bicomplexTotalProjection K n a b x = 0) :
+    (K.X i).d j (j - 1) (bicomplexTotalProjection K n i j x) = 0 := by
+  subst n
+  cases j with
+  | zero =>
+      rw [(K.X i).shape 0 0 (by simp)]
+      rfl
+  | succ j =>
+      have hs' : bicomplexTotalProjection K (i + j + 1) (i + 1) j x = 0 := by
+        simpa only [Nat.add_assoc] using hs (i + 1) j (by omega)
+      have h := congrArg (fun f : (K.total (ComplexShape.down ℕ)).X (i + j + 1) ⟶
+        (K.X i).X j => f x) (bicomplexTotal_d_projection K i j)
+      change bicomplexTotalProjection K (i + j) i j
+          ((K.total (ComplexShape.down ℕ)).d (i + j + 1) (i + j) x) =
+        (K.d (i + 1) i).f j (bicomplexTotalProjection K (i + j + 1) (i + 1) j x) +
+          (-1 : ℤˣ) ^ i •
+            ((K.X i).d (j + 1) j (bicomplexTotalProjection K (i + j + 1) i (j + 1) x)) at h
+      rw [show (K.total (ComplexShape.down ℕ)).d (i + j + 1) (i + j) x = 0 by
+        simpa using hx, map_zero, hs', map_zero, zero_add] at h
+      simpa only [Nat.add_assoc, Nat.add_sub_cancel] using
+        (smul_eq_zero_iff_eq ((-1 : ℤˣ) ^ i)).mp h.symm
+
+theorem bicomplexTotal_insert_boundary_projection (n i j : ℕ) (hij : i + j = n)
+    (y : (K.X i).X (j + 1)) :
+    bicomplexTotalProjection K n i j
+        ((K.total (ComplexShape.down ℕ)).d (n + 1) n
+          (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) (by dsimp; omega) y)) =
+      ((-1 : ℤˣ) ^ i • (K.X i).d (j + 1) j) y := by
+  have h := bicomplexTotal_d_projection_apply K (n + 1) i j (by omega)
+    (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) (by dsimp; omega) y)
+  simpa only [Nat.add_sub_cancel, bicomplexTotal_projection_ι_apply,
+    bicomplexTotal_projection_ι_apply_ne K (n + 1) i (j + 1) (i + 1) j
+      (by omega) (Or.inl (by omega)), map_zero, zero_add] using h
+
+theorem bicomplexTotal_insert_boundary_projection_gt (n i j a b : ℕ)
+    (hij : i + j = n) (ha : i < a) (hab : a + b = n)
+    (y : (K.X i).X (j + 1)) :
+    bicomplexTotalProjection K n a b
+        ((K.total (ComplexShape.down ℕ)).d (n + 1) n
+          (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) (by dsimp; omega) y)) = 0 := by
+  have h := bicomplexTotal_d_projection_apply K (n + 1) a b (by omega)
+    (K.ιTotal (ComplexShape.down ℕ) i (j + 1) (n + 1) (by dsimp; omega) y)
+  simpa only [Nat.add_sub_cancel,
+    bicomplexTotal_projection_ι_apply_ne K (n + 1) i (j + 1) (a + 1) b
+      (by omega) (Or.inl (by omega)),
+    bicomplexTotal_projection_ι_apply_ne K (n + 1) i (j + 1) a (b + 1)
+      (by omega) (Or.inl (by omega)), map_zero, smul_zero, zero_add] using h
+
+theorem bicomplexTotal_cycle_boundary_of_support (n : ℕ)
+    (hrows : ∀ i j, i + j = n → (K.X i).ExactAt j) :
+    ∀ (m : ℕ), m ≤ n + 1 →
+      ∀ x : (K.total (ComplexShape.down ℕ)).X n,
+      (K.total (ComplexShape.down ℕ)).d n (n - 1) x = 0 →
+      (∀ i j, m ≤ i → bicomplexTotalProjection K n i j x = 0) →
+      ∃ y : (K.total (ComplexShape.down ℕ)).X (n + 1),
+        (K.total (ComplexShape.down ℕ)).d (n + 1) n y = x := by
+  intro m
+  induction m with
+  | zero =>
+      intro hm x hx hs
+      have hx0 : x = 0 := bicomplexTotal_eq_zero_of_projections K n x
+        (fun i j => hs i j (Nat.zero_le i))
+      exact ⟨0, by rw [map_zero, hx0]⟩
+  | succ m ih =>
+      intro hm x hx hs
+      have hm' : m ≤ n := by omega
+      let j := n - m
+      have hmj : m + j = n := Nat.add_sub_of_le hm'
+      have hrowcycle := bicomplexTotal_maximal_row_cycle K n m j hmj x hx
+        (fun a b ha => hs a b (by omega))
+      obtain ⟨y, hy⟩ := moduleChain_exists_signed_boundary (K.X m) j
+        (hrows m j hmj) (bicomplexTotalProjection K n m j x) hrowcycle ((-1 : ℤˣ) ^ m)
+      let b := K.ιTotal (ComplexShape.down ℕ) m (j + 1) (n + 1)
+        (by dsimp; omega) y
+      let x' := x - (K.total (ComplexShape.down ℕ)).d (n + 1) n b
+      have hx' : (K.total (ComplexShape.down ℕ)).d n (n - 1) x' = 0 := by
+        have hdd := congrArg (fun f : (K.total (ComplexShape.down ℕ)).X (n + 1) ⟶
+          (K.total (ComplexShape.down ℕ)).X (n - 1) => f b)
+          ((K.total (ComplexShape.down ℕ)).d_comp_d (n + 1) n (n - 1))
+        change (K.total (ComplexShape.down ℕ)).d n (n - 1)
+          ((K.total (ComplexShape.down ℕ)).d (n + 1) n b) = 0 at hdd
+        dsimp [x']
+        rw [map_sub, hx, hdd, sub_self]
+      have hs' : ∀ a c, m ≤ a → bicomplexTotalProjection K n a c x' = 0 := by
+        intro a c ha
+        by_cases hac : a + c = n
+        · by_cases ham : a = m
+          · subst a
+            have hcj : c = j := by omega
+            subst c
+            dsimp [x', b]
+            rw [map_sub, bicomplexTotal_insert_boundary_projection K n m j hmj y, hy,
+              sub_self]
+          · have hma : m < a := by omega
+            dsimp [x', b]
+            rw [map_sub, hs a c (by omega),
+              bicomplexTotal_insert_boundary_projection_gt K n m j a c hmj hma hac y,
+              sub_self]
+        · rw [bicomplexTotalProjection_eq_zero K n a c hac]
+          rfl
+      obtain ⟨c, hc⟩ := ih (by omega) x' hx' hs'
+      refine ⟨b + c, ?_⟩
+      rw [map_add, hc]
+      dsimp [x']
+      abel
+
+/-- Exactness along the nth vertical diagonal implies exactness of the actual total at n. -/
+theorem bicomplexTotal_exactAt_of_diagonal_rows (n : ℕ)
+    (hrows : ∀ i j, i + j = n → (K.X i).ExactAt j) :
+    (K.total (ComplexShape.down ℕ)).ExactAt n := by
+  rw [moduleChain_exactAt_iff]
+  intro x hx
+  apply bicomplexTotal_cycle_boundary_of_support K n hrows (n + 1) (le_refl _) x hx
+  intro i j hi
+  rw [bicomplexTotalProjection_eq_zero K n i j (by omega)]
+  rfl
+
+theorem bicomplexTotal_acyclic_of_rows_acyclic
+    (hrows : ∀ i, (K.X i).Acyclic) :
+    (K.total (ComplexShape.down ℕ)).Acyclic :=
+  fun n => bicomplexTotal_exactAt_of_diagonal_rows K n (fun i j _ => hrows i j)
+
+end ASGinzburg

@@ -1,0 +1,39 @@
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:19:4: error: Invalid field `mapBifunctorHomologicalComplex`: The environment does not contain `CategoryTheory.Functor.mapBifunctorHomologicalComplex`
+  tensorRightEnvelopingBifunctor k R
+has type
+  ModuleCat Rᵐᵒᵖ ⥤ ModuleCat R ⥤ ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:24:18: error: Function expected at
+  tensorRightEnvelopingBicomplex k R
+but this term has type
+  HomologicalComplex₂ (ModuleCat (AlgebraEnvelopingRing k R)ᵐᵒᵖ) ?m.37 ?m.38
+
+Note: Expected a function because this term is being applied to the argument
+  P
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:25:49: error(lean.unknownIdentifier): Unknown identifier `k`
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:29:10: error(lean.unknownIdentifier): Unknown identifier `HasMapBifunctor`
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:33:2: error(lean.unknownIdentifier): Unknown identifier `mapBifunctor`
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:37:48: error: Application type mismatch: The argument
+  P
+has type
+  HomologicalComplex (ModuleCat Rᵐᵒᵖ) c₁
+but is expected to have type
+  ComplexShape ?m.38
+in the application
+  tensorRightEnvelopingTotal k R P
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:38:63: error(lean.unknownIdentifier): Unknown identifier `k`
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:39:17: error(lean.unknownIdentifier): Unknown identifier `tensorRightEnvelopingBicomplex_projective`
+work/ASGinzburgDraft/AlgebraEnvelopingTensorTotal.lean:37:63: error: unsolved goals
+R : Type v
+inst✝³ : Ring R
+I₁ : Type u_1
+I₂ : Type u_2
+J : Type u_3
+c₁ : ComplexShape I₁
+c₂ : ComplexShape I₂
+P : HomologicalComplex (ModuleCat Rᵐᵒᵖ) c₁
+Q : HomologicalComplex (ModuleCat R) c₂
+inst✝² : DecidableEq J
+inst✝¹ : ∀ (i : I₁), Module.Projective Rᵐᵒᵖ ↑(P.X i)
+inst✝ : ∀ (i : I₂), Module.Projective R ↑(Q.X i)
+j : J
+⊢ Projective sorry

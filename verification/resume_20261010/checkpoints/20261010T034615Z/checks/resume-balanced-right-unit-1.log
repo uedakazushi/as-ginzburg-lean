@@ -1,0 +1,42 @@
+work/ASGinzburgDraft/BalancedTensorRightUnit.lean:16:23: error: unsolved goals
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+x : M
+c : k
+r : R
+⊢ c • MulOpposite.op r • x = (RingHom.id k) c • MulOpposite.op r • x
+work/ASGinzburgDraft/BalancedTensorRightUnit.lean:35:8: warning: automatically included section variable(s) unused in theorem `ASGinzburg.balancedTensorRightUnitInverse_apply`:
+  [SMulCommClass k Rᵐᵒᵖ M]
+  [IsScalarTower k Rᵐᵒᵖ M]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [SMulCommClass k Rᵐᵒᵖ M] [IsScalarTower k Rᵐᵒᵖ M] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+work/ASGinzburgDraft/BalancedTensorRightUnit.lean:45:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ?f 0
+in the target expression
+  (fun z => (balancedTensorRightUnitInverse k R M) ((balancedTensorRightUnitMap k R M) z) = z) 0
+
+case refine_1
+k : Type u
+inst✝⁷ : Field k
+R : Type v
+inst✝⁶ : Ring R
+inst✝⁵ : Algebra k R
+M : Type w
+inst✝⁴ : AddCommGroup M
+inst✝³ : Module k M
+inst✝² : Module Rᵐᵒᵖ M
+inst✝¹ : SMulCommClass k Rᵐᵒᵖ M
+inst✝ : IsScalarTower k Rᵐᵒᵖ M
+z : BalancedTensorSpace k R M R
+⊢ (fun z => (balancedTensorRightUnitInverse k R M) ((balancedTensorRightUnitMap k R M) z) = z) 0

@@ -1,0 +1,63 @@
+import work.ASGinzburgDraft.AlgebraEnvelopingModuleRestrictions
+import Mathlib.Algebra.Module.Projective
+import Mathlib.LinearAlgebra.TensorProduct.Basis
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+
+/-! The actual enveloping algebra is free as a left R module, and
+restriction of genuine projective enveloping modules preserves
+projectivity. The coefficient basis is the vector-space basis of R-op. -/
+namespace ASGinzburg
+open scoped TensorProduct
+universe u v w
+variable (k : Type u) [Field k] (R : Type v) [Ring R] [Algebra k R]
+
+theorem envelopingLeftModule_regular_eq :
+    envelopingLeftModule k R (AlgebraEnvelopingRing k R)=
+      (inferInstance : Module R (AlgebraEnvelopingRing k R)) := by
+  apply Module.ext'
+  intro r t
+  change (r ⊗ₜ[k] (1 : Rᵐᵒᵖ))*t=r • t
+  refine TensorProduct.induction_on t ?_ ?_ ?_
+  · simp only [mul_zero,smul_zero]
+  · intro a b
+    change (r ⊗ₜ[k] (1 : Rᵐᵒᵖ))*(a ⊗ₜ[k] b)=(r*a) ⊗ₜ[k] b
+    rw [Algebra.TensorProduct.tmul_mul_tmul,one_mul]
+  · intro a b ha hb
+    rw [mul_add,smul_add,ha,hb]
+
+theorem envelopingLeftModule_regular_free :
+    letI := envelopingLeftModule k R (AlgebraEnvelopingRing k R)
+    Module.Free R (AlgebraEnvelopingRing k R) := by
+  change @Module.Free R (AlgebraEnvelopingRing k R) _ _
+    (envelopingLeftModule k R (AlgebraEnvelopingRing k R))
+  rw [envelopingLeftModule_regular_eq]
+  infer_instance
+
+variable (P : Type w) [AddCommGroup P] [Module k P]
+variable [Module (AlgebraEnvelopingRing k R) P] [IsScalarTower k (AlgebraEnvelopingRing k R) P]
+
+omit [Module k P] [IsScalarTower k (AlgebraEnvelopingRing k R) P] in
+theorem envelopingLeftModule_projective [Module.Projective (AlgebraEnvelopingRing k R) P] :
+    letI := envelopingLeftModule k R P
+    Module.Projective R P := by
+  letI := envelopingLeftModule k R P
+  letI := envelopingLeftModule k R (AlgebraEnvelopingRing k R)
+  haveI : Module.Free R (AlgebraEnvelopingRing k R) := envelopingLeftModule_regular_free k R
+  obtain ⟨i,hi⟩ := Module.Projective.out (R := AlgebraEnvelopingRing k R) (P := P)
+  let s := Finsupp.linearCombination (AlgebraEnvelopingRing k R) (id : P → P)
+  let iR : P →ₗ[R] P →₀ AlgebraEnvelopingRing k R := {
+    toFun := i
+    map_add' := i.map_add
+    map_smul' := fun r p => i.map_smul
+      ((Algebra.TensorProduct.includeLeft : R →ₐ[k] AlgebraEnvelopingRing k R) r) p}
+  let sR : (P →₀ AlgebraEnvelopingRing k R) →ₗ[R] P := {
+    toFun := s
+    map_add' := s.map_add
+    map_smul' := fun r p => s.map_smul
+      ((Algebra.TensorProduct.includeLeft : R →ₐ[k] AlgebraEnvelopingRing k R) r) p}
+  refine Module.Projective.of_split iR sR ?_
+  apply LinearMap.ext
+  intro p
+  exact hi p
+
+end ASGinzburg
