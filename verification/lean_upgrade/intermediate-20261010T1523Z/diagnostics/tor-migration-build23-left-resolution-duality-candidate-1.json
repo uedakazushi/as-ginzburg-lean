@@ -1,0 +1,54 @@
+{
+  "status": "source_only_pending_exclusive_default_compile",
+  "recorded_at_utc": "2026-10-10T15:12:39.800186+00:00",
+  "source": "ASGinzburg/LeftResolutionDuality.lean",
+  "source_sha256": "0bc7ab484f4ddeeb196535138d3f3d5b20c8f23d0f35b8229aa169b8e854825b",
+  "source_snapshot": "work/lean-upgrade/tor-migration-build23-left-resolution-duality-candidate-1.lean.source",
+  "current_source_compiled": false,
+  "compiler_launched": false,
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "declaration_count": 6,
+  "declarations": [
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionDualComplex",
+      "header": "noncomputable def leftResolutionDualComplex : CochainComplex A.RightModule ℕ"
+    },
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionDualComplexEvaluationIso",
+      "header": "noncomputable def leftResolutionDualComplexEvaluationIso (i : ℤ) :\n    ((A.rightModuleEvaluation i).mapHomologicalComplex (ComplexShape.up ℕ)).obj\n      (A.leftResolutionDualComplex P) ≅ P.homComplex (k := k) (A.leftRepresentable i)"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionDualComplex_exactAt_low",
+      "header": "theorem leftResolutionDualComplex_exactAt_low (h₄ : IsZero (P.complex.X 4))\n    (hExt : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} M (A.leftRepresentable i) n, e=0)\n    (n : ℕ) (hn : n<3) : (A.leftResolutionDualComplex P).ExactAt n"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionDual_first_mono",
+      "header": "theorem leftResolutionDual_first_mono : Mono (A.leftModuleADualMap (P.complex.d 1 0))"
+    },
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionDualFourTerm",
+      "header": "noncomputable def leftResolutionDualFourTerm :\n    ASGinzburg.FourTermProjectiveResolution (A.leftModuleExtRight M 3)"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionDualFourTerm_finite",
+      "header": "theorem leftResolutionDualFourTerm_finite (n : ℕ) :\n    A.rightFiniteProjectiveProperty ((A.leftResolutionDualFourTerm P h₄ hP hExt).term n)"
+    }
+  ],
+  "all_original_headers_kinds_names_universes_hypotheses_conclusions_preserved": true,
+  "changes": [
+    "Evaluation iso scoped transparency compatibility and explicit original ModuleCat objects/homDifferential in CochainComplex.of_d, retaining Iso.refl/rfl component maps.",
+    "Only abstract second namespace locally irreducible original ADual objects and maps.",
+    "FourTerm scoped compatibility; explicit original named Epi witness.",
+    "Same d-squared zero equalities obtained from the original dual complex at (1,2,3) and (0,1,2)."
+  ],
+  "default_proof_limits_unchanged": true,
+  "no_new_public_declarations": true,
+  "git_diff_check_exit_code": 0,
+  "global_or_target_compilation_success_claimed": false
+}

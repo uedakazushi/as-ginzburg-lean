@@ -1,6 +1,8 @@
 import ASGinzburg.RightResolutionDuality
 import ASGinzburg.ASLeftExtReciprocity
 
+set_option Elab.async false
+
 namespace ASGinzburg.ZAlgebra
 open CategoryTheory CategoryTheory.Limits
 universe u v
@@ -11,14 +13,20 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
 
 attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
 
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "before term iso"
+
 noncomputable def rightResolutionBidualTermIso (n : ℕ) (hn : n<4) :
     A.leftModuleADual (A.rightModuleADual (P.complex.X n)) ≅ P.complex.X n := by
   letI := A.rightFiniteProjectiveProperty_bidual (hP n hn)
   exact (asIso (A.rightModuleBidualEvaluation (P.complex.X n))).symm
 
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after term iso"
+
 noncomputable def rightResolutionBidualTopProjection :
     A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).term 3) ⟶ M :=
   (A.rightResolutionBidualTermIso P hP 0 (by decide)).hom ≫ P.π.f 0
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after top projection"
 
 set_option backward.isDefEq.respectTransparency false in
 attribute [-instance] leftResolutionExtTopProjectionEpi in
@@ -29,6 +37,8 @@ noncomputable instance rightResolutionBidualTopProjectionEpi :
   letI : Epi (P.π.f 0) := inferInstance
   dsimp only [rightResolutionBidualTopProjection]
   infer_instance
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after projection Epi"
 
 set_option backward.isDefEq.respectTransparency false in
 theorem rightResolutionBidualTopDifferential_comm :
@@ -49,6 +59,8 @@ theorem rightResolutionBidualTopDifferential_comm :
   rw [IsIso.inv_comp_eq,← Category.assoc,← H]
   simp only [Category.assoc,IsIso.hom_inv_id,Category.comp_id]
 
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after differential comm"
+
 set_option backward.isDefEq.respectTransparency false in
 theorem rightResolutionBidualTopProjection_differential :
     A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫
@@ -56,6 +68,8 @@ theorem rightResolutionBidualTopProjection_differential :
   dsimp only [rightResolutionBidualTopProjection]
   rw [← Category.assoc,A.rightResolutionBidualTopDifferential_comm,
     Category.assoc,P.complex_d_comp_π_f_zero,comp_zero]
+
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after projection differential"
 
 set_option backward.isDefEq.respectTransparency false in
 theorem rightResolutionBidualTopProjection_exact :
@@ -80,6 +94,8 @@ theorem rightResolutionBidualTopProjection_exact :
         rfl)
   exact (ShortComplex.exact_iff_of_iso e).mpr P.exact₀
 
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after projection exact"
+
 set_option backward.isDefEq.respectTransparency false in
 attribute [-instance] leftResolutionExtTopProjectionEpi in
 /-- Actual degree-three Ext twice recovers M by the canonical finite-projective evaluation. -/
@@ -91,11 +107,15 @@ noncomputable def rightResolutionExtBidualIso :
     A.leftResolutionExtTopProjectionEpi
       (A.rightResolutionDualFourTerm P h₄ hP hExt).toProjectiveResolution
       ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex_isZero_ge_four 0)
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after final left projection Epi"))
   letI : Epi (A.rightResolutionBidualTopProjection P h₄ hP hExt) :=
     A.rightResolutionBidualTopProjectionEpi P h₄ hP hExt
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after final right projection Epi"))
   exact IsColimit.coconePointUniqueUpToIso
     (A.leftResolutionExtTopProjection_exact
       (A.rightResolutionDualFourTerm P h₄ hP hExt).toProjectiveResolution
       ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex_isZero_ge_four 0)).gIsCokernel
     (A.rightResolutionBidualTopProjection_exact P h₄ hP hExt).gIsCokernel
+  run_tac liftM (Lean.Core.liftIOCore (IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after final exact"))
+run_cmd Lean.Elab.Command.liftIO <| IO.FS.writeFile "work/lean-upgrade/algebra-right-resolution-ext-bidual-stage-diagnostic-01.marker.txt" "after final declaration"
 end ASGinzburg.ZAlgebra
