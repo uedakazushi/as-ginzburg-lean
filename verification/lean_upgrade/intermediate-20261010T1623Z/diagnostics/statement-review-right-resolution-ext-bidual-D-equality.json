@@ -1,0 +1,119 @@
+{
+  "review_complete": true,
+  "focused_semantic_review_complete": true,
+  "semantic_review_success": false,
+  "final_verification_freeze": false,
+  "review_mode": "independent_read_only_focused_public_source_review_no_compiler",
+  "reviewed_at_utc": "2026-10-10T16:14:43.827701+00:00",
+  "manual_review_completed_at_utc": "2026-10-10T16:14:43.847632+00:00",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "source": "ASGinzburg/RightResolutionExtBidual.lean",
+  "source_sha256": "836c93ef538ef82d943d293a5df8baef7c5e1b37b95c77634511ddef5358d0f1",
+  "baseline_source_sha256": "a86825d8c88d51b09fa650a81350872235090e9acecd880ba13df4185a7999be",
+  "previous_checkpoint13_source_sha256": "e799d45435ec2dbbee3bffeaf407d8ac1dedb60656ad118908963fff3ec537ed",
+  "source_unchanged_after_manual_review": true,
+  "declarations_before": 7,
+  "declarations_after": 7,
+  "declaration_names_and_kinds_preserved": true,
+  "complete_original_headers_preserved": true,
+  "declaration_names_and_kinds": {
+    "ASGinzburg.ZAlgebra.rightResolutionBidualTermIso": "def",
+    "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection": "def",
+    "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjectionEpi": "instance",
+    "ASGinzburg.ZAlgebra.rightResolutionBidualTopDifferential_comm": "theorem",
+    "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_differential": "theorem",
+    "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_exact": "theorem",
+    "ASGinzburg.ZAlgebra.rightResolutionExtBidualIso": "def"
+  },
+  "declaration_headers": [
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionBidualTermIso",
+      "kind": "def",
+      "original_and_current_normalized_complete_header": "noncomputable def rightResolutionBidualTermIso (n : ℕ) (hn : n<4) : A.leftModuleADual (A.rightModuleADual (P.complex.X n)) ≅ P.complex.X n"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection",
+      "kind": "def",
+      "original_and_current_normalized_complete_header": "noncomputable def rightResolutionBidualTopProjection : A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).term 3) ⟶ M"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjectionEpi",
+      "kind": "instance",
+      "original_and_current_normalized_complete_header": "noncomputable instance rightResolutionBidualTopProjectionEpi : Epi (A.rightResolutionBidualTopProjection P h₄ hP hExt)"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionBidualTopDifferential_comm",
+      "kind": "theorem",
+      "original_and_current_normalized_complete_header": "theorem rightResolutionBidualTopDifferential_comm : A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫ (A.rightResolutionBidualTermIso P hP 0 (by decide)).hom = (A.rightResolutionBidualTermIso P hP 1 (by decide)).hom ≫ P.complex.d 1 0"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_differential",
+      "kind": "theorem",
+      "original_and_current_normalized_complete_header": "theorem rightResolutionBidualTopProjection_differential : A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫ A.rightResolutionBidualTopProjection P h₄ hP hExt = 0"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionBidualTopProjection_exact",
+      "kind": "theorem",
+      "original_and_current_normalized_complete_header": "theorem rightResolutionBidualTopProjection_exact : (ShortComplex.mk (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2)) (A.rightResolutionBidualTopProjection P h₄ hP hExt) (A.rightResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact"
+    },
+    {
+      "name": "ASGinzburg.ZAlgebra.rightResolutionExtBidualIso",
+      "kind": "def",
+      "original_and_current_normalized_complete_header": "noncomputable def rightResolutionExtBidualIso : A.leftModuleExtRight (A.rightModuleExtLeft M 3) 3 ≅ M"
+    }
+  ],
+  "namespace_scopes_preserved": true,
+  "universe_declarations_preserved": true,
+  "ambient_variables_includes_omits_preserved": true,
+  "ambient_context": [
+    "universe u v",
+    "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+  ],
+  "import_namespace_section_open_commands": [
+    "import ASGinzburg.RightResolutionDuality",
+    "import ASGinzburg.ASLeftExtReciprocity",
+    "namespace ASGinzburg.ZAlgebra",
+    "open CategoryTheory CategoryTheory.Limits",
+    "end ASGinzburg.ZAlgebra"
+  ],
+  "first_five_declarations_and_preceding_commands_byte_identical_checkpoint13": true,
+  "changed_headers": [],
+  "changed_header_count": 0,
+  "manual_definition_semantics_review": {
+    "underlying_maps_and_objects_preserved": true,
+    "term_iso_and_top_projection": "Original inverse of canonical rightModuleBidualEvaluation at P.complex.X n, and original degree0 termIso.hom followed by P.π.f 0, unchanged. First five declarations are byte-identical to checkpoint13.",
+    "sixth_exactness": "Same complete statement, original T=(P.complex.d 1 0, P.π.f 0), original three ShortComplex.isoMk components at1,0,Iso.refl M, first square commutativity.symm, and original exact_iff_of_iso e applied to P.exact₀.",
+    "sixth_identity_square": "Native proof now follows isoMk expected orientation: the original defining composition c equals c followed by identity. dsimp only unfolds original T, projection and Iso.refl; Category.comp_id.symm proves this equation. Only proof changes; all component maps unchanged.",
+    "seventh_local_D_type": "D is a local proof-body binder for ProjectiveResolution of the SAME original A.rightModuleExtLeft M 3. hD is a local equality with the original rightResolutionDualFourTerm.toProjectiveResolution. Neither D nor hD appears in the unchanged public declaration type or ambient hypotheses.",
+    "seventh_hD4": "cases hD supplies the original complex_isZero_ge_four 0; no additional vanishing hypothesis is introduced.",
+    "seventh_f": "f is the SAME original leftModuleADualMap of degree3-to2 differential after D is instantiated at original FourTerm.toProjectiveResolution.",
+    "seventh_pi2_cast": "hD.symm transports original rightResolutionBidualTopProjection from original degree3 object to D degree3 object. In the sole final application hD=rfl, this Eq transport reduces to the original top projection with no changed arrow.",
+    "seventh_hpi2_Epi_h2": "Each cases hD returns original zero-composition theorem, original projection Epi, and original bidual exactness.gIsCokernel. Equality casts erase at the final reflexive application.",
+    "seventh_h1": "Uses original leftResolutionExtTopProjection D hD4, original named generic Epi witness and original exactness.gIsCokernel. At final originalD/rfl this is the original first cokernel witness.",
+    "seventh_unique_cokernel_order": "Final coconePointUniqueUpToIso uses original parallelPair f 0 with h1 first (Ext top projection) and h2 second (bidual projection). Comparison direction, cofork arrows and endpoints remain original.",
+    "seventh_final_application": "The sole final application is make(original rightResolutionDualFourTerm.toProjectiveResolution, rfl). Local abstraction/transport therefore recovers the original resolution, differential, both original projections and both ordered cokernel witnesses.",
+    "proof_irrelevance_and_universal_property": "Changed evidence of equality/Epi/zero/IsZero is proposition-valued, with reflexive dependent transport. The ordered comparison between the SAME canonical cokernel cocones defines the same map by their original universal property."
+  },
+  "local_D_hD_are_public_hypotheses": false,
+  "new_public_helpers_or_declarations": false,
+  "elaboration_scope_review": {
+    "prior_local_ADual_opacity_and_declaration_scoped_options_unchanged": true,
+    "no_new_public_imports_or_scopes": true,
+    "no_async_profiler_marker_cache_import_or_proof_limit_settings_added": true
+  },
+  "new_mathematical_hypotheses_found": [],
+  "weakened_mathematical_conclusions_found": [],
+  "unexpected_declaration_signature_changes": [],
+  "concrete_semantic_concerns": [],
+  "verification_limitations": {
+    "whole_public_default02_status": "active_parent_reported_not_yet_exit0",
+    "whole_public_default02_record": "work/lean-upgrade/algebra-right-resolution-ext-bidual-default-02.json",
+    "public_compiler_success_claimed": false,
+    "work_cached_tail_success_is_public_certificate": false,
+    "reviewer_launched_compiler_or_build": false,
+    "static_review_is_kernel_acceptance": false,
+    "global_build_success_claimed": false,
+    "all6909_axiom_certificate_claimed": false
+  }
+}

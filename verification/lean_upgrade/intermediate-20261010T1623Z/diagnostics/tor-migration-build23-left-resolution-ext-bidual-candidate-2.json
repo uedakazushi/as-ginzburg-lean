@@ -1,0 +1,65 @@
+{
+  "status": "source_only_pending_exclusive_default_compile",
+  "recorded_at_utc": "2026-10-10T16:13:31.037421+00:00",
+  "file": "ASGinzburg/LeftResolutionExtBidual.lean",
+  "source_sha256": "d0b39d28ee1321c4ed6e81b8bc1c17b4e8316412c2343737d817f8f56cffe05e",
+  "snapshot": "work/lean-upgrade/tor-migration-build23-left-resolution-ext-bidual-candidate-2.lean.source",
+  "baseline_commit": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "original_declaration_count": 7,
+  "original_names_kinds_and_full_headers_preserved": true,
+  "original_universe_and_variable_context_preserved": true,
+  "declarations": [
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTermIso",
+      "header": "noncomputable def leftResolutionBidualTermIso (n : ℕ) (hn : n<4) :\n    A.rightModuleADual (A.leftModuleADual (P.complex.X n)) ≅ P.complex.X n"
+    },
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection",
+      "header": "noncomputable def leftResolutionBidualTopProjection :\n    A.rightModuleADual ((A.leftResolutionDualFourTerm P h₄ hP hExt).term 3) ⟶ M"
+    },
+    {
+      "kind": "instance",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjectionEpi",
+      "header": "noncomputable instance leftResolutionBidualTopProjectionEpi :\n    Epi (A.leftResolutionBidualTopProjection P h₄ hP hExt)"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopDifferential_comm",
+      "header": "theorem leftResolutionBidualTopDifferential_comm :\n    A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫\n      (A.leftResolutionBidualTermIso P hP 0 (by decide)).hom =\n    (A.leftResolutionBidualTermIso P hP 1 (by decide)).hom ≫ P.complex.d 1 0"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_differential",
+      "header": "theorem leftResolutionBidualTopProjection_differential :\n    A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫\n      A.leftResolutionBidualTopProjection P h₄ hP hExt = 0"
+    },
+    {
+      "kind": "theorem",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionBidualTopProjection_exact",
+      "header": "theorem leftResolutionBidualTopProjection_exact :\n    (ShortComplex.mk\n      (A.rightModuleADualMap ((A.leftResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))\n      (A.leftResolutionBidualTopProjection P h₄ hP hExt)\n      (A.leftResolutionBidualTopProjection_differential P h₄ hP hExt)).Exact"
+    },
+    {
+      "kind": "def",
+      "name": "ASGinzburg.ZAlgebra.leftResolutionExtBidualIso",
+      "header": "noncomputable def leftResolutionExtBidualIso :\n    A.rightModuleExtLeft (A.leftModuleExtRight M 3) 3 ≅ M"
+    }
+  ],
+  "first_five_declarations_byte_identical_to_candidate_1": true,
+  "prior_candidate_record": "work/lean-upgrade/tor-migration-build23-left-resolution-ext-bidual-candidate-1.json",
+  "prior_candidate_source_sha256": "5e50b3364f0d1eb00543d7fe6f356b7fd4c60fdff64e3beb6d9e8120b377395e",
+  "changes_from_prior_candidate": [
+    "Correct original ShortComplex.isoMk second square in its native orientation using Category.comp_id.symm.",
+    "Parameterize original final comparison locally by D and hD : D = original left dual projective resolution. Transport only original bidual projection and witnesses by hD; invoke original unique-cokernel comparison in the original Ext-first/bidual-second order; evaluate make at original resolution and rfl."
+  ],
+  "canonical_map_preservation": "The final local function uses exactly the original dual differential and original projection maps. All transported bidual witnesses are the original witnesses after cases hD. At the final original projective resolution and rfl, the transports reduce to original maps. No new hypothesis or declaration is introduced.",
+  "right_measured_template": "work/lean-upgrade/right-resolution-ext-bidual-cached-projective-equality-01/ASGinzburg/RightResolutionExtBidual.lean",
+  "template_status": "Parent reports actual work-only sixth+seventh tail exit0/66.1478s. This Left candidate has not been compiled.",
+  "current_source_compiled": false,
+  "compiler_launched": false,
+  "proof_limits_unchanged": true,
+  "public_helpers_added": false,
+  "git_diff_check_exit": 0,
+  "prior_records_preserved": true,
+  "readiness": "Await root GO after exclusive whole RightResolutionExtBidual default check closes."
+}
