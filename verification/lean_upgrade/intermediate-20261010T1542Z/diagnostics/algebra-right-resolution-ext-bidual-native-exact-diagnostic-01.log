@@ -1,0 +1,124 @@
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:35:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:36:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:37:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:48:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:49:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:80:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:81:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+work/lean-upgrade/right-resolution-ext-bidual-native-exact-01/ASGinzburg/RightResolutionExtBidual.lean:96:6: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a =>
+    { X₁ := A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 2),
+        X₂ := A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 3), X₃ := M,
+        f := A.leftModuleADualMap _a, g := A.rightResolutionBidualTopProjection P h₄ hP hExt, zero := ⋯ }.Exact
+Error: Application type mismatch: The argument
+  rightResolutionBidualTopProjection_differential A P h₄ hP hExt
+has type
+  A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2) ≫
+      A.rightResolutionBidualTopProjection P h₄ hP hExt =
+    0
+but is expected to have type
+  autoParam (A.leftModuleADualMap _a ≫ A.rightResolutionBidualTopProjection P h₄ hP hExt = 0)
+    ShortComplex.zero._autoParam
+in the application
+  { X₁ := A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 2),
+    X₂ := A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 3), X₃ := M,
+    f := A.leftModuleADualMap _a, g := A.rightResolutionBidualTopProjection P h₄ hP hExt, zero := ⋯ }
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M : A.RightModule
+P : ProjectiveResolution M
+h₄ : IsZero (P.complex.X 4)
+hP : ∀ n < 4, A.rightFiniteProjectiveProperty (P.complex.X n)
+hExt : ∀ (i : ℤ), ∀ n < 3, ∀ (e : Abelian.Ext M (A.representable i) n), e = 0
+this✝ : IsIso (A.rightModuleBidualEvaluation (P.complex.X 0)) :=
+  rightFiniteProjectiveProperty_bidual A (hP 0 (of_decide_eq_true (_root_.id (Eq.refl true))))
+this : IsIso (A.rightModuleBidualEvaluation (P.complex.X 1)) :=
+  rightFiniteProjectiveProperty_bidual A (hP 1 (of_decide_eq_true (_root_.id (Eq.refl true))))
+hd : (A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2 = A.rightModuleADualMap (P.complex.d 1 0)
+hz :
+  A.leftModuleADualMap (A.rightModuleADualMap (P.complex.d 1 0)) ≫
+      (A.rightResolutionBidualTermIso P hP 0 ⋯).hom ≫ P.π.f 0 =
+    0
+S : ShortComplex A.RightModule :=
+  { X₁ := A.leftModuleADual (A.rightModuleADual (P.complex.X 1)),
+    X₂ := A.leftModuleADual (A.rightModuleADual (P.complex.X 0)),
+    X₃ := ((ChainComplex.single₀ A.RightModule).obj M).X 0,
+    f := A.leftModuleADualMap (A.rightModuleADualMap (P.complex.d 1 0)),
+    g := (A.rightResolutionBidualTermIso P hP 0 ⋯).hom ≫ P.π.f 0, zero := hz }
+⊢ { X₁ := A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 2),
+      X₂ := A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 3), X₃ := M,
+      f := A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2),
+      g := A.rightResolutionBidualTopProjection P h₄ hP hExt, zero := ⋯ }.Exact
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    A.rightResolutionBidualTopProjection P h₄ hP hExt
+  has type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).term 3)) M
+  but is expected to have type
+    @Quiver.Hom A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty).toQuiver
+      (A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 3)) M
+  in the application
+    @ShortComplex.mk A.RightModule (ObjectProperty.FullSubcategory.category A.rightModuleProperty)
+      A.rightModuleProperty.instHasZeroMorphismsFullSubcategory
+      (A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 2))
+      (A.leftModuleADual ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.X 3)) M
+      (A.leftModuleADualMap ((A.rightResolutionDualFourTerm P h₄ hP hExt).complex.d 3 2))
+      (A.rightResolutionBidualTopProjection P h₄ hP hExt)
