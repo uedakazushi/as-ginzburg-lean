@@ -6824,6 +6824,6 @@ main 52c5f00e0d4fefc921f2ff252fb2f7845e5a6965 は公開816数学モジュール/
 
 未完了箇所：BalancedTensorRightFunctor の Linear.map_smul の束縛順、有限直和・retract の通常射影性、CornerFieldTotalNaturality の未検査。次は次数を忘れる関手の完全性と通常の有限AS射影分解、tensor-Hom/derived Tor比較、大域次元、Reyes–Rogalski/Hanihara/Keller、全Jacobian回収・選択独立性・系5.2。定理3.2と系5.2は未証明・正式Lean定理文未実装であり、必要な結論を公理や追加仮定にしていない。
 
-mainの直前保存は `dfcb6b85db87d4b5095454c24108c34973a53557`。今回の差分・全体検証証拠・未完成草稿・引継ぎを `[skip ci]` 付き通常コミットで直接mainへ保存する。workflowは workflow_dispatch のみで、GitHub Actionsを起動しない。保存コミットはGit履歴で確認できる。詳細な停止状態と次の手順は `verification/stopped_20261010/stop-state.json` に記録した。
+mainの直前保存は `dfcb6b85db87d4b5095454c24108c34973a53557`。今回の差分・全体検証証拠・未完成草稿・引継ぎは、`f73ee9d3629a6ed082a973b6a383374080a1292c`（`[skip ci]` 付き通常コミット）で直接mainへ保存済み。push実終了0、GitHub APIでmainのSHA・tree一致と当該コミットのActions実行件数0を確認した。保存確認は `verification/stopped_20261010/main-save-923.json` に記録した。workflowは workflow_dispatch のみで、新規GitHub Actionsは起動していない。この確認記録も通常コミットで保存する。詳細な停止状態と次の手順は `verification/stopped_20261010/stop-state.json` に記録した。
 
 停止記録作成：UTC 2026-10-10T01:37:21.611184+00:00 → 2026-10-10T01:37:21.748997+00:00、単調時計実測 0.137815874 秒。セッション起点からの経過は 45294.769602717 秒（待機・中断を含み、証明作業時間とは区別する）。今回の停止理由はユーザー指示であり、実行制限ではない。
