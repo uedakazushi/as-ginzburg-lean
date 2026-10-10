@@ -14,10 +14,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.RightModule}
   (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.representable i) n, e=0)
   (F : P.complex ⟶ Q.complex)
 
-attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
-
 set_option backward.isDefEq.respectTransparency false in
-attribute [-instance] leftResolutionExtTopProjectionEpi rightResolutionBidualTopProjectionEpi in
 @[reassoc] theorem rightResolutionExtBidualIso_projection :
     A.leftResolutionExtTopProjection (A.rightResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
         ((A.rightResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
@@ -62,7 +59,6 @@ theorem rightResolutionBidualTopProjection_natural (f : M ⟶ N)
     Category.assoc,hπ,← Category.assoc]
 
 set_option backward.isDefEq.respectTransparency false in
-attribute [-instance] leftResolutionExtTopProjectionEpi rightResolutionBidualTopProjectionEpi in
 theorem rightResolutionExtBidualIso_natural (f : M ⟶ N)
     (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
     A.leftModuleExtPrecompRight (A.rightModuleExtPrecompLeft f 3) 3 ≫
@@ -101,10 +97,7 @@ variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) {M N : A.LeftModule}
   (hN : ∀ i n, n<3 → ∀ e : Abelian.Ext.{v} N (A.leftRepresentable i) n, e=0)
   (F : P.complex ⟶ Q.complex)
 
-attribute [local irreducible] rightModuleADual leftModuleADual rightModuleADualMap leftModuleADualMap
-
 set_option backward.isDefEq.respectTransparency false in
-attribute [-instance] rightResolutionExtTopProjectionEpi leftResolutionBidualTopProjectionEpi in
 @[reassoc] theorem leftResolutionExtBidualIso_projection :
     A.rightResolutionExtTopProjection (A.leftResolutionDualFourTerm P hP₄ hP hM).toProjectiveResolution
         ((A.leftResolutionDualFourTerm P hP₄ hP hM).complex_isZero_ge_four 0) ≫
@@ -149,7 +142,6 @@ theorem leftResolutionBidualTopProjection_natural (f : M ⟶ N)
     Category.assoc,hπ,← Category.assoc]
 
 set_option backward.isDefEq.respectTransparency false in
-attribute [-instance] rightResolutionExtTopProjectionEpi leftResolutionBidualTopProjectionEpi in
 theorem leftResolutionExtBidualIso_natural (f : M ⟶ N)
     (hπ : F.f 0 ≫ Q.π.f 0 = P.π.f 0 ≫ f) :
     A.rightModuleExtPrecompLeft (A.leftModuleExtPrecompRight f 3) 3 ≫
