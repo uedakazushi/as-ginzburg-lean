@@ -1,0 +1,27 @@
+ASGinzburg/FoundationTotalMaps.lean:35:2: error: Tactic `apply` failed: could not unify the conclusion of `Finset.sum_congr rfl`
+  Finset.sum ?m.94 ?m.91 = Finset.sum ?m.94 ?m.92
+with the goal
+  (ModuleCat.Hom.hom (f.hom.app i)) (∑ j, (A.foundationRightComponentAction Q M (a i j)) (m j)) =
+    ∑ j, (A.foundationRightComponentAction Q N (a i j)) ((ModuleCat.Hom.hom (f.hom.app j)) (m j))
+
+Note: The full type of `Finset.sum_congr rfl` is
+  (∀ x ∈ ?m.94, ?m.91 x = ?m.92 x) → Finset.sum ?m.94 ?m.91 = Finset.sum ?m.94 ?m.92
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+M N : A.FoundationRightModule Q
+f : M ⟶ N
+a : A.FoundationAlgebra Q
+m : A.foundationRightTotalSpace Q M
+i : Q.Vertex
+⊢ (ModuleCat.Hom.hom (f.hom.app i)) (∑ j, (A.foundationRightComponentAction Q M (a i j)) (m j)) =
+    ∑ j, (A.foundationRightComponentAction Q N (a i j)) ((ModuleCat.Hom.hom (f.hom.app j)) (m j))
+ASGinzburg/FoundationTotalMaps.lean:34:37: warning: This simp argument is unused:
+  map_sum
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [LinearMap.comp_apply, foundationRightTotalLinearMap_apply, foundationRightTotalAction_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

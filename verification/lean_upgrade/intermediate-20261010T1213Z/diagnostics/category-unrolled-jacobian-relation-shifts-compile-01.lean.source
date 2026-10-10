@@ -1,0 +1,63 @@
+import ASGinzburg.UnrolledSheetShiftErasure
+import ASGinzburg.UnrolledJacobianErasure
+
+/-! Native sheet shifts carry actual lifted cyclic derivatives to
+their other lifts, including the necessary endpoint transports. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem unrolledPathEraseLinearMap_sheet_transport (i j : Q.Vertex)
+    {m n m' n' : ℤ} (hx : (i,m)=(i,m')) (hy : (j,n)=(j,n'))
+    (f : Q.UnrolledPathComponent k (i,m) (j,n)) :
+    Q.unrolledPathEraseLinearMap k (i,m') (j,n')
+      (Finsupp.mapDomain (UnrolledPath.endpointEquiv Q hx hy) f) =
+      Q.unrolledPathEraseLinearMap k (i,m) (j,n) f := by
+  have hm : m=m' := congrArg Prod.snd hx
+  have hn : n=n' := congrArg Prod.snd hy
+  subst m'
+  subst n'
+  change Q.unrolledPathEraseLinearMap k (i,m) (j,n) (Finsupp.mapDomain id f)=_
+  rw [Finsupp.mapDomain_id]
+
+theorem unrolledSheetShiftLinearEquiv_JacobianRelation (φ : Q.Potential k)
+    (a : Q.Arrow) (m r : ℤ) :
+    Q.unrolledSheetShiftLinearEquiv k r (Q.target a,m)
+        (Q.source a,m+((1-Q.cutDegree a:ℕ):ℤ))
+        (Q.unrolledJacobianRelation k a φ m) =
+      Finsupp.mapDomain (UnrolledPath.endpointEquiv Q rfl
+        (by simp only [shift]; congr 1; ring))
+        (Q.unrolledJacobianRelation k a φ (m+r)) := by
+  apply Q.unrolledPathEraseLinearMap_injective k
+  rw [Q.unrolledSheetShiftLinearEquiv_erase k]
+  simp only [shift]
+  rw [Q.unrolledPathEraseLinearMap_sheet_transport k (Q.target a) (Q.source a),
+    Q.unrolledJacobianRelation_erase k, Q.unrolledJacobianRelation_erase k]
+
+noncomputable def unrolledCutJacobianRelation (φ : Q.Potential k)
+    (b : {a : Q.Arrow // Q.cut a=true}) (m : ℤ) :
+    Q.UnrolledPathComponent k (Q.target b.val,m) (Q.source b.val,m) :=
+  Finsupp.mapDomain (UnrolledPath.endpointEquiv Q rfl
+    (by simp [cutDegree,b.property])) (Q.unrolledJacobianRelation k b.val φ m)
+
+theorem unrolledCutJacobianRelation_erase (φ : Q.Potential k)
+    (b : {a : Q.Arrow // Q.cut a=true}) (m : ℤ) :
+    Q.unrolledPathEraseLinearMap k (Q.target b.val,m) (Q.source b.val,m)
+      (Q.unrolledCutJacobianRelation k φ b m) = Q.pathCyclicDerivative k b.val φ := by
+  unfold unrolledCutJacobianRelation
+  exact (Q.unrolledPathEraseLinearMap_sheet_transport k (Q.target b.val) (Q.source b.val)
+    (m:=m) (n:=m+((1-Q.cutDegree b.val:ℕ):ℤ)) (m':=m) (n':=m)
+    rfl (by simp [cutDegree,b.property]) (Q.unrolledJacobianRelation k b.val φ m)).trans
+      (Q.unrolledJacobianRelation_erase k b.val φ m)
+
+theorem unrolledSheetShiftLinearEquiv_cutJacobianRelation (φ : Q.Potential k)
+    (b : {a : Q.Arrow // Q.cut a=true}) (m r : ℤ) :
+    Q.unrolledSheetShiftLinearEquiv k r (Q.target b.val,m) (Q.source b.val,m)
+        (Q.unrolledCutJacobianRelation k φ b m) =
+      Q.unrolledCutJacobianRelation k φ b (m+r) := by
+  apply Q.unrolledPathEraseLinearMap_injective k
+  rw [Q.unrolledSheetShiftLinearEquiv_erase k, Q.unrolledCutJacobianRelation_erase k]
+  simp only [shift]
+  rw [Q.unrolledCutJacobianRelation_erase k]
+
+end ASGinzburg.CutQuiver

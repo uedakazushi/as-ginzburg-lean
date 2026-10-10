@@ -1,0 +1,36 @@
+import ASGinzburg.ASRelationArrowProducts
+import ASGinzburg.ASPathKernelHeights
+import ASGinzburg.UnrolledIdealProductHeights
+
+/-! The AS cover kernel is exactly the height pullback of the genuine
+product IJ of the existing presentation kernel and arrow ideal. -/
+namespace ASGinzburg.ZAlgebra
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k) (Q : CutQuiver)
+  (R : ∀ w : Q.LiftVertex, A.ASResolution Q w)
+
+theorem pathRelationArrowProduct_eq_idealProductLift (u w : Q.LiftVertex) :
+    A.pathRelationArrowProduct Q R u w=
+      Q.unrolledIdealProductLift k (A.unrolledPathPresentation Q R).kernel
+        (Q.unrolledArrowIdeal k) u w := by
+  unfold pathRelationArrowProduct CutQuiver.unrolledIdealProductLift
+  apply congrArg (Submodule.span k)
+  ext x
+  constructor
+  · rintro ⟨v,f,hf,g,hg,rfl⟩
+    exact ⟨v,f,(A.unrolledComponentHeightEquiv_mem_presentation_kernel_iff Q R u v f).mpr hf,
+      g,(Q.unrolledComponentHeightEquiv_mem_filtration_iff k v w 1 g).mpr hg,rfl⟩
+  · rintro ⟨v,f,hf,g,hg,rfl⟩
+    exact ⟨v,f,(A.unrolledComponentHeightEquiv_mem_presentation_kernel_iff Q R u v f).mp hf,
+      g,(Q.unrolledComponentHeightEquiv_mem_filtration_iff k v w 1 g).mp hg,rfl⟩
+
+theorem lastArrowToASFirstTerm_ker_eq_relation_arrow_product
+    (u w : Q.LiftVertex) (huw : u≠w) :
+    LinearMap.ker (A.lastArrowToASFirstTerm Q R u w huw)=
+      Submodule.comap (Q.unrolledComponentHeightEquiv k u w).toLinearMap
+        (((A.unrolledPathPresentation Q R).kernel.mul (Q.unrolledArrowIdeal k)).hom
+          (Q.height u) (Q.height w)) := by
+  rw [←A.pathRelationArrowProduct_eq_cover_ker Q R u w huw,
+    A.pathRelationArrowProduct_eq_idealProductLift,Q.unrolledIdealProductLift_eq_comap]
+
+end ASGinzburg.ZAlgebra

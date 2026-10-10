@@ -1,0 +1,69 @@
+import ASGinzburg.GinzburgAssociatedGradedComplex
+
+/-! Canonical representatives for the genuine successive quotient
+and their exact projection to the generator layer. -/
+namespace ASGinzburg.CutQuiver
+open scoped Classical
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgGeneratorLayerAtDegree_le_filtration (u v : Q.Vertex) (r q c : ℤ) :
+    Q.ginzburgGeneratorLayerAtDegree k u v r q c ≤
+      Q.ginzburgGeneratorFiltrationAtDegree k u v r q c := by
+  apply Finsupp.supported_mono
+  intro p hp
+  exact ⟨Q.ginzburgGeneratorLayerPaths_le_filtration u v r hp.1,hp.2⟩
+
+noncomputable def ginzburgGeneratorLayerClass (u v : Q.Vertex) (r q c : ℤ) :
+    Q.ginzburgGeneratorLayerAtDegree k u v r q c →ₗ[k]
+      Q.GinzburgAssociatedGraded k u v r q c := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  exact (Q.ginzburgGeneratorHigherLayer k u v r q c).mkQ.comp
+    (Submodule.inclusion (Q.ginzburgGeneratorLayerAtDegree_le_filtration k u v r q c))
+
+theorem ginzburgGeneratorLayerQuotientEquiv_coe_mk (u v : Q.Vertex) (r q c : ℤ)
+    (f : Q.ginzburgGeneratorFiltrationAtDegree k u v r q c) :
+    ((Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c)
+      (Submodule.Quotient.mk f)).val=
+      f.val.filter (· ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
+        p.cohomologicalDegree=q ∧ p.cutDegree=c}) := by
+  classical
+  simp only [ginzburgGeneratorLayerQuotientEquiv,LinearEquiv.trans_apply,
+    LinearEquiv.coe_ofEq_apply]
+  have he := congrArg Subtype.val (supportedQuotientDifferenceEquiv_mk k
+    (Q.GinzburgPath u v)
+    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c}
+    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c} f)
+  refine he.trans ?_
+  change f.val.filter (· ∈ ({p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c} \
+    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r+1) ∧
+      p.cohomologicalDegree=q ∧ p.cutDegree=c})) = _
+  simp only [Q.ginzburgGeneratorFiltrationDegreePaths_difference]
+
+theorem ginzburgGeneratorLayerQuotientEquiv_layerClass (u v : Q.Vertex) (r q c : ℤ)
+    (f : Q.ginzburgGeneratorLayerAtDegree k u v r q c) :
+    Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c
+      (Q.ginzburgGeneratorLayerClass k u v r q c f)=f := by
+  classical
+  apply Subtype.ext
+  rw [ginzburgGeneratorLayerClass,LinearMap.comp_apply]
+  change ((Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c)
+    (Submodule.Quotient.mk _)).val=f.val
+  rw [Q.ginzburgGeneratorLayerQuotientEquiv_coe_mk]
+  change f.val.filter (· ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧
+    p.cohomologicalDegree=q ∧ p.cutDegree=c})=f.val
+  rw [Finsupp.filter_eq_self_iff]
+  intro p hp
+  exact f.property (Finsupp.mem_support_iff.mpr hp)
+
+theorem ginzburgGeneratorLayerQuotientEquiv_symm (u v : Q.Vertex) (r q c : ℤ)
+    (f : Q.ginzburgGeneratorLayerAtDegree k u v r q c) :
+    (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c).symm f=
+      Q.ginzburgGeneratorLayerClass k u v r q c f := by
+  apply (Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c).injective
+  rw [LinearEquiv.apply_symm_apply,Q.ginzburgGeneratorLayerQuotientEquiv_layerClass]
+
+end ASGinzburg.CutQuiver

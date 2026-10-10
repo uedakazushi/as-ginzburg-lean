@@ -1,0 +1,40 @@
+ASGinzburg/OppositeGinzburgDifferentialTransport.lean:19:47: error: unsolved goals
+Q : CutQuiver
+a : Q.GinzburgArrow
+⊢ [a.opposite] =
+    (GinzburgPath.transport Q.opposite ⋯ ⋯
+        ((GinzburgPath.nil (GinzburgArrow.source Q.opposite a.opposite)).snoc a.opposite ⋯)).toList
+ASGinzburg/OppositeGinzburgDifferentialTransport.lean:36:4: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  Finsupp.single (GinzburgPath.transport Q.opposite ?hu ?hv ?p) ?a
+in the target expression
+  ginzburgSign k (GinzburgArrow.cohomologicalDegree Q a + 1) •
+      (Q.opposite.transportGinzburgPathComponent k ⋯ ⋯)
+        (Q.opposite.ginzburgGeneratorDifferential k ((Q.oppositePotentialEquiv k) φ) a.opposite) =
+    ginzburgSign k (GinzburgArrow.cohomologicalDegree Q a + 1) •
+      (Q.opposite.ginzburgDifferential k ((Q.oppositePotentialEquiv k) φ) (Fin.rev (GinzburgArrow.target Q a))
+          (Fin.rev (GinzburgArrow.source Q a)))
+        (Finsupp.single (GinzburgPath.transport Q.opposite ⋯ ⋯ (Q.opposite.ginzburgArrowPath a.opposite)) 1)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+a : Q.GinzburgArrow
+⊢ ginzburgSign k (GinzburgArrow.cohomologicalDegree Q a + 1) •
+      (Q.opposite.transportGinzburgPathComponent k ⋯ ⋯)
+        (Q.opposite.ginzburgGeneratorDifferential k ((Q.oppositePotentialEquiv k) φ) a.opposite) =
+    ginzburgSign k (GinzburgArrow.cohomologicalDegree Q a + 1) •
+      (Q.opposite.ginzburgDifferential k ((Q.oppositePotentialEquiv k) φ) (Fin.rev (GinzburgArrow.target Q a))
+          (Fin.rev (GinzburgArrow.source Q a)))
+        (Finsupp.single (GinzburgPath.transport Q.opposite ⋯ ⋯ (Q.opposite.ginzburgArrowPath a.opposite)) 1)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Fin.rev (GinzburgArrow.target Q a)
+  has type
+    Fin Q.vertices
+  but is expected to have type
+    Q.opposite.Vertex
+  in the application
+    Q.opposite.GinzburgPathComponent k (Fin.rev (GinzburgArrow.target Q a))

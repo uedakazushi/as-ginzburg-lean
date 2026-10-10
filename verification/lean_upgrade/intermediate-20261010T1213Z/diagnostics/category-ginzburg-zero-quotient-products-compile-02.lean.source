@@ -1,0 +1,70 @@
+import ASGinzburg.GinzburgZeroProducts
+
+/-! Actual products on degree-zero cycles modulo the actual image of
+the degree negative-one differential. No Jacobian multiplication is used. -/
+namespace ASGinzburg.CutQuiver
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+abbrev GinzburgZeroQuotient (φ : Q.Potential k) (u v : Q.Vertex) := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  exact (Q.ginzburgCohomologicalComponent k u v 0 ⧸
+    LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v))
+
+noncomputable def ginzburgZeroQuotientCompRight (φ : Q.Potential k) {u v w : Q.Vertex}
+    (g : Q.ginzburgCohomologicalComponent k v w 0) :
+    Q.GinzburgZeroQuotient k φ u v →ₗ[k] Q.GinzburgZeroQuotient k φ u w := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  letI : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  exact (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).liftQ
+    ((LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u w)).mkQ.comp
+      (Q.ginzburgZeroComp k g)) (by
+        intro f hf
+        apply (Submodule.Quotient.mk_eq_zero _).mpr
+        exact Q.ginzburgZeroComp_boundary_left k φ hf g)
+
+@[simp] theorem ginzburgZeroQuotientCompRight_mk (φ : Q.Potential k) {u v w : Q.Vertex}
+    (g : Q.ginzburgCohomologicalComponent k v w 0)
+    (f : Q.ginzburgCohomologicalComponent k u v 0) :
+    Q.ginzburgZeroQuotientCompRight k φ g (Submodule.Quotient.mk f)=
+      Submodule.Quotient.mk (Q.ginzburgZeroComp k g f) := rfl
+
+noncomputable def ginzburgZeroQuotientCompPre (φ : Q.Potential k) {u v w : Q.Vertex} :
+    Q.ginzburgCohomologicalComponent k v w 0 →ₗ[k]
+      Q.GinzburgZeroQuotient k φ u v →ₗ[k] Q.GinzburgZeroQuotient k φ u w where
+  toFun := Q.ginzburgZeroQuotientCompRight k φ
+  map_add' := by
+    intro g h
+    apply LinearMap.ext
+    intro x
+    obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective x
+    simp [LinearMap.add_apply]
+  map_smul' := by
+    intro a g
+    apply LinearMap.ext
+    intro x
+    obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective x
+    simp [LinearMap.smul_apply]
+
+noncomputable def ginzburgZeroQuotientComp (φ : Q.Potential k) {u v w : Q.Vertex} :
+    Q.GinzburgZeroQuotient k φ v w →ₗ[k]
+      Q.GinzburgZeroQuotient k φ u v →ₗ[k] Q.GinzburgZeroQuotient k φ u w := by
+  letI : AddCommGroup (Q.GinzburgPathComponent k u v) := Finsupp.instAddCommGroup
+  letI : AddCommGroup (Q.GinzburgPathComponent k v w) := Finsupp.instAddCommGroup
+  letI : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  exact (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ v w)).liftQ
+    (Q.ginzburgZeroQuotientCompPre k φ) (by
+      intro g hg
+      apply LinearMap.ext
+      intro x
+      obtain ⟨f,rfl⟩ := (LinearMap.range (Q.ginzburgNegativeOneDifferential k φ u v)).mkQ_surjective x
+      apply (Submodule.Quotient.mk_eq_zero _).mpr
+      exact Q.ginzburgZeroComp_boundary_right k φ hg f)
+
+@[simp] theorem ginzburgZeroQuotientComp_mk (φ : Q.Potential k) {u v w : Q.Vertex}
+    (g : Q.ginzburgCohomologicalComponent k v w 0)
+    (f : Q.ginzburgCohomologicalComponent k u v 0) :
+    Q.ginzburgZeroQuotientComp k φ (Submodule.Quotient.mk g) (Submodule.Quotient.mk f)=
+      Submodule.Quotient.mk (Q.ginzburgZeroComp k g f) := rfl
+
+end ASGinzburg.CutQuiver

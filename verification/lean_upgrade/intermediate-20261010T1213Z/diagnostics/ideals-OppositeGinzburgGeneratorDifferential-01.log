@@ -1,0 +1,27 @@
+ASGinzburg/OppositeGinzburgGeneratorDifferential.lean:35:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.oppositeGinzburgPathComponentEquiv k (Q.source a) (Q.target a)) 0
+in the target expression
+  (Q.oppositeGinzburgPathComponentEquiv k (Q.source a) (Q.target a)) 0 =
+    ginzburgSign k (GinzburgArrow.cohomologicalDegree Q (GinzburgArrow.original a) + 1) •
+      (Q.opposite.transportGinzburgPathComponent k ⋯ ⋯) 0
+
+case original
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+a : Q.Arrow
+⊢ (Q.oppositeGinzburgPathComponentEquiv k (Q.source a) (Q.target a)) 0 =
+    ginzburgSign k (GinzburgArrow.cohomologicalDegree Q (GinzburgArrow.original a) + 1) •
+      (Q.opposite.transportGinzburgPathComponent k ⋯ ⋯) 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (Q.target a).rev
+  has type
+    Fin Q.vertices
+  but is expected to have type
+    Q.opposite.Vertex
+  in the application
+    Q.opposite.GinzburgPathComponent k (Q.target a).rev

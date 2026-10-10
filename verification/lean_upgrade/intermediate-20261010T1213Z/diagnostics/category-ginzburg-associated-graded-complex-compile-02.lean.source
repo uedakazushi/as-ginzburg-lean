@@ -1,0 +1,68 @@
+import ASGinzburg.GinzburgGeneratorFilteredComplex
+
+/-! The genuine associated graded complex is formed by consecutive
+quotients of the actual last-generator subcomplexes. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+abbrev GinzburgAssociatedGraded (u v : Q.Vertex) (r q c : ℤ) :=
+  ↥(Q.ginzburgGeneratorFiltrationAtDegree k u v r q c) ⧸
+    Q.ginzburgGeneratorHigherLayer k u v r q c
+
+noncomputable def ginzburgAssociatedGradedDifferential (φ : Q.Potential k)
+    (u v : Q.Vertex) (r q c : ℤ) :
+    Q.GinzburgAssociatedGraded k u v r q c →ₗ[k]
+      Q.GinzburgAssociatedGraded k u v r (q+1) c :=
+  (Q.ginzburgGeneratorHigherLayer k u v r q c).mapQ
+    (Q.ginzburgGeneratorHigherLayer k u v r (q+1) c)
+    (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c)
+    (by
+      intro f hf
+      change f.val ∈ Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) q c at hf
+      change Q.ginzburgDifferential k φ u v f.val ∈
+        Q.ginzburgGeneratorFiltrationAtDegree k u v (r+1) (q+1) c
+      exact Q.ginzburgDifferential_mem_generatorFiltrationAtDegree k φ hf)
+
+theorem ginzburgAssociatedGradedDifferential_square (φ : Q.Potential k)
+    (u v : Q.Vertex) (r q c : ℤ) :
+    (Q.ginzburgAssociatedGradedDifferential k φ u v r (q+1) c).comp
+      (Q.ginzburgAssociatedGradedDifferential k φ u v r q c)=0 := by
+  apply LinearMap.ext
+  intro f
+  refine Submodule.Quotient.induction_on _ f ?_
+  intro g
+  change Submodule.Quotient.mk
+    (Q.ginzburgGeneratorFilteredDifferential k φ u v r (q+1) c
+      (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c g))=0
+  have he := LinearMap.congr_fun
+    (Q.ginzburgGeneratorFilteredDifferential_square k φ u v r q c) g
+  change Q.ginzburgGeneratorFilteredDifferential k φ u v r (q+1) c
+    (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c g)=0 at he
+  rw [he]
+  exact (Q.ginzburgGeneratorHigherLayer k u v r (q+1+1) c).mkQ.map_zero
+
+noncomputable def ginzburgAssociatedGradedComplex (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : CochainComplex (ModuleCat.{u} k) ℤ :=
+  CochainComplex.of (fun q => ModuleCat.of k (Q.GinzburgAssociatedGraded k u v r q c))
+    (fun q => ModuleCat.ofHom (Q.ginzburgAssociatedGradedDifferential k φ u v r q c))
+    (fun q => by
+      apply ModuleCat.hom_ext
+      exact Q.ginzburgAssociatedGradedDifferential_square k φ u v r q c)
+
+noncomputable def ginzburgFilteredToAssociatedGraded (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) :
+    Q.ginzburgGeneratorFilteredComplex k φ u v r c ⟶
+      Q.ginzburgAssociatedGradedComplex k φ u v r c :=
+  CochainComplex.ofHom
+    (X := Q.ginzburgGeneratorFilteredComplex k φ u v r c)
+    (Y := Q.ginzburgAssociatedGradedComplex k φ u v r c)
+    (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorHigherLayer k u v r q c).mkQ)
+    (fun _q => by
+      dsimp only [ginzburgGeneratorFilteredComplex, ginzburgAssociatedGradedComplex]
+      rw [CochainComplex.of_d, CochainComplex.of_d]
+      apply ModuleCat.hom_ext
+      rfl)
+
+end ASGinzburg.CutQuiver

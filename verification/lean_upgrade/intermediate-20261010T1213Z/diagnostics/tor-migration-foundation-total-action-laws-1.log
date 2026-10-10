@@ -1,0 +1,49 @@
+ASGinzburg/FoundationTotalActionLaws.lean:34:11: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  A.foundationRightComponentAction Q M 0
+in the target expression
+  (A.foundationRightComponentAction Q M 0) (m j) = 0
+
+case h₀
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+M : A.FoundationRightModule Q
+m : A.foundationRightTotalSpace Q M
+i j : Q.Vertex
+a✝ : j ∈ Finset.univ
+hji : j ≠ i
+hz : 1 i j = 0
+⊢ (A.foundationRightComponentAction Q M 0) (m j) = 0
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    0
+  has type
+    (A.foundationComponents Q).Hom i j
+  but is expected to have type
+    A.Hom ↑↑i ↑↑j
+  in the application
+    A.foundationRightComponentAction Q M 0
+ASGinzburg/FoundationTotalActionLaws.lean:41:88: error: unsolved goals
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+Q : CutQuiver
+M : A.FoundationRightModule Q
+x y : A.FoundationAlgebra Q
+m : A.foundationRightTotalSpace Q M
+i : Q.Vertex
+⊢ ∑ y_1, ∑ x_1, (A.foundationRightComponentAction Q M ((A.comp (x y_1 x_1)) (y i y_1))) (m x_1) =
+    ∑ x_1,
+      ∑ x_2,
+        (A.foundationRightComponentAction Q M (y i x_1)) ((A.foundationRightComponentAction Q M (x x_1 x_2)) (m x_2))
+ASGinzburg/FoundationTotalActionLaws.lean:47:24: warning: This simp argument is unused:
+  foundationRightComponentAction_comp
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [LinearMap.comp_apply, foundationRightTotalAction_apply, A.foundation_mul_component Q x y,
+    foundationRightComponentAction_sum, LinearMap.sum_apply, LinearMap.comp_apply, map_sum]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

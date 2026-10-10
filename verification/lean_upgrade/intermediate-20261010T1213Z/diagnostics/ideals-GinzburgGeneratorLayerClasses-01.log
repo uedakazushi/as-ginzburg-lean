@@ -1,0 +1,73 @@
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:20:2: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:41:2: error: `simp` made no progress
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    f
+  has type
+    ↥(Q.ginzburgGeneratorFiltrationAtDegree k u v r q c)
+  but is expected to have type
+    ↥(Finsupp.supported k k
+        {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c})
+  in the application
+    (Finsupp.restrictDom k k
+          ({p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c} \
+            {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r + 1) ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}) ∘ₗ
+        (Finsupp.supported k k
+            {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}).subtype)
+      f
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:30:49: warning: This simp argument is unused:
+  LinearEquiv.trans_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerQuotientEquiv, LinearEquiv.coe_ofEq_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:31:4: warning: This simp argument is unused:
+  LinearEquiv.coe_ofEq_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerQuotientEquiv, LinearEquiv.trans_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:39:43: warning: This simp argument is unused:
+  LinearMap.comp_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [supportedDifferenceProjection, Submodule.subtype_apply, Finsupp.restrictDom_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:40:4: warning: This simp argument is unused:
+  Submodule.subtype_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [supportedDifferenceProjection, LinearMap.comp_apply, Finsupp.restrictDom_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:40:28: warning: This simp argument is unused:
+  Finsupp.restrictDom_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [supportedDifferenceProjection, LinearMap.comp_apply, Submodule.subtype_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:46:9: error(lean.invalidField): Invalid field `ginzburgGeneratorLayerClass`: The environment does not contain `ASGinzburg.CutQuiver.ginzburgGeneratorLayerClass`, so it is not possible to project the field `ginzburgGeneratorLayerClass` from an expression
+  Q
+of type `CutQuiver`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:49:6: error(lean.unknownIdentifier): Unknown identifier `ginzburgGeneratorLayerClass`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:46:57: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v : Q.Vertex
+r q c : ℤ
+f : ↥(Q.ginzburgGeneratorLayerAtDegree k u v r q c)
+⊢ ↑((Q.ginzburgGeneratorLayerQuotientEquiv k u v r q c) sorry) = ↑f
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:62:8: error(lean.invalidField): Invalid field `ginzburgGeneratorLayerClass`: The environment does not contain `ASGinzburg.CutQuiver.ginzburgGeneratorLayerClass`, so it is not possible to project the field `ginzburgGeneratorLayerClass` from an expression
+  Q
+of type `CutQuiver`

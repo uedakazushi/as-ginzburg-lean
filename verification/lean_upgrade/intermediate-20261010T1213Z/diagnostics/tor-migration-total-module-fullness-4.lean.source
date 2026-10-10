@@ -1,0 +1,202 @@
+import ASGinzburg.TotalModuleFunctors
+
+/-!
+Every homomorphism between two total modules comes from a unique componentwise
+natural transformation. Scalars agree with the original k-actions and the
+component identities force preservation of the direct-sum inclusions. This
+proves fullness; essential surjectivity and the equivalence are separate.
+-/
+namespace ASGinzburg.ZAlgebra
+open CategoryTheory Opposite
+open scoped DirectSum
+universe u v
+variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)
+
+theorem leftTotalUnitalRepresentation_algebraMap_apply (M : A.LeftModule) (r : k)
+    (x : A.leftModuleTotalSpace M) :
+    A.leftTotalUnitalRepresentation M (algebraMap k A.totalUnitization r) x = r • x := by
+  rw [AlgHom.commutes]
+  rfl
+
+theorem rightTotalUnitalRepresentation_algebraMap_apply (M : A.RightModule) (r : k)
+    (x : A.rightModuleTotalSpace M) :
+    A.rightTotalUnitalRepresentation M (algebraMap k A.totalUnitizationᵐᵒᵖ r) x = r • x := by
+  rw [AlgHom.commutes]
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def leftTotalHomToLinear {M N : A.LeftModule}
+    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) :
+    A.leftModuleTotalSpace M →ₗ[k] A.leftModuleTotalSpace N := by
+  letI := A.leftTotalUnitizationModule M
+  letI := A.leftTotalUnitizationModule N
+  exact
+    { toFun := f.hom
+      map_add' := f.hom.map_add
+      map_smul' := by
+        intro r x
+        have h := f.hom.map_smul (algebraMap k A.totalUnitization r) x
+        change f.hom (A.leftTotalUnitalRepresentation M (algebraMap k A.totalUnitization r) x) =
+          A.leftTotalUnitalRepresentation N (algebraMap k A.totalUnitization r) (f.hom x) at h
+        rw [A.leftTotalUnitalRepresentation_algebraMap_apply,
+          A.leftTotalUnitalRepresentation_algebraMap_apply] at h
+        exact h }
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def rightTotalHomToLinear {M N : A.RightModule}
+    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) :
+    A.rightModuleTotalSpace M →ₗ[k] A.rightModuleTotalSpace N := by
+  letI := A.rightTotalUnitizationModule M
+  letI := A.rightTotalUnitizationModule N
+  exact
+    { toFun := f.hom
+      map_add' := f.hom.map_add
+      map_smul' := by
+        intro r x
+        have h := f.hom.map_smul (algebraMap k A.totalUnitizationᵐᵒᵖ r) x
+        change f.hom (A.rightTotalUnitalRepresentation M (algebraMap k A.totalUnitizationᵐᵒᵖ r) x) =
+          A.rightTotalUnitalRepresentation N (algebraMap k A.totalUnitizationᵐᵒᵖ r) (f.hom x) at h
+        rw [A.rightTotalUnitalRepresentation_algebraMap_apply,
+          A.rightTotalUnitalRepresentation_algebraMap_apply] at h
+        exact h }
+
+noncomputable def leftTotalHomComponent {M N : A.LeftModule}
+    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) (i : ℤ) :
+    (A.leftModuleEvaluation i).obj M →ₗ[k] (A.leftModuleEvaluation i).obj N :=
+  (DirectSum.component k ℤ (fun l => (A.leftModuleEvaluation l).obj N) i).comp
+    ((A.leftTotalHomToLinear f).comp
+      (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i))
+
+noncomputable def rightTotalHomComponent {M N : A.RightModule}
+    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) (i : ℤ) :
+    (A.rightModuleEvaluation i).obj M →ₗ[k] (A.rightModuleEvaluation i).obj N :=
+  (DirectSum.component k ℤ (fun l => (A.rightModuleEvaluation l).obj N) i).comp
+    ((A.rightTotalHomToLinear f).comp
+      (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i))
+
+set_option backward.isDefEq.respectTransparency false in
+theorem leftTotalHomToLinear_lof {M N : A.LeftModule}
+    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) (i : ℤ)
+    (x : (A.leftModuleEvaluation i).obj M) :
+    A.leftTotalHomToLinear f (DirectSum.lof k ℤ _ i x) =
+      DirectSum.lof k ℤ _ i (A.leftTotalHomComponent f i x) := by
+  have h := f.hom.map_smul
+    (A.totalAlgebraComponent (A.id i) : A.totalUnitization) (DirectSum.lof k ℤ _ i x)
+  rw [A.leftTotalModule_component_smul, A.leftTotalModule_component_smul,
+    A.leftModuleTotalAction_id, A.leftModuleTotalAction_id] at h
+  change A.leftTotalHomToLinear f
+    (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i
+      ((DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i x) i)) =
+    DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj N) i
+      ((A.leftTotalHomToLinear f (DirectSum.lof k ℤ _ i x)) i) at h
+  rw [DirectSum.lof_apply] at h
+  exact h
+
+set_option backward.isDefEq.respectTransparency false in
+theorem rightTotalHomToLinear_lof {M N : A.RightModule}
+    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) (i : ℤ)
+    (x : (A.rightModuleEvaluation i).obj M) :
+    A.rightTotalHomToLinear f (DirectSum.lof k ℤ _ i x) =
+      DirectSum.lof k ℤ _ i (A.rightTotalHomComponent f i x) := by
+  have h := f.hom.map_smul
+    (MulOpposite.op (A.totalAlgebraComponent (A.id i) : A.totalUnitization))
+    (DirectSum.lof k ℤ _ i x)
+  rw [A.rightTotalModule_component_smul, A.rightTotalModule_component_smul,
+    A.rightModuleTotalAction_id, A.rightModuleTotalAction_id] at h
+  change A.rightTotalHomToLinear f
+    (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i
+      ((DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) i x) i)) =
+    DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj N) i
+      ((A.rightTotalHomToLinear f (DirectSum.lof k ℤ _ i x)) i) at h
+  rw [DirectSum.lof_apply] at h
+  exact h
+
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def leftTotalHomNatTrans {M N : A.LeftModule}
+    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) : M ⟶ N := ObjectProperty.homMk {
+  app X := ModuleCat.ofHom (A.leftTotalHomComponent f X.index)
+  naturality := by
+    intro X Y a
+    rcases X with ⟨i⟩
+    rcases Y with ⟨j⟩
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    have h := f.hom.map_smul (A.totalAlgebraComponent a : A.totalUnitization)
+      (DirectSum.lof k ℤ (fun l => (A.leftModuleEvaluation l).obj M) i x)
+    rw [A.leftTotalModule_component_smul, A.leftTotalModule_component_smul] at h
+    change A.leftTotalHomToLinear f
+      (A.leftModuleTotalAction M a (DirectSum.lof k ℤ _ i x)) =
+      A.leftModuleTotalAction N a (A.leftTotalHomToLinear f (DirectSum.lof k ℤ _ i x)) at h
+    rw [A.leftModuleTotalAction_lof, A.leftTotalHomToLinear_lof,
+      A.leftTotalHomToLinear_lof, A.leftModuleTotalAction_lof] at h
+    change A.leftTotalHomComponent f j ((M.obj.map a).hom x) =
+      (N.obj.map a).hom (A.leftTotalHomComponent f i x)
+    simpa only [DirectSum.lof_apply] using congrArg (fun z => z j) h }
+
+set_option backward.isDefEq.respectTransparency false in
+noncomputable def rightTotalHomNatTrans {M N : A.RightModule}
+    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) : M ⟶ N := ObjectProperty.homMk {
+  app X := ModuleCat.ofHom (A.rightTotalHomComponent f X.unop.index)
+  naturality := by
+    intro X Y a
+    cases X using Opposite.rec
+    cases Y using Opposite.rec
+    rename_i X Y
+    rcases X with ⟨j⟩
+    rcases Y with ⟨i⟩
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro x
+    have h := f.hom.map_smul (MulOpposite.op (A.totalAlgebraComponent a.unop : A.totalUnitization))
+      (DirectSum.lof k ℤ (fun l => (A.rightModuleEvaluation l).obj M) j x)
+    rw [A.rightTotalModule_component_smul, A.rightTotalModule_component_smul] at h
+    change A.rightTotalHomToLinear f
+      (A.rightModuleTotalAction M a.unop (DirectSum.lof k ℤ _ j x)) =
+      A.rightModuleTotalAction N a.unop (A.rightTotalHomToLinear f (DirectSum.lof k ℤ _ j x)) at h
+    rw [A.rightModuleTotalAction_lof, A.rightTotalHomToLinear_lof,
+      A.rightTotalHomToLinear_lof, A.rightModuleTotalAction_lof] at h
+    change A.rightTotalHomComponent f i ((M.obj.map a).hom x) =
+      (N.obj.map a).hom (A.rightTotalHomComponent f j x)
+    simpa only [DirectSum.lof_apply] using congrArg (fun z => z i) h }
+
+theorem leftTotalHomNatTrans_recover {M N : A.LeftModule}
+    (f : A.leftTotalModule M ⟶ A.leftTotalModule N) :
+    A.leftTotalModuleMap (A.leftTotalHomNatTrans f) = f := by
+  have h : A.leftTotalLinearMap (A.leftTotalHomNatTrans f) = A.leftTotalHomToLinear f := by
+    apply DFinsupp.lhom_ext
+    intro i x
+    change A.leftTotalLinearMap (A.leftTotalHomNatTrans f) (DirectSum.lof k ℤ _ i x) =
+      A.leftTotalHomToLinear f (DirectSum.lof k ℤ _ i x)
+    rw [A.leftTotalLinearMap_lof]
+    exact (A.leftTotalHomToLinear_lof f i x).symm
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  exact LinearMap.congr_fun h x
+
+theorem rightTotalHomNatTrans_recover {M N : A.RightModule}
+    (f : A.rightTotalModule M ⟶ A.rightTotalModule N) :
+    A.rightTotalModuleMap (A.rightTotalHomNatTrans f) = f := by
+  have h : A.rightTotalLinearMap (A.rightTotalHomNatTrans f) = A.rightTotalHomToLinear f := by
+    apply DFinsupp.lhom_ext
+    intro i x
+    change A.rightTotalLinearMap (A.rightTotalHomNatTrans f) (DirectSum.lof k ℤ _ i x) =
+      A.rightTotalHomToLinear f (DirectSum.lof k ℤ _ i x)
+    rw [A.rightTotalLinearMap_lof]
+    exact (A.rightTotalHomToLinear_lof f i x).symm
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro x
+  exact LinearMap.congr_fun h x
+
+instance leftTotalLocallyUnitalFunctorFull : A.leftTotalLocallyUnitalFunctor.Full where
+  map_surjective f := ⟨A.leftTotalHomNatTrans f.hom,
+    ObjectProperty.hom_ext _ (A.leftTotalHomNatTrans_recover f.hom)⟩
+
+instance rightTotalLocallyUnitalFunctorFull : A.rightTotalLocallyUnitalFunctor.Full where
+  map_surjective f := ⟨A.rightTotalHomNatTrans f.hom,
+    ObjectProperty.hom_ext _ (A.rightTotalHomNatTrans_recover f.hom)⟩
+
+end ASGinzburg.ZAlgebra

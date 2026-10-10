@@ -1,0 +1,68 @@
+ASGinzburg/OppositeGinzburgLoopDifferential.lean:10:54: error: unsolved goals
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+hs : Q.opposite.source a = Fin.rev v ↔ Q.target a = v
+ht : Q.opposite.target a = Fin.rev v ↔ Q.source a = v
+hsa : Q.source a = v
+hta : Q.target a = v
+⊢ Finsupp.single
+        (GinzburgPath.transport Q.opposite ⋯ ⋯
+          ((Q.opposite.dualGinzburgArrowPath a).comp (Q.opposite.originalGinzburgArrowPath a)))
+        1 -
+      Finsupp.single
+        (GinzburgPath.transport Q.opposite ⋯ ⋯
+          ((Q.opposite.originalGinzburgArrowPath a).comp (Q.opposite.dualGinzburgArrowPath a)))
+        1 =
+    Finsupp.single
+        (GinzburgPath.transport Q.opposite ⋯ ⋯
+          ((Q.opposite.dualGinzburgArrowPath a).comp (Q.opposite.originalGinzburgArrowPath a)))
+        1 -
+      Finsupp.single
+        (GinzburgPath.transport Q.opposite ⋯ ⋯
+          ((Q.opposite.originalGinzburgArrowPath a).comp (Q.opposite.dualGinzburgArrowPath a)))
+        1
+
+case neg
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+hs : Q.opposite.source a = Fin.rev v ↔ Q.target a = v
+ht : Q.opposite.target a = Fin.rev v ↔ Q.source a = v
+hsa : Q.source a = v
+hta : ¬Q.target a = v
+⊢ Finsupp.single
+      (GinzburgPath.transport Q.opposite ⋯ ⋯
+        ((Q.opposite.dualGinzburgArrowPath a).comp (Q.opposite.originalGinzburgArrowPath a)))
+      1 =
+    Finsupp.single
+      (GinzburgPath.transport Q.opposite ⋯ ⋯
+        ((Q.opposite.dualGinzburgArrowPath a).comp (Q.opposite.originalGinzburgArrowPath a)))
+      1
+
+case pos
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+v : Q.Vertex
+a : Q.Arrow
+a✝ : a ∈ Finset.univ
+hs : Q.opposite.source a = Fin.rev v ↔ Q.target a = v
+ht : Q.opposite.target a = Fin.rev v ↔ Q.source a = v
+hsa : ¬Q.source a = v
+hta : Q.target a = v
+⊢ Finsupp.single
+      (GinzburgPath.transport Q.opposite ⋯ ⋯
+        ((Q.opposite.originalGinzburgArrowPath a).comp (Q.opposite.dualGinzburgArrowPath a)))
+      1 =
+    Finsupp.single
+      (GinzburgPath.transport Q.opposite ⋯ ⋯
+        ((Q.opposite.originalGinzburgArrowPath a).comp (Q.opposite.dualGinzburgArrowPath a)))
+      1

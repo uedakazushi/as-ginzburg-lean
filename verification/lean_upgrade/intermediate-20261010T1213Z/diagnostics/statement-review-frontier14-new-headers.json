@@ -1,0 +1,26 @@
+[
+  {
+    "file": "ASGinzburg/GinzburgGeneratorPrefixTopQuotient.lean",
+    "name": "ASGinzburg.CutQuiver.ginzburgGeneratorPrefixTopHomologyQuotientIso",
+    "before": "noncomputable def ginzburgGeneratorPrefixTopHomologyQuotientIso (φ : Q.Potential k) (u v : Q.Vertex) (r c : ℤ) : Q.ginzburgGeneratorPrefixHomology k φ u v r c r ≅ ModuleCat.of k (Q.GinzburgGeneratorPrefix k u v r r c ⧸ LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c))",
+    "after": "noncomputable def ginzburgGeneratorPrefixTopHomologyQuotientIso (φ : Q.Potential k) (u v : Q.Vertex) (r c : ℤ) : by letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup exact Q.ginzburgGeneratorPrefixHomology k φ u v r c r ≅ ModuleCat.of k (Q.GinzburgGeneratorPrefix k u v r r c ⧸ LinearMap.range (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c))"
+  },
+  {
+    "file": "ASGinzburg/GinzburgTotalHomologyZero.lean",
+    "name": "ASGinzburg.CutQuiver.ginzburgTotalHomologyZeroJacobianIso",
+    "before": "noncomputable def ginzburgTotalHomologyZeroJacobianIso (φ : Q.Potential k) : Q.ginzburgTotalHomology k φ 0 ≅ ModuleCat.of k (⨁ uv : Q.Vertex×Q.Vertex, Q.PathComponent k uv.1 uv.2 ⧸ (Q.pathJacobianIdeal k φ).hom uv.1 uv.2)",
+    "after": "noncomputable def ginzburgTotalHomologyZeroJacobianIso (φ : Q.Potential k) : Q.ginzburgTotalHomology k φ 0 ≅ @ModuleCat.of k _ (⨁ uv : Q.Vertex×Q.Vertex, Q.PathComponent k uv.1 uv.2 ⧸ (Q.pathJacobianIdeal k φ).hom uv.1 uv.2) (DFinsupp.addCommGroup (β := fun uv : Q.Vertex×Q.Vertex => Q.PathComponent k uv.1 uv.2 ⧸ (Q.pathJacobianIdeal k φ).hom uv.1 uv.2)) _"
+  },
+  {
+    "file": "ASGinzburg/JacobianUnrollingQuotient.lean",
+    "name": "ASGinzburg.CutQuiver.betweenSheetJacobianQuotientEquiv",
+    "before": "noncomputable def betweenSheetJacobianQuotientEquiv (φ : Q.Potential k) (u v : Q.LiftVertex) : (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸ Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k] (Q.UnrolledPathComponent k u v ⧸ Q.unrolledJacobianLiftIdeal k φ u v)",
+    "after": "noncomputable def betweenSheetJacobianQuotientEquiv (φ : Q.Potential k) (u v : Q.LiftVertex) : by letI : AddCommGroup (Q.PathComponent k u.1 v.1) := Finsupp.instAddCommGroup exact (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸ Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k] (Q.UnrolledPathComponent k u v ⧸ Q.unrolledJacobianLiftIdeal k φ u v)"
+  },
+  {
+    "file": "ASGinzburg/JacobianUnrollingQuotient.lean",
+    "name": "ASGinzburg.CutQuiver.homogeneousJacobianUnrolledEquiv",
+    "before": "noncomputable def homogeneousJacobianUnrolledEquiv (φ : Q.Potential k) (u v : Q.LiftVertex) : (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸ Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k] (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v)",
+    "after": "noncomputable def homogeneousJacobianUnrolledEquiv (φ : Q.Potential k) (u v : Q.LiftVertex) : by letI : AddCommGroup (Q.PathComponent k u.1 v.1) := Finsupp.instAddCommGroup exact (Q.pathCutComponent k u.1 v.1 (v.2-u.2) ⧸ Q.pathJacobianCutIdeal k φ u.1 v.1 (v.2-u.2)) ≃ₗ[k] (Q.unrolledJacobianZAlgebra k φ).Hom (Q.height u) (Q.height v)"
+  }
+]

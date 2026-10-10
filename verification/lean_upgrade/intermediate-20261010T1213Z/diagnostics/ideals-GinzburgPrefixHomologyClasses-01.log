@@ -1,0 +1,22 @@
+ASGinzburg/GinzburgPrefixHomologyClasses.lean:16:24: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+ASGinzburg/GinzburgPrefixHomologyClasses.lean:40:8: error(lean.invalidField): Invalid field `ginzburgPrefixTopHomologyQuotientIso_π`: The environment does not contain `ASGinzburg.CutQuiver.ginzburgPrefixTopHomologyQuotientIso_π`, so it is not possible to project the field `ginzburgPrefixTopHomologyQuotientIso_π` from an expression
+  Q
+of type `CutQuiver`
+ASGinzburg/GinzburgPrefixHomologyClasses.lean:36:35: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+r c : ℤ
+f : Q.GinzburgGeneratorPrefix k u v r r c
+hf : (ConcreteCategory.hom ((Q.ginzburgGeneratorPrefixComplex k φ u v r c).d r (r + 1))) f = 0
+K : CochainComplex (ModuleCat k) ℤ := Q.ginzburgGeneratorPrefixComplex k φ u v r c
+⊢ (ConcreteCategory.hom
+        (HomologicalComplex.homologyπ K r ≫ (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom))
+      (HomologicalComplex.cyclesMk K f (r + 1) ⋯ hf) =
+    Submodule.Quotient.mk f

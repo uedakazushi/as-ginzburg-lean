@@ -1,0 +1,61 @@
+ASGinzburg/UnrolledJacobianRelationShifts.lean:34:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.unrolledPathEraseLinearMap k (Q.target a, ?m.70) (Q.source a, ?m.71))
+    (Finsupp.mapDomain ⇑(UnrolledPath.endpointEquiv Q ?hx ?hy) ?f)
+in the target expression
+  (Q.unrolledPathEraseLinearMap k (Q.target a, m) (Q.source a, m + ↑(1 - Q.cutDegree a)))
+      (Q.unrolledJacobianRelation k a φ m) =
+    (Q.unrolledPathEraseLinearMap k (Q.target a, m + r) (Q.source a, m + ↑(1 - Q.cutDegree a) + r))
+      (Finsupp.mapDomain (⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯)) (Q.unrolledJacobianRelation k a φ (m + r)))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+a : Q.Arrow
+m r : ℤ
+⊢ (Q.unrolledPathEraseLinearMap k (Q.target a, m) (Q.source a, m + ↑(1 - Q.cutDegree a)))
+      (Q.unrolledJacobianRelation k a φ m) =
+    (Q.unrolledPathEraseLinearMap k (Q.target a, m + r) (Q.source a, m + ↑(1 - Q.cutDegree a) + r))
+      (Finsupp.mapDomain (⇑(UnrolledPath.endpointEquiv Q ⋯ ⋯)) (Q.unrolledJacobianRelation k a φ (m + r)))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Finsupp.instAddCommMonoid
+  has type
+    AddCommMonoid (Q.UnrolledPath (Q.shift r (Q.target a, m)) (Q.shift r (Q.source a, m + ↑(1 - Q.cutDegree a))) →₀ k)
+  but is expected to have type
+    AddCommMonoid (Q.UnrolledPathComponent k (Q.target a, m + r) (Q.source a, m + ↑(1 - Q.cutDegree a) + r))
+  in the application
+    @LinearMap k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k)
+      (Q.UnrolledPathComponent k (Q.target a, m + r) (Q.source a, m + ↑(1 - Q.cutDegree a) + r))
+      (Q.PathComponent k (Q.target a) (Q.source a)) Finsupp.instAddCommMonoid
+ASGinzburg/UnrolledJacobianRelationShifts.lean:61:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  (Q.unrolledPathEraseLinearMap k (Q.target ↑?b, ?m) (Q.source ↑?b, ?m)) (Q.unrolledCutJacobianRelation k ?φ ?b ?m)
+in the target expression
+  (Q.pathCyclicDerivative k ↑b) φ =
+    (Q.unrolledPathEraseLinearMap k (Q.target ↑b, m + r) (Q.source ↑b, m + r))
+      (Q.unrolledCutJacobianRelation k φ b (m + r))
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+b : { a // Q.cut a = true }
+m r : ℤ
+⊢ (Q.pathCyclicDerivative k ↑b) φ =
+    (Q.unrolledPathEraseLinearMap k (Q.target ↑b, m + r) (Q.source ↑b, m + r))
+      (Q.unrolledCutJacobianRelation k φ b (m + r))
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    Finsupp.instAddCommMonoid
+  has type
+    AddCommMonoid (Q.UnrolledPath (Q.shift r (Q.target ↑b, m)) (Q.shift r (Q.source ↑b, m)) →₀ k)
+  but is expected to have type
+    AddCommMonoid (Q.UnrolledPathComponent k (Q.target ↑b, m + r) (Q.source ↑b, m + r))
+  in the application
+    @LinearMap k k Field.toSemifield.toSemiring Field.toSemifield.toSemiring (RingHom.id k)
+      (Q.UnrolledPathComponent k (Q.target ↑b, m + r) (Q.source ↑b, m + r))
+      (Q.PathComponent k (Q.target ↑b) (Q.source ↑b)) Finsupp.instAddCommMonoid

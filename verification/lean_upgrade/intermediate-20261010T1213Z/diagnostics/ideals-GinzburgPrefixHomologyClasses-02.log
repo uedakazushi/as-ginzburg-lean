@@ -1,0 +1,62 @@
+ASGinzburg/GinzburgPrefixHomologyClasses.lean:19:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+ASGinzburg/GinzburgPrefixHomologyClasses.lean:29:9: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  𝟙 ?m.213 ≫ ?f
+in the target expression
+  (HomologicalComplex.cyclesIsoSc' K (r - 1) r (r + 1) ⋯ ⋯).hom ≫
+      (HomologicalComplex.sc' K (r - 1) r (r + 1)).iCycles ≫
+        𝟙 (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂ ≫
+          ModuleCat.ofHom (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ u v r c).f).range.mkQ =
+    HomologicalComplex.iCycles (Q.ginzburgGeneratorPrefixComplex k φ u v r c) r ≫
+      ModuleCat.ofHom (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range.mkQ
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+r c : ℤ
+this : (w : Q.Vertex) → AddCommGroup (Q.GinzburgPathComponent k u w) := fun w => Finsupp.instAddCommGroup
+K : CochainComplex (ModuleCat k) ℤ := Q.ginzburgGeneratorPrefixComplex k φ u v r c
+e : HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1) ≅
+  Q.ginzburgGeneratorPrefixTopShortComplex k φ u v r c :=
+  Q.ginzburgGeneratorPrefixTopShortComplexIso k φ u v r c
+he : e.hom.τ₂ = 𝟙 (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂
+⊢ (HomologicalComplex.cyclesIsoSc' K (r - 1) r (r + 1) ⋯ ⋯).hom ≫
+      (HomologicalComplex.sc' K (r - 1) r (r + 1)).iCycles ≫
+        𝟙 (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂ ≫
+          ModuleCat.ofHom (ModuleCat.Hom.hom (Q.ginzburgGeneratorPrefixTopShortComplex k φ u v r c).f).range.mkQ =
+    HomologicalComplex.iCycles (Q.ginzburgGeneratorPrefixComplex k φ u v r c) r ≫
+      ModuleCat.ofHom (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c).range.mkQ
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    𝟙 (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂
+  has type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver
+      (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂
+      (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂
+  but is expected to have type
+    @Quiver.Hom (ModuleCat k) (ModuleCat.moduleCategory k).toQuiver (HomologicalComplex.sc' K (r - 1) r (r + 1)).X₂
+      (Q.ginzburgGeneratorPrefixTopShortComplex k φ u v r c).X₂
+  in the application
+    CategoryStruct.comp (𝟙 (HomologicalComplex.sc' (Q.ginzburgGeneratorPrefixComplex k φ u v r c) (r - 1) r (r + 1)).X₂)
+ASGinzburg/GinzburgPrefixHomologyClasses.lean:38:35: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+r c : ℤ
+f : Q.GinzburgGeneratorPrefix k u v r r c
+hf : (ConcreteCategory.hom ((Q.ginzburgGeneratorPrefixComplex k φ u v r c).d r (r + 1))) f = 0
+K : CochainComplex (ModuleCat k) ℤ := Q.ginzburgGeneratorPrefixComplex k φ u v r c
+hi : (ConcreteCategory.hom (HomologicalComplex.iCycles K r)) (HomologicalComplex.cyclesMk K f (r + 1) ⋯ hf) = f
+⊢ Submodule.Quotient.mk f = Submodule.Quotient.mk f

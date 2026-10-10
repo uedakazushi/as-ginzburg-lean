@@ -1,0 +1,24 @@
+ASGinzburg/GinzburgGeneratorPrefixDifferentialCoefficients.lean:26:6: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+ASGinzburg/GinzburgGeneratorPrefixDifferentialCoefficients.lean:26:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  dite (r - 1 + 1 = r) ?m.58 ?m.59
+in the target expression
+  ↑((ModuleCat.Hom.hom
+          (CochainComplex.of.d (fun q => ↧(Q.GinzburgGeneratorPrefix k u v r q c))
+            (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c)) (r - 1) r))
+        f a) =
+    ginzburgSign k r • (Q.ginzburgDifferential k φ u (GinzburgArrow.source Q ↑a)) ↑(f a)
+
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+φ : ↥(Q.Potential k)
+u v : Q.Vertex
+r c : ℤ
+f : Q.GinzburgGeneratorPrefix k u v r (r - 1) c
+a : { a // GinzburgArrow.target Q a = v ∧ GinzburgArrow.cohomologicalDegree Q a = r }
+h : r - 1 + 1 = r
+⊢ ↑((ModuleCat.Hom.hom
+          (CochainComplex.of.d (fun q => ↧(Q.GinzburgGeneratorPrefix k u v r q c))
+            (fun q => ModuleCat.ofHom (Q.ginzburgGeneratorPrefixDifferential k φ u v r q c)) (r - 1) r))
+        f a) =
+    ginzburgSign k r • (Q.ginzburgDifferential k φ u (GinzburgArrow.source Q ↑a)) ↑(f a)

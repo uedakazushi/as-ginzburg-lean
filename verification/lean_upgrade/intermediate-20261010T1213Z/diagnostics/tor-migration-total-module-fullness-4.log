@@ -1,0 +1,9 @@
+ASGinzburg/TotalModuleFullness.lean:162:4: error: Type mismatch: After simplification, term
+  congrArg (fun z => z i) h
+ has type
+  @Eq (↑((A.rightModuleEvaluation i).obj N))
+    ((A.rightTotalHomComponent f i) ((ModuleCat.Hom.hom (M.obj.map a.unop.op)) x))
+    ((ModuleCat.Hom.hom (N.obj.map a.unop.op)) ((A.rightTotalHomComponent f j) x))
+but is expected to have type
+  @Eq (↑((A.rightModuleEvaluation i).obj N)) ((A.rightTotalHomComponent f i) ((ModuleCat.Hom.hom (M.obj.map a)) x))
+    ((ModuleCat.Hom.hom (N.obj.map a)) ((A.rightTotalHomComponent f j) x))

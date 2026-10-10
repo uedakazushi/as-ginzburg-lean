@@ -1,0 +1,44 @@
+ASGinzburg/GinzburgZeroQuotientProducts.lean:10:2: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  HasQuotient (↥(Q.ginzburgCohomologicalComponent k u v 0)) (Submodule k ↥(Q.ginzburgCohomologicalComponent k u v 0))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:15:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  AddCommMonoid (Q.GinzburgZeroQuotient k φ u v)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:21:51: error: Application type mismatch: The argument
+  hf
+has type
+  f ∈ ?m.36
+but is expected to have type
+  ?m.107 ∈ (Q.ginzburgNegativeOneDifferential k φ ?m.104 v).range
+in the application
+  ginzburgZeroComp_boundary_left Q k φ hf
+ASGinzburg/GinzburgZeroQuotientProducts.lean:27:6: error: typeclass instance problem is stuck
+  Module ?m.17 ↥(Q.ginzburgCohomologicalComponent k u w 0)
+
+Note: Lean will not try to resolve this typeclass instance problem because the first and third type arguments to `Module` contain metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.
+
+Hint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:31:6: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  AddCommMonoid (Q.GinzburgZeroQuotient k φ u v)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:48:6: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  AddCommMonoid (Q.GinzburgZeroQuotient k φ u v)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:47:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  AddCommMonoid (Q.GinzburgZeroQuotient k φ v w)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:52:6: error: failed to synthesize
+  Module ?m.75 ?m.80
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+ASGinzburg/GinzburgZeroQuotientProducts.lean:62:6: error: typeclass instance problem is stuck
+  Module ?m.17 ↥(Q.ginzburgCohomologicalComponent k u w 0)
+
+Note: Lean will not try to resolve this typeclass instance problem because the first and third type arguments to `Module` contain metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.
+
+Hint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.

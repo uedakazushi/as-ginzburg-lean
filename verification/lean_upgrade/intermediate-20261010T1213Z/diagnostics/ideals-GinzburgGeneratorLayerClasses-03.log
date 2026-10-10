@@ -1,0 +1,37 @@
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:29:53: error: unsolved goals
+Q : CutQuiver
+k : Type u
+inst✝ : Field k
+u v : Q.Vertex
+r q c : ℤ
+f : ↥(Q.ginzburgGeneratorFiltrationAtDegree k u v r q c)
+f' : ↥(Finsupp.supported k k
+    {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}) :=
+  f
+he :
+  ↑((supportedQuotientDifferenceEquiv k (Q.GinzburgPath u v)
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r + 1) ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c})
+        (Submodule.Quotient.mk f')) =
+    ↑((supportedDifferenceProjection k (Q.GinzburgPath u v)
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r + 1) ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c})
+        f')
+⊢ Finsupp.filter
+      (fun x => x ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}) ↑f' =
+    Finsupp.filter
+      (fun x => x ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}) ↑f
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:31:49: warning: This simp argument is unused:
+  LinearEquiv.trans_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerQuotientEquiv, LinearEquiv.coe_ofEq_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:32:4: warning: This simp argument is unused:
+  LinearEquiv.coe_ofEq_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerQuotientEquiv, LinearEquiv.trans_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,144 @@
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:11:2: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  HasQuotient (↥(Q.ginzburgGeneratorFiltrationAtDegree k u v r q c))
+    (Submodule k ↥(Q.ginzburgGeneratorFiltrationAtDegree k u v r q c))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:16:31: error: Application type mismatch: The argument
+  k
+has type
+  Type u
+of sort `Type (u + 1)` but is expected to have type
+  Q.Vertex
+of sort `Type` in the application
+  Q.GinzburgAssociatedGraded k
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:17:33: error: Application type mismatch: The argument
+  k
+has type
+  Type u
+of sort `Type (u + 1)` but is expected to have type
+  Q.Vertex
+of sort `Type` in the application
+  Q.GinzburgAssociatedGraded k
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:23:13: error(lean.invalidField): Invalid field notation: Type of
+  f
+is not known; cannot resolve field `val`
+
+Hint: Consider replacing the field projection with a call to one of the following:
+  • `AddUnits.val`
+  • `Char.val`
+  • `DerivedWanted.val`
+  • `Fin.val`
+  • `Finset.val`
+  • `IntermediateField.val`
+  • `NonScalar.val`
+  • `PNat.val`
+  • `PreQuasiregular.val`
+  • `Subalgebra.val`
+  • `SubalgebraClass.val`
+  • `Subtype.val`
+  • `Units.val`
+  • `ZMod.val`
+  • `Array.Mem.val`
+  • `Lean.ExprStructEq.val`
+  • `NumberField.RingOfIntegers.val`
+  • `OrderHom.Subtype.val`
+  • `ST.Out.val`
+  • `Valuation.IsUniformizer.val`
+  • `Valuation.Uniformizer.val`
+  • `Vector.Mem.val`
+  • `Functor.Elements.val`
+  • `Lean.Doc.Parser.val`
+  • `Lean.Doc.WithSyntax.val`
+  • `Lean.Elab.FieldInfo.val`
+  • `Lean.Language.DynamicSnapshot.val`
+  • `Lean.Language.SyntaxGuarded.val`
+  • `Lean.Meta.InstanceEntry.val`
+  • `Lean.Server.WithRpcRef.val`
+  • `Std.Time.Timestamp.val`
+  • `Std.Time.WallTime.val`
+  • `Batteries.BinomialHeap.Imp.FindMin.val`
+  • `Lean.Elab.ComputedFields.Context.val`
+  • `Lean.Elab.Term.LetRecToLift.val`
+  • `Lean.Elab.Term.NamedArg.val`
+  • `Lean.Meta.Match.Example.val`
+  • `Lean.Meta.Match.Pattern.val`
+  • `Lean.Meta.Sym.BitVecValue.val`
+  • `Lean.Meta.Sym.FinValue.val`
+  • `Lean.Meta.SynthInstance.Instance.val`
+  • `Mathlib.Tactic.Determinant.Cert.val`
+  • `Std.Time.Internal.UnitVal.val`
+  • `Lean.Meta.Try.Collector.InductionCandidate.val`
+  • `Mathlib.Tactic.Ring.Common.Result.val`
+  • `Lean.Meta.Grind.Arith.Cutsat.SymbolicBound.val`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:28:8: warning: declaration uses `sorry`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:32:2: warning: Unused tactic linter: `apply LinearMap.ext` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:33:2: warning: Unused tactic linter: `intro f` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:34:2: warning: Unused tactic linter: `refine Submodule.Quotient.induction_on _ f ?_` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:35:2: warning: Unused tactic linter: `intro g` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:36:2: warning: Unused tactic linter: `change
+  Submodule.Quotient.mk
+      (Q.ginzburgGeneratorFilteredDifferential k φ u v r (q + 1) c
+        (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c g)) =
+    0` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:39:2: warning: Unused tactic linter: `have he :=
+  LinearMap.congr_fun (Q.ginzburgGeneratorFilteredDifferential_square k φ u v r q c) g` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:41:2: warning: Unused tactic linter: `change
+  Q.ginzburgGeneratorFilteredDifferential k φ u v r (q + 1) c
+      (Q.ginzburgGeneratorFilteredDifferential k φ u v r q c g) =
+    0 at he` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:43:2: warning: Unused tactic linter: `rw [he]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:44:2: warning: Unused tactic linter: `exact (Q.ginzburgGeneratorHigherLayer k u v r (q + 1 + 1) c).mkQ.map_zero` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:33:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:34:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:35:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:36:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:39:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:41:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:43:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:44:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:48:73: error: Application type mismatch: The argument
+  k
+has type
+  Type u
+of sort `Type (u + 1)` but is expected to have type
+  Q.Vertex
+of sort `Type` in the application
+  Q.GinzburgAssociatedGraded k
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:54:18: warning: declaration uses `sorry`
+ASGinzburg/GinzburgAssociatedGradedComplex.lean:66:6: warning: Unused tactic linter: `rfl` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

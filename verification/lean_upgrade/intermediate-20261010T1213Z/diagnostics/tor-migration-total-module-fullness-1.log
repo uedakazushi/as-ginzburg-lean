@@ -1,0 +1,200 @@
+ASGinzburg/TotalModuleFullness.lean:41:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((A.leftTotalUnitalRepresentation ?M) ((algebraMap k A.totalUnitization) ?r)) ?x
+in the target expression
+  (ModuleCat.Hom.hom f) (r • x) =
+    ((A.leftTotalUnitalRepresentation N) ((algebraMap k A.totalUnitization) r)) ((ModuleCat.Hom.hom f) x)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.LeftModule
+f : A.leftTotalModule M ⟶ A.leftTotalModule N
+this✝ : Module A.totalUnitization (A.leftModuleTotalSpace M) := A.leftTotalUnitizationModule M
+this : Module A.totalUnitization (A.leftModuleTotalSpace N) := A.leftTotalUnitizationModule N
+r : k
+x : A.leftModuleTotalSpace M
+h :
+  (ModuleCat.Hom.hom f) (r • x) =
+    ((A.leftTotalUnitalRepresentation N) ((algebraMap k A.totalUnitization) r)) ((ModuleCat.Hom.hom f) x)
+⊢ (ModuleCat.Hom.hom f) (r • x) = (RingHom.id k) r • (ModuleCat.Hom.hom f) x
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    r • x
+  has type
+    A.leftModuleTotalSpace M
+  but is expected to have type
+    ↑(A.leftTotalModule M)
+  in the application
+    (ModuleCat.Hom.hom f) (r • x)
+ASGinzburg/TotalModuleFullness.lean:58:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ((A.rightTotalUnitalRepresentation ?M) ((algebraMap k A.totalUnitizationᵐᵒᵖ) ?r)) ?x
+in the target expression
+  (ModuleCat.Hom.hom f) (r • x) =
+    ((A.rightTotalUnitalRepresentation N) ((algebraMap k A.totalUnitizationᵐᵒᵖ) r)) ((ModuleCat.Hom.hom f) x)
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.RightModule
+f : A.rightTotalModule M ⟶ A.rightTotalModule N
+this✝ : Module A.totalUnitizationᵐᵒᵖ (A.rightModuleTotalSpace M) := A.rightTotalUnitizationModule M
+this : Module A.totalUnitizationᵐᵒᵖ (A.rightModuleTotalSpace N) := A.rightTotalUnitizationModule N
+r : k
+x : A.rightModuleTotalSpace M
+h :
+  (ModuleCat.Hom.hom f) (r • x) =
+    ((A.rightTotalUnitalRepresentation N) ((algebraMap k A.totalUnitizationᵐᵒᵖ) r)) ((ModuleCat.Hom.hom f) x)
+⊢ (ModuleCat.Hom.hom f) (r • x) = (RingHom.id k) r • (ModuleCat.Hom.hom f) x
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    r • x
+  has type
+    A.rightModuleTotalSpace M
+  but is expected to have type
+    ↑(A.rightTotalModule M)
+  in the application
+    (ModuleCat.Hom.hom f) (r • x)
+ASGinzburg/TotalModuleFullness.lean:82:40: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑(A.totalAlgebraComponent ?a) • ?x
+in the target expression
+  (ModuleCat.Hom.hom f)
+      (↑(A.totalAlgebraComponent (A.id i)) • (DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x) =
+    (A.leftModuleTotalAction N (A.id i))
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x))
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.LeftModule
+f : A.leftTotalModule M ⟶ A.leftTotalModule N
+i : ℤ
+x : ↑((A.leftModuleEvaluation i).obj M)
+h :
+  (ModuleCat.Hom.hom f)
+      (↑(A.totalAlgebraComponent (A.id i)) • (DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x) =
+    (A.leftModuleTotalAction N (A.id i))
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x))
+⊢ (A.leftTotalHomToLinear f) ((DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x) =
+    (DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj N)) i) ((A.leftTotalHomComponent f i) x)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x
+  has type
+    ⨁ (i : ℤ), ↑((A.leftModuleEvaluation i).obj M)
+  but is expected to have type
+    ↑(A.leftTotalModule M)
+  in the application
+    ↑(A.totalAlgebraComponent (A.id i)) • (DirectSum.lof k ℤ (fun i => ↑((A.leftModuleEvaluation i).obj M)) i) x
+ASGinzburg/TotalModuleFullness.lean:100:41: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  MulOpposite.op ↑(A.totalAlgebraComponent ?a) • ?x
+in the target expression
+  (ModuleCat.Hom.hom f)
+      (MulOpposite.op ↑(A.totalAlgebraComponent (A.id i)) •
+        (DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x) =
+    (A.rightModuleTotalAction N (A.id i))
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x))
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.RightModule
+f : A.rightTotalModule M ⟶ A.rightTotalModule N
+i : ℤ
+x : ↑((A.rightModuleEvaluation i).obj M)
+h :
+  (ModuleCat.Hom.hom f)
+      (MulOpposite.op ↑(A.totalAlgebraComponent (A.id i)) •
+        (DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x) =
+    (A.rightModuleTotalAction N (A.id i))
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x))
+⊢ (A.rightTotalHomToLinear f) ((DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x) =
+    (DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj N)) i) ((A.rightTotalHomComponent f i) x)
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    (DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x
+  has type
+    ⨁ (i : ℤ), ↑((A.rightModuleEvaluation i).obj M)
+  but is expected to have type
+    ↑(A.rightTotalModule M)
+  in the application
+    MulOpposite.op ↑(A.totalAlgebraComponent (A.id i)) •
+      (DirectSum.lof k ℤ (fun i => ↑((A.rightModuleEvaluation i).obj M)) i) x
+ASGinzburg/TotalModuleFullness.lean:123:42: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ↑(A.totalAlgebraComponent ?a) • ?x
+in the target expression
+  (ModuleCat.Hom.hom f)
+      (↑(A.totalAlgebraComponent a) • (DirectSum.lof k ℤ (fun l => ↑((A.leftModuleEvaluation l).obj M)) i) x) =
+    (A.leftModuleTotalAction N a)
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun l => ↑((A.leftModuleEvaluation l).obj M)) i) x))
+
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.LeftModule
+f : A.leftTotalModule M ⟶ A.leftTotalModule N
+i j : ℤ
+a : { index := i } ⟶ { index := j }
+x : ↑(M.obj.obj { index := i })
+h :
+  (ModuleCat.Hom.hom f)
+      (↑(A.totalAlgebraComponent a) • (DirectSum.lof k ℤ (fun l => ↑((A.leftModuleEvaluation l).obj M)) i) x) =
+    (A.leftModuleTotalAction N a)
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun l => ↑((A.leftModuleEvaluation l).obj M)) i) x))
+⊢ (ModuleCat.Hom.hom (M.obj.map a ≫ ModuleCat.ofHom (A.leftTotalHomComponent f { index := j }.index))) x =
+    (ModuleCat.Hom.hom (ModuleCat.ofHom (A.leftTotalHomComponent f { index := i }.index) ≫ N.obj.map a)) x
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing (M.obj.obj { index := i })
+  but is expected to have type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.leftModuleEvaluation i).obj M)
+  in the application
+    (DirectSum.lof k ℤ (fun l => ↑((A.leftModuleEvaluation l).obj M)) i) x
+ASGinzburg/TotalModuleFullness.lean:146:43: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  MulOpposite.op ↑(A.totalAlgebraComponent ?a) • ?x
+in the target expression
+  (ModuleCat.Hom.hom f)
+      (MulOpposite.op ↑(A.totalAlgebraComponent a.unop) •
+        (DirectSum.lof k ℤ (fun l => ↑((A.rightModuleEvaluation l).obj M)) j) x) =
+    (A.rightModuleTotalAction N a.unop)
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun l => ↑((A.rightModuleEvaluation l).obj M)) j) x))
+
+case op.op
+k : Type u
+inst✝ : Field k
+A : ZAlgebra k
+M N : A.RightModule
+f : A.rightTotalModule M ⟶ A.rightTotalModule N
+j i : ℤ
+a : op { index := j } ⟶ op { index := i }
+x : ↑(M.obj.obj (op { index := j }))
+h :
+  (ModuleCat.Hom.hom f)
+      (MulOpposite.op ↑(A.totalAlgebraComponent a.unop) •
+        (DirectSum.lof k ℤ (fun l => ↑((A.rightModuleEvaluation l).obj M)) j) x) =
+    (A.rightModuleTotalAction N a.unop)
+      ((ModuleCat.Hom.hom f) ((DirectSum.lof k ℤ (fun l => ↑((A.rightModuleEvaluation l).obj M)) j) x))
+⊢ (ModuleCat.Hom.hom (M.obj.map a ≫ ModuleCat.ofHom (A.rightTotalHomComponent f (unop (op { index := i })).index))) x =
+    (ModuleCat.Hom.hom (ModuleCat.ofHom (A.rightTotalHomComponent f (unop (op { index := j })).index) ≫ N.obj.map a)) x
+
+Note: The target expression is not type-correct under the `implicit` transparency level, which may have triggered the failure. This is usually caused by unfolding of semireducible definitions in prior tactic steps. Use `set_option linter.tacticCheckInstances true` to investigate the source of the issue.
+Full error:
+  Application type mismatch: The argument
+    x
+  has type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing (M.obj.obj (op { index := j }))
+  but is expected to have type
+    @ModuleCat.carrier k inst✝.toDivisionRing.toRing ((A.rightModuleEvaluation j).obj M)
+  in the application
+    (DirectSum.lof k ℤ (fun l => ↑((A.rightModuleEvaluation l).obj M)) j) x

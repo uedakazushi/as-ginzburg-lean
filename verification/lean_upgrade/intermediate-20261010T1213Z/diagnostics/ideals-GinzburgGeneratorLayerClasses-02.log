@@ -1,0 +1,29 @@
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:40:2: error: 'change' tactic failed, pattern
+  Finsupp.filter
+      (fun x =>
+        x ∈
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c} \
+            {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r + 1) ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c})
+      ↑f =
+    ?m.135
+is not definitionally equal to target
+  ↑((supportedDifferenceProjection k (Q.GinzburgPath u v)
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v (r + 1) ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}
+          {p | p ∈ Q.ginzburgGeneratorFiltrationPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c})
+        f) =
+    Finsupp.filter
+      (fun x => x ∈ {p | p ∈ Q.ginzburgGeneratorLayerPaths u v r ∧ p.cohomologicalDegree = q ∧ p.cutDegree = c}) ↑f
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:31:49: warning: This simp argument is unused:
+  LinearEquiv.trans_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerQuotientEquiv, LinearEquiv.coe_ofEq_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ASGinzburg/GinzburgGeneratorLayerClasses.lean:32:4: warning: This simp argument is unused:
+  LinearEquiv.coe_ofEq_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [ginzburgGeneratorLayerQuotientEquiv, LinearEquiv.trans_apply]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

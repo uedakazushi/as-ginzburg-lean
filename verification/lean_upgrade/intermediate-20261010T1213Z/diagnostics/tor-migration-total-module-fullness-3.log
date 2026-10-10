@@ -1,0 +1,17 @@
+ASGinzburg/TotalModuleFullness.lean:134:4: error: Type mismatch: After simplification, term
+  congrArg (fun z => z j) h
+ has type
+  @Eq (↑((A.leftModuleEvaluation j).obj N)) ((A.leftTotalHomComponent f j) ((ModuleCat.Hom.hom (M.obj.map a)) x))
+    ((ModuleCat.Hom.hom (N.obj.map a)) ((A.leftTotalHomComponent f i) x))
+but is expected to have type
+  @Eq (↑(N.obj.obj { index := j })) ((A.leftTotalHomComponent f j) ((ModuleCat.Hom.hom (M.obj.map a)) x))
+    ((ModuleCat.Hom.hom (N.obj.map a)) ((A.leftTotalHomComponent f i) x))
+ASGinzburg/TotalModuleFullness.lean:159:4: error: Type mismatch: After simplification, term
+  congrArg (fun z => z i) h
+ has type
+  @Eq (↑((A.rightModuleEvaluation i).obj N))
+    ((A.rightTotalHomComponent f i) ((ModuleCat.Hom.hom (M.obj.map a.unop.op)) x))
+    ((ModuleCat.Hom.hom (N.obj.map a.unop.op)) ((A.rightTotalHomComponent f j) x))
+but is expected to have type
+  @Eq (↑(N.obj.obj (op { index := i }))) ((A.rightTotalHomComponent f i) ((ModuleCat.Hom.hom (M.obj.map a)) x))
+    ((ModuleCat.Hom.hom (N.obj.map a)) ((A.rightTotalHomComponent f j) x))

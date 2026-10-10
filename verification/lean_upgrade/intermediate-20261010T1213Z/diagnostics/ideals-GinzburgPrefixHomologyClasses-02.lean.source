@@ -1,0 +1,49 @@
+import ASGinzburg.ModuleCokernelHomologyClasses
+import ASGinzburg.GinzburgGeneratorPrefixTopQuotient
+
+/-! The actual top prefix homology comparison sends each genuine
+cycle class to its incoming-boundary quotient class. -/
+namespace ASGinzburg.CutQuiver
+open CategoryTheory
+universe u
+variable (Q : CutQuiver) (k : Type u) [Field k]
+
+theorem ginzburgPrefixTopHomologyQuotientIso_π (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ) : by
+    letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+    exact (Q.ginzburgGeneratorPrefixComplex k φ u v r c).homologyπ r ≫
+        (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom=
+      (Q.ginzburgGeneratorPrefixComplex k φ u v r c).iCycles r ≫
+        ModuleCat.ofHom (LinearMap.range
+          (Q.ginzburgGeneratorPrefixIncomingDifferential k φ u v r c)).mkQ := by
+  letI (w : Q.Vertex) : AddCommGroup (Q.GinzburgPathComponent k u w) := Finsupp.instAddCommGroup
+  let K := Q.ginzburgGeneratorPrefixComplex k φ u v r c
+  let e := Q.ginzburgGeneratorPrefixTopShortComplexIso k φ u v r c
+  change K.homologyπ r ≫ (K.homologyIsoSc' (r-1) r (r+1)
+    (by simp) (by simp)).hom ≫ ShortComplex.homologyMap e.hom ≫
+    (moduleCatCokernelHomologyIso _ (Q.ginzburgGeneratorPrefixTopShortComplex_g k φ u v r c)).hom=_
+  rw [K.π_homologyIsoSc'_hom_assoc,ShortComplex.homologyπ_naturality_assoc,
+    moduleCatCokernelHomologyIso_π]
+  rw [ShortComplex.cyclesMap_i_assoc]
+  have he : e.hom.τ₂=𝟙 _ := rfl
+  rw [he,Category.id_comp,←Category.assoc,K.cyclesIsoSc'_hom_iCycles]
+  rfl
+
+theorem ginzburgPrefixTopHomologyQuotientIso_class (φ : Q.Potential k)
+    (u v : Q.Vertex) (r c : ℤ)
+    (f : Q.GinzburgGeneratorPrefix k u v r r c)
+    (hf : (Q.ginzburgGeneratorPrefixComplex k φ u v r c).d r (r+1) f=0) :
+    (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom
+      (moduleCochainHomologyClass (Q.ginzburgGeneratorPrefixComplex k φ u v r c) r f hf)=
+        Submodule.Quotient.mk f := by
+  let K := Q.ginzburgGeneratorPrefixComplex k φ u v r c
+  change (K.homologyπ r ≫ (Q.ginzburgGeneratorPrefixTopHomologyQuotientIso k φ u v r c).hom)
+    (K.cyclesMk f (r+1) (by simp) hf)=_
+  rw [Q.ginzburgPrefixTopHomologyQuotientIso_π]
+  change Submodule.Quotient.mk (K.iCycles r (K.cyclesMk f (r+1) (by simp) hf))=_
+  have hi : K.iCycles r (K.cyclesMk f (r+1) (by simp) hf)=f := by
+    change ((forget₂ (ModuleCat k) Ab).map (K.iCycles r)) (K.cyclesMk f (r+1) (by simp) hf)=f
+    exact K.i_cyclesMk (i:=r) f (r+1) (by simp) hf
+  rw [hi]
+
+end ASGinzburg.CutQuiver

@@ -1,0 +1,217 @@
+{
+  "recorded_at_utc": "2026-10-10T12:06:42.158856+00:00",
+  "baseline": "88ac9e307b51043e5378c3eaebbbf927a6f6cf21",
+  "status": "Actual default-limit Lean 4.34.1 serial direct no-output public checks 0; full Lake build/exhaustive axioms audit/upgrade completion not claimed.",
+  "source_count": 3,
+  "declaration_count": 24,
+  "sources": [
+    {
+      "source": "ASGinzburg/FoundationTotalActionLaws.lean",
+      "source_sha256": "9451787945186f56744ff3bdc6399e2eed9d7b5d898362b36b83d52e43c650c1",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier15-entry-FoundationTotalActionLaws.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-action-laws-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:02:35.690303+00:00",
+      "finished_at_utc": "2026-10-10T12:02:40.588860+00:00",
+      "elapsed_seconds": 4.898599626001669,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-action-laws-2.log",
+      "log_empty": true,
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": true,
+      "baseline_review": "Exact headers and ambient context match baseline.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_zero",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_zero (M : A.FoundationRightModule Q) (i j : Q.Vertex) : A.foundationRightComponentAction Q M (0 : A.Hom (i.val : \u2124) (j.val : \u2124))=0"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightComponentAction_sum",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightComponentAction_sum (M : A.FoundationRightModule Q) (i j : Q.Vertex) {\u03b9 : Type*} (s : Finset \u03b9) (f : \u03b9 \u2192 A.Hom (i.val : \u2124) (j.val : \u2124)) : A.foundationRightComponentAction Q M (\u2211 a \u2208 s, f a)= \u2211 a \u2208 s, A.foundationRightComponentAction Q M (f a)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalAction_one",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalAction_one (M : A.FoundationRightModule Q) : A.foundationRightTotalAction Q M 1=LinearMap.id"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalAction_mul",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalAction_mul (M : A.FoundationRightModule Q) (x y : A.FoundationAlgebra Q) : A.foundationRightTotalAction Q M (x*y)= (A.foundationRightTotalAction Q M y).comp (A.foundationRightTotalAction Q M x)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/FoundationTotalMaps.lean",
+      "source_sha256": "9d992fc071dfdfb189f87694c3e8b5eff787db3ede43b44c8ce6efe9b6a32054",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier15-entry-FoundationTotalMaps.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-foundation-total-maps-2.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:03:05.985254+00:00",
+      "finished_at_utc": "2026-10-10T12:03:10.231044+00:00",
+      "elapsed_seconds": 4.245843846001662,
+      "log": "work/lean-upgrade/tor-migration-foundation-total-maps-2.log",
+      "log_empty": true,
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": false,
+      "baseline_review": "Only two previously migrated necessary native ObjectProperty Hom projections f.app -> f.hom.app in theorem headers; exact baseline match after this sole projection adaptation. No header edits in this compiler-fix task.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap",
+          "kind": "def",
+          "full_header": "def foundationRightTotalLinearMap {M N : A.FoundationRightModule Q} (f : M \u27f6 N) : A.foundationRightTotalSpace Q M \u2192\u2097[k] A.foundationRightTotalSpace Q N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_apply",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_apply {M N : A.FoundationRightModule Q} (f : M \u27f6 N) (m : A.foundationRightTotalSpace Q M) (i : Q.Vertex) : A.foundationRightTotalLinearMap Q f m i=(f.hom.app i).hom (m i)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationComponentAction_naturality",
+          "kind": "theorem",
+          "full_header": "theorem foundationComponentAction_naturality {M N : A.FoundationRightModule Q} (f : M \u27f6 N) {i j : Q.Vertex} (a : A.Hom (i.val : \u2124) (j.val : \u2124)) (x : (A.foundationRightEvaluation Q j).obj M) : (f.hom.app i).hom (A.foundationRightComponentAction Q M a x)= A.foundationRightComponentAction Q N a ((f.hom.app j).hom x)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_action",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_action {M N : A.FoundationRightModule Q} (f : M \u27f6 N) (a : A.FoundationAlgebra Q) : (A.foundationRightTotalLinearMap Q f).comp (A.foundationRightTotalAction Q M a)= (A.foundationRightTotalAction Q N a).comp (A.foundationRightTotalLinearMap Q f)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_id",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_id (M : A.FoundationRightModule Q) : A.foundationRightTotalLinearMap Q (\ud835\udfd9 M)=LinearMap.id"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.foundationRightTotalLinearMap_comp",
+          "kind": "theorem",
+          "full_header": "theorem foundationRightTotalLinearMap_comp {M N P : A.FoundationRightModule Q} (f : M \u27f6 N) (g : N \u27f6 P) : A.foundationRightTotalLinearMap Q (f \u226b g)= (A.foundationRightTotalLinearMap Q g).comp (A.foundationRightTotalLinearMap Q f)"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,u} k) (Q : CutQuiver)"
+      ]
+    },
+    {
+      "source": "ASGinzburg/TotalModuleFullness.lean",
+      "source_sha256": "e816e25454544e7312b94445f016b0e2521b2fbdfeb95bb66447b2abd63d6705",
+      "task_entry_snapshot": "work/lean-upgrade/tor-frontier15-entry-TotalModuleFullness.lean.source",
+      "check_record": "work/lean-upgrade/tor-migration-total-module-fullness-5.json",
+      "actual_exit_code": 0,
+      "started_at_utc": "2026-10-10T12:05:45.996267+00:00",
+      "finished_at_utc": "2026-10-10T12:05:53.331008+00:00",
+      "elapsed_seconds": 7.334747362001508,
+      "log": "work/lean-upgrade/tor-migration-total-module-fullness-5.log",
+      "log_empty": true,
+      "task_entry_full_headers_and_context_exactly_preserved": true,
+      "baseline_full_headers_exactly_preserved": true,
+      "baseline_review": "Exact headers and ambient context match baseline.",
+      "baseline_names_kinds_universes_hypotheses_preserved": true,
+      "declarations": [
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalUnitalRepresentation_algebraMap_apply",
+          "kind": "theorem",
+          "full_header": "theorem leftTotalUnitalRepresentation_algebraMap_apply (M : A.LeftModule) (r : k) (x : A.leftModuleTotalSpace M) : A.leftTotalUnitalRepresentation M (algebraMap k A.totalUnitization r) x = r \u2022 x"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalUnitalRepresentation_algebraMap_apply",
+          "kind": "theorem",
+          "full_header": "theorem rightTotalUnitalRepresentation_algebraMap_apply (M : A.RightModule) (r : k) (x : A.rightModuleTotalSpace M) : A.rightTotalUnitalRepresentation M (algebraMap k A.totalUnitization\u1d50\u1d52\u1d56 r) x = r \u2022 x"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalHomToLinear",
+          "kind": "def",
+          "full_header": "noncomputable def leftTotalHomToLinear {M N : A.LeftModule} (f : A.leftTotalModule M \u27f6 A.leftTotalModule N) : A.leftModuleTotalSpace M \u2192\u2097[k] A.leftModuleTotalSpace N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalHomToLinear",
+          "kind": "def",
+          "full_header": "noncomputable def rightTotalHomToLinear {M N : A.RightModule} (f : A.rightTotalModule M \u27f6 A.rightTotalModule N) : A.rightModuleTotalSpace M \u2192\u2097[k] A.rightModuleTotalSpace N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalHomComponent",
+          "kind": "def",
+          "full_header": "noncomputable def leftTotalHomComponent {M N : A.LeftModule} (f : A.leftTotalModule M \u27f6 A.leftTotalModule N) (i : \u2124) : (A.leftModuleEvaluation i).obj M \u2192\u2097[k] (A.leftModuleEvaluation i).obj N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalHomComponent",
+          "kind": "def",
+          "full_header": "noncomputable def rightTotalHomComponent {M N : A.RightModule} (f : A.rightTotalModule M \u27f6 A.rightTotalModule N) (i : \u2124) : (A.rightModuleEvaluation i).obj M \u2192\u2097[k] (A.rightModuleEvaluation i).obj N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalHomToLinear_lof",
+          "kind": "theorem",
+          "full_header": "theorem leftTotalHomToLinear_lof {M N : A.LeftModule} (f : A.leftTotalModule M \u27f6 A.leftTotalModule N) (i : \u2124) (x : (A.leftModuleEvaluation i).obj M) : A.leftTotalHomToLinear f (DirectSum.lof k \u2124 _ i x) = DirectSum.lof k \u2124 _ i (A.leftTotalHomComponent f i x)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalHomToLinear_lof",
+          "kind": "theorem",
+          "full_header": "theorem rightTotalHomToLinear_lof {M N : A.RightModule} (f : A.rightTotalModule M \u27f6 A.rightTotalModule N) (i : \u2124) (x : (A.rightModuleEvaluation i).obj M) : A.rightTotalHomToLinear f (DirectSum.lof k \u2124 _ i x) = DirectSum.lof k \u2124 _ i (A.rightTotalHomComponent f i x)"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalHomNatTrans",
+          "kind": "def",
+          "full_header": "noncomputable def leftTotalHomNatTrans {M N : A.LeftModule} (f : A.leftTotalModule M \u27f6 A.leftTotalModule N) : M \u27f6 N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalHomNatTrans",
+          "kind": "def",
+          "full_header": "noncomputable def rightTotalHomNatTrans {M N : A.RightModule} (f : A.rightTotalModule M \u27f6 A.rightTotalModule N) : M \u27f6 N"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalHomNatTrans_recover",
+          "kind": "theorem",
+          "full_header": "theorem leftTotalHomNatTrans_recover {M N : A.LeftModule} (f : A.leftTotalModule M \u27f6 A.leftTotalModule N) : A.leftTotalModuleMap (A.leftTotalHomNatTrans f) = f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalHomNatTrans_recover",
+          "kind": "theorem",
+          "full_header": "theorem rightTotalHomNatTrans_recover {M N : A.RightModule} (f : A.rightTotalModule M \u27f6 A.rightTotalModule N) : A.rightTotalModuleMap (A.rightTotalHomNatTrans f) = f"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.leftTotalLocallyUnitalFunctorFull",
+          "kind": "instance",
+          "full_header": "instance leftTotalLocallyUnitalFunctorFull : A.leftTotalLocallyUnitalFunctor.Full"
+        },
+        {
+          "name": "ASGinzburg.ZAlgebra.rightTotalLocallyUnitalFunctorFull",
+          "kind": "instance",
+          "full_header": "instance rightTotalLocallyUnitalFunctorFull : A.rightTotalLocallyUnitalFunctor.Full"
+        }
+      ],
+      "ambient_universe_variable_include_commands": [
+        "universe u v",
+        "variable {k : Type u} [Field k] (A : ZAlgebra.{u,v} k)"
+      ]
+    }
+  ],
+  "default_heartbeat_limit": true,
+  "heartbeat_override_in_public_sources": false,
+  "proof_change_note": "FoundationTotalActionLaws one/mul proofs, FoundationTotalMaps action proof, and six TotalModuleFullness carrier-conversion proofs use declaration-scoped backward implicit transparency compatibility. Their original mathematical maps and data are unchanged. In the two TotalHomNatTrans naturality proofs, an explicit native pointwise change states precisely the original component equality before the existing DirectSum coordinate argument; the right proof additionally rewrites the genuine Mathlib Quiver.Hom.op_unop identity. All task-entry headers and ambient universe/variable/include commands are unchanged; necessary prior Hom projection header adaptations are explicitly distinguished from exact baseline equality.",
+  "prior_failed_checks_preserved": [
+    "work/lean-upgrade/tor-migration-foundation-total-action-laws-1.json",
+    "work/lean-upgrade/tor-migration-foundation-total-maps-1.json",
+    "work/lean-upgrade/tor-migration-total-module-fullness-1.json",
+    "work/lean-upgrade/tor-migration-total-module-fullness-2.json",
+    "work/lean-upgrade/tor-migration-total-module-fullness-3.json",
+    "work/lean-upgrade/tor-migration-total-module-fullness-4.json"
+  ],
+  "supersedes_source_only_status_for": "ASGinzburg/FoundationTotalMaps.lean",
+  "prior_source_only_manifest_preserved": "work/lean-upgrade/tor-foundation-wrapper-source-only-pending-1.json",
+  "git_diff_check_exit_code": 0,
+  "own_compiler_active": false,
+  "public_sources_frozen": true,
+  "lake_build_executed_by_this_agent": false,
+  "olean_written_by_this_agent": false,
+  "finalizer_executed": false,
+  "actions_executed": false,
+  "committed": false,
+  "pushed": false
+}
